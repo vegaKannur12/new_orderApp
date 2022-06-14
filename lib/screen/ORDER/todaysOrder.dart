@@ -27,7 +27,9 @@ class _TodaysOrderState extends State<TodaysOrder> {
     super.initState();
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     s = date!.split(" ");
-    Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
+    Future.delayed(Duration(milliseconds: 1000), () {
+      Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
+    });
   }
 
   // @override
@@ -51,7 +53,13 @@ class _TodaysOrderState extends State<TodaysOrder> {
               return Container(
                 height: size.height * 0.7,
                 width: double.infinity,
-                child: Center(child: Text("No Orders!!!",style: TextStyle(fontSize: 19,),)),
+                child: Center(
+                    child: Text(
+                  "No Orders!!!",
+                  style: TextStyle(
+                    fontSize: 19,
+                  ),
+                )),
               );
             } else {
               return ListView.builder(

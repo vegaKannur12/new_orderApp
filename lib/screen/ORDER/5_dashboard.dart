@@ -100,13 +100,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).setCname();
     Provider.of<Controller>(context, listen: false).setSname();
+
     _tabController = TabController(
       vsync: this,
       length: 5,
       initialIndex: 0,
     );
 
-    _tabController!.addListener(() {
+    _tabController!.addListener(() async {
       if (!mounted) return;
       if (mounted) {
         setState(() {
@@ -157,15 +158,15 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "S1":
         // getCompaniId();
 
-        return  MainDashboard();
+        return MainDashboard();
       case "S2":
         if (widget.type == "return from cartList") {
-          return  OrderForm(widget.areaName!, "sales");
+          return OrderForm(widget.areaName!, "sales");
         } else {
-          return  OrderForm("", "sales");
+          return OrderForm("", "sales");
         }
       case "S3":
-        return  OrderForm("", "return");
+        return OrderForm("", "return");
 
       case "SAC1":
         return null;
@@ -177,7 +178,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return null;
 
       case "SA1":
-        return  CustomerCreation(
+        return CustomerCreation(
           sid: sid!,
           os: os,
         );
@@ -458,6 +459,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         ),
                       ),
                       ListTile(
+                        trailing: Icon(Icons.arrow_upward),
                         onTap: () async {
                           _onSelectItem(0, "UL");
                         },

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/areaPopup.dart';
 import 'package:orderapp/components/commoncolor.dart';
@@ -31,7 +32,7 @@ class _MainDashboardState extends State<MainDashboard> {
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
     Future.delayed(Duration(milliseconds: 1000), () {
-      // Y Provider.of<Controller>(context, listen: false).getArea(sid!);
+     Provider.of<Controller>(context, listen: false).getArea(sid!);
       Provider.of<Controller>(context, listen: false)
           .selectTotalPrice(sid!, s[0]);
       Provider.of<Controller>(context, listen: false)
@@ -67,79 +68,82 @@ class _MainDashboardState extends State<MainDashboard> {
       children: [
         Consumer<Controller>(
           builder: (context, value, child) {
-            return Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        // topLeft: Radius.circular(95),
-                        // topRight: Radius.circular(95),
-                        ),
-                    color: Color.fromARGB(255, 255, 255, 255)),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        height: size.height * 0.1,
-                        width: double.infinity,
-                        // color: P_Settings.collection,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: CircleAvatar(
-                                    radius: 15,
-                                    child: Icon(
-                                      Icons.person,
-                                      color: P_Settings.collection1,
+            if (value.isLoading) {
+              return SpinKitFadingCircle(
+                color: P_Settings.wavecolor,
+              );
+            } else {
+              return Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          // topLeft: Radius.circular(95),
+                          // topRight: Radius.circular(95),
+                          ),
+                      color: Color.fromARGB(255, 255, 255, 255)),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: size.height * 0.07,
+                          width: double.infinity,
+                          // color: P_Settings.collection,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: CircleAvatar(
+                                      radius: 15,
+                                      child: Icon(
+                                        Icons.person,
+                                        color: P_Settings.wavecolor,
+                                      ),
+                                      backgroundColor:
+                                          Color.fromARGB(255, 214, 201, 200),
                                     ),
-                                    backgroundColor:
-                                        Color.fromARGB(255, 214, 201, 200),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: size.width * 0.01,
-                                ),
-                                Text("${value.cname}",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: P_Settings.wavecolor)),
-                                SizedBox(
-                                  width: size.width * 0.01,
-                                ),
-                                Text("- ${value.sname}",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: P_Settings.collection1)),
-                                Spacer(),
-                                IconButton(
-                                    onPressed: () {
-                                      buildPopupDialog(context, size);
-                                    },
-                                    icon: Icon(
-                                      Icons.place,
-                                      color: Colors.red,
-                                    ))
-                              ],
-                            ),
-                          ],
+                                  SizedBox(
+                                    width: size.width * 0.01,
+                                  ),
+                                  Text("${value.cname}",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: P_Settings.wavecolor)),
+                                  SizedBox(
+                                    width: size.width * 0.01,
+                                  ),
+                                  Text("- ${value.sname}",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: P_Settings.collection1)),
+                                  Spacer(),
+                                  Text(value.areaSelecton==null?"":value.areaSelecton!),
+                                  IconButton(
+                                      onPressed: () {
+                                        buildPopupDialog(context, size);
+                                      },
+                                      icon: Icon(
+                                        Icons.place,
+                                        color: Colors.red,
+                                      ))
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
+                        Text(
                           "Todays",
                           style: TextStyle(
                               fontSize: 20,
                               color: P_Settings.wavecolor,
                               fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      Padding(
+                        Padding(
                           padding: const EdgeInsets.only(
                               top: 20, left: 10, right: 10),
                           child: Container(
@@ -170,7 +174,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                   style: TextStyle(
                                                       fontSize: 18,
                                                       color: P_Settings
-                                                          .detailscolor),
+                                                          .detailscolor,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                                 SizedBox(
                                                   height: size.height * 0.01,
@@ -208,7 +214,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                   style: TextStyle(
                                                       fontSize: 18,
                                                       color: P_Settings
-                                                          .detailscolor),
+                                                          .detailscolor,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                                 SizedBox(
                                                   height: size.height * 0.01,
@@ -259,7 +267,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
-                                                            .detailscolor),
+                                                            .detailscolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                 ],
                                               ),
@@ -288,7 +298,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
-                                                            .detailscolor),
+                                                            .detailscolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   SizedBox(
                                                     height: size.height * 0.01,
@@ -298,7 +310,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         color: P_Settings
                                                             .detailscolor,
-                                                        fontSize: 15),
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   // Text(
                                                   //   "\u{20B9}${value.sumPrice[0]['S']}",
@@ -341,7 +355,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
-                                                            .detailscolor),
+                                                            .detailscolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                 ],
                                               ),
@@ -370,7 +386,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
-                                                            .detailscolor),
+                                                            .detailscolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   SizedBox(
                                                     height: size.height * 0.01,
@@ -380,7 +398,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         color: P_Settings
                                                             .detailscolor,
-                                                        fontSize: 15),
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   // Text(
                                                   //   "\u{20B9}${value.sumPrice[0]['S']}",
@@ -434,7 +454,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
-                                                            .detailscolor),
+                                                            .detailscolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   SizedBox(
                                                     height: size.height * 0.01,
@@ -471,7 +493,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
-                                                            .detailscolor),
+                                                            .detailscolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   SizedBox(
                                                     height: size.height * 0.01,
@@ -520,7 +544,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           color: P_Settings
-                                                              .detailscolor),
+                                                              .detailscolor,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                   ],
                                                 ),
@@ -548,7 +574,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
-                                                            .detailscolor),
+                                                            .detailscolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   SizedBox(
                                                     height: size.height * 0.01,
@@ -597,7 +625,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           color: P_Settings
-                                                              .detailscolor),
+                                                              .detailscolor,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                   ],
                                                 ),
@@ -625,7 +655,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
-                                                            .detailscolor),
+                                                            .detailscolor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   SizedBox(
                                                     height: size.height * 0.01,
@@ -652,12 +684,14 @@ class _MainDashboardState extends State<MainDashboard> {
                                 ),
                               ],
                             ),
-                          )),
-                    ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
+              );
+            }
           },
         ),
       ],
