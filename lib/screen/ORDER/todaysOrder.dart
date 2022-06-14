@@ -3,9 +3,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/screen/ORDER/5_mainDashboard.dart';
 import 'package:orderapp/screen/historydataPopup.dart';
 import 'package:provider/provider.dart';
 
+import '5_mainDashboard.dart';
 import 'orderDetailsToday.dart';
 
 class TodaysOrder extends StatefulWidget {
@@ -16,6 +18,7 @@ class TodaysOrder extends StatefulWidget {
 }
 
 class _TodaysOrderState extends State<TodaysOrder> {
+  MainDashboard dash = MainDashboard();
   DateTime now = DateTime.now();
   HistoryPopup popup = HistoryPopup();
   List<String> s = [];
@@ -30,8 +33,17 @@ class _TodaysOrderState extends State<TodaysOrder> {
     Future.delayed(Duration(milliseconds: 1000), () {
       Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
     });
+    // Future.delayed(Duration(seconds: 1), () {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
+    // });
   }
 
+  @override
+  void dispose() {
+    MainDashboard.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
   // @override
   // void didChangeDependencies() {
   //   // TODO: implement didChangeDependencies

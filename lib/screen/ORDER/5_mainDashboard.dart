@@ -14,6 +14,8 @@ class MainDashboard extends StatefulWidget {
 
   @override
   State<MainDashboard> createState() => _MainDashboardState();
+
+  static void dispose() {}
 }
 
 class _MainDashboardState extends State<MainDashboard> {
@@ -85,7 +87,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     child: Column(
                       children: [
                         Container(
-                          height: size.height * 0.07,
+                          height: size.height * 0.08,
                           width: double.infinity,
                           // color: P_Settings.collection,
                           child: Column(
@@ -132,8 +134,11 @@ class _MainDashboardState extends State<MainDashboard> {
                                       icon: Icon(
                                         Icons.place,
                                         color: Colors.red,
-                                      ))
+                                      )),
                                 ],
+                              ),
+                              Divider(
+                                thickness: 1,
                               ),
                             ],
                           ),
@@ -357,7 +362,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    "Sales",
+                                                    "Shop Visited",
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
@@ -388,7 +393,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    "Return",
+                                                    "",
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
@@ -627,7 +632,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                                 child: Column(
                                                   children: [
                                                     Text(
-                                                      "Sales",
+                                                      "Shop Visited",
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           color: P_Settings
@@ -657,7 +662,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    "Return",
+                                                    "",
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings

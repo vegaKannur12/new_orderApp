@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -32,6 +34,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
+  Timer? _timer;
   TabController? _tabController;
   static const List<Tab> myTabs = <Tab>[
     Tab(text: 'Home '),
@@ -48,6 +51,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? cid;
   String? sid;
   String? os;
+  bool loadDelay = true;
+  bool loadDelaypage = false;
 
   String menu_index = "S1";
   List defaultitems = ["upload data", "download page", "logout"];
@@ -76,9 +81,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         menu_index = menu!;
       });
     }
-    // setState(() {
 
-    // });
     Navigator.of(context).pop(); // close the drawer
   }
 
@@ -106,20 +109,25 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       length: 5,
       initialIndex: 0,
     );
+    Future.delayed(Duration(seconds: 1), () {
+      _tabController!.addListener(() {
+        print("loadDelay$loadDelay");
+        if (!mounted) return;
+        if (mounted) {
+          setState(() {
+            menu_index = _tabController!.index.toString();
+            loadDelay = true;
+            print("loadDelay$loadDelay");
+          });
+        }
+        print("Selected Index: " + _tabController!.index.toString());
 
-    _tabController!.addListener(() async {
-      if (!mounted) return;
-      if (mounted) {
-        setState(() {
-          menu_index = _tabController!.index.toString();
-        });
-      }
-      print("Selected Index: " + _tabController!.index.toString());
-
-      // setState(() {
-      //   menu_index = _tabController!.index.toString();
-      // });
+        // setState(() {
+        //   menu_index = _tabController!.index.toString();
+        // });
+      });
     });
+
     getCompaniId();
 
     // Provider.of<Controller>(context, listen: false)
@@ -218,7 +226,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return new TodayCollection();
       case "1":
         return new TodaysOrder();
-
       case "4":
         Provider.of<Controller>(context, listen: false).setFilter(false);
         Provider.of<Controller>(context, listen: false)
@@ -234,6 +241,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "ST":
         // title = "Download data";
         return Settings();
+
       // case "TO":
       //   // title = "Upload data";
       //   return TodaysOrder();
@@ -526,12 +534,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             controller: _tabController,
             children: myTabs.map((Tab tab) {
               final String label = tab.text!.toLowerCase();
+
               return Center(
                 child: Container(
-                  child: _getDrawerItemWidget(
-                    menu_index,
-                  ),
-                ),
+                    child: loadDelay
+                        ? _getDrawerItemWidget(
+                            menu_index,
+                          )
+                        : SpinKitCircle(
+                            color: P_Settings.wavecolor,
+                          )),
               );
             }).toList(),
           ),
