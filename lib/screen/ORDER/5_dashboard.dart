@@ -31,6 +31,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
+  
   TabController? _tabController;
   static const List<Tab> myTabs = <Tab>[
     Tab(
@@ -85,7 +86,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Provider.of<Controller>(context, listen: false).setSname();
     _tabController = TabController(
       vsync: this,
-      length: 5,
+      length: myTabs.length,
       // initialIndex: 0,
     );
 
@@ -278,7 +279,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           menu_index == "0"
                       ? TabBar(
                           isScrollable: true,
-
+                          // indicator: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(50),
+                          //     color: Colors.grey),
                           indicatorColor: Colors.white,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 2.0,
