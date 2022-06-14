@@ -232,9 +232,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "ST":
         // title = "Download data";
         return Settings();
-      case "TO":
-        // title = "Upload data";
-        return TodaysOrder();
+      // case "TO":
+      //   // title = "Upload data";
+      //   return TodaysOrder();
     }
   }
 
@@ -425,17 +425,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
+                      // ListTile(
+                      //   trailing: Icon(Icons.logout),
+                      //   onTap: () async {
+                      //     _onSelectItem(0, "TO");
+                      //   },
+                      //   title: Text(
+                      //     "Todays Order",
+                      //     style: TextStyle(fontSize: 17),
+                      //   ),
+                      // ),
                       ListTile(
-                        trailing: Icon(Icons.logout),
-                        onTap: () async {
-                          _onSelectItem(0, "TO");
-                        },
-                        title: Text(
-                          "Todays Order",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      ListTile(
+                        trailing: Icon(Icons.arrow_downward),
                         onTap: () async {
                           _onSelectItem(0, "DP");
                         },
@@ -445,6 +446,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         ),
                       ),
                       ListTile(
+                        trailing: Icon(Icons.arrow_upward),
                         onTap: () async {
                           _onSelectItem(0, "UL");
                         },
@@ -463,24 +465,24 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      ListTile(
-                        onTap: () async {
-                          _onSelectItem(0, "RP");
-                        },
-                        title: Text(
-                          "Report",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      ListTile(
-                        onTap: () async {
-                          _onSelectItem(0, "HR");
-                        },
-                        title: Text(
-                          "History",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
+                      // ListTile(
+                      //   onTap: () async {
+                      //     _onSelectItem(0, "RP");
+                      //   },
+                      //   title: Text(
+                      //     "Report",
+                      //     style: TextStyle(fontSize: 17),
+                      //   ),
+                      // ),
+                      // ListTile(
+                      //   onTap: () async {
+                      //     _onSelectItem(0, "HR");
+                      //   },
+                      //   title: Text(
+                      //     "History",
+                      //     style: TextStyle(fontSize: 17),
+                      //   ),
+                      // ),
                       ListTile(
                         trailing: Icon(Icons.logout),
                         onTap: () async {

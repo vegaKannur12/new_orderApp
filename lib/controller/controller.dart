@@ -32,6 +32,7 @@ class Controller extends ChangeNotifier {
   bool noData = false;
 
   List<bool> selected = [];
+  String? areaidFrompopup;
   List<bool> isExpanded = [];
   List<bool> isVisibleTable = [];
 
@@ -653,7 +654,7 @@ class Controller extends ChangeNotifier {
       for (var item in customerList) {
         custmerDetails.add(item);
       }
-      print("custmerDetails adding $cmpDetails");
+      print("custmerDetails adding $custmerDetails");
       notifyListeners();
     } catch (e) {
       print(e);
@@ -1497,15 +1498,11 @@ class Controller extends ChangeNotifier {
   }
 
   areaSelection(String area) async {
+    areaidFrompopup=area;
     List<Map<String, dynamic>> result = await OrderAppDB.instance
         .selectAllcommon('areaDetailsTable', "aid='${area}'");
     areaSelecton = result[0]["aname"];
     print("area---$areaSelecton");
     notifyListeners();
   }
-
-  // customerCreation(){
-  //   accountHead = AccountHead.fromJson(ahead);
-  //       var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
-  // }
 }

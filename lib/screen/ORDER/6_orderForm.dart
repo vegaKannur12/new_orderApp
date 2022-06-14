@@ -87,12 +87,15 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     super.initState();
     Provider.of<Controller>(context, listen: false).getOrderno();
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-    if (Provider.of<Controller>(context, listen: false).areaSelecton!=null ) {
-      Provider.of<Controller>(context, listen: false)
-          .getCustomer("${Provider.of<Controller>(context, listen: false).areaSelecton!}");
+    print(
+        "seelected area-----${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
+    if (Provider.of<Controller>(context, listen: false).areaidFrompopup !=
+        null) {
+      Provider.of<Controller>(context, listen: false).getCustomer(
+          "${Provider.of<Controller>(context, listen: false).areaidFrompopup!}");
     }
     // Provider.of<Controller>(context, listen: false).custmerSelection = "";
-    
+
     sharedPref();
   }
 
@@ -113,7 +116,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     String? _selectedItemarea;
     String? _selectedAreaId;
     print("widget.areaname---${widget.areaname}");
-    
+
     // final bottom = MediaQuery.of(context).viewInsets.bottom;
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
@@ -198,7 +201,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             text: values.areaSelecton == null ||
                                                     values.areaSelecton!.isEmpty
                                                 ? widget.areaname
-                                                : values.areaSelecton.toString()),
+                                                : values.areaSelecton
+                                                    .toString()),
                                         optionsBuilder:
                                             (TextEditingValue value) {
                                           if (widget.areaname != "") {
@@ -235,6 +239,10 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                               _selectedAreaId!,
                                               _selectedItemarea!,
                                             ];
+                                            Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .areaSelecton =
+                                                _selectedItemarea;
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getCustomer(_selectedAreaId!);
@@ -553,36 +561,36 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             custmerId
                                                                 .toString(),
                                                           );
-                                                          Navigator.of(context)
-                                                              .push(
-                                                            PageRouteBuilder(
-                                                              opaque:
-                                                                  false, // set to false
-                                                              pageBuilder: (_,
-                                                                      __,
-                                                                      ___) =>
-                                                                  ItemSelection(
-                                                                customerId:
-                                                                    custmerId
-                                                                        .toString(),
-                                                                areaId: Provider.of<
-                                                                            Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .areaAutoComplete[0],
-                                                                os: values
-                                                                        .ordernum[
-                                                                    0]['os'],
-                                                                areaName: Provider.of<
-                                                                            Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .areaAutoComplete[1],
-                                                              ),
-                                                            ),
-                                                          );
+                                                          // Navigator.of(context)
+                                                          //     .push(
+                                                          //   PageRouteBuilder(
+                                                          //     opaque:
+                                                          //         false, // set to false
+                                                          //     pageBuilder: (_,
+                                                          //             __,
+                                                          //             ___) =>
+                                                          //         ItemSelection(
+                                                          //       customerId:
+                                                          //           custmerId
+                                                          //               .toString(),
+                                                          //       areaId: Provider.of<
+                                                          //                   Controller>(
+                                                          //               context,
+                                                          //               listen:
+                                                          //                   false)
+                                                          //           .areaAutoComplete[0],
+                                                          //       os: values
+                                                          //               .ordernum[
+                                                          //           0]['os'],
+                                                          //       areaName: Provider.of<
+                                                          //                   Controller>(
+                                                          //               context,
+                                                          //               listen:
+                                                          //                   false)
+                                                          //           .areaAutoComplete[1],
+                                                          //     ),
+                                                          //   ),
+                                                          // );
                                                         }
                                                       },
                                                       style: ElevatedButton
@@ -895,27 +903,21 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                 PageRouteBuilder(
                                                                   opaque:
                                                                       false, // set to false
-                                                                  pageBuilder: (_,
-                                                                          __,
-                                                                          ___) =>
-                                                                      ItemSelection(
-                                                                    customerId:
-                                                                        custmerId
-                                                                            .toString(),
-                                                                    areaId: Provider.of<Controller>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .areaAutoComplete[0],
-                                                                    os: values
-                                                                            .ordernum[
-                                                                        0]['os'],
-                                                                    areaName: Provider.of<Controller>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .areaAutoComplete[1],
-                                                                  ),
+                                                                  pageBuilder: (_, __, ___) => ItemSelection(
+                                                                      customerId:
+                                                                          custmerId
+                                                                              .toString(),
+                                                                      areaId: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
+                                                                          ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                              0]
+                                                                          : Provider.of<Controller>(context, listen: false)
+                                                                              .areaidFrompopup!,
+                                                                      os: values.ordernum[0][
+                                                                          'os'],
+                                                                      areaName: values.areaidFrompopup == null ||
+                                                                              values.areaidFrompopup!.isEmpty
+                                                                          ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
+                                                                          : Provider.of<Controller>(context, listen: false).areaSelecton!),
                                                                 ),
                                                               );
                                                             }
