@@ -14,6 +14,7 @@ import 'package:orderapp/screen/ORDER/6_downloadedPage.dart';
 import 'package:orderapp/screen/ORDER/6_historypage.dart';
 import 'package:orderapp/screen/ORDER/6_uploaddata.dart';
 import 'package:orderapp/screen/ORDER/6_settings.dart';
+import 'package:orderapp/screen/ORDER/todayCollection.dart';
 import 'package:orderapp/screen/ORDER/todaysOrder.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Tab(text: 'Todays Order'),
     Tab(text: 'Todays Collection'),
     Tab(text: 'Todays Sale'),
-    Tab(text: 'Report'),
+    Tab(text: 'CList'),
   ];
   List<Widget> drawerOpts = [];
 
@@ -190,7 +191,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return new MainDashboard();
       case "1":
         return new TodaysOrder();
-
+      case "2":
+        return new TodayCollection();
       case "4":
         Provider.of<Controller>(context, listen: false).setFilter(false);
         Provider.of<Controller>(context, listen: false)

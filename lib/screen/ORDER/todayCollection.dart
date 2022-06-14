@@ -55,7 +55,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                 width: double.infinity,
                 child: Center(
                     child: Text(
-                  "No Orders!!!",
+                  "No Collection!!",
                   style: TextStyle(
                     fontSize: 19,
                   ),

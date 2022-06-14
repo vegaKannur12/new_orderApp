@@ -886,6 +886,7 @@ class Controller extends ChangeNotifier {
     int rowNum = 1;
     if (bagList.length > 0) {
       await OrderAppDB.instance.insertorderMasterandDetailsTable(
+          "",
           order_id,
           0,
           0.0,
@@ -906,6 +907,7 @@ class Controller extends ChangeNotifier {
         print("orderid---$order_id");
         double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertorderMasterandDetailsTable(
+            item["itemName"],
             order_id,
             item["qty"],
             rate,
@@ -1523,6 +1525,21 @@ class Controller extends ChangeNotifier {
 
     print("remarkList----${collectionList}");
     isLoading = false;
+
+    notifyListeners();
+  }
+  //////////////////////////////
+   /////////////////////// fetch collection table ////////////
+  fetchrcollectionFromTable(String custmerId, String todaydate) async {
+    collectionList.clear();
+
+    var res = await OrderAppDB.instance
+        .selectAllcommonwithdesc('collectionTable', "rec_cusid='${custmerId}'");
+
+    for (var menu in res) {
+      collectionList.add(menu);
+    }
+    print("collectionList----${collectionList}");
 
     notifyListeners();
   }
