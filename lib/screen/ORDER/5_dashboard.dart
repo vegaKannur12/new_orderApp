@@ -14,6 +14,7 @@ import 'package:orderapp/screen/ORDER/6_downloadedPage.dart';
 import 'package:orderapp/screen/ORDER/6_historypage.dart';
 import 'package:orderapp/screen/ORDER/6_uploaddata.dart';
 import 'package:orderapp/screen/ORDER/6_settings.dart';
+import 'package:orderapp/screen/ORDER/todayCollection.dart';
 import 'package:orderapp/screen/ORDER/todaysOrder.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
@@ -114,7 +115,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           menu_index = _tabController!.index.toString();
         });
       }
-    print("Selected Index: " + _tabController!.index.toString());
+      print("Selected Index: " + _tabController!.index.toString());
 
       // setState(() {
       //   menu_index = _tabController!.index.toString();
@@ -186,9 +187,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "SA2":
         return null;
       case "SA3":
-            // print("yy-- ${Provider.of<Controller>(context, listen: false).areaSelecton!}");
-            return OrderForm("", "collection");
-          
+        // print("yy-- ${Provider.of<Controller>(context, listen: false).areaSelecton!}");
+        return OrderForm("", "collection");
 
       case "UL":
         // title = "Upload data";
@@ -215,6 +215,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             );
       case "0":
         return new MainDashboard();
+      case "2":
+        return new TodayCollection();
+
       case "4":
         Provider.of<Controller>(context, listen: false).setFilter(false);
         Provider.of<Controller>(context, listen: false)
@@ -230,9 +233,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "ST":
         // title = "Download data";
         return Settings();
-      case "TO":
-        // title = "Upload data";
-        return TodaysOrder();
+      // case "TO":
+      //   // title = "Upload data";
+      //   return TodaysOrder();
+      // case "TC":
+      //   // title = "Upload data";
+      //   return TodayCollection();
     }
   }
 
@@ -299,8 +305,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           menu_index == "1" ||
                           menu_index == "2" ||
                           menu_index == "3" ||
-                          menu_index == "4"  ||
-                          menu_index == "0" 
+                          menu_index == "4" ||
+                          menu_index == "0"
                       ? TabBar(
                           isScrollable: true,
 

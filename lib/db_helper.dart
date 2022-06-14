@@ -1259,7 +1259,22 @@ class OrderAppDB {
       return null;
     }
   }
-/////////////////////////////////////////////////////
+
+//////////////////////select  collection///////////////////////
+  selectAllcommonwithdesc(String table, String? condition) async {
+    print("haiiiii");
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    if (condition == null || condition.isEmpty) {
+      result = await db.rawQuery("SELECT * FROM '$table' ORDER BY id DESC");
+    } else {
+      result = await db
+          .rawQuery("SELECT * FROM '$table' WHERE $condition ORDER BY id DESC");
+    }
+    print("result menu common----$result");
+    return result;
+  }
+
   // getReportRemarkOrderDetails() async {
   //   List<Map<String, dynamic>> result;
 

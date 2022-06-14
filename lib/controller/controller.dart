@@ -32,6 +32,8 @@ class Controller extends ChangeNotifier {
   List<bool> selected = [];
   List<bool> isExpanded = [];
   List<bool> isVisibleTable = [];
+  List<Map<String, dynamic>> collectionList = [];
+
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
@@ -1514,7 +1516,20 @@ class Controller extends ChangeNotifier {
     print("area---$areaSelecton");
     notifyListeners();  
   }
+  //////////////////////////////////////////////////////////////////////////
+  fetchtotalcollectionFromTable(String custmerId, String todaydate) async {
+    collectionList.clear();
 
+    var res = await OrderAppDB.instance
+        .selectAllcommonwithdesc('collectionTable', "rec_date='$todaydate'");
+
+    for (var menu in res) {
+      collectionList.add(menu);
+    }
+    print("remarkList----${collectionList}");
+
+    notifyListeners();
+  }
   // customerCreation(){
   //   accountHead = AccountHead.fromJson(ahead);
   //       var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
