@@ -123,10 +123,16 @@ class _MainDashboardState extends State<MainDashboard> {
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
                                           color: P_Settings.collection1)),
-                                  Spacer(),
-                                  Text(value.areaSelecton == null
-                                      ? ""
-                                      : value.areaSelecton!),
+                                  // Spacer(),
+                                  SizedBox(
+                                    width: size.width * 0.04,
+                                  ),
+                                  Flexible(
+                                    child: Text(value.areaSelecton == null
+                                        ? ""
+                                        : value.areaSelecton!),
+                                  ),
+                                  // Spacer(),
                                   IconButton(
                                       onPressed: () {
                                         buildPopupDialog(context, size);

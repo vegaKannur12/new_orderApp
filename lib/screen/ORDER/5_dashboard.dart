@@ -318,13 +318,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           menu_index == "0"
                       ? TabBar(
                           isScrollable: true,
-                          indicator: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              // borderRadius: BorderRadius.only(
-                              //     topLeft: Radius.circular(10),
-                              //     topRight: Radius.circular(10)),
-                              color: P_Settings.tabbarColor),
+                          indicator: BoxDecoration(),
                           indicatorColor: Colors.white,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 2.0,

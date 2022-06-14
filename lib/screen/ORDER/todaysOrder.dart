@@ -40,7 +40,6 @@ class _TodaysOrderState extends State<TodaysOrder> {
 
   @override
   void dispose() {
-    MainDashboard.dispose();
     // TODO: implement dispose
     super.dispose();
   }
