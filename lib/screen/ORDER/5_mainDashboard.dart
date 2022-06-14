@@ -14,6 +14,8 @@ class MainDashboard extends StatefulWidget {
 
   @override
   State<MainDashboard> createState() => _MainDashboardState();
+
+  static void dispose() {}
 }
 
 class _MainDashboardState extends State<MainDashboard> {
@@ -32,7 +34,7 @@ class _MainDashboardState extends State<MainDashboard> {
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
     Future.delayed(Duration(milliseconds: 1000), () {
-     Provider.of<Controller>(context, listen: false).getArea(sid!);
+      Provider.of<Controller>(context, listen: false).getArea(sid!);
       Provider.of<Controller>(context, listen: false)
           .selectTotalPrice(sid!, s[0]);
       Provider.of<Controller>(context, listen: false)
@@ -85,7 +87,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     child: Column(
                       children: [
                         Container(
-                          height: size.height * 0.07,
+                          height: size.height * 0.08,
                           width: double.infinity,
                           // color: P_Settings.collection,
                           child: Column(
@@ -122,7 +124,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                           fontWeight: FontWeight.bold,
                                           color: P_Settings.collection1)),
                                   Spacer(),
-                                  Text(value.areaSelecton==null?"":value.areaSelecton!),
+                                  Text(value.areaSelecton == null
+                                      ? ""
+                                      : value.areaSelecton!),
                                   IconButton(
                                       onPressed: () {
                                         buildPopupDialog(context, size);
@@ -130,8 +134,11 @@ class _MainDashboardState extends State<MainDashboard> {
                                       icon: Icon(
                                         Icons.place,
                                         color: Colors.red,
-                                      ))
+                                      )),
                                 ],
+                              ),
+                              Divider(
+                                thickness: 1,
                               ),
                             ],
                           ),
@@ -161,10 +168,10 @@ class _MainDashboardState extends State<MainDashboard> {
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(20)),
-                                            color: P_Settings.dashbordcl1,
+                                            color: P_Settings.dashbordcl3,
                                           ),
                                           height: size.height * 0.1,
-                                          width: size.height * 0.6,
+                                          width: size.height * 0.2,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Column(
@@ -188,6 +195,10 @@ class _MainDashboardState extends State<MainDashboard> {
                                                           .detailscolor,
                                                       fontSize: 15),
                                                 ),
+                                                // Text(
+                                                //   "\u{20B9}${value.sumPrice[0]['S']}",
+                                                //   style: TextStyle(fontSize: 15),
+                                                // )
                                               ],
                                             ),
                                           ),
@@ -201,7 +212,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(20)),
-                                            color: P_Settings.dashbordcl3,
+                                            color: P_Settings.dashbordcl1,
                                           ),
                                           height: size.height * 0.1,
                                           width: size.height * 0.2,
@@ -351,7 +362,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    "Sales",
+                                                    "Shop Visited",
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
@@ -382,7 +393,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    "Return",
+                                                    "",
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
@@ -621,7 +632,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                                 child: Column(
                                                   children: [
                                                     Text(
-                                                      "Sales",
+                                                      "Shop Visited",
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           color: P_Settings
@@ -651,7 +662,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    "Return",
+                                                    "",
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings

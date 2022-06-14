@@ -225,12 +225,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // print("_seletdde---$_selectedIndex");
   }
 
-  @override
-  void dispose() {
-    _tabController!.dispose();
-    // TODO: implement dispose
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _tabController!.dispose();
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -278,6 +278,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           menu_index == "0"
                       ? TabBar(
                           isScrollable: true,
+
                           indicatorColor: Colors.white,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 2.0,

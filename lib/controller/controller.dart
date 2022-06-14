@@ -35,6 +35,7 @@ class Controller extends ChangeNotifier {
   String? areaidFrompopup;
   List<bool> isExpanded = [];
   List<bool> isVisibleTable = [];
+  List<Map<String, dynamic>> collectionList = [];
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
@@ -1121,9 +1122,8 @@ class Controller extends ChangeNotifier {
       isExpanded = List.generate(todayOrderList.length, (index) => false);
       isVisibleTable = List.generate(todayOrderList.length, (index) => false);
     } else {
-       noData=true;
-    notifyListeners();
-
+      noData = true;
+      notifyListeners();
     }
 
     print("todayOrderList----$todayOrderList");
@@ -1505,4 +1505,29 @@ class Controller extends ChangeNotifier {
     print("area---$areaSelecton");
     notifyListeners();
   }
+
+  //////////////////////////////////////////////////////////////////////////
+  fetchtotalcollectionFromTable(String custmerId, String todaydate) async {
+    collectionList.clear();
+    isLoading = true;
+    var res = await OrderAppDB.instance
+        .selectAllcommonwithdesc('collectionTable', "rec_date='$todaydate'");
+    if (res != null) {
+      for (var menu in res) {
+        collectionList.add(menu);
+      }
+    } else {
+      noData = true;
+      notifyListeners();
+    }
+
+    print("remarkList----${collectionList}");
+    isLoading = false;
+
+    notifyListeners();
+  }
+  // customerCreation(){
+  //   accountHead = AccountHead.fromJson(ahead);
+  //       var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
+  // }
 }
