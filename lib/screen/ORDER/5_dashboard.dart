@@ -114,7 +114,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           menu_index = _tabController!.index.toString();
         });
       }
-    print("Selected Index: " + _tabController!.index.toString());
+      print("Selected Index: " + _tabController!.index.toString());
 
       // setState(() {
       //   menu_index = _tabController!.index.toString();
@@ -186,9 +186,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "SA2":
         return null;
       case "SA3":
-            // print("yy-- ${Provider.of<Controller>(context, listen: false).areaSelecton!}");
-            return OrderForm("", "collection");
-          
+        // print("yy-- ${Provider.of<Controller>(context, listen: false).areaSelecton!}");
+        return OrderForm("", "collection");
 
       case "UL":
         // title = "Upload data";
@@ -215,6 +214,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             );
       case "0":
         return new MainDashboard();
+      case "1":
+        return new TodaysOrder();
+
       case "4":
         Provider.of<Controller>(context, listen: false).setFilter(false);
         Provider.of<Controller>(context, listen: false)
@@ -299,8 +301,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           menu_index == "1" ||
                           menu_index == "2" ||
                           menu_index == "3" ||
-                          menu_index == "4"  ||
-                          menu_index == "0" 
+                          menu_index == "4" ||
+                          menu_index == "0"
                       ? TabBar(
                           isScrollable: true,
 

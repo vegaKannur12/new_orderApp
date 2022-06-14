@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 
@@ -236,7 +237,7 @@ class _ReportPageState extends State<ReportPage> {
                       return Container(
                           // height: size.height * 0.9,
                           width: double.infinity,
-                          child: Center(child: CircularProgressIndicator()));
+                          child: Center(child: SpinKitFadingCircle(color: P_Settings.wavecolor,)));
                     } else {
                       print("value.filter----${value.filter}");
                       // if (value.filter) {
