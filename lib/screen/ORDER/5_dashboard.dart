@@ -57,16 +57,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? selected;
   List<String> s = [];
   final GlobalKey<ScaffoldState> _key = GlobalKey();
-  List companyAttributes = [
-    "Dashboard",
-    "Logged in",
-    "Collection",
-    "Orders",
-    "Sale",
-    "Download Page",
-    "Upload data",
-    "history"
-  ];
+
   int _selectedIndex = 0;
 
   _onSelectItem(int index, String? menu) {
@@ -77,18 +68,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         menu_index = menu!;
       });
     }
-    // setState(() {
-
-    // });
     Navigator.of(context).pop(); // close the drawer
   }
-
-  // _onSelectdefaultItem(String menu) {
-  //   setState(() {
-  //     menu_index = menu;
-  //   });
-  //   Navigator.of(context).pop();
-  // }
 
   @override
   void initState() {
@@ -98,42 +79,30 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     print("haiiiiii");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
+
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).setCname();
     Provider.of<Controller>(context, listen: false).setSname();
     _tabController = TabController(
       vsync: this,
       length: 5,
-      initialIndex: 0,
+      // initialIndex: 0,
     );
 
     _tabController!.addListener(() {
       if (!mounted) return;
       if (mounted) {
         setState(() {
+          _selectedIndex = _tabController!.index;
           menu_index = _tabController!.index.toString();
         });
       }
       print("Selected Index: " + _tabController!.index.toString());
-
-      // setState(() {
-      //   menu_index = _tabController!.index.toString();
-      // });
     });
     getCompaniId();
-
-    // Provider.of<Controller>(context, listen: false)
-    //     .selectTotalPrice(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .selectOrderCount(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .selectCollectionPrice(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .CollectionCount(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false).getCompanyData();
-    if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
-      menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
-    }
+    // if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
+    //   menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
+    // }
   }
 
   insertSettings() async {
@@ -156,9 +125,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     print("pos---${pos}");
     switch (pos) {
       case "S1":
-        // getCompaniId();
+        {
+          _tabController!.animateTo((0));
+          // _tabController!.index = 0;
+          print("djs");
+          return new MainDashboard();
+        }
 
-        return new MainDashboard();
       case "S2":
         if (widget.type == "return from cartList") {
           return OrderForm(widget.areaName!, "sales");
@@ -261,7 +234,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print("${Provider.of<Controller>(context, listen: false).menuList.length}");
+    // print("${Provider.of<Controller>(context, listen: false).menuList.length}");
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
         onWillPop: () => _onBackPressed(context),
@@ -305,7 +278,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           menu_index == "0"
                       ? TabBar(
                           isScrollable: true,
-
                           indicatorColor: Colors.white,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 2.0,

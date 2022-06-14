@@ -25,17 +25,24 @@ class _TodaysOrderState extends State<TodaysOrder> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
-    s = date!.split(" ");
     Future.delayed(Duration(milliseconds: 1000), () {
+      date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+      s = date!.split(" ");
       Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    print("todys oredr");
+  }
+
   // @override
-  // void didChangeDependencies() {
-  //   // TODO: implement didChangeDependencies
-  //   super.didChangeDependencies();
+  // void deactivate() {
+  //   // TODO: implement deactivate
+  //   super.deactivate();
   // }
 
   @override

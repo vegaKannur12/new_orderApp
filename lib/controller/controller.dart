@@ -23,7 +23,7 @@ import '../model/staffdetails_model.dart';
 class Controller extends ChangeNotifier {
   bool isLoading = false;
   bool isListLoading = false;
-
+  int? selectedTabIndex;
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
