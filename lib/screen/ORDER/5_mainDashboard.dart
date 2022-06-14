@@ -19,37 +19,45 @@ class _MainDashboardState extends State<MainDashboard> {
   DateTime date = DateTime.now();
   String? formattedDate;
   String? selected;
+  List<String> s = [];
   AreaSelectionPopup popup = AreaSelectionPopup();
   String? sid;
   final _random = Random();
+
   sharedPref() async {
     print("helooo");
     final prefs = await SharedPreferences.getInstance();
     sid = prefs.getString('sid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
-    await Provider.of<Controller>(context, listen: false)
-        .selectTotalPrice(sid!, formattedDate!);
-    Provider.of<Controller>(context, listen: false)
-        .selectOrderCount(sid!, formattedDate!);
-    await Provider.of<Controller>(context, listen: false)
-        .selectCollectionPrice(sid!, formattedDate!);
-    await Provider.of<Controller>(context, listen: false)
-        .CollectionCount(sid!, formattedDate!);
+    Future.delayed(Duration(milliseconds: 1000), () {
+      // Y Provider.of<Controller>(context, listen: false).getArea(sid!);
+      Provider.of<Controller>(context, listen: false)
+          .selectTotalPrice(sid!, s[0]);
+      Provider.of<Controller>(context, listen: false)
+          .selectOrderCount(sid!, s[0]);
+      Provider.of<Controller>(context, listen: false)
+          .selectCollectionPrice(sid!, s[0]);
+      Provider.of<Controller>(context, listen: false)
+          .collectionCountFun(sid!, s[0]);
+    });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    formattedDate = DateFormat('yyyy-MM-dd').format(date);
-    sharedPref();
+    print("init");
+    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
+    s = formattedDate!.split(" ");
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
+  void didChangeDependencies() {
+    print("didchange");
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    sharedPref();
   }
 
   @override
@@ -57,7 +65,6 @@ class _MainDashboardState extends State<MainDashboard> {
     Size size = MediaQuery.of(context).size;
     return Column(
       children: [
-        
         Consumer<Controller>(
           builder: (context, value, child) {
             return Expanded(
@@ -84,7 +91,10 @@ class _MainDashboardState extends State<MainDashboard> {
                                   padding: const EdgeInsets.all(10.0),
                                   child: CircleAvatar(
                                     radius: 15,
-                                    child: Icon(Icons.person,color: P_Settings.collection1,),
+                                    child: Icon(
+                                      Icons.person,
+                                      color: P_Settings.collection1,
+                                    ),
                                     backgroundColor:
                                         Color.fromARGB(255, 214, 201, 200),
                                   ),
@@ -104,7 +114,16 @@ class _MainDashboardState extends State<MainDashboard> {
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
-                                        color: P_Settings.collection1))
+                                        color: P_Settings.collection1)),
+                                Spacer(),
+                                IconButton(
+                                    onPressed: () {
+                                      buildPopupDialog(context, size);
+                                    },
+                                    icon: Icon(
+                                      Icons.place,
+                                      color: Colors.red,
+                                    ))
                               ],
                             ),
                           ],
@@ -643,5 +662,70 @@ class _MainDashboardState extends State<MainDashboard> {
         ),
       ],
     );
+  }
+
+  //////////////////////////////////////////////////////////////////////
+
+  buildPopupDialog(BuildContext context, Size size) {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return new AlertDialog(
+              content: Consumer<Controller>(builder: (context, value, child) {
+                if (value.isLoading) {
+                  return CircularProgressIndicator();
+                } else {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        color: Colors.grey[200],
+                        height: size.height * 0.04,
+                        child: DropdownButton<String>(
+                          value: selected,
+                          hint: Text("Select"),
+                          isExpanded: true,
+                          autofocus: false,
+                          underline: SizedBox(),
+                          elevation: 0,
+                          items: value.areDetails
+                              .map((item) => DropdownMenuItem<String>(
+                                  value: item["aid"].toString(),
+                                  child: Container(
+                                    width: size.width * 0.5,
+                                    child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(item["aname"].toString())),
+                                  )))
+                              .toList(),
+                          onChanged: (item) {
+                            print("clicked");
+
+                            if (item != null) {
+                              setState(() {
+                                selected = item;
+                              });
+                              print("se;ected---$item");
+                            }
+                          },
+                        ),
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Provider.of<Controller>(context, listen: false)
+                                .areaSelection(selected!);
+                            Navigator.pop(context);
+                          },
+                          child: Text("save"))
+                    ],
+                  );
+                }
+              }),
+            );
+          });
+        });
   }
 }

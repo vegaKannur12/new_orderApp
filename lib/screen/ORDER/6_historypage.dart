@@ -36,7 +36,8 @@ class _HistoryState extends State<History> {
       print("history----$history");
       Provider.of<Controller>(context, listen: false).getHistoryData(
           'orderDetailTable', "order_id='${history["order_id"]}'");
-      popup.buildPopupDialog(context, size!,history["Order_Num"],history["Cus_id"]);
+      popup.buildPopupDialog(
+          context, size!, history["Order_Num"], history["Cus_id"]);
     }
   }
 
@@ -59,7 +60,7 @@ class _HistoryState extends State<History> {
     super.didChangeDependencies();
     products = Provider.of<Controller>(context, listen: false).productName;
 
-    Provider.of<Controller>(context, listen: false).getHistory();
+    // Provider.of<Controller>(context, listen: false).getHistory();
   }
 
   @override
@@ -152,9 +153,8 @@ class _HistoryState extends State<History> {
     List<String> newBehavr = [];
     // print("rows---$rows");
     return rows.map((row) {
-      
       return DataRow(
-      //  selected:rows.contains(row),
+        //  selected:rows.contains(row),
         onSelectChanged: (value) {
           onSelectedRow(value!, row);
           print("hello");
@@ -177,7 +177,7 @@ class _HistoryState extends State<History> {
       datacell.add(
         DataCell(
           Container(
-             width:100,
+            width: 100,
             // width: mainHeader[k][3] == "1" ? 70 : 30,
             alignment: Alignment.center,
             //     ? Alignment.centerLeft

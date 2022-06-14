@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
@@ -13,6 +14,7 @@ import 'package:orderapp/screen/ORDER/6_downloadedPage.dart';
 import 'package:orderapp/screen/ORDER/6_historypage.dart';
 import 'package:orderapp/screen/ORDER/6_uploaddata.dart';
 import 'package:orderapp/screen/ORDER/6_settings.dart';
+import 'package:orderapp/screen/ORDER/todaysOrder.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,6 +52,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   String menu_index = "S1";
   List defaultitems = ["upload data", "download page", "logout"];
+  DateTime date = DateTime.now();
+  String? formattedDate;
+  String? selected;
+  List<String> s = [];
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   List companyAttributes = [
     "Dashboard",
@@ -64,10 +70,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   int _selectedIndex = 0;
 
   _onSelectItem(int index, String? menu) {
-    setState(() {
-      _selectedIndex = index;
-      menu_index = menu!;
-    });
+    if (!mounted) return;
+    if (this.mounted) {
+      setState(() {
+        _selectedIndex = index;
+        menu_index = menu!;
+      });
+    }
+    // setState(() {
+
+    // });
     Navigator.of(context).pop(); // close the drawer
   }
 
@@ -84,6 +96,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     print("haiiiiii");
+    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
+    s = formattedDate!.split(" ");
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).setCname();
     Provider.of<Controller>(context, listen: false).setSname();
@@ -92,15 +106,30 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       length: 5,
       initialIndex: 0,
     );
-    print("Selected Index: " + _tabController!.index.toString());
-    _tabController!.addListener(() {
-      setState(() {
-        menu_index = _tabController!.index.toString();
-      });
 
-      
+    _tabController!.addListener(() {
+      if (!mounted) return;
+      if (mounted) {
+        setState(() {
+          menu_index = _tabController!.index.toString();
+        });
+      }
+    print("Selected Index: " + _tabController!.index.toString());
+
+      // setState(() {
+      //   menu_index = _tabController!.index.toString();
+      // });
     });
     getCompaniId();
+
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectTotalPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectOrderCount(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectCollectionPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .CollectionCount(sid!, s[0]);
     // Provider.of<Controller>(context, listen: false).getCompanyData();
     if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
       menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
@@ -117,6 +146,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     cid = prefs.getString("cid");
     os = prefs.getString("os");
     sid = prefs.getString("sid");
+
+    print("formattedDate...$formattedDate");
+    Provider.of<Controller>(context, listen: false).getArea(sid!);
     print("cid--sid--$cid--$sid");
   }
 
@@ -124,6 +156,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     print("pos---${pos}");
     switch (pos) {
       case "S1":
+        // getCompaniId();
+
         return new MainDashboard();
       case "S2":
         if (widget.type == "return from cartList") {
@@ -152,7 +186,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "SA2":
         return null;
       case "SA3":
-        return OrderForm("", "collection");
+            // print("yy-- ${Provider.of<Controller>(context, listen: false).areaSelecton!}");
+            return OrderForm("", "collection");
+          
 
       case "UL":
         // title = "Upload data";
@@ -161,7 +197,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           cid: cid!,
           type: "drawer call",
         );
-      case "dP":
+      case "DP":
         // title = "Download data";
         return DownloadedPage(
           title: "Download Page",
@@ -194,6 +230,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "ST":
         // title = "Download data";
         return Settings();
+      case "TO":
+        // title = "Upload data";
+        return TodaysOrder();
     }
   }
 
@@ -227,7 +266,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         child: Scaffold(
           key: _key, //
           backgroundColor: P_Settings.wavecolor,
-          appBar: menu_index == "UL" || menu_index == "dP"
+          appBar: menu_index == "UL" || menu_index == "DP"
               ? AppBar(
                   elevation: 0,
                   title: Text(
@@ -260,7 +299,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           menu_index == "1" ||
                           menu_index == "2" ||
                           menu_index == "3" ||
-                          menu_index == "4"
+                          menu_index == "4"  ||
+                          menu_index == "0" 
                       ? TabBar(
                           isScrollable: true,
 
@@ -384,8 +424,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         ),
                       ),
                       ListTile(
+                        trailing: Icon(Icons.logout),
                         onTap: () async {
-                          _onSelectItem(0, "dP");
+                          _onSelectItem(0, "TO");
+                        },
+                        title: Text(
+                          "Todays Order",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () async {
+                          _onSelectItem(0, "DP");
                         },
                         title: Text(
                           "Download page",

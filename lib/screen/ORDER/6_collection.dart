@@ -150,9 +150,12 @@ class _CollectionPageState extends State<CollectionPage> {
                                     print("clicked");
 
                                     if (item != null) {
-                                      setState(() {
-                                        selected = item;
-                                      });
+                                      if (mounted) {
+                                        setState(() {
+                                          selected = item;
+                                        });
+                                      }
+
                                       print("se;ected---$item");
                                     }
                                   },

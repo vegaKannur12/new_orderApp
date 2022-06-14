@@ -27,9 +27,12 @@ class Controller extends ChangeNotifier {
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
-
+  String? areaSelecton;
   bool isVisible = false;
   List<bool> selected = [];
+  List<bool> isExpanded = [];
+  List<bool> isVisibleTable = [];
+
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
   List<Map<String, dynamic>> sortList = [];
@@ -105,6 +108,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> areaList = [];
   List<Map<String, dynamic>> companyList = [];
   List<Map<String, dynamic>> customerList = [];
+  List<Map<String, dynamic>> todayOrderList = [];
+
   List<Map<String, dynamic>> copyCus = [];
   List<Map<String, dynamic>> prodctItems = [];
   List<Map<String, dynamic>> ordernum = [];
@@ -627,7 +632,6 @@ class Controller extends ChangeNotifier {
         areDetails.add(item);
       }
       print("areaList adding ----${areDetails}");
-
       notifyListeners();
     } catch (e) {
       print(e);
@@ -863,8 +867,15 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////insert to order master and details///////////////////////
-  insertToOrderbagAndMaster(String os, String date, String customer_id,
-      String user_id, String aid, double total_price) async {
+  insertToOrderbagAndMaster(
+      String os,
+      String date,
+      String time,
+      String customer_id,
+      String user_id,
+      String aid,
+      double total_price) async {
+    print("hhjk----$date");
     List<Map<String, dynamic>> om = [];
     int order_id = await OrderAppDB.instance
         .getMaxCommonQuery('orderDetailTable', 'order_id', "os='${os}'");
@@ -876,6 +887,7 @@ class Controller extends ChangeNotifier {
           0.0,
           " ",
           date,
+          time,
           os,
           customer_id,
           user_id,
@@ -895,6 +907,7 @@ class Controller extends ChangeNotifier {
             rate,
             item["code"],
             date,
+            time,
             os,
             customer_id,
             user_id,
@@ -1091,33 +1104,37 @@ class Controller extends ChangeNotifier {
   }
 
   //////getHistory/////////////////////////////
-  getHistory() async {
+  todayOrder(String date) async {
+    todayOrderList.clear();
+
     isLoading = true;
     print("haiiii");
-    List<Map<String, dynamic>> result = await OrderAppDB.instance.getHistory();
+    List<Map<String, dynamic>> result =
+        await OrderAppDB.instance.todayOrder(date);
     List<Map<String, dynamic>> copy = [];
     print("aftr cut----$result");
-    // copy = result;
-    // // copy = [{"id":"1","nam":"hjdks"},{"id":"2","nam":"dfd"}];
-    // copy.forEach((element) {
-    //   print("element--$element");
-    //   element.remove("id");
-    // });
 
-    print("copy----$copy");
+    for (var item in result) {
+      todayOrderList.add(item);
+    }
+
+    isExpanded = List.generate(todayOrderList.length, (index) => false);
+    isVisibleTable = List.generate(todayOrderList.length, (index) => false);
+
+    print("todayOrderList----$todayOrderList");
 
     // copy[0].remove("order_id");
-    for (Map<String, dynamic> item in result) {
-      historyList.add(item);
-    }
+    // for (Map<String, dynamic> item in result) {
+    //   historyList.add(item);
+    // }
 
-    print("history list----$historyList");
-    var list = historyList[0].keys.toList();
-    print("**list----$list");
-    for (var item in list) {
-      print(item);
-      tableColumn.add(item);
-    }
+    // print("history list----$historyList");
+    // var list = historyList[0].keys.toList();
+    // print("**list----$list");
+    // for (var item in list) {
+    //   print(item);
+    //   tableColumn.add(item);
+    // }
     isLoading = false;
     notifyListeners();
 
@@ -1128,7 +1145,8 @@ class Controller extends ChangeNotifier {
   getHistoryData(String table, String? condition) async {
     isLoading = true;
     print("haiiii");
-
+    historydataList.clear();
+    tableHistorydataColumn.clear();
     List<Map<String, dynamic>> result =
         await OrderAppDB.instance.selectCommonQuery(table, condition);
 
@@ -1329,12 +1347,15 @@ class Controller extends ChangeNotifier {
   }
 
 ///////////////// order total today /////////////
-  Future<dynamic> selectTotalPrice(String sid,String todaydate) async {
+  Future<dynamic> selectTotalPrice(
+    String sid,
+    String todaydate,
+  ) async {
     sumPrice.clear();
     print("sid.......sid");
     Map map = {};
     isLoading = true;
-    var res = await OrderAppDB.instance.selectSumPlaceOrder(sid,todaydate);
+    var res = await OrderAppDB.instance.selectSumPlaceOrder(sid, todaydate);
     print("resultssss....$res");
     if (res.length > 0) {
       for (var item in res) {
@@ -1352,7 +1373,7 @@ class Controller extends ChangeNotifier {
     print("todaydate.......$todaydate");
     Map map = {};
     isLoading = true;
-    var res = await OrderAppDB.instance.orderCount(sid,todaydate);
+    var res = await OrderAppDB.instance.orderCount(sid, todaydate);
     print("ordercount....$res");
     if (res.length > 0) {
       for (var item in res) {
@@ -1384,12 +1405,12 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////// today collection count//////////
-  Future<dynamic> CollectionCount(String sid, String collectDate) async {
+  Future<dynamic> collectionCountFun(String sid, String collectDate) async {
     collectionCount.clear();
     print("sid $sid $collectDate");
     Map map = {};
     isLoading = true;
-    var res = await OrderAppDB.instance.CountCollectionAmount(sid, collectDate);
+    var res = await OrderAppDB.instance.countCollectionAmount(sid, collectDate);
     print("resultssss....$res");
     if (res.length > 0) {
       for (var item in res) {
@@ -1475,6 +1496,23 @@ class Controller extends ChangeNotifier {
     }
     print("filters-----$filterList");
     notifyListeners();
+  }
+
+  toggleExpansion(int index) {
+    for (int i = 0; i < isExpanded.length; i++) {
+      if (isExpanded[index] != isExpanded[i] && isExpanded[i]) {
+        isExpanded[i] = !isExpanded[i];
+        isVisibleTable[i] = !isVisibleTable[i];
+      }
+    }
+  }
+
+  areaSelection(String area)async{
+    List<Map<String, dynamic>> result =
+        await OrderAppDB.instance.selectAllcommon('areaDetailsTable', "aid='${area}'");
+    areaSelecton=result[0]["aname"];
+    print("area---$areaSelecton");
+    notifyListeners();  
   }
 
   // customerCreation(){
