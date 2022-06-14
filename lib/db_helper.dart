@@ -1274,6 +1274,7 @@ class OrderAppDB {
     print("result menu common----$result");
     return result;
   }
+  ////////////////////////DELETE TABLE ////////////////////////////////////
 
   // getReportRemarkOrderDetails() async {
   //   List<Map<String, dynamic>> result;

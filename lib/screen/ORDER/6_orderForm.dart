@@ -87,12 +87,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     super.initState();
     Provider.of<Controller>(context, listen: false).getOrderno();
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-    if (Provider.of<Controller>(context, listen: false).areaSelecton!=null ) {
-      Provider.of<Controller>(context, listen: false)
-          .getCustomer("${Provider.of<Controller>(context, listen: false).areaSelecton!}");
+    if (Provider.of<Controller>(context, listen: false).areaSelecton != null) {
+      Provider.of<Controller>(context, listen: false).getCustomer(
+          "${Provider.of<Controller>(context, listen: false).areaSelecton!}");
     }
     // Provider.of<Controller>(context, listen: false).custmerSelection = "";
-    
+
     sharedPref();
   }
 
@@ -113,7 +113,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     String? _selectedItemarea;
     String? _selectedAreaId;
     print("widget.areaname---${widget.areaname}");
-    
+
     // final bottom = MediaQuery.of(context).viewInsets.bottom;
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
@@ -198,7 +198,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             text: values.areaSelecton == null ||
                                                     values.areaSelecton!.isEmpty
                                                 ? widget.areaname
-                                                : values.areaSelecton.toString()),
+                                                : values.areaSelecton
+                                                    .toString()),
                                         optionsBuilder:
                                             (TextEditingValue value) {
                                           if (widget.areaname != "") {
@@ -1033,46 +1034,63 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 SizedBox(
                                                   width: size.width * 0.05,
                                                 ),
-                                                Flexible(
-                                                  child: OutlinedButton(
-                                                      onPressed: () async {
-                                                        if (_formKey
-                                                            .currentState!
-                                                            .validate()) {
-                                                          await Provider.of<
-                                                                      Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .getBalance(cid,
-                                                                  custmerId);
-                                                          showDialog(
-                                                            context: context,
-                                                            builder: (BuildContext
-                                                                    context) =>
-                                                                popup.buildPopupDialog(
+                                                Container(
+                                                  width: size.width * 0.27,
+                                                  height: size.height * 0.05,
+                                                  child: Flexible(
+                                                    child: ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          primary: P_Settings
+                                                              .dashbordcl2,
+                                                          shape:
+                                                              new RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                new BorderRadius
+                                                                        .circular(
+                                                                    10.0),
+                                                          ),
+                                                        ),
+                                                        onPressed: () async {
+                                                          if (_formKey
+                                                              .currentState!
+                                                              .validate()) {
+                                                            await Provider.of<
+                                                                        Controller>(
                                                                     context,
-                                                                    '\u{20B9}${values.balanceModel.ba}'),
-                                                          );
-                                                        }
-                                                        setState(() {
-                                                          balVisible =
-                                                              !balVisible;
-                                                        });
+                                                                    listen:
+                                                                        false)
+                                                                .getBalance(cid,
+                                                                    custmerId);
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  popup.buildPopupDialog(
+                                                                      context,
+                                                                      '\u{20B9}${values.balanceModel.ba}'),
+                                                            );
+                                                          }
+                                                          setState(() {
+                                                            balVisible =
+                                                                !balVisible;
+                                                          });
 
-                                                        print(
-                                                            "cid.........$cid,$custmerId");
-                                                        FocusScopeNode
-                                                            currentFocus =
-                                                            FocusScope.of(
-                                                                context);
+                                                          print(
+                                                              "cid.........$cid,$custmerId");
+                                                          FocusScopeNode
+                                                              currentFocus =
+                                                              FocusScope.of(
+                                                                  context);
 
-                                                        if (!currentFocus
-                                                            .hasPrimaryFocus) {
-                                                          currentFocus
-                                                              .unfocus();
-                                                        }
-                                                      },
-                                                      child: Text("Balance")),
+                                                          if (!currentFocus
+                                                              .hasPrimaryFocus) {
+                                                            currentFocus
+                                                                .unfocus();
+                                                          }
+                                                        },
+                                                        child: Text("Balance")),
+                                                  ),
                                                 ),
                                               ],
                                             )

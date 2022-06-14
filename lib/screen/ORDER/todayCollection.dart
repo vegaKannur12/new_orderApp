@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -43,91 +44,65 @@ class _TodayCollectionState extends State<TodayCollection> {
     return Scaffold(
       body: Consumer<Controller>(
         builder: (context, value, child) {
-          return Container(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Container(
-                    // color: P_Settings.collection,
-                    height: size.height * 0.7,
-                    child: ListView.builder(
-                      itemCount: value.collectionList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              child: Icon(
-                                Icons.reviews,
-                                size: 16,
-                              ),
-                              backgroundColor: P_Settings.roundedButtonColor,
-                            ),
-                            title: Text(
-                              "\u{20B9}${value.collectionList[index]['rec_amount'].toString()}",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            subtitle: Text(
-                                "\u{20B9}${value.collectionList[index]['rec_cusid'].toString()}"),
-                          ),
-                        );
-                      },
-                    ),
+          if (value.isLoading) {
+            return SpinKitFadingCircle(
+              color: P_Settings.wavecolor,
+            );
+          } else {
+            if (value.noData) {
+              return Container(
+                height: size.height * 0.7,
+                width: double.infinity,
+                child: Center(
+                    child: Text(
+                  "No Orders!!!",
+                  style: TextStyle(
+                    fontSize: 19,
                   ),
+                )),
+              );
+            } else {
+              return Container(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Container(
+                        // color: P_Settings.collection,
+                        height: size.height * 0.7,
+                        child: ListView.builder(
+                          itemCount: value.collectionList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  child: Icon(
+                                    Icons.reviews,
+                                    size: 16,
+                                  ),
+                                  backgroundColor:
+                                      P_Settings.roundedButtonColor,
+                                ),
+                                title: Text(
+                                  "\u{20B9}${value.collectionList[index]['rec_amount'].toString()}",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                subtitle: Text(
+                                    "\u{20B9}${value.collectionList[index]['rec_cusid'].toString()}"),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          );
+              );
+            }
+          }
         },
       ),
-    );
-  }
-}
-
-class TodayCollectionPage {
-  Widget collectionPage(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return Consumer<Controller>(
-      builder: (context, value, child) {
-        return Container(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Container(
-                  // color: P_Settings.collection,
-                  height: size.height * 0.7,
-                  child: ListView.builder(
-                    itemCount: value.collectionList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            child: Icon(
-                              Icons.reviews,
-                              size: 16,
-                            ),
-                            backgroundColor: P_Settings.roundedButtonColor,
-                          ),
-                          title: Text(
-                            "\u{20B9}${value.collectionList[index]['rec_amount'].toString()}",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          subtitle: Text(
-                              "\u{20B9}${value.collectionList[index]['rec_cusid'].toString()}"),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

@@ -34,9 +34,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   TabController? _tabController;
   static const List<Tab> myTabs = <Tab>[
-    Tab(
-      text: 'Home ',
-    ),
+    Tab(text: 'Home '),
     Tab(text: 'Todays Order'),
     Tab(text: 'Todays Collection'),
     Tab(text: 'Todays Sale'),
@@ -159,15 +157,15 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "S1":
         // getCompaniId();
 
-        return new MainDashboard();
+        return  MainDashboard();
       case "S2":
         if (widget.type == "return from cartList") {
-          return OrderForm(widget.areaName!, "sales");
+          return  OrderForm(widget.areaName!, "sales");
         } else {
-          return OrderForm("", "sales");
+          return  OrderForm("", "sales");
         }
       case "S3":
-        return OrderForm("", "return");
+        return  OrderForm("", "return");
 
       case "SAC1":
         return null;
@@ -179,7 +177,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return null;
 
       case "SA1":
-        return CustomerCreation(
+        return  CustomerCreation(
           sid: sid!,
           os: os,
         );
@@ -217,6 +215,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return new MainDashboard();
       case "2":
         return new TodayCollection();
+      case "1":
+        return new TodaysOrder();
 
       case "4":
         Provider.of<Controller>(context, listen: false).setFilter(false);
@@ -309,12 +309,21 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           menu_index == "0"
                       ? TabBar(
                           isScrollable: true,
-
+                          indicator: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              // borderRadius: BorderRadius.only(
+                              //     topLeft: Radius.circular(10),
+                              //     topRight: Radius.circular(10)),
+                              color: P_Settings.tabbarColor),
                           indicatorColor: Colors.white,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 2.0,
-                          // indicatorSize: TabBarIndicatorSize.label,
-                          labelColor: Color.fromARGB(255, 255, 255, 255),
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'RaleWay',
+                          ),
+                          labelColor: Colors.white,
                           tabs: myTabs,
                           controller: _tabController,
                         )

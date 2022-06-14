@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:provider/provider.dart';
 
 class AreaSelectionPopup {
   String? selected;
-  Future buildPopupDialog(
-      BuildContext context, Size size) {
+  Future buildPopupDialog(BuildContext context, Size size) {
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -13,7 +14,9 @@ class AreaSelectionPopup {
           return new AlertDialog(
             content: Consumer<Controller>(builder: (context, value, child) {
               if (value.isLoading) {
-                return CircularProgressIndicator();
+                return SpinKitFadingCircle(
+                  color: P_Settings.wavecolor,
+                );
               } else {
                 return Column(
                   children: [
