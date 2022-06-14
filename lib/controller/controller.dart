@@ -23,7 +23,7 @@ import '../model/staffdetails_model.dart';
 class Controller extends ChangeNotifier {
   bool isLoading = false;
   bool isListLoading = false;
-
+  int? selectedTabIndex;
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
@@ -1523,6 +1523,21 @@ class Controller extends ChangeNotifier {
 
     print("remarkList----${collectionList}");
     isLoading = false;
+
+    notifyListeners();
+  }
+  //////////////////////////////
+   /////////////////////// fetch collection table ////////////
+  fetchrcollectionFromTable(String custmerId, String todaydate) async {
+    collectionList.clear();
+
+    var res = await OrderAppDB.instance
+        .selectAllcommonwithdesc('collectionTable', "rec_cusid='${custmerId}'");
+
+    for (var menu in res) {
+      collectionList.add(menu);
+    }
+    print("collectionList----${collectionList}");
 
     notifyListeners();
   }

@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -34,10 +32,11 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
-  Timer? _timer;
   TabController? _tabController;
   static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'Home '),
+    Tab(
+      text: 'Home ',
+    ),
     Tab(text: 'Todays Order'),
     Tab(text: 'Todays Collection'),
     Tab(text: 'Todays Sale'),
@@ -51,8 +50,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? cid;
   String? sid;
   String? os;
-  bool loadDelay = true;
-  bool loadDelaypage = false;
 
   String menu_index = "S1";
   List defaultitems = ["upload data", "download page", "logout"];
@@ -61,16 +58,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? selected;
   List<String> s = [];
   final GlobalKey<ScaffoldState> _key = GlobalKey();
-  List companyAttributes = [
-    "Dashboard",
-    "Logged in",
-    "Collection",
-    "Orders",
-    "Sale",
-    "Download Page",
-    "Upload data",
-    "history"
-  ];
+
   int _selectedIndex = 0;
 
   _onSelectItem(int index, String? menu) {
@@ -81,16 +69,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         menu_index = menu!;
       });
     }
-
     Navigator.of(context).pop(); // close the drawer
   }
-
-  // _onSelectdefaultItem(String menu) {
-  //   setState(() {
-  //     menu_index = menu;
-  //   });
-  //   Navigator.of(context).pop();
-  // }
 
   @override
   void initState() {
@@ -100,48 +80,30 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     print("haiiiiii");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
+
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).setCname();
     Provider.of<Controller>(context, listen: false).setSname();
-
     _tabController = TabController(
       vsync: this,
       length: 5,
-      initialIndex: 0,
+      // initialIndex: 0,
     );
-    Future.delayed(Duration(seconds: 1), () {
-      _tabController!.addListener(() {
-        print("loadDelay$loadDelay");
-        if (!mounted) return;
-        if (mounted) {
-          setState(() {
-            menu_index = _tabController!.index.toString();
-            loadDelay = true;
-            print("loadDelay$loadDelay");
-          });
-        }
-        print("Selected Index: " + _tabController!.index.toString());
 
-        // setState(() {
-        //   menu_index = _tabController!.index.toString();
-        // });
-      });
+    _tabController!.addListener(() {
+      if (!mounted) return;
+      if (mounted) {
+        setState(() {
+          _selectedIndex = _tabController!.index;
+          menu_index = _tabController!.index.toString();
+        });
+      }
+      print("Selected Index: " + _tabController!.index.toString());
     });
-
     getCompaniId();
-
-    // Provider.of<Controller>(context, listen: false)
-    //     .selectTotalPrice(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .selectOrderCount(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .selectCollectionPrice(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .CollectionCount(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false).getCompanyData();
-    if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
-      menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
-    }
+    // if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
+    //   menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
+    // }
   }
 
   insertSettings() async {
@@ -164,9 +126,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     print("pos---${pos}");
     switch (pos) {
       case "S1":
-        // getCompaniId();
+        {
+          _tabController!.animateTo((0));
+          // _tabController!.index = 0;
+          print("djs");
+          return new MainDashboard();
+        }
 
-        return MainDashboard();
       case "S2":
         if (widget.type == "return from cartList") {
           return OrderForm(widget.areaName!, "sales");
@@ -222,10 +188,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             );
       case "0":
         return new MainDashboard();
-      case "2":
-        return new TodayCollection();
       case "1":
         return new TodaysOrder();
+      case "2":
+        return new TodayCollection();
       case "4":
         Provider.of<Controller>(context, listen: false).setFilter(false);
         Provider.of<Controller>(context, listen: false)
@@ -241,13 +207,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "ST":
         // title = "Download data";
         return Settings();
-
       // case "TO":
       //   // title = "Upload data";
       //   return TodaysOrder();
-      // case "TC":
-      //   // title = "Upload data";
-      //   return TodayCollection();
     }
   }
 
@@ -265,16 +227,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // print("_seletdde---$_selectedIndex");
   }
 
-  @override
-  void dispose() {
-    _tabController!.dispose();
-    // TODO: implement dispose
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _tabController!.dispose();
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    print("${Provider.of<Controller>(context, listen: false).menuList.length}");
+    // print("${Provider.of<Controller>(context, listen: false).menuList.length}");
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
         onWillPop: () => _onBackPressed(context),
@@ -322,11 +284,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           indicatorColor: Colors.white,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 2.0,
-                          labelStyle: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'RaleWay',
-                          ),
-                          labelColor: Colors.white,
+                          // indicatorSize: TabBarIndicatorSize.label,
+                          labelColor: Color.fromARGB(255, 255, 255, 255),
                           tabs: myTabs,
                           controller: _tabController,
                         )
@@ -441,17 +400,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
+                      // ListTile(
+                      //   trailing: Icon(Icons.logout),
+                      //   onTap: () async {
+                      //     _onSelectItem(0, "TO");
+                      //   },
+                      //   title: Text(
+                      //     "Todays Order",
+                      //     style: TextStyle(fontSize: 17),
+                      //   ),
+                      // ),
                       ListTile(
-                        trailing: Icon(Icons.logout),
-                        onTap: () async {
-                          _onSelectItem(0, "TO");
-                        },
-                        title: Text(
-                          "Todays Order",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      ListTile(
+                        trailing: Icon(Icons.arrow_downward),
                         onTap: () async {
                           _onSelectItem(0, "DP");
                         },
@@ -480,24 +440,24 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      ListTile(
-                        onTap: () async {
-                          _onSelectItem(0, "RP");
-                        },
-                        title: Text(
-                          "Report",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      ListTile(
-                        onTap: () async {
-                          _onSelectItem(0, "HR");
-                        },
-                        title: Text(
-                          "History",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
+                      // ListTile(
+                      //   onTap: () async {
+                      //     _onSelectItem(0, "RP");
+                      //   },
+                      //   title: Text(
+                      //     "Report",
+                      //     style: TextStyle(fontSize: 17),
+                      //   ),
+                      // ),
+                      // ListTile(
+                      //   onTap: () async {
+                      //     _onSelectItem(0, "HR");
+                      //   },
+                      //   title: Text(
+                      //     "History",
+                      //     style: TextStyle(fontSize: 17),
+                      //   ),
+                      // ),
                       ListTile(
                         trailing: Icon(Icons.logout),
                         onTap: () async {
@@ -528,16 +488,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             controller: _tabController,
             children: myTabs.map((Tab tab) {
               final String label = tab.text!.toLowerCase();
-
               return Center(
                 child: Container(
-                    child: loadDelay
-                        ? _getDrawerItemWidget(
-                            menu_index,
-                          )
-                        : SpinKitCircle(
-                            color: P_Settings.wavecolor,
-                          )),
+                  child: _getDrawerItemWidget(
+                    menu_index,
+                  ),
+                ),
               );
             }).toList(),
           ),

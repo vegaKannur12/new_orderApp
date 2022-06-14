@@ -8,7 +8,7 @@ class Uploaddata extends StatefulWidget {
   String? title;
   String cid;
   String type;
-  Uploaddata({required this.cid, required this.type,this.title});
+  Uploaddata({required this.cid, required this.type, this.title});
 
   @override
   State<Uploaddata> createState() => _UploaddataState();
@@ -19,6 +19,7 @@ class _UploaddataState extends State<Uploaddata> {
   List<String> uploadItems = [
     "Upload Orders",
     "Upload Sales",
+    "Upload Customer"
   ];
   @override
   void initState() {
@@ -86,6 +87,10 @@ class _UploaddataState extends State<Uploaddata> {
                                   .uploadOrdersData(widget.cid, context);
                             }
                             if (uploadItems[index] == "Upload Sales") {
+                              // Provider.of<Controller>(context, listen: false)
+                              //     .getProductCategory(cid!, "");
+                            }
+                            if (uploadItems[index] == "Upload Customer") {
                               // Provider.of<Controller>(context, listen: false)
                               //     .getProductCategory(cid!, "");
                             }

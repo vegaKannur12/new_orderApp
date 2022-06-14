@@ -127,12 +127,6 @@ class _MainDashboardState extends State<MainDashboard> {
                                   SizedBox(
                                     width: size.width * 0.04,
                                   ),
-                                  Flexible(
-                                    child: Text(value.areaSelecton == null
-                                        ? ""
-                                        : value.areaSelecton!),
-                                  ),
-                                  // Spacer(),
                                   IconButton(
                                       onPressed: () {
                                         buildPopupDialog(context, size);
@@ -141,6 +135,13 @@ class _MainDashboardState extends State<MainDashboard> {
                                         Icons.place,
                                         color: Colors.red,
                                       )),
+                                  Flexible(
+                                    child: Text(value.areaSelecton == null
+                                        ? ""
+                                        : value.areaSelecton!),
+                                  ),
+                                  // Spacer(),
+                                  
                                 ],
                               ),
                               Divider(
