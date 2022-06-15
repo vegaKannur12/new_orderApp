@@ -19,6 +19,7 @@ import 'package:orderapp/screen/ORDER/todaysOrder.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../components/commoncolor.dart';
 import '6_orderForm.dart';
 
 class Dashboard extends StatefulWidget {
@@ -32,7 +33,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
-  
   TabController? _tabController;
   static const List<Tab> myTabs = <Tab>[
     Tab(
@@ -251,7 +251,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     title,
                     style: TextStyle(fontSize: 16),
                   ),
-                  backgroundColor: Colors.white,
+                  backgroundColor: P_Settings.wavecolor,
                   bottom: PreferredSize(
                     preferredSize: Size.fromHeight(6.0),
                     child: Consumer<Controller>(
@@ -273,7 +273,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   // title: Text("Company Details",style: TextStyle(fontSize: 20),),
                 )
               : AppBar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: menu_index == "S1" ||
+                          menu_index == "0" ||
+                          menu_index == "1" ||
+                          menu_index == "2" ||
+                          menu_index == "3" ||
+                          menu_index == "4"
+                      ? Colors.white
+                      : P_Settings.wavecolor,
 
                   bottom: menu_index == "S1" ||
                           menu_index == "1" ||
@@ -297,7 +304,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       : null,
                   leading: Builder(
                     builder: (context) => IconButton(
-                        icon: new Icon(Icons.menu,color: Color.fromARGB(255, 58, 54, 54),),
+                        icon: new Icon(
+                          Icons.menu,
+                          color: menu_index == "S1" ||
+                                menu_index == "0" ||
+                                menu_index == "1" ||
+                                menu_index == "2" ||
+                                menu_index == "3" ||
+                                menu_index == "4"
+                            ? P_Settings.wavecolor
+                            : Colors.white,
+                        ),
                         onPressed: () {
                           Provider.of<Controller>(context, listen: false)
                               .getCompanyData();
@@ -358,7 +375,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 ),
 
           drawer: Drawer(
-            
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(

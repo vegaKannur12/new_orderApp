@@ -38,17 +38,7 @@ class _MainDashboardState extends State<MainDashboard> {
           .selectTotalPrice(sid!, s[0]);
       Provider.of<Controller>(context, listen: false)
           .selectCollectionPrice(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false).shopvisited(sid!, s[0]);
-      // Provider.of<Controller>(context, listen: false)
-      //     .selectOrderCount(sid!, s[0]);
-      // Provider.of<Controller>(context, listen: false)
-      //     .collectionCountFun(sid!, s[0]);
-      // Provider.of<Controller>(context, listen: false)
-      //     .remarkCountfun(sid!, s[0]);
-      // Provider.of<Controller>(context, listen: false)
-      //     .remarkCountfun(sid!, s[0]);
-      // Provider.of<Controller>(context, listen: false).shopvisited();
-      Provider.of<Controller>(context, listen: false).countCustomer();
+      Provider.of<Controller>(context, listen: false).mainDashtileValues(sid!, s[0]);
     });
   }
 
@@ -185,7 +175,7 @@ class _MainDashboardState extends State<MainDashboard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "No shop visited",
-                                  "${value.customerCount != null ? value.customerCount : "0"}"),
+                                  "${value.noshopVisited != null ? value.noshopVisited: "0"}"),
                             ),
                           ],
                         ),

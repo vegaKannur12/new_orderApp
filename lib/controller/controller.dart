@@ -1423,7 +1423,7 @@ class Controller extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  shopvisited(String sid, String date) async {
+  mainDashtileValues(String sid, String date) async {
     print("haiii pty");
     orderCount = await OrderAppDB.instance.countCommonQuery(
         "orderMasterTable", " userid='$sid' AND orderdate='$date'");
@@ -1580,16 +1580,5 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  countCustomer() async {
-    var res = await OrderAppDB.instance.countCustomer();
-    customerCount = res.length;
-    print("custmerCount----$customerCount");
-
-    // int? noShopvisited=customerCount!-int.parse(remarkCount);
-    notifyListeners();
-  }
-  // customerCreation(){
-  //   accountHead = AccountHead.fromJson(ahead);
-  //       var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
-  // }
+  
 }
