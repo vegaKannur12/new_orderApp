@@ -32,13 +32,15 @@ class _MainDashboardState extends State<MainDashboard> {
     sid = prefs.getString('sid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
-    Future.delayed(Duration(milliseconds: 1000), () {
-      Provider.of<Controller>(context, listen: false).getArea(sid!);
-      Provider.of<Controller>(context, listen: false)
+    Future.delayed(Duration(milliseconds: 1000), () async {
+      if (!mounted) return;
+      await Provider.of<Controller>(context, listen: false).getArea(sid!);
+      await Provider.of<Controller>(context, listen: false)
           .selectTotalPrice(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false)
+      await Provider.of<Controller>(context, listen: false)
           .selectCollectionPrice(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false).mainDashtileValues(sid!, s[0]);
+      await Provider.of<Controller>(context, listen: false)
+          .mainDashtileValues(sid!, s[0]);
     });
   }
 
@@ -175,7 +177,7 @@ class _MainDashboardState extends State<MainDashboard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "No shop visited",
-                                  "${value.noshopVisited != null ? value.noshopVisited: "0"}"),
+                                  "${value.noshopVisited != null ? value.noshopVisited : "0"}"),
                             ),
                           ],
                         ),

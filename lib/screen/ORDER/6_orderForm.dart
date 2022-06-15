@@ -179,14 +179,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(height: size.height * 0.01),
-                                  Flexible(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 15),
-                                      child: Text(
-                                        "Area/Route",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 15),
+                                    child: Text(
+                                      "Area/Route",
+                                      style: TextStyle(
+                                        fontSize: 16,
                                       ),
                                     ),
                                   ),
@@ -344,14 +342,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   SizedBox(height: size.height * 0.02),
-                                  Flexible(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 15),
-                                      child: Text("Customer",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          )),
-                                    ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15),
+                                    child: Text("Customer",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        )),
                                   ),
                                   SizedBox(height: size.height * 0.01),
                                   Padding(
@@ -1038,60 +1034,58 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 Container(
                                                   width: size.width * 0.27,
                                                   height: size.height * 0.05,
-                                                  child: Flexible(
-                                                    child: ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          primary: P_Settings
-                                                              .dashbordcl2,
-                                                          shape:
-                                                              new RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                new BorderRadius
-                                                                        .circular(
-                                                                    10.0),
-                                                          ),
+                                                  child: ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        primary: P_Settings
+                                                            .dashbordcl2,
+                                                        shape:
+                                                            new RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              new BorderRadius
+                                                                      .circular(
+                                                                  10.0),
                                                         ),
-                                                        onPressed: () async {
-                                                          if (_formKey
-                                                              .currentState!
-                                                              .validate()) {
-                                                            await Provider.of<
-                                                                        Controller>(
+                                                      ),
+                                                      onPressed: () async {
+                                                        if (_formKey
+                                                            .currentState!
+                                                            .validate()) {
+                                                          await Provider.of<
+                                                                      Controller>(
+                                                                  context,
+                                                                  listen:
+                                                                      false)
+                                                              .getBalance(cid,
+                                                                  custmerId);
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                popup.buildPopupDialog(
                                                                     context,
-                                                                    listen:
-                                                                        false)
-                                                                .getBalance(cid,
-                                                                    custmerId);
-                                                            showDialog(
-                                                              context: context,
-                                                              builder: (BuildContext
-                                                                      context) =>
-                                                                  popup.buildPopupDialog(
-                                                                      context,
-                                                                      '\u{20B9}${values.balanceModel.ba}'),
-                                                            );
-                                                          }
-                                                          setState(() {
-                                                            balVisible =
-                                                                !balVisible;
-                                                          });
+                                                                    '\u{20B9}${values.balanceModel.ba}'),
+                                                          );
+                                                        }
+                                                        setState(() {
+                                                          balVisible =
+                                                              !balVisible;
+                                                        });
 
-                                                          print(
-                                                              "cid.........$cid,$custmerId");
-                                                          FocusScopeNode
-                                                              currentFocus =
-                                                              FocusScope.of(
-                                                                  context);
+                                                        print(
+                                                            "cid.........$cid,$custmerId");
+                                                        FocusScopeNode
+                                                            currentFocus =
+                                                            FocusScope.of(
+                                                                context);
 
-                                                          if (!currentFocus
-                                                              .hasPrimaryFocus) {
-                                                            currentFocus
-                                                                .unfocus();
-                                                          }
-                                                        },
-                                                        child: Text("Balance")),
-                                                  ),
+                                                        if (!currentFocus
+                                                            .hasPrimaryFocus) {
+                                                          currentFocus
+                                                              .unfocus();
+                                                        }
+                                                      },
+                                                      child: Text("Balance")),
                                                 ),
                                               ],
                                             )

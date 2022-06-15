@@ -24,6 +24,7 @@ class _TodayCollectionState extends State<TodayCollection> {
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
     Future.delayed(const Duration(milliseconds: 1000), () async {
+      if (!mounted) return;
       await Provider.of<Controller>(context, listen: false)
           .todayCollection(formattedDate!, context);
     });

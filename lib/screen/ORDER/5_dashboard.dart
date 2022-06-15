@@ -193,7 +193,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "1":
         return new TodaysOrder();
       case "2":
-        return new TodayCollection();
+        return TodayCollection();
       case "3":
         return new TodaySale();
       case "4":

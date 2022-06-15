@@ -1117,7 +1117,7 @@ class Controller extends ChangeNotifier {
   }
 
   //////getHistory/////////////////////////////
-  todayOrder(String date, BuildContext context) async {
+   Future<dynamic> todayOrder(String date, BuildContext context) async {
     todayOrderList.clear();
     isLoading = true;
     print("haiiii");

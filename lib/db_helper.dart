@@ -21,7 +21,7 @@ import 'model/staffdetails_model.dart';
 class OrderAppDB {
   DateTime date = DateTime.now();
   String? formattedDate;
-  var aidsplit;   
+  var aidsplit;
   String? areaidfromStaff;
   static final OrderAppDB instance = OrderAppDB._init();
   static Database? _database;
@@ -1067,7 +1067,7 @@ class OrderAppDB {
 
 ////////////////////////left join///////////////////////////
 
-  todayOrder(String date) async {
+  Future<dynamic> todayOrder(String date) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
 
@@ -1080,8 +1080,9 @@ class OrderAppDB {
       return null;
     }
   }
+
   ////////////////////////////////////////////////////////////////
-    Future todayCollection(String date) async {
+   Future<dynamic> todayCollection(String date) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
 
@@ -1186,7 +1187,7 @@ class OrderAppDB {
   }
 
   ////////////////// today order total //////////////////////////////////
-  Future selectSumPlaceOrder(String sid, String todaydate) async {
+  Future<dynamic> selectSumPlaceOrder(String sid, String todaydate) async {
     List<Map<String, dynamic>> result;
     var res;
     String sum;
@@ -1252,8 +1253,6 @@ class OrderAppDB {
     return res;
   }
 
-
-
 ///////////////////////////////////////////////////////
   getReportDataFromOrderDetails() async {
     List<Map<String, dynamic>> result;
@@ -1261,7 +1260,7 @@ class OrderAppDB {
     Database db = await instance.database;
     result = await db.rawQuery(
         'select A.ac_code  as cusid, A.hname as name,A.ac_ad1 as ad1,A.mo as mob , A.ba as bln, Y.ord  as order_value, Y.remark as remark_count , Y.col as collection_sum from accountHeadsTable A  left join (select cid,sum(Ord) as ord, sum(remark) as remark ,sum(col) as col from (select O.customerid cid, sum(O.total_price) Ord,0 remark,0 col from orderMasterTable O group by O.customerid union all select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark , 0 col from remarksTable R group by R.rem_cusid union all select C.rec_cusid cid, 0 Ord , 0 remark, sum(C.rec_amount) col  from collectionTable C group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code  where A.area_id in ($areaidfromStaff) order by Y.ord+ Y.remark+ Y.col desc');
-    
+
     print("result.length-${result.length}");
     if (result.length > 0) {
       print("result-order-----$result");
