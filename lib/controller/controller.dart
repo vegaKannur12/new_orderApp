@@ -30,6 +30,7 @@ class Controller extends ChangeNotifier {
   String? areaSelecton;
   bool isVisible = false;
   bool noData = false;
+  bool noData1 = false;
 
   List<bool> selected = [];
   String? areaidFrompopup;
@@ -115,6 +116,7 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> companyList = [];
   List<Map<String, dynamic>> customerList = [];
   List<Map<String, dynamic>> todayOrderList = [];
+  List<Map<String, dynamic>> todayCollectionList = [];
 
   List<Map<String, dynamic>> copyCus = [];
   List<Map<String, dynamic>> prodctItems = [];
@@ -1135,6 +1137,31 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///////////////////////////////////////////////
+  Future<dynamic> todayCollection(String date, BuildContext context) async {
+    todayCollectionList.clear();
+    isLoading = true;
+    print("haiiii");
+    var result = await OrderAppDB.instance.todayCollection(date);
+
+    print("aftr cut----$result");
+    if (result != null) {
+      for (var item in result) {
+        todayCollectionList.add(item);
+      }
+      isExpanded = List.generate(todayCollectionList.length, (index) => false);
+      isVisibleTable =
+          List.generate(todayCollectionList.length, (index) => false);
+    } else {
+      noData1 = true;
+      notifyListeners();
+    }
+
+    print("todayCollectionList----$todayCollectionList");
+    isLoading = false;
+    notifyListeners();
+  }
+
   /////////////////////////////////////////////
   getHistoryData(String table, String? condition) async {
     isLoading = true;
@@ -1529,7 +1556,7 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  fetchtotalcollectionFromTable(String custmerId, String todaydate) async {
+  fetchtotalcollectionFromTable(String todaydate) async {
     collectionList.clear();
     isLoading = true;
     var res = await OrderAppDB.instance
@@ -1542,10 +1569,8 @@ class Controller extends ChangeNotifier {
       noData = true;
       notifyListeners();
     }
-
-    print("remarkList----${collectionList}");
+    print("collectionList----${collectionList}");
     isLoading = false;
-
     notifyListeners();
   }
 
@@ -1560,7 +1585,6 @@ class Controller extends ChangeNotifier {
       collectionList.add(menu);
     }
     print("collectionList----${collectionList}");
-
     notifyListeners();
   }
   // customerCreation(){

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -307,11 +308,21 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                   child: Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: TextFormField(
-                                        controller: mob,
-                                        keyboardType: TextInputType.number,
-                                        decoration: new InputDecoration(
-                                          border: InputBorder.none,
-                                        )),
+                                      controller: mob,
+                                      keyboardType: TextInputType.number,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                      ),
+                                      // onChanged: (val) {},
+                                      // validator: (text) {
+                                      //   if (text == null || text.isEmpty) {
+                                      //     return 'Please Enter Your Mobile Number';
+                                      //   } else if (text.length != 10) {
+                                      //     return 'Please check your mobile number';
+                                      //   }
+                                      //   return null;
+                                      // },
+                                    ),
                                   ),
                                 ),
                               ),

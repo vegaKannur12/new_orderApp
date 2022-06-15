@@ -1066,6 +1066,20 @@ class OrderAppDB {
       return null;
     }
   }
+  ////////////////////////////////////////////////////////////////
+    Future todayCollection(String date) async {
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+
+    result = await db.rawQuery(
+        'select accountHeadsTable.hname as cus_name,collectionTable.rec_cusid,collectionTable.rec_cusid,collectionTable.rec_date,collectionTable.rec_amount,collectionTable.rec_note from collectionTable inner join accountHeadsTable on accountHeadsTable.ac_code = collectionTable.rec_cusid where collectionTable.rec_date="${date}" group by collectionTable.id');
+    if (result.length > 0) {
+      print("inner result------$result");
+      return result;
+    } else {
+      return null;
+    }
+  }
   //////////////select total amount form ordermasterTable ////////////
 
   selectCommonQuery(String table, String? condition) async {

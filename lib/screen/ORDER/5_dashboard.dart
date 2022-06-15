@@ -15,6 +15,7 @@ import 'package:orderapp/screen/ORDER/6_historypage.dart';
 import 'package:orderapp/screen/ORDER/6_uploaddata.dart';
 import 'package:orderapp/screen/ORDER/6_settings.dart';
 import 'package:orderapp/screen/ORDER/todayCollection.dart';
+import 'package:orderapp/screen/ORDER/todaySale.dart';
 import 'package:orderapp/screen/ORDER/todaysOrder.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
-  
   TabController? _tabController;
   static const List<Tab> myTabs = <Tab>[
     Tab(
@@ -193,6 +193,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return new TodaysOrder();
       case "2":
         return new TodayCollection();
+      case "3":
+        return new TodaySale();
       case "4":
         Provider.of<Controller>(context, listen: false).setFilter(false);
         Provider.of<Controller>(context, listen: false)
@@ -297,7 +299,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       : null,
                   leading: Builder(
                     builder: (context) => IconButton(
-                        icon: new Icon(Icons.menu,color: Color.fromARGB(255, 58, 54, 54),),
+                        icon: new Icon(
+                          Icons.menu,
+                          color: Color.fromARGB(255, 58, 54, 54),
+                        ),
                         onPressed: () {
                           Provider.of<Controller>(context, listen: false)
                               .getCompanyData();
@@ -358,7 +363,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 ),
 
           drawer: Drawer(
-            
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
@@ -446,24 +450,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      // ListTile(
-                      //   onTap: () async {
-                      //     _onSelectItem(0, "RP");
-                      //   },
-                      //   title: Text(
-                      //     "Report",
-                      //     style: TextStyle(fontSize: 17),
-                      //   ),
-                      // ),
-                      // ListTile(
-                      //   onTap: () async {
-                      //     _onSelectItem(0, "HR");
-                      //   },
-                      //   title: Text(
-                      //     "History",
-                      //     style: TextStyle(fontSize: 17),
-                      //   ),
-                      // ),
                       ListTile(
                         trailing: Icon(Icons.logout),
                         onTap: () async {

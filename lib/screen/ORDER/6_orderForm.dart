@@ -439,7 +439,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                       EdgeInsets.only(
                                                           bottom: topInsets +
                                                               size.height *
-                                                                  0.3),
+                                                                  0.34),
                                                   focusNode: fieldFocusNode,
                                                   style: const TextStyle(
                                                       fontWeight:

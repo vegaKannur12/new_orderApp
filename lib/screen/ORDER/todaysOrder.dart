@@ -28,10 +28,10 @@ class _TodaysOrderState extends State<TodaysOrder> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds: 1000), () {
+    Future.delayed(Duration(milliseconds: 1000), () async{
       date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
       s = date!.split(" ");
-      Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
+      await Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
     });
     // Future.delayed(Duration(seconds: 1), () {
     //   WidgetsBinding.instance.addPostFrameCallback((_) => build(context));

@@ -23,9 +23,9 @@ class _TodayCollectionState extends State<TodayCollection> {
     sid = prefs.getString('sid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
-    Future.delayed(const Duration(milliseconds: 500), () async {
+    Future.delayed(const Duration(milliseconds: 1000), () async {
       await Provider.of<Controller>(context, listen: false)
-          .fetchtotalcollectionFromTable(sid!, formattedDate!);
+          .todayCollection(formattedDate!, context);
     });
   }
 
@@ -49,7 +49,7 @@ class _TodayCollectionState extends State<TodayCollection> {
               color: P_Settings.wavecolor,
             );
           } else {
-            if (value.noData) {
+            if (value.noData1) {
               return Container(
                 height: size.height * 0.7,
                 width: double.infinity,
@@ -71,7 +71,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                         // color: P_Settings.collection,
                         height: size.height * 0.7,
                         child: ListView.builder(
-                          itemCount: value.collectionList.length,
+                          itemCount: value.todayCollectionList.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -96,10 +96,19 @@ class _TodayCollectionState extends State<TodayCollection> {
                                             ),
                                             SizedBox(width: size.width * 0.03),
                                             Text(
-                                              "\u{20B9}${value.collectionList[index]['rec_amount'].toString()}",
+                                              "\u{20B9}${value.todayCollectionList[index]['cus_name'].toString()} ",
                                               style: TextStyle(
+                                                  color: Colors.grey[700],
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16),
+                                            ),
+                                            Text(
+                                              " - ${value.todayCollectionList[index]['rec_cusid'].toString()}",
+                                              style: TextStyle(
+                                                  color: Colors.grey[700],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle: FontStyle.italic,
+                                                  fontSize: 14),
                                             ),
                                           ],
                                         ),
@@ -112,13 +121,10 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                       const EdgeInsets.only(
                                                           left: 53),
                                                   child: Text(
-                                                    "${value.collectionList[index]['rec_cusid'].toString()}",
+                                                    "\u{20B9}${value.todayCollectionList[index]['rec_amount'].toString()}",
                                                     style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 16,
-                                                        color: P_Settings
-                                                            .dashbordcl1),
+                                                        color: Colors.grey[700],
+                                                        fontSize: 16),
                                                   ),
                                                 ),
                                               ],
@@ -134,7 +140,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                       const EdgeInsets.only(
                                                           left: 53),
                                                   child: Text(
-                                                    "${value.collectionList[index]['rec_note'].toString()}",
+                                                    "${value.todayCollectionList[index]['rec_note'].toString()}",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.normal,
