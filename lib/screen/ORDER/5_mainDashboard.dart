@@ -44,6 +44,8 @@ class _MainDashboardState extends State<MainDashboard> {
           .collectionCountFun(sid!, s[0]);
       Provider.of<Controller>(context, listen: false)
           .remarkCountfun(sid!, s[0]);
+      Provider.of<Controller>(context, listen: false)
+          .remarkCountfun(sid!, s[0]);
     });
   }
 
@@ -117,8 +119,8 @@ class _MainDashboardState extends State<MainDashboard> {
                                     Icons.place,
                                     color: Colors.red,
                                   )),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
+                              Expanded(
+                                // scrollDirection: Axis.horizontal,
                                 child: Text(value.areaSelecton == null
                                     ? ""
                                     : value.areaSelecton!),
@@ -165,7 +167,11 @@ class _MainDashboardState extends State<MainDashboard> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "Shops visited", ""),
+                              child: customcard(
+                                size,
+                                "Shops visited",
+                                "${value.remarkCount.length != 0 && value.remarkCount[0]['S'] != null && value.remarkCount.isNotEmpty ? (value.remarkCount[0]['S'] + value.collectionCount[0]['S'] + value.orderCount[0]['S']) : "0"}",
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
