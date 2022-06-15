@@ -30,6 +30,8 @@ class Controller extends ChangeNotifier {
   bool isVisible = false;
   bool noData = false;
   bool noData1 = false;
+  bool noreportdata = false;
+
   int? shopVisited;
   int? noshopVisited;
 
@@ -1311,7 +1313,9 @@ class Controller extends ChangeNotifier {
         reportData.add(item);
       }
     } else {
-      snackbar.showSnackbar(context, "please download customers !!!");
+      noreportdata=true;
+      notifyListeners();
+      // snackbar.showSnackbar(context, "please download customers !!!");
     }
     isLoading = false;
     notifyListeners();
