@@ -91,6 +91,7 @@ class _MainDashboardState extends State<MainDashboard> {
                           // color: P_Settings.collection,
                           child: Column(
                             children: [
+                              SizedBox(height: size.height*0.02,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -134,15 +135,18 @@ class _MainDashboardState extends State<MainDashboard> {
                                         Icons.place,
                                         color: Colors.red,
                                       )),
-                                  Text(value.areaSelecton == null
-                                      ? ""
-                                      : value.areaSelecton!),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(value.areaSelecton == null
+                                        ? ""
+                                        : value.areaSelecton!),
+                                  ),
                                   // Spacer(),
                                 ],
                               ),
-                              Divider(
-                                thickness: 1,
-                              ),
+                              // Divider(
+                              //   thickness: 1,
+                              // ),
                             ],
                           ),
                         ),
@@ -150,7 +154,7 @@ class _MainDashboardState extends State<MainDashboard> {
                           "Todays",
                           style: TextStyle(
                               fontSize: 20,
-                              color: P_Settings.wavecolor,
+                              color: Colors.grey[700],
                               fontWeight: FontWeight.bold),
                         ),
                         // SizedBox(height: size.height*01,),
@@ -200,7 +204,7 @@ class _MainDashboardState extends State<MainDashboard> {
                               "Todays Collection",
                               style: TextStyle(
                                   fontSize: 20,
-                                  color: P_Settings.wavecolor,
+                                  color: Colors.grey[700],
                                   fontWeight: FontWeight.bold),
                             )
                           ],

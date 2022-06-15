@@ -251,7 +251,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     title,
                     style: TextStyle(fontSize: 16),
                   ),
-                  backgroundColor: P_Settings.wavecolor,
+                  backgroundColor: Colors.white,
                   bottom: PreferredSize(
                     preferredSize: Size.fromHeight(6.0),
                     child: Consumer<Controller>(
@@ -273,6 +273,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   // title: Text("Company Details",style: TextStyle(fontSize: 20),),
                 )
               : AppBar(
+                  backgroundColor: Colors.white,
+
                   bottom: menu_index == "S1" ||
                           menu_index == "1" ||
                           menu_index == "2" ||
@@ -284,18 +286,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           // indicator: BoxDecoration(
                           //     borderRadius: BorderRadius.circular(50),
                           //     color: Colors.grey),
-                          indicatorColor: Colors.white,
+                          indicatorColor: P_Settings.wavecolor,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 2.0,
                           // indicatorSize: TabBarIndicatorSize.label,
-                          labelColor: Color.fromARGB(255, 255, 255, 255),
+                          labelColor: Color.fromARGB(255, 58, 54, 54),
                           tabs: myTabs,
                           controller: _tabController,
                         )
                       : null,
                   leading: Builder(
                     builder: (context) => IconButton(
-                        icon: new Icon(Icons.menu),
+                        icon: new Icon(Icons.menu,color: Color.fromARGB(255, 58, 54, 54),),
                         onPressed: () {
                           Provider.of<Controller>(context, listen: false)
                               .getCompanyData();
@@ -338,7 +340,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         }),
                   ),
                   elevation: 0,
-                  backgroundColor: P_Settings.wavecolor,
+                  // backgroundColor: P_Settings.wavecolor,
                   actions: [
                     IconButton(
                       onPressed: () async {
@@ -356,6 +358,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 ),
 
           drawer: Drawer(
+            
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
