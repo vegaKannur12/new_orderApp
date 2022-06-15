@@ -85,49 +85,26 @@ class _MainDashboardState extends State<MainDashboard> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Container(
-                          height: size.height * 0.08,
-                          width: double.infinity,
-                          // color: P_Settings.collection,
-                          child: Column(
-                            children: [
-                              SizedBox(height: size.height*0.02,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: CircleAvatar(
+                        ListTile(
+                          leading: CircleAvatar(
                                       radius: 15,
                                       child: Icon(
                                         Icons.person,
                                         color: P_Settings.wavecolor,
-                                      ),
-                                      backgroundColor:
-                                          Color.fromARGB(255, 214, 201, 200),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: size.width * 0.01,
-                                  ),
-                                  Text("${value.cname}",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: P_Settings.wavecolor)),
-                                  SizedBox(
-                                    width: size.width * 0.01,
-                                  ),
-                                  Text("- ${value.sname}",
+                                      ),),
+                          title:Row(
+                            children: [
+                              Text("${value.cname}",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: P_Settings.wavecolor)),
+                                              Text(" - ${value.sname}",
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
-                                          color: P_Settings.collection1)),
-                                  // Spacer(),
-                                  SizedBox(
-                                    width: size.width * 0.04,
-                                  ),
-                                  IconButton(
+                                          color: P_Settings.collection1,fontStyle: FontStyle.italic)),
+                              IconButton(
                                       onPressed: () {
                                         buildPopupDialog(context, size);
                                       },
@@ -141,15 +118,10 @@ class _MainDashboardState extends State<MainDashboard> {
                                         ? ""
                                         : value.areaSelecton!),
                                   ),
-                                  // Spacer(),
-                                ],
-                              ),
-                              // Divider(
-                              //   thickness: 1,
-                              // ),
                             ],
-                          ),
+                          ), 
                         ),
+                       
                         Text(
                           "Todays",
                           style: TextStyle(
