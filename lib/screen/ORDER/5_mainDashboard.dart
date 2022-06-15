@@ -357,7 +357,7 @@ class _MainDashboardState extends State<MainDashboard> {
               // ),
               Text(title.toString(),
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
               Text(value.toString(),
