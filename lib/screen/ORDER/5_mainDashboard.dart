@@ -333,7 +333,18 @@ class _MainDashboardState extends State<MainDashboard> {
               Container(
                 height: size.height * 0.1,
                 width: size.width * 0.12,
-                child:title == "Orders"? Image.asset("asset/3.png"):title == "Collection"?Image.asset("asset/4.png"):title == "Sales"?Image.asset("asset/2.png"):title == "Shops visited"?Image.asset("asset/5.png"):title == "No shop visited"?Image.asset("asset/5.png"):null,
+                child: title == "Orders"
+                    ? Image.asset("asset/3.png")
+                    : title == "Collection"
+                        ? Image.asset("asset/4.png")
+                        : title == "Sales"
+                            ? Image.asset("asset/2.png")
+                            : title == "Shops visited"
+                                ? Image.asset("asset/5.png")
+                                : title == "No shop visited"
+                                    ? Image.asset("asset/6.png")
+                                    : title == "Return"
+                                    ? Image.asset("asset/7.png"):null,
               ),
               // Padding(
               //   padding: const EdgeInsets.all(8.0),
@@ -348,14 +359,11 @@ class _MainDashboardState extends State<MainDashboard> {
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(value.toString(),
-                    style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white)),
-              ),
+              Text(value.toString(),
+                  style: TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
             ],
           ),
         ),
