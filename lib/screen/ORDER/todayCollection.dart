@@ -55,7 +55,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                 width: double.infinity,
                 child: Center(
                     child: Text(
-                  "No Orders!!!",
+                  "No Collections!!!",
                   style: TextStyle(
                     fontSize: 19,
                   ),
@@ -75,22 +75,99 @@ class _TodayCollectionState extends State<TodayCollection> {
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  child: Icon(
-                                    Icons.reviews,
-                                    size: 16,
+                              child: Container(
+                                height: size.height * 0.15,
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            CircleAvatar(
+                                              child: Icon(
+                                                Icons.reviews,
+                                                size: 13,
+                                              ),
+                                              backgroundColor:
+                                                  P_Settings.roundedButtonColor,
+                                            ),
+                                            SizedBox(width: size.width * 0.03),
+                                            Text(
+                                              "\u{20B9}${value.collectionList[index]['rec_amount'].toString()}",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 53),
+                                                  child: Text(
+                                                    "${value.collectionList[index]['rec_cusid'].toString()}",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 16,
+                                                        color: P_Settings
+                                                            .dashbordcl1),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: size.height * 0.01,
+                                            ),
+                                            // Divider(),
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 53),
+                                                  child: Text(
+                                                    "${value.collectionList[index]['rec_note'].toString()}",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 16,
+                                                        color: P_Settings
+                                                            .dashbordcl2),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  backgroundColor:
-                                      P_Settings.roundedButtonColor,
                                 ),
-                                title: Text(
-                                  "\u{20B9}${value.collectionList[index]['rec_amount'].toString()}",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                subtitle: Text(
-                                    "\u{20B9}${value.collectionList[index]['rec_cusid'].toString()}"),
                               ),
+                              // ListTile(
+                              //   leading: CircleAvatar(
+                              //     child: Icon(
+                              //       Icons.reviews,
+                              //       size: 16,
+                              //     ),
+                              //     backgroundColor:
+                              //         P_Settings.roundedButtonColor,
+                              //   ),
+                              //   title: Text(
+                              //     "\u{20B9}${value.collectionList[index]['rec_amount'].toString()}",
+                              //     style: TextStyle(fontSize: 16),
+                              //   ),
+                              //   subtitle: Text(
+                              //       "\u{20B9}${value.collectionList[index]['rec_cusid'].toString()} "),
+                              // ),
                             );
                           },
                         ),

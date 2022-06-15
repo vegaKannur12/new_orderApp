@@ -38,11 +38,13 @@ class _MainDashboardState extends State<MainDashboard> {
       Provider.of<Controller>(context, listen: false)
           .selectTotalPrice(sid!, s[0]);
       Provider.of<Controller>(context, listen: false)
-          .selectOrderCount(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false)
           .selectCollectionPrice(sid!, s[0]);
       Provider.of<Controller>(context, listen: false)
+          .selectOrderCount(sid!, s[0]);
+      Provider.of<Controller>(context, listen: false)
           .collectionCountFun(sid!, s[0]);
+      Provider.of<Controller>(context, listen: false)
+          .remarkCountfun(sid!, s[0]);
     });
   }
 
@@ -84,6 +86,7 @@ class _MainDashboardState extends State<MainDashboard> {
                           ),
                       color: Color.fromARGB(255, 255, 255, 255)),
                   child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
                     child: Column(
                       children: [
                         Container(
@@ -141,7 +144,6 @@ class _MainDashboardState extends State<MainDashboard> {
                                         : value.areaSelecton!),
                                   ),
                                   // Spacer(),
-                                  
                                 ],
                               ),
                               Divider(
@@ -377,6 +379,16 @@ class _MainDashboardState extends State<MainDashboard> {
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
+                                                  SizedBox(
+                                                    height: size.height * 0.01,
+                                                  ),
+                                                  Text(
+                                                    "${value.remarkCount.length != 0 && value.remarkCount[0]['S'] != null && value.remarkCount.isNotEmpty ? (value.remarkCount[0]['S'] + value.collectionCount[0]['S'] + value.orderCount[0]['S']) : "0"}",
+                                                    style: TextStyle(
+                                                        color: P_Settings
+                                                            .detailscolor,
+                                                        fontSize: 15),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -400,7 +412,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    "",
+                                                    "No Shop Visited",
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings
@@ -669,7 +681,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    "",
+                                                    "No Shop Visited",
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: P_Settings

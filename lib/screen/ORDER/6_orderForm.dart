@@ -122,14 +122,14 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     return WillPopScope(
       onWillPop: () => _onBackPressed(context),
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        // resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         body: InkWell(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
           },
           child: SingleChildScrollView(
-            // reverse: true,
+            scrollDirection: Axis.vertical,
             child: SafeArea(
               child: Consumer<Controller>(builder: (context, values, child) {
                 print("valuse----${values.areaSelecton}");
@@ -1125,6 +1125,7 @@ Future<bool> _onBackPressed(BuildContext context) async {
       return AlertDialog(
         // title: const Text('AlertDialog Title'),
         content: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
           child: ListBody(
             children: const <Widget>[
               Text('Do you want to exit from this app'),

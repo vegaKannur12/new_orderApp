@@ -485,6 +485,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           // ),
 
           body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             controller: _tabController,
             children: myTabs.map((Tab tab) {
               final String label = tab.text!.toLowerCase();
@@ -509,6 +510,7 @@ Future<bool> _onBackPressed(BuildContext context) async {
       return AlertDialog(
         // title: const Text('AlertDialog Title'),
         content: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
           child: ListBody(
             children: const <Widget>[
               Text('Do you want to exit from this app'),

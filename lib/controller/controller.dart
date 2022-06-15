@@ -84,9 +84,11 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> sumPrice = [];
   List<Map<String, dynamic>> collectionsumPrice = [];
   List<Map<String, dynamic>> collectionCount = [];
+  List<Map<String, dynamic>> remarkCount = [];
   List<Map<String, dynamic>> orderCount = [];
 
   List<Map<String, dynamic>> remarkList = [];
+  List<Map<String, dynamic>> remarkStaff = [];
   String? firstMenu;
   List<Map<String, dynamic>> listWidget = [];
   List<TextEditingController> controller = [];
@@ -1412,6 +1414,24 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+/////////////////////////////////////
+  Future<dynamic> remarkCountfun(String sid, String collectDate) async {
+    remarkCount.clear();
+    print("collectDate $sid $collectDate");
+    Map map = {};
+    isLoading = true;
+    var res = await OrderAppDB.instance.remarkCount(sid, collectDate);
+    print("resultssss....$res");
+    if (res.length > 0) {
+      for (var item in res) {
+        remarkCount.add(item);
+      }
+    }
+    print("report-----$remarkCount");
+    isLoading = false;
+    notifyListeners();
+  }
+
 /////////////////////////////////////////////////////////////////
   setFilter(bool filters) {
     filter = filters;
@@ -1498,7 +1518,7 @@ class Controller extends ChangeNotifier {
   }
 
   areaSelection(String area) async {
-    areaidFrompopup=area;
+    areaidFrompopup = area;
     List<Map<String, dynamic>> result = await OrderAppDB.instance
         .selectAllcommon('areaDetailsTable', "aid='${area}'");
     areaSelecton = result[0]["aname"];
@@ -1526,8 +1546,8 @@ class Controller extends ChangeNotifier {
 
     notifyListeners();
   }
-  //////////////////////////////
-   /////////////////////// fetch collection table ////////////
+
+  /////////////////////// fetch collection table ////////////
   fetchrcollectionFromTable(String custmerId, String todaydate) async {
     collectionList.clear();
 

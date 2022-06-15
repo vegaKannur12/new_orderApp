@@ -1244,8 +1244,31 @@ class OrderAppDB {
 
     return res;
   }
-//////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////
+  Future<dynamic> remarkCount(String sid, String collectDate) async {
+    print("sid.....$sid");
+    List<Map<String, dynamic>> result;
+    var res;
+    String remarkCount;
+    Database db = await instance.database;
+
+    result = await db.rawQuery(
+        "SELECT COUNT(id) as S FROM remarksTable WHERE rem_staffid='$sid' AND rem_date='$collectDate'");
+    print("result-order-----$result");
+    if (result != null && result.isNotEmpty && result != null) {
+      res = await db.rawQuery(
+          "SELECT COUNT(id) as S FROM remarksTable WHERE rem_staffid='$sid' AND rem_date='$collectDate'");
+      remarkCount = res[0]["S"].toString();
+      print("sum from db----$remarkCount");
+    } else {
+      remarkCount = "0.0";
+    }
+
+    return res;
+  }
+
+///////////////////////////////////////////////////////
   getReportDataFromOrderDetails() async {
     List<Map<String, dynamic>> result;
 
