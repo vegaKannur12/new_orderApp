@@ -659,6 +659,7 @@ class Controller extends ChangeNotifier {
       for (var item in customerList) {
         custmerDetails.add(item);
       }
+      print("custmr length----${custmerDetails.length}");
       print("custmerDetails adding $custmerDetails");
       notifyListeners();
     } catch (e) {
