@@ -1484,75 +1484,75 @@ class Controller extends ChangeNotifier {
     // notifyListeners();
   }
 
-  filterReports(
-      String fltrType, double? minPrice, double? maxPrice, String? remark) {
-    filterList.clear();
-    print("minPrice-maxPrice-$minPrice--$maxPrice");
-    isLoading = true;
-    notifyListeners();
-    if (fltrType == "balance") {
-      filterList = reportData.where((element) {
-        //  print('${element["bln"].runtimeType}') ;
-        return (element["bln"] > minPrice && element["bln"] < maxPrice);
-        // return (element["bln"] > minPrice && element["bln"] < maxPrice);
-      }).toList();
-      isLoading = false;
+  // filterReports(
+  //     String fltrType, double? minPrice, double? maxPrice, String? remark) {
+  //   filterList.clear();
+  //   print("minPrice-maxPrice-$minPrice--$maxPrice");
+  //   isLoading = true;
+  //   notifyListeners();
+  //   if (fltrType == "balance") {
+  //     filterList = reportData.where((element) {
+  //       //  print('${element["bln"].runtimeType}') ;
+  //       return (element["bln"] > minPrice && element["bln"] < maxPrice);
+  //       // return (element["bln"] > minPrice && element["bln"] < maxPrice);
+  //     }).toList();
+  //     isLoading = false;
 
-      notifyListeners();
-    }
-    if (fltrType == "order amount") {
-      for (var item in reportData) {
-        if (item["order_value"] != null && item["order_value"] != 0) {
-          if (item["order_value"] > minPrice &&
-              item["order_value"] < maxPrice) {
-            filterList.add(item);
-          }
-        }
-      }
+  //     notifyListeners();
+  //   }
+  //   if (fltrType == "order amount") {
+  //     for (var item in reportData) {
+  //       if (item["order_value"] != null && item["order_value"] != 0) {
+  //         if (item["order_value"] > minPrice &&
+  //             item["order_value"] < maxPrice) {
+  //           filterList.add(item);
+  //         }
+  //       }
+  //     }
 
-      // print('hfjkd----$filterList');
-      isLoading = false;
-      notifyListeners();
-    }
+  //     // print('hfjkd----$filterList');
+  //     isLoading = false;
+  //     notifyListeners();
+  //   }
 
-    if (fltrType == "collection") {
-      for (var item in reportData) {
-        if (item["collection_sum"] != null && item["collection_sum"] != 0) {
-          if (item["collection_sum"] > minPrice &&
-              item["collection_sum"] < maxPrice) {
-            filterList.add(item);
-          }
-        }
-      }
+  //   if (fltrType == "collection") {
+  //     for (var item in reportData) {
+  //       if (item["collection_sum"] != null && item["collection_sum"] != 0) {
+  //         if (item["collection_sum"] > minPrice &&
+  //             item["collection_sum"] < maxPrice) {
+  //           filterList.add(item);
+  //         }
+  //       }
+  //     }
 
-      // print('hfjkd----$filterList');
-      isLoading = false;
-      notifyListeners();
-    }
-    if (fltrType == "remark") {
-      if (remark == "Remarked") {
-        filterList = reportData.where((element) {
-          //  print('${element["bln"].runtimeType}') ;
-          return (element["remark_count"] != null &&
-              element["remark_count"] != 0);
-          // return (element["bln"] > minPrice && element["bln"] < maxPrice);
-        }).toList();
-      } else {
-        filterList = reportData.where((element) {
-          //  print('${element["bln"].runtimeType}') ;
-          return (element["remark_count"] == null ||
-              element["remark_count"] == 0);
-          // return (element["bln"] > minPrice && element["bln"] < maxPrice);
-        }).toList();
-      }
+  //     // print('hfjkd----$filterList');
+  //     isLoading = false;
+  //     notifyListeners();
+  //   }
+  //   if (fltrType == "remark") {
+  //     if (remark == "Remarked") {
+  //       filterList = reportData.where((element) {
+  //         //  print('${element["bln"].runtimeType}') ;
+  //         return (element["remark_count"] != null &&
+  //             element["remark_count"] != 0);
+  //         // return (element["bln"] > minPrice && element["bln"] < maxPrice);
+  //       }).toList();
+  //     } else {
+  //       filterList = reportData.where((element) {
+  //         //  print('${element["bln"].runtimeType}') ;
+  //         return (element["remark_count"] == null ||
+  //             element["remark_count"] == 0);
+  //         // return (element["bln"] > minPrice && element["bln"] < maxPrice);
+  //       }).toList();
+  //     }
 
-      isLoading = false;
+  //     isLoading = false;
 
-      notifyListeners();
-    }
-    print("filters-----$filterList");
-    notifyListeners();
-  }
+  //     notifyListeners();
+  //   }
+  //   print("filters-----$filterList");
+  //   notifyListeners();
+  // }
 
   toggleExpansion(int index) {
     for (int i = 0; i < isExpanded.length; i++) {
