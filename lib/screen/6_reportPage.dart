@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 
-
 import 'package:provider/provider.dart';
 
 class ReportPage extends StatefulWidget {
@@ -24,7 +23,6 @@ class _ReportPageState extends State<ReportPage> {
     // TODO: implement initState
     super.initState();
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -261,11 +259,18 @@ class _ReportPageState extends State<ReportPage> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(value.filterList[index]["name"],
+                                          RichText(
+                                            overflow: TextOverflow.clip,
+                                            maxLines: 2,
+                                            text: TextSpan(
+                                              text:
+                                                  '${value.filterList[index]["name"]}',
                                               style: TextStyle(
-                                                  fontSize: 20,
+                                                  fontSize: 16,
                                                   fontWeight: FontWeight.bold,
-                                                  color: P_Settings.wavecolor))
+                                                  color: P_Settings.wavecolor),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       SizedBox(
@@ -443,24 +448,38 @@ class _ReportPageState extends State<ReportPage> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                              value.isreportSearch &&
-                                                      value.newreportList
-                                                              .length >
-                                                          0
-                                                  ? value.newreportList[index]
-                                                      ["name"]
-                                                  : value.reportData[index]
-                                                      ["name"],
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: P_Settings.wavecolor))
-                                        ],
+                                      RichText(
+                                        overflow: TextOverflow.clip,
+                                        maxLines: 2,
+                                        text: TextSpan(
+                                          text:
+                                              '${value.isreportSearch && value.newreportList.length > 0 ? value.newreportList[index]["name"] : value.reportData[index]["name"]}',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: P_Settings.wavecolor),
+                                        ),
                                       ),
+                                      // Row(
+                                      //   children: [
+                                      //     Text(
+                                      //         value.isreportSearch &&
+                                      //                 value.newreportList
+                                      //                         .length >
+                                      //                     0
+                                      //             ? value.newreportList[index]
+                                      //                 ["name"]
+                                      //             : value.reportData[index]
+                                      //                 ["name"],
+                                      //         style: TextStyle(
+                                      //             fontSize: 20,
+                                      //             fontWeight: FontWeight.bold,
+                                      //             color: P_Settings.wavecolor))
+                                      //   ],
+                                      // ),
                                       SizedBox(
                                         height: size.height * 0.01,
                                       ),
