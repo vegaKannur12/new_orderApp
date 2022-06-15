@@ -32,8 +32,6 @@ class _ReportPageState extends State<ReportPage> {
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-
-
           /////////////// sort and filter //////////////////////////
           // Container(
           //   width: size.width * 0.3,
@@ -237,193 +235,14 @@ class _ReportPageState extends State<ReportPage> {
                       return Container(
                           // height: size.height * 0.9,
                           width: double.infinity,
-                          child: Center(child: SpinKitFadingCircle(color: P_Settings.wavecolor,)));
+                          child: Center(
+                              child: SpinKitFadingCircle(
+                            color: P_Settings.wavecolor,
+                          )));
                     } else {
                       print("value.filter----${value.filter}");
-                      // if (value.filter) {
-                      //   print("haiiiihskjhfjks");
-                      //   if (value.isLoading) {
-                      //     return CircularProgressIndicator();
-                      //   } else {
-                      //     filter.filterReports(size, value.filterList);
-                      //   }
-                      // }
-
-                      if (value.filter) {
-                        return ListView.builder(
-                          itemCount: value.filterList.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(value.filterList[index]["name"],
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: P_Settings.wavecolor))
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.gps_fixed,
-                                            size: 15,
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text(
-                                            value.filterList[index]["ad1"],
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey[500],
-                                                fontStyle: FontStyle.italic),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.phone,
-                                            size: 15,
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text(value.filterList[index]["mob"],
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey[700],
-                                                fontWeight: FontWeight.bold,
-                                              ))
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.currency_rupee, size: 15),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text(
-                                              value.filterList[index]["bln"]
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.grey[700])),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text("(balance)"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      value.filterList[index]["order_value"] !=
-                                                  null &&
-                                              value.filterList[index]
-                                                      ["order_value"] !=
-                                                  0
-                                          ? Row(
-                                              children: [
-                                                Icon(Icons.currency_rupee,
-                                                    size: 15),
-                                                SizedBox(
-                                                  width: size.width * 0.01,
-                                                ),
-                                                Text(
-                                                    value.filterList[index]
-                                                            ["order_value"]
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color:
-                                                            Colors.grey[700])),
-                                                SizedBox(
-                                                  width: size.width * 0.01,
-                                                ),
-                                                Text("(order)")
-                                              ],
-                                            )
-                                          : Container(),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(children: [
-                                        Container(
-                                            color: Colors.green,
-                                            width: size.width * 0.08,
-                                            height: size.height * 0.03,
-                                            child: value.filterList[index]
-                                                            ["order_value"] !=
-                                                        0 &&
-                                                    value.filterList[index]
-                                                            ["order_value"] !=
-                                                        null
-                                                ? Icon(
-                                                    Icons.done,
-                                                    color: Colors.white,
-                                                  )
-                                                : null),
-                                        Container(
-                                            color: P_Settings.wavecolor,
-                                            width: size.width * 0.08,
-                                            height: size.height * 0.03,
-                                            child: value.filterList[index][
-                                                            "collection_sum"] !=
-                                                        0 &&
-                                                    value.filterList[index][
-                                                            "collection_sum"] !=
-                                                        null
-                                                ? Icon(
-                                                    Icons.done,
-                                                    color: Colors.white,
-                                                  )
-                                                : null),
-                                        Container(
-                                            color:
-                                                P_Settings.roundedButtonColor,
-                                            width: size.width * 0.08,
-                                            height: size.height * 0.03,
-                                            child: value.filterList[index]
-                                                            ["remark_count"] !=
-                                                        0 &&
-                                                    value.filterList[index]
-                                                            ["remark_count"] !=
-                                                        null
-                                                ? Icon(
-                                                    Icons.done,
-                                                    color: Colors.white,
-                                                  )
-                                                : null),
-                                      ])
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }
+                   
+                    
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                       if (value.isreportSearch &&
                           value.newreportList.length == 0) {
