@@ -129,6 +129,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     switch (pos) {
       case "S1":
         {
+          //  Provider.of<Controller>(context, listen: false).getArea(sid!);
           _tabController!.animateTo((0));
           // _tabController!.index = 0;
           print("djs");

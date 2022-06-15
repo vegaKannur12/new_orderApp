@@ -32,14 +32,14 @@ class _MainDashboardState extends State<MainDashboard> {
     sid = prefs.getString('sid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
-    Future.delayed(Duration(milliseconds: 1000), () async {
-      if (!mounted) return;
-      await Provider.of<Controller>(context, listen: false).getArea(sid!);
-      await Provider.of<Controller>(context, listen: false)
+    Future.delayed(Duration(milliseconds: 1000), () async{
+      // Provider.of<Controller>(context, listen: false).getArea(sid!);
+      if(mounted)return;
+      Provider.of<Controller>(context, listen: false)
           .selectTotalPrice(sid!, s[0]);
       await Provider.of<Controller>(context, listen: false)
           .selectCollectionPrice(sid!, s[0]);
-      await Provider.of<Controller>(context, listen: false)
+      Provider.of<Controller>(context, listen: false)
           .mainDashtileValues(sid!, s[0]);
     });
   }
@@ -331,22 +331,24 @@ class _MainDashboardState extends State<MainDashboard> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                  size: 50,
-                ),
+              Container(
+                height: size.height * 0.1,
+                width: size.width * 0.12,
+                child:title == "Orders"? Image.asset("asset/3.png"):title == "Collection"?Image.asset("asset/4.png"):title == "Sales"?Image.asset("asset/2.png"):title == "Shops visited"?Image.asset("asset/5.png"):title == "No shop visited"?Image.asset("asset/5.png"):null,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(title.toString(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white)),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Icon(
+              //     Icons.person,
+              //     color: Colors.white,
+              //     size: 50,
+              //   ),
+              // ),
+              Text(title.toString(),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(value.toString(),

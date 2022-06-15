@@ -28,122 +28,12 @@ class _ReportPageState extends State<ReportPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          /////////////// sort and filter //////////////////////////
-          // Container(
-          //   width: size.width * 0.3,
-          //   child: ElevatedButton(
-          //       onPressed: () {
-          //         showModalBottomSheet<void>(
-          //           context: context,
-          //           builder: (BuildContext context) {
-          //             return Container(
-          //               alignment: Alignment.topLeft,
-          //               height: size.height * 0.25,
-          //               child: Column(
-          //                 crossAxisAlignment: CrossAxisAlignment.center,
-          //                 mainAxisSize: MainAxisSize.min,
-          //                 children: <Widget>[
-          //                   Row(
-          //                     children: [
-          //                       Padding(
-          //                         padding: const EdgeInsets.all(8.0),
-          //                         child: Text(
-          //                           'Name :',
-          //                           style: TextStyle(
-          //                             fontSize: 16,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                       SizedBox(
-          //                         width: size.width * 0.039,
-          //                       ),
-          //                       OutlinedButton(
-          //                           onPressed: () async {
-          //                             // Provider.of<Controller>(context,
-          //                             //         listen: false)
-          //                             //     .setreportsearch(true);
-          //                             // Provider.of<Controller>(context,
-          //                             //         listen: false)
-          //                             //     .sortByNamereport();
-          //                           },
-          //                           child: Text("Assending")),
-          //                     ],
-          //                   ),
-          //                   Row(
-          //                     children: [
-          //                       Padding(
-          //                         padding: const EdgeInsets.all(8.0),
-          //                         child: Text('Balance : ',
-          //                             style: TextStyle(
-          //                               fontSize: 16,
-          //                             )),
-          //                       ),
-          //                       OutlinedButton(
-          //                           onPressed: () async {},
-          //                           child: Text("High to Low")),
-          //                       SizedBox(
-          //                         width: size.width * 0.03,
-          //                       ),
-          //                       OutlinedButton(
-          //                         onPressed: () async {},
-          //                         child: Text("Low to High"),
-          //                       ),
-          //                       Padding(
-          //                         padding: const EdgeInsets.all(8.0),
-          //                         child: Divider(
-          //                           thickness: 2,
-          //                         ),
-          //                       ),
-          //                     ],
-          //                   ),
-          //                   Padding(
-          //                     padding: const EdgeInsets.only(left: 20),
-          //                     child: ElevatedButton(
-          //                       child: const Text('Done'),
-          //                       onPressed: () => Navigator.pop(context),
-          //                     ),
-          //                   )
-          //                 ],
-          //               ),
-          //             );
-          //           },
-          //         );
-          //       },
-          //       style: ElevatedButton.styleFrom(
-          //           primary: P_Settings.bottomNavButton,
-          //           side: BorderSide(
-          //             width: 1.0,
-          //             color: P_Settings.wavecolor,
-          //           )),
-          //       child: Text(
-          //         "Sort",
-          //         style: TextStyle(color: Colors.black),
-          //       ),
-          //       ),
-          // ),
-          // Container(
-          //   width: size.width * 0.3,
-          //   child: ElevatedButton(
-          //       onPressed: () {
-          //         // Navigator.of(context).push(PageRouteBuilder(
-          //         //   opaque: false, // set to false
-          //         //   pageBuilder: (_, __, ___) => FilterReport(),
-          //         // ));
-          //       },
-          //       style: ElevatedButton.styleFrom(
-          //           // primary: Colors.white,
-          //           primary: P_Settings.bottomNavButton,
-          //           side: BorderSide(width: 1.0, color: P_Settings.wavecolor)),
-          //       child: Text(
-          //         "Filters",
-          //         style: TextStyle(color: Colors.black),
-          //       )),
-          // ),
-        ],
-      ),
+      // bottomNavigationBar: Row(
+      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //   children: [
+         
+      //   ],
+      // ),
       resizeToAvoidBottomInset: false,
       // appBar: AppBar(
       //   backgroundColor:P_Settings.wavecolor

@@ -240,289 +240,344 @@ class _ReportPageState extends State<ReportPage> {
                             color: P_Settings.wavecolor,
                           )));
                     } else {
-                      print("value.filter----${value.filter}");
-                   
-                    
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                      if (value.isreportSearch &&
-                          value.newreportList.length == 0) {
+                      if (value.noreportdata) {
                         return Container(
-                          height: size.height * 0.8,
-                          child: Text("No Customer !!!"),
+                          height: size.height * 0.7,
+                          width: double.infinity,
+                          child: Center(
+                              child: Text(
+                            "Please Download Customers!!!",
+                            style: TextStyle(
+                              fontSize: 19,
+                            ),
+                          )),
                         );
                       } else {
-                        return ListView.builder(
-                          itemCount: value.isreportSearch &&
-                                  value.newreportList.length > 0
-                              ? value.newreportList.length
-                              : value.reportData.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
+                        if (value.isreportSearch &&
+                            value.newreportList.length == 0) {
+                          return Container(
+                            height: size.height * 0.8,
+                            child: Text("No Customer !!!"),
+                          );
+                        } else {
+                          return ListView.builder(
+                            itemCount: value.isreportSearch &&
+                                    value.newreportList.length > 0
+                                ? value.newreportList.length
+                                : value.reportData.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                                value.isreportSearch &&
+                                                        value.newreportList
+                                                                .length >
+                                                            0
+                                                    ? value.newreportList[index]
+                                                        ["name"]
+                                                    : value.reportData[index]
+                                                        ["name"],
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color:
+                                                        P_Settings.wavecolor))
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.gps_fixed,
+                                              size: 15,
+                                            ),
+                                            SizedBox(
+                                              width: size.width * 0.01,
+                                            ),
+                                            Text(
                                               value.isreportSearch &&
                                                       value.newreportList
                                                               .length >
                                                           0
                                                   ? value.newreportList[index]
-                                                      ["name"]
+                                                      ["ad1"]
                                                   : value.reportData[index]
-                                                      ["name"],
+                                                      ["ad1"],
                                               style: TextStyle(
-                                                  fontSize: 20,
+                                                  fontSize: 17,
                                                   fontWeight: FontWeight.bold,
-                                                  color: P_Settings.wavecolor))
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.gps_fixed,
-                                            size: 15,
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text(
-                                            value.isreportSearch &&
-                                                    value.newreportList.length >
+                                                  color: Colors.grey[500],
+                                                  fontStyle: FontStyle.italic),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        value.isreportSearch &&
+                                                value.newreportList.length > 0
+                                            ? value.newreportList[index]
+                                                            ["mob"] ==
+                                                        null ||
+                                                    value
+                                                        .newreportList[index]
+                                                            ["mob"]
+                                                        .isEmpty
+                                                ? Container()
+                                                : Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.phone,
+                                                        size: 15,
+                                                      ),
+                                                      SizedBox(
+                                                        width:
+                                                            size.width * 0.01,
+                                                      ),
+                                                      Text(
+                                                          value.newreportList[
+                                                              index]["mob"],
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors
+                                                                .grey[700],
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ))
+                                                    ],
+                                                  )
+                                            : value.reportData[index]["mob"] ==
+                                                        null ||
+                                                    value
+                                                        .reportData[index]
+                                                            ["mob"]
+                                                        .isEmpty
+                                                ? Container()
+                                                : Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.phone,
+                                                        size: 15,
+                                                      ),
+                                                      SizedBox(
+                                                        width:
+                                                            size.width * 0.01,
+                                                      ),
+                                                      Text(
+                                                          value.reportData[
+                                                              index]["mob"],
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors
+                                                                .grey[700],
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ))
+                                                    ],
+                                                  ),
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(Icons.currency_rupee,
+                                                size: 15),
+                                            SizedBox(
+                                              width: size.width * 0.01,
+                                            ),
+                                            Text(
+                                                value.reportData[index]["bln"]
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.grey[700])),
+                                            SizedBox(
+                                              width: size.width * 0.01,
+                                            ),
+                                            Text("(balance)"),
+                                            // Spacer(),
+                                            // value.newreportList.length > 0 &&
+                                            //         value.isreportSearch
+                                            //     ? value.newreportList[index][
+                                            //                     "collection_sum"] !=
+                                            //                 null &&
+                                            //             value.newreportList[index]
+                                            //                     [
+                                            //                     "collection_sum"] !=
+                                            //                 0
+                                            //         ? Row(
+                                            //             children: [
+                                            //               Icon(Icons
+                                            //                   .currency_rupee),
+                                            //               Text(value
+                                            //                   .newreportList[
+                                            //                       index][
+                                            //                       "collection_sum"]
+                                            //                   .toString()),
+                                            //               SizedBox(
+                                            //                 width:
+                                            //                     size.width * 0.01,
+                                            //               ),
+                                            //               Text("(collection)"),
+                                            //             ],
+                                            //           )
+                                            //         : Container()
+                                            //     : value.reportData[index][
+                                            //                     "collection_sum"] !=
+                                            //                 null &&
+                                            //             value.reportData[index][
+                                            //                     "collection_sum"] !=
+                                            //                 0
+                                            //         ? Row(
+                                            //             children: [
+                                            //               Icon(
+                                            //                 Icons.currency_rupee,
+                                            //                 size: 16,
+                                            //               ),
+                                            //               Text(value
+                                            //                   .reportData[index][
+                                            //                       "collection_sum"]
+                                            //                   .toString()),
+                                            //               SizedBox(
+                                            //                 width:
+                                            //                     size.width * 0.01,
+                                            //               ),
+                                            //               Text("(collection)"),
+                                            //             ],
+                                            //           )
+                                            //         : Container(),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        value.newreportList.length > 0 &&
+                                                value.isreportSearch
+                                            ? value.newreportList[index]
+                                                            ["order_value"] !=
+                                                        null &&
+                                                    value.newreportList[index]
+                                                            ["order_value"] !=
                                                         0
-                                                ? value.newreportList[index]
-                                                    ["ad1"]
-                                                : value.reportData[index]
-                                                    ["ad1"],
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey[500],
-                                                fontStyle: FontStyle.italic),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      value.isreportSearch &&
-                                              value.newreportList.length > 0
-                                          ? value.newreportList[index]["mob"] ==
-                                                      null ||
-                                                  value
-                                                      .newreportList[index]
-                                                          ["mob"]
-                                                      .isEmpty
-                                              ? Container()
-                                              : Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.phone,
-                                                      size: 15,
-                                                    ),
-                                                    SizedBox(
-                                                      width: size.width * 0.01,
-                                                    ),
-                                                    Text(
-                                                        value.newreportList[
-                                                            index]["mob"],
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.grey[700],
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ))
-                                                  ],
-                                                )
-                                          : value.reportData[index]["mob"] ==
-                                                      null ||
-                                                  value.reportData[index]["mob"]
-                                                      .isEmpty
-                                              ? Container()
-                                              : Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.phone,
-                                                      size: 15,
-                                                    ),
-                                                    SizedBox(
-                                                      width: size.width * 0.01,
-                                                    ),
-                                                    Text(
-                                                        value.reportData[index]
-                                                            ["mob"],
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.grey[700],
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ))
-                                                  ],
-                                                ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.currency_rupee, size: 15),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text(
-                                              value.reportData[index]["bln"]
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.grey[700])),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text("(balance)"),
-                                          // Spacer(),
-                                          // value.newreportList.length > 0 &&
-                                          //         value.isreportSearch
-                                          //     ? value.newreportList[index][
-                                          //                     "collection_sum"] !=
-                                          //                 null &&
-                                          //             value.newreportList[index]
-                                          //                     [
-                                          //                     "collection_sum"] !=
-                                          //                 0
-                                          //         ? Row(
-                                          //             children: [
-                                          //               Icon(Icons
-                                          //                   .currency_rupee),
-                                          //               Text(value
-                                          //                   .newreportList[
-                                          //                       index][
-                                          //                       "collection_sum"]
-                                          //                   .toString()),
-                                          //               SizedBox(
-                                          //                 width:
-                                          //                     size.width * 0.01,
-                                          //               ),
-                                          //               Text("(collection)"),
-                                          //             ],
-                                          //           )
-                                          //         : Container()
-                                          //     : value.reportData[index][
-                                          //                     "collection_sum"] !=
-                                          //                 null &&
-                                          //             value.reportData[index][
-                                          //                     "collection_sum"] !=
-                                          //                 0
-                                          //         ? Row(
-                                          //             children: [
-                                          //               Icon(
-                                          //                 Icons.currency_rupee,
-                                          //                 size: 16,
-                                          //               ),
-                                          //               Text(value
-                                          //                   .reportData[index][
-                                          //                       "collection_sum"]
-                                          //                   .toString()),
-                                          //               SizedBox(
-                                          //                 width:
-                                          //                     size.width * 0.01,
-                                          //               ),
-                                          //               Text("(collection)"),
-                                          //             ],
-                                          //           )
-                                          //         : Container(),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      value.newreportList.length > 0 &&
-                                              value.isreportSearch
-                                          ? value.newreportList[index]
-                                                          ["order_value"] !=
-                                                      null &&
-                                                  value.newreportList[index]
-                                                          ["order_value"] !=
-                                                      0
-                                              ? Row(
-                                                  children: [
-                                                    Icon(Icons.currency_rupee,
-                                                        size: 15),
-                                                    SizedBox(
-                                                      width: size.width * 0.01,
-                                                    ),
-                                                    Text(
-                                                        value.newreportList[
-                                                                index]
-                                                                ["order_value"]
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors
-                                                                .grey[700])),
-                                                    SizedBox(
-                                                      width: size.width * 0.01,
-                                                    ),
-                                                    Text("(order)")
-                                                  ],
-                                                )
-                                              : Container()
-                                          : value.reportData[index]
-                                                          ["order_value"] !=
-                                                      null &&
-                                                  value.reportData[index]
-                                                          ["order_value"] !=
-                                                      0
-                                              ? Row(
-                                                  children: [
-                                                    Icon(Icons.currency_rupee,
-                                                        size: 15),
-                                                    SizedBox(
-                                                      width: size.width * 0.01,
-                                                    ),
-                                                    Text(
-                                                        value.reportData[index]
-                                                                ["order_value"]
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors
-                                                                .grey[700])),
-                                                    SizedBox(
-                                                      width: size.width * 0.01,
-                                                    ),
-                                                    Text("(order)")
-                                                  ],
-                                                )
-                                              : Container(),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(children: [
-                                        Container(
-                                            color: Colors.green,
+                                                ? Row(
+                                                    children: [
+                                                      Icon(Icons.currency_rupee,
+                                                          size: 15),
+                                                      SizedBox(
+                                                        width:
+                                                            size.width * 0.01,
+                                                      ),
+                                                      Text(
+                                                          value.newreportList[
+                                                                  index][
+                                                                  "order_value"]
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Colors
+                                                                  .grey[700])),
+                                                      SizedBox(
+                                                        width:
+                                                            size.width * 0.01,
+                                                      ),
+                                                      Text("(order)")
+                                                    ],
+                                                  )
+                                                : Container()
+                                            : value.reportData[index]
+                                                            ["order_value"] !=
+                                                        null &&
+                                                    value.reportData[index]
+                                                            ["order_value"] !=
+                                                        0
+                                                ? Row(
+                                                    children: [
+                                                      Icon(Icons.currency_rupee,
+                                                          size: 15),
+                                                      SizedBox(
+                                                        width:
+                                                            size.width * 0.01,
+                                                      ),
+                                                      Text(
+                                                          value
+                                                              .reportData[index]
+                                                                  [
+                                                                  "order_value"]
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Colors
+                                                                  .grey[700])),
+                                                      SizedBox(
+                                                        width:
+                                                            size.width * 0.01,
+                                                      ),
+                                                      Text("(order)")
+                                                    ],
+                                                  )
+                                                : Container(),
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        Row(children: [
+                                          Container(
+                                              color: Colors.green,
+                                              width: size.width * 0.08,
+                                              height: size.height * 0.03,
+                                              child: value.isreportSearch &&
+                                                      value.newreportList.length >
+                                                          0
+                                                  ? value.newreportList[index][
+                                                                  "order_value"] !=
+                                                              0 &&
+                                                          value.newreportList[index]
+                                                                  [
+                                                                  "order_value"] !=
+                                                              null
+                                                      ? Icon(
+                                                          Icons.done,
+                                                          color: Colors.white,
+                                                        )
+                                                      : null
+                                                  : value.reportData[index][
+                                                                  "order_value"] !=
+                                                              0 &&
+                                                          value.reportData[index]
+                                                                  ["order_value"] !=
+                                                              null
+                                                      ? Icon(
+                                                          Icons.done,
+                                                          color: Colors.white,
+                                                        )
+                                                      : null),
+                                          Container(
+                                            color: P_Settings.wavecolor,
                                             width: size.width * 0.08,
                                             height: size.height * 0.03,
                                             child: value.isreportSearch &&
                                                     value.newreportList.length >
                                                         0
                                                 ? value.newreportList[index][
-                                                                "order_value"] !=
+                                                                "collection_sum"] !=
                                                             0 &&
                                                         value.newreportList[index][
-                                                                "order_value"] !=
+                                                                "collection_sum"] !=
                                                             null
                                                     ? Icon(
                                                         Icons.done,
@@ -530,101 +585,76 @@ class _ReportPageState extends State<ReportPage> {
                                                       )
                                                     : null
                                                 : value.reportData[index][
-                                                                "order_value"] !=
+                                                                "collection_sum"] !=
                                                             0 &&
                                                         value.reportData[index]
-                                                                ["order_value"] !=
+                                                                ["collection_sum"] !=
                                                             null
                                                     ? Icon(
                                                         Icons.done,
                                                         color: Colors.white,
                                                       )
-                                                    : null),
-                                        Container(
-                                          color: P_Settings.wavecolor,
-                                          width: size.width * 0.08,
-                                          height: size.height * 0.03,
-                                          child: value.isreportSearch &&
-                                                  value.newreportList.length > 0
-                                              ? value.newreportList[index][
-                                                              "collection_sum"] !=
-                                                          0 &&
-                                                      value.newreportList[index]
-                                                              [
-                                                              "collection_sum"] !=
-                                                          null
-                                                  ? Icon(
-                                                      Icons.done,
-                                                      color: Colors.white,
-                                                    )
-                                                  : null
-                                              : value.reportData[index][
-                                                              "collection_sum"] !=
-                                                          0 &&
-                                                      value.reportData[index]
-                                                              ["collection_sum"] !=
-                                                          null
-                                                  ? Icon(
-                                                      Icons.done,
-                                                      color: Colors.white,
-                                                    )
-                                                  : null,
-                                        ),
-                                        Container(
-                                          color: P_Settings.roundedButtonColor,
-                                          width: size.width * 0.08,
-                                          height: size.height * 0.03,
-                                          child: value.isreportSearch &&
-                                                  value.newreportList.length > 0
-                                              ? value.newreportList[index][
-                                                              "remark_count"] !=
-                                                          0 &&
-                                                      value.newreportList[index]
-                                                              [
-                                                              "remark_count"] !=
-                                                          null
-                                                  ? Icon(
-                                                      Icons.done,
-                                                      color: Colors.white,
-                                                    )
-                                                  : null
-                                              : value.reportData[index][
-                                                              "remark_count"] !=
-                                                          0 &&
-                                                      value.reportData[index]
-                                                              ["remark_count"] !=
-                                                          null
-                                                  ? Icon(
-                                                      Icons.done,
-                                                      color: Colors.white,
-                                                    )
-                                                  : null,
-                                        ),
+                                                    : null,
+                                          ),
+                                          Container(
+                                            color:
+                                                P_Settings.roundedButtonColor,
+                                            width: size.width * 0.08,
+                                            height: size.height * 0.03,
+                                            child: value.isreportSearch &&
+                                                    value.newreportList.length >
+                                                        0
+                                                ? value.newreportList[index][
+                                                                "remark_count"] !=
+                                                            0 &&
+                                                        value.newreportList[index][
+                                                                "remark_count"] !=
+                                                            null
+                                                    ? Icon(
+                                                        Icons.done,
+                                                        color: Colors.white,
+                                                      )
+                                                    : null
+                                                : value.reportData[index][
+                                                                "remark_count"] !=
+                                                            0 &&
+                                                        value.reportData[index]
+                                                                ["remark_count"] !=
+                                                            null
+                                                    ? Icon(
+                                                        Icons.done,
+                                                        color: Colors.white,
+                                                      )
+                                                    : null,
+                                          ),
 
-                                        //  value.isreportSearch &&
-                                        //             value.newreportList.length > 0
-                                        //         ? :
-                                        // Row(
-                                        //   children: [
-                                        //     Icon(
-                                        //       Icons.currency_rupee,
-                                        //       size: 16,
-                                        //     ),
-                                        //     Text(outstand.toString()),
-                                        //     // Text(value.reportData[index]["bln"]-value.reportData[index]["collection_sum"]),
-                                        //     Text("(outstanding)"),
-                                        //   ],
-                                        // )
-                                      ])
-                                    ],
+                                          //  value.isreportSearch &&
+                                          //             value.newreportList.length > 0
+                                          //         ? :
+                                          // Row(
+                                          //   children: [
+                                          //     Icon(
+                                          //       Icons.currency_rupee,
+                                          //       size: 16,
+                                          //     ),
+                                          //     Text(outstand.toString()),
+                                          //     // Text(value.reportData[index]["bln"]-value.reportData[index]["collection_sum"]),
+                                          //     Text("(outstanding)"),
+                                          //   ],
+                                          // )
+                                        ])
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
+                              );
+                            },
+                          );
+                        }
                       }
                     }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                   },
                 ),
               ),
