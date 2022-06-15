@@ -38,14 +38,7 @@ class _MainDashboardState extends State<MainDashboard> {
           .selectTotalPrice(sid!, s[0]);
       Provider.of<Controller>(context, listen: false)
           .selectCollectionPrice(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false)
-          .selectOrderCount(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false)
-          .collectionCountFun(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false)
-          .remarkCountfun(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false)
-          .remarkCountfun(sid!, s[0]);
+      Provider.of<Controller>(context, listen: false).mainDashtileValues(sid!, s[0]);
     });
   }
 
@@ -121,9 +114,12 @@ class _MainDashboardState extends State<MainDashboard> {
                                   )),
                               Expanded(
                                 // scrollDirection: Axis.horizontal,
-                                child: Text(value.areaSelecton == null
-                                    ? ""
-                                    : value.areaSelecton!,style: TextStyle(fontSize: 14),),
+                                child: Text(
+                                  value.areaSelecton == null
+                                      ? ""
+                                      : value.areaSelecton!,
+                                  style: TextStyle(fontSize: 14),
+                                ),
                               ),
                             ],
                           ),
@@ -145,12 +141,12 @@ class _MainDashboardState extends State<MainDashboard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Orders",
-                                  "${value.orderCount.length != 0 && value.orderCount[0]['S'] != null && value.orderCount.isNotEmpty ? value.orderCount[0]['S'] : "0"}"),
+                                  "${value.orderCount != null && value.orderCount!.isNotEmpty ? value.orderCount : "0"}"),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Collection",
-                                  "${value.collectionCount.length != 0 && value.collectionCount[0]['S'] != null && value.collectionCount.isNotEmpty ? value.collectionCount[0]['S'] : "0"}"),
+                                  "${value.collectionCount != null && value.collectionCount!.isNotEmpty ? value.collectionCount : "0"}"),
                             ),
                           ],
                         ),
@@ -173,12 +169,13 @@ class _MainDashboardState extends State<MainDashboard> {
                               child: customcard(
                                 size,
                                 "Shops visited",
-                                "${value.remarkCount.length != 0 && value.remarkCount[0]['S'] != null && value.remarkCount.isNotEmpty ? (value.remarkCount[0]['S'] + value.collectionCount[0]['S'] + value.orderCount[0]['S']) : "0"}",
+                                "${value.shopVisited != null ? value.shopVisited : "0"}",
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "No shop visited", ""),
+                              child: customcard(size, "No shop visited",
+                                  "${value.noshopVisited != null ? value.noshopVisited: "0"}"),
                             ),
                           ],
                         ),
@@ -224,7 +221,6 @@ class _MainDashboardState extends State<MainDashboard> {
                             ),
                           ],
                         ),
-                        
                       ],
                     ),
                   ),
