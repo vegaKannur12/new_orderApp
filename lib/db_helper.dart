@@ -21,7 +21,7 @@ import 'model/staffdetails_model.dart';
 class OrderAppDB {
   DateTime date = DateTime.now();
   String? formattedDate;
-  var aidsplit ;
+  var aidsplit;
   static final OrderAppDB instance = OrderAppDB._init();
   static Database? _database;
   OrderAppDB._init();
@@ -817,6 +817,19 @@ class OrderAppDB {
     return list;
   }
 
+  //////////////////////////countCustomer////////////////
+  countCustomer() async {
+    var list;
+    Database db = await instance.database;
+    list = await db.query(
+      'accountHeadsTable',
+      where: "area_id IN (${aidsplit.join(',')})",
+    );
+
+    print("customr----$list");
+    return list;
+  }
+
   //////////////////////////////////////////////////////
   Future<List<Map<String, dynamic>>> getCustomer(String aid) async {
     print("enteredaid---${aid}");
@@ -1224,51 +1237,7 @@ class OrderAppDB {
     return res;
   }
 
-///////////////////////// collection count /////////////
-  Future<dynamic> countCollectionAmount(String sid, String collectDate) async {
-    print("sid.....$sid");
-    List<Map<String, dynamic>> result;
-    var res;
-    String collectCount;
-    Database db = await instance.database;
 
-    result = await db.rawQuery(
-        "SELECT COUNT(id) as S FROM collectionTable WHERE rec_staffid='$sid' AND rec_date='$collectDate'");
-    print("result-order-----$result");
-    if (result != null && result.isNotEmpty && result != null) {
-      res = await db.rawQuery(
-          "SELECT COUNT(id) as S FROM collectionTable WHERE rec_staffid='$sid' AND rec_date='$collectDate'");
-      collectCount = res[0]["S"].toString();
-      print("sum from db----$collectCount");
-    } else {
-      collectCount = "0.0";
-    }
-
-    return res;
-  }
-
-//////////////////////////////////////////////////////
-  Future<dynamic> remarkCount(String sid, String collectDate) async {
-    print("sid.....$sid");
-    List<Map<String, dynamic>> result;
-    var res;
-    String remarkCount;
-    Database db = await instance.database;
-
-    result = await db.rawQuery(
-        "SELECT COUNT(id) as S FROM remarksTable WHERE rem_staffid='$sid' AND rem_date='$collectDate'");
-    print("result-order-----$result");
-    if (result != null && result.isNotEmpty && result != null) {
-      res = await db.rawQuery(
-          "SELECT COUNT(id) as S FROM remarksTable WHERE rem_staffid='$sid' AND rem_date='$collectDate'");
-      remarkCount = res[0]["S"].toString();
-      print("sum from db----$remarkCount");
-    } else {
-      remarkCount = "0.0";
-    }
-
-    return res;
-  }
 
 ///////////////////////////////////////////////////////
   getReportDataFromOrderDetails() async {

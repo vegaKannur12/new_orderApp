@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:orderapp/components/customSnackbar.dart';
@@ -30,6 +29,8 @@ class Controller extends ChangeNotifier {
   String? areaSelecton;
   bool isVisible = false;
   bool noData = false;
+  int? shopVisited;
+  int? noshopVisited;
 
   List<bool> selected = [];
   String? areaidFrompopup;
@@ -42,7 +43,7 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> sortList = [];
   bool filter = false;
   // String? custmerSelection;
-
+  int? customerCount;
   List<String> tableColumn = [];
   List<Map<String, dynamic>> res = [];
 
@@ -83,9 +84,10 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportData = [];
   List<Map<String, dynamic>> sumPrice = [];
   List<Map<String, dynamic>> collectionsumPrice = [];
-  List<Map<String, dynamic>> collectionCount = [];
-  List<Map<String, dynamic>> remarkCount = [];
-  List<Map<String, dynamic>> orderCount = [];
+
+  String? remarkCount;
+  String? orderCount;
+  String? collectionCount;
 
   List<Map<String, dynamic>> remarkList = [];
   List<Map<String, dynamic>> remarkStaff = [];
@@ -94,7 +96,7 @@ class Controller extends ChangeNotifier {
   List<TextEditingController> controller = [];
   List<TextEditingController> qty = [];
   List<bool> rateEdit = [];
-  String count = "0";
+  String? count;
   String? sof;
   List<Map<String, dynamic>> bagList = [];
   List<Map<String, dynamic>> newList = [];
@@ -1362,22 +1364,18 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////// today order count ///////////////////
-  Future<dynamic> selectOrderCount(String sid, String todaydate) async {
-    orderCount.clear();
-    print("todaydate.......$todaydate");
-    Map map = {};
-    isLoading = true;
-    var res = await OrderAppDB.instance.orderCount(sid, todaydate);
-    print("ordercount....$res");
-    if (res.length > 0) {
-      for (var item in res) {
-        orderCount.add(item);
-      }
-    }
-    print("report-----$orderCount");
-    isLoading = false;
-    notifyListeners();
-  }
+  // Future<dynamic> selectOrderCount(String sid, String todaydate) async {
+  //   print("todaydate.......$todaydate");
+  //   Map map = {};
+  //   isLoading = true;
+
+  //   orderCount = await OrderAppDB.instance.countCommonQuery(
+  //       "orderMasterTable", " userid='$sid' AND orderdate='$todaydate'");
+
+  //   print("order count---$orderCount");
+  //   isLoading = false;
+  //   notifyListeners();
+  // }
 
   ///////////////////// todayCollection total///////////////////
   Future<dynamic> selectCollectionPrice(String sid, String collectDate) async {
@@ -1399,38 +1397,56 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////// today collection count//////////
-  Future<dynamic> collectionCountFun(String sid, String collectDate) async {
-    collectionCount.clear();
-    print("sid $sid $collectDate");
-    Map map = {};
-    isLoading = true;
-    var res = await OrderAppDB.instance.countCollectionAmount(sid, collectDate);
-    print("resultssss....$res");
-    if (res.length > 0) {
-      for (var item in res) {
-        collectionCount.add(item);
-      }
-    }
-    print("report-----$collectionCount");
-    isLoading = false;
-    notifyListeners();
-  }
+  // Future<dynamic> collectionCountFun(String sid, String collectDate) async {
+  //   print("sid $sid $collectDate");
+  //   Map map = {};
+  //   isLoading = true;
+
+  //   collectionCount = await OrderAppDB.instance.countCommonQuery(
+  //       "collectionTable", "rec_staffid='$sid' AND rec_date='$collectDate'");
+  //   print("resultssss....$res");
+
+  //   print("report-----$collectionCount");
+  //   isLoading = false;
+  //   notifyListeners();
+  // }
 
 /////////////////////////////////////
-  Future<dynamic> remarkCountfun(String sid, String collectDate) async {
-    remarkCount.clear();
-    print("collectDate $sid $collectDate");
-    Map map = {};
-    isLoading = true;
-    var res = await OrderAppDB.instance.remarkCount(sid, collectDate);
-    print("resultssss....$res");
-    if (res.length > 0) {
-      for (var item in res) {
-        remarkCount.add(item);
-      }
+  // Future<dynamic> remarkCountfun(String sid, String collectDate) async {
+  //   print("collectDate $sid $collectDate");
+  //   Map map = {};
+  //   isLoading = true;
+  //   count = await OrderAppDB.instance.countCommonQuery(
+  //       "remarksTable", "rem_staffid='$sid' AND rem_date='$collectDate'");
+  //   print("resultssss..renrk..$count");
+  //   isLoading = false;
+  //   notifyListeners();
+  // }
+
+  shopvisited(String sid, String date) async {
+    print("haiii pty");
+    orderCount = await OrderAppDB.instance.countCommonQuery(
+        "orderMasterTable", " userid='$sid' AND orderdate='$date'");
+    collectionCount = await OrderAppDB.instance.countCommonQuery(
+        "collectionTable", "rec_staffid='$sid' AND rec_date='$date'");
+    remarkCount = await OrderAppDB.instance.countCommonQuery(
+        "remarksTable", "rem_staffid='$sid' AND rem_date='$date'");
+    var res = await OrderAppDB.instance.countCustomer();
+    if (res != null) {
+      customerCount = res.length;
     }
-    print("report-----$remarkCount");
-    isLoading = false;
+
+    if (orderCount != null && remarkCount != null || collectionCount != null) {
+      print("ok");
+      int ordr = int.parse(orderCount!);
+      int coll = int.parse(collectionCount!);
+      int remr = int.parse(remarkCount!);
+      shopVisited = ordr + coll + remr;
+    }
+
+    noshopVisited = customerCount! - shopVisited!;
+    print("no shop--$noshopVisited");
+    print("shop visited---$shopVisited");
     notifyListeners();
   }
 
@@ -1561,6 +1577,15 @@ class Controller extends ChangeNotifier {
     }
     print("collectionList----${collectionList}");
 
+    notifyListeners();
+  }
+
+  countCustomer() async {
+    var res = await OrderAppDB.instance.countCustomer();
+    customerCount = res.length;
+    print("custmerCount----$customerCount");
+
+    // int? noShopvisited=customerCount!-int.parse(remarkCount);
     notifyListeners();
   }
   // customerCreation(){
