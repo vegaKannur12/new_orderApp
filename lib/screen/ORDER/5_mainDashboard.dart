@@ -123,18 +123,21 @@ class _MainDashboardState extends State<MainDashboard> {
                                 // scrollDirection: Axis.horizontal,
                                 child: Text(value.areaSelecton == null
                                     ? ""
-                                    : value.areaSelecton!),
+                                    : value.areaSelecton!,style: TextStyle(fontSize: 14),),
                               ),
                             ],
                           ),
                         ),
 
-                        Text(
-                          "Todays",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.bold),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Todays",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                         // SizedBox(height: size.height*01,),
                         Row(
@@ -183,12 +186,15 @@ class _MainDashboardState extends State<MainDashboard> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Todays Collection",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.grey[700],
-                                  fontWeight: FontWeight.bold),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Todays Collection",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.grey[700],
+                                    fontWeight: FontWeight.bold),
+                              ),
                             )
                           ],
                         ),
@@ -218,18 +224,7 @@ class _MainDashboardState extends State<MainDashboard> {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "Shops visited", ""),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "No shop visited", ""),
-                            ),
-                          ],
-                        ),
+                        
                       ],
                     ),
                   ),
