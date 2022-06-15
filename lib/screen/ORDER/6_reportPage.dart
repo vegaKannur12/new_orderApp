@@ -240,7 +240,7 @@ class _ReportPageState extends State<ReportPage> {
                             color: P_Settings.wavecolor,
                           )));
                     } else {
-                      if (value.noData) {
+                      if (value.noreportdata) {
                         return Container(
                           height: size.height * 0.7,
                           width: double.infinity,
