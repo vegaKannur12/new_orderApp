@@ -21,7 +21,7 @@ import 'model/staffdetails_model.dart';
 class OrderAppDB {
   DateTime date = DateTime.now();
   String? formattedDate;
-
+  var aidsplit ;
   static final OrderAppDB instance = OrderAppDB._init();
   static Database? _database;
   OrderAppDB._init();
@@ -798,7 +798,7 @@ class OrderAppDB {
     List<Map<String, dynamic>> area = await db
         .rawQuery('SELECT area FROM staffDetailsTable WHERE sid="${sid}"');
     String areaid = area[0]["area"];
-    var aidsplit = areaid.split(",");
+    aidsplit = areaid.split(",");
     print("hudhuh---$aidsplit");
     if (areaid == "") {
       list = await db.rawQuery('SELECT aname,aid FROM areaDetailsTable');
