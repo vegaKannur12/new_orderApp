@@ -32,6 +32,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
+  
   TabController? _tabController;
   static const List<Tab> myTabs = <Tab>[
     Tab(
@@ -40,7 +41,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Tab(text: 'Todays Order'),
     Tab(text: 'Todays Collection'),
     Tab(text: 'Todays Sale'),
-    Tab(text: 'Report'),
+    Tab(text: 'CList'),
   ];
   List<Widget> drawerOpts = [];
 
@@ -86,7 +87,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Provider.of<Controller>(context, listen: false).setSname();
     _tabController = TabController(
       vsync: this,
-      length: 5,
+      length: myTabs.length,
       // initialIndex: 0,
     );
 
@@ -250,7 +251,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     title,
                     style: TextStyle(fontSize: 16),
                   ),
-                  backgroundColor: P_Settings.wavecolor,
+                  backgroundColor: Colors.white,
                   bottom: PreferredSize(
                     preferredSize: Size.fromHeight(6.0),
                     child: Consumer<Controller>(
@@ -272,6 +273,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   // title: Text("Company Details",style: TextStyle(fontSize: 20),),
                 )
               : AppBar(
+                  backgroundColor: Colors.white,
+
                   bottom: menu_index == "S1" ||
                           menu_index == "1" ||
                           menu_index == "2" ||
@@ -280,19 +283,21 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           menu_index == "0"
                       ? TabBar(
                           isScrollable: true,
-                          indicator: BoxDecoration(),
-                          indicatorColor: Colors.white,
+                          // indicator: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(50),
+                          //     color: Colors.grey),
+                          indicatorColor: P_Settings.wavecolor,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 2.0,
                           // indicatorSize: TabBarIndicatorSize.label,
-                          labelColor: Color.fromARGB(255, 255, 255, 255),
+                          labelColor: Color.fromARGB(255, 58, 54, 54),
                           tabs: myTabs,
                           controller: _tabController,
                         )
                       : null,
                   leading: Builder(
                     builder: (context) => IconButton(
-                        icon: new Icon(Icons.menu),
+                        icon: new Icon(Icons.menu,color: Color.fromARGB(255, 58, 54, 54),),
                         onPressed: () {
                           Provider.of<Controller>(context, listen: false)
                               .getCompanyData();
@@ -335,7 +340,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         }),
                   ),
                   elevation: 0,
-                  backgroundColor: P_Settings.wavecolor,
+                  // backgroundColor: P_Settings.wavecolor,
                   actions: [
                     IconButton(
                       onPressed: () async {
@@ -353,6 +358,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 ),
 
           drawer: Drawer(
+            
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(

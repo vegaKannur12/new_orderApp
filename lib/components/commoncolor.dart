@@ -35,9 +35,14 @@ class P_Settings {
   static Color get collection1 => Color.fromARGB(255, 121, 119, 119);
   static Color get editcolor => Color.fromARGB(255, 22, 78, 30);
 
-  static Color get dashbordcl2 => Color.fromARGB(255, 235, 121, 45);
-  static Color get dashbordcl3 => Color.fromARGB(255, 46, 207, 40);
-  static Color get dashbordcl1 => Color.fromARGB(255, 3, 169, 244);
+  static Color get dashbordcl2 => Color.fromARGB(255, 241, 170, 123);
+  static Color get dashbordcl3 => Color.fromARGB(255, 147, 228, 144);
+  static Color get dashbordcl1 => Color.fromARGB(255, 140, 207, 238);
+  static Color get dashbordcl4 => Color.fromARGB(255, 231, 216, 128);
+  static Color get dashbordcl5 => Color.fromARGB(255, 217, 141, 224);
+  static Color get dashbordcl6 => Color.fromARGB(255, 151, 216, 186);
+
+
   static Color get bottomNavButton => Colors.white;
 
   static Color get bottomColor => Colors.yellow;

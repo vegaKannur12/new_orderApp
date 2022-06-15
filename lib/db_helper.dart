@@ -21,7 +21,7 @@ import 'model/staffdetails_model.dart';
 class OrderAppDB {
   DateTime date = DateTime.now();
   String? formattedDate;
-
+  var aidsplit ;
   static final OrderAppDB instance = OrderAppDB._init();
   static Database? _database;
   OrderAppDB._init();
@@ -312,6 +312,7 @@ class OrderAppDB {
     await db.execute('''
           CREATE TABLE orderDetailTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $item TEXT,
             $os TEXT NOT NULL,
             $order_id INTEGER,
             $row_num INTEGER,
@@ -466,6 +467,7 @@ class OrderAppDB {
 
   /////////////////////// order master table insertion//////////////////////
   Future insertorderMasterandDetailsTable(
+      String item,
       int order_id,
       int? qty,
       double rate,
@@ -487,7 +489,7 @@ class OrderAppDB {
 
     if (table == "orderDetailTable") {
       var query2 =
-          'INSERT INTO orderDetailTable(order_id, row_num,os,code, qty, rate, unit) VALUES(${order_id},${rowNum},"${os}","${code}", ${qty}, $rate, "${unit}")';
+          'INSERT INTO orderDetailTable(order_id, row_num,os,code, item, qty, rate, unit) VALUES(${order_id},${rowNum},"${os}","${code}","${item}", ${qty}, $rate, "${unit}")';
       print(query2);
       res2 = await db.rawInsert(query2);
     } else if (table == "orderMasterTable") {
@@ -796,7 +798,7 @@ class OrderAppDB {
     List<Map<String, dynamic>> area = await db
         .rawQuery('SELECT area FROM staffDetailsTable WHERE sid="${sid}"');
     String areaid = area[0]["area"];
-    var aidsplit = areaid.split(",");
+    aidsplit = areaid.split(",");
     print("hudhuh---$aidsplit");
     if (areaid == "") {
       list = await db.rawQuery('SELECT aname,aid FROM areaDetailsTable');
@@ -1056,7 +1058,7 @@ class OrderAppDB {
     Database db = await instance.database;
 
     result = await db.rawQuery(
-        'select orderMasterTable.order_id, orderMasterTable.os  || orderMasterTable.order_id as Order_Num,orderMasterTable.customerid Cus_id,orderMasterTable.orderdate Date, count(orderDetailTable.row_num) count, orderMasterTable.total_price  from orderMasterTable inner join orderDetailTable on orderMasterTable.order_id=orderDetailTable.order_id where orderMasterTable.orderdate="${date}"  group by orderMasterTable.order_id');
+        'select accountHeadsTable.hname as cus_name,orderMasterTable.order_id, orderMasterTable.os  || orderMasterTable.order_id as Order_Num,orderMasterTable.customerid Cus_id,orderMasterTable.orderdate Date, count(orderDetailTable.row_num) count, orderMasterTable.total_price  from orderMasterTable inner join orderDetailTable on orderMasterTable.order_id=orderDetailTable.order_id inner join accountHeadsTable on accountHeadsTable.ac_code= orderMasterTable.customerid where orderMasterTable.orderdate="${date}"  group by orderMasterTable.order_id');
     if (result.length > 0) {
       print("inner result------$result");
       return result;
@@ -1073,7 +1075,7 @@ class OrderAppDB {
       result = await db.rawQuery("SELECT * FROM '$table'");
     } else {
       result = await db
-          .rawQuery("SELECT code,qty,rate FROM '$table' WHERE $condition");
+          .rawQuery("SELECT code,item,qty,rate FROM '$table' WHERE $condition");
     }
 
     print("naaknsdJK-----$result");
@@ -1142,7 +1144,7 @@ class OrderAppDB {
     Database db = await instance.database;
 
     var result = await db.rawQuery(
-        "SELECT orderDetailTable.code as code, orderDetailTable.qty as qty, orderDetailTable.rate as rate from orderDetailTable  where  orderDetailTable.order_id=${order_id}");
+        "SELECT orderDetailTable.code as code,orderDetailTable.item as item, orderDetailTable.qty as qty, orderDetailTable.rate as rate from orderDetailTable  where  orderDetailTable.order_id=${order_id}");
     return result;
   }
 

@@ -127,11 +127,19 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                           width: size.width * 0.02,
                                         ),
                                         Text(
+                                          value.todayOrderList[index]["cus_name"],
+                                          style: TextStyle(
+                                              color: Colors.grey[700],
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),Text(" - "),
+                                         Text(
                                           value.todayOrderList[index]["Cus_id"],
                                           style: TextStyle(
                                               color: Colors.grey[700],
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 17),
+                                              fontStyle: FontStyle.italic,
+                                              fontSize: 14),
                                         ),
                                         Spacer(),
                                         // IconButton(

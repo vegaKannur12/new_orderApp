@@ -888,6 +888,7 @@ class Controller extends ChangeNotifier {
     int rowNum = 1;
     if (bagList.length > 0) {
       await OrderAppDB.instance.insertorderMasterandDetailsTable(
+          "",
           order_id,
           0,
           0.0,
@@ -908,6 +909,7 @@ class Controller extends ChangeNotifier {
         print("orderid---$order_id");
         double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertorderMasterandDetailsTable(
+            item["itemName"],
             order_id,
             item["qty"],
             rate,
