@@ -1518,11 +1518,11 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  fetchtotalcollectionFromTable(String cusid, String todaydate) async {
+  fetchtotalcollectionFromTable(String cusid) async {
     fetchcollectionList.clear();
     isLoading = true;
     var res = await OrderAppDB.instance
-        .selectAllcommonwithdesc('collectionTable', "rec_date='$todaydate' AND rec_cusid = '$cusid'");
+        .selectAllcommonwithdesc('collectionTable', "rec_cusid = '$cusid'");
     if (res != null) {
       for (var menu in res) {
         fetchcollectionList.add(menu);
