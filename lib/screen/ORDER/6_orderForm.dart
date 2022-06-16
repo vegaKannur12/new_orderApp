@@ -204,6 +204,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                         optionsBuilder:
                                             (TextEditingValue value) {
                                           if (widget.areaname != "") {
+                                            FocusScope.of(context).unfocus();
                                             return [];
                                           }
                                           if (value.text.isEmpty) {

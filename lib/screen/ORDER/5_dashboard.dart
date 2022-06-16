@@ -238,19 +238,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   }
 
   @override
-  void didUpdateWidget(covariant Dashboard oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget == widget) {
-      print("jhfhdxkjfjkd");
-      if (widget.type == "return from cartList") {
-        print("from cart");
-        menu_index = "S2";
-      }
-    }
-  }
-
-  @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
