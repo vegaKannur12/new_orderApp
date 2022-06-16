@@ -79,7 +79,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // Provider.of<Controller>(context, listen: false).postRegistration("RONPBQ9AD5D",context);
     // TODO: implement initState
     super.initState();
-    print("haiiiiii");
+    // print("haiiiiii");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
 
@@ -120,8 +120,29 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     sid = prefs.getString("sid");
 
     print("formattedDate...$formattedDate");
-    Provider.of<Controller>(context, listen: false).getArea(sid!);
+    print("dashboard init");
+    print("${widget.type}");
+    if (widget.type == "return from cartList") {
+      menu_index = "S2";
+    }
+    print("dididdd");
+    if (widget.type != "return from cartList") {
+      Provider.of<Controller>(context, listen: false).getArea(sid!);
+    }
+    print("s[0]----${s[0]}");
+    Provider.of<Controller>(context, listen: false)
+        .mainDashtileValues(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectTotalPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectCollectionPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .mainDashtileValues(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
+    // Provider.of<Controller>(context, listen: false)
+    //     .todayCollection(s[0], context);
     print("cid--sid--$cid--$sid");
+    return sid;
   }
 
   _getDrawerItemWidget(String pos) {
@@ -218,19 +239,19 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     }
   }
 
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    // Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
+  // @override
+  // void didChangeDependencies() {
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  //   // Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
 
-    if (widget.type == "return from cartList") {
-      menu_index = "S2";
-    }
-    print("dididdd");
+  //   if (widget.type == "return from cartList") {
+  //     menu_index = "S2";
+  //   }
+  //   print("dididdd");
 
-    // print("_seletdde---$_selectedIndex");
-  }
+  //   // print("_seletdde---$_selectedIndex");
+  // }
 
   // @override
   // void dispose() {
@@ -241,6 +262,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // String sid = getCompaniId();
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectTotalPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectCollectionPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .mainDashtileValues(sid, s[0]);
+    Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
+    Provider.of<Controller>(context, listen: false)
+        .todayCollection(s[0], context);
     // print("${Provider.of<Controller>(context, listen: false).menuList.length}");
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
@@ -311,13 +342,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         icon: new Icon(
                           Icons.menu,
                           color: menu_index == "S1" ||
-                                menu_index == "0" ||
-                                menu_index == "1" ||
-                                menu_index == "2" ||
-                                menu_index == "3" ||
-                                menu_index == "4"
-                            ? P_Settings.wavecolor
-                            : Colors.white,
+                                  menu_index == "0" ||
+                                  menu_index == "1" ||
+                                  menu_index == "2" ||
+                                  menu_index == "3" ||
+                                  menu_index == "4"
+                              ? P_Settings.wavecolor
+                              : Colors.white,
                         ),
                         onPressed: () {
                           Provider.of<Controller>(context, listen: false)

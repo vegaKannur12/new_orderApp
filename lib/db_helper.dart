@@ -1087,7 +1087,7 @@ class OrderAppDB {
     Database db = await instance.database;
 
     result = await db.rawQuery(
-        'select accountHeadsTable.hname as cus_name,collectionTable.rec_cusid,collectionTable.rec_cusid,collectionTable.rec_date,collectionTable.rec_amount,collectionTable.rec_note from collectionTable inner join accountHeadsTable on accountHeadsTable.ac_code = collectionTable.rec_cusid where collectionTable.rec_date="${date}" group by collectionTable.id');
+        'select accountHeadsTable.hname as cus_name,collectionTable.rec_cusid,collectionTable.rec_cusid,collectionTable.rec_date,collectionTable.rec_amount,collectionTable.rec_note from collectionTable inner join accountHeadsTable on accountHeadsTable.ac_code = collectionTable.rec_cusid where collectionTable.rec_date="${date}" order by collectionTable.id DESC');
     if (result.length > 0) {
       print("inner result------$result");
       return result;

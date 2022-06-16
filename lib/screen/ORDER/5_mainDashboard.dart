@@ -25,44 +25,21 @@ class _MainDashboardState extends State<MainDashboard> {
   List<String> s = [];
   AreaSelectionPopup popup = AreaSelectionPopup();
   String? sid;
-
   sharedPref() async {
     print("helooo");
     final prefs = await SharedPreferences.getInstance();
     sid = prefs.getString('sid');
     print("sid ......$sid");
-    print("formattedDates...$formattedDate");
-    Future.delayed(Duration(milliseconds: 1000), () async {
-      // await Provider.of<Controller>(context, listen: false)
-      //     .selectTotalPrice(sid!, s[0]);
-      // await Provider.of<Controller>(context, listen: false)
-      //     .selectCollectionPrice(sid!, s[0]);
-      // await Provider.of<Controller>(context, listen: false)
-      //     .mainDashtileValues(sid!, s[0]);
-      // if (!mounted) return;
-      // setState(() async {
-      //   await Provider.of<Controller>(context, listen: false)
-      //       .selectTotalPrice(sid!, s[0]);
-      //   await Provider.of<Controller>(context, listen: false)
-      //       .selectCollectionPrice(sid!, s[0]);
-      //   await Provider.of<Controller>(context, listen: false)
-      //       .mainDashtileValues(sid!, s[0]);
-      // });
-      if (this.mounted) {
-        setState(() {
-
-            Provider.of<Controller>(context, listen: false)
-                .selectTotalPrice(sid!, s[0]);
-            Provider.of<Controller>(context, listen: false)
-                .selectCollectionPrice(sid!, s[0]);
-            Provider.of<Controller>(context, listen: false)
-                .mainDashtileValues(sid!, s[0]);
-
-        });
-      }
-
-      // if(mounted)return;
-    });
+    print("formattedDate...$formattedDate");
+    // Future.delayed(Duration(milliseconds: 1000), () async {
+    //   // if(mounted)return;
+    //   // Provider.of<Controller>(context, listen: false)
+    //   //     .selectTotalPrice(sid!, s[0]);
+    //   // Provider.of<Controller>(context, listen: false)
+    //   //     .selectCollectionPrice(sid!, s[0]);
+    //   // Provider.of<Controller>(context, listen: false)
+    //   //     .mainDashtileValues(sid!, s[0]);
+    // });
   }
 
   @override
@@ -75,15 +52,16 @@ class _MainDashboardState extends State<MainDashboard> {
     print("init");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
+    sharedPref();
+
   }
 
-  @override
-  void didChangeDependencies() {
-    print("didchange");
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    sharedPref();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   print("didchange");
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -311,8 +289,11 @@ class _MainDashboardState extends State<MainDashboard> {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            Provider.of<Controller>(context, listen: false)
-                                .areaSelection(selected!);
+                            if (selected != null) {
+                              Provider.of<Controller>(context, listen: false)
+                                  .areaSelection(selected!);
+                            }
+
                             Navigator.pop(context);
                           },
                           child: Text("save"))

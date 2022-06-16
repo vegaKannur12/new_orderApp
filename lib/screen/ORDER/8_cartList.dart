@@ -25,7 +25,7 @@ class CartList extends StatefulWidget {
 }
 
 class _CartListState extends State<CartList> {
-  List<String> s=[];
+  List<String> s = [];
   TextEditingController rateController = TextEditingController();
   DateTime now = DateTime.now();
   String? date;
@@ -141,6 +141,8 @@ class _CartListState extends State<CartList> {
                       ),
                       GestureDetector(
                         onTap: (() async {
+                          // value.areDetails.clear();
+
                           sid = await Provider.of<Controller>(context,
                                   listen: false)
                               .setStaffid(value.sname!);
@@ -154,21 +156,22 @@ class _CartListState extends State<CartList> {
                             Provider.of<Controller>(context, listen: false)
                                 .insertToOrderbagAndMaster(
                                     widget.os,
-                                    s[0],s[1],
+                                    s[0],
+                                    s[1],
                                     widget.custmerId,
                                     sid!,
                                     widget.areaId,
                                     double.parse(value.orderTotal!));
                             // var result = await OrderAppDB.instance.getDataFromMasterAndDetail("os='${widget.os}' AND customerid='${widget.custmerId}'");
-
+                            Provider.of<Controller>(context, listen: false)
+                                .clearList();
+                            Provider.of<Controller>(context, listen: false)
+                                .mainDashtileValues(sid, s[0]);
                             return showDialog(
                                 context: context,
                                 builder: (context) {
                                   Future.delayed(Duration(milliseconds: 500),
                                       () {
-                                    value.areDetails.clear();
-                                    print(
-                                        "cleardd----${value.areDetails.length}");
                                     Navigator.of(context).pop(true);
 
                                     Navigator.of(context).push(

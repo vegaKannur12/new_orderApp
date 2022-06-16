@@ -40,6 +40,7 @@ class Controller extends ChangeNotifier {
   List<bool> isExpanded = [];
   List<bool> isVisibleTable = [];
   List<Map<String, dynamic>> collectionList = [];
+  List<Map<String, dynamic>> fetchcollectionList=[];
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
@@ -640,6 +641,7 @@ class Controller extends ChangeNotifier {
     try {
       areaList = await OrderAppDB.instance.getArea(sid);
       print("areaList----${areaList}");
+      print("areaList before ----${areDetails}");
       for (var item in areaList) {
         areDetails.add(item);
       }
@@ -1147,6 +1149,7 @@ class Controller extends ChangeNotifier {
     todayCollectionList.clear();
     isLoading = true;
     print("haiiii");
+    print("contrler date----$date");
     var result = await OrderAppDB.instance.todayCollection(date);
 
     print("aftr cut----$result");
@@ -1461,6 +1464,7 @@ class Controller extends ChangeNotifier {
         "orderMasterTable", " userid='$sid' AND orderdate='$date'");
     collectionCount = await OrderAppDB.instance.countCommonQuery(
         "collectionTable", "rec_staffid='$sid' AND rec_date='$date'");
+    print("collection count---$collectionCount");
     remarkCount = await OrderAppDB.instance.countCommonQuery(
         "remarksTable", "rem_staffid='$sid' AND rem_date='$date'");
     var res = await OrderAppDB.instance.countCustomer();
@@ -1577,20 +1581,20 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  fetchtotalcollectionFromTable(String todaydate) async {
-    collectionList.clear();
+  fetchtotalcollectionFromTable(String cusid, String todaydate) async {
+    fetchcollectionList.clear();
     isLoading = true;
     var res = await OrderAppDB.instance
-        .selectAllcommonwithdesc('collectionTable', "rec_date='$todaydate'");
+        .selectAllcommonwithdesc('collectionTable', "rec_date='$todaydate' AND rec_cusid = '$cusid'");
     if (res != null) {
       for (var menu in res) {
-        collectionList.add(menu);
+        fetchcollectionList.add(menu);
       }
     } else {
       noData = true;
       notifyListeners();
     }
-    print("collectionList----${collectionList}");
+    print("fetchcollectionList----${fetchcollectionList}");
     isLoading = false;
     notifyListeners();
   }
@@ -1609,5 +1613,7 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  
+  clearList(){
+    areDetails.clear();notifyListeners();
+  }
 }

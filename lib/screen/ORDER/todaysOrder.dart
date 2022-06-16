@@ -27,18 +27,16 @@ class _TodaysOrderState extends State<TodaysOrder> {
   @override
   void initState() {
     // TODO: implement initState
-
-    Future.delayed(Duration(milliseconds: 1000), () async {
-      date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
-      s = date!.split(" ");
-      if (this.mounted) {
-        setState(() {
-          Provider.of<Controller>(context, listen: false)
-              .todayOrder(s[0], context);
-        });
-      }
-    });
     super.initState();
+    date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    s = date!.split(" ");
+    // Future.delayed(Duration(milliseconds: 1000), () async {
+
+    //   if (!mounted) return;
+    //   await Provider.of<Controller>(context, listen: false)
+    //       .todayOrder(s[0], context);
+
+    // });
     // Future.delayed(Duration(seconds: 1), () {
     //   WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
     // });

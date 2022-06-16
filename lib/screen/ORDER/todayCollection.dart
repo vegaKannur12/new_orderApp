@@ -23,14 +23,11 @@ class _TodayCollectionState extends State<TodayCollection> {
     sid = prefs.getString('sid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
-    Future.delayed(const Duration(milliseconds: 1000), () async {
-      if (this.mounted) {
-        setState(() {
-          Provider.of<Controller>(context, listen: false)
-              .todayCollection(formattedDate!, context);
-        });
-      }
-    });
+    // Future.delayed(const Duration(milliseconds: 1000), () async {
+    //   if (!mounted) return;
+    //   await Provider.of<Controller>(context, listen: false)
+    //       .todayCollection(formattedDate!, context);
+    // });
   }
 
   @override
@@ -99,17 +96,12 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                   P_Settings.roundedButtonColor,
                                             ),
                                             SizedBox(width: size.width * 0.03),
-                                            RichText(
-                                              overflow: TextOverflow.clip,
-                                              maxLines: 2,
-                                              text: TextSpan(
-                                                text:
-                                                    '${value.todayCollectionList[index]['cus_name'].toString()}',
-                                                style: TextStyle(
-                                                    color: Colors.grey[700],
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16),
-                                              ),
+                                            Text(
+                                              "${value.todayCollectionList[index]['cus_name'].toString()} ",
+                                              style: TextStyle(
+                                                  color: Colors.grey[700],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
                                             ),
                                             Text(
                                               " - ${value.todayCollectionList[index]['rec_cusid'].toString()}",
