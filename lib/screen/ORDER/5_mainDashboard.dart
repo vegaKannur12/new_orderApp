@@ -31,23 +31,47 @@ class _MainDashboardState extends State<MainDashboard> {
     final prefs = await SharedPreferences.getInstance();
     sid = prefs.getString('sid');
     print("sid ......$sid");
-    print("formattedDate...$formattedDate");
-    Future.delayed(Duration(milliseconds: 1000), () async{
-      // Provider.of<Controller>(context, listen: false).getArea(sid!);
-      if(mounted)return;
-      Provider.of<Controller>(context, listen: false)
-          .selectTotalPrice(sid!, s[0]);
-      await Provider.of<Controller>(context, listen: false)
-          .selectCollectionPrice(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false)
-          .mainDashtileValues(sid!, s[0]);
+    print("formattedDates...$formattedDate");
+    Future.delayed(Duration(milliseconds: 1000), () async {
+      // await Provider.of<Controller>(context, listen: false)
+      //     .selectTotalPrice(sid!, s[0]);
+      // await Provider.of<Controller>(context, listen: false)
+      //     .selectCollectionPrice(sid!, s[0]);
+      // await Provider.of<Controller>(context, listen: false)
+      //     .mainDashtileValues(sid!, s[0]);
+      // if (!mounted) return;
+      // setState(() async {
+      //   await Provider.of<Controller>(context, listen: false)
+      //       .selectTotalPrice(sid!, s[0]);
+      //   await Provider.of<Controller>(context, listen: false)
+      //       .selectCollectionPrice(sid!, s[0]);
+      //   await Provider.of<Controller>(context, listen: false)
+      //       .mainDashtileValues(sid!, s[0]);
+      // });
+      if (this.mounted) {
+        setState(() {
+
+            Provider.of<Controller>(context, listen: false)
+                .selectTotalPrice(sid!, s[0]);
+            Provider.of<Controller>(context, listen: false)
+                .selectCollectionPrice(sid!, s[0]);
+            Provider.of<Controller>(context, listen: false)
+                .mainDashtileValues(sid!, s[0]);
+
+        });
+      }
+
+      // if(mounted)return;
     });
   }
 
   @override
   void initState() {
+
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
+
     print("init");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
@@ -63,6 +87,7 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    // bool get mounted => _element != null;
     Size size = MediaQuery.of(context).size;
     return Column(
       children: [
@@ -345,7 +370,8 @@ class _MainDashboardState extends State<MainDashboard> {
                                 : title == "No shop visited"
                                     ? Image.asset("asset/6.png")
                                     : title == "Return"
-                                    ? Image.asset("asset/7.png"):null,
+                                        ? Image.asset("asset/7.png")
+                                        : null,
               ),
               // Padding(
               //   padding: const EdgeInsets.all(8.0),

@@ -1455,7 +1455,7 @@ class Controller extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  mainDashtileValues(String sid, String date) async {
+  Future<dynamic> mainDashtileValues(String sid, String date) async {
     print("haiii pty");
     orderCount = await OrderAppDB.instance.countCommonQuery(
         "orderMasterTable", " userid='$sid' AND orderdate='$date'");

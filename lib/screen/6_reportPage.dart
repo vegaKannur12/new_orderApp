@@ -22,6 +22,7 @@ class _ReportPageState extends State<ReportPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
   }
 
   @override
@@ -31,7 +32,7 @@ class _ReportPageState extends State<ReportPage> {
       // bottomNavigationBar: Row(
       //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       //   children: [
-         
+
       //   ],
       // ),
       resizeToAvoidBottomInset: false,

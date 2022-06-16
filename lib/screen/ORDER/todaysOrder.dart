@@ -27,15 +27,18 @@ class _TodaysOrderState extends State<TodaysOrder> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+
     Future.delayed(Duration(milliseconds: 1000), () async {
       date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
       s = date!.split(" ");
-      if (!mounted) return;
-      await Provider.of<Controller>(context, listen: false)
-          .todayOrder(s[0], context);
-
+      if (this.mounted) {
+        setState(() {
+          Provider.of<Controller>(context, listen: false)
+              .todayOrder(s[0], context);
+        });
+      }
     });
+    super.initState();
     // Future.delayed(Duration(seconds: 1), () {
     //   WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
     // });
@@ -129,14 +132,26 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                         SizedBox(
                                           width: size.width * 0.02,
                                         ),
-                                        Text(
-                                          value.todayOrderList[index]
-                                              ["cus_name"],
-                                          style: TextStyle(
-                                              color: Colors.grey[700],
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        RichText(
+                                          overflow: TextOverflow.clip,
+                                          maxLines: 2,
+                                          text: TextSpan(
+                                            text:
+                                                '${value.todayOrderList[index]["cus_name"]}',
+                                            style: TextStyle(
+                                                color: Colors.grey[700],
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
                                         ),
+                                        // Text(
+                                        //   value.todayOrderList[index]
+                                        //       ["cus_name"],
+                                        //   style: TextStyle(
+                                        //       color: Colors.grey[700],
+                                        //       fontWeight: FontWeight.bold,
+                                        //       fontSize: 16),
+                                        // ),
                                         Text(" - "),
                                         Text(
                                           value.todayOrderList[index]["Cus_id"],

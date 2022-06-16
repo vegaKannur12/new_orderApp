@@ -24,9 +24,12 @@ class _TodayCollectionState extends State<TodayCollection> {
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
     Future.delayed(const Duration(milliseconds: 1000), () async {
-      if (!mounted) return;
-      await Provider.of<Controller>(context, listen: false)
-          .todayCollection(formattedDate!, context);
+      if (this.mounted) {
+        setState(() {
+          Provider.of<Controller>(context, listen: false)
+              .todayCollection(formattedDate!, context);
+        });
+      }
     });
   }
 
@@ -96,12 +99,17 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                   P_Settings.roundedButtonColor,
                                             ),
                                             SizedBox(width: size.width * 0.03),
-                                            Text(
-                                              "\u{20B9}${value.todayCollectionList[index]['cus_name'].toString()} ",
-                                              style: TextStyle(
-                                                  color: Colors.grey[700],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
+                                            RichText(
+                                              overflow: TextOverflow.clip,
+                                              maxLines: 2,
+                                              text: TextSpan(
+                                                text:
+                                                    '${value.todayCollectionList[index]['cus_name'].toString()}',
+                                                style: TextStyle(
+                                                    color: Colors.grey[700],
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16),
+                                              ),
                                             ),
                                             Text(
                                               " - ${value.todayCollectionList[index]['rec_cusid'].toString()}",
