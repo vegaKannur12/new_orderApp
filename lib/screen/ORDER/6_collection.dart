@@ -45,7 +45,7 @@ class _CollectionPageState extends State<CollectionPage> {
     s = formattedDate!.split(" ");
     print("cuid----${widget.cuid}");
      Provider.of<Controller>(context, listen: false)
-        .fetchtotalcollectionFromTable(widget.cuid!,s[0]!);
+        .fetchtotalcollectionFromTable(widget.cuid!);
   }
 
   @override
@@ -274,8 +274,8 @@ class _CollectionPageState extends State<CollectionPage> {
                                         noteController.clear();
                                         Provider.of<Controller>(context,
                                                 listen: false)
-                                            .fetchtotalcollectionFromTable(widget.cuid!,
-                                                s[0]!);
+                                            .fetchtotalcollectionFromTable(widget.cuid!
+                                                );
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .mainDashtileValues(sid!, s[0]);
