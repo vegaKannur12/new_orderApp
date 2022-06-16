@@ -23,6 +23,7 @@ class _ReportPageState extends State<ReportPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
   }
 
   @override

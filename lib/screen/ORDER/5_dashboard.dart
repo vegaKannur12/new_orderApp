@@ -52,7 +52,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? cid;
   String? sid;
   String? os;
-
+  bool val=true;
   String menu_index = "S1";
   List defaultitems = ["upload data", "download page", "logout"];
   DateTime date = DateTime.now();
@@ -80,6 +80,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     // print("haiiiiii");
+    Future.delayed(Duration.zero).then((_) {
+      // you code with context here
+    });
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
 
@@ -122,7 +125,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     print("formattedDate...$formattedDate");
     print("dashboard init");
     // print("${widget.type}");
-    
+    if (widget.type == "return from cartList") {
+      print("from cart");
+      menu_index = "S2";
+    }
     print("dididdd");
     if (widget.type != "return from cartList") {
       Provider.of<Controller>(context, listen: false).getArea(sid!);
@@ -131,14 +137,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
     Provider.of<Controller>(context, listen: false)
         .mainDashtileValues(sid!, s[0]);
-    Provider.of<Controller>(context, listen: false)
-        .mainDashAmounts(sid!, s[0]);
+    Provider.of<Controller>(context, listen: false).mainDashAmounts(sid!, s[0]);
 
     print("cid--sid--$cid--$sid");
     return sid;
   }
-
-  
 
   _getDrawerItemWidget(String pos) {
     print("pos---${pos}");
@@ -238,15 +241,31 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   void didUpdateWidget(covariant Dashboard oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-    print("jhfhdxkjfjkd");
-    if (widget.type == "return from cartList") {
-      print("from cart");
-      menu_index = "S2";
+    if (oldWidget == widget) {
+      print("jhfhdxkjfjkd");
+      if (widget.type == "return from cartList") {
+        print("from cart");
+        menu_index = "S2";
+      }
     }
   }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+
+    if (widget.type == "return from cartList") {
+      print("from cart");
+      if (val) {
+        menu_index = "S2";
+        val=false;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
     // Provider.of<Controller>(context, listen: false)
     //     .todayCollection(s[0], context);
 
