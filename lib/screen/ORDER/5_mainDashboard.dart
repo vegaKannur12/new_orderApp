@@ -32,16 +32,15 @@ class _MainDashboardState extends State<MainDashboard> {
     sid = prefs.getString('sid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
-    Future.delayed(Duration(milliseconds: 1000), () async{
-      // Provider.of<Controller>(context, listen: false).getArea(sid!);
-      if(mounted)return;
-      Provider.of<Controller>(context, listen: false)
-          .selectTotalPrice(sid!, s[0]);
-      await Provider.of<Controller>(context, listen: false)
-          .selectCollectionPrice(sid!, s[0]);
-      Provider.of<Controller>(context, listen: false)
-          .mainDashtileValues(sid!, s[0]);
-    });
+    // Future.delayed(Duration(milliseconds: 1000), () async {
+    //   // if(mounted)return;
+    //   // Provider.of<Controller>(context, listen: false)
+    //   //     .selectTotalPrice(sid!, s[0]);
+    //   // Provider.of<Controller>(context, listen: false)
+    //   //     .selectCollectionPrice(sid!, s[0]);
+    //   // Provider.of<Controller>(context, listen: false)
+    //   //     .mainDashtileValues(sid!, s[0]);
+    // });
   }
 
   @override
@@ -51,15 +50,16 @@ class _MainDashboardState extends State<MainDashboard> {
     print("init");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
+    sharedPref();
+
   }
 
-  @override
-  void didChangeDependencies() {
-    print("didchange");
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    sharedPref();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   print("didchange");
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -286,8 +286,11 @@ class _MainDashboardState extends State<MainDashboard> {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            Provider.of<Controller>(context, listen: false)
-                                .areaSelection(selected!);
+                            if (selected != null) {
+                              Provider.of<Controller>(context, listen: false)
+                                  .areaSelection(selected!);
+                            }
+
                             Navigator.pop(context);
                           },
                           child: Text("save"))
@@ -345,7 +348,8 @@ class _MainDashboardState extends State<MainDashboard> {
                                 : title == "No shop visited"
                                     ? Image.asset("asset/6.png")
                                     : title == "Return"
-                                    ? Image.asset("asset/7.png"):null,
+                                        ? Image.asset("asset/7.png")
+                                        : null,
               ),
               // Padding(
               //   padding: const EdgeInsets.all(8.0),

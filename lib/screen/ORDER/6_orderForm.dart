@@ -107,7 +107,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     print("company Id ......$cid");
 
     print("sid--os-${sid}--$os");
-    Provider.of<Controller>(context, listen: false).getArea(sid!);
+    // Provider.of<Controller>(context, listen: false).getArea(sid!);
   }
 
   @override
@@ -1054,8 +1054,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                           await Provider.of<
                                                                       Controller>(
                                                                   context,
-                                                                  listen:
-                                                                      false)
+                                                                  listen: false)
                                                               .getBalance(cid,
                                                                   custmerId);
                                                           showDialog(

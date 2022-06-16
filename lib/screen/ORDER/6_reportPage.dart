@@ -161,6 +161,7 @@ class _ReportPageState extends State<ReportPage> {
                 child: Consumer<Controller>(
                   builder: (context, value, child) {
                     return TextField(
+                       enableInteractiveSelection: false,
                         decoration: InputDecoration(
                           hintText: "Search with  customer name",
                           hintStyle:

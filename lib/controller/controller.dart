@@ -640,6 +640,7 @@ class Controller extends ChangeNotifier {
     try {
       areaList = await OrderAppDB.instance.getArea(sid);
       print("areaList----${areaList}");
+      print("areaList before ----${areDetails}");
       for (var item in areaList) {
         areDetails.add(item);
       }
@@ -1609,5 +1610,7 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  
+  clearList(){
+    areDetails.clear();notifyListeners();
+  }
 }
