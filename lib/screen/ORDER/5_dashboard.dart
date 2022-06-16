@@ -91,6 +91,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       length: myTabs.length,
       // initialIndex: 0,
     );
+ 
 
     _tabController!.addListener(() {
       if (!mounted) return;
@@ -103,6 +104,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       print("Selected Index: " + _tabController!.index.toString());
     });
     getCompaniId();
+    
     // if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
     //   menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
     // }
@@ -133,8 +135,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
     Provider.of<Controller>(context, listen: false)
         .mainDashtileValues(sid!, s[0]);
-    Provider.of<Controller>(context, listen: false)
-        .mainDashAmounts(sid!, s[0]);
+    Provider.of<Controller>(context, listen: false).mainDashAmounts(sid!, s[0]);
 
     print("cid--sid--$cid--$sid");
     return sid;
@@ -233,9 +234,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       //   return TodaysOrder();
     }
   }
+
   @override
   Widget build(BuildContext context) {
-
     // Provider.of<Controller>(context, listen: false)
     //     .todayCollection(s[0], context);
 

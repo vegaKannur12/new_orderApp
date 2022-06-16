@@ -40,7 +40,7 @@ class Controller extends ChangeNotifier {
   List<bool> isExpanded = [];
   List<bool> isVisibleTable = [];
   List<Map<String, dynamic>> collectionList = [];
-  List<Map<String, dynamic>> fetchcollectionList=[];
+  List<Map<String, dynamic>> fetchcollectionList = [];
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
@@ -1127,7 +1127,6 @@ class Controller extends ChangeNotifier {
     isLoading = true;
     print("haiiii");
     var result = await OrderAppDB.instance.todayOrder(date);
-
     print("aftr cut----$result");
     if (result != null) {
       for (var item in result) {
@@ -1379,13 +1378,9 @@ class Controller extends ChangeNotifier {
   }
 
 ///////////////// order total today /////////////
- 
 
- 
-
- 
 ///////////////////////////////////////////////////////////////////
-  mainDashAmounts(String sid, String date) async {
+  Future<dynamic> mainDashAmounts(String sid, String date) async {
     collectionAmount = await OrderAppDB.instance.sumCommonQuery("rec_amount",
         'collectionTable', "rec_staffid='$sid' AND rec_date='$date'");
     ordrAmount = await OrderAppDB.instance.sumCommonQuery("total_price",

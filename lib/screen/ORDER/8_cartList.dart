@@ -4,6 +4,7 @@ import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
+import 'package:orderapp/screen/ORDER/6_orderForm.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -164,13 +165,15 @@ class _CartListState extends State<CartList> {
                                     double.parse(value.orderTotal!));
                             // var result = await OrderAppDB.instance.getDataFromMasterAndDetail("os='${widget.os}' AND customerid='${widget.custmerId}'");
                             Provider.of<Controller>(context, listen: false)
+                                .todayOrder(s[0], context);
+                            Provider.of<Controller>(context, listen: false)
                                 .clearList();
+
                             Provider.of<Controller>(context, listen: false)
                                 .mainDashtileValues(sid, s[0]);
                             Provider.of<Controller>(context, listen: false)
                                 .mainDashAmounts(sid, s[0]);
-                            Provider.of<Controller>(context, listen: false)
-                                .todayOrder(s[0], context);
+
                             return showDialog(
                                 context: context,
                                 builder: (context) {

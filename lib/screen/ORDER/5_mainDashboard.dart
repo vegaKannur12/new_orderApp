@@ -47,7 +47,7 @@ class _MainDashboardState extends State<MainDashboard> {
 
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
+    // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
 
     print("init");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);

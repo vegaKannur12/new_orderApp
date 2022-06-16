@@ -1187,7 +1187,7 @@ class OrderAppDB {
   }
 
   ////////////////// today order total //////////////////////////////////
-  
+
   sumCommonQuery(String field, String table, String condition) async {
     String sum;
     Database db = await instance.database;
