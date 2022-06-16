@@ -44,8 +44,11 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   void initState() {
+
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
+
     print("init");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
@@ -62,6 +65,7 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    // bool get mounted => _element != null;
     Size size = MediaQuery.of(context).size;
     return Column(
       children: [

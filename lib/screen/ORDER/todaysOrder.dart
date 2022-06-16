@@ -130,14 +130,26 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                         SizedBox(
                                           width: size.width * 0.02,
                                         ),
-                                        Text(
-                                          value.todayOrderList[index]
-                                              ["cus_name"],
-                                          style: TextStyle(
-                                              color: Colors.grey[700],
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        RichText(
+                                          overflow: TextOverflow.clip,
+                                          maxLines: 2,
+                                          text: TextSpan(
+                                            text:
+                                                '${value.todayOrderList[index]["cus_name"]}',
+                                            style: TextStyle(
+                                                color: Colors.grey[700],
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
                                         ),
+                                        // Text(
+                                        //   value.todayOrderList[index]
+                                        //       ["cus_name"],
+                                        //   style: TextStyle(
+                                        //       color: Colors.grey[700],
+                                        //       fontWeight: FontWeight.bold,
+                                        //       fontSize: 16),
+                                        // ),
                                         Text(" - "),
                                         Text(
                                           value.todayOrderList[index]["Cus_id"],

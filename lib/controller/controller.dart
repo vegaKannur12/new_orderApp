@@ -40,6 +40,7 @@ class Controller extends ChangeNotifier {
   List<bool> isExpanded = [];
   List<bool> isVisibleTable = [];
   List<Map<String, dynamic>> collectionList = [];
+  List<Map<String, dynamic>> fetchcollectionList=[];
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
@@ -1394,7 +1395,7 @@ class Controller extends ChangeNotifier {
   }
 ////////////////////////////////////////////////////////////////////
 
-  mainDashtileValues(String sid, String date) async {
+  Future<dynamic> mainDashtileValues(String sid, String date) async {
     print("haiii pty");
     orderCount = await OrderAppDB.instance.countCommonQuery(
         "orderMasterTable", " userid='$sid' AND orderdate='$date'");
@@ -1517,20 +1518,20 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////////////////////////////////////////////////////////////
-  fetchtotalcollectionFromTable(String todaydate) async {
-    collectionList.clear();
+  fetchtotalcollectionFromTable(String cusid, String todaydate) async {
+    fetchcollectionList.clear();
     isLoading = true;
     var res = await OrderAppDB.instance
-        .selectAllcommonwithdesc('collectionTable', "rec_date='$todaydate'");
+        .selectAllcommonwithdesc('collectionTable', "rec_date='$todaydate' AND rec_cusid = '$cusid'");
     if (res != null) {
       for (var menu in res) {
-        collectionList.add(menu);
+        fetchcollectionList.add(menu);
       }
     } else {
       noData = true;
       notifyListeners();
     }
-    print("collectionList----${collectionList}");
+    print("fetchcollectionList----${fetchcollectionList}");
     isLoading = false;
     notifyListeners();
   }

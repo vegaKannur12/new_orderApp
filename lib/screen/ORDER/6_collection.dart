@@ -44,8 +44,8 @@ class _CollectionPageState extends State<CollectionPage> {
     formattedDate = DateFormat('yyyy-MM-dd kk:mm:ss').format(date);
     s = formattedDate!.split(" ");
     print("cuid----${widget.cuid}");
-    Provider.of<Controller>(context, listen: false)
-        .fetchtotalcollectionFromTable(formattedDate!);
+     Provider.of<Controller>(context, listen: false)
+        .fetchtotalcollectionFromTable(widget.cuid!,s[0]!);
   }
 
   @override
@@ -268,17 +268,14 @@ class _CollectionPageState extends State<CollectionPage> {
                                                 widget.sid!,
                                                 0,
                                                 0);
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .collectionList
-                                            .clear();
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .fetchtotalcollectionFromTable(
-                                                formattedDate!);
+
                                         amtController.clear();
                                         dscController.clear();
                                         noteController.clear();
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .fetchtotalcollectionFromTable(widget.cuid!,
+                                                s[0]!);
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .mainDashtileValues(sid!, s[0]);
@@ -324,7 +321,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                   // color: P_Settings.collection,
                                   height: size.height * 0.7,
                                   child: ListView.builder(
-                                    itemCount: value.collectionList.length,
+                                    itemCount: value.fetchcollectionList.length,
                                     itemBuilder: (context, index) {
                                       return Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -338,12 +335,12 @@ class _CollectionPageState extends State<CollectionPage> {
                                                 P_Settings.roundedButtonColor,
                                           ),
                                           title: Text(
-                                            value.collectionList[index]
+                                            value.fetchcollectionList[index]
                                                 ['rec_date'],
                                             style: TextStyle(fontSize: 16),
                                           ),
                                           subtitle: Text(
-                                              "\u{20B9}${value.collectionList[index]['rec_amount'].toString()}"),
+                                              "\u{20B9}${value.fetchcollectionList[index]['rec_amount'].toString()}"),
                                         ),
                                       );
                                     },
