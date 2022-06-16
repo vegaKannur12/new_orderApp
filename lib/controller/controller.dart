@@ -28,8 +28,7 @@ class Controller extends ChangeNotifier {
   bool isreportSearch = false;
   String? areaSelecton;
   bool isVisible = false;
-  bool noData = false;
-  bool noData1 = false;
+
   bool noreportdata = false;
 
   int? shopVisited;
@@ -88,8 +87,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportData = [];
   List<Map<String, dynamic>> sumPrice = [];
   List<Map<String, dynamic>> collectionsumPrice = [];
-  String? collectionAmount;
-  String? ordrAmount;
+  String collectionAmount="0.0";
+  String ordrAmount="0.0";
   String? remarkCount;
   String? orderCount;
   String? collectionCount;
@@ -940,17 +939,8 @@ class Controller extends ChangeNotifier {
     }
     await OrderAppDB.instance.deleteFromTableCommonQuery(
         "orderBagTable", "os='${os}' AND customerid='${customer_id}'");
+
     bagList.clear();
-
-    // om = await OrderAppDB.instance.selectFrommasterQuery('orderMasterTable',
-    //     "os='${os}' AND customerid='${customer_id}' AND order_id=${order_id} ");
-
-    // print("cartlist select ---$om");
-
-    //  List<Map<String, dynamic>> od = await OrderAppDB.instance
-    //     .selectCommonQuery("orderDetailTable", "order_id='${om[0]["oid"]}'");
-    // print("result from detailtable----$od");
-    // om.add(od);
     notifyListeners();
   }
 
@@ -1134,11 +1124,8 @@ class Controller extends ChangeNotifier {
       }
       isExpanded = List.generate(todayOrderList.length, (index) => false);
       isVisibleTable = List.generate(todayOrderList.length, (index) => false);
-    } else {
-      noData = true;
-      notifyListeners();
     }
-
+   
     print("todayOrderList----$todayOrderList");
     isLoading = false;
     notifyListeners();
@@ -1160,10 +1147,7 @@ class Controller extends ChangeNotifier {
       isExpanded = List.generate(todayCollectionList.length, (index) => false);
       isVisibleTable =
           List.generate(todayCollectionList.length, (index) => false);
-    } else {
-      noData1 = true;
-      notifyListeners();
-    }
+    } 
 
     print("todayCollectionList----$todayCollectionList");
     isLoading = false;
@@ -1385,6 +1369,11 @@ class Controller extends ChangeNotifier {
         'collectionTable', "rec_staffid='$sid' AND rec_date='$date'");
     ordrAmount = await OrderAppDB.instance.sumCommonQuery("total_price",
         'orderMasterTable', "userid='$sid' AND orderdate='$date'");
+    if(collectionAmount==null ||collectionAmount.isEmpty ){
+      collectionAmount="0.0";
+    }if(ordrAmount==null || ordrAmount.isEmpty){
+      ordrAmount="0.0";
+    }
     print("Amount---$collectionAmount--$ordrAmount");
     notifyListeners();
   }
@@ -1522,10 +1511,7 @@ class Controller extends ChangeNotifier {
       for (var menu in res) {
         fetchcollectionList.add(menu);
       }
-    } else {
-      noData = true;
-      notifyListeners();
-    }
+    } 
     print("fetchcollectionList----${fetchcollectionList}");
     isLoading = false;
     notifyListeners();

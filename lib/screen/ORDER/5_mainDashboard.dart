@@ -31,15 +31,7 @@ class _MainDashboardState extends State<MainDashboard> {
     sid = prefs.getString('sid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
-    // Future.delayed(Duration(milliseconds: 1000), () async {
-    //   // if(mounted)return;
-    //   // Provider.of<Controller>(context, listen: false)
-    //   //     .selectTotalPrice(sid!, s[0]);
-    //   // Provider.of<Controller>(context, listen: false)
-    //   //     .selectCollectionPrice(sid!, s[0]);
-    //   // Provider.of<Controller>(context, listen: false)
-    //   //     .mainDashtileValues(sid!, s[0]);
-    // });
+    // Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
   }
 
   @override
@@ -56,16 +48,8 @@ class _MainDashboardState extends State<MainDashboard> {
 
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   print("didchange");
-  //   // TODO: implement didChangeDependencies
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // bool get mounted => _element != null;
     Size size = MediaQuery.of(context).size;
     return Column(
       children: [
@@ -205,12 +189,12 @@ class _MainDashboardState extends State<MainDashboard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Orders",
-                                  "\u{20B9}${value.ordrAmount!= null ? value.ordrAmount:"0.0"}"),
+                                  "\u{20B9}${value.ordrAmount == "null" ? "0.0" : value.ordrAmount}"),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Collection",
-                                  "\u{20B9}${value.collectionAmount!= null ? value.collectionAmount:"0.0"}"),
+                                  "\u{20B9}${value.collectionAmount == "null" ? "0.0" : value.collectionAmount}"),
                             ),
                           ],
                         ),
