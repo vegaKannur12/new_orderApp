@@ -130,17 +130,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       Provider.of<Controller>(context, listen: false).getArea(sid!);
     }
     print("s[0]----${s[0]}");
+    Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
     Provider.of<Controller>(context, listen: false)
         .mainDashtileValues(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .selectTotalPrice(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .selectCollectionPrice(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .mainDashtileValues(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
-    // Provider.of<Controller>(context, listen: false)
-    //     .todayCollection(s[0], context);
+    Provider.of<Controller>(context, listen: false)
+        .mainDashAmounts(sid!, s[0]);
+
     print("cid--sid--$cid--$sid");
     return sid;
   }
@@ -238,41 +233,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       //   return TodaysOrder();
     }
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   // TODO: implement didChangeDependencies
-  //   super.didChangeDependencies();
-  //   // Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
-
-  //   if (widget.type == "return from cartList") {
-  //     menu_index = "S2";
-  //   }
-  //   print("dididdd");
-
-  //   // print("_seletdde---$_selectedIndex");
-  // }
-
-  // @override
-  // void dispose() {
-  //   _tabController!.dispose();
-  //   // TODO: implement dispose
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // String sid = getCompaniId();
+
     // Provider.of<Controller>(context, listen: false)
-    //     .selectTotalPrice(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .selectCollectionPrice(sid!, s[0]);
-    // Provider.of<Controller>(context, listen: false)
-    //     .mainDashtileValues(sid, s[0]);
-    Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
-    Provider.of<Controller>(context, listen: false)
-        .todayCollection(s[0], context);
-    // print("${Provider.of<Controller>(context, listen: false).menuList.length}");
+    //     .todayCollection(s[0], context);
+
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
         onWillPop: () => _onBackPressed(context),

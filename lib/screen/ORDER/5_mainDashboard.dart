@@ -205,12 +205,12 @@ class _MainDashboardState extends State<MainDashboard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Orders",
-                                  "\u{20B9}${value.sumPrice.length != 0 && value.sumPrice[0]['s'] != null && value.sumPrice.isNotEmpty ? value.sumPrice[0]['s'] : "0"}"),
+                                  "\u{20B9}${value.ordrAmount!= null ? value.ordrAmount:"0.0"}"),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Collection",
-                                  "\u{20B9}${value.collectionsumPrice.length != 0 && value.collectionsumPrice[0]['S'] != null && value.collectionsumPrice.isNotEmpty ? value.collectionsumPrice[0]['S'] : "0"}"),
+                                  "\u{20B9}${value.collectionAmount!= null ? value.collectionAmount:"0.0"}"),
                             ),
                           ],
                         ),

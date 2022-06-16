@@ -1082,7 +1082,7 @@ class OrderAppDB {
   }
 
   ////////////////////////////////////////////////////////////////
-   Future<dynamic> todayCollection(String date) async {
+  Future<dynamic> todayCollection(String date) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
 
@@ -1187,70 +1187,18 @@ class OrderAppDB {
   }
 
   ////////////////// today order total //////////////////////////////////
-  Future<dynamic> selectSumPlaceOrder(String sid, String todaydate) async {
-    List<Map<String, dynamic>> result;
-    var res;
+  
+  sumCommonQuery(String field, String table, String condition) async {
     String sum;
     Database db = await instance.database;
-
-    result = await db.rawQuery(
-        "SELECT sum(total_price) as S FROM orderMasterTable WHERE userid='$sid' AND orderdate='$todaydate'");
-    if (result != null && result.isNotEmpty && result != null) {
-      res = await db.rawQuery(
-          "SELECT sum(total_price) as s FROM orderMasterTable WHERE userid='$sid' AND orderdate='$todaydate'");
-      sum = res[0]["S"].toString();
-      print("sum from db----$sum");
-    } else {
+    var result = await db
+        .rawQuery("SELECT sum($field) as S FROM $table WHERE $condition");
+    if (result.length == 0) {
       sum = "0.0";
-    }
-
-    return res;
-  }
-
-  /////////////////// today order count /////////////
-  Future<dynamic> orderCount(String sid, String todaydate) async {
-    print("sid.....$sid");
-    List<Map<String, dynamic>> result;
-    var res;
-    String orderCount;
-    Database db = await instance.database;
-    result = await db.rawQuery(
-        "SELECT COUNT(id) as S FROM orderMasterTable WHERE userid='$sid' AND orderdate='$todaydate'");
-    print("result-order-----$result");
-    if (result != null && result.isNotEmpty && result != null) {
-      res = await db.rawQuery(
-          "SELECT COUNT(id) as S FROM orderMasterTable WHERE userid='$sid' AND orderdate='$todaydate'");
-      orderCount = res[0]["S"].toString();
-      print("sum from db----$orderCount");
     } else {
-      orderCount = "0.0";
+      sum = result[0]["S"].toString();
     }
-
-    return res;
-  }
-  ///////////////////// total collection amount/////////////
-
-  Future<dynamic> selectSumCollectionAmount(
-      String sid, String collectDate) async {
-    print("sid.....$sid");
-    List<Map<String, dynamic>> result;
-    var res;
-    String sum;
-    Database db = await instance.database;
-
-    result = await db.rawQuery(
-        "SELECT sum(rec_amount) as S FROM collectionTable WHERE rec_staffid='$sid' AND rec_date='$collectDate'");
-    print("result-order-----$result");
-    if (result != null && result.isNotEmpty && result != null) {
-      res = await db.rawQuery(
-          "SELECT sum(rec_amount) as S FROM collectionTable WHERE rec_staffid='$sid' AND rec_date='$collectDate'");
-      sum = res[0]["S"].toString();
-      print("sum from db----$sum");
-    } else {
-      sum = "0.0";
-    }
-
-    return res;
+    return sum;
   }
 
 ///////////////////////////////////////////////////////

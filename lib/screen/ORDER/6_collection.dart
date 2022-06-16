@@ -279,10 +279,14 @@ class _CollectionPageState extends State<CollectionPage> {
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .mainDashtileValues(sid!, s[0]);
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .mainDashAmounts(sid, s[0]);
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .todayCollection(s[0], context);
                                         tst.toast("Saved");
                                       }
-
-                                      //  }
                                     },
                                     child: Text('Save'),
                                   ),

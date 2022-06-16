@@ -167,6 +167,10 @@ class _CartListState extends State<CartList> {
                                 .clearList();
                             Provider.of<Controller>(context, listen: false)
                                 .mainDashtileValues(sid, s[0]);
+                            Provider.of<Controller>(context, listen: false)
+                                .mainDashAmounts(sid, s[0]);
+                            Provider.of<Controller>(context, listen: false)
+                                .todayOrder(s[0], context);
                             return showDialog(
                                 context: context,
                                 builder: (context) {
