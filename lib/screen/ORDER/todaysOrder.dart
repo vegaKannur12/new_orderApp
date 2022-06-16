@@ -98,13 +98,15 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                         SizedBox(
                                           width: size.width * 0.02,
                                         ),
-                                        Text(
-                                            value.todayOrderList[index]
-                                                ["Order_Num"],
-                                            style: TextStyle(
-                                                color: Colors.grey[700],
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 17)),
+                                        Flexible(
+                                          child: Text(
+                                              value.todayOrderList[index]
+                                                  ["Order_Num"],
+                                              style: TextStyle(
+                                                  color: Colors.grey[700],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17)),
+                                        ),
                                       ],
                                     ),
                                     Row(
@@ -125,7 +127,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                             style: TextStyle(
                                                 color: Colors.grey[700],
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 16),
+                                                fontSize: 15),
                                           ),
                                         ),
                                         // Text(

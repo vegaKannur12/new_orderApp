@@ -162,16 +162,10 @@ class _CartListState extends State<CartList> {
                                     sid!,
                                     widget.areaId,
                                     double.parse(value.orderTotal!));
-                            //  Provider.of<Controller>(context, listen: false)
-                            //     .todayOrder(s[0], context);
-                            // var result = await OrderAppDB.instance.getDataFromMasterAndDetail("os='${widget.os}' AND customerid='${widget.custmerId}'");
+
                             Provider.of<Controller>(context, listen: false)
                                 .clearList();
-                            // Provider.of<Controller>(context, listen: false)
-                            //     .mainDashtileValues(sid, s[0]);
-                            // Provider.of<Controller>(context, listen: false)
-                            //     .mainDashAmounts(sid, s[0]);
-                           
+
                             return showDialog(
                                 context: context,
                                 builder: (context) {
