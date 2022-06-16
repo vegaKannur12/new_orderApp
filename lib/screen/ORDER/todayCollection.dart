@@ -50,7 +50,7 @@ class _TodayCollectionState extends State<TodayCollection> {
               color: P_Settings.wavecolor,
             );
           } else {
-            if (value.noData1) {
+            if (value.todayCollectionList.length == 0) {
               return Container(
                 height: size.height * 0.7,
                 width: double.infinity,

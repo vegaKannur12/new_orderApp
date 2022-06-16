@@ -1193,11 +1193,10 @@ class OrderAppDB {
     Database db = await instance.database;
     var result = await db
         .rawQuery("SELECT sum($field) as S FROM $table WHERE $condition");
-    if (result.length == 0) {
-      sum = "0.0";
-    } else {
-      sum = result[0]["S"].toString();
-    }
+    print("result sum----$result");
+    sum = result[0]["S"].toString();
+   
+    print("sum--$sum");
     return sum;
   }
 

@@ -30,16 +30,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
     super.initState();
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     s = date!.split(" ");
-    // Future.delayed(Duration(milliseconds: 1000), () async {
-
-    //   if (!mounted) return;
-    //   await Provider.of<Controller>(context, listen: false)
-    //       .todayOrder(s[0], context);
-
-    // });
-    // Future.delayed(Duration(seconds: 1), () {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
-    // });
+ 
   }
 
   @override
@@ -49,12 +40,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
     print("todys oredr");
   }
 
-  // @override
-  // void deactivate() {
-  //   // TODO: implement deactivate
-  //   super.deactivate();
-  // }
-
+ 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -66,7 +52,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
               color: P_Settings.wavecolor,
             );
           } else {
-            if (value.noData) {
+            if (value.todayOrderList.length==0) {
               return Container(
                 height: size.height * 0.7,
                 width: double.infinity,

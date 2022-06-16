@@ -52,7 +52,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? cid;
   String? sid;
   String? os;
-  bool val=true;
+  bool val = true;
   String menu_index = "S1";
   List defaultitems = ["upload data", "download page", "logout"];
   DateTime date = DateTime.now();
@@ -135,6 +135,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     }
     print("s[0]----${s[0]}");
     Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
+    Provider.of<Controller>(context, listen: false)
+        .todayCollection(s[0], context);
     Provider.of<Controller>(context, listen: false)
         .mainDashtileValues(sid!, s[0]);
     Provider.of<Controller>(context, listen: false).mainDashAmounts(sid!, s[0]);
@@ -259,7 +261,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       print("from cart");
       if (val) {
         menu_index = "S2";
-        val=false;
+        val = false;
       }
     }
   }
@@ -392,6 +394,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   actions: [
                     IconButton(
                       onPressed: () async {
+                        await OrderAppDB.instance
+                            .deleteFromTableCommonQuery("orderMasterTable", "");
+                        await OrderAppDB.instance
+                            .deleteFromTableCommonQuery("orderDetailTable", "");
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.green,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () async {
                         List<Map<String, dynamic>> list =
                             await OrderAppDB.instance.getListOfTables();
                         Navigator.push(
@@ -400,7 +414,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                               builder: (context) => TableList(list: list)),
                         );
                       },
-                      icon: Icon(Icons.table_bar),
+                      icon: Icon(Icons.table_bar, color: Colors.green),
                     ),
                   ],
                 ),
