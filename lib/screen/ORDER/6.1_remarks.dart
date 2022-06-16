@@ -7,7 +7,6 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:provider/provider.dart';
 
-
 class RemarkPage extends StatefulWidget {
   String cus_id;
   String ser;
@@ -24,12 +23,14 @@ class _RemarkPageState extends State<RemarkPage> {
   CustomToast tost = CustomToast();
   DateTime now = DateTime.now();
   String? date;
+  List s = [];
   CustomPopup popup = CustomPopup();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    date = DateFormat('yyyy-MM-dd').format(now);
+    date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    s = date!.split(" ");
     Provider.of<Controller>(context, listen: false)
         .fetchremarkFromTable(widget.cus_id);
     print("date...${date}");
@@ -152,7 +153,7 @@ class _RemarkPageState extends State<RemarkPage> {
                                   print("jhjdfmax---$max");
 
                                   await OrderAppDB.instance.insertremarkTable(
-                                      date!,
+                                      s[0],
                                       widget.cus_id,
                                       widget.ser,
                                       remarkController.text,
@@ -164,6 +165,9 @@ class _RemarkPageState extends State<RemarkPage> {
                                           listen: false)
                                       .fetchremarkFromTable(widget.cus_id);
                                   remarkController.clear();
+                                  Provider.of<Controller>(context,
+                                          listen: false)
+                                      .mainDashtileValues(widget.sid, s[0]);
                                   tost.toast("success");
                                 }
                               },

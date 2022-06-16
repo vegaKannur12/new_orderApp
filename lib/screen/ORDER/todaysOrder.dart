@@ -28,14 +28,15 @@ class _TodaysOrderState extends State<TodaysOrder> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds: 1000), () async {
-      date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
-      s = date!.split(" ");
-      if (!mounted) return;
-      await Provider.of<Controller>(context, listen: false)
-          .todayOrder(s[0], context);
+    date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    s = date!.split(" ");
+    // Future.delayed(Duration(milliseconds: 1000), () async {
 
-    });
+    //   if (!mounted) return;
+    //   await Provider.of<Controller>(context, listen: false)
+    //       .todayOrder(s[0], context);
+
+    // });
     // Future.delayed(Duration(seconds: 1), () {
     //   WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
     // });

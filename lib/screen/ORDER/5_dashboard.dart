@@ -129,16 +129,20 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     if (widget.type != "return from cartList") {
       Provider.of<Controller>(context, listen: false).getArea(sid!);
     }
-
     print("s[0]----${s[0]}");
     Provider.of<Controller>(context, listen: false)
-        .selectTotalPrice(sid!, s[0]);
-    Provider.of<Controller>(context, listen: false)
-        .selectCollectionPrice(sid!, s[0]);
-    Provider.of<Controller>(context, listen: false)
         .mainDashtileValues(sid!, s[0]);
-
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectTotalPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectCollectionPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .mainDashtileValues(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
+    // Provider.of<Controller>(context, listen: false)
+    //     .todayCollection(s[0], context);
     print("cid--sid--$cid--$sid");
+    return sid;
   }
 
   _getDrawerItemWidget(String pos) {
@@ -258,6 +262,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // String sid = getCompaniId();
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectTotalPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .selectCollectionPrice(sid!, s[0]);
+    // Provider.of<Controller>(context, listen: false)
+    //     .mainDashtileValues(sid, s[0]);
+    Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
+    Provider.of<Controller>(context, listen: false)
+        .todayCollection(s[0], context);
     // print("${Provider.of<Controller>(context, listen: false).menuList.length}");
     Size size = MediaQuery.of(context).size;
     return WillPopScope(

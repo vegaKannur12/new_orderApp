@@ -25,7 +25,6 @@ class _MainDashboardState extends State<MainDashboard> {
   List<String> s = [];
   AreaSelectionPopup popup = AreaSelectionPopup();
   String? sid;
-
   sharedPref() async {
     print("helooo");
     final prefs = await SharedPreferences.getInstance();

@@ -1148,6 +1148,7 @@ class Controller extends ChangeNotifier {
     todayCollectionList.clear();
     isLoading = true;
     print("haiiii");
+    print("contrler date----$date");
     var result = await OrderAppDB.instance.todayCollection(date);
 
     print("aftr cut----$result");
@@ -1462,6 +1463,7 @@ class Controller extends ChangeNotifier {
         "orderMasterTable", " userid='$sid' AND orderdate='$date'");
     collectionCount = await OrderAppDB.instance.countCommonQuery(
         "collectionTable", "rec_staffid='$sid' AND rec_date='$date'");
+    print("collection count---$collectionCount");
     remarkCount = await OrderAppDB.instance.countCommonQuery(
         "remarksTable", "rem_staffid='$sid' AND rem_date='$date'");
     var res = await OrderAppDB.instance.countCustomer();

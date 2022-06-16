@@ -165,6 +165,8 @@ class _CartListState extends State<CartList> {
                             // var result = await OrderAppDB.instance.getDataFromMasterAndDetail("os='${widget.os}' AND customerid='${widget.custmerId}'");
                             Provider.of<Controller>(context, listen: false)
                                 .clearList();
+                            Provider.of<Controller>(context, listen: false)
+                                .mainDashtileValues(sid, s[0]);
                             return showDialog(
                                 context: context,
                                 builder: (context) {
