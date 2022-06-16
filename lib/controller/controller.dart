@@ -87,7 +87,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportData = [];
   List<Map<String, dynamic>> sumPrice = [];
   List<Map<String, dynamic>> collectionsumPrice = [];
-
+  String? collectionAmount;
+  String? ordrAmount;
   String? remarkCount;
   String? orderCount;
   String? collectionCount;
@@ -1120,7 +1121,7 @@ class Controller extends ChangeNotifier {
   }
 
   //////getHistory/////////////////////////////
-   Future<dynamic> todayOrder(String date, BuildContext context) async {
+  Future<dynamic> todayOrder(String date, BuildContext context) async {
     todayOrderList.clear();
     isLoading = true;
     print("haiiii");
@@ -1315,7 +1316,7 @@ class Controller extends ChangeNotifier {
         reportData.add(item);
       }
     } else {
-      noreportdata=true;
+      noreportdata = true;
       notifyListeners();
       // snackbar.showSnackbar(context, "please download customers !!!");
     }
@@ -1377,85 +1378,21 @@ class Controller extends ChangeNotifier {
   }
 
 ///////////////// order total today /////////////
-  Future<dynamic> selectTotalPrice(
-    String sid,
-    String todaydate,
-  ) async {
-    sumPrice.clear();
-    print("sid.......sid");
-    Map map = {};
-    isLoading = true;
-    var res = await OrderAppDB.instance.selectSumPlaceOrder(sid, todaydate);
-    print("resultssss....$res");
-    if (res.length > 0) {
-      for (var item in res) {
-        sumPrice.add(item);
-      }
-    }
-    print("report-----$sumPrice");
-    isLoading = false;
+ 
+
+ 
+
+ 
+///////////////////////////////////////////////////////////////////
+  mainDashAmounts(String sid, String date) async {
+    collectionAmount = await OrderAppDB.instance.sumCommonQuery("rec_amount",
+        'collectionTable', "rec_staffid='$sid' AND rec_date='$date'");
+    ordrAmount = await OrderAppDB.instance.sumCommonQuery("total_price",
+        'orderMasterTable', "userid='$sid' AND orderdate='$date'");
+    print("Amount---$collectionAmount--$ordrAmount");
     notifyListeners();
   }
-
-  ////////////////////// today order count ///////////////////
-  // Future<dynamic> selectOrderCount(String sid, String todaydate) async {
-  //   print("todaydate.......$todaydate");
-  //   Map map = {};
-  //   isLoading = true;
-
-  //   orderCount = await OrderAppDB.instance.countCommonQuery(
-  //       "orderMasterTable", " userid='$sid' AND orderdate='$todaydate'");
-
-  //   print("order count---$orderCount");
-  //   isLoading = false;
-  //   notifyListeners();
-  // }
-
-  ///////////////////// todayCollection total///////////////////
-  Future<dynamic> selectCollectionPrice(String sid, String collectDate) async {
-    collectionsumPrice.clear();
-    print("sid $sid $collectDate");
-    Map map = {};
-    isLoading = true;
-    var res =
-        await OrderAppDB.instance.selectSumCollectionAmount(sid, collectDate);
-    print("resultssss....$res");
-    if (res.length > 0) {
-      for (var item in res) {
-        collectionsumPrice.add(item);
-      }
-    }
-    print("report-----$collectionsumPrice");
-    isLoading = false;
-    notifyListeners();
-  }
-
-  /////////////////// today collection count//////////
-  // Future<dynamic> collectionCountFun(String sid, String collectDate) async {
-  //   print("sid $sid $collectDate");
-  //   Map map = {};
-  //   isLoading = true;
-
-  //   collectionCount = await OrderAppDB.instance.countCommonQuery(
-  //       "collectionTable", "rec_staffid='$sid' AND rec_date='$collectDate'");
-  //   print("resultssss....$res");
-
-  //   print("report-----$collectionCount");
-  //   isLoading = false;
-  //   notifyListeners();
-  // }
-
-/////////////////////////////////////
-  // Future<dynamic> remarkCountfun(String sid, String collectDate) async {
-  //   print("collectDate $sid $collectDate");
-  //   Map map = {};
-  //   isLoading = true;
-  //   count = await OrderAppDB.instance.countCommonQuery(
-  //       "remarksTable", "rem_staffid='$sid' AND rem_date='$collectDate'");
-  //   print("resultssss..renrk..$count");
-  //   isLoading = false;
-  //   notifyListeners();
-  // }
+////////////////////////////////////////////////////////////////////
 
   mainDashtileValues(String sid, String date) async {
     print("haiii pty");
@@ -1612,7 +1549,8 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  clearList(){
-    areDetails.clear();notifyListeners();
+  clearList() {
+    areDetails.clear();
+    notifyListeners();
   }
 }
