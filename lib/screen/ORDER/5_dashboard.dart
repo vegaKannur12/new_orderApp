@@ -121,10 +121,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
     print("formattedDate...$formattedDate");
     print("dashboard init");
-    print("${widget.type}");
-    if (widget.type == "return from cartList") {
-      menu_index = "S2";
-    }
+    // print("${widget.type}");
+    
     print("dididdd");
     if (widget.type != "return from cartList") {
       Provider.of<Controller>(context, listen: false).getArea(sid!);
@@ -139,6 +137,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     print("cid--sid--$cid--$sid");
     return sid;
   }
+
+  
 
   _getDrawerItemWidget(String pos) {
     print("pos---${pos}");
@@ -231,6 +231,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       // case "TO":
       //   // title = "Upload data";
       //   return TodaysOrder();
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant Dashboard oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    print("jhfhdxkjfjkd");
+    if (widget.type == "return from cartList") {
+      print("from cart");
+      menu_index = "S2";
     }
   }
   @override

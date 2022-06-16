@@ -44,16 +44,12 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
-
     print("init");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
     sharedPref();
-
   }
 
   // @override
@@ -205,12 +201,12 @@ class _MainDashboardState extends State<MainDashboard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Orders",
-                                  "\u{20B9}${value.ordrAmount!= null ? value.ordrAmount:"0.0"}"),
+                                  "\u{20B9}${value.ordrAmount != null ? value.ordrAmount : "0.0"}"),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Collection",
-                                  "\u{20B9}${value.collectionAmount!= null ? value.collectionAmount:"0.0"}"),
+                                  "\u{20B9}${value.collectionAmount != null ? value.collectionAmount : "0.0"}"),
                             ),
                           ],
                         ),
