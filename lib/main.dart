@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily: 'RobotoMono',
+        fontFamily: 'OpenSans',
         primaryColor: P_Settings.bodycolor,
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.indigo,

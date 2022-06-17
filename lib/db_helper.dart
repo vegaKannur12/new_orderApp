@@ -118,6 +118,12 @@ class OrderAppDB {
   static final areaid = 'areaid';
   static final status = 'status';
   static final total_price = 'total_price';
+/////////////////////// return master //////
+  static final return_id = 'return_id';
+  static final return_date = 'return_date';
+  static final return_time = 'return_time';
+  static final reason = 'reason';
+  static final reference_no = 'reference_no';
 
 /////////////////// cart table/////////////
   static final cartdate = 'cartdate';
@@ -309,7 +315,21 @@ class OrderAppDB {
             $total_price REAL
           )
           ''');
-
+    await db.execute('''
+          CREATE TABLE returnMasterTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $return_id INTEGER,
+            $return_date TEXT,
+            $return_time TEXT,
+            $os TEXT NOT NULL,
+            $customerid TEXT,
+            $userid TEXT,
+            $areaid TEXT,
+            $reason TEXT,
+            $reference_no TEXT,
+            $total_price REAL
+          )
+          ''');
     await db.execute('''
           CREATE TABLE orderDetailTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -408,12 +428,13 @@ class OrderAppDB {
       return null;
     }
   }
-  ////////////// cart order ////////////////////////////
-  // Future insertorderMasterTable(String ordernum, String orderdate, String os,
-  //     String customerid, String userid, String areaid, int status) async {
+
+  ////////////// return master insertion  ////////////////////////////
+  // Future insertorderMasterTable(String returnnum, String returndate, String returntime,String os,
+  //     String customerid, String userid, String areaid, String reason,String refenum, String total_price) async {
   //   final db = await database;
   //   var query2 =
-  //       'INSERT INTO orderMasterTable(ordernum, orderdatetime, os, customerid, userid, areaid, mstatus) VALUES("${ordernum}", "${orderdate}", "${os}", "${customerid}", "${userid}", "${areaid}", ${status})';
+  //       'INSERT INTO returnMasterTable(return_id, return_date, return_time, os,  customerid, userid, areaid, reason, reference_no, total_price) VALUES("${ordernum}", "${orderdate}", "${os}", "${customerid}", "${userid}", "${areaid}", ${status})';
   //   var res = await db.rawInsert(query2);
   //   print(query2);
   //   // print(res);
@@ -1195,7 +1216,7 @@ class OrderAppDB {
         .rawQuery("SELECT sum($field) as S FROM $table WHERE $condition");
     print("result sum----$result");
     sum = result[0]["S"].toString();
-   
+
     print("sum--$sum");
     return sum;
   }

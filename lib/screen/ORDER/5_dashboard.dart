@@ -264,21 +264,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           appBar: menu_index == "UL" || menu_index == "DP"
               ? AppBar(
                   flexibleSpace: Container(
-                    decoration:  BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: <Color>[
-                             P_Settings.grd1,
-                                      P_Settings.grd2,
-                                      P_Settings.grd3,
-                                      P_Settings.grd4,
-                                      P_Settings.grd5,
-                                      P_Settings.grd6,
-                                      P_Settings.grd7,
-                                      P_Settings.grd8,
-                          ]),
-                    ),
+                    decoration: BoxDecoration(),
                   ),
                   elevation: 0,
                   title: Text(
@@ -307,22 +293,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   // title: Text("Company Details",style: TextStyle(fontSize: 20),),
                 )
               : AppBar(
-                 flexibleSpace: Container(
-                    decoration:  BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: <Color>[
-                             P_Settings.grd1,
-                                      P_Settings.grd2,
-                                      P_Settings.grd3,
-                                      P_Settings.grd4,
-                                      P_Settings.grd5,
-                                      P_Settings.grd6,
-                                      P_Settings.grd7,
-                                      P_Settings.grd8,
-                          ]),
-                    ),
+                  flexibleSpace: Container(
+                    decoration: BoxDecoration(),
                   ),
                   backgroundColor: menu_index == "S1" ||
                           menu_index == "0" ||
@@ -349,7 +321,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           indicatorWeight: 2.0,
                           // indicatorSize: TabBarIndicatorSize.label,
                           labelColor: Color.fromARGB(255, 58, 54, 54),
-                          
+
                           tabs: myTabs,
                           controller: _tabController,
                         )

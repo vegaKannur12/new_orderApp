@@ -94,22 +94,8 @@ class StaffLogin extends StatelessWidget {
                             children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topRight,
-                                    end: Alignment.bottomLeft,
-                                    colors: [
-                                      // Color.fromARGB(255, 34, 1, 99),
-                                      Color(0xff5b0060),
-                                      Color(0xff870160),
-                                      Color(0xffac255e),
-                                      Color(0xffca485c),
-                                      Color(0xffe16b5c),
-                                      Color(0xfff39060),
-                                      Color(0xffffb56b),
-                                    ],
-                                    tileMode: TileMode.mirror,
-                                  ),
-                                  // color: P_Settings.wavecolor,
+                                
+                                  color: P_Settings.wavecolor,
                                   borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(50),
                                     bottomRight: Radius.circular(50),
