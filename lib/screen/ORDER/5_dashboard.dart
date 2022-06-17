@@ -36,9 +36,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   TabController? _tabController;
   static const List<Tab> myTabs = <Tab>[
-    Tab(
-      text: 'Home ',
-    ),
+    Tab(text: 'Home '),
     Tab(text: 'Todays Order'),
     Tab(text: 'Todays Collection'),
     Tab(text: 'Todays Sale'),
@@ -127,9 +125,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       menu_index = "S2";
     }
     print("dididdd");
-    if (widget.type != "return from cartList") {
+    // if (widget.type != "return from cartList") {
       Provider.of<Controller>(context, listen: false).getArea(sid!);
-    }
+    // }
     print("s[0]----${s[0]}");
     Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
     Provider.of<Controller>(context, listen: false)

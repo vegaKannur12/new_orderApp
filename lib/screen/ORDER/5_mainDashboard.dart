@@ -163,7 +163,7 @@ class _MainDashboardState extends State<MainDashboard> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "No shop visited",
+                              child: customcard(size, "Shops Not Visited",
                                   "${value.noshopVisited != null ? value.noshopVisited : "0"}"),
                             ),
                           ],
@@ -312,9 +312,9 @@ class _MainDashboardState extends State<MainDashboard> {
                     ? P_Settings.dashbordcl3
                     : title == "Return"
                         ? P_Settings.dashbordcl4
-                        : title == "Shops visited"
+                        : title == "Shops Visited"
                             ? P_Settings.dashbordcl5
-                            : title == "No shop visited"
+                            : title == "Shops Not Visited"
                                 ? P_Settings.dashbordcl6
                                 : Colors.grey,
         child: Padding(
@@ -332,7 +332,7 @@ class _MainDashboardState extends State<MainDashboard> {
                             ? Image.asset("asset/2.png")
                             : title == "Shops visited"
                                 ? Image.asset("asset/5.png")
-                                : title == "No shop visited"
+                                : title == "Shops Not Visited"
                                     ? Image.asset("asset/6.png")
                                     : title == "Return"
                                         ? Image.asset("asset/7.png")
