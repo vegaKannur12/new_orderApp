@@ -90,152 +90,154 @@ class _CartListState extends State<CartList> {
           if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
           }
-        }), child: Consumer<Controller>(builder: (context, value, child) {
-          if (value.isLoading) {
-            return CircularProgressIndicator();
-          } else {
-            print("value.rateEdit----${value.rateEdit}");
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: value.bagList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return listItemFunction(
-                          value.bagList[index]["cartrowno"],
-                          value.bagList[index]["itemName"],
-                          value.rateEdit[index]
-                              ? value.editedRate
-                              : value.bagList[index]["rate"],
-                          value.bagList[index]["totalamount"],
-                          value.bagList[index]["qty"],
-                          size,
-                          value.controller[index],
-                          index,
-                          value.bagList[index]["code"]);
-                    },
+        }), child: Center(
+          child: Consumer<Controller>(builder: (context, value, child) {
+            if (value.isLoading) {
+              return CircularProgressIndicator();
+            } else {
+              print("value.rateEdit----${value.rateEdit}");
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: value.bagList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return listItemFunction(
+                            value.bagList[index]["cartrowno"],
+                            value.bagList[index]["itemName"],
+                            value.rateEdit[index]
+                                ? value.editedRate
+                                : value.bagList[index]["rate"],
+                            value.bagList[index]["totalamount"],
+                            value.bagList[index]["qty"],
+                            size,
+                            value.controller[index],
+                            index,
+                            value.bagList[index]["code"]);
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                  height: size.height * 0.07,
-                  color: Colors.yellow,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: size.width * 0.5,
-                        height: size.height * 0.07,
-                        color: Colors.yellow,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(" Order Total  : ",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15)),
-                            Flexible(
-                              child: Text("\u{20B9}${value.orderTotal}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16)),
-                            )
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (() async {
-                          // value.areDetails.clear();
-
-                          sid = await Provider.of<Controller>(context,
-                                  listen: false)
-                              .setStaffid(value.sname!);
-                          print("Sid........${value.sname}$sid");
-                          if (Provider.of<Controller>(context, listen: false)
-                                  .bagList
-                                  .length >
-                              0) {
-                            final prefs = await SharedPreferences.getInstance();
-                            String? sid = await prefs.getString('sid');
-                            Provider.of<Controller>(context, listen: false)
-                                .insertToOrderbagAndMaster(
-                                    widget.os,
-                                    s[0],
-                                    s[1],
-                                    widget.custmerId,
-                                    sid!,
-                                    widget.areaId,
-                                    double.parse(value.orderTotal!));
-
-                            Provider.of<Controller>(context, listen: false)
-                                .todayOrder(s[0], context);
-                            Provider.of<Controller>(context, listen: false)
-                                .clearList();
-
-                            return showDialog(
-                                context: context,
-                                builder: (context) {
-                                  Future.delayed(Duration(milliseconds: 500),
-                                      () {
-                                    Navigator.of(context).pop(true);
-
-                                    Navigator.of(context).push(
-                                      PageRouteBuilder(
-                                          opaque: false, // set to false
-                                          pageBuilder: (_, __, ___) =>
-                                              Dashboard(
-                                                  type: "return from cartList",
-                                                  areaName: widget.areaname)
-                                          // OrderForm(widget.areaname,"return"),
-                                          ),
-                                    );
-                                  });
-                                  return AlertDialog(
-                                      content: Row(
-                                    children: [
-                                      Text(
-                                        'Order Placed!!!!',
-                                        style: TextStyle(
-                                            color: P_Settings.extracolor),
-                                      ),
-                                      Icon(
-                                        Icons.done,
-                                        color: Colors.green,
-                                      )
-                                    ],
-                                  ));
-                                });
-                          }
-
-                          Provider.of<Controller>(context, listen: false)
-                              .count = "0";
-                          print("area name ${widget.areaname}");
-                          // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
-                        }),
-                        child: Container(
+                  Container(
+                    height: size.height * 0.07,
+                    color: Colors.yellow,
+                    child: Row(
+                      children: [
+                        Container(
                           width: size.width * 0.5,
                           height: size.height * 0.07,
-                          color: P_Settings.roundedButtonColor,
+                          color: Colors.yellow,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                "Place Order",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                              SizedBox(
-                                width: size.width * 0.01,
-                              ),
-                              Icon(Icons.shopping_basket)
+                              Text(" Order Total  : ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 15)),
+                              Flexible(
+                                child: Text("\u{20B9}${value.orderTotal}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16)),
+                              )
                             ],
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            );
-          }
-        })),
+                        GestureDetector(
+                          onTap: (() async {
+                            // value.areDetails.clear();
+
+                            sid = await Provider.of<Controller>(context,
+                                    listen: false)
+                                .setStaffid(value.sname!);
+                            print("Sid........${value.sname}$sid");
+                            if (Provider.of<Controller>(context, listen: false)
+                                    .bagList
+                                    .length >
+                                0) {
+                              final prefs = await SharedPreferences.getInstance();
+                              String? sid = await prefs.getString('sid');
+                              Provider.of<Controller>(context, listen: false)
+                                  .insertToOrderbagAndMaster(
+                                      widget.os,
+                                      s[0],
+                                      s[1],
+                                      widget.custmerId,
+                                      sid!,
+                                      widget.areaId,
+                                      double.parse(value.orderTotal!));
+
+                              Provider.of<Controller>(context, listen: false)
+                                  .todayOrder(s[0], context);
+                              Provider.of<Controller>(context, listen: false)
+                                  .clearList();
+
+                              return showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    Future.delayed(Duration(milliseconds: 500),
+                                        () {
+                                      Navigator.of(context).pop(true);
+
+                                      Navigator.of(context).push(
+                                        PageRouteBuilder(
+                                            opaque: false, // set to false
+                                            pageBuilder: (_, __, ___) =>
+                                                Dashboard(
+                                                    type: "return from cartList",
+                                                    areaName: widget.areaname)
+                                            // OrderForm(widget.areaname,"return"),
+                                            ),
+                                      );
+                                    });
+                                    return AlertDialog(
+                                        content: Row(
+                                      children: [
+                                        Text(
+                                          'Order Placed!!!!',
+                                          style: TextStyle(
+                                              color: P_Settings.extracolor),
+                                        ),
+                                        Icon(
+                                          Icons.done,
+                                          color: Colors.green,
+                                        )
+                                      ],
+                                    ));
+                                  });
+                            }
+
+                            Provider.of<Controller>(context, listen: false)
+                                .count = "0";
+                            print("area name ${widget.areaname}");
+                            // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
+                          }),
+                          child: Container(
+                            width: size.width * 0.5,
+                            height: size.height * 0.07,
+                            color: P_Settings.roundedButtonColor,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Place Order",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                ),
+                                SizedBox(
+                                  width: size.width * 0.01,
+                                ),
+                                Icon(Icons.shopping_basket)
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              );
+            }
+          }),
+        )),
       ),
     );
   }
