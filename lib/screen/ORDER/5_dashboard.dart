@@ -312,12 +312,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           isScrollable: true,
                           // indicator: BoxDecoration(
                           //     borderRadius: BorderRadius.circular(50),
-                          //     color: Colors.grey),
+                          //     color:P_Settings.wavecolor),
                           indicatorColor: P_Settings.wavecolor,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorWeight: 2.0,
                           // indicatorSize: TabBarIndicatorSize.label,
                           labelColor: Color.fromARGB(255, 58, 54, 54),
+                          
                           tabs: myTabs,
                           controller: _tabController,
                         )
