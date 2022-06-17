@@ -91,7 +91,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       length: myTabs.length,
       // initialIndex: 0,
     );
- 
 
     _tabController!.addListener(() {
       if (!mounted) return;
@@ -104,7 +103,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       print("Selected Index: " + _tabController!.index.toString());
     });
     getCompaniId();
-    
+
     // if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
     //   menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
     // }
@@ -264,12 +263,29 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           backgroundColor: P_Settings.wavecolor,
           appBar: menu_index == "UL" || menu_index == "DP"
               ? AppBar(
+                  flexibleSpace: Container(
+                    decoration:  BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[
+                             P_Settings.grd1,
+                                      P_Settings.grd2,
+                                      P_Settings.grd3,
+                                      P_Settings.grd4,
+                                      P_Settings.grd5,
+                                      P_Settings.grd6,
+                                      P_Settings.grd7,
+                                      P_Settings.grd8,
+                          ]),
+                    ),
+                  ),
                   elevation: 0,
                   title: Text(
                     title,
                     style: TextStyle(fontSize: 16),
                   ),
-                  backgroundColor: P_Settings.wavecolor,
+                  // backgroundColor: P_Settings.wavecolor,
                   bottom: PreferredSize(
                     preferredSize: Size.fromHeight(6.0),
                     child: Consumer<Controller>(
@@ -291,6 +307,23 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   // title: Text("Company Details",style: TextStyle(fontSize: 20),),
                 )
               : AppBar(
+                 flexibleSpace: Container(
+                    decoration:  BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[
+                             P_Settings.grd1,
+                                      P_Settings.grd2,
+                                      P_Settings.grd3,
+                                      P_Settings.grd4,
+                                      P_Settings.grd5,
+                                      P_Settings.grd6,
+                                      P_Settings.grd7,
+                                      P_Settings.grd8,
+                          ]),
+                    ),
+                  ),
                   backgroundColor: menu_index == "S1" ||
                           menu_index == "0" ||
                           menu_index == "1" ||

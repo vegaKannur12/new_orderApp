@@ -19,8 +19,19 @@ class P_Settings {
   static Color get bodycolor => Color.fromARGB(255, 236, 235, 235);
   static Color get detailscolor2 => Color.fromARGB(255, 195, 203, 228);
   static Color get detailscolor => Colors.white;
-
-  static Color get wavecolor => Color.fromARGB(255, 49, 91, 155);
+  ///////////////// gradientcolor////////////////////
+  
+  static Color get grd1 => Color.fromARGB(255, 34, 1, 99);
+  static Color get grd2 => Color(0xff5b0060);
+  static Color get grd3 => Color(0xff870160);
+  static Color get grd4 => Color(0xffac255e);
+  static Color get grd5 => Color(0xffca485c);
+  static Color get grd6 => Color(0xffe16b5c);
+  static Color get grd7 => Color(0xfff39060);
+  static Color get grd8 => Color(0xffffb56b);
+ 
+  static Color get wavecolor => Color.fromARGB(255, 207, 79, 100);
+  
   static Color get extracolor => Color.fromARGB(255, 207, 30, 30);
 
   static Color get roundedButtonColor => Color.fromARGB(255, 177, 212, 235);
