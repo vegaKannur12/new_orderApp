@@ -4,6 +4,7 @@ import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
+import 'package:orderapp/screen/ORDER/6_orderForm.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -163,6 +164,8 @@ class _CartListState extends State<CartList> {
                                     widget.areaId,
                                     double.parse(value.orderTotal!));
 
+                            Provider.of<Controller>(context, listen: false)
+                                .todayOrder(s[0], context);
                             Provider.of<Controller>(context, listen: false)
                                 .clearList();
 

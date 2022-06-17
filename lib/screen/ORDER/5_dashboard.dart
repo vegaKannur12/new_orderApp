@@ -80,9 +80,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     // print("haiiiiii");
-    Future.delayed(Duration.zero).then((_) {
-      // you code with context here
-    });
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
 
@@ -94,6 +91,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       length: myTabs.length,
       // initialIndex: 0,
     );
+ 
 
     _tabController!.addListener(() {
       if (!mounted) return;
@@ -106,6 +104,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       print("Selected Index: " + _tabController!.index.toString());
     });
     getCompaniId();
+    
     // if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
     //   menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
     // }
@@ -124,9 +123,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
     print("formattedDate...$formattedDate");
     print("dashboard init");
-    // print("${widget.type}");
+    print("${widget.type}");
     if (widget.type == "return from cartList") {
-      print("from cart");
       menu_index = "S2";
     }
     print("dididdd");

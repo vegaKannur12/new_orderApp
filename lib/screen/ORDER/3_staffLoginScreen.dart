@@ -32,6 +32,8 @@ class StaffLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double topInsets = MediaQuery.of(context).viewInsets.top;
+
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     print("staff log date $date");
     print("now date $now");
@@ -132,10 +134,10 @@ class StaffLogin extends StatelessWidget {
                                   child: Column(
                                     children: <Widget>[
                                       customTextField(
-                                          "Username", controller1, "staff"),
+                                          "Username", controller1, "staff",context),
 
                                       customTextField(
-                                          "Password", controller2, "password"),
+                                          "Password", controller2, "password",context),
                                       SizedBox(
                                         height: size.height * 0.01,
                                       ),
@@ -199,9 +201,7 @@ class StaffLogin extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            Dashboard(
-                                                            
-                                                            )),
+                                                            Dashboard()),
                                                   );
                                                 } else {
                                                   visible.value = true;
@@ -364,8 +364,10 @@ class StaffLogin extends StatelessWidget {
   }
 
 /////////////////////////////////////////////////////////////////////////
-  Widget customTextField(
-      String hinttext, TextEditingController controllerValue, String type) {
+  Widget customTextField(String hinttext, TextEditingController controllerValue,
+      String type, BuildContext context) {
+    double topInsets = MediaQuery.of(context).viewInsets.top;
+    Size size = MediaQuery.of(context).size;
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -375,6 +377,8 @@ class StaffLogin extends StatelessWidget {
             return TextFormField(
               textCapitalization: TextCapitalization.characters,
               obscureText: type == "password" ? _isObscure.value : false,
+              scrollPadding:
+                  EdgeInsets.only(bottom: topInsets + size.height * 0.34),
               controller: controllerValue,
               decoration: InputDecoration(
                   prefixIcon: type == "password"

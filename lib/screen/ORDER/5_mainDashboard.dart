@@ -36,12 +36,16 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   void initState() {
+
     // TODO: implement initState
     super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
+
     print("init");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
     sharedPref();
+
   }
 
   @override
