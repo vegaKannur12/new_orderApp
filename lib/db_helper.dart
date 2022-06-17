@@ -821,11 +821,16 @@ class OrderAppDB {
   //////////////////////////countCustomer////////////////
   countCustomer() async {
     var list;
+    print("aidsplit---${areaidfromStaff}");
     Database db = await instance.database;
-    list = await db.query(
-      'accountHeadsTable',
-      where: "area_id IN (${aidsplit.join(',')})",
-    );
+    if (areaidfromStaff == null || areaidfromStaff!.isEmpty) {
+      list = await db.rawQuery('SELECT  * FROM accountHeadsTable');
+    } else {
+      list = await db.query(
+        'accountHeadsTable',
+        where: "area_id IN (${aidsplit.join(',')})",
+      );
+    }
 
     print("customr----$list");
     return list;
@@ -1195,7 +1200,7 @@ class OrderAppDB {
         .rawQuery("SELECT sum($field) as S FROM $table WHERE $condition");
     print("result sum----$result");
     sum = result[0]["S"].toString();
-   
+
     print("sum--$sum");
     return sum;
   }

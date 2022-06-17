@@ -36,9 +36,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   TabController? _tabController;
   static const List<Tab> myTabs = <Tab>[
-    Tab(
-      text: 'Home ',
-    ),
+    Tab(text: 'Home '),
     Tab(text: 'Todays Order'),
     Tab(text: 'Todays Collection'),
     Tab(text: 'Todays Sale'),
@@ -91,7 +89,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       length: myTabs.length,
       // initialIndex: 0,
     );
- 
 
     _tabController!.addListener(() {
       if (!mounted) return;
@@ -104,7 +101,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       print("Selected Index: " + _tabController!.index.toString());
     });
     getCompaniId();
-    
+
     // if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
     //   menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
     // }
@@ -128,9 +125,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       menu_index = "S2";
     }
     print("dididdd");
-    if (widget.type != "return from cartList") {
+    // if (widget.type != "return from cartList") {
       Provider.of<Controller>(context, listen: false).getArea(sid!);
-    }
+    // }
     print("s[0]----${s[0]}");
     Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
     Provider.of<Controller>(context, listen: false)
@@ -316,7 +313,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           indicatorWeight: 2.0,
                           // indicatorSize: TabBarIndicatorSize.label,
                           labelColor: Color.fromARGB(255, 58, 54, 54),
-                          
+
                           tabs: myTabs,
                           controller: _tabController,
                         )

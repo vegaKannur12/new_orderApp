@@ -645,7 +645,7 @@ class Controller extends ChangeNotifier {
       for (var item in areaList) {
         areDetails.add(item);
       }
-      print("areaList adding ----${areDetails}");
+      print("areaList adding ----${areDetails.length}");
       notifyListeners();
     } catch (e) {
       print(e);
