@@ -133,7 +133,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Provider.of<Controller>(context, listen: false)
         .todayCollection(s[0], context);
     Provider.of<Controller>(context, listen: false)
-        .mainDashtileValues(sid!, s[0]);
+        .mainDashtileValues(sid!, s[0]);Provider.of<Controller>(context, listen: false)
+        .getShopVisited();
     Provider.of<Controller>(context, listen: false).mainDashAmounts(sid!, s[0]);
 
     print("cid--sid--$cid--$sid");
@@ -155,9 +156,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "S2":
         if (widget.type == "return from cartList") {
           return OrderForm(widget.areaName!, "sales");
-        } else {
-          return OrderForm("", "sales");
+        } 
+       else if(widget.type=="Product return confirmed") {
+          return OrderForm(widget.areaName!, "");
+        }else{
+          return OrderForm("", "");
         }
+        
       case "S3":
         return OrderForm("", "return");
 
@@ -216,7 +221,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "4":
         Provider.of<Controller>(context, listen: false).setFilter(false);
         Provider.of<Controller>(context, listen: false)
-            .selectReportFromOrder(context);
+            .selectReportFromOrder(context,sid!);
         // Navigator.pop(context);
         return ReportPage();
       // case "RP":
@@ -239,7 +244,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
-    if (widget.type == "return from cartList") {
+    if (widget.type == "return from cartList" || widget.type=="Product return confirmed") {
       print("from cart");
       if (val) {
         menu_index = "S2";

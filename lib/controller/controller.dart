@@ -27,16 +27,19 @@ class Controller extends ChangeNotifier {
   bool isSearch = false;
   bool isreportSearch = false;
   String? areaSelecton;
+  int returnCount = 0;
   bool isVisible = false;
-
+  double returnTotal = 0.0;
   bool noreportdata = false;
-
+  bool returnprice = false;
   int? shopVisited;
   int? noshopVisited;
-
   List<bool> selected = [];
+  List<bool> returnSelected = [];
+
   String? areaidFrompopup;
   List<bool> isExpanded = [];
+  bool returnqty = false;
   List<bool> isVisibleTable = [];
   List<Map<String, dynamic>> collectionList = [];
   List<Map<String, dynamic>> fetchcollectionList = [];
@@ -44,6 +47,8 @@ class Controller extends ChangeNotifier {
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
   List<Map<String, dynamic>> sortList = [];
+  List<Map<String, dynamic>> returnList = [];
+
   bool filter = false;
   // String? custmerSelection;
   int? customerCount;
@@ -66,6 +71,8 @@ class Controller extends ChangeNotifier {
   String? cid;
   String? cname;
   int? qtyinc;
+  int? returnqtyinc;
+
   String? itemRate;
   List<CD> c_d = [];
   List<Map<String, dynamic>> historyList = [];
@@ -81,17 +88,22 @@ class Controller extends ChangeNotifier {
   double amt = 0.0;
   List<CD> data = [];
   double? totalPrice;
+  double? returntotalPrice;
+
   String? totrate;
   List<String> areaAutoComplete = [];
   List<Map<String, dynamic>> menuList = [];
   List<Map<String, dynamic>> reportData = [];
   List<Map<String, dynamic>> sumPrice = [];
   List<Map<String, dynamic>> collectionsumPrice = [];
-  String collectionAmount="0.0";
-  String ordrAmount="0.0";
+  String collectionAmount = "0.0";
+  String returnAmount = "0.0";
+
+  String ordrAmount = "0.0";
   String? remarkCount;
   String? orderCount;
   String? collectionCount;
+  String? ret_count;
 
   List<Map<String, dynamic>> remarkList = [];
   List<Map<String, dynamic>> remarkStaff = [];
@@ -869,6 +881,17 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+  calculatereturnTotal() async {
+    returnTotal = 0;
+    for (int i = 0; i < returnList.length; i++) {
+      print(" returnList[i]-${returnList[i]["total"]}");
+      returnTotal = returnTotal + double.parse(returnList[i]["total"]);
+    }
+
+    print("orderTotal---$returnTotal");
+    // notifyListeners();
+  }
+
   ////////////////count from table///////
   countFromTable(String table, String os, String customerId) async {
     isLoading = true;
@@ -941,6 +964,75 @@ class Controller extends ChangeNotifier {
         "orderBagTable", "os='${os}' AND customerid='${customer_id}'");
 
     bagList.clear();
+    notifyListeners();
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  insertreturnMasterandDetailsTable(
+      String os,
+      String date,
+      String time,
+      String customer_id,
+      String user_id,
+      String aid,
+      double total_price,
+      String? refNo,
+      String? reason) async {
+    print(
+        "values-------$os-$date--$time$customer_id-$user_id--$aid--$total_price--$refNo--$reason");
+    // List<Map<String, dynamic>> om = [];
+    int return_id = await OrderAppDB.instance
+        .getMaxCommonQuery('returnMasterTable', 'return_id', "os='${os}'");
+    print("return_id----$return_id");
+    int rowNum = 1;
+    if (returnList.length > 0) {
+      await OrderAppDB.instance.insertreturnMasterandDetailsTable(
+          "",
+          return_id,
+          0,
+          0.0,
+          " ",
+          date,
+          time,
+          os,
+          customer_id,
+          user_id,
+          aid,
+          1,
+          "",
+          rowNum,
+          "returnMasterTable",
+          total_price,
+          reason!,
+          refNo!);
+
+      for (var item in returnList) {
+        print("return_id---$return_id");
+        // double rate = double.parse(item["rate"]);
+        await OrderAppDB.instance.insertreturnMasterandDetailsTable(
+            item["item"],
+            return_id,
+            item["qty"],
+            double.parse(item["rate"]),
+            item["code"],
+            date,
+            time,
+            os,
+            customer_id,
+            user_id,
+            aid,
+            1,
+            "",
+            rowNum,
+            "returnDetailTable",
+            total_price,
+            "",
+            "");
+        rowNum = rowNum + 1;
+      }
+    }
+
+    returnList.clear();
     notifyListeners();
   }
 
@@ -1059,9 +1151,23 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+  returnqtyIncrement() {
+    returnqty = true;
+    returnqtyinc = 1 + returnqtyinc!;
+    print("qty-----$returnqtyinc");
+    notifyListeners();
+  }
+
   ///////////////////////////////////////////////////////////////
   qtyDecrement() {
+    returnqty = true;
     qtyinc = qtyinc! - 1;
+    print("qty-----$qtyinc");
+    notifyListeners();
+  }
+
+  returnqtyDecrement() {
+    returnqtyinc = returnqtyinc! - 1;
     print("qty-----$qtyinc");
     notifyListeners();
   }
@@ -1083,6 +1189,11 @@ class Controller extends ChangeNotifier {
     // notifyListeners();
   }
 
+  setreturnQty(int qty) {
+    returnqtyinc = qty;
+    // notifyListeners();
+  }
+
 /////////////////////
   setPrice(String rate) {
     totrate = rate;
@@ -1100,9 +1211,24 @@ class Controller extends ChangeNotifier {
     // notifyListeners();
   }
 
+  setreturnAmt(
+    String price,
+  ) {
+    returntotalPrice = double.parse(price);
+
+    // notifyListeners();
+  }
+
   totalCalculation(String rate) {
     totalPrice = double.parse(rate) * qtyinc!;
     print("total pri-----$totalPrice");
+    notifyListeners();
+  }
+
+  returntotalCalculation(String rate) {
+    returnprice = true;
+    returntotalPrice = double.parse(rate) * returnqtyinc!;
+    print("total pri-----$returntotalPrice");
     notifyListeners();
   }
 
@@ -1125,7 +1251,7 @@ class Controller extends ChangeNotifier {
       isExpanded = List.generate(todayOrderList.length, (index) => false);
       isVisibleTable = List.generate(todayOrderList.length, (index) => false);
     }
-   
+
     print("todayOrderList----$todayOrderList");
     isLoading = false;
     notifyListeners();
@@ -1147,7 +1273,7 @@ class Controller extends ChangeNotifier {
       isExpanded = List.generate(todayCollectionList.length, (index) => false);
       isVisibleTable =
           List.generate(todayCollectionList.length, (index) => false);
-    } 
+    }
 
     print("todayCollectionList----$todayCollectionList");
     isLoading = false;
@@ -1288,13 +1414,15 @@ class Controller extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////////////
-  selectReportFromOrder(BuildContext context) async {
+  selectReportFromOrder(BuildContext context,String userId) async {
+
+    print("report userId----$userId");
     reportData.clear();
     reportOriginalList.clear();
     Map map = {};
     isLoading = true;
     // notifyListeners();
-    var res = await OrderAppDB.instance.getReportDataFromOrderDetails();
+    var res = await OrderAppDB.instance.getReportDataFromOrderDetails(userId);
     if (res != null && res.length > 0) {
       for (var item in res) {
         reportData.add(item);
@@ -1369,10 +1497,16 @@ class Controller extends ChangeNotifier {
         'collectionTable', "rec_staffid='$sid' AND rec_date='$date'");
     ordrAmount = await OrderAppDB.instance.sumCommonQuery("total_price",
         'orderMasterTable', "userid='$sid' AND orderdate='$date'");
-    if(collectionAmount==null ||collectionAmount.isEmpty ){
-      collectionAmount="0.0";
-    }if(ordrAmount==null || ordrAmount.isEmpty){
-      ordrAmount="0.0";
+    returnAmount = await OrderAppDB.instance.sumCommonQuery("total_price",
+        'returnMasterTable', "userid='$sid' AND return_date='$date'");
+    if (collectionAmount == null || collectionAmount.isEmpty) {
+      collectionAmount = "0.0";
+    }
+    if (ordrAmount == null || ordrAmount.isEmpty) {
+      ordrAmount = "0.0";
+    }
+    if (returnAmount == null || returnAmount.isEmpty) {
+      returnAmount = "0.0";
     }
     print("Amount---$collectionAmount--$ordrAmount");
     notifyListeners();
@@ -1388,20 +1522,19 @@ class Controller extends ChangeNotifier {
     print("collection count---$collectionCount");
     remarkCount = await OrderAppDB.instance.countCommonQuery(
         "remarksTable", "rem_staffid='$sid' AND rem_date='$date'");
-    var res = await OrderAppDB.instance.countCustomer();
-    if (res != null) {
-      customerCount = res.length;
-    }
+    ret_count = await OrderAppDB.instance.countCommonQuery(
+        "returnMasterTable", "userid='$sid' AND return_date='$date'");
 
-    if (orderCount != null && remarkCount != null || collectionCount != null) {
-      print("ok");
-      int ordr = int.parse(orderCount!);
-      int coll = int.parse(collectionCount!);
-      int remr = int.parse(remarkCount!);
-      shopVisited = ordr + coll + remr;
-    }
+    // if (orderCount != null && remarkCount != null || collectionCount != null) {
+    //   print("ok");
+    //   int ordr = int.parse(orderCount!);
+    //   int coll = int.parse(collectionCount!);
+    //   int remr = int.parse(remarkCount!);
+    //   int ret = int.parse(ret_count!);
+    //   // shopVisited = ordr + coll + remr + ret;
+    // }
 
-    noshopVisited = customerCount! - shopVisited!;
+    // noshopVisited = customerCount! - shopVisited!;
     print("no shop--$noshopVisited");
     print("shop visited---$shopVisited");
     notifyListeners();
@@ -1511,7 +1644,7 @@ class Controller extends ChangeNotifier {
       for (var menu in res) {
         fetchcollectionList.add(menu);
       }
-    } 
+    }
     print("fetchcollectionList----${fetchcollectionList}");
     isLoading = false;
     notifyListeners();
@@ -1531,8 +1664,45 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  clearList() {
-    areDetails.clear();
+  clearList(List list) {
+    list.clear();
+    print("list.length----${list.length}");
+    notifyListeners();
+  }
+
+  ///////////////Return////////////////////////
+  addToreturnList(Map<String, dynamic> value) {
+    returnList.add(value);
+    returnCount = returnList.length;
+    print("return List----$returnList");
+    notifyListeners();
+  }
+
+  deleteFromreturnList(index) {
+    returnList.removeAt(index);
+    returnCount = returnCount - 1;
+    notifyListeners();
+  }
+
+  updatereturnQty(int index, int updteretrnQty, double rate) {
+    print("index---updteretrnQty-$index--$updteretrnQty---$rate");
+    for (int i = 0; i < returnList.length; i++) {
+      if (i == index) {
+        returnList[i]["qty"] = updteretrnQty;
+        returnList[i]["total"] = rate.toString();
+        notifyListeners();
+      }
+    }
+    notifyListeners();
+  }
+
+  getShopVisited() async {
+    shopVisited = await OrderAppDB.instance.getShopsVisited();
+    var res = await OrderAppDB.instance.countCustomer();
+    if (res != null) {
+      customerCount = res.length;
+    }
+    noshopVisited = customerCount! - shopVisited!;
     notifyListeners();
   }
 }

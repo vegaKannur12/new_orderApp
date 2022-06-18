@@ -85,7 +85,8 @@ class _CartListState extends State<CartList> {
             ),
           ],
         ),
-        body: GestureDetector(onTap: (() {
+        body: 
+        GestureDetector(onTap: (() {
           FocusScopeNode currentFocus = FocusScope.of(context);
           if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
@@ -168,7 +169,7 @@ class _CartListState extends State<CartList> {
                               Provider.of<Controller>(context, listen: false)
                                   .todayOrder(s[0], context);
                               Provider.of<Controller>(context, listen: false)
-                                  .clearList();
+                                  .clearList(value.areDetails);
 
                               return showDialog(
                                   context: context,

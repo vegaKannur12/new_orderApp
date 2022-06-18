@@ -316,21 +316,6 @@ class OrderAppDB {
           )
           ''');
     await db.execute('''
-          CREATE TABLE returnMasterTable (
-            $id INTEGER PRIMARY KEY AUTOINCREMENT,
-            $return_id INTEGER,
-            $return_date TEXT,
-            $return_time TEXT,
-            $os TEXT NOT NULL,
-            $customerid TEXT,
-            $userid TEXT,
-            $areaid TEXT,
-            $reason TEXT,
-            $reference_no TEXT,
-            $total_price REAL
-          )
-          ''');
-    await db.execute('''
           CREATE TABLE orderDetailTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $item TEXT,
@@ -409,6 +394,35 @@ class OrderAppDB {
         $rem_status INTEGER
       )
       ''');
+    await db.execute('''
+          CREATE TABLE returnMasterTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $return_id INTEGER,
+            $return_date TEXT,
+            $return_time TEXT,
+            $os TEXT NOT NULL,
+            $customerid TEXT,
+            $userid TEXT,
+            $areaid TEXT,
+            $status TEXT,
+            $reason TEXT,
+            $reference_no TEXT,
+            $total_price REAL
+          )
+          ''');
+    await db.execute('''
+          CREATE TABLE returnDetailTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $item TEXT,
+            $os TEXT NOT NULL,
+            $return_id INTEGER,
+            $row_num INTEGER,
+            $code TEXT,
+            $qty INTEGER,
+            $unit TEXT,
+            $rate REAL  
+          )
+          ''');
   }
 
   ////////////////////////company details select///////////////////////////////////
@@ -428,18 +442,6 @@ class OrderAppDB {
       return null;
     }
   }
-
-  ////////////// return master insertion  ////////////////////////////
-  // Future insertorderMasterTable(String returnnum, String returndate, String returntime,String os,
-  //     String customerid, String userid, String areaid, String reason,String refenum, String total_price) async {
-  //   final db = await database;
-  //   var query2 =
-  //       'INSERT INTO returnMasterTable(return_id, return_date, return_time, os,  customerid, userid, areaid, reason, reference_no, total_price) VALUES("${ordernum}", "${orderdate}", "${os}", "${customerid}", "${userid}", "${areaid}", ${status})';
-  //   var res = await db.rawInsert(query2);
-  //   print(query2);
-  //   // print(res);
-  //   return res;
-  // }
 
   //////////////////////////////////////////////
   Future insertorderBagTable(
@@ -517,6 +519,43 @@ class OrderAppDB {
     } else if (table == "orderMasterTable") {
       var query3 =
           'INSERT INTO orderMasterTable(order_id, orderdate, ordertime, os, customerid, userid, areaid, status, total_price) VALUES("${order_id}", "${orderdate}", "${ordertime}", "${os}", "${customerid}", "${userid}", "${areaid}", ${status},${total_price})';
+      res2 = await db.rawInsert(query3);
+      print(query3);
+    }
+  }
+
+  ////////////////////insert to return table/////////////////////////////////
+  Future insertreturnMasterandDetailsTable(
+      String item,
+      int return_id,
+      int? qty,
+      double rate,
+      String? code,
+      String return_date,
+      String return_time,
+      String os,
+      String customerid,
+      String userid,
+      String areaid,
+      int status,
+      String unit,
+      int rowNum,
+      String table,
+      double total_price,
+      String reason,
+      String refNo) async {
+    final db = await database;
+    var res2;
+    var res3;
+
+    if (table == "returnDetailTable") {
+      var query2 =
+          'INSERT INTO returnDetailTable(return_id, row_num,os,code, item, qty, rate, unit) VALUES(${return_id},${rowNum},"${os}","${code}","${item}", ${qty}, $rate, "${unit}")';
+      print(query2);
+      res2 = await db.rawInsert(query2);
+    } else if (table == "returnMasterTable") {
+      var query3 =
+          'INSERT INTO returnMasterTable(return_id, return_date, return_time, os, customerid, userid, areaid, status, total_price, reference_no, reason) VALUES("${return_id}", "${return_date}", "${return_time}", "${os}", "${customerid}", "${userid}", "${areaid}", ${status},${total_price},"${refNo}", "${reason}")';
       res2 = await db.rawInsert(query3);
       print(query3);
     }
@@ -853,7 +892,7 @@ class OrderAppDB {
       );
     }
 
-    print("customr----$list");
+    print("customr----${list.length}");
     return list;
   }
 
@@ -1227,17 +1266,39 @@ class OrderAppDB {
   }
 
 ///////////////////////////////////////////////////////
-  getReportDataFromOrderDetails() async {
+  getReportDataFromOrderDetails(String userId) async {
     List<Map<String, dynamic>> result;
 
     Database db = await instance.database;
-    result = await db.rawQuery(
-        'select A.ac_code  as cusid, A.hname as name,A.ac_ad1 as ad1,A.mo as mob , A.ba as bln, Y.ord  as order_value, Y.remark as remark_count , Y.col as collection_sum from accountHeadsTable A  left join (select cid,sum(Ord) as ord, sum(remark) as remark ,sum(col) as col from (select O.customerid cid, sum(O.total_price) Ord,0 remark,0 col from orderMasterTable O group by O.customerid union all select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark , 0 col from remarksTable R group by R.rem_cusid union all select C.rec_cusid cid, 0 Ord , 0 remark, sum(C.rec_amount) col  from collectionTable C group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code  where A.area_id in ($areaidfromStaff) order by Y.ord+ Y.remark+ Y.col desc');
 
+    if (areaidfromStaff == null || areaidfromStaff!.isEmpty) {
+      result = await db.rawQuery(
+        'select A.ac_code  as cusid, A.hname as name,A.ac_ad1 as ad1,A.mo as mob , A.ba as bln, Y.ord  as order_value, Y.remark as remark_count , Y.col as collection_sum from accountHeadsTable A  left join (select cid,sum(Ord) as ord, sum(remark) as remark ,sum(col) as col from (select O.customerid cid, sum(O.total_price) Ord,0 remark,0 col from orderMasterTable O group by O.customerid union all select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark , 0 col from remarksTable R group by R.rem_cusid union all select C.rec_cusid cid, 0 Ord , 0 remark, sum(C.rec_amount) col  from collectionTable C group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code where O.userid=$userId order by Y.ord+ Y.remark+ Y.col desc');
+    }else{
+    result = await db.rawQuery(
+        'select A.ac_code  as cusid, A.hname as name,A.ac_ad1 as ad1,A.mo as mob , A.ba as bln, Y.ord  as order_value, Y.remark as remark_count , Y.col as collection_sum from accountHeadsTable A  left join (select cid,sum(Ord) as ord, sum(remark) as remark ,sum(col) as col from (select O.customerid cid, sum(O.total_price) Ord,0 remark,0 col from orderMasterTable O group by O.customerid union all select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark , 0 col from remarksTable R group by R.rem_cusid union all select C.rec_cusid cid, 0 Ord , 0 remark, sum(C.rec_amount) col  from collectionTable C group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code  where A.area_id in ($areaidfromStaff) AND O.userid=$userId order by Y.ord+ Y.remark+ Y.col desc');
+    }
     print("result.length-${result.length}");
     if (result.length > 0) {
       print("result-order-----$result");
       return result;
+    } else {
+      return null;
+    }
+  }
+
+//////////////////////shops not visited///////////////////////
+  getShopsVisited() async {
+    List<Map<String, dynamic>> result;
+    int count;
+    Database db = await instance.database;
+    result = await db.rawQuery(
+        'select count(distinct cid) cnt from (select O.customerid cid from orderMasterTable O group by O.customerid union all select R.rem_cusid cid from remarksTable R group by R.rem_cusid union all select C.rec_cusid cid  from collectionTable C group by C.rec_cusid UNION ALL select RT.customerid from returnMasterTable RT group by RT.customerid) x ');
+    print("result.length-${result.length}");
+    if (result.length > 0) {
+      count=result[0]["cnt"];
+      print("result shop visited-----$result");
+      return count;
     } else {
       return null;
     }

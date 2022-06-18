@@ -30,13 +30,17 @@ class ShowModal {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Do you want to delete ",style: TextStyle(fontSize: 15)),
-                          Text("${item}",style: TextStyle(color: Colors.red,fontSize: 15),),
-                          Text(" from cart ?",style: TextStyle(fontSize: 15))
+                          Text("Do you want to delete ",
+                              style: TextStyle(fontSize: 15)),
+                          Text(
+                            "${item}",
+                            style: TextStyle(color: Colors.red, fontSize: 15),
+                          ),
+                          Text(" from cart ?", style: TextStyle(fontSize: 15))
                         ],
                       ),
                       SizedBox(
-                        height: size.height*0.01,
+                        height: size.height * 0.01,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -129,6 +133,19 @@ class ShowModal {
                                   // Provider.of<Controller>(context,
                                   //       listen: false)
                                   //   .searchProcess();
+                                  Navigator.of(context).pop();
+                                }
+                                if (type == "return") {
+                                  if (value.selected[selected_index]) {
+                                    value.selected[selected_index] =
+                                        !value.selected[selected_index];
+                                  }
+
+                                  value.qty[selected_index].clear();
+                                  Provider.of<Controller>(context,
+                                          listen: false)
+                                      .deleteFromreturnList(selected_index);
+
                                   Navigator.of(context).pop();
                                 }
                               }),

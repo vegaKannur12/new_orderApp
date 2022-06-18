@@ -36,7 +36,6 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
     // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
@@ -45,7 +44,6 @@ class _MainDashboardState extends State<MainDashboard> {
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
     sharedPref();
-
   }
 
   @override
@@ -147,7 +145,8 @@ class _MainDashboardState extends State<MainDashboard> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "Return", ""),
+                              child: customcard(size, "Return",
+                                  "${value.ret_count != null && value.ret_count!.isNotEmpty ? value.ret_count : "0"}"),
                             ),
                           ],
                         ),
@@ -206,7 +205,8 @@ class _MainDashboardState extends State<MainDashboard> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "Return", ""),
+                              child: customcard(size, "Return",
+                                  "\u{20B9}${value.returnAmount == "null" ? "0.0" : value.returnAmount}"),
                             ),
                           ],
                         ),

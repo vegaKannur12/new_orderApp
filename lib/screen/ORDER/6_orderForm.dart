@@ -95,7 +95,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
           "${Provider.of<Controller>(context, listen: false).areaidFrompopup!}");
     }
     // Provider.of<Controller>(context, listen: false).custmerSelection = "";
-
+    print("wudiget.areaNmae----${widget.areaname}");
     sharedPref();
   }
 
@@ -185,7 +185,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                       "Area/Route",
                                       style: TextStyle(
                                         fontSize: 16,
-                                  
                                       ),
                                     ),
                                   ),
@@ -239,6 +238,10 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                               _selectedAreaId!,
                                               _selectedItemarea!,
                                             ];
+
+                                            print("hjkkllsjm*****************");
+                                            print(
+                                                "${Provider.of<Controller>(context, listen: false).areaAutoComplete}");
                                             Provider.of<Controller>(context,
                                                         listen: false)
                                                     .areaSelecton =
@@ -552,43 +555,57 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
-                                                              .countFromTable(
-                                                            "orderBagTable",
-                                                            values.ordernum[0]
-                                                                ['os'],
-                                                            custmerId
-                                                                .toString(),
+                                                              .returnCount = 0;
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .clearList(values
+                                                                  .returnList);
+                                                          Navigator.of(context)
+                                                              .push(
+                                                            PageRouteBuilder(
+                                                              opaque:
+                                                                  false, // set to false
+                                                              pageBuilder: (_,
+                                                                      __,
+                                                                      ___) =>
+                                                                  ItemSelection(
+                                                                customerId:
+                                                                    custmerId
+                                                                        .toString(),
+                                                                areaId: values.areaidFrompopup ==
+                                                                            null ||
+                                                                        values
+                                                                            .areaidFrompopup!
+                                                                            .isEmpty
+                                                                    ? Provider.of<Controller>(context, listen: false)
+                                                                            .areaAutoComplete[
+                                                                        0]
+                                                                    : Provider.of<Controller>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .areaidFrompopup!,
+                                                                os: values
+                                                                        .ordernum[
+                                                                    0]['os'],
+                                                                areaName: values.areaidFrompopup ==
+                                                                            null ||
+                                                                        values
+                                                                            .areaidFrompopup!
+                                                                            .isEmpty
+                                                                    ? Provider.of<Controller>(context, listen: false)
+                                                                            .areaAutoComplete[
+                                                                        1]
+                                                                    : Provider.of<Controller>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .areaSelecton!,
+                                                                type: "return",
+                                                              ),
+                                                            ),
                                                           );
-                                                          // Navigator.of(context)
-                                                          //     .push(
-                                                          //   PageRouteBuilder(
-                                                          //     opaque:
-                                                          //         false, // set to false
-                                                          //     pageBuilder: (_,
-                                                          //             __,
-                                                          //             ___) =>
-                                                          //         ItemSelection(
-                                                          //       customerId:
-                                                          //           custmerId
-                                                          //               .toString(),
-                                                          //       areaId: Provider.of<
-                                                          //                   Controller>(
-                                                          //               context,
-                                                          //               listen:
-                                                          //                   false)
-                                                          //           .areaAutoComplete[0],
-                                                          //       os: values
-                                                          //               .ordernum[
-                                                          //           0]['os'],
-                                                          //       areaName: Provider.of<
-                                                          //                   Controller>(
-                                                          //               context,
-                                                          //               listen:
-                                                          //                   false)
-                                                          //           .areaAutoComplete[1],
-                                                          //     ),
-                                                          //   ),
-                                                          // );
                                                         }
                                                       },
                                                       style: ElevatedButton
@@ -678,12 +695,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                           ),
                                                           style: ElevatedButton
                                                               .styleFrom(
-                                                            primary:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    194,
-                                                                    85,
-                                                                    93),
+                                                            primary: P_Settings
+                                                                .collectionbuttnColor,
                                                             shape:
                                                                 RoundedRectangleBorder(
                                                               borderRadius:
@@ -834,12 +847,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                           ),
                                                           style: ElevatedButton
                                                               .styleFrom(
-                                                            primary:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    194,
-                                                                    85,
-                                                                    93),
+                                                            primary: P_Settings
+                                                                .collectionbuttnColor,
                                                             shape:
                                                                 RoundedRectangleBorder(
                                                               borderRadius:
@@ -910,12 +919,13 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                               0]
                                                                           : Provider.of<Controller>(context, listen: false)
                                                                               .areaidFrompopup!,
-                                                                      os: values.ordernum[0][
+                                                                      os: values.ordernum[0]
+                                                                          [
                                                                           'os'],
-                                                                      areaName: values.areaidFrompopup == null ||
-                                                                              values.areaidFrompopup!.isEmpty
+                                                                      areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
                                                                           ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
-                                                                          : Provider.of<Controller>(context, listen: false).areaSelecton!),
+                                                                          : Provider.of<Controller>(context, listen: false).areaSelecton!,
+                                                                      type: "sales"),
                                                                 ),
                                                               );
                                                             }
@@ -980,12 +990,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                         Provider.of<Controller>(
                                                                 context,
                                                                 listen: false)
-                                                            .countFromTable(
-                                                          "orderBagTable",
-                                                          values.ordernum[0]
-                                                              ['os'],
-                                                          custmerId.toString(),
-                                                        );
+                                                            .returnCount = 0;
+                                                        Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .clearList(values
+                                                                .returnList);
                                                         Navigator.of(context)
                                                             .push(
                                                           PageRouteBuilder(
@@ -997,21 +1007,44 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               customerId:
                                                                   custmerId
                                                                       .toString(),
-                                                              areaId: Provider.of<
-                                                                          Controller>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .areaAutoComplete[0],
+                                                              areaId: values.areaidFrompopup ==
+                                                                          null ||
+                                                                      values
+                                                                          .areaidFrompopup!
+                                                                          .isEmpty
+                                                                  ? Provider.of<Controller>(
+                                                                              context,
+                                                                              listen:
+                                                                                  false)
+                                                                          .areaAutoComplete[
+                                                                      0]
+                                                                  : Provider.of<
+                                                                              Controller>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .areaidFrompopup!,
                                                               os: values
                                                                       .ordernum[
                                                                   0]['os'],
-                                                              areaName: Provider.of<
-                                                                          Controller>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .areaAutoComplete[1],
+                                                              areaName: values.areaidFrompopup ==
+                                                                          null ||
+                                                                      values
+                                                                          .areaidFrompopup!
+                                                                          .isEmpty
+                                                                  ? Provider.of<Controller>(
+                                                                              context,
+                                                                              listen:
+                                                                                  false)
+                                                                          .areaAutoComplete[
+                                                                      1]
+                                                                  : Provider.of<
+                                                                              Controller>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .areaSelecton!,
+                                                              type: "return",
                                                             ),
                                                           ),
                                                         );

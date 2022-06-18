@@ -20,11 +20,9 @@ class P_Settings {
   static Color get detailscolor2 => Color.fromARGB(255, 195, 203, 228);
   static Color get detailscolor => Colors.white;
   ///////////////// gradientcolor////////////////////
-  
 
- 
   static Color get wavecolor => Color.fromARGB(255, 42, 81, 207);
-  
+
   static Color get extracolor => Color.fromARGB(255, 207, 30, 30);
 
   static Color get roundedButtonColor => Color.fromARGB(255, 177, 212, 235);
@@ -46,11 +44,13 @@ class P_Settings {
   static Color get dashbordcl5 => Color.fromARGB(255, 217, 141, 224);
   static Color get dashbordcl6 => Color.fromARGB(255, 151, 216, 186);
 
-
   static Color get bottomNavButton => Colors.white;
 
   static Color get bottomColor => Colors.yellow;
-  static Color get returnbuttnColor => Color.fromARGB(255, 42, 153, 46);
+  static Color get returnbuttnColor => Color.fromARGB(255, 179, 39, 4);
+  static Color get collectionbuttnColor => Color.fromARGB(255, 23, 168, 18);
+  static Color get returncountColor => Color.fromARGB(255, 212, 171, 132);
+
 
   // static Color get bottomNavButton => Colors.white;
 
