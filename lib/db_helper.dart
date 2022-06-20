@@ -881,20 +881,28 @@ class OrderAppDB {
   //////////////////////////countCustomer////////////////
   countCustomer(String? areaId) async {
     var list;
-    print("aidsplit---${areaId}");
+    print("aidsplit---${areaidfromStaff}");
     Database db = await instance.database;
-    if(areaId==null){
-      
-    }else{
-      list = await db.rawQuery('SELECT  * FROM accountHeadsTable where area_id="$areaId"');
-    }
+    // if(areaId==null){
+
+    // }else{
+    //   list = await db.rawQuery('SELECT  * FROM accountHeadsTable where area_id="$areaId"');
+    // }
     if (areaidfromStaff == null || areaidfromStaff!.isEmpty) {
-      list = await db.rawQuery('SELECT  * FROM accountHeadsTable ');
-    } else {
+      if (areaId == null) {
+        list = await db.rawQuery('SELECT  * FROM accountHeadsTable ');
+      } else {
+        list = await db.rawQuery(
+            'SELECT  * FROM accountHeadsTable where area_id="$areaId"');
+      }
+    } else if (areaId == null && areaidfromStaff != null) {
       list = await db.query(
         'accountHeadsTable',
         where: "area_id IN (${aidsplit.join(',')})",
       );
+    } else {
+      list = await db
+          .rawQuery('SELECT  * FROM accountHeadsTable where area_id="$areaId"');
     }
 
     print("customr----${list.length}");

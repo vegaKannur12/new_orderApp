@@ -1414,8 +1414,7 @@ class Controller extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////////////
-  selectReportFromOrder(BuildContext context,String userId) async {
-
+  selectReportFromOrder(BuildContext context, String userId) async {
     print("report userId----$userId");
     reportData.clear();
     reportOriginalList.clear();
@@ -1515,15 +1514,21 @@ class Controller extends ChangeNotifier {
 
   Future<dynamic> mainDashtileValues(String sid, String date) async {
     print("haiii pty");
-    orderCount = await OrderAppDB.instance.countCommonQuery(
-        "orderMasterTable", " userid='$sid' AND orderdate='$date' AND areaid='$areaidFrompopup'");
+    orderCount = await OrderAppDB.instance.countCommonQuery("orderMasterTable",
+        " userid='$sid' AND orderdate='$date' AND areaid='$areaidFrompopup'");
     collectionCount = await OrderAppDB.instance.countCommonQuery(
         "collectionTable", "rec_staffid='$sid' AND rec_date='$date'");
     print("collection count---$collectionCount");
     remarkCount = await OrderAppDB.instance.countCommonQuery(
         "remarksTable", "rem_staffid='$sid' AND rem_date='$date'");
-    ret_count = await OrderAppDB.instance.countCommonQuery(
-        "returnMasterTable", "userid='$sid' AND return_date='$date' AND areaid='$areaidFrompopup'");
+    ret_count = await OrderAppDB.instance.countCommonQuery("returnMasterTable",
+        "userid='$sid' AND return_date='$date' AND areaid='$areaidFrompopup'");
+    if (collectionCount == 0 &&
+        orderCount == 0 &&
+        remarkCount == 0 &&
+        ret_count == 0) {
+      shopVisited = 0;
+    }
     print("no shop--$noshopVisited");
     print("shop visited---$shopVisited");
     notifyListeners();
@@ -1685,13 +1690,22 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+/////////////////////////////////////////////////////////////////////////
   getShopVisited(String userId) async {
     shopVisited = await OrderAppDB.instance.getShopsVisited(userId);
     var res = await OrderAppDB.instance.countCustomer(areaidFrompopup);
     if (res != null) {
       customerCount = res.length;
     }
-    noshopVisited = customerCount! - shopVisited!;
+    if (collectionCount == 0 &&
+        orderCount == 0 &&
+        remarkCount == 0 &&
+        ret_count == 0) {
+          print("collection--");
+      noshopVisited = customerCount;
+    } else {
+      noshopVisited = customerCount! - shopVisited!;
+    }
     notifyListeners();
   }
 }
