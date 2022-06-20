@@ -1521,8 +1521,11 @@ class Controller extends ChangeNotifier {
     print("collection count---$collectionCount");
     remarkCount = await OrderAppDB.instance.countCommonQuery(
         "remarksTable", "rem_staffid='$sid' AND rem_date='$date'");
+    print("remarkCountt---$remarkCount");
+
     ret_count = await OrderAppDB.instance.countCommonQuery("returnMasterTable",
         "userid='$sid' AND return_date='$date' AND areaid='$areaidFrompopup'");
+        print("ret_count---$ret_count");
     if (collectionCount == 0 &&
         orderCount == 0 &&
         remarkCount == 0 &&
@@ -1694,13 +1697,14 @@ class Controller extends ChangeNotifier {
   getShopVisited(String userId) async {
     shopVisited = await OrderAppDB.instance.getShopsVisited(userId);
     var res = await OrderAppDB.instance.countCustomer(areaidFrompopup);
+    print("col--ret-- $collectionCount--$orderCount--$remarkCount--$ret_count");
     if (res != null) {
       customerCount = res.length;
     }
     if (collectionCount == 0 &&
         orderCount == 0 &&
-        remarkCount == 0 &&
-        ret_count == 0) {
+        remarkCount == null &&
+        ret_count == null) {
           print("collection--");
       noshopVisited = customerCount;
     } else {

@@ -94,7 +94,6 @@ class StaffLogin extends StatelessWidget {
                             children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
-                                
                                   color: P_Settings.wavecolor,
                                   borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(50),
@@ -109,11 +108,11 @@ class StaffLogin extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       CircleAvatar(
-                                        backgroundColor:
-                                            Colors.grey,
+                                        backgroundColor: Colors.grey,
                                         radius: 40,
                                         child: Icon(
-                                          Icons.person,color: Colors.white,
+                                          Icons.person,
+                                          color: Colors.white,
                                           size: 50,
                                         ),
                                       ),
@@ -167,7 +166,12 @@ class StaffLogin extends StatelessWidget {
                                                         controller1.text,
                                                         controller2.text);
                                                 print("selection----$result");
-                                                if (result[0] == "success" &&
+                                                if (result.length == 0) {
+                                                  visible.value = true;
+                                                  print(
+                                                      "visible===${visible.value}");
+                                                } else if (result[0] ==
+                                                        "success" &&
                                                     result[1] != null) {
                                                   visible.value = false;
                                                   print(
@@ -204,10 +208,6 @@ class StaffLogin extends StatelessWidget {
                                                         builder: (context) =>
                                                             Dashboard()),
                                                   );
-                                                } else {
-                                                  visible.value = true;
-                                                  print(
-                                                      "visible===${visible.value}");
                                                 }
                                               }
                                             },

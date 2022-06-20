@@ -681,6 +681,7 @@ class OrderAppDB {
     String? sid;
     print("uname---Password----${uname}--${pwd}");
     resultList.clear();
+    print("before kkkk $resultList");
     Database db = await instance.database;
     List<Map<String, dynamic>> list =
         await db.rawQuery('SELECT * FROM staffDetailsTable');
@@ -692,7 +693,6 @@ class OrderAppDB {
         print("match");
         sid = staff['sid'];
         result = "success";
-
         print("staffid..$sid");
         print("ok");
         resultList.add(result);
@@ -700,7 +700,6 @@ class OrderAppDB {
         break;
       } else {
         print("No match");
-
         result = "failed";
         sid = "";
         // resultList.add(result);
@@ -1345,6 +1344,7 @@ class OrderAppDB {
 
 //////////////////////shops not visited///////////////////////
   getShopsVisited(String userId) async {
+    print("staff userId---$userId");
     List<Map<String, dynamic>> result;
     int count;
     Database db = await instance.database;
