@@ -879,12 +879,17 @@ class OrderAppDB {
   }
 
   //////////////////////////countCustomer////////////////
-  countCustomer() async {
+  countCustomer(String? areaId) async {
     var list;
-    print("aidsplit---${areaidfromStaff}");
+    print("aidsplit---${areaId}");
     Database db = await instance.database;
+    if(areaId==null){
+      
+    }else{
+      list = await db.rawQuery('SELECT  * FROM accountHeadsTable where area_id="$areaId"');
+    }
     if (areaidfromStaff == null || areaidfromStaff!.isEmpty) {
-      list = await db.rawQuery('SELECT  * FROM accountHeadsTable');
+      list = await db.rawQuery('SELECT  * FROM accountHeadsTable ');
     } else {
       list = await db.query(
         'accountHeadsTable',
@@ -1270,13 +1275,56 @@ class OrderAppDB {
     List<Map<String, dynamic>> result;
 
     Database db = await instance.database;
+    String query2 = "";
+    String query1 = "";
+    query1 = query1 +
+        " select A.ac_code  as cusid, A.hname as name," +
+        " A.ac_ad1 as ad1,A.mo as mob ," +
+        " A.ba as bln, Y.ord  as order_value," +
+        " Y.remark as remark_count , Y.col as collection_sum" +
+        " from accountHeadsTable A" +
+        " left join (select cid,sum(Ord) as ord," +
+        " sum(remark) as remark ,sum(col) as col from (" +
+        " select O.customerid cid, sum(O.total_price) Ord," +
+        " 0 remark,0 col from orderMasterTable O" +
+        " where O.userid='$userId' group by O.customerid" +
+        " union all " +
+        " select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark ," +
+        " 0 col from remarksTable R where R.rem_staffid='$userId'" +
+        " group by R.rem_cusid" +
+        " union all" +
+        " select C.rec_cusid cid, 0 Ord , 0 remark," +
+        " sum(C.rec_amount) col" +
+        " from collectionTable C where C.rec_staffid='$userId'" +
+        " group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code" +
+        " order by Y.ord+ Y.remark+ Y.col desc ;";
+    query2 = query2 +
+        " select A.ac_code  as cusid, A.hname as name," +
+        " A.ac_ad1 as ad1,A.mo as mob ," +
+        " A.ba as bln, Y.ord  as order_value," +
+        " Y.remark as remark_count , Y.col as collection_sum" +
+        " from accountHeadsTable A" +
+        " left join (select cid,sum(Ord) as ord," +
+        " sum(remark) as remark ,sum(col) as col from (" +
+        " select O.customerid cid, sum(O.total_price) Ord," +
+        " 0 remark,0 col from orderMasterTable O" +
+        " where O.userid='$userId' group by O.customerid" +
+        " union all " +
+        " select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark ," +
+        " 0 col from remarksTable R where R.rem_staffid='$userId'" +
+        " group by R.rem_cusid" +
+        " union all" +
+        " select C.rec_cusid cid, 0 Ord , 0 remark," +
+        " sum(C.rec_amount) col" +
+        " from collectionTable C where C.rec_staffid='$userId'" +
+        " group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code" +
+        " where A.area_id in ($areaidfromStaff)" +
+        " order by Y.ord+ Y.remark+ Y.col desc ;";
 
     if (areaidfromStaff == null || areaidfromStaff!.isEmpty) {
-      result = await db.rawQuery(
-        'select A.ac_code  as cusid, A.hname as name,A.ac_ad1 as ad1,A.mo as mob , A.ba as bln, Y.ord  as order_value, Y.remark as remark_count , Y.col as collection_sum from accountHeadsTable A  left join (select cid,sum(Ord) as ord, sum(remark) as remark ,sum(col) as col from (select O.customerid cid, sum(O.total_price) Ord,0 remark,0 col from orderMasterTable O group by O.customerid union all select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark , 0 col from remarksTable R group by R.rem_cusid union all select C.rec_cusid cid, 0 Ord , 0 remark, sum(C.rec_amount) col  from collectionTable C group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code where O.userid=$userId order by Y.ord+ Y.remark+ Y.col desc');
-    }else{
-    result = await db.rawQuery(
-        'select A.ac_code  as cusid, A.hname as name,A.ac_ad1 as ad1,A.mo as mob , A.ba as bln, Y.ord  as order_value, Y.remark as remark_count , Y.col as collection_sum from accountHeadsTable A  left join (select cid,sum(Ord) as ord, sum(remark) as remark ,sum(col) as col from (select O.customerid cid, sum(O.total_price) Ord,0 remark,0 col from orderMasterTable O group by O.customerid union all select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark , 0 col from remarksTable R group by R.rem_cusid union all select C.rec_cusid cid, 0 Ord , 0 remark, sum(C.rec_amount) col  from collectionTable C group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code  where A.area_id in ($areaidfromStaff) AND O.userid=$userId order by Y.ord+ Y.remark+ Y.col desc');
+      result = await db.rawQuery(query1);
+    } else {
+      result = await db.rawQuery(query2);
     }
     print("result.length-${result.length}");
     if (result.length > 0) {
@@ -1288,15 +1336,38 @@ class OrderAppDB {
   }
 
 //////////////////////shops not visited///////////////////////
-  getShopsVisited() async {
+  getShopsVisited(String userId) async {
     List<Map<String, dynamic>> result;
     int count;
     Database db = await instance.database;
-    result = await db.rawQuery(
-        'select count(distinct cid) cnt from (select O.customerid cid from orderMasterTable O group by O.customerid union all select R.rem_cusid cid from remarksTable R group by R.rem_cusid union all select C.rec_cusid cid  from collectionTable C group by C.rec_cusid UNION ALL select RT.customerid from returnMasterTable RT group by RT.customerid) x ');
+    String query = "";
+    query = query +
+        "select count(distinct cid) cnt from (" +
+        " select O.customerid cid from orderMasterTable O " +
+        "where O.userid='$userId' " +
+        " group by O.customerid " +
+        "union all " +
+        " select R.rem_cusid cid " +
+        "from remarksTable R " +
+        " where R.rem_staffid='$userId' " +
+        " group by R.rem_cusid " +
+        "union all " +
+        "select C.rec_cusid cid   " +
+        " from collectionTable C " +
+        "where C.rec_staffid='$userId' " +
+        "group by C.rec_cusid " +
+        " UNION ALL " +
+        "select RT.customerid " +
+        "from returnMasterTable RT " +
+        "where RT.userid='$userId' " +
+        "group by RT.customerid) x ;";
+    print(query);
+
+    result = await db.rawQuery(query);
+    // print(c'selet count(distinct cid) cnt from (select O.customerid cid from orderMasterTable O where O.userid="$userId" group by O.customerid union all select R.rem_cusid cid from remarksTable R where R.rem_staffid="$userId" group by R.rem_cusid union all select C.rec_cusid cid  from collectionTable C where C.rec_staffid="$userId"  group by C.rec_cusid UNION ALL select RT.customerid from returnMasterTable RT where RT.userid="$userId " group by RT.customerid) x');
     print("result.length-${result.length}");
     if (result.length > 0) {
-      count=result[0]["cnt"];
+      count = result[0]["cnt"];
       print("result shop visited-----$result");
       return count;
     } else {

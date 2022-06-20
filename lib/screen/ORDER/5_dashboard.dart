@@ -133,8 +133,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Provider.of<Controller>(context, listen: false)
         .todayCollection(s[0], context);
     Provider.of<Controller>(context, listen: false)
-        .mainDashtileValues(sid!, s[0]);Provider.of<Controller>(context, listen: false)
-        .getShopVisited();
+        .mainDashtileValues(sid!, s[0]);
+        Provider.of<Controller>(context, listen: false)
+        .getShopVisited(sid!,);
     Provider.of<Controller>(context, listen: false).mainDashAmounts(sid!, s[0]);
 
     print("cid--sid--$cid--$sid");

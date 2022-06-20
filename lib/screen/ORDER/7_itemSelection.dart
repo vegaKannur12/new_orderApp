@@ -341,7 +341,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                               : Colors.grey[700]
                                                           : value.selected[
                                                                   index]
-                                                              ? Colors.green
+                                                              ? Color.fromARGB(255, 224, 61, 11)
                                                               : Colors
                                                                   .grey[700],
                                                       fontSize: 16),

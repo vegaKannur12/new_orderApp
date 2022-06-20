@@ -276,6 +276,11 @@ class _MainDashboardState extends State<MainDashboard> {
                             if (selected != null) {
                               Provider.of<Controller>(context, listen: false)
                                   .areaSelection(selected!);
+
+                              Provider.of<Controller>(context, listen: false)
+                                  .getShopVisited(
+                                sid!,
+                              );
                             }
 
                             Navigator.pop(context);
