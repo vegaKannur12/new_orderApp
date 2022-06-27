@@ -13,6 +13,8 @@ class P_Settings {
   /// [title] Project Title
   // static String get title => 'Order App';
   static Color get appbarColor => Color.fromARGB(255, 221, 202, 219);
+  static Color get homeappbarColor => Colors.purple;
+
   static Color get headingColor => Color.fromARGB(255, 4, 11, 73);
   // font color
 
@@ -37,12 +39,12 @@ class P_Settings {
   static Color get collection1 => Color.fromARGB(255, 121, 119, 119);
   static Color get editcolor => Color.fromARGB(255, 22, 78, 30);
 
-  static Color get dashbordcl2 => Color.fromARGB(255, 197, 98, 33);
-  static Color get dashbordcl3 => Color.fromARGB(255, 147, 228, 144);
-  static Color get dashbordcl1 => Color.fromARGB(255, 140, 207, 238);
-  static Color get dashbordcl4 => Color.fromARGB(255, 231, 216, 128);
-  static Color get dashbordcl5 => Color.fromARGB(255, 217, 141, 224);
-  static Color get dashbordcl6 => Color.fromARGB(255, 151, 216, 186);
+  static Color get dashbordcl2 => Color.fromARGB(255, 231, 111, 31);
+  static Color get dashbordcl3 => Color.fromARGB(255, 134, 228, 130);
+  static Color get dashbordcl1 => Color.fromARGB(255, 73, 180, 230);
+  static Color get dashbordcl4 => Color.fromARGB(255, 231, 211, 96);
+  static Color get dashbordcl5 => Color.fromARGB(255, 229, 132, 238);
+  static Color get dashbordcl6 => Color.fromARGB(255, 102, 173, 140);
 
   static Color get bottomNavButton => Colors.white;
 
@@ -51,7 +53,52 @@ class P_Settings {
   static Color get collectionbuttnColor => Color.fromARGB(255, 23, 168, 18);
   static Color get returncountColor => Color.fromARGB(255, 212, 171, 132);
 
+  ///////////////////////////////REPORTSSS////////////////////////////////////
+  //  static Color get appbarColor => Colors.purple;
+  // font color
+  static Color get fontColor => Color.fromARGB(255, 0, 0, 0);
 
+  /// [color1]
+  static Color get color1 => Color.fromARGB(255, 199, 192, 207);
+
+  /// [color2]
+  static Color get color2 => Color.fromARGB(255, 253, 255, 253);
+
+  ////[color3]
+  static Color get color3 => Colors.purple;
+
+  ////[color4]
+  static Color get color4 => Color.fromARGB(255, 206, 147, 216);
+  ////[color5]
+  static Color get color5 => Color.fromARGB(255, 144, 202, 249);
+
+  // list tile color
+  static Color get listColor => Color.fromARGB(255, 216, 196, 218);
+  // table header color
+  static Color get datatableColor => Color.fromARGB(255, 216, 196, 218);
+  // home page date color
+  static Color get dateviewColor => Color.fromARGB(255, 248, 246, 246);
+
+  static Color get rowcolor => Color.fromARGB(255, 220, 178, 228);
+
+  static Color get spinkitColor => Colors.purple;
+
+/////////////////////////level1///////////////////////////////////////////////
+
+  static Color get l1appbarColor => Color.fromARGB(255, 219, 45, 45);
+  static Color get l1datatablecolor => Color.fromARGB(252, 238, 127, 127);
+  static Color get l1totColor => Color.fromARGB(244, 252, 249, 252);
+
+// static Color get appbarColor => Color.fromARGB(255, 109, 6, 226);
+
+/////////////////////////level2///////////////////////////////////////////////
+  static Color get l2appbarColor => Color.fromARGB(255, 7, 154, 240);
+  static Color get l2datatablecolor => Color.fromARGB(255, 136, 196, 231);
+
+//////////////////////////////////////////////////////////////////////////////
+
+  static Color get l3appbarColor => Color.fromARGB(255, 30, 161, 129);
+  static Color get l3datatablecolor => Color.fromARGB(255, 131, 201, 160);
   // static Color get bottomNavButton => Colors.white;
 
 /////////////////////////level1///////////////////////////////////////////////

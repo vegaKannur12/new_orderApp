@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,12 +25,14 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     super.initState();
     getCid();
     // Provider.of<Controller>(context, listen: false).getCompanyData(cid!);
-
   }
 
-  getCid()async{
+  getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-        cid=prefs.getString("cid");
+    cid = prefs.getString("cid");
+
+    Provider.of<AdminController>(context, listen: false)
+        .getCategoryReport(cid!);
   }
 
   @override
@@ -227,56 +230,84 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                 SizedBox(
                                   height: size.height * 0.04,
                                 ),
-                                 widget.type=="drawer call"?Container():Text(
-                                  "Company Registration Successfull",
-                                  style: TextStyle(color: Colors.red),
-                                ),
+                                widget.type == "drawer call"
+                                    ? Container()
+                                    : Text(
+                                        "Company Registration Successfull",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
                                 SizedBox(
                                   height: size.height * 0.02,
                                 ),
-                                widget.type=="drawer call"?Container():ElevatedButton(
-                                  onPressed: () async {
-                                    Provider.of<Controller>(context,
-                                            listen: false)
-                                        .fetchMenusFromMenuTable();
+                                widget.type == "drawer call"
+                                    ? Container()
+                                    : ElevatedButton(
+                                        onPressed: () async {
+                                          SharedPreferences prefs =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          String? userType =
+                                              prefs.getString("user_type");
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .fetchMenusFromMenuTable();
 
-                                    String cid = Provider.of<Controller>(
-                                            context,
-                                            listen: false)
-                                        .cid!;
-                                    Provider.of<Controller>(context,
-                                            listen: false)
-                                        .getStaffDetails(cid);
-                                    Provider.of<Controller>(context,
-                                            listen: false)
-                                        .getAreaDetails(cid);
-                                    Provider.of<Controller>(context,
-                                            listen: false)
-                                        .cid = cid;
-                                    print("cid-----${cid}");
-                                    SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
-                                    // prefs.setString("cid", cid);
-                                    prefs.setString("cname", value.cname!);
-                                    // Provider.of<Controller>(context,
-                                    //         listen: false)
-                                    //     .setCname();
+                                          String cid = Provider.of<Controller>(
+                                                  context,
+                                                  listen: false)
+                                              .cid!;
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getStaffDetails(cid);
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getUserType();
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getAreaDetails(cid);
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .cid = cid;
+                                          print("cid-----${cid}");
 
-                                    if (Provider.of<Controller>(context,
-                                                listen: false)
-                                            .userType ==
-                                        "staff") {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => StaffLogin()),
-                                      );
-                                    }
+                                          // prefs.setString("cid", cid);
+                                          prefs.setString(
+                                              "cname", value.cname!);
+                                          // Provider.of<Controller>(context,
+                                          //         listen: false)
+                                          //     .setCname();
 
-                                    // _snackbar.showSnackbar(context,"Staff Details Saved");
-                                  },
-                                  child: Text("Continue"),
-                                ),
+                                          if (Provider.of<Controller>(context,
+                                                      listen: false)
+                                                  .userType ==
+                                              "staff") {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StaffLogin(
+                                                        userType: userType!,
+                                                      )),
+                                            );
+                                          } else if (Provider.of<Controller>(
+                                                      context,
+                                                      listen: false)
+                                                  .userType ==
+                                              "admin") {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StaffLogin(
+                                                        userType: userType!,
+                                                      )),
+                                            );
+                                          }
+
+                                          // _snackbar.showSnackbar(context,"Staff Details Saved");
+                                        },
+                                        child: Text("Continue"),
+                                      ),
                               ],
                             ),
                           ),

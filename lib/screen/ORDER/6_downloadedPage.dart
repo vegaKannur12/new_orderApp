@@ -5,11 +5,10 @@ import 'package:orderapp/db_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class DownloadedPage extends StatefulWidget {
   String? type;
   String? title;
-  DownloadedPage({this.type,this.title});
+  DownloadedPage({this.type, this.title});
 
   @override
   State<DownloadedPage> createState() => _DownloadedPageState();
@@ -65,65 +64,75 @@ class _DownloadedPageState extends State<DownloadedPage> {
               // title: Text("Company Details",style: TextStyle(fontSize: 20),),
             )
           : null,
-      body: Column(
-        children: [
-          //  SizedBox(height: size.height*0.02,),
-          // Container(
-          //   child: Text(widget.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-          //   height: size.height*0.06,
-          // ),
-          Flexible(
-            child: Container(
-              height: size.height * 0.9,
-              child: ListView.builder(
-                itemCount: downloadItems.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: P_Settings.wavecolor),
-                      child: ListTile(
-                        trailing: IconButton(
-                          onPressed: () async {
-                            if (downloadItems[index] == "Account Heads") {
-                              Provider.of<Controller>(context, listen: false)
-                                  .getaccountHeadsDetails(cid!);
-                            }
-                            if (downloadItems[index] == "Product category") {
-                              Provider.of<Controller>(context, listen: false)
-                                  .getProductCategory(cid!);
-                            }
-                            if (downloadItems[index] == "Company") {
-                              Provider.of<Controller>(context, listen: false)
-                                  .getProductCompany(cid!);
-                            }
-                            if (downloadItems[index] == "Product Details") {
-                              Provider.of<Controller>(context, listen: false)
-                                  .getProductDetails(cid!);
-                            }
-                            if (downloadItems[index] == "Wallet") {
-                              Provider.of<Controller>(context, listen: false)
-                                  .getWallet(context);
-                            }
-                          },
-                          icon: Icon(Icons.download),
-                          color: Colors.white,
+      body: Consumer<Controller>(
+        builder: (context, value, child) {
+          print("value.sof-----${value.sof}");
+          return Column(
+            children: [
+              Flexible(
+                child: Container(
+                  height: size.height * 0.9,
+                  child: ListView.builder(
+                    itemCount: downloadItems.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: P_Settings.wavecolor),
+                          child: ListTile(
+                            trailing: IconButton(
+                              onPressed: value.versof == "0"
+                                  ? null
+                                  : () async {
+                                      if (downloadItems[index] ==
+                                          "Account Heads") {
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .getaccountHeadsDetails(cid!);
+                                      }
+                                      if (downloadItems[index] ==
+                                          "Product category") {
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .getProductCategory(cid!);
+                                      }
+                                      if (downloadItems[index] == "Company") {
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .getProductCompany(cid!);
+                                      }
+                                      if (downloadItems[index] ==
+                                          "Product Details") {
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .getProductDetails(cid!);
+                                      }
+                                      if (downloadItems[index] == "Wallet") {
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .getWallet(context);
+                                      }
+                                    },
+                              icon: Icon(Icons.download),
+                              color: Colors.white,
+                            ),
+                            title: Center(
+                                child: Text(
+                              downloadItems[index],
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
                         ),
-                        title: Center(
-                            child: Text(
-                          downloadItems[index],
-                          style: TextStyle(color: Colors.white),
-                        )),
-                      ),
-                    ),
-                  );
-                },
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

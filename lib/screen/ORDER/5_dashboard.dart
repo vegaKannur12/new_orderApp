@@ -1,11 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
+import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/6_reportPage.dart';
+import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
+import 'package:orderapp/screen/ADMIN%20REPORTS/homePage.dart';
+import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:orderapp/screen/ORDER/5_mainDashboard.dart';
@@ -24,10 +29,11 @@ import '../../components/commoncolor.dart';
 import '6_orderForm.dart';
 
 class Dashboard extends StatefulWidget {
+  String? userType;
   String? type;
 
   String? areaName;
-  Dashboard({this.type, this.areaName});
+  Dashboard({this.type, this.areaName, this.userType});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -43,7 +49,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Tab(text: 'CList'),
   ];
   List<Widget> drawerOpts = [];
-
+  String? gen_condition;
   ValueNotifier<bool> upselected = ValueNotifier(false);
   ValueNotifier<bool> dwnselected = ValueNotifier(false);
   String title = "";
@@ -80,7 +86,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // print("haiiiiii");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
-
+    Provider.of<Controller>(context, listen: false).verifyRegistration(context);
+    String? gen_area =
+        Provider.of<Controller>(context, listen: false).areaidFrompopup;
+    if (gen_area != null) {
+      gen_condition = " and accountHeadsTable.area_id=$gen_area";
+    } else {
+      gen_condition = " ";
+    }
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).setCname();
     Provider.of<Controller>(context, listen: false).setSname();
@@ -101,10 +114,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       print("Selected Index: " + _tabController!.index.toString());
     });
     getCompaniId();
+  }
 
-    // if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
-    //   menu_index = Provider.of<Controller>(context, listen: false).firstMenu!;
-    // }
+  navigateToPage(BuildContext context, Size size) {
+    Navigator.push(
+        context, new MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   insertSettings() async {
@@ -126,23 +140,34 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     }
     print("dididdd");
     // if (widget.type != "return from cartList") {
+    if (widget.userType == "staff") {
       Provider.of<Controller>(context, listen: false).getArea(sid!);
-    // }
-    print("s[0]----${s[0]}");
-    Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
-    Provider.of<Controller>(context, listen: false)
-        .todayCollection(s[0], context);
-    Provider.of<Controller>(context, listen: false)
-        .mainDashtileValues(sid!, s[0]);
-        Provider.of<Controller>(context, listen: false)
-        .getShopVisited(sid!,);
-    Provider.of<Controller>(context, listen: false).mainDashAmounts(sid!, s[0]);
+      print("s[0]----${s[0]}");
+      Provider.of<Controller>(context, listen: false)
+          .todayOrder(s[0], gen_condition!);
 
+      Provider.of<Controller>(context, listen: false)
+          .todayCollection(s[0], gen_condition!);
+
+      if (Provider.of<Controller>(context, listen: false).areaidFrompopup !=
+          null) {
+        Provider.of<Controller>(context, listen: false).dashboardSummery(
+            sid!,
+            s[0],
+            Provider.of<Controller>(context, listen: false).areaidFrompopup!);
+      } else {
+        Provider.of<Controller>(context, listen: false)
+            .dashboardSummery(sid!, s[0], "");
+      }
+    }
+
+    // Provider.of<Controller>(context, listen: false)
+    //     .dashboardSummery(sid!, s[0], "");
     print("cid--sid--$cid--$sid");
     return sid;
   }
 
-  _getDrawerItemWidget(String pos) {
+  _getDrawerItemWidget(String pos, Size size) {
     print("pos---${pos}");
     switch (pos) {
       case "S1":
@@ -157,13 +182,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "S2":
         if (widget.type == "return from cartList") {
           return OrderForm(widget.areaName!, "sales");
-        } 
-       else if(widget.type=="Product return confirmed") {
+        } else if (widget.type == "Product return confirmed") {
           return OrderForm(widget.areaName!, "");
-        }else{
+        } else {
           return OrderForm("", "");
         }
-        
+
       case "S3":
         return OrderForm("", "return");
 
@@ -181,6 +205,21 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           sid: sid!,
           os: os,
         );
+      case "A2":
+        {
+          getCompaniId();
+          print("ciddddd--$cid");
+          if (Provider.of<Controller>(context, listen: false).versof == "0") {
+            CustomToast tst = CustomToast();
+            tst.toast("company not registered");
+          } else {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              return navigateToPage(context, size);
+            });
+          }
+
+          return MainDashboard();
+        }
 
       case "SA2":
         return null;
@@ -189,18 +228,26 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return OrderForm("", "collection");
 
       case "UL":
-        // title = "Upload data";
-        return Uploaddata(
-          title: "Upload data",
-          cid: cid!,
-          type: "drawer call",
-        );
+        {
+          Provider.of<Controller>(context, listen: false)
+              .verifyRegistration(context);
+          return Uploaddata(
+            title: "Upload data",
+            cid: cid!,
+            type: "drawer call",
+          );
+        }
+
       case "DP":
-        // title = "Download data";
-        return DownloadedPage(
-          title: "Download Page",
-          type: "drawer call",
-        );
+        {
+          Provider.of<Controller>(context, listen: false)
+              .verifyRegistration(context);
+          return DownloadedPage(
+            title: "Download Page",
+            type: "drawer call",
+          );
+        }
+
       case "CD":
         // title = "Download data";
         return CompanyDetails(
@@ -214,17 +261,31 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "0":
         return new MainDashboard();
       case "1":
-        return new TodaysOrder();
+        {
+          return new TodaysOrder();
+        }
       case "2":
         return TodayCollection();
       case "3":
         return new TodaySale();
       case "4":
-        Provider.of<Controller>(context, listen: false).setFilter(false);
-        Provider.of<Controller>(context, listen: false)
-            .selectReportFromOrder(context,sid!);
-        // Navigator.pop(context);
-        return ReportPage();
+        {
+          // String? gen_area =
+          //     Provider.of<Controller>(context, listen: false).areaidFrompopup;
+          // if (gen_area != null) {
+          //   gen_condition = " and orderMasterTable.areaid=$gen_area";
+          // } else {
+          //   gen_condition = " ";
+          // }
+          Provider.of<Controller>(context, listen: false).setFilter(false);
+          Provider.of<Controller>(context, listen: false).selectReportFromOrder(
+            context,
+            sid!,
+            s[0],
+          );
+          // Navigator.pop(context);
+          return ReportPage();
+        }
       // case "RP":
       //   Provider.of<Controller>(context, listen: false).setFilter(false);
       //   Provider.of<Controller>(context, listen: false)
@@ -245,7 +306,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
-    if (widget.type == "return from cartList" || widget.type=="Product return confirmed") {
+    if (widget.type == "return from cartList" ||
+        widget.type == "Product return confirmed") {
       print("from cart");
       if (val) {
         menu_index = "S2";
@@ -264,7 +326,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         onWillPop: () => _onBackPressed(context),
         child: Scaffold(
           key: _key, //
-          backgroundColor: P_Settings.wavecolor,
+          // backgroundColor: P_Settings.wavecolor,
           appBar: menu_index == "UL" || menu_index == "DP"
               ? AppBar(
                   flexibleSpace: Container(
@@ -503,15 +565,34 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         ),
                       ),
                       ListTile(
+                        trailing: Icon(Icons.settings),
+                        onTap: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.remove('company_id');
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegistrationScreen()));
+                        },
+                        title: Text(
+                          "un-register",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ),
+                      ListTile(
                         trailing: Icon(Icons.logout),
                         onTap: () async {
                           final prefs = await SharedPreferences.getInstance();
                           await prefs.remove('st_username');
                           await prefs.remove('st_pwd');
+                          String? userType = prefs.getString("user_type");
+
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => StaffLogin()));
+                                  builder: (context) => StaffLogin(
+                                        userType: userType!,
+                                      )));
                         },
                         title: Text(
                           "Logout",
@@ -535,9 +616,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               final String label = tab.text!.toLowerCase();
               return Center(
                 child: Container(
-                  child: _getDrawerItemWidget(
-                    menu_index,
-                  ),
+                  child: _getDrawerItemWidget(menu_index, size),
                 ),
               );
             }).toList(),

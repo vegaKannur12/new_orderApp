@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
 import 'package:orderapp/screen/ORDER/0_splashScreen.dart';
+import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/tab.dart';
 
 import 'package:provider/provider.dart';
@@ -18,7 +20,12 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? cid = prefs.getString("company_id");
   runApp(MultiProvider(
-    providers: [ChangeNotifierProvider(create: (_) => Controller())],
+    providers: [
+      ChangeNotifierProvider(create: (_) => Controller()),
+      ChangeNotifierProvider(
+        create: (_) => AdminController(),
+      ),
+    ],
     child: MyApp(),
   ));
 }
@@ -31,8 +38,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        fontFamily: 'Roboto Mono sample',
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily: 'OpenSans',
+        // fontFamily: 'OpenSans',
         primaryColor: P_Settings.bodycolor,
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.indigo,

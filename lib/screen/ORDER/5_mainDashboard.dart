@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:orderapp/components/areaPopup.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/db_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,6 +22,8 @@ class MainDashboard extends StatefulWidget {
 class _MainDashboardState extends State<MainDashboard> {
   DateTime date = DateTime.now();
   String? formattedDate;
+  String? gen_condition;
+
   String? selected;
   List<String> s = [];
   AreaSelectionPopup popup = AreaSelectionPopup();
@@ -114,12 +117,21 @@ class _MainDashboardState extends State<MainDashboard> {
 
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Todays",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.bold),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Todays  ",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.grey[700],
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(" -  ${s[0]}",
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold))
+                            ],
                           ),
                         ),
                         // SizedBox(height: size.height*01,),
@@ -128,12 +140,12 @@ class _MainDashboardState extends State<MainDashboard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Orders",
-                                  "${value.orderCount != null && value.orderCount!.isNotEmpty ? value.orderCount : "0"}"),
+                                  "${value.orderCount != "null" ? value.orderCount : "0"}"),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Collection",
-                                  "${value.collectionCount != null && value.collectionCount!.isNotEmpty ? value.collectionCount : "0"}"),
+                                  "${value.collectionCount != "null" ? value.collectionCount : "0"}"),
                             ),
                           ],
                         ),
@@ -146,7 +158,7 @@ class _MainDashboardState extends State<MainDashboard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Return",
-                                  "${value.ret_count != null && value.ret_count!.isNotEmpty ? value.ret_count : "0"}"),
+                                  "${value.ret_count != "null" ? value.ret_count : "0"}"),
                             ),
                           ],
                         ),
@@ -173,12 +185,20 @@ class _MainDashboardState extends State<MainDashboard> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Todays Collection",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.grey[700],
-                                    fontWeight: FontWeight.bold),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Todays Collection ",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.grey[700],
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text("-  ${s[0]}",
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold))
+                                ],
                               ),
                             )
                           ],
@@ -272,15 +292,36 @@ class _MainDashboardState extends State<MainDashboard> {
                         ),
                       ),
                       ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (selected != null) {
                               Provider.of<Controller>(context, listen: false)
                                   .areaSelection(selected!);
-
                               Provider.of<Controller>(context, listen: false)
-                                  .getShopVisited(
-                                sid!,
-                              );
+                                  .dashboardSummery(sid!, s[0], selected!);
+                              String? gen_area = Provider.of<Controller>(
+                                      context,
+                                      listen: false)
+                                  .areaidFrompopup;
+                              if (gen_area != null) {
+                                gen_condition =
+                                    " and accountHeadsTable.area_id=$gen_area";
+                              } else {
+                                gen_condition = " ";
+                              }
+                              Provider.of<Controller>(context, listen: false)
+                                  .todayOrder(s[0], gen_condition!);
+                              Provider.of<Controller>(context, listen: false)
+                                  .todayCollection(s[0], gen_condition!);
+                              Provider.of<Controller>(context, listen: false)
+                                  .selectReportFromOrder(context, sid!, s[0]);
+                              // Provider.of<Controller>(context, listen: false)
+                              //     .mainDashtileValues(sid!, s[0]);
+                              // Provider.of<Controller>(context, listen: false)
+                              //     .mainDashAmounts(sid!, s[0]);
+                              // Provider.of<Controller>(context, listen: false)
+                              //     .getShopVisited(
+                              //   sid!,s[0]
+                              // );
                             }
 
                             Navigator.pop(context);
@@ -317,7 +358,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     ? P_Settings.dashbordcl3
                     : title == "Return"
                         ? P_Settings.dashbordcl4
-                        : title == "Shops Visited"
+                        : title == "Shops visited"
                             ? P_Settings.dashbordcl5
                             : title == "Shops Not Visited"
                                 ? P_Settings.dashbordcl6
@@ -343,20 +384,17 @@ class _MainDashboardState extends State<MainDashboard> {
                                         ? Image.asset("asset/7.png")
                                         : null,
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Icon(
-              //     Icons.person,
-              //     color: Colors.white,
-              //     size: 50,
-              //   ),
-              // ),
-              Text(title.toString(),
+              Text(
+                title.toString(),
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
-              Text(value.toString(),
+              value=="null"?
+              SpinKitCircle(
+                size: 10,
+                color: Colors.white,
+              ):Text(value.toString(),
                   style: TextStyle(
                       fontSize: 23,
                       fontWeight: FontWeight.bold,

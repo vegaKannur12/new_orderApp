@@ -8,6 +8,8 @@ import 'package:orderapp/model/productCompany_model.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
 import 'package:orderapp/model/registration_model.dart';
 import 'package:orderapp/model/sideMenu_model.dart';
+import 'package:orderapp/model/userType_model.dart';
+import 'package:orderapp/model/verify_registrationModel.dart';
 import 'package:orderapp/model/wallet_model.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 
@@ -23,6 +25,7 @@ class Controller extends ChangeNotifier {
   bool isLoading = false;
   bool isListLoading = false;
   int? selectedTabIndex;
+  String? userName;
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
@@ -114,6 +117,9 @@ class Controller extends ChangeNotifier {
   List<bool> rateEdit = [];
   String? count;
   String? sof;
+  String? versof;
+
+  String? fp;
   List<Map<String, dynamic>> bagList = [];
   List<Map<String, dynamic>> newList = [];
 
@@ -141,6 +147,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> approximateSum = [];
   // List<WalletModal> wallet = [];
   StaffDetails staffModel = StaffDetails();
+  UserTypeModel userTypemodel = UserTypeModel();
+
   Balance balanceModel = Balance();
   AccountHead accountHead = AccountHead();
   StaffArea staffArea = StaffArea();
@@ -172,11 +180,14 @@ class Controller extends ChangeNotifier {
           RegistrationData regModel = RegistrationData.fromJson(map);
           userType = regModel.type;
           sof = regModel.sof;
+          fp = regModel.fp;
+          String? msg = regModel.msg;
+          print("fp----- $fp");
           print("sof----${sof}");
-          if (sof == "1" && company_code.length >= 10) {
+          if (sof == "1") {
             /////////////// insert into local db /////////////////////
             late CD dataDetails;
-            String? fp = regModel.fp;
+            String? fp1 = regModel.fp;
             String? os = regModel.os;
             regModel.c_d![0].cid;
             cid = regModel.cid;
@@ -193,13 +204,16 @@ class Controller extends ChangeNotifier {
             notifyListeners();
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("company_id", company_code);
+            prefs.setString("user_type", userType!);
+
             prefs.setString("cid", cid!);
             prefs.setString("os", os!);
+            prefs.setString("fp", fp!);
+            // verifyRegistration(context);
 
             getCompanyData();
-
             // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
-            getMenuAPi(cid!, fp!, context);
+            getMenuAPi(cid!, fp1!, context);
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -209,10 +223,65 @@ class Controller extends ChangeNotifier {
             );
           }
           /////////////////////////////////////////////////////
-          if (sof == "0" || company_code.length < 10) {
+
+          if (sof == "0") {
             CustomSnackbar snackbar = CustomSnackbar();
-            snackbar.showSnackbar(context, "Invalid Company Key");
+            snackbar.showSnackbar(context, "Invalid key");
           }
+
+          notifyListeners();
+        } catch (e) {
+          print(e);
+          return null;
+        }
+      }
+    });
+  }
+
+//////////////////////verify registration/////////////////////////////
+  Future<RegistrationData?> verifyRegistration(BuildContext context) async {
+    NetConnection.networkConnection(context).then((value) async {
+      // await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? compny_code = prefs.getString("company_id");
+      String? fp = prefs.getString("fp");
+
+      Map map = {
+        '0': compny_code,
+        "1": fp,
+      };
+
+      List list = [];
+      list.add(map);
+      var jsonen = jsonEncode(list);
+      print("listrrr----$list");
+      if (value == true) {
+        try {
+          Uri url =
+              Uri.parse("http://trafiqerp.in/order/fj/verify_registration.php");
+          Map body = {
+            'json_result': jsonen,
+          };
+          // Map test={'json_result':[{"0":"RONPBQ9AAXVO","1":"ssss"}]};
+          http.Response response = await http.post(
+            url,
+            body: body,
+          );
+          var map = jsonDecode(response.body);
+          print("verify--$map");
+
+          VerifyRegistration verRegModel = VerifyRegistration.fromJson(map);
+          versof = verRegModel.sof;
+          String? error = verRegModel.error;
+
+          print("sof----${versof}");
+
+          // /////////////////////////////////////////////////////
+
+          // if (sof == "0") {
+          //   CustomSnackbar snackbar = CustomSnackbar();
+          //   snackbar.showSnackbar(context, "Invalid key");
+          // }
 
           notifyListeners();
         } catch (e) {
@@ -255,6 +324,8 @@ class Controller extends ChangeNotifier {
                 .insertMenuTable(menuItem.menu_index!, menuItem.menu_name!);
             // menuList.add(menuItem);
           }
+
+          // print("menu api---$")
           print("insertion");
           notifyListeners();
         } catch (e) {
@@ -357,6 +428,42 @@ class Controller extends ChangeNotifier {
       /////////////// insert into local db /////////////////////
       notifyListeners();
       return staffModel;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+/////////////////get UserType//////////////////////////////////////
+  getUserType() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? cid = prefs.getString("cid");
+    print("getuserType...............${cid}");
+    var resuser;
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_user.php");
+      Map body = {
+        'cid': cid,
+      };
+
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      // print("body ${body}");
+      List map = jsonDecode(response.body);
+      print("map ${map}");
+
+      for (var user in map) {
+        // print("staff----${staff}");
+        userTypemodel = UserTypeModel.fromJson(user);
+        resuser = await OrderAppDB.instance.insertUserType(userTypemodel);
+        // print("inserted ${restaff}");
+      }
+      print("inserted user ${resuser}");
+
+      /////////////// insert into local db /////////////////////
+      notifyListeners();
     } catch (e) {
       print(e);
       return null;
@@ -979,10 +1086,12 @@ class Controller extends ChangeNotifier {
       String? refNo,
       String? reason) async {
     print(
-        "values-------$os-$date--$time$customer_id-$user_id--$aid--$total_price--$refNo--$reason");
+        "values--------$date--$time$customer_id-$user_id--$aid--$total_price--$refNo--$reason");
     // List<Map<String, dynamic>> om = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? os1 = prefs.getString("os");
     int return_id = await OrderAppDB.instance
-        .getMaxCommonQuery('returnMasterTable', 'return_id', "os='${os}'");
+        .getMaxCommonQuery('returnMasterTable', 'return_id', "os='${os1}'");
     print("return_id----$return_id");
     int rowNum = 1;
     if (returnList.length > 0) {
@@ -994,7 +1103,7 @@ class Controller extends ChangeNotifier {
           " ",
           date,
           time,
-          os,
+          os1!,
           customer_id,
           user_id,
           aid,
@@ -1017,7 +1126,7 @@ class Controller extends ChangeNotifier {
             item["code"],
             date,
             time,
-            os,
+            os1,
             customer_id,
             user_id,
             aid,
@@ -1238,11 +1347,11 @@ class Controller extends ChangeNotifier {
   }
 
   //////getHistory/////////////////////////////
-  Future<dynamic> todayOrder(String date, BuildContext context) async {
+  Future<dynamic> todayOrder(String date, String? condition) async {
     todayOrderList.clear();
     isLoading = true;
     print("haiiii");
-    var result = await OrderAppDB.instance.todayOrder(date);
+    var result = await OrderAppDB.instance.todayOrder(date, condition!);
     print("aftr cut----$result");
     if (result != null) {
       for (var item in result) {
@@ -1258,12 +1367,12 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////////////////////////////////
-  Future<dynamic> todayCollection(String date, BuildContext context) async {
+  Future<dynamic> todayCollection(String date, String condition) async {
     todayCollectionList.clear();
     isLoading = true;
     print("haiiii");
     print("contrler date----$date");
-    var result = await OrderAppDB.instance.todayCollection(date);
+    var result = await OrderAppDB.instance.todayCollection(date, condition);
 
     print("aftr cut----$result");
     if (result != null) {
@@ -1414,14 +1523,16 @@ class Controller extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////////////
-  selectReportFromOrder(BuildContext context, String userId) async {
+  selectReportFromOrder(
+      BuildContext context, String userId, String date) async {
     print("report userId----$userId");
     reportData.clear();
     reportOriginalList.clear();
     Map map = {};
     isLoading = true;
     // notifyListeners();
-    var res = await OrderAppDB.instance.getReportDataFromOrderDetails(userId);
+    var res = await OrderAppDB.instance
+        .getReportDataFromOrderDetails(userId, date, context);
     if (res != null && res.length > 0) {
       for (var item in res) {
         reportData.add(item);
@@ -1488,54 +1599,87 @@ class Controller extends ChangeNotifier {
     }
   }
 
-///////////////// order total today /////////////
+///////////////// dashboard summery /////////////
+  Future<dynamic> dashboardSummery(String sid, String date, String aid) async {
+    var res = await OrderAppDB.instance.dashboardSummery(sid, date, aid);
+    var result = await OrderAppDB.instance.countCustomer(areaidFrompopup);
+    print("resultresult-- $aid");
+    if (result.length > 0) {
+      customerCount = result.length;
+    }
+
+    print("customerCount----$customerCount");
+    orderCount = res[0]["ordCnt"].toString();
+    collectionCount = res[0]["colCnt"].toString();
+    remarkCount = res[0]["rmCnt"].toString();
+    ret_count = res[0]["retCnt"].toString();
+
+    collectionAmount = res[0]["colVal"].toString();
+    ordrAmount = res[0]["ordVal"].toString();
+    returnAmount = res[0]["retVal"].toString();
+
+    shopVisited = res[0]["cusCount"];
+    noshopVisited = customerCount! - shopVisited!;
+    notifyListeners();
+  }
 
 ///////////////////////////////////////////////////////////////////
-  Future<dynamic> mainDashAmounts(String sid, String date) async {
-    collectionAmount = await OrderAppDB.instance.sumCommonQuery("rec_amount",
-        'collectionTable', "rec_staffid='$sid' AND rec_date='$date'");
-    ordrAmount = await OrderAppDB.instance.sumCommonQuery("total_price",
-        'orderMasterTable', "userid='$sid' AND orderdate='$date'");
-    returnAmount = await OrderAppDB.instance.sumCommonQuery("total_price",
-        'returnMasterTable', "userid='$sid' AND return_date='$date'");
-    if (collectionAmount == null || collectionAmount.isEmpty) {
-      collectionAmount = "0.0";
-    }
-    if (ordrAmount == null || ordrAmount.isEmpty) {
-      ordrAmount = "0.0";
-    }
-    if (returnAmount == null || returnAmount.isEmpty) {
-      returnAmount = "0.0";
-    }
-    print("Amount---$collectionAmount--$ordrAmount");
-    notifyListeners();
-  }
-////////////////////////////////////////////////////////////////////
+//   Future<dynamic> mainDashAmounts(String sid, String date) async {
+//     collectionAmount = await OrderAppDB.instance.sumCommonQuery("rec_amount",
+//         'collectionTable', "rec_staffid='$sid' AND rec_date='$date'");
+//     ordrAmount = await OrderAppDB.instance.sumCommonQuery(
+//         "total_price",
+//         'orderMasterTable',
+//         "userid='$sid' AND orderdate='$date' AND areaid='$areaidFrompopup'");
+//     returnAmount = await OrderAppDB.instance.sumCommonQuery(
+//         "total_price",
+//         'returnMasterTable',
+//         "userid='$sid' AND return_date='$date' AND areaid='$areaidFrompopup'");
+//     if (collectionAmount == null || collectionAmount.isEmpty) {
+//       collectionAmount = "0.0";
+//     }
+//     if (ordrAmount == null || ordrAmount.isEmpty) {
+//       ordrAmount = "0.0";
+//     }
+//     if (returnAmount == null || returnAmount.isEmpty) {
+//       returnAmount = "0.0";
+//     }
+//     print("Amount---$collectionAmount--$ordrAmount");
+//     notifyListeners();
+//   }
+// ////////////////////////////////////////////////////////////////////
 
-  Future<dynamic> mainDashtileValues(String sid, String date) async {
-    print("haiii pty");
-    orderCount = await OrderAppDB.instance.countCommonQuery("orderMasterTable",
-        " userid='$sid' AND orderdate='$date' AND areaid='$areaidFrompopup'");
-    collectionCount = await OrderAppDB.instance.countCommonQuery(
-        "collectionTable", "rec_staffid='$sid' AND rec_date='$date'");
-    print("collection count---$collectionCount");
-    remarkCount = await OrderAppDB.instance.countCommonQuery(
-        "remarksTable", "rem_staffid='$sid' AND rem_date='$date'");
-    print("remarkCountt---$remarkCount");
+//   Future<dynamic> mainDashtileValues(String sid, String date) async {
+//     print("haiii pty");
+//     String condition = " ";
+//     if (areaidFrompopup != null) {
+//       // condition = "and areaid='$areaidFrompopup'";
+//       // condition = " and "
+//     }
 
-    ret_count = await OrderAppDB.instance.countCommonQuery("returnMasterTable",
-        "userid='$sid' AND return_date='$date' AND areaid='$areaidFrompopup'");
-        print("ret_count---$ret_count");
-    if (collectionCount == 0 &&
-        orderCount == 0 &&
-        remarkCount == 0 &&
-        ret_count == 0) {
-      shopVisited = 0;
-    }
-    print("no shop--$noshopVisited");
-    print("shop visited---$shopVisited");
-    notifyListeners();
-  }
+//     orderCount = await OrderAppDB.instance.countCommonQuery("orderMasterTable",
+//         " userid='$sid' AND orderdate='$date' $condition");
+//     collectionCount = await OrderAppDB.instance.countCommonQuery(
+//         "collectionTable", "rec_staffid='$sid' AND rec_date='$date'");
+//     // print("collection count---$collectionCount");
+//     remarkCount = await OrderAppDB.instance.countCommonQuery(
+//         "remarksTable", "rem_staffid='$sid' AND rem_date='$date'");
+//     // print("remarkCountt---$remarkCount");
+
+//     ret_count = await OrderAppDB.instance.countCommonQuery("returnMasterTable",
+//         "userid='$sid' AND return_date='$date' $condition");
+//     print("ret_count---$ret_count");
+
+//     // if (collectionCount == 0 &&
+//     //     orderCount == 0 &&
+//     //     remarkCount == 0 &&
+//     //     ret_count == 0) {
+//     //   shopVisited = 0;
+//     // }
+//     print("no shop--$noshopVisited");
+//     print("shop visited---$shopVisited");
+//     notifyListeners();
+//   }
 
 /////////////////////////////////////////////////////////////////
   setFilter(bool filters) {
@@ -1627,7 +1771,7 @@ class Controller extends ChangeNotifier {
     List<Map<String, dynamic>> result = await OrderAppDB.instance
         .selectAllcommon('areaDetailsTable', "aid='${area}'");
     areaSelecton = result[0]["aname"];
-    print("area---$areaSelecton");
+    print("area---$areaidFrompopup");
     notifyListeners();
   }
 
@@ -1694,8 +1838,8 @@ class Controller extends ChangeNotifier {
   }
 
 /////////////////////////////////////////////////////////////////////////
-  getShopVisited(String userId) async {
-    shopVisited = await OrderAppDB.instance.getShopsVisited(userId);
+  getShopVisited(String userId, String date) async {
+    shopVisited = await OrderAppDB.instance.getShopsVisited(userId, date);
     var res = await OrderAppDB.instance.countCustomer(areaidFrompopup);
     print("col--ret-- $collectionCount--$orderCount--$remarkCount--$ret_count");
     if (res != null) {
@@ -1705,11 +1849,74 @@ class Controller extends ChangeNotifier {
         orderCount == 0 &&
         remarkCount == null &&
         ret_count == null) {
-          print("collection--");
+      print("collection--");
       noshopVisited = customerCount;
     } else {
       noshopVisited = customerCount! - shopVisited!;
     }
+    notifyListeners();
+  }
+
+  /////////////////////////save return details////////////////////////////////////
+  saveReturnDetails(
+      String cid, List<Map<String, dynamic>> om, BuildContext context) async {
+    try {
+      print("haiii");
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/stock_return_save.php");
+      isLoading = true;
+      notifyListeners();
+      // print("body--${body}");
+      var mapBody = jsonEncode(om);
+      print("mapBody--${mapBody}");
+
+      var jsonD = jsonDecode(mapBody);
+
+      http.Response response = await http.post(
+        url,
+        body: {'cid': cid, 'om': mapBody},
+      );
+
+      print("after");
+
+      var map = jsonDecode(response.body);
+      print("response----${map}");
+
+      for (var item in map) {
+        if (item["stock_r_id"] != null) {
+          await OrderAppDB.instance.upadteCommonQuery("returnMasterTable",
+              "status='${item["stock_r_id"]}'", "id='${item["id"]}'");
+        }
+      }
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+///////////////////////////upload order data//////////////////////////////////////////
+  uploadReturnData(String cid, BuildContext context) async {
+    List<Map<String, dynamic>> resultQuery = [];
+    List<Map<String, dynamic>> om = [];
+    var result = await OrderAppDB.instance.selectReturnMasterTable();
+    print("output------$result");
+    String jsonE = jsonEncode(result);
+    var jsonDe = jsonDecode(jsonE);
+    print("jsonDe--${jsonDe}");
+    for (var item in jsonDe) {
+      resultQuery =
+          await OrderAppDB.instance.selectReturnDetailTable(item["srid"]);
+      item["od"] = resultQuery;
+      om.add(item);
+    }
+    if (om.length > 0) {
+      print("entede");
+      saveReturnDetails(cid, om, context);
+    } else {
+      snackbar.showSnackbar(context, "Nothing to upload!!!");
+    }
+    print("om----$om");
     notifyListeners();
   }
 }

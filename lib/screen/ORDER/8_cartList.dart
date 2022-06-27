@@ -27,6 +27,8 @@ class CartList extends StatefulWidget {
 
 class _CartListState extends State<CartList> {
   List<String> s = [];
+  String? gen_condition;
+
   TextEditingController rateController = TextEditingController();
   DateTime now = DateTime.now();
   String? date;
@@ -85,8 +87,7 @@ class _CartListState extends State<CartList> {
             ),
           ],
         ),
-        body: 
-        GestureDetector(onTap: (() {
+        body: GestureDetector(onTap: (() {
           FocusScopeNode currentFocus = FocusScope.of(context);
           if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
@@ -132,7 +133,8 @@ class _CartListState extends State<CartList> {
                             children: [
                               Text(" Order Total  : ",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 15)),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15)),
                               Flexible(
                                 child: Text("\u{20B9}${value.orderTotal}",
                                     style: TextStyle(
@@ -154,7 +156,8 @@ class _CartListState extends State<CartList> {
                                     .bagList
                                     .length >
                                 0) {
-                              final prefs = await SharedPreferences.getInstance();
+                              final prefs =
+                                  await SharedPreferences.getInstance();
                               String? sid = await prefs.getString('sid');
                               Provider.of<Controller>(context, listen: false)
                                   .insertToOrderbagAndMaster(
@@ -165,12 +168,21 @@ class _CartListState extends State<CartList> {
                                       sid!,
                                       widget.areaId,
                                       double.parse(value.orderTotal!));
-
+                              String? gen_area = Provider.of<Controller>(
+                                      context,
+                                      listen: false)
+                                  .areaidFrompopup;
+                              if (gen_area != null) {
+                                gen_condition =
+                                    " and accountHeadsTable.area_id=$gen_area";
+                              } else {
+                                gen_condition = " ";
+                              }
                               Provider.of<Controller>(context, listen: false)
-                                  .todayOrder(s[0], context);
+                                  .todayOrder(s[0], gen_condition);
                               Provider.of<Controller>(context, listen: false)
                                   .clearList(value.areDetails);
-
+                              
                               return showDialog(
                                   context: context,
                                   builder: (context) {
@@ -183,7 +195,8 @@ class _CartListState extends State<CartList> {
                                             opaque: false, // set to false
                                             pageBuilder: (_, __, ___) =>
                                                 Dashboard(
-                                                    type: "return from cartList",
+                                                    type:
+                                                        "return from cartList",
                                                     areaName: widget.areaname)
                                             // OrderForm(widget.areaname,"return"),
                                             ),
@@ -221,7 +234,8 @@ class _CartListState extends State<CartList> {
                                 Text(
                                   "Place Order",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                                 SizedBox(
                                   width: size.width * 0.01,

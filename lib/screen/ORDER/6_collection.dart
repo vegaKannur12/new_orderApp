@@ -22,6 +22,7 @@ class CollectionPage extends StatefulWidget {
 class _CollectionPageState extends State<CollectionPage> {
   ValueNotifier<bool> visible = ValueNotifier(false);
   DateTime date = DateTime.now();
+  String? gen_condition;
   String? formattedDate;
   bool amtVal = true;
   bool dscVal = true;
@@ -276,15 +277,38 @@ class _CollectionPageState extends State<CollectionPage> {
                                                 listen: false)
                                             .fetchtotalcollectionFromTable(
                                                 widget.cuid!);
+                                        print("value.areaidFrompopup----${value.areaidFrompopup}");
+                                        if (value.areaidFrompopup != null) {
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .dashboardSummery(sid!, s[0],
+                                                  value.areaidFrompopup!);
+                                        } else {
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .dashboardSummery(sid!, s[0], "");
+                                        }
+
+                                        // Provider.of<Controller>(context,
+                                        //         listen: false)
+                                        //     .mainDashtileValues(sid!, s[0]);
+                                        // Provider.of<Controller>(context,
+                                        //         listen: false)
+                                        //     .mainDashAmounts(sid, s[0]);
+                                        String? gen_area =
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .areaidFrompopup;
+                                        if (gen_area != null) {
+                                          gen_condition =
+                                              " and accountHeadsTable.area_id=$gen_area";
+                                        } else {
+                                          gen_condition = " ";
+                                        }
                                         Provider.of<Controller>(context,
                                                 listen: false)
-                                            .mainDashtileValues(sid!, s[0]);
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .mainDashAmounts(sid, s[0]);
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .todayCollection(s[0], context);
+                                            .todayCollection(
+                                                s[0], gen_condition!);
                                         tst.toast("Saved");
                                       }
                                     },

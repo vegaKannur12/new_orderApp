@@ -19,7 +19,8 @@ class _UploaddataState extends State<Uploaddata> {
   List<String> uploadItems = [
     "Upload Orders",
     "Upload Sales",
-    "Upload Customer"
+    "Upload Customer",
+    "Upload Stock Return"
   ];
   @override
   void initState() {
@@ -60,57 +61,73 @@ class _UploaddataState extends State<Uploaddata> {
               // title: Text("Company Details",style: TextStyle(fontSize: 20),),
             )
           : null,
-      body: Column(
-        children: [
-          // SizedBox(height: size.height*0.02,),
-          // Container(
-          //   child: Text(widget.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-          //   height: size.height*0.06,
-          // ),
-          Flexible(
-            child: Container(
-              height: size.height * 0.5,
-              child: ListView.builder(
-                itemCount: uploadItems.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Ink(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: P_Settings.wavecolor),
-                      child: ListTile(
-                        trailing: IconButton(
-                          onPressed: () async {
-                            if (uploadItems[index] == "Upload Orders") {
-                              Provider.of<Controller>(context, listen: false)
-                                  .uploadOrdersData(widget.cid, context);
-                            }
-                            if (uploadItems[index] == "Upload Sales") {
-                              // Provider.of<Controller>(context, listen: false)
-                              //     .getProductCategory(cid!, "");
-                            }
-                            if (uploadItems[index] == "Upload Customer") {
-                              // Provider.of<Controller>(context, listen: false)
-                              //     .getProductCategory(cid!, "");
-                            }
-                          },
-                          icon: Icon(Icons.upload),
-                          color: Colors.white,
+      body: Consumer<Controller>(
+        builder: (context, value, child) {
+          return Column(
+            children: [
+              // SizedBox(height: size.height*0.02,),
+              // Container(
+              //   child: Text(widget.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+              //   height: size.height*0.06,
+              // ),
+              Flexible(
+                child: Container(
+                  height: size.height * 0.5,
+                  child: ListView.builder(
+                    itemCount: uploadItems.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: P_Settings.wavecolor),
+                          child: ListTile(
+                            trailing: IconButton(
+                              onPressed: value.versof == "0"
+                                  ? null
+                                  : () async {
+                                      if (uploadItems[index] ==
+                                          "Upload Orders") {
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .uploadOrdersData(
+                                                widget.cid, context);
+                                      }
+                                      if (uploadItems[index] ==
+                                          "Upload Stock Return") {
+                                        Provider.of<Controller>(context, listen: false)
+                                            .uploadReturnData(widget.cid, context);
+                                      }
+                                      if (uploadItems[index] ==
+                                          "Upload Sales") {
+                                        // Provider.of<Controller>(context, listen: false)
+                                        //     .getProductCategory(cid!, "");
+                                      }
+                                      if (uploadItems[index] ==
+                                          "Upload Customer") {
+                                        // Provider.of<Controller>(context, listen: false)
+                                        //     .getProductCategory(cid!, "");
+                                      }
+                                    },
+                              icon: Icon(Icons.upload),
+                              color: Colors.white,
+                            ),
+                            title: Center(
+                                child: Text(
+                              uploadItems[index],
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
                         ),
-                        title: Center(
-                            child: Text(
-                          uploadItems[index],
-                          style: TextStyle(color: Colors.white),
-                        )),
-                      ),
-                    ),
-                  );
-                },
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
 
       //  Column(

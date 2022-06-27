@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
@@ -16,26 +17,21 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   String? cid;
+  String? com_cid;
+
   String? st_uname;
   String? st_pwd;
+  String? userType;
+
 
   navigate() async {
     await Future.delayed(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       cid = prefs.getString("company_id");
+      userType=prefs.getString("user_type");
       st_uname = prefs.getString("st_username");
       st_pwd = prefs.getString("st_pwd");
 
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //       // builder: (context) =>RegistrationScreen()),
-      //       builder: (context) => cid != null
-      //           ? st_uname != null && st_pwd != null
-      //               ? Dashboard()
-      //               : StaffLogin()
-      //           : RegistrationScreen()),
-      // );
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -43,10 +39,22 @@ class _SplashScreenState extends State<SplashScreen>
             pageBuilder: (_, __, ___) => cid != null
                 ? st_uname != null && st_pwd != null
                     ? Dashboard()
-                    : StaffLogin()
+                    :userType!=null? StaffLogin(
+                        userType:
+                           userType!,
+                      ):StaffLogin()
                 : RegistrationScreen()),
       );
     });
+  }
+
+  shared() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    com_cid = prefs.getString("cid");
+    if (com_cid != null) {
+      Provider.of<AdminController>(context, listen: false)
+          .getCategoryReport(com_cid!);
+    }
   }
 
   @override
@@ -55,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
-
+    shared();
     navigate();
   }
 

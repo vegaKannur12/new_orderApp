@@ -124,7 +124,8 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                   child: Text(
                                                     "\u{20B9}${value.todayCollectionList[index]['rec_amount'].toString()}",
                                                     style: TextStyle(
-                                                        color: Colors.grey[700],
+                                                      fontWeight: FontWeight.bold,
+                                                        color: Colors.red,
                                                         fontSize: 16),
                                                   ),
                                                 ),
@@ -143,11 +144,14 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                   child: Text(
                                                     "${value.todayCollectionList[index]['rec_note'].toString()}",
                                                     style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 16,
-                                                        color: P_Settings
-                                                            .dashbordcl2),
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 16,
+                                                      // color: P_Settings
+                                                      //     .dashbordcl2
+                                                    ),
                                                   ),
                                                 ),
                                               ],

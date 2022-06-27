@@ -8,8 +8,10 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/model/accounthead_model.dart';
 import 'package:orderapp/model/productdetails_model.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
+import 'package:orderapp/model/userType_model.dart';
 import 'package:orderapp/model/wallet_model.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -22,7 +24,7 @@ class OrderAppDB {
   DateTime date = DateTime.now();
   String? formattedDate;
   var aidsplit;
-  String? areaidfromStaff;
+  // String? areaidfromStaff;
   static final OrderAppDB instance = OrderAppDB._init();
   static Database? _database;
   OrderAppDB._init();
@@ -80,6 +82,11 @@ class OrderAppDB {
   static final ac_gst = 'ac_gst';
   static final ac = 'ac';
   static final cag = 'cag';
+  /////////////////userTable/////////
+  static final uid = 'uid';
+  static final u_name = 'u_name';
+  static final upwd = 'upwd';
+  // static final status = 'cag';
 
   /////////////productdetails//////////
   static final code = 'code';
@@ -225,6 +232,15 @@ class OrderAppDB {
             $area TEXT     
           )
           ''');
+    await db.execute('''
+      CREATE TABLE userTable (
+        $id INTEGER PRIMARY KEY AUTOINCREMENT,
+        $uid TEXT NOT NULL,
+        $u_name TEXT,
+        $upwd TEXT,
+        $status INTEGER
+      )
+      ''');
     await db.execute('''
           CREATE TABLE staffLoginDetailsTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -635,6 +651,17 @@ class OrderAppDB {
     return res;
   }
 
+///////////////userType/////////////////////////////////////////
+  Future insertUserType(UserTypeModel udata) async {
+    final db = await database;
+    var query2 =
+        'INSERT INTO userTable(uid, u_name, upwd, status) VALUES("${udata.uid}", "${udata.unme}", "${udata.upwd}",${udata.status})';
+    var res = await db.rawInsert(query2);
+    print(query2);
+    // print(res);
+    return res;
+  }
+
 ////////////////////////staff login details table insert ////////////////
   Future insertStaffLoignDetails(
       String sid, String sname, String datetime) async {
@@ -706,6 +733,42 @@ class OrderAppDB {
         // resultList.add(sid);
       }
     }
+    print("res===${resultList}");
+
+    print("all data ${list}");
+
+    return resultList;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  selectUser(String uname, String pwd) async {
+    String result = "";
+    List<String> resultList = [];
+    String? uid;
+    print("uname---Password----${uname}--${pwd}");
+    resultList.clear();
+    print("before kkkk $resultList");
+    Database db = await instance.database;
+    List<Map<String, dynamic>> list =
+        await db.rawQuery('SELECT * FROM userTable');
+    print("listttt---$list");
+
+    for (var user in list) {
+      if (user["u_name"].toLowerCase() == uname.toLowerCase() &&
+          pwd == user["upwd"]) {
+        uid = user['uid'].toString();
+        result = "success";
+        print("staffid..$sid");
+        print("ok");
+        resultList.add(result);
+        resultList.add(uid);
+        break;
+      } else {
+        result = "failed";
+        uid = "";
+      }
+    }
+
     print("res===${resultList}");
 
     print("all data ${list}");
@@ -852,14 +915,17 @@ class OrderAppDB {
   //////////////////////////////////////////////////////////
   Future<List<Map<String, dynamic>>> getArea(String sid) async {
     List<Map<String, dynamic>> list = [];
+    String areaidfromStaff;
     String result = "";
     print("sid---${sid}");
     Database db = await instance.database;
     List<Map<String, dynamic>> area = await db
         .rawQuery('SELECT area FROM staffDetailsTable WHERE sid="${sid}"');
     areaidfromStaff = area[0]["area"];
-    aidsplit = areaidfromStaff!.split(",");
+    aidsplit = areaidfromStaff.split(",");
     print("hudhuh---$aidsplit");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("areaidfromStaff", areaidfromStaff);
     if (areaidfromStaff == "") {
       list = await db.rawQuery('SELECT aname,aid FROM areaDetailsTable');
     } else {
@@ -880,14 +946,11 @@ class OrderAppDB {
   //////////////////////////countCustomer////////////////
   countCustomer(String? areaId) async {
     var list;
-    print("aidsplit---${areaidfromStaff}");
+    // print("aidsplit---${areaidfromStaff}");
     Database db = await instance.database;
-    // if(areaId==null){
-
-    // }else{
-    //   list = await db.rawQuery('SELECT  * FROM accountHeadsTable where area_id="$areaId"');
-    // }
-    if (areaidfromStaff == null || areaidfromStaff!.isEmpty) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? areaidfromStaff = prefs.getString("areaidfromStaff");
+    if (areaidfromStaff == null || areaidfromStaff.isEmpty) {
       if (areaId == null) {
         list = await db.rawQuery('SELECT  * FROM accountHeadsTable ');
       } else {
@@ -1144,12 +1207,14 @@ class OrderAppDB {
 
 ////////////////////////left join///////////////////////////
 
-  Future<dynamic> todayOrder(String date) async {
+  Future<dynamic> todayOrder(String date, String condition) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
+    var query =
+        'select accountHeadsTable.hname as cus_name,orderMasterTable.order_id, orderMasterTable.os  || orderMasterTable.order_id as Order_Num,orderMasterTable.customerid Cus_id,orderMasterTable.orderdate Date, count(orderDetailTable.row_num) count, orderMasterTable.total_price  from orderMasterTable inner join orderDetailTable on orderMasterTable.order_id=orderDetailTable.order_id inner join accountHeadsTable on accountHeadsTable.ac_code= orderMasterTable.customerid where orderMasterTable.orderdate="${date}"  $condition group by orderMasterTable.order_id';
+    print("query---$query");
 
-    result = await db.rawQuery(
-        'select accountHeadsTable.hname as cus_name,orderMasterTable.order_id, orderMasterTable.os  || orderMasterTable.order_id as Order_Num,orderMasterTable.customerid Cus_id,orderMasterTable.orderdate Date, count(orderDetailTable.row_num) count, orderMasterTable.total_price  from orderMasterTable inner join orderDetailTable on orderMasterTable.order_id=orderDetailTable.order_id inner join accountHeadsTable on accountHeadsTable.ac_code= orderMasterTable.customerid where orderMasterTable.orderdate="${date}"  group by orderMasterTable.order_id');
+    result = await db.rawQuery(query);
     if (result.length > 0) {
       print("inner result------$result");
       return result;
@@ -1159,12 +1224,12 @@ class OrderAppDB {
   }
 
   ////////////////////////////////////////////////////////////////
-  Future<dynamic> todayCollection(String date) async {
+  Future<dynamic> todayCollection(String date, String condition) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
 
     result = await db.rawQuery(
-        'select accountHeadsTable.hname as cus_name,collectionTable.rec_cusid,collectionTable.rec_cusid,collectionTable.rec_date,collectionTable.rec_amount,collectionTable.rec_note from collectionTable inner join accountHeadsTable on accountHeadsTable.ac_code = collectionTable.rec_cusid where collectionTable.rec_date="${date}" order by collectionTable.id DESC');
+        'select accountHeadsTable.hname as cus_name,collectionTable.rec_cusid,collectionTable.rec_cusid,collectionTable.rec_date,collectionTable.rec_amount,collectionTable.rec_note from collectionTable inner join accountHeadsTable on accountHeadsTable.ac_code = collectionTable.rec_cusid where collectionTable.rec_date="${date}" $condition order by collectionTable.id DESC');
     if (result.length > 0) {
       print("inner result------$result");
       return result;
@@ -1244,6 +1309,15 @@ class OrderAppDB {
     return result;
   }
 
+  ////////////////////////////////////////////////////////
+  selectReturnMasterTable() async {
+    Database db = await instance.database;
+
+    var result = await db.rawQuery(
+        "SELECT returnMasterTable.id as id, returnMasterTable.os  || returnMasterTable.return_id as ser,returnMasterTable.return_id as srid,returnMasterTable.customerid cuid, returnMasterTable.return_date sdate, returnMasterTable.userid as sid,returnMasterTable.areaid as aid  FROM returnMasterTable");
+    return result;
+  }
+
   //////////////////////////////////////////////////////////
 
   selectDetailTable(int order_id) async {
@@ -1251,6 +1325,14 @@ class OrderAppDB {
 
     var result = await db.rawQuery(
         "SELECT orderDetailTable.code as code,orderDetailTable.item as item, orderDetailTable.qty as qty, orderDetailTable.rate as rate from orderDetailTable  where  orderDetailTable.order_id=${order_id}");
+    return result;
+  }
+
+  selectReturnDetailTable(int return_id) async {
+    Database db = await instance.database;
+
+    var result = await db.rawQuery(
+        "SELECT returnDetailTable.code as code,returnDetailTable.item as item, returnDetailTable.qty as qty, returnDetailTable.rate as rate from returnDetailTable  where  returnDetailTable.return_id=${return_id}");
     return result;
   }
 
@@ -1278,33 +1360,33 @@ class OrderAppDB {
   }
 
 ///////////////////////////////////////////////////////
-  getReportDataFromOrderDetails(String userId) async {
+  getReportDataFromOrderDetails(
+      String userId, String date, BuildContext context) async {
+    String? gen_condition1, gen_condition2, gen_condition3;
     List<Map<String, dynamic>> result;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? areaidfromStaff = prefs.getString("areaidfromStaff");
+    print("aredhgsh----$areaidfromStaff");
+    String condition = " ";
+    if (areaidfromStaff != null || areaidfromStaff!.isNotEmpty) {
+      if (areaidfromStaff == "") {
+        condition = "";
+      } else {
+        condition = "where A.area_id in ($areaidfromStaff)";
+      }
+    }
 
+    // String? gen_area =
+    //     Provider.of<Controller>(context, listen: false).areaidFrompopup;
+    // if (gen_area != null) {
+    //   gen_condition1 = " and O.areaid=$gen_area";
+    //   gen_condition2= " and R.areaid=$gen_area ";
+    // } else {
+    //   gen_condition = " ";
+    // }
     Database db = await instance.database;
     String query2 = "";
     String query1 = "";
-    query1 = query1 +
-        " select A.ac_code  as cusid, A.hname as name," +
-        " A.ac_ad1 as ad1,A.mo as mob ," +
-        " A.ba as bln, Y.ord  as order_value," +
-        " Y.remark as remark_count , Y.col as collection_sum" +
-        " from accountHeadsTable A" +
-        " left join (select cid,sum(Ord) as ord," +
-        " sum(remark) as remark ,sum(col) as col from (" +
-        " select O.customerid cid, sum(O.total_price) Ord," +
-        " 0 remark,0 col from orderMasterTable O" +
-        " where O.userid='$userId' group by O.customerid" +
-        " union all " +
-        " select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark ," +
-        " 0 col from remarksTable R where R.rem_staffid='$userId'" +
-        " group by R.rem_cusid" +
-        " union all" +
-        " select C.rec_cusid cid, 0 Ord , 0 remark," +
-        " sum(C.rec_amount) col" +
-        " from collectionTable C where C.rec_staffid='$userId'" +
-        " group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code" +
-        " order by Y.ord+ Y.remark+ Y.col desc ;";
     query2 = query2 +
         " select A.ac_code  as cusid, A.hname as name," +
         " A.ac_ad1 as ad1,A.mo as mob ," +
@@ -1315,24 +1397,21 @@ class OrderAppDB {
         " sum(remark) as remark ,sum(col) as col from (" +
         " select O.customerid cid, sum(O.total_price) Ord," +
         " 0 remark,0 col from orderMasterTable O" +
-        " where O.userid='$userId' group by O.customerid" +
+        " where O.userid='$userId' and O.orderdate = '$date' group by O.customerid" +
         " union all " +
         " select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark ," +
-        " 0 col from remarksTable R where R.rem_staffid='$userId'" +
+        " 0 col from remarksTable R where R.rem_staffid='$userId' and R.rem_date  = '$date' " +
         " group by R.rem_cusid" +
         " union all" +
         " select C.rec_cusid cid, 0 Ord , 0 remark," +
         " sum(C.rec_amount) col" +
-        " from collectionTable C where C.rec_staffid='$userId'" +
+        " from collectionTable C where C.rec_staffid='$userId' and C.rec_date  = '$date' " +
         " group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code" +
-        " where A.area_id in ($areaidfromStaff)" +
+        " $condition " +
         " order by Y.ord+ Y.remark+ Y.col desc ;";
+    print("query2----$query2");
+    result = await db.rawQuery(query2);
 
-    if (areaidfromStaff == null || areaidfromStaff!.isEmpty) {
-      result = await db.rawQuery(query1);
-    } else {
-      result = await db.rawQuery(query2);
-    }
     print("result.length-${result.length}");
     if (result.length > 0) {
       print("result-order-----$result");
@@ -1343,36 +1422,119 @@ class OrderAppDB {
   }
 
 //////////////////////shops not visited///////////////////////
-  getShopsVisited(String userId) async {
-    print("staff userId---$userId");
+  dashboardSummery(String userId, String date, String aid) async {
+    Database db = await instance.database;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? areaidfromStaff = prefs.getString("areaidfromStaff");
+    String condition = " ";
+    int? area;
+
+    // if (areaidfromStaff == null || areaidfromStaff.isEmpty) {
+    //   if (aid == null) {
+    //     condition = " where A.area_id in ($areaidfromStaff) ";
+    //   } else {
+    //     condition = " where A.area_id in ($area) ";
+    //   }
+    // } else if (aid == null && areaidfromStaff != null) {
+    //   list = await db.query(
+    //     'accountHeadsTable',
+    //     where: "area_id IN (${aidsplit.join(',')})",
+    //   );
+    // } else {
+    //   list = await db
+    //       .rawQuery('SELECT  * FROM accountHeadsTable where area_id="$areaId"');
+    // }
+
+    print("userrr---$userId");
+    if (aid != "") {
+      area = int.parse(aid);
+    } else {
+      area = 0;
+    }
+    print("kjdkzjk--areaidfromStaff--$area--$areaidfromStaff");
+
+    if (areaidfromStaff != "") {
+      if (area == 0) {
+        condition = " where A.area_id in ($areaidfromStaff) ";
+      } else {
+        condition = " where A.area_id in ($area) ";
+      }
+    } else {
+      if (area == 0) {
+        condition = "";
+      } else {
+        condition = " where A.area_id in ($area) ";
+      }
+    }
     List<Map<String, dynamic>> result;
+    String query = "";
+    query = query +
+        "Select " +
+        " count(Distinct X.cid) cusCount," +
+        " sum(X.ordCnt) ordCnt,sum(X.ordVal) ordVal,sum(X.rmCnt) rmCnt," +
+        " sum(X.colCnt) colCnt,Sum(X.colVal) colVal,sum(X.retCnt) retCnt ,Sum(X.retVal) retVal" +
+        " from accountHeadsTable A  " +
+        " inner join (" +
+        " Select O.customerid cid , Count(O.id) ordCnt,Sum(O.total_price) ordVal,0 rmCnt,0 colCnt,0 colVal,0 retCnt,0 retVal" +
+        " From orderMasterTable O where O.orderdate='$date' and  O.userid='$userId'" +
+        " group by O.customerid" +
+        " union all" +
+        " Select R.rem_cusid cid , 0 ordCnt,0 ordVal,Count(R.id) rmCnt,0 colCnt,0 colVal,0 retCnt,0 retVal" +
+        " From remarksTable R where R.rem_date='$date' and R.rem_staffid='$userId'" +
+        " group by R.rem_cusid" +
+        " union all" +
+        " Select C.rec_cusid cid , 0 ordCnt,0 ordVal,0 rmCnt,Count(C.id) colCnt,Sum(C.rec_amount) colVal,0 retCnt,0 retVal" +
+        " From collectionTable C  where C.rec_date='$date' and C.rec_staffid='$userId'" +
+        " group by C.rec_cusid" +
+        " union all" +
+        " Select RT.customerid cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(RT.id) retCnt,Sum(RT.total_price) retVal" +
+        " From returnMasterTable RT   where RT.return_date='$date' and RT.userid='$userId'" +
+        " group by RT.customerid" +
+        " ) X ON X.cid=A.ac_code" +
+        " $condition;";
+
+    result = await db.rawQuery(query);
+    print("dashboard sum-$condition");
+    print("result------$result");
+    return result;
+  }
+
+//////////////////////////////////////////////////////////////
+  getShopsVisited(String userId, String date) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? areaidfromStaff = prefs.getString("areaidfromStaff");
+    String condition = " ";
+    print("userId kjdfkljfkml---$areaidfromStaff");
+    List<Map<String, dynamic>> result;
+    if (areaidfromStaff != null) {
+      condition = " and area_id in ($areaidfromStaff)";
+    }
+
     int count;
     Database db = await instance.database;
     String query = "";
     query = query +
-        "select count(distinct cid) cnt from (" +
+        "select count(distinct cid) cnt from accountHeadsTable A  inner join  (" +
         " select O.customerid cid from orderMasterTable O " +
-        "where O.userid='$userId' " +
+        "where O.userid='$userId' and orderdate='$date' " +
         " group by O.customerid " +
         "union all " +
         " select R.rem_cusid cid " +
         "from remarksTable R " +
-        " where R.rem_staffid='$userId' " +
+        " where R.rem_staffid='$userId' and rem_date='$date' " +
         " group by R.rem_cusid " +
         "union all " +
         "select C.rec_cusid cid   " +
         " from collectionTable C " +
-        "where C.rec_staffid='$userId' " +
+        "where C.rec_staffid='$userId' and rec_date='$date' " +
         "group by C.rec_cusid " +
         " UNION ALL " +
         "select RT.customerid " +
         "from returnMasterTable RT " +
-        "where RT.userid='$userId' " +
-        "group by RT.customerid) x ;";
+        "where RT.userid='$userId' and return_date='$date' " +
+        "group by RT.customerid) x on A.ac_code = x.cid $condition;";
     print(query);
-
     result = await db.rawQuery(query);
-    // print(c'selet count(distinct cid) cnt from (select O.customerid cid from orderMasterTable O where O.userid="$userId" group by O.customerid union all select R.rem_cusid cid from remarksTable R where R.rem_staffid="$userId" group by R.rem_cusid union all select C.rec_cusid cid  from collectionTable C where C.rec_staffid="$userId"  group by C.rec_cusid UNION ALL select RT.customerid from returnMasterTable RT where RT.userid="$userId " group by RT.customerid) x');
     print("result.length-${result.length}");
     if (result.length > 0) {
       count = result[0]["cnt"];
@@ -1483,6 +1645,6 @@ class OrderAppDB {
   //   // print("naaknsdJK-----$result");
   //   return result;
   // }
-}  
+}
 
 //////////////////////////////////////////////////////////////

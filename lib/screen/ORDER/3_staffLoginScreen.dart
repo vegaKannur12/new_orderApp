@@ -12,6 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '6_downloadedPage.dart';
 
 class StaffLogin extends StatelessWidget {
+  String? userType;
+  StaffLogin({this.userType});
   DateTime now = DateTime.now();
 
   String? date;
@@ -22,7 +24,7 @@ class StaffLogin extends StatelessWidget {
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
   CustomPopup popup = CustomPopup();
-  List result = [];
+  List<String> result = [];
   // GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ValueNotifier<bool> visible = ValueNotifier(false);
 
@@ -32,6 +34,7 @@ class StaffLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("jkcjk------$userType");
     double topInsets = MediaQuery.of(context).viewInsets.top;
 
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
@@ -49,11 +52,12 @@ class StaffLogin extends StatelessWidget {
           elevation: 0,
           backgroundColor: P_Settings.wavecolor,
           actions: [
-            // IconButton(
-            //     onPressed: () {
-            //       controller.add(true);
-            //     },
-            //     icon: Icon(Icons.refresh)),
+            IconButton(
+                onPressed: () async {
+                  await OrderAppDB.instance
+                      .deleteFromTableCommonQuery("userTable", "");
+                },
+                icon: Icon(Icons.delete)),
             IconButton(
               onPressed: () async {
                 List<Map<String, dynamic>> list =
@@ -66,12 +70,6 @@ class StaffLogin extends StatelessWidget {
               },
               icon: Icon(Icons.table_bar),
             ),
-            // IconButton(
-            //   onPressed: () async {
-            //     await OrderAppDB.instance.deleteStaffdetails();
-            //   },
-            //   icon: Icon(Icons.delete),
-            // ),
           ],
         ),
         body: InkWell(
@@ -160,54 +158,102 @@ class StaffLogin extends StatelessWidget {
                                               // toggle();
                                               if (_formKey.currentState!
                                                   .validate()) {
-                                                result = await OrderAppDB
-                                                    .instance
-                                                    .selectStaff(
-                                                        controller1.text,
-                                                        controller2.text);
-                                                print("selection----$result");
-                                                if (result.length == 0) {
-                                                  visible.value = true;
-                                                  print(
-                                                      "visible===${visible.value}");
-                                                } else if (result[0] ==
-                                                        "success" &&
-                                                    result[1] != null) {
-                                                  visible.value = false;
-                                                  print(
-                                                      "result login......${result[0]}");
-                                                  Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .sname = controller1.text;
-
-                                                  final prefs =
-                                                      await SharedPreferences
-                                                          .getInstance();
-                                                  await prefs.setString(
-                                                      'sid', result[1]);
-                                                  await prefs.setString(
-                                                      'st_username',
-                                                      controller1.text);
-                                                  await prefs.setString(
-                                                      'st_pwd',
-                                                      controller2.text);
-                                                  print(
-                                                      "visible===${visible.value}");
-                                                  Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .insertStaffLogDetails(
-                                                          result[1],
+                                                if (userType == "admin") {
+                                                 result=await OrderAppDB
+                                                      .instance
+                                                      .selectUser(
                                                           controller1.text,
-                                                          date!);
+                                                          controller2.text);
+
+                                                  if (result.length == 0) {
+                                                    visible.value = true;
+                                                    print(
+                                                        "visible===${visible.value}");
+                                                  } else if (result[0] ==
+                                                          "success" &&
+                                                      result[1] != null) {
+                                                    visible.value = false;
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .areaSelecton = null;
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .areaidFrompopup = null;
+                                                    // Provider.of<Controller>(
+                                                    //             context,
+                                                    //             listen: false).userName=
+                                                     Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Dashboard()),
+                                                    );
+                                                  }
+                                                } else if (userType ==
+                                                    "staff") {
+                                                  result = await OrderAppDB
+                                                      .instance
+                                                      .selectStaff(
+                                                          controller1.text,
+                                                          controller2.text);
+                                                  print("selection----$result");
+                                                  if (result.length == 0) {
+                                                    visible.value = true;
+                                                    print(
+                                                        "visible===${visible.value}");
+                                                  } else if (result[0] ==
+                                                          "success" &&
+                                                      result[1] != null) {
+                                                    visible.value = false;
+                                                    print(
+                                                        "result login......${result[0]}");
+                                                    Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .sname =
+                                                        controller1.text;
+
+                                                    final prefs =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    await prefs.setString(
+                                                        'sid', result[1]);
+                                                    await prefs.setString(
+                                                        'st_username',
+                                                        controller1.text);
+                                                    await prefs.setString(
+                                                        'st_pwd',
+                                                        controller2.text);
+                                                    print(
+                                                        "visible===${visible.value}");
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .insertStaffLogDetails(
+                                                            result[1],
+                                                            controller1.text,
+                                                            date!);
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .areaSelecton = null;
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .areaidFrompopup = null;
+
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Dashboard()),
+                                                    );
+                                                  }
+
                                                   //  await OrderAppDB.instance.getArea(controller1.text);
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Dashboard()),
-                                                  );
+
                                                 }
                                               }
                                             },
@@ -246,6 +292,11 @@ class StaffLogin extends StatelessWidget {
 
                                               MaterialButton(
                                                 onPressed: () {
+                                                  Provider.of<Controller>(
+                                                          context,
+                                                          listen: false)
+                                                      .verifyRegistration(
+                                                          context);
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
