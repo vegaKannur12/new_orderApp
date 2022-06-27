@@ -8,8 +8,8 @@ import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/6_reportPage.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/homePage.dart';
+import 'package:orderapp/screen/ADMIN_/homePage.dart';
+
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';

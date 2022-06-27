@@ -6,10 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customappbar.dart';
 import 'package:orderapp/components/selectDate.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/expandedDatatable.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/level2.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/shrinkeddatatable.dart';
+import 'package:orderapp/screen/ADMIN_/adminController.dart';
+import 'package:orderapp/screen/ADMIN_/expandedDatatable.dart';
+import 'package:orderapp/screen/ADMIN_/level2.dart';
+import 'package:orderapp/screen/ADMIN_/shrinkeddatatable.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
