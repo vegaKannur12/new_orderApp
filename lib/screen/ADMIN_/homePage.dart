@@ -5,8 +5,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/level1.dart';
+
+import 'package:orderapp/screen/ADMIN_/adminController.dart';
+import 'package:orderapp/screen/ADMIN_/level1.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

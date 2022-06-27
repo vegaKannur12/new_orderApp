@@ -1,76 +1,123 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customappbar.dart';
 import 'package:orderapp/components/selectDate.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/expandedDatatable.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/level2.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/shrinkeddatatable.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'package:orderapp/screen/ADMIN_/adminController.dart';
+import 'package:orderapp/screen/ADMIN_/expandedDatatable.dart';
+import 'package:orderapp/screen/ADMIN_/shrinkeddatatable.dart';
+
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LevelOne extends StatefulWidget {
+class LevelThree extends StatefulWidget {
+  String hometileName;
+  String level1tileName;
+  String level2tileName;
+
   String old_filter_where_ids;
   String filter_id;
-  String tilName;
   List<String> filters;
-  String reportelements;
-  LevelOne(
-      {required this.reportelements,
+  String reportelemet;
+  LevelThree(
+      {required this.reportelemet,
+      required this.hometileName,
+      required this.level1tileName,
+      required this.level2tileName,
       required this.old_filter_where_ids,
       required this.filter_id,
-      required this.tilName,
       required this.filters});
-
   @override
-  State<LevelOne> createState() => _LevelOneState();
+  State<LevelThree> createState() {
+    return _LevelThreeState();
+  }
 }
 
-class _LevelOneState extends State<LevelOne> {
+class _LevelThreeState extends State<LevelThree> {
+  String? old_filter_where_ids;
+  List<Map<String, dynamic>> tablejson = [];
   String? specialField;
   Widget? appBarTitle;
   DateTime currentDate = DateTime.now();
   bool qtyvisible = false;
   String? formattedDate;
   String? fromDate;
-  String? toDate;
   String selected = "";
-
+  String? toDate;
   String? crntDateFormat;
-  Icon actionIcon = const Icon(Icons.search);
-  var encodedTablejson;
+  Icon actionIcon = Icon(Icons.search);
   // List<bool> visible = [];
   // List<bool> isExpanded = [];
   late ValueNotifier<int> _selectedIndex = ValueNotifier(0);
   List<String> listString = ["Main Heading", "level1", "level2"];
   List<String> listShrinkData = ["F1", "F2", "F3"];
-  String? old_filter_where_ids;
-  String? filter1;
-  // String searchkey = "";
-  // bool isSearch = false;
+
+  String searchkey = "";
+  bool isSearch = false;
   bool datevisible = true;
-  SelectDate selectD = SelectDate();
+
   bool isSelected = true;
   bool buttonClicked = false;
-  List<Map<String, dynamic>> tablejson = [];
+  SelectDate selectD = SelectDate();
   List<Map<String, dynamic>> shrinkedData = [];
   List<Map<String, dynamic>> jsonList = [];
+  String? titleName;
   var encoded;
   var decodd;
   var encodedShrinkdata;
   var decoddShrinked;
+  String? dateFromShared;
+  String? datetoShared;
+  final jsondata = [
+    {
+      "rank": "0",
+      "a": "TLN10_BillNo",
+      "b": "TLN10_MRNo",
+      "c": "TLN50_PatientName",
+      "d": "CRY10_Amt",
+      "e": "CRY10_Paid",
+      "f": "CRY10_Bal",
+      "g": "TLN10_Name",
+    },
+    {
+      "rank": "1",
+      "a": "G202204027",
+      "b": "TJAA2",
+      "c": "PRATHYEESH MAKRERI KANNUR",
+      "d": "472.5",
+      "e": "372.5",
+      "f": "100",
+      "g": "Anu",
+    },
+    {
+      "rank": "1",
+      "a": "G202204026",
+      "b": "TJAA2",
+      "c": "PRATHYEESH MAKRERI KANNUR",
+      "d": "1697.5",
+      "e": "1397.5",
+      "f": "300",
+      "g": "Graha",
+    }
+  ];
 
-  // String? dateFromShared;
-  // String? datetoShared;
   getShared() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     decodd = prefs.getString("json");
+  }
+
+  setSharedPreftojsondata() async {
+    //print("enterd into shared");
+    encoded = json.encode(jsondata);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // print("encoded---$encoded");
+    prefs.setString("json", encoded);
+    // print("added to shred prefs");
   }
 
   _onSelectItem(int index, String reportType) {
@@ -81,43 +128,142 @@ class _LevelOneState extends State<LevelOne> {
   createShrinkedData() {
     shrinkedData.clear();
     // print("cleared---$shrinkedData");
-    // shrinkedData.add(jsondata[0]);
-    // shrinkedData.add(jsondata[jsondata.length - 1]);
+    shrinkedData.add(jsondata[0]);
+    shrinkedData.add(jsondata[jsondata.length - 1]);
     // print("shrinked data --${shrinkedData}");
     encodedShrinkdata = json.encode(shrinkedData);
   }
 
+  // toggle(int i) {
+  //   setState(() {
+  //     isExpanded[i] = !isExpanded[i];
+  //     visible[i] = !visible[i];
+  //   });
+  // }
+
   setList() {
-    // jsonList.clear();
-    // jsondata.map((jsonField) {
-    //   jsonList.add(jsonField);
-    // }).toList();
-    // //print("json list--${jsonList}");
+    jsonList.clear();
+    jsondata.map((jsonField) {
+      jsonList.add(jsonField);
+    }).toList();
+    //print("json list--${jsonList}");
   }
 
 ///////////////////////////////////////////////////////////
+  // Future _selectFromDate(BuildContext context) async {
+  //   final DateTime? pickedDate = await showDatePicker(
+  //       context: context,
+  //       initialDate: DateTime.now(),
+  //       firstDate: DateTime(2020),
+  //       lastDate: DateTime(currentDate.year + 1),
+  //       builder: (BuildContext context, Widget? child) {
+  //         return Theme(
+  //             data: ThemeData.light().copyWith(
+  //               colorScheme: ColorScheme.light()
+  //                   .copyWith(primary: P_Settings.l3appbarColor),
+  //             ),
+  //             child: child!);
+  //       });
+  //   if (pickedDate != null) {
+  //     setState(() {
+  //       currentDate = pickedDate;
+  //     });
+  //   } else {
+  //     print("please select date");
+  //   }
+  //   fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
+  //   fromDate =
+  //       fromDate == null ? dateFromShared.toString() : fromDate.toString();
+
+  //   toDate = toDate == null ? datetoShared.toString() : toDate.toString();
+
+  //   Provider.of<Controller>(context, listen: false).setDate(fromDate!, toDate!);
+
+  //   specialField = Provider.of<Controller>(context, listen: false).special;
+
+  //   Provider.of<Controller>(context, listen: false).getSubCategoryReportList(
+  //       specialField!,
+  //       widget.filter_id,
+  //       fromDate!,
+  //       toDate!,
+  //       widget.old_filter_where_ids,
+  //       "level3");
+  // }
+
+/////////////////////////////////////////////////////////////////
+  // Future _selectToDate(BuildContext context) async {
+  //   final DateTime? pickedDate = await showDatePicker(
+  //       context: context,
+  //       initialDate: DateTime.now(),
+  //       firstDate: DateTime(2020),
+  //       lastDate: DateTime(currentDate.year + 1),
+  //       builder: (BuildContext context, Widget? child) {
+  //         return Theme(
+  //             data: ThemeData.light().copyWith(
+  //               colorScheme: ColorScheme.light()
+  //                   .copyWith(primary: P_Settings.l3appbarColor),
+  //             ),
+  //             child: child!);
+  //       });
+  //   if (pickedDate != null) {
+  //     setState(() {
+  //       currentDate = pickedDate;
+  //     });
+  //   } else {
+  //     print("please select date");
+  //   }
+  //   toDate = DateFormat('dd-MM-yyyy').format(currentDate);
+  //   fromDate =
+  //       fromDate == null ? dateFromShared.toString() : fromDate.toString();
+
+  //   toDate = toDate == null ? datetoShared.toString() : toDate.toString();
+
+  //   Provider.of<Controller>(context, listen: false).setDate(fromDate!, toDate!);
+
+  //   specialField = Provider.of<Controller>(context, listen: false).special;
+
+  //   Provider.of<Controller>(context, listen: false).getSubCategoryReportList(
+  //       specialField!,
+  //       widget.filter_id,
+  //       fromDate!,
+  //       toDate!,
+  //       widget.old_filter_where_ids,
+  //       "level3");
+  // }
 
 /////////////////////////////////////////////////////////////////
   @override
   void initState() {
     //print("jsondata----$jsondata");
     super.initState();
-    print(
-        "from date from initstate---${Provider.of<AdminController>(context, listen: false).fromDate}");
-    // dateFromShared = Provider.of<Controller>(context, listen: false).fromDate;
-    // datetoShared = Provider.of<Controller>(context, listen: false).todate;
+    dateFromShared =
+        Provider.of<AdminController>(context, listen: false).fromDate;
+    datetoShared = Provider.of<AdminController>(context, listen: false).todate;
+    crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
+    specialField = Provider.of<AdminController>(context, listen: false).special;
 
-    // crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     print(crntDateFormat);
+    // Provider.of<Controller>(context, listen: false).getReportApi();
 
-    // setSharedPreftojsondata();
+    // print("initstate");
+    setSharedPreftojsondata();
     getShared();
     createShrinkedData();
-    selected = "1";
-    // Provider.of<Controller>(context, listen: false).listForTable.length =
-    //     Provider.of<Controller>(context, listen: false).level1reportList.length;
-    // print(
-    //     "Provider.of<Controller>(context, listen: false).listForTable.length--${Provider.of<Controller>(context, listen: false).listForTable.length}");
+    titleName = widget.hometileName +
+        ' ' +
+        '/' +
+        ' ' +
+        widget.level1tileName +
+        ' ' +
+        '/' +
+        ' ' +
+        widget.level2tileName;
+
+    // isExpanded = List.generate(length, (index) => false);
+    // visible = List.generate(length, (index) => true);
+    // print("isExpanded---$isExpanded");
+    // print("visible---$visible");
+    selected = Provider.of<AdminController>(context, listen: false).special!;
   }
 
   @override
@@ -131,6 +277,28 @@ class _LevelOneState extends State<LevelOne> {
     String? type2;
     String? type3;
 
+    // for (var i = 0;
+    //      i < Provider.of<Controller>(context, listen: false).getReportApi().length;
+    //     i++) {
+    //   // var d =Provider.of<Controller>(context, listen: false).drawerItems[i];
+    //   drawerOpts.add(Consumer<Controller>(builder: (context, value, child) {
+    //     return ListTile(
+    //         // leading: new Icon(d.icon),
+    //         // title: new Text(
+    //         //   value.ge[i],
+    //         //   style: TextStyle(fontFamily: P_Font.kronaOne, fontSize: 17),
+    //         // ),
+    //         selected: i == _selectedIndex.value,
+    //         onTap: () {
+    //           // _onSelectItem(i, value.drawerItems[i]);
+    //           // Navigator.push(
+    //           //                 context,
+    //           //                 MaterialPageRoute(builder: (context) => Level1Sample()),
+    //           //               );
+    //         });
+    //   }));
+    // }
+    /////////////////////////////////////////////////////////////////////
     Size size = MediaQuery.of(context).size;
 
     return GestureDetector(
@@ -139,6 +307,83 @@ class _LevelOneState extends State<LevelOne> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
+        // appBar: AppBar(
+        //   // leading: IconButton(
+        //   //     icon: Icon(Icons.arrow_back, color: Colors.white),
+        //   //     onPressed: () {
+        //   //       Navigator.of(context).pop();
+        //   //       Navigator.popUntil(
+        //   //           context, ModalRoute.withName("productdetailspage"));
+        //   //     }),
+        //   title: appBarTitle,
+        //   // appBarTitle,
+        //   actions: [
+        //     IconButton(
+        //       icon: actionIcon,
+        //       onPressed: () {
+        //         // toggle(i);
+        //         setState(() {
+        //           if (this.actionIcon.icon == Icons.search) {
+        //             _controller.clear();
+        //             this.actionIcon = Icon(Icons.close);
+        //             this.appBarTitle = TextField(
+        //                 controller: _controller,
+        //                 style: const TextStyle(
+        //                   color: Colors.white,
+        //                 ),
+        //                 decoration: const InputDecoration(
+        //                   prefixIcon: Icon(Icons.search, color: Colors.white),
+        //                   hintText: "Search...",
+        //                   hintStyle: TextStyle(color: Colors.white),
+        //                 ),
+        //                 // onChanged: ((value) {
+        //                 //   print(value);
+        //                 //   onChangedValue(value);
+        //                 // }),
+        //                 cursorColor: Colors.black);
+        //           } else {
+        //             if (this.actionIcon.icon == Icons.close &&
+        //                 _controller.text.isNotEmpty) {
+        //               this.actionIcon = Icon(Icons.search);
+        //               this.appBarTitle = Consumer<Controller>(
+        //                   builder: (context, value, child) {
+        //                 if (value.reportSubCategoryList != null &&
+        //                     value.reportSubCategoryList.isNotEmpty) {
+        //                   return Text(
+        //                     value.reportSubCategoryList[0]["sg"],
+        //                     style: TextStyle(fontSize: 16),
+        //                   );
+        //                 } else {
+        //                   return Container();
+        //                 }
+        //               });
+        //               // Provider.of<Controller>(context, listen: false)
+        //               //     .setIssearch(false);
+        //             } else {
+        //               if (this.actionIcon.icon == Icons.close) {
+        //                 print("closed");
+        //                 _controller.clear();
+        //                 this.actionIcon = Icon(Icons.search);
+        //                 this.appBarTitle = Consumer<Controller>(
+        //                     builder: (context, value, child) {
+        //                   if (value.reportSubCategoryList != null &&
+        //                       value.reportSubCategoryList.isNotEmpty) {
+        //                     return Text(
+        //                       value.reportSubCategoryList[0]["sg"],
+        //                       style: TextStyle(fontSize: 16),
+        //                     );
+        //                   } else {
+        //                     return Container();
+        //                   }
+        //                 });
+        //               }
+        //             }
+        //           }
+        //         });
+        //       },
+        //     ),
+        //   ],
+        // ),
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: ValueListenableBuilder(
@@ -146,15 +391,24 @@ class _LevelOneState extends State<LevelOne> {
               builder:
                   (BuildContext context, int selectedValue, Widget? child) {
                 return CustomAppbar(
-                  // title: "",
-                  title: widget.tilName,
-                  level: 'level1',
+                  title: " ",
+                  level: 'level3',
                 );
               }),
         ),
 
         ///////////////////////////////////////////////////////////////////
-
+        // drawer: Drawer(
+        //   child: new Column(
+        //     children: <Widget>[
+        //       Container(
+        //         height: size.height * 0.2,
+        //         color: P_Settings.color3,
+        //       ),
+        //       Column(children: drawerOpts)
+        //     ],
+        //   ),
+        // ),
         body: InteractiveViewer(
           child: Column(
             children: [
@@ -178,7 +432,7 @@ class _LevelOneState extends State<LevelOne> {
                                     buttonClicked = false;
                                   });
                                 }),
-                                child: const Icon(Icons.calendar_month),
+                                child: Icon(Icons.calendar_month),
                               ),
                             ),
                           ),
@@ -187,19 +441,16 @@ class _LevelOneState extends State<LevelOne> {
                     )
                   : Consumer<AdminController>(builder: (context, value, child) {
                       {
-                        print("helloo");
-                        type = widget.reportelements.toString();
-                        // value.reportList[4]["report_elements"].toString();
-                        print("type..............$type");
+                        type = widget.reportelemet;
                         List<String> parts = type!.split(',');
-                        type1 = parts[0].trim();
-                        type2 = parts[1].trim();
-                        type3 = parts[2].trim();
-                        // prefix: "date"
+                        type1 = parts[0].trim(); // prefix: "date"
+                        type2 = parts[1].trim(); // prefix: "date"
+                        type3 = parts[2].trim(); // prefix: "date"
                       }
                       {
                         return Container(
                           color: Colors.yellow,
+                          // height: size.height * 0.27,
                           child: Container(
                             height: size.height * 0.14,
                             color: P_Settings.dateviewColor,
@@ -316,33 +567,59 @@ class _LevelOneState extends State<LevelOne> {
                                           : Row(
                                               children: [],
                                             ),
-                                    type3=="S" ? qtyvisible
-                                          ?  SizedBox(
-                                              width: size.width * 0.2,
-                                              child: IconButton(
-                                                icon: Icon(Icons.arrow_upward,
-                                                    color: P_Settings
-                                                        .l1appbarColor),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    qtyvisible = false;
-                                                  });
-                                                },
-                                              ),
-                                            )
-                                          : SizedBox(
-                                              width: size.width * 0.2,
-                                              child: IconButton(
-                                                icon: Icon(Icons.arrow_downward,
-                                                    color: P_Settings
-                                                        .l1appbarColor),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    qtyvisible = true;
-                                                  });
-                                                },
-                                              ),
-                                            ):Text("")
+                                      // Row(
+                                      //   children: [
+                                      //     IconButton(
+                                      //         onPressed: () {
+                                      //           _selectToDate(context);
+                                      //         },
+                                      //         icon: Icon(Icons.calendar_month)),
+                                      //     toDate == null
+                                      //         ? InkWell(
+                                      //             onTap: () {
+                                      //               _selectToDate(context);
+                                      //             },
+                                      //             child: Text(
+                                      //                 datetoShared.toString()))
+                                      //         : InkWell(
+                                      //             onTap: () {
+                                      //               _selectToDate(context);
+                                      //             },
+                                      //             child:
+                                      //                 Text(toDate.toString()))
+                                      //   ],
+                                      // ),
+                                      type3 == "S"
+                                          ? qtyvisible
+                                              ? SizedBox(
+                                                  width: size.width * 0.2,
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                        Icons.arrow_upward,
+                                                        color: P_Settings
+                                                            .l3appbarColor),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        qtyvisible = false;
+                                                      });
+                                                    },
+                                                  ),
+                                                )
+                                              : SizedBox(
+                                                  width: size.width * 0.2,
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                        Icons.arrow_downward,
+                                                        color: P_Settings
+                                                            .l3appbarColor),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        qtyvisible = true;
+                                                      });
+                                                    },
+                                                  ),
+                                                )
+                                          : Text("")
                                     ],
                                   ),
                                 ),
@@ -358,9 +635,8 @@ class _LevelOneState extends State<LevelOne> {
                                                   child: Container(
                                                     alignment:
                                                         Alignment.topRight,
-                                                    // color: P_Settings.datatableColor,
                                                     height: size.height * 0.07,
-                                                    width: size.width * 1.2,
+                                                    width: size.width * 1,
                                                     child: Row(
                                                       children: [
                                                         ListView.builder(
@@ -387,37 +663,44 @@ class _LevelOneState extends State<LevelOne> {
                                                                     ElevatedButton(
                                                                   style: ElevatedButton
                                                                       .styleFrom(
-                                                                    // shape: StadiumBorder(),
-
                                                                     primary: selected ==
                                                                             value.specialelements[index][
                                                                                 "value"]
                                                                         ? P_Settings
-                                                                            .l1appbarColor
+                                                                            .l3appbarColor
                                                                         : P_Settings
-                                                                            .l1datatablecolor,
+                                                                            .l3datatablecolor,
                                                                     shadowColor:
                                                                         P_Settings
                                                                             .color4,
-                                                                    // minimumSize:
-                                                                    //     Size(100, 100),
-                                                                    // maximumSize:
-                                                                    //     Size(100, 100),
+                                                                    minimumSize:
+                                                                        Size(10,
+                                                                            20),
+                                                                    maximumSize:
+                                                                        Size(10,
+                                                                            20),
                                                                   ),
                                                                   onPressed:
                                                                       () {
+                                                                    specialField =
+                                                                        value.specialelements[index]
+                                                                            [
+                                                                            "value"];
+                                                                    selected = value
+                                                                            .specialelements[index]
+                                                                        [
+                                                                        "value"];
+
                                                                     fromDate = fromDate ==
                                                                             null
-                                                                        ? Provider.of<AdminController>(context, listen: false)
-                                                                            .fromDate
+                                                                        ? dateFromShared
                                                                             .toString()
                                                                         : fromDate
                                                                             .toString();
 
                                                                     toDate = toDate ==
                                                                             null
-                                                                        ? Provider.of<AdminController>(context, listen: false)
-                                                                            .todate
+                                                                        ? datetoShared
                                                                             .toString()
                                                                         : toDate
                                                                             .toString();
@@ -429,16 +712,6 @@ class _LevelOneState extends State<LevelOne> {
                                                                         .setDate(
                                                                             fromDate!,
                                                                             toDate!);
-
-                                                                    specialField =
-                                                                        value.specialelements[index]
-                                                                            [
-                                                                            "value"];
-
-                                                                    selected = value
-                                                                            .specialelements[index]
-                                                                        [
-                                                                        "value"];
                                                                     Provider.of<AdminController>(
                                                                             context,
                                                                             listen:
@@ -453,7 +726,7 @@ class _LevelOneState extends State<LevelOne> {
                                                                         toDate!,
                                                                         widget
                                                                             .old_filter_where_ids,
-                                                                        "level1");
+                                                                        "level3");
                                                                   },
                                                                   child: Text(
                                                                     value.specialelements[
@@ -485,33 +758,58 @@ class _LevelOneState extends State<LevelOne> {
                         );
                       }
                     }),
-
+              Container(
+                width: double.infinity,
+                color: P_Settings.dateviewColor,
+                height: size.height * 0.05,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text(titleName.toString())),
+                ),
+              ),
+              // Container(
+              //   width: double.infinity,
+              //   color: P_Settings.dateviewColor,
+              //   height: size.height * 0.05,
+              //   child: Row(
+              //     children: [
+              //       Padding(
+              //         padding: const EdgeInsets.all(8.0),
+              //         child: SingleChildScrollView(
+              //             scrollDirection: Axis.horizontal,
+              //             child: Text(titleName.toString())),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               // Provider.of<Controller>(context, listen: false).isSearch &&
               //         Provider.of<Controller>(context, listen: false)
-              //                 .l1newList
+              //                 .l3newList
               //                 .length ==
               //             0
               //     ? Container(
               //         alignment: Alignment.center,
               //         height: size.height * 0.6,
-              //         child: const Text(
+              //         child: Text(
               //           "No data Found!!!",
-              //           style: const TextStyle(fontSize: 20),
+              //           style: TextStyle(fontSize: 20),
               //         ),
               //       )
               //     :
               Consumer<AdminController>(builder: (context, value, child) {
                 {
-                  print("level1 report list${value.level1reportList.length}");
+                  print("level3 report list${value.level3reportList.length}");
 
                   if (value.isLoading == true) {
                     return Container(
                       height: size.height * 0.6,
                       child: SpinKitPouringHourGlassRefined(
-                          color: P_Settings.l1appbarColor),
+                          color: P_Settings.l3appbarColor),
                     );
                   }
-                  if (value.isSearch && value.l1newList.length == 0) {
+                  if (value.isSearch && value.l3newList.length == 0) {
                     return Container(
                       alignment: Alignment.center,
                       height: size.height * 0.6,
@@ -521,116 +819,62 @@ class _LevelOneState extends State<LevelOne> {
                       ),
                     );
                   }
-                  if (value.isSearch && value.l1newList.length > 0) {
+                  if (value.isSearch && value.l3newList.length > 0) {
                     return Container(
+                      // color: P_Settings.datatableColor,
                       height: size.height * 0.71,
                       child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: value.l1newList.length,
+                          itemCount: value.l3newList.length,
                           itemBuilder: (context, index) {
                             var jsonEncoded =
-                                json.encode(value.l1newList[index]);
-
-                            print("jsonEncoded---${jsonEncoded}");
-
-                            // if (index < 0 ||
-                            //     index >= value.level1reportList.length) {
-                            //   return const Offstage();
-                            // }
+                                json.encode(value.l3newList[index]);
+                            // Provider.of<Controller>(context, listen: false)
+                            //     .datatableCreation(
+                            //         jsonEncoded, "level3", "shrinked");
+                            if (index < 0 || index >= value.l3newList.length) {
+                              return const Offstage();
+                            }
                             return Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Column(
                                 children: [
                                   Ink(
                                     decoration: BoxDecoration(
-                                      color: P_Settings.l1datatablecolor,
+                                      color: P_Settings.l3datatablecolor,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: ListTile(
                                       onTap: () {
-                                        print("special field--${specialField}");
-                                        specialField = specialField == null
-                                            ? "1"
-                                            : specialField.toString();
-                                        fromDate = fromDate == null
-                                            ? Provider.of<AdminController>(context,
-                                                    listen: false)
-                                                .fromDate
-                                                .toString()
-                                            : fromDate.toString();
+                                        showDialog(
+                                          context: context,
+                                          builder: (ctx) => AlertDialog(
+                                            // title: Text("Alert Dialog Box"),
+                                            content: Text("No more pages.."),
+                                            actions: <Widget>[
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: P_Settings
+                                                        .l3datatablecolor),
+                                                onPressed: () {
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                                child: Text("ok"),
+                                              ),
+                                            ],
+                                          ),
+                                        );
 
-                                        toDate = toDate == null
-                                            ? Provider.of<AdminController>(context,
-                                                    listen: false)
-                                                .todate
-                                                .toString()
-                                            : toDate.toString();
-
-                                        Provider.of<AdminController>(context,
-                                                listen: false)
-                                            .setDate(fromDate!, toDate!);
-
-                                        filter1 = widget.filters[1].trim();
-                                        print(
-                                            "level1 filtersss ..............$filter1");
-                                        String acc_row_id = value
-                                            .l1newList[index].values
-                                            .elementAt(0);
-                                        old_filter_where_ids =
-                                            widget.old_filter_where_ids +
-                                                acc_row_id +
-                                                ",";
-                                        print(
-                                            "old_filter_where_ids--${old_filter_where_ids}");
                                         Provider.of<AdminController>(context,
                                                 listen: false)
                                             .setSpecialField(specialField!);
-                                        Provider.of<AdminController>(context,
-                                                listen: false)
-                                            .getSubCategoryReportList(
-                                                specialField!,
-                                                filter1!,
-                                                fromDate!,
-                                                toDate!,
-                                                old_filter_where_ids!,
-                                                "level2");
-                                        Provider.of<AdminController>(context,
-                                                listen: false)
-                                            .l2listForTable
-                                            .clear();
-                                        Provider.of<AdminController>(context,
-                                                listen: false)
-                                            .isSearch = false;
-                                        String tileName = value
-                                            .l1newList[index].values
-                                            .elementAt(1);
-                                        Provider.of<AdminController>(context,
-                                                listen: false)
-                                            .newListClear("level1");
-
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => LevelTwo(
-                                                    reportelement:
-                                                        widget.reportelements,
-                                                    hometileName:
-                                                        widget.tilName,
-                                                    level1tileName: tileName,
-                                                    old_filter_where_ids:
-                                                        old_filter_where_ids!,
-                                                    filter_id: filter1!,
-                                                    tile: widget.tilName,
-                                                    filters: widget.filters,
-                                                  )),
-                                        );
                                       },
                                       title: Center(
                                         child: Text(
-                                          value.l1newList[index].values
+                                          value.l3newList[index].values
                                                       .elementAt(1) !=
                                                   null
-                                              ? value.l1newList[index].values
+                                              ? value.l3newList[index].values
                                                   .elementAt(1)
                                               : "",
                                           // style: TextStyle(fontSize: 12),
@@ -639,36 +883,36 @@ class _LevelOneState extends State<LevelOne> {
                                       // subtitle:
                                       //     Center(child: Text('/report page flow')),
                                       trailing: IconButton(
-                                          color: P_Settings.l1appbarColor,
-                                          icon: Provider.of<AdminController>(context,
+                                          icon: Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
-                                                  .l1isExpanded[index]
-                                              ? const Icon(
+                                                  .l3isExpanded[index]
+                                              ? Icon(
                                                   Icons.arrow_upward,
                                                   size: 18,
                                                 )
-                                              : const Icon(
+                                              : Icon(
                                                   Icons.arrow_downward,
                                                   // actionIcon.icon,
                                                   size: 18,
                                                 ),
                                           onPressed: () {
-                                            Provider.of<AdminController>(context,
+                                            Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
                                                 .toggleExpansion(
-                                                    index, "level1");
-                                            Provider.of<AdminController>(context,
+                                                    index, "level3");
+                                            Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
-                                                .toggleData(index, "level1");
-                                            String acc_row_id = value
-                                                .l1newList[index].values
+                                                .toggleData(index, "level3");
+                                            String batch_code = value
+                                                .l3newList[index].values
                                                 .elementAt(0);
                                             old_filter_where_ids =
                                                 widget.old_filter_where_ids +
-                                                    acc_row_id;
+                                                    batch_code;
 
-                                            // print(
-                                            //     "acc_rowid---${acc_row_id}");
                                             specialField = specialField == null
                                                 ? "1"
                                                 : specialField.toString();
@@ -687,11 +931,10 @@ class _LevelOneState extends State<LevelOne> {
                                                     .todate
                                                     .toString()
                                                 : toDate.toString();
-                                            print(
-                                                "visiblejjjjjj---${Provider.of<AdminController>(context, listen: false).l1visible[index]}");
-                                            Provider.of<AdminController>(context,
+                                            Provider.of<AdminController>(
+                                                        context,
                                                         listen: false)
-                                                    .l1isExpanded[index]
+                                                    .l3isExpanded[index]
                                                 ? Provider.of<AdminController>(
                                                         context,
                                                         listen: false)
@@ -702,13 +945,14 @@ class _LevelOneState extends State<LevelOne> {
                                                         toDate!,
                                                         old_filter_where_ids!,
                                                         '',
-                                                        "level1",
+                                                        "level3",
                                                         index)
                                                 : null;
-                                            tablejson = Provider.of<AdminController>(
-                                                    context,
-                                                    listen: false)
-                                                .expndmapTabledata;
+                                            tablejson =
+                                                Provider.of<AdminController>(
+                                                        context,
+                                                        listen: false)
+                                                    .expndmapTabledata;
 
                                             print("tablejson --${tablejson}");
 
@@ -718,38 +962,28 @@ class _LevelOneState extends State<LevelOne> {
                                     ),
                                   ),
                                   SizedBox(height: size.height * 0.004),
-
-                                  // Consumer<Controller>(
-                                  //     builder: (context, value, child) {
-                                  //   return Container(
-                                  //     child: Text(value.listForTable.isEmpty
-                                  //         ? "null"
-                                  //         : value.listForTable[index]
-                                  //             .toString()),
-                                  //   );
-                                  // })
                                   Provider.of<AdminController>(context,
                                               listen: false)
-                                          .l1isExpanded[index]
+                                          .l3isExpanded[index]
                                       ? Consumer<AdminController>(
                                           builder: (context, value, child) {
                                             return Visibility(
                                                 visible:
-                                                    value.l1isExpanded[index],
+                                                    value.l3isExpanded[index],
                                                 child: value.istabLoading
                                                     ? Container(
                                                         height: 40,
                                                         child:
                                                             CircularProgressIndicator(
                                                           color: P_Settings
-                                                              .l1appbarColor,
+                                                              .l3appbarColor,
                                                         ))
                                                     : ExpandedDatatable(
                                                         dedoded: index >= 0
-                                                            ? value.l1listForTable[
+                                                            ? value.l3listForTable[
                                                                 index]
                                                             : null,
-                                                        level: "level1",
+                                                        level: "level3",
                                                       )
                                                 // : Container()
                                                 );
@@ -759,12 +993,12 @@ class _LevelOneState extends State<LevelOne> {
                                           visible: Provider.of<AdminController>(
                                                   context,
                                                   listen: false)
-                                              .l1visible[index],
+                                              .l3visible[index],
                                           // child:Text("haiii")
 
                                           child: ShrinkedDatatable(
                                             decodd: jsonEncoded,
-                                            level: "level1",
+                                            level: "level3",
                                           ),
                                         ),
                                 ],
@@ -774,20 +1008,19 @@ class _LevelOneState extends State<LevelOne> {
                     );
                   }
                   return Container(
-                    height: size.height * 0.71,
+                    // color: P_Settings.datatableColor,
+                    height: size.height * 0.69,
                     child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: value.level1reportList.length,
+                        itemCount: value.level3reportList.length,
                         itemBuilder: (context, index) {
-                          print(
-                              "level1reportList---${value.level1reportList[index]}");
                           var jsonEncoded =
-                              json.encode(value.level1reportList[index]);
-
-                          print("jsonEncoded---${jsonEncoded}");
-
+                              json.encode(value.level3reportList[index]);
+                          // Provider.of<Controller>(context, listen: false)
+                          //     .datatableCreation(
+                          //         jsonEncoded, "level3", "shrinked");
                           if (index < 0 ||
-                              index >= value.level1reportList.length) {
+                              index >= value.level3reportList.length) {
                             return const Offstage();
                           }
                           return Padding(
@@ -796,96 +1029,44 @@ class _LevelOneState extends State<LevelOne> {
                               children: [
                                 Ink(
                                   decoration: BoxDecoration(
-                                    color: P_Settings.l1datatablecolor,
+                                    color: P_Settings.l3datatablecolor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ListTile(
                                     onTap: () {
-                                      print("special field--${specialField}");
-                                      specialField = specialField == null
-                                          ? "1"
-                                          : specialField.toString();
-                                      fromDate = fromDate == null
-                                          ? Provider.of<AdminController>(context,
-                                                  listen: false)
-                                              .fromDate
-                                              .toString()
-                                          : fromDate.toString();
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) => AlertDialog(
+                                          // title: Text("Alert Dialog Box"),
+                                          content: Text("No more pages.."),
+                                          actions: <Widget>[
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: P_Settings
+                                                      .l3datatablecolor),
+                                              onPressed: () {
+                                                Navigator.of(ctx).pop();
+                                              },
+                                              child: Text("ok"),
+                                            ),
+                                          ],
+                                        ),
+                                      );
 
-                                      toDate = toDate == null
-                                          ? Provider.of<AdminController>(context,
-                                                  listen: false)
-                                              .todate
-                                              .toString()
-                                          : toDate.toString();
-
-                                      Provider.of<AdminController>(context,
-                                              listen: false)
-                                          .setDate(fromDate!, toDate!);
-
-                                      filter1 = widget.filters[1].trim();
-                                      print(
-                                          "level1 filtersss ..............$filter1");
-                                      String acc_row_id = value
-                                          .level1reportList[index].values
-                                          .elementAt(0);
-                                      old_filter_where_ids =
-                                          widget.old_filter_where_ids +
-                                              acc_row_id +
-                                              ",";
-                                      print(
-                                          "old_filter_where_ids--${old_filter_where_ids}");
                                       Provider.of<AdminController>(context,
                                               listen: false)
                                           .setSpecialField(specialField!);
-                                      Provider.of<AdminController>(context,
-                                              listen: false)
-                                          .getSubCategoryReportList(
-                                              specialField!,
-                                              filter1!,
-                                              fromDate!,
-                                              toDate!,
-                                              old_filter_where_ids!,
-                                              "level2");
-                                      Provider.of<AdminController>(context,
-                                              listen: false)
-                                          .l2listForTable
-                                          .clear();
-                                      Provider.of<AdminController>(context,
-                                              listen: false)
-                                          .isSearch = false;
-                                      String tileName = value
-                                          .level1reportList[index].values
-                                          .elementAt(1);
-                                      Provider.of<AdminController>(context,
-                                              listen: false)
-                                          .newListClear("level1");
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => LevelTwo(
-                                                  reportelement:
-                                                      widget.reportelements,
-                                                  hometileName: widget.tilName,
-                                                  level1tileName: tileName,
-                                                  old_filter_where_ids:
-                                                      old_filter_where_ids!,
-                                                  filter_id: filter1!,
-                                                  tile: widget.tilName,
-                                                  filters: widget.filters,
-                                                )),
-                                      );
                                     },
                                     title: Center(
                                       child: Text(
                                         value.isSearch
-                                            ? value.l1newList[index].values
+                                            ? value.l3newList[index].values
                                                 .elementAt(1)
-                                            : value.level1reportList[index]
+                                            : value.level3reportList[index]
                                                         .values
                                                         .elementAt(1) !=
                                                     null
-                                                ? value.level1reportList[index]
+                                                ? value.level3reportList[index]
                                                     .values
                                                     .elementAt(1)
                                                 : "",
@@ -895,15 +1076,15 @@ class _LevelOneState extends State<LevelOne> {
                                     // subtitle:
                                     //     Center(child: Text('/report page flow')),
                                     trailing: IconButton(
-                                        color: P_Settings.l1appbarColor,
-                                        icon: Provider.of<AdminController>(context,
+                                        icon: Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
-                                                .l1isExpanded[index]
-                                            ? const Icon(
+                                                .l3isExpanded[index]
+                                            ? Icon(
                                                 Icons.arrow_upward,
                                                 size: 18,
                                               )
-                                            : const Icon(
+                                            : Icon(
                                                 Icons.arrow_downward,
                                                 // actionIcon.icon,
                                                 size: 18,
@@ -911,41 +1092,40 @@ class _LevelOneState extends State<LevelOne> {
                                         onPressed: () {
                                           Provider.of<AdminController>(context,
                                                   listen: false)
-                                              .toggleExpansion(index, "level1");
+                                              .toggleExpansion(index, "level3");
                                           Provider.of<AdminController>(context,
                                                   listen: false)
-                                              .toggleData(index, "level1");
-                                          String acc_row_id = value
-                                              .level1reportList[index].values
+                                              .toggleData(index, "level3");
+                                          String batch_code = value
+                                              .level3reportList[index].values
                                               .elementAt(0);
                                           old_filter_where_ids =
                                               widget.old_filter_where_ids +
-                                                  acc_row_id;
+                                                  batch_code;
 
-                                          // print(
-                                          //     "acc_rowid---${acc_row_id}");
                                           specialField = specialField == null
                                               ? "1"
                                               : specialField.toString();
                                           fromDate = fromDate == null
-                                              ? Provider.of<AdminController>(context,
+                                              ? Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .fromDate
                                                   .toString()
                                               : fromDate.toString();
 
                                           toDate = toDate == null
-                                              ? Provider.of<AdminController>(context,
+                                              ? Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .todate
                                                   .toString()
                                               : toDate.toString();
-                                          print(
-                                              "visiblejjjjjj---${Provider.of<AdminController>(context, listen: false).l1visible[index]}");
                                           Provider.of<AdminController>(context,
                                                       listen: false)
-                                                  .l1isExpanded[index]
-                                              ? Provider.of<AdminController>(context,
+                                                  .l3isExpanded[index]
+                                              ? Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .getExpansionJson(
                                                       specialField!,
@@ -954,13 +1134,14 @@ class _LevelOneState extends State<LevelOne> {
                                                       toDate!,
                                                       old_filter_where_ids!,
                                                       '',
-                                                      "level1",
+                                                      "level3",
                                                       index)
                                               : null;
-                                          tablejson = Provider.of<AdminController>(
-                                                  context,
-                                                  listen: false)
-                                              .expndmapTabledata;
+                                          tablejson =
+                                              Provider.of<AdminController>(
+                                                      context,
+                                                      listen: false)
+                                                  .expndmapTabledata;
 
                                           print("tablejson --${tablejson}");
 
@@ -970,42 +1151,43 @@ class _LevelOneState extends State<LevelOne> {
                                   ),
                                 ),
                                 SizedBox(height: size.height * 0.004),
-                                Provider.of<AdminController>(context, listen: false)
-                                        .l1isExpanded[index]
+                                Provider.of<AdminController>(context,
+                                            listen: false)
+                                        .l3isExpanded[index]
                                     ? Consumer<AdminController>(
                                         builder: (context, value, child) {
                                           return Visibility(
                                               visible:
-                                                  value.l1isExpanded[index],
+                                                  value.l3isExpanded[index],
                                               child: value.istabLoading
                                                   ? Container(
                                                       height: 40,
                                                       child:
                                                           CircularProgressIndicator(
                                                         color: P_Settings
-                                                            .l1appbarColor,
+                                                            .l3appbarColor,
                                                       ))
                                                   : ExpandedDatatable(
-                                                      dedoded: value
-                                                          .expndmapTabledata,
-                                                      // value.l1listForTable.length!=0 && value.l1listForTable !=null||value.l1listForTable.isNotEmpty
-                                                      //     ? value.l1listForTable[
-                                                      //         index]
-                                                      //     : null ,
-                                                      level: "level1",
-                                                    ));
+                                                      dedoded: index >= 0
+                                                          ? value.l3listForTable[
+                                                              index]
+                                                          : null,
+                                                      level: "level3",
+                                                    )
+                                              // : Container()
+                                              );
                                         },
                                       )
                                     : Visibility(
                                         visible: Provider.of<AdminController>(
                                                 context,
                                                 listen: false)
-                                            .l1visible[index],
+                                            .l3visible[index],
                                         // child:Text("haiii")
 
                                         child: ShrinkedDatatable(
                                           decodd: jsonEncoded,
-                                          level: "level1",
+                                          level: "level3",
                                         ),
                                       ),
                               ],
@@ -1022,4 +1204,5 @@ class _LevelOneState extends State<LevelOne> {
     );
   }
 }
-/////////////////////////////////////////////////////////////////
+
+///////////////////////alert box for button click //////////////////////////////////////

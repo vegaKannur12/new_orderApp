@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
+import 'package:orderapp/screen/ADMIN_/adminController.dart';
+
 import 'package:provider/provider.dart';
 
 
