@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:orderapp/controller/controller.dart';
-import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
+import 'package:orderapp/screen/ADMIN_/admin_dashboard.dart';
+
 import 'package:orderapp/screen/ORDER/0_splashScreen.dart';
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/tab.dart';
@@ -10,6 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'components/commoncolor.dart';
 import 'package:ota_update/ota_update.dart';
+
+import 'screen/ADMIN_/adminController.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +60,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: SplashScreen(),
+      home: AdminDashboard(),
       // home: MyWaveClipper(),
     );
   }
