@@ -10,10 +10,7 @@ import 'package:orderapp/screen/ADMIN%20REPORTS/adminController.dart';
 import 'package:orderapp/screen/ADMIN%20REPORTS/expandedDatatable.dart';
 import 'package:orderapp/screen/ADMIN%20REPORTS/shrinkeddatatable.dart';
 import 'package:provider/provider.dart';
-
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class LevelThree extends StatefulWidget {
   String hometileName;
@@ -237,7 +234,8 @@ class _LevelThreeState extends State<LevelThree> {
   void initState() {
     //print("jsondata----$jsondata");
     super.initState();
-    dateFromShared = Provider.of<AdminController>(context, listen: false).fromDate;
+    dateFromShared =
+        Provider.of<AdminController>(context, listen: false).fromDate;
     datetoShared = Provider.of<AdminController>(context, listen: false).todate;
     crntDateFormat = DateFormat('dd-MM-yyyy').format(currentDate);
     specialField = Provider.of<AdminController>(context, listen: false).special;
@@ -589,161 +587,168 @@ class _LevelThreeState extends State<LevelThree> {
                                       //                 Text(toDate.toString()))
                                       //   ],
                                       // ),
-                                      type3=="S" ? qtyvisible
-                                          ? SizedBox(
-                                              width: size.width * 0.2,
-                                              child: IconButton(
-                                                icon: Icon(Icons.arrow_upward,
-                                                    color: P_Settings
-                                                        .l3appbarColor),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    qtyvisible = false;
-                                                  });
-                                                },
-                                              ),
-                                            )
-                                          : SizedBox(
-                                              width: size.width * 0.2,
-                                              child: IconButton(
-                                                icon: Icon(Icons.arrow_downward,
-                                                    color: P_Settings
-                                                        .l3appbarColor),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    qtyvisible = true;
-                                                  });
-                                                },
-                                              ),
-                                            ):Text("")
+                                      type3 == "S"
+                                          ? qtyvisible
+                                              ? SizedBox(
+                                                  width: size.width * 0.2,
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                        Icons.arrow_upward,
+                                                        color: P_Settings
+                                                            .l3appbarColor),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        qtyvisible = false;
+                                                      });
+                                                    },
+                                                  ),
+                                                )
+                                              : SizedBox(
+                                                  width: size.width * 0.2,
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                        Icons.arrow_downward,
+                                                        color: P_Settings
+                                                            .l3appbarColor),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        qtyvisible = true;
+                                                      });
+                                                    },
+                                                  ),
+                                                )
+                                          : Text("")
                                     ],
                                   ),
                                 ),
                                 Visibility(
                                   visible: qtyvisible,
-                                  child:type3 =="S" ? Row(
-                                    children: [
-                                      Consumer<AdminController>(
-                                          builder: (context, value, child) {
-                                        {
-                                          return Flexible(
-                                            child: Container(
-                                              alignment: Alignment.topRight,
-                                              height: size.height * 0.07,
-                                              width: size.width * 1,
-                                              child: Row(
-                                                children: [
-                                                  ListView.builder(
-                                                    shrinkWrap: true,
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    physics:
-                                                        const PageScrollPhysics(),
-                                                    itemCount: value
-                                                        .specialelements.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      return Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(5.0),
-                                                        child: SizedBox(
-                                                          width:
-                                                              size.width * 0.3,
-                                                          // height: size.height*0.001,
-                                                          child: ElevatedButton(
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              primary: selected ==
-                                                                      value.specialelements[
-                                                                              index]
-                                                                          [
-                                                                          "value"]
-                                                                  ? P_Settings
-                                                                      .l3appbarColor
-                                                                  : P_Settings
-                                                                      .l3datatablecolor,
-                                                              shadowColor:
-                                                                  P_Settings
-                                                                      .color4,
-                                                              minimumSize:
-                                                                  Size(10, 20),
-                                                              maximumSize:
-                                                                  Size(10, 20),
-                                                            ),
-                                                            onPressed: () {
-                                                              specialField =
-                                                                  value.specialelements[
-                                                                          index]
-                                                                      ["value"];
-                                                              selected =
-                                                                  value.specialelements[
-                                                                          index]
-                                                                      ["value"];
+                                  child: type3 == "S"
+                                      ? Row(
+                                          children: [
+                                            Consumer<AdminController>(builder:
+                                                (context, value, child) {
+                                              {
+                                                return Flexible(
+                                                  child: Container(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    height: size.height * 0.07,
+                                                    width: size.width * 1,
+                                                    child: Row(
+                                                      children: [
+                                                        ListView.builder(
+                                                          shrinkWrap: true,
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          physics:
+                                                              const PageScrollPhysics(),
+                                                          itemCount: value
+                                                              .specialelements
+                                                              .length,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            return Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(5.0),
+                                                              child: SizedBox(
+                                                                width:
+                                                                    size.width *
+                                                                        0.3,
+                                                                // height: size.height*0.001,
+                                                                child:
+                                                                    ElevatedButton(
+                                                                  style: ElevatedButton
+                                                                      .styleFrom(
+                                                                    primary: selected ==
+                                                                            value.specialelements[index][
+                                                                                "value"]
+                                                                        ? P_Settings
+                                                                            .l3appbarColor
+                                                                        : P_Settings
+                                                                            .l3datatablecolor,
+                                                                    shadowColor:
+                                                                        P_Settings
+                                                                            .color4,
+                                                                    minimumSize:
+                                                                        Size(10,
+                                                                            20),
+                                                                    maximumSize:
+                                                                        Size(10,
+                                                                            20),
+                                                                  ),
+                                                                  onPressed:
+                                                                      () {
+                                                                    specialField =
+                                                                        value.specialelements[index]
+                                                                            [
+                                                                            "value"];
+                                                                    selected = value
+                                                                            .specialelements[index]
+                                                                        [
+                                                                        "value"];
 
-                                                              fromDate = fromDate ==
-                                                                      null
-                                                                  ? dateFromShared
-                                                                      .toString()
-                                                                  : fromDate
-                                                                      .toString();
+                                                                    fromDate = fromDate ==
+                                                                            null
+                                                                        ? dateFromShared
+                                                                            .toString()
+                                                                        : fromDate
+                                                                            .toString();
 
-                                                              toDate = toDate ==
-                                                                      null
-                                                                  ? datetoShared
-                                                                      .toString()
-                                                                  : toDate
-                                                                      .toString();
+                                                                    toDate = toDate ==
+                                                                            null
+                                                                        ? datetoShared
+                                                                            .toString()
+                                                                        : toDate
+                                                                            .toString();
 
-                                                              Provider.of<AdminController>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .setDate(
-                                                                      fromDate!,
-                                                                      toDate!);
-                                                              Provider.of<AdminController>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .setSpecialField(
-                                                                      specialField!);
-                                                              Provider.of<AdminController>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .getSubCategoryReportList(
-                                                                      specialField!,
-                                                                      widget
-                                                                          .filter_id,
-                                                                      fromDate!,
-                                                                      toDate!,
-                                                                      widget
-                                                                          .old_filter_where_ids,
-                                                                      "level3");
-                                                            },
-                                                            child: Text(
-                                                              value.specialelements[
-                                                                      index]
-                                                                  ["label"],
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .white),
-                                                            ),
-                                                          ),
+                                                                    Provider.of<AdminController>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .setDate(
+                                                                            fromDate!,
+                                                                            toDate!);
+                                                                    Provider.of<AdminController>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .setSpecialField(
+                                                                            specialField!);
+                                                                    Provider.of<AdminController>(context, listen: false).getSubCategoryReportList(
+                                                                        specialField!,
+                                                                        widget
+                                                                            .filter_id,
+                                                                        fromDate!,
+                                                                        toDate!,
+                                                                        widget
+                                                                            .old_filter_where_ids,
+                                                                        "level3");
+                                                                  },
+                                                                  child: Text(
+                                                                    value.specialelements[
+                                                                            index]
+                                                                        [
+                                                                        "label"],
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
                                                         ),
-                                                      );
-                                                    },
+                                                      ],
+                                                    ),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      })
-                                    ],
-                                  ):Text(""),
+                                                );
+                                              }
+                                            })
+                                          ],
+                                        )
+                                      : Text(""),
                                 ),
                               ],
                             ),
@@ -876,7 +881,8 @@ class _LevelThreeState extends State<LevelThree> {
                                       // subtitle:
                                       //     Center(child: Text('/report page flow')),
                                       trailing: IconButton(
-                                          icon: Provider.of<AdminController>(context,
+                                          icon: Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .l3isExpanded[index]
                                               ? Icon(
@@ -889,11 +895,13 @@ class _LevelThreeState extends State<LevelThree> {
                                                   size: 18,
                                                 ),
                                           onPressed: () {
-                                            Provider.of<AdminController>(context,
+                                            Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
                                                 .toggleExpansion(
                                                     index, "level3");
-                                            Provider.of<AdminController>(context,
+                                            Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
                                                 .toggleData(index, "level3");
                                             String batch_code = value
@@ -921,7 +929,8 @@ class _LevelThreeState extends State<LevelThree> {
                                                     .todate
                                                     .toString()
                                                 : toDate.toString();
-                                            Provider.of<AdminController>(context,
+                                            Provider.of<AdminController>(
+                                                        context,
                                                         listen: false)
                                                     .l3isExpanded[index]
                                                 ? Provider.of<AdminController>(
@@ -937,10 +946,11 @@ class _LevelThreeState extends State<LevelThree> {
                                                         "level3",
                                                         index)
                                                 : null;
-                                            tablejson = Provider.of<AdminController>(
-                                                    context,
-                                                    listen: false)
-                                                .expndmapTabledata;
+                                            tablejson =
+                                                Provider.of<AdminController>(
+                                                        context,
+                                                        listen: false)
+                                                    .expndmapTabledata;
 
                                             print("tablejson --${tablejson}");
 
@@ -1064,7 +1074,8 @@ class _LevelThreeState extends State<LevelThree> {
                                     // subtitle:
                                     //     Center(child: Text('/report page flow')),
                                     trailing: IconButton(
-                                        icon: Provider.of<AdminController>(context,
+                                        icon: Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
                                                 .l3isExpanded[index]
                                             ? Icon(
@@ -1094,14 +1105,16 @@ class _LevelThreeState extends State<LevelThree> {
                                               ? "1"
                                               : specialField.toString();
                                           fromDate = fromDate == null
-                                              ? Provider.of<AdminController>(context,
+                                              ? Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .fromDate
                                                   .toString()
                                               : fromDate.toString();
 
                                           toDate = toDate == null
-                                              ? Provider.of<AdminController>(context,
+                                              ? Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .todate
                                                   .toString()
@@ -1109,7 +1122,8 @@ class _LevelThreeState extends State<LevelThree> {
                                           Provider.of<AdminController>(context,
                                                       listen: false)
                                                   .l3isExpanded[index]
-                                              ? Provider.of<AdminController>(context,
+                                              ? Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .getExpansionJson(
                                                       specialField!,
@@ -1121,10 +1135,11 @@ class _LevelThreeState extends State<LevelThree> {
                                                       "level3",
                                                       index)
                                               : null;
-                                          tablejson = Provider.of<AdminController>(
-                                                  context,
-                                                  listen: false)
-                                              .expndmapTabledata;
+                                          tablejson =
+                                              Provider.of<AdminController>(
+                                                      context,
+                                                      listen: false)
+                                                  .expndmapTabledata;
 
                                           print("tablejson --${tablejson}");
 
@@ -1134,7 +1149,8 @@ class _LevelThreeState extends State<LevelThree> {
                                   ),
                                 ),
                                 SizedBox(height: size.height * 0.004),
-                                Provider.of<AdminController>(context, listen: false)
+                                Provider.of<AdminController>(context,
+                                            listen: false)
                                         .l3isExpanded[index]
                                     ? Consumer<AdminController>(
                                         builder: (context, value, child) {

@@ -80,10 +80,8 @@ class Controller extends ChangeNotifier {
   List<CD> c_d = [];
   List<Map<String, dynamic>> historyList = [];
   List<Map<String, dynamic>> reportOriginalList = [];
-
   List<Map<String, dynamic>> settingsList = [];
   List<Map<String, dynamic>> walletList = [];
-
   List<Map<String, dynamic>> historydataList = [];
   List<Map<String, dynamic>> staffOrderTotal = [];
   String? area;
