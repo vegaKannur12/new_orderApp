@@ -11,6 +11,18 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
+  Color parseColor(String color) {
+    print("Colorrrrr...$color");
+    String hex = color.replaceAll("#", "");
+    if (hex.isEmpty) hex = "ffffff";
+    if (hex.length == 3) {
+      hex =
+          '${hex.substring(0, 1)}${hex.substring(0, 1)}${hex.substring(1, 2)}${hex.substring(1, 2)}${hex.substring(2, 3)}${hex.substring(2, 3)}';
+    }
+    Color col = Color(int.parse(hex, radix: 16)).withOpacity(1.0);
+    return col;
+  }
+
   final rnd = math.Random();
   List<String> listHeader = [
     'HEADER1',
@@ -18,11 +30,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
     'HEADER3',
     'HEADER4',
     'HEADER5',
-    'HEADER6',
-    'HEADER7',
-    'HEADER8',
-    'HEADER9',
-    'HEADER10',
   ];
   List<String> listTitle = [
     'title1',
@@ -30,23 +37,17 @@ class _AdminDashboardState extends State<AdminDashboard> {
     'title3',
     'title4',
   ];
-  List<String> color = [
-    'red',
-    'green',
-    'blue',
-    'yellow',
-  ];
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        body: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
+        body: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Container(
+            height: size.height * 0.04,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
@@ -72,12 +73,17 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         fontStyle: FontStyle.italic)),
               ],
             ),
-            SizedBox(
-              height: size.height * 0.03,
+          ),
+          SizedBox(
+            height: size.height * 0.03,
+          ),
+          SingleChildScrollView(
+            child: Container(
+              height: size.height * 0.75,
+              child: gridHeader(),
             ),
-            gridHeader(),
-          ],
-        ),
+          ),
+        ],
       ),
     )
         //
@@ -121,15 +127,27 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   margin: EdgeInsets.all(4.0),
-                  color: Color(rnd.nextInt(0x100000000)),
+                  color: Color.fromARGB(255, 240, 216, 216),
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 12.0, top: 6.0, bottom: 2.0),
                     child: Center(
-                        child: Text(
-                      listTitle[indx],
-                      style: TextStyle(fontSize: 14, color: Colors.black54),
-                    )),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            listTitle[indx],
+                            style:
+                                TextStyle(fontSize: 14, color: Colors.black54),
+                          ),
+                          Text(
+                            "5",
+                            style:
+                                TextStyle(fontSize: 14, color: Colors.black54),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },
