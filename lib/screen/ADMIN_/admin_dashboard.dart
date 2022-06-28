@@ -4,7 +4,7 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'dart:math' as math;
 
 class AdminDashboard extends StatefulWidget {
-  const AdminDashboard({Key? key}) : super(key: key);
+  // const AdminDashboard({Key? key}) : super(key: key);
 
   @override
   State<AdminDashboard> createState() => _AdminDashboardState();
@@ -33,21 +33,21 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(),
+      body: gridHeader(),
     );
   }
 
   Widget gridHeader() {
-    return new ListView.builder(
+    return ListView.builder(
       itemCount: listHeader.length,
       itemBuilder: (context, index) {
-        return new StickyHeader(
-          header: new Container(
+        return StickyHeader(
+          header: Container(
             height: 38.0,
             color: Colors.white,
-            padding: new EdgeInsets.symmetric(horizontal: 12.0),
+            padding: EdgeInsets.symmetric(horizontal: 12.0),
             alignment: Alignment.centerLeft,
-            child: new Text(
+            child: Text(
               listHeader[index],
               style: TextStyle(
                   color: P_Settings.wavecolor,

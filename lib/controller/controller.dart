@@ -49,6 +49,8 @@ class Controller extends ChangeNotifier {
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
+  List<Map<String, dynamic>> adminDashboardList = [];
+
   List<Map<String, dynamic>> sortList = [];
   List<Map<String, dynamic>> returnList = [];
 
@@ -484,12 +486,12 @@ class Controller extends ChangeNotifier {
       );
       print("body ${body}");
       List map = jsonDecode(response.body);
-      print("map ${map.length}");
+      print("maparea ${map.length}");
       await OrderAppDB.instance
           .deleteFromTableCommonQuery('areaDetailsTable', "");
 
       for (var staffarea in map) {
-        print("staffarea----${staffarea}");
+        print("staffarea----${staffarea.length}");
         staffArea = StaffArea.fromJson(staffarea);
         var staffar =
             await OrderAppDB.instance.insertStaffAreaDetails(staffArea);
@@ -1775,6 +1777,8 @@ class Controller extends ChangeNotifier {
   }
 
   areaSelection(String area) async {
+    // areaSelecton.clear();
+    print("area.......$area");
     areaidFrompopup = area;
     List<Map<String, dynamic>> result = await OrderAppDB.instance
         .selectAllcommon('areaDetailsTable', "aid='${area}'");
@@ -1928,32 +1932,32 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-
-   adminDashboard(String cid) async {
-    // print("get balance...............${cid}");
+  adminDashboard(String cid) async {
+    print("cid...............${cid}");
     var restaff;
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
       Map body = {
         'cid': cid,
-      
       };
       // print("compny----${cid}");
       http.Response response = await http.post(
         url,
         body: body,
       );
-
-      List map = jsonDecode(response.body);
-      print("map ${map}");
-
+      var map = jsonDecode(response.body);
+      print("map ${map["TODAYS COUNTS"]}");
+      // for (var item in map) {
+      //   // print("item----$item");
+      //   adminDashboardList.add(map);
+      // }
+      print("adminDashboardList---$adminDashboardList");
       /////////////// insert into local db /////////////////////
       notifyListeners();
-      return balanceModel;
+
     } catch (e) {
       print(e);
       return null;
     }
   }
-
 }
