@@ -484,7 +484,7 @@ class Controller extends ChangeNotifier {
       );
       print("body ${body}");
       List map = jsonDecode(response.body);
-      print("map ${map}");
+      print("maparea ${map.length}");
       await OrderAppDB.instance
           .deleteFromTableCommonQuery('areaDetailsTable', "");
 

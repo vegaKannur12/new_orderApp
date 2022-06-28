@@ -153,10 +153,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       Provider.of<Controller>(context, listen: false).dashboardSummery(
           sid!,
           s[0],
-          Provider.of<Controller>(context, listen: false).areaidFrompopup!,context);
+          Provider.of<Controller>(context, listen: false).areaidFrompopup!,
+          context);
     } else {
       Provider.of<Controller>(context, listen: false)
-          .dashboardSummery(sid!, s[0], "",context);
+          .dashboardSummery(sid!, s[0], "", context);
     }
     // Provider.of<Controller>(context, listen: false)
     //     .dashboardSummery(sid!, s[0], "");
@@ -201,6 +202,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return CustomerCreation(
           sid: sid!,
           os: os,
+        );
+      case "A1":
+        return AdminDashboard(
+          // sid: sid!,
+          // os: os,
         );
       case "A2":
         {
