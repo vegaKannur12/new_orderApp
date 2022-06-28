@@ -484,7 +484,7 @@ class Controller extends ChangeNotifier {
       );
       print("body ${body}");
       List map = jsonDecode(response.body);
-      print("map ${map}");
+      print("map ${map.length}");
       await OrderAppDB.instance
           .deleteFromTableCommonQuery('areaDetailsTable', "");
 
@@ -1927,4 +1927,33 @@ class Controller extends ChangeNotifier {
     print("om----$om");
     notifyListeners();
   }
+
+
+   adminDashboard(String cid) async {
+    // print("get balance...............${cid}");
+    var restaff;
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
+      Map body = {
+        'cid': cid,
+      
+      };
+      // print("compny----${cid}");
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+
+      List map = jsonDecode(response.body);
+      print("map ${map}");
+
+      /////////////// insert into local db /////////////////////
+      notifyListeners();
+      return balanceModel;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
 }
