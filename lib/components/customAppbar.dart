@@ -19,6 +19,7 @@ class CustomAppbar extends StatefulWidget {
 class _CustomAppbarState extends State<CustomAppbar> {
   //   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
+  late FocusNode myFocusNode;
   Widget? appBarTitle;
   Icon actionIcon = Icon(Icons.search);
   TextEditingController _controller = TextEditingController();
@@ -48,11 +49,19 @@ class _CustomAppbarState extends State<CustomAppbar> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    myFocusNode = FocusNode();
     // print("initstate----${widget.title.toString()}");
     appBarTitle = Text(
       widget.title.toString(),
       style: TextStyle(fontSize: 20),
     );
+  }
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    myFocusNode.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -119,6 +128,8 @@ class _CustomAppbarState extends State<CustomAppbar> {
                   this.actionIcon = Icon(Icons.close);
                   print("this.appbar---${this.appBarTitle}");
                   this.appBarTitle = TextField(
+                    focusNode: myFocusNode,
+                    // autofocus: false,
                       controller: _controller,
                       style: new TextStyle(
                         color: Colors.white,
@@ -129,7 +140,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
                         hintStyle: TextStyle(color: Colors.white),
                       ),
                       onChanged: ((value) {
-                        print(value);
+                        print("value---$value");
                         onChangedValue(value);
                       }),
                       cursorColor: Colors.black);

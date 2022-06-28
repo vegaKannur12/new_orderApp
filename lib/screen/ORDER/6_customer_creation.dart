@@ -19,6 +19,7 @@ class CustomerCreation extends StatefulWidget {
 
 class _CustomerCreationState extends State<CustomerCreation> {
   ValueNotifier<bool> visible = ValueNotifier(false);
+  
   String? selected;
   TextEditingController cusname = TextEditingController();
   String? gtype;
