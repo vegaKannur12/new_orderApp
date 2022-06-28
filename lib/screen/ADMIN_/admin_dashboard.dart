@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -32,10 +34,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
     'HEADER5',
   ];
   List<String> listTitle = [
-    'title1',
-    'title2',
-    'title3',
-    'title4',
+    'collection',
+    'order',
+    'sale',
+    'shop visited',
   ];
   @override
   Widget build(BuildContext context) {
@@ -101,7 +103,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             height: 50.0,
             color: Colors.white,
             padding: EdgeInsets.all(10),
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.center,
             child: Text(
               listHeader[index],
               style: TextStyle(
@@ -117,7 +119,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               itemCount: listTitle.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 1,
+                  childAspectRatio: 1.2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10),
               itemBuilder: (contxt, indx) {
@@ -127,26 +129,36 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   margin: EdgeInsets.all(4.0),
-                  color: P_Settings.roundedButtonColor,
+                  color:  Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                  // color: Colors.grey[400],
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 12.0, top: 6.0, bottom: 2.0),
                     child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            listTitle[indx],
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Color.fromARGB(137, 146, 6, 6)),
-                          ),
-                          Text(
-                            "5",
-                            style:
-                                TextStyle(fontSize: 14, color: Colors.black54),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: size.height * 0.08,
+                              width: size.width * 0.12,
+                              child: Image.asset("asset/3.png"),
+                            ),
+                            Text(
+                              listTitle[indx],
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              "5",
+                              style: TextStyle(fontSize: 23, color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
