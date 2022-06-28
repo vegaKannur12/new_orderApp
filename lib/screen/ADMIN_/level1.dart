@@ -317,33 +317,37 @@ class _LevelOneState extends State<LevelOne> {
                                           : Row(
                                               children: [],
                                             ),
-                                    type3=="S" ? qtyvisible
-                                          ?  SizedBox(
-                                              width: size.width * 0.2,
-                                              child: IconButton(
-                                                icon: Icon(Icons.arrow_upward,
-                                                    color: P_Settings
-                                                        .l1appbarColor),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    qtyvisible = false;
-                                                  });
-                                                },
-                                              ),
-                                            )
-                                          : SizedBox(
-                                              width: size.width * 0.2,
-                                              child: IconButton(
-                                                icon: Icon(Icons.arrow_downward,
-                                                    color: P_Settings
-                                                        .l1appbarColor),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    qtyvisible = true;
-                                                  });
-                                                },
-                                              ),
-                                            ):Text("")
+                                      type3 == "S"
+                                          ? qtyvisible
+                                              ? SizedBox(
+                                                  width: size.width * 0.2,
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                        Icons.arrow_upward,
+                                                        color: P_Settings
+                                                            .l1appbarColor),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        qtyvisible = false;
+                                                      });
+                                                    },
+                                                  ),
+                                                )
+                                              : SizedBox(
+                                                  width: size.width * 0.2,
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                        Icons.arrow_downward,
+                                                        color: P_Settings
+                                                            .l1appbarColor),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        qtyvisible = true;
+                                                      });
+                                                    },
+                                                  ),
+                                                )
+                                          : Text("")
                                     ],
                                   ),
                                 ),
@@ -554,14 +558,16 @@ class _LevelOneState extends State<LevelOne> {
                                             ? "1"
                                             : specialField.toString();
                                         fromDate = fromDate == null
-                                            ? Provider.of<AdminController>(context,
+                                            ? Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
                                                 .fromDate
                                                 .toString()
                                             : fromDate.toString();
 
                                         toDate = toDate == null
-                                            ? Provider.of<AdminController>(context,
+                                            ? Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
                                                 .todate
                                                 .toString()
@@ -641,7 +647,8 @@ class _LevelOneState extends State<LevelOne> {
                                       //     Center(child: Text('/report page flow')),
                                       trailing: IconButton(
                                           color: P_Settings.l1appbarColor,
-                                          icon: Provider.of<AdminController>(context,
+                                          icon: Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .l1isExpanded[index]
                                               ? const Icon(
@@ -654,11 +661,13 @@ class _LevelOneState extends State<LevelOne> {
                                                   size: 18,
                                                 ),
                                           onPressed: () {
-                                            Provider.of<AdminController>(context,
+                                            Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
                                                 .toggleExpansion(
                                                     index, "level1");
-                                            Provider.of<AdminController>(context,
+                                            Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
                                                 .toggleData(index, "level1");
                                             String acc_row_id = value
@@ -690,7 +699,8 @@ class _LevelOneState extends State<LevelOne> {
                                                 : toDate.toString();
                                             print(
                                                 "visiblejjjjjj---${Provider.of<AdminController>(context, listen: false).l1visible[index]}");
-                                            Provider.of<AdminController>(context,
+                                            Provider.of<AdminController>(
+                                                        context,
                                                         listen: false)
                                                     .l1isExpanded[index]
                                                 ? Provider.of<AdminController>(
@@ -706,10 +716,11 @@ class _LevelOneState extends State<LevelOne> {
                                                         "level1",
                                                         index)
                                                 : null;
-                                            tablejson = Provider.of<AdminController>(
-                                                    context,
-                                                    listen: false)
-                                                .expndmapTabledata;
+                                            tablejson =
+                                                Provider.of<AdminController>(
+                                                        context,
+                                                        listen: false)
+                                                    .expndmapTabledata;
 
                                             print("tablejson --${tablejson}");
 
@@ -807,14 +818,16 @@ class _LevelOneState extends State<LevelOne> {
                                           ? "1"
                                           : specialField.toString();
                                       fromDate = fromDate == null
-                                          ? Provider.of<AdminController>(context,
+                                          ? Provider.of<AdminController>(
+                                                  context,
                                                   listen: false)
                                               .fromDate
                                               .toString()
                                           : fromDate.toString();
 
                                       toDate = toDate == null
-                                          ? Provider.of<AdminController>(context,
+                                          ? Provider.of<AdminController>(
+                                                  context,
                                                   listen: false)
                                               .todate
                                               .toString()
@@ -897,7 +910,8 @@ class _LevelOneState extends State<LevelOne> {
                                     //     Center(child: Text('/report page flow')),
                                     trailing: IconButton(
                                         color: P_Settings.l1appbarColor,
-                                        icon: Provider.of<AdminController>(context,
+                                        icon: Provider.of<AdminController>(
+                                                    context,
                                                     listen: false)
                                                 .l1isExpanded[index]
                                             ? const Icon(
@@ -929,14 +943,16 @@ class _LevelOneState extends State<LevelOne> {
                                               ? "1"
                                               : specialField.toString();
                                           fromDate = fromDate == null
-                                              ? Provider.of<AdminController>(context,
+                                              ? Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .fromDate
                                                   .toString()
                                               : fromDate.toString();
 
                                           toDate = toDate == null
-                                              ? Provider.of<AdminController>(context,
+                                              ? Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .todate
                                                   .toString()
@@ -946,7 +962,8 @@ class _LevelOneState extends State<LevelOne> {
                                           Provider.of<AdminController>(context,
                                                       listen: false)
                                                   .l1isExpanded[index]
-                                              ? Provider.of<AdminController>(context,
+                                              ? Provider.of<AdminController>(
+                                                      context,
                                                       listen: false)
                                                   .getExpansionJson(
                                                       specialField!,
@@ -958,10 +975,11 @@ class _LevelOneState extends State<LevelOne> {
                                                       "level1",
                                                       index)
                                               : null;
-                                          tablejson = Provider.of<AdminController>(
-                                                  context,
-                                                  listen: false)
-                                              .expndmapTabledata;
+                                          tablejson =
+                                              Provider.of<AdminController>(
+                                                      context,
+                                                      listen: false)
+                                                  .expndmapTabledata;
 
                                           print("tablejson --${tablejson}");
 
@@ -971,7 +989,8 @@ class _LevelOneState extends State<LevelOne> {
                                   ),
                                 ),
                                 SizedBox(height: size.height * 0.004),
-                                Provider.of<AdminController>(context, listen: false)
+                                Provider.of<AdminController>(context,
+                                            listen: false)
                                         .l1isExpanded[index]
                                     ? Consumer<AdminController>(
                                         builder: (context, value, child) {

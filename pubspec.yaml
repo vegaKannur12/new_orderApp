@@ -46,6 +46,7 @@ dependencies:
   ota_update: ^4.0.1
   fluttertoast: ^8.0.9
   google_fonts: ^3.0.1
+  sticky_headers: ^0.3.0+2
   # bluetooth_print: ^3.0.1
 dev_dependencies:
   flutter_test:
