@@ -19,6 +19,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
   late FocusNode myFocusNode;
   //   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
+
   Widget? appBarTitle;
   Icon actionIcon = Icon(Icons.search);
   TextEditingController _controller1 = TextEditingController();
@@ -48,6 +49,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    myFocusNode = FocusNode();
     // print("initstate----${widget.title.toString()}");
     appBarTitle = Text(
       widget.title.toString(),
@@ -62,7 +64,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
     super.dispose();
     myFocusNode.dispose();
   }
-
+ 
   @override
   void deactivate() {
     // TODO: implement deactivate
@@ -148,7 +150,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
                         hintStyle: TextStyle(color: Colors.white),
                       ),
                       onChanged: ((value) {
-                        print(value);
+                        print("value---$value");
                         onChangedValue(value);
                       }),
                       cursorColor: Colors.black);

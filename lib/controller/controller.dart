@@ -1947,17 +1947,26 @@ class Controller extends ChangeNotifier {
       );
       var map = jsonDecode(response.body);
       print("map ${map["TODAYS COUNTS"]}");
+      print(map.elementAt(1));
+      //  map.addAll()
       // for (var item in map) {
-      //   // print("item----$item");
-      //   adminDashboardList.add(map);
+      //   print("item----$item");
+      //   // adminDashboardList.add(map);
       // }
       print("adminDashboardList---$adminDashboardList");
       /////////////// insert into local db /////////////////////
       notifyListeners();
-
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  uploadCustomers() async {
+    var result = await OrderAppDB.instance.selectAllcommon('customerTable', "");
+    if (res.length > 0) {
+      //////upload customer////
+      await OrderAppDB.instance.deleteFromTableCommonQuery("customerTable", "");
     }
   }
 }

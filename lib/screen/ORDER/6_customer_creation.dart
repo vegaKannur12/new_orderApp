@@ -20,6 +20,7 @@ class CustomerCreation extends StatefulWidget {
 class _CustomerCreationState extends State<CustomerCreation> {
   // late FocusNode myFocusNode;
   ValueNotifier<bool> visible = ValueNotifier(false);
+
   String? selected;
   TextEditingController cusname = TextEditingController();
   String? gtype;
@@ -350,6 +351,8 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                             "${customerCount}";
                                         FocusScope.of(context)
                                             .requestFocus(FocusNode());
+                                        await OrderAppDB.instance
+                                            .insertCustomerTable(ac_code);
                                         var account = await OrderAppDB.instance
                                             .createCustomer(
                                                 ac_code,
