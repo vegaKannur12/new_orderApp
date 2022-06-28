@@ -29,6 +29,7 @@ class Controller extends ChangeNotifier {
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
+  List<String> gridHeader=[];
   String? areaSelecton;
   int returnCount = 0;
   bool isVisible = false;
@@ -1931,31 +1932,59 @@ class Controller extends ChangeNotifier {
     print("om----$om");
     notifyListeners();
   }
+
   //////////////////////////////////////////////////////////////////
-  adminDashboard(String cid) async {
-    print("cid...............${cid}");
-    var restaff;
+  adminDashboard(
+    String cid,
+  ) async {
+    gridHeader.clear();
+    final json = [
+      {
+        "heading": "helloo",
+        "data": [
+          {"caption": "sales", "value": "10"}
+        ]
+      },
+      {
+        "heading": "haiiii",
+        "data": [
+          {"caption": "sales", "value": "10"}
+        ]
+      }
+    ];
+     
+
+    // var jsonDecod=jsonDecode(json); 
+
+    for(var item in json){
+      print("item--head--${item['heading']}");
+      gridHeader.add("${item['heading']}");
+    }
+   print("grid----$gridHeader");
     try {
-      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
-      Map body = {
-        'cid': cid,
-      };
-      // print("compny----${cid}");
-      http.Response response = await http.post(
-        url,
-        body: body,
-      );
-      var map = jsonDecode(response.body);
-      print("map ${map["TODAYS COUNTS"]}");
-      print(map.elementAt(1));
-      print("adminDashboardList---$adminDashboardList");
-      /////////////// insert into local db /////////////////////
-      notifyListeners();
+    //   Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
+    //   Map body = {
+    //     'cid': cid,
+    //   };
+    //   // print("compny----${cid}");
+    //   http.Response response = await http.post(
+    //     url,
+    //     body: body,
+    //   );
+    //   var map = jsonDecode(response.body);
+
+      // var jsonD=jsonDecode(json);
+      // print("map ${map["TODAYS COUNTS"]}");
+      // print(map.elementAt(1));
+      // print("adminDashboardList---$adminDashboardList");
+      // /////////////// insert into local db /////////////////////
+      // notifyListeners();
     } catch (e) {
       print(e);
       return null;
     }
   }
+
   //////////////////////////////////////////////////////////////////
   uploadCustomers() async {
     var result = await OrderAppDB.instance.selectAllcommon('customerTable', "");
