@@ -517,6 +517,7 @@ class _LevelOneState extends State<LevelOne> {
                     );
                   }
                   if (value.isSearch && value.l1newList.length == 0) {
+                     print("inside search newlist");
                     return Container(
                       alignment: Alignment.center,
                       height: size.height * 0.6,
@@ -527,6 +528,7 @@ class _LevelOneState extends State<LevelOne> {
                     );
                   }
                   if (value.isSearch && value.l1newList.length > 0) {
+                    print("inside search");
                     return Container(
                       height: size.height * 0.71,
                       child: ListView.builder(
