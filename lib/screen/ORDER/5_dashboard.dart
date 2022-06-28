@@ -8,6 +8,7 @@ import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/6_reportPage.dart';
+import 'package:orderapp/screen/ADMIN_/admin_dashboard.dart';
 import 'package:orderapp/screen/ADMIN_/homePage.dart';
 
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
@@ -29,11 +30,10 @@ import '../../components/commoncolor.dart';
 import '6_orderForm.dart';
 
 class Dashboard extends StatefulWidget {
-  String? userType;
   String? type;
 
   String? areaName;
-  Dashboard({this.type, this.areaName, this.userType});
+  Dashboard({this.type, this.areaName});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -83,6 +83,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // Provider.of<Controller>(context, listen: false).postRegistration("RONPBQ9AD5D",context);
     // TODO: implement initState
     super.initState();
+    // print("widget.usertype----${widget.userType}");
     // print("haiiiiii");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
@@ -140,27 +141,22 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     }
     print("dididdd");
     // if (widget.type != "return from cartList") {
-    if (widget.userType == "staff") {
-      Provider.of<Controller>(context, listen: false).getArea(sid!);
-      print("s[0]----${s[0]}");
+    Provider.of<Controller>(context, listen: false).getArea(sid!);
+    print("s[0]----${s[0]}");
+    Provider.of<Controller>(context, listen: false)
+        .todayOrder(s[0], gen_condition!);
+    Provider.of<Controller>(context, listen: false)
+        .todayCollection(s[0], gen_condition!);
+    if (Provider.of<Controller>(context, listen: false).areaidFrompopup !=
+        null) {
+      Provider.of<Controller>(context, listen: false).dashboardSummery(
+          sid!,
+          s[0],
+          Provider.of<Controller>(context, listen: false).areaidFrompopup!);
+    } else {
       Provider.of<Controller>(context, listen: false)
-          .todayOrder(s[0], gen_condition!);
-
-      Provider.of<Controller>(context, listen: false)
-          .todayCollection(s[0], gen_condition!);
-
-      if (Provider.of<Controller>(context, listen: false).areaidFrompopup !=
-          null) {
-        Provider.of<Controller>(context, listen: false).dashboardSummery(
-            sid!,
-            s[0],
-            Provider.of<Controller>(context, listen: false).areaidFrompopup!);
-      } else {
-        Provider.of<Controller>(context, listen: false)
-            .dashboardSummery(sid!, s[0], "");
-      }
+          .dashboardSummery(sid!, s[0], "");
     }
-
     // Provider.of<Controller>(context, listen: false)
     //     .dashboardSummery(sid!, s[0], "");
     print("cid--sid--$cid--$sid");
@@ -300,12 +296,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       //   return TodaysOrder();
     }
   }
-
+  
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-
+    // print("veeendum");
     if (widget.type == "return from cartList" ||
         widget.type == "Product return confirmed") {
       print("from cart");

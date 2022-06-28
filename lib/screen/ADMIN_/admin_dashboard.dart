@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:orderapp/components/commoncolor.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
+import 'dart:math' as math;
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({Key? key}) : super(key: key);
@@ -9,6 +11,7 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
+  final rnd = math.Random();
   List<String> listHeader = [
     'HEADER1',
     'HEADER2',
@@ -47,7 +50,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             child: new Text(
               listHeader[index],
               style: TextStyle(
-                  color: Colors.purple,
+                  color: P_Settings.wavecolor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
@@ -63,8 +66,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
               itemBuilder: (contxt, indx) {
                 return Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white70, width: 1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   margin: EdgeInsets.all(4.0),
-                  color: Colors.purpleAccent,
+                  color: Color(rnd.nextInt(0x100000000)),
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 12.0, top: 6.0, bottom: 2.0),

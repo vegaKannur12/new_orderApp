@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: AdminDashboard(),
+      home: SplashScreen(),
       // home: MyWaveClipper(),
     );
   }

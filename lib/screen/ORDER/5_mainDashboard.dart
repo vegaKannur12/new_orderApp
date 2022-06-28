@@ -384,21 +384,18 @@ class _MainDashboardState extends State<MainDashboard> {
                                         ? Image.asset("asset/7.png")
                                         : null,
               ),
-              Text(
-                title.toString(),
+              Text(title.toString(),
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
-              value=="null"?
-              SpinKitCircle(
-                size: 10,
-                color: Colors.white,
-              ):Text(value.toString(),
-                  style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+              
+                
+                  Text(value == "null"?"0":value.toString(),
+                      style: TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white)),
             ],
           ),
         ),
