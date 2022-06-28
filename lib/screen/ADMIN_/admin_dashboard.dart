@@ -35,14 +35,22 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Scaffold(
         body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      child: Column(
-        children: [
-          Text("Company Name"),
-          Text("-Area"),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text("Company Name"),
+                Text("-Area"),
+              ],
+            ),
+            gridHeader(),
+          ],
+        ),
       ),
     )
-        // gridHeader(),
+        //
         );
   }
 
@@ -54,7 +62,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           header: Container(
             height: 38.0,
             color: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 12.0),
+            padding: EdgeInsets.all(10),
             alignment: Alignment.centerLeft,
             child: Text(
               listHeader[index],
@@ -72,6 +80,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 1,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10
               ),
               itemBuilder: (contxt, indx) {
                 return Card(
