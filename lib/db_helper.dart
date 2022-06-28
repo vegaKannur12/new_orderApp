@@ -88,6 +88,9 @@ class OrderAppDB {
   static final upwd = 'upwd';
   // static final status = 'cag';
 
+  ///////////customr table///////////////
+  // static final ac_code = 'uid';
+
   /////////////productdetails//////////
   static final code = 'code';
   static final ean = 'ean';
@@ -256,6 +259,12 @@ class OrderAppDB {
             $aname TEXT
           )
           ''');
+    await db.execute('''
+          CREATE TABLE customerTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $ac_code TEXT NOT NULL 
+         )
+         ''');
     ////////////////account_haed table///////////////////
     await db.execute('''
           CREATE TABLE accountHeadsTable (
@@ -586,6 +595,18 @@ class OrderAppDB {
     var res = await db.rawInsert(query1);
     // print("menu----${query1}");
     print("menu----${res}");
+    // print(res);
+    return res;
+  }
+
+  /////////////////////////customer table insertion/////////////////////////////
+  Future insertCustomerTable(String ac_code) async {
+    final db = await database;
+    // deleteFromTableCommonQuery('menuTable', "");
+    var query1 = 'INSERT INTO customerTable(ac_code) VALUES("${ac_code}")';
+    var res = await db.rawInsert(query1);
+    // print("menu----${query1}");
+    print("customerTable----${res}");
     // print(res);
     return res;
   }

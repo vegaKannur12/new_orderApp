@@ -137,7 +137,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                   value: selected,
                                   hint: Text("Select"),
                                   isExpanded: true,
-                                  autofocus: false,
+                                  // autofocus: false,
                                   underline: SizedBox(),
                                   elevation: 0,
                                   items: value.walletList

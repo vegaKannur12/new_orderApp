@@ -76,7 +76,7 @@ class _LevelOneState extends State<LevelOne> {
 
   _onSelectItem(int index, String reportType) {
     _selectedIndex.value = index;
-    Navigator.of(context).pop(); // close the drawer
+    // Navigator.of(context).pop(); // close the drawer
   }
 
   createShrinkedData() {
