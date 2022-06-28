@@ -327,6 +327,10 @@ class StaffLogin extends StatelessWidget {
                                                       .deleteFromTableCommonQuery(
                                                           "staffDetailsTable",
                                                           "");
+                                                  // await OrderAppDB.instance
+                                                  //     .deleteFromTableCommonQuery(
+                                                  //         "staffDetailsTable",
+                                                  //         "");
                                                   SharedPreferences prefs =
                                                       await SharedPreferences
                                                           .getInstance();
