@@ -30,6 +30,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
     'title3',
     'title4',
   ];
+  List<String> color = [
+    'red',
+    'green',
+    'blue',
+    'yellow',
+  ];
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
