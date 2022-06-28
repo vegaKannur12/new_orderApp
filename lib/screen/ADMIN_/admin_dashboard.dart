@@ -33,8 +33,17 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: gridHeader(),
-    );
+        body: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: [
+          Text("Company Name"),
+          Text("-Area"),
+        ],
+      ),
+    )
+        // gridHeader(),
+        );
   }
 
   Widget gridHeader() {
