@@ -49,6 +49,8 @@ class Controller extends ChangeNotifier {
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
+  List<Map<String, dynamic>> adminDashboardList = [];
+
   List<Map<String, dynamic>> sortList = [];
   List<Map<String, dynamic>> returnList = [];
 
@@ -1928,5 +1930,34 @@ class Controller extends ChangeNotifier {
     }
     print("om----$om");
     notifyListeners();
+  }
+
+  adminDashboard(String cid) async {
+    print("cid...............${cid}");
+    var restaff;
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
+      Map body = {
+        'cid': cid,
+      };
+      // print("compny----${cid}");
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      var map = jsonDecode(response.body);
+      print("map ${map["TODAYS COUNTS"]}");
+      // for (var item in map) {
+      //   // print("item----$item");
+      //   adminDashboardList.add(map);
+      // }
+      print("adminDashboardList---$adminDashboardList");
+      /////////////// insert into local db /////////////////////
+      notifyListeners();
+
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

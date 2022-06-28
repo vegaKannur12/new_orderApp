@@ -203,11 +203,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           sid: sid!,
           os: os,
         );
-      case "A1":
-        return AdminDashboard(
+      case "A1":{
+         Provider.of<Controller>(context, listen: false).adminDashboard(cid!);
+         return AdminDashboard(
           // sid: sid!,
           // os: os,
         );
+      }
+        
       case "A2":
         {
           getCompaniId();
