@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
+import 'package:orderapp/controller/controller.dart';
+import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'dart:math' as math;
 
@@ -26,13 +28,29 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   final rnd = math.Random();
-  List<String> listHeader = [
-    'HEADER1',
-    'HEADER2',
-    'HEADER3',
-    'HEADER4',
-    'HEADER5',
+
+  final json = [
+    {
+      "heading": "helloo",
+      "data": [
+        {"caption": "sales", "value": "10"}
+      ]
+    },
+    {
+      "heading": "helloo",
+      "data": [
+        {"caption": "sales", "value": "10"}
+      ]
+    }
   ];
+
+  // List<String> listHeader = [
+  //   'HEADER1',
+  //   'HEADER2',
+  //   'HEADER3',
+  //   'HEADER4',
+  //   'HEADER5',
+  // ];
   List<String> listTitle = [
     'collection',
     'order',
@@ -45,54 +63,58 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Container(
-            height: size.height * 0.04,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 15,
-                  child: Icon(
-                    Icons.person,
-                    color: P_Settings.wavecolor,
-                  ),
+      child: Consumer<Controller>(
+        builder: (context, value, child) {
+          return Column(
+            children: [
+              Container(
+                height: size.height * 0.04,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 15,
+                      child: Icon(
+                        Icons.person,
+                        color: P_Settings.wavecolor,
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width * 0.03,
+                    ),
+                    Text("Company Name",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: P_Settings.wavecolor)),
+                    Text("  - Area",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: P_Settings.collection1,
+                            fontStyle: FontStyle.italic)),
+                  ],
                 ),
-                SizedBox(
-                  width: size.width * 0.03,
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              SingleChildScrollView(
+                child: Container(
+                  height: size.height * 0.75,
+                  child: gridHeader(value.gridHeader),
                 ),
-                Text("Company Name",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: P_Settings.wavecolor)),
-                Text("  - Area",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: P_Settings.collection1,
-                        fontStyle: FontStyle.italic)),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: size.height * 0.03,
-          ),
-          SingleChildScrollView(
-            child: Container(
-              height: size.height * 0.75,
-              child: gridHeader(),
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     )
         //
         );
   }
 
-  Widget gridHeader() {
+  Widget gridHeader(List listHeader) {
     Size size = MediaQuery.of(context).size;
     return ListView.builder(
       scrollDirection: Axis.vertical,
