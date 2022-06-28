@@ -127,7 +127,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   margin: EdgeInsets.all(4.0),
-                  color: Color.fromARGB(255, 240, 216, 216),
+                  color: P_Settings.roundedButtonColor,
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 12.0, top: 6.0, bottom: 2.0),
@@ -137,8 +137,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         children: [
                           Text(
                             listTitle[indx],
-                            style:
-                                TextStyle(fontSize: 14, color: Colors.black54),
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color.fromARGB(137, 146, 6, 6)),
                           ),
                           Text(
                             "5",
