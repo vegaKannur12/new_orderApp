@@ -18,6 +18,7 @@ class CustomerCreation extends StatefulWidget {
 }
 
 class _CustomerCreationState extends State<CustomerCreation> {
+  // late FocusNode myFocusNode;
   ValueNotifier<bool> visible = ValueNotifier(false);
   String? selected;
   TextEditingController cusname = TextEditingController();
@@ -111,6 +112,7 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: TextFormField(
+                                        // focusNode: myFocusNode,
                                         controller: cusname,
                                         decoration: new InputDecoration(
                                           border: InputBorder.none,
@@ -135,7 +137,7 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                   value: selected,
                                   hint: Text("Select"),
                                   isExpanded: true,
-                                  autofocus: false,
+                                  // autofocus: false,
                                   underline: SizedBox(),
                                   elevation: 0,
                                   items: value.areDetails
@@ -180,7 +182,7 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                   value: gtype,
                                   hint: Text("Select"),
                                   isExpanded: true,
-                                  autofocus: false,
+                                  // autofocus: false,
                                   underline: SizedBox(),
                                   elevation: 0,
                                   items: gtp

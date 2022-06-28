@@ -4,7 +4,6 @@ import 'package:orderapp/screen/ADMIN_/adminController.dart';
 
 import 'package:provider/provider.dart';
 
-
 class CustomAppbar extends StatefulWidget {
   String title;
   String level;
@@ -17,11 +16,12 @@ class CustomAppbar extends StatefulWidget {
 }
 
 class _CustomAppbarState extends State<CustomAppbar> {
+  late FocusNode myFocusNode;
   //   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
   Widget? appBarTitle;
   Icon actionIcon = Icon(Icons.search);
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _controller1 = TextEditingController();
   bool visible = false;
   void togle() {
     setState(() {
@@ -53,6 +53,14 @@ class _CustomAppbarState extends State<CustomAppbar> {
       widget.title.toString(),
       style: TextStyle(fontSize: 20),
     );
+    myFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    myFocusNode.dispose();
   }
 
   @override
@@ -60,15 +68,21 @@ class _CustomAppbarState extends State<CustomAppbar> {
     // TODO: implement deactivate
     super.deactivate();
     if (widget.level == "level1") {
-      Provider.of<AdminController>(context, listen: false).level1reportList.clear();
+      Provider.of<AdminController>(context, listen: false)
+          .level1reportList
+          .clear();
       Provider.of<AdminController>(context, listen: false).l1newList.clear();
     }
     if (widget.level == "level2") {
-      Provider.of<AdminController>(context, listen: false).level2reportList.clear();
+      Provider.of<AdminController>(context, listen: false)
+          .level2reportList
+          .clear();
       Provider.of<AdminController>(context, listen: false).l2newList.clear();
     }
     if (widget.level == "level3") {
-      Provider.of<AdminController>(context, listen: false).level3reportList.clear();
+      Provider.of<AdminController>(context, listen: false)
+          .level3reportList
+          .clear();
       Provider.of<AdminController>(context, listen: false).l3newList.clear();
     }
   }
@@ -89,18 +103,21 @@ class _CustomAppbarState extends State<CustomAppbar> {
       title: appBarTitle,
       leading: IconButton(
         onPressed: () {
-           if (widget.level == "level1") {
-            Provider.of<AdminController>(context, listen: false).isSearch = false;
+          if (widget.level == "level1") {
+            Provider.of<AdminController>(context, listen: false).isSearch =
+                false;
             Provider.of<AdminController>(context, listen: false)
                 .searchProcess(widget.level);
           }
           if (widget.level == "level2") {
-            Provider.of<AdminController>(context, listen: false).isSearch = false;
+            Provider.of<AdminController>(context, listen: false).isSearch =
+                false;
             Provider.of<AdminController>(context, listen: false)
                 .searchProcess(widget.level);
           }
           if (widget.level == "level3") {
-            Provider.of<AdminController>(context, listen: false).isSearch = false;
+            Provider.of<AdminController>(context, listen: false).isSearch =
+                false;
             Provider.of<AdminController>(context, listen: false)
                 .searchProcess(widget.level);
           }
@@ -115,11 +132,13 @@ class _CustomAppbarState extends State<CustomAppbar> {
               setState(() {
                 if (this.actionIcon.icon == Icons.search) {
                   print("hai");
-                  _controller.clear();
+                  _controller1.clear();
                   this.actionIcon = Icon(Icons.close);
                   print("this.appbar---${this.appBarTitle}");
                   this.appBarTitle = TextField(
-                      controller: _controller,
+                      focusNode: myFocusNode,
+                      autofocus: false,
+                      controller: _controller1,
                       style: new TextStyle(
                         color: Colors.white,
                       ),
@@ -136,12 +155,12 @@ class _CustomAppbarState extends State<CustomAppbar> {
                 } else {
                   if (this.actionIcon.icon == Icons.close) {
                     print("hellooo");
-                    Provider.of<AdminController>(context, listen: false).isSearch =
-                        false;
+                    Provider.of<AdminController>(context, listen: false)
+                        .isSearch = false;
                     this.actionIcon = Icon(Icons.search);
                     this.appBarTitle = Text(widget.title);
 
-                    _controller.clear();
+                    _controller1.clear();
                     Provider.of<AdminController>(context, listen: false)
                         .searchProcess(widget.level);
                     // Provider.of<Controller>(context, listen: false)

@@ -27,6 +27,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
   TextEditingController fieldTextEditingController = TextEditingController();
   TextEditingValue textvalue = TextEditingValue();
   final _formKey = GlobalKey<FormState>();
+  late FocusNode myFocusNode;
   bool isLoading = false;
   bool balVisible = false;
   String? areaName;
@@ -96,6 +97,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     }
     // Provider.of<Controller>(context, listen: false).custmerSelection = "";
     print("wudiget.areaNmae----${widget.areaname}");
+    
     sharedPref();
   }
 

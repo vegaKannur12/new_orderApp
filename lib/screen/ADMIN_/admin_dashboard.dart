@@ -32,6 +32,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   ];
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -40,10 +41,33 @@ class _AdminDashboardState extends State<AdminDashboard> {
         child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Company Name"),
-                Text("-Area"),
+                CircleAvatar(
+                  radius: 15,
+                  child: Icon(
+                    Icons.person,
+                    color: P_Settings.wavecolor,
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.03,
+                ),
+                Text("Company Name",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: P_Settings.wavecolor)),
+                Text("  - Area",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: P_Settings.collection1,
+                        fontStyle: FontStyle.italic)),
               ],
+            ),
+            SizedBox(
+              height: size.height * 0.03,
             ),
             gridHeader(),
           ],
@@ -55,12 +79,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Widget gridHeader() {
+    Size size = MediaQuery.of(context).size;
     return ListView.builder(
+      scrollDirection: Axis.vertical,
       itemCount: listHeader.length,
       itemBuilder: (context, index) {
         return StickyHeader(
           header: Container(
-            height: 38.0,
+            height: 50.0,
             color: Colors.white,
             padding: EdgeInsets.all(10),
             alignment: Alignment.centerLeft,
@@ -78,11 +104,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
               physics: NeverScrollableScrollPhysics(),
               itemCount: listTitle.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10
-              ),
+                  crossAxisCount: 2,
+                  childAspectRatio: 1,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10),
               itemBuilder: (contxt, indx) {
                 return Card(
                   shape: RoundedRectangleBorder(
