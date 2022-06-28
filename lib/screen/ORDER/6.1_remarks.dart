@@ -173,12 +173,12 @@ class _RemarkPageState extends State<RemarkPage> {
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .dashboardSummery(widget.sid, s[0],
-                                                value.areaidFrompopup!);
+                                                value.areaidFrompopup!,context);
                                       } else {
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .dashboardSummery(
-                                                widget.sid, s[0], "");
+                                                widget.sid, s[0], "",context);
                                       }
                                       // Provider.of<Controller>(context,
                                       //         listen: false)

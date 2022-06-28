@@ -297,7 +297,7 @@ class _MainDashboardState extends State<MainDashboard> {
                               Provider.of<Controller>(context, listen: false)
                                   .areaSelection(selected!);
                               Provider.of<Controller>(context, listen: false)
-                                  .dashboardSummery(sid!, s[0], selected!);
+                                  .dashboardSummery(sid!, s[0], selected!,context);
                               String? gen_area = Provider.of<Controller>(
                                       context,
                                       listen: false)

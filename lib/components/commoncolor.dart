@@ -65,17 +65,19 @@ class P_Settings {
   static Color get color2 => Color.fromARGB(255, 253, 255, 253);
 
   ////[color3]
-  static Color get color3 => Colors.purple;
+  static Color get color3 => Color.fromARGB(255, 42, 81, 207);
 
   ////[color4]
-  static Color get color4 => Color.fromARGB(255, 206, 147, 216);
+  static Color get color4 => Color.fromARGB(143, 173, 188, 201);
   ////[color5]
-  static Color get color5 => Color.fromARGB(255, 144, 202, 249);
+  ///  // table header color
+  static Color get datatableColor => Color.fromARGB(255, 153, 203, 231);
+
+  // static Color get color5 => Color.fromARGB(255, 144, 202, 249);
 
   // list tile color
   static Color get listColor => Color.fromARGB(255, 216, 196, 218);
-  // table header color
-  static Color get datatableColor => Color.fromARGB(255, 216, 196, 218);
+
   // home page date color
   static Color get dateviewColor => Color.fromARGB(255, 248, 246, 246);
 
@@ -85,15 +87,15 @@ class P_Settings {
 
 /////////////////////////level1///////////////////////////////////////////////
 
-  static Color get l1appbarColor => Color.fromARGB(255, 219, 45, 45);
-  static Color get l1datatablecolor => Color.fromARGB(252, 238, 127, 127);
+  static Color get l1appbarColor => Color.fromARGB(255, 79, 110, 250);
+  static Color get l1datatablecolor => Color.fromARGB(255, 139, 179, 216);
   static Color get l1totColor => Color.fromARGB(244, 252, 249, 252);
 
 // static Color get appbarColor => Color.fromARGB(255, 109, 6, 226);
 
 /////////////////////////level2///////////////////////////////////////////////
   static Color get l2appbarColor => Color.fromARGB(255, 7, 154, 240);
-  static Color get l2datatablecolor => Color.fromARGB(255, 136, 196, 231);
+  static Color get l2datatablecolor => Color.fromARGB(255, 153, 203, 231);
 
 //////////////////////////////////////////////////////////////////////////////
 

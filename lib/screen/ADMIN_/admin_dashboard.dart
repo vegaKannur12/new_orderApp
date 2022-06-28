@@ -33,7 +33,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: gridHeader(),
+      body: SingleChildScrollView(),
     );
   }
 

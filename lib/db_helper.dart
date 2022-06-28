@@ -706,7 +706,7 @@ class OrderAppDB {
     String result = "";
     List<String> resultList = [];
     String? sid;
-    print("uname---Password----${uname}--${pwd}");
+    // print("uname---Password----${uname}--${pwd}");
     resultList.clear();
     print("before kkkk $resultList");
     Database db = await instance.database;

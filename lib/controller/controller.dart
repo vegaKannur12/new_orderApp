@@ -80,10 +80,8 @@ class Controller extends ChangeNotifier {
   List<CD> c_d = [];
   List<Map<String, dynamic>> historyList = [];
   List<Map<String, dynamic>> reportOriginalList = [];
-
   List<Map<String, dynamic>> settingsList = [];
   List<Map<String, dynamic>> walletList = [];
-
   List<Map<String, dynamic>> historydataList = [];
   List<Map<String, dynamic>> staffOrderTotal = [];
   String? area;
@@ -189,6 +187,7 @@ class Controller extends ChangeNotifier {
             late CD dataDetails;
             String? fp1 = regModel.fp;
             String? os = regModel.os;
+            userType =regModel.type;
             regModel.c_d![0].cid;
             cid = regModel.cid;
             cname = regModel.c_d![0].cnme;
@@ -1600,7 +1599,8 @@ class Controller extends ChangeNotifier {
   }
 
 ///////////////// dashboard summery /////////////
-  Future<dynamic> dashboardSummery(String sid, String date, String aid) async {
+  Future<dynamic> dashboardSummery(String sid, String date, String aid,BuildContext context) async {
+    print("stafff  iddd $sid");
     var res = await OrderAppDB.instance.dashboardSummery(sid, date, aid);
     var result = await OrderAppDB.instance.countCustomer(areaidFrompopup);
     print("resultresult-- $aid");
@@ -1619,7 +1619,12 @@ class Controller extends ChangeNotifier {
     returnAmount = res[0]["retVal"].toString();
 
     shopVisited = res[0]["cusCount"];
+    if(customerCount == null){
+      snackbar.showSnackbar(context, "Please download Customers");
+    }else{
     noshopVisited = customerCount! - shopVisited!;
+
+    }
     notifyListeners();
   }
 

@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
           key: _scaffoldKey,
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-            // backgroundColor: P_Settings.homeappbarColor,
+            // backgroundColor: P_Settings.color4,
             automaticallyImplyLeading: false,
             leading: IconButton(
                 onPressed: () async {

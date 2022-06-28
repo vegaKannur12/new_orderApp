@@ -132,6 +132,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     cid = prefs.getString("cid");
     os = prefs.getString("os");
     sid = prefs.getString("sid");
+    print("sid...$sid");
 
     print("formattedDate...$formattedDate");
     print("dashboard init");
@@ -152,10 +153,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       Provider.of<Controller>(context, listen: false).dashboardSummery(
           sid!,
           s[0],
-          Provider.of<Controller>(context, listen: false).areaidFrompopup!);
+          Provider.of<Controller>(context, listen: false).areaidFrompopup!,context);
     } else {
       Provider.of<Controller>(context, listen: false)
-          .dashboardSummery(sid!, s[0], "");
+          .dashboardSummery(sid!, s[0], "",context);
     }
     // Provider.of<Controller>(context, listen: false)
     //     .dashboardSummery(sid!, s[0], "");

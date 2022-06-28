@@ -6,6 +6,7 @@ import 'package:orderapp/screen/ADMIN_/admin_dashboard.dart';
 import 'package:orderapp/screen/ORDER/0_splashScreen.dart';
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/tab.dart';
+import 'package:orderapp/screen/report.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
