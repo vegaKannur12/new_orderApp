@@ -156,10 +156,12 @@ class StaffLogin extends StatelessWidget {
                                             onPressed: () async {
                                               result.clear();
                                               // toggle();
+
+                                              print("usertype  $userType");
                                               if (_formKey.currentState!
                                                   .validate()) {
                                                 if (userType == "admin") {
-                                                 result=await OrderAppDB
+                                                  result = await OrderAppDB
                                                       .instance
                                                       .selectUser(
                                                           controller1.text,
@@ -184,7 +186,7 @@ class StaffLogin extends StatelessWidget {
                                                     // Provider.of<Controller>(
                                                     //             context,
                                                     //             listen: false).userName=
-                                                     Navigator.push(
+                                                    Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>

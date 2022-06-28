@@ -282,11 +282,11 @@ class _CollectionPageState extends State<CollectionPage> {
                                           Provider.of<Controller>(context,
                                                   listen: false)
                                               .dashboardSummery(sid!, s[0],
-                                                  value.areaidFrompopup!);
+                                                  value.areaidFrompopup!,context);
                                         } else {
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .dashboardSummery(sid!, s[0], "");
+                                              .dashboardSummery(sid!, s[0], "",context);
                                         }
 
                                         // Provider.of<Controller>(context,
