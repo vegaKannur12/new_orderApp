@@ -287,7 +287,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                               },
                                               textInputAction:
                                                   TextInputAction.next,
-                                              autofocus: true,
+                                              // autofocus: true,
                                               controller: fieldText,
                                               focusNode: fieldFocusNode,
                                               style: TextStyle(

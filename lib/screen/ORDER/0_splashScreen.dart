@@ -23,12 +23,11 @@ class _SplashScreenState extends State<SplashScreen>
   String? st_pwd;
   String? userType;
 
-
   navigate() async {
     await Future.delayed(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       cid = prefs.getString("company_id");
-      userType=prefs.getString("user_type");
+      userType = prefs.getString("user_type");
       st_uname = prefs.getString("st_username");
       st_pwd = prefs.getString("st_pwd");
 
@@ -39,10 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
             pageBuilder: (_, __, ___) => cid != null
                 ? st_uname != null && st_pwd != null
                     ? Dashboard()
-                    :userType!=null? StaffLogin(
-                        userType:
-                           userType!,
-                      ):StaffLogin()
+                    : StaffLogin()
                 : RegistrationScreen()),
       );
     });

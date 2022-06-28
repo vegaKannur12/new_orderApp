@@ -1599,6 +1599,7 @@ class Controller extends ChangeNotifier {
 
 ///////////////// dashboard summery /////////////
   Future<dynamic> dashboardSummery(String sid, String date, String aid) async {
+    print("stafff  iddd $sid");
     var res = await OrderAppDB.instance.dashboardSummery(sid, date, aid);
     var result = await OrderAppDB.instance.countCustomer(areaidFrompopup);
     print("resultresult-- $aid");
