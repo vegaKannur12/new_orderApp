@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -36,10 +38,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
   //   'HEADER5',
   // ];
   List<String> listTitle = [
-    'title1',
-    'title2',
-    'title3',
-    'title4',
+    'collection',
+    'order',
+    'sale',
+    'shop visited',
   ];
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
           print("haiiii");
           print("length----vvv-${value.adminDashboardList.length}");
           return ListView.builder(
-          
             // physics: NeverScrollableScrollPhysics(),
             itemCount: value.adminDashboardList.length,
             itemBuilder: (context, index) {
@@ -100,6 +101,5 @@ class _AdminDashboardState extends State<AdminDashboard> {
             }),
       ],
     );
-    
   }
 }
