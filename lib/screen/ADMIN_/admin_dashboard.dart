@@ -102,21 +102,21 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 15,
-                      child: Icon(
-                        Icons.person,
-                        color: P_Settings.wavecolor,
-                      ),
-                    ),
+                    // CircleAvatar(
+                    //   radius: 15,
+                    //   child: Icon(
+                    //     Icons.person,
+                    //     color: P_Settings.wavecolor,
+                    //   ),
+                    // ),
                     SizedBox(
                       width: size.width * 0.03,
                     ),
-                    Text("${value.cname}",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: P_Settings.wavecolor)),
+                    // Text("${value.cname}",
+                    //     style: TextStyle(
+                    //         fontSize: 16,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: P_Settings.wavecolor)),
                     // Text("  - Admin",
                     //     style: TextStyle(
                     //         fontSize: 15,
@@ -126,29 +126,29 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     SizedBox(
                       width: size.width * 0.1,
                     ),
+
                     value.heading != null && value.updateDate != null
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
+                        ? Container(
+                            height: size.height * 0.08,
+                            width: size.width * 0.8,
+                            child: ListTile(
+                              title: Row(
                                 children: [
                                   Text("${value.heading}",
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                           color: P_Settings.wavecolor)),
+                                  Flexible(
+                                    child: Text(" : ${value.updateDate}",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: P_Settings.extracolor)),
+                                  ),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  Text("${value.updateDate}",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: P_Settings.extracolor)),
-                                ],
-                              ),
-                            ],
+                            ),
                           )
                         : Column(
                             children: [
@@ -279,54 +279,58 @@ class _AdminDashboardState extends State<AdminDashboard> {
     print("listtt$list");
     return Column(
       children: [
-        Text(list.group.toString(),
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: P_Settings.wavecolor)),
-        SizedBox(
-          height: size.height * 0.02,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(list.group.toString(),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: P_Settings.wavecolor)),
         ),
-        GridView.builder(
-            shrinkWrap: true,
-            itemCount: list.data!.length,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: list.tileCount == 1 ? 1 : 2,
-                childAspectRatio: list.tileCount == 1?3:1,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10),
-            itemBuilder: (contxt, indx) {
-              return Container(
-                child: Card(
-                  color: P_Settings.roundedButtonColor,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(20),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GridView.builder(
+              shrinkWrap: true,
+              itemCount: list.data!.length,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: list.tileCount == 1 ? 1 : 2,
+                  childAspectRatio: list.tileCount == 1 ? 3.2 : 1.1,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10),
+              itemBuilder: (contxt, indx) {
+                return Container(
+                  child: Card(
+                    color: Colors
+                        .primaries[Random().nextInt(Colors.primaries.length)],
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.white70, width: 1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    margin: EdgeInsets.all(4.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(list.data![indx].caption.toString(),
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                        Text(list.data![indx].cvalue.toString(),
+                            style: TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                      ],
+                    ),
                   ),
-                  margin: EdgeInsets.all(4.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(list.data![indx].caption.toString(),
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      Text(list.data![indx].cvalue.toString(),
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                    ],
-                  ),
-                ),
-              );
-            }),
+                );
+              }),
+        ),
       ],
     );
   }
