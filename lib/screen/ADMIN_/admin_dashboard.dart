@@ -279,14 +279,21 @@ class _AdminDashboardState extends State<AdminDashboard> {
     print("listtt$list");
     return Column(
       children: [
-        Text(list.group.toString()),
+        Text(list.group.toString(),
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: P_Settings.wavecolor)),
+        SizedBox(
+          height: size.height * 0.02,
+        ),
         GridView.builder(
             shrinkWrap: true,
             itemCount: list.data!.length,
             physics: NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1,
+                crossAxisCount: list.tileCount == 1 ? 1 : 2,
+                childAspectRatio: list.tileCount == 1?3:1,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10),
             itemBuilder: (contxt, indx) {
@@ -299,9 +306,22 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   ),
                   margin: EdgeInsets.all(4.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(list.data![indx].caption.toString()),
-                      Text(list.data![indx].cvalue.toString()),
+                      Text(list.data![indx].caption.toString(),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      Text(list.data![indx].cvalue.toString(),
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
                     ],
                   ),
                 ),
