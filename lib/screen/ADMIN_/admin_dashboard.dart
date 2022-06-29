@@ -163,8 +163,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 ),
               ),
               ////////////////////////////////////////////////////////////////////////
-              SizedBox(
-                height: size.height * 0.03,
+              // SizedBox(
+              //   height: size.height * 0.03,
+              // ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10,right: 10,top: 5),
+                child: Divider(thickness: 2),
               ),
               Expanded(
                 child: ListView.builder(
