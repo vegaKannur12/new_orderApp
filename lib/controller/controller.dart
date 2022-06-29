@@ -44,6 +44,7 @@ class Controller extends ChangeNotifier {
 
   String? areaidFrompopup;
   List<bool> isExpanded = [];
+  List<Today> adminDashboardList = [];
   bool returnqty = false;
   List<bool> isVisibleTable = [];
   List<Map<String, dynamic>> collectionList = [];
@@ -51,7 +52,6 @@ class Controller extends ChangeNotifier {
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
-  List<Today> adminDashboardList = [];
 
   List<Map<String, dynamic>> sortList = [];
   List<Map<String, dynamic>> returnList = [];
@@ -72,6 +72,7 @@ class Controller extends ChangeNotifier {
   String? sname;
   String? sid;
   String? userType;
+  String? updateDate;
 
   String? orderTotal;
   String? ordernumber;
@@ -120,7 +121,7 @@ class Controller extends ChangeNotifier {
   String? count;
   String? sof;
   String? versof;
-
+  String? heading;
   String? fp;
   List<Map<String, dynamic>> bagList = [];
   List<Map<String, dynamic>> newList = [];
@@ -197,6 +198,7 @@ class Controller extends ChangeNotifier {
             cname = regModel.c_d![0].cnme;
             notifyListeners();
             for (var item in regModel.c_d!) {
+              print("ciddddddddd......$item");
               c_d.add(item);
             }
             var res =
@@ -1934,36 +1936,50 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  //////////////////////////////////////////////////////////////////
-  adminDashboard(
-    String cid,
-  ) async {
+  ///////////////dashbord data  ///////////////////////////
+  adminDashboard(String cid) async {
+    print("cid...............${cid}");
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
       Map body = {
         'cid': cid,
       };
-
+      // isLoading =true;
+      // notifyListeners();
       http.Response response = await http.post(
         url,
-        body: body,
+        body: body, 
       );
+      // isLoading=false;
+ 
+      print("body ${body}");
       var map = jsonDecode(response.body);
-      print("map ${map}");
+      print("maparea ${map}");
+      late Today todayDetails;
+      AdminDash admin = AdminDash.fromJson(map);
+      heading = admin.caption;
+      updateDate = admin.cvalue;
+
+      print("TodayDash ${admin.today![0].group}");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("heading", heading!);
+      prefs.setString("updateDate", updateDate!);
       adminDashboardList.clear();
 
-      AdminDash admin = AdminDash.fromJson(map);
-      for (var item in admin.today!) {
+     for (var item in admin.today!) {
         adminDashboardList.add(item);
         // print("item-----${item.tileCount}");
       }
-      print("adminDashboardList-----${adminDashboardList.length}");
+      print("TodayDash ${adminDashboardList}");
+
       notifyListeners();
+      // return staffArea;
     } catch (e) {
-      print(e);
+      print("errordash Data $e");
       return null;
     }
   }
+
 
   //////////////////////////////////////////////////////////////////
   uploadCustomers() async {
