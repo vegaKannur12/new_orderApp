@@ -37,22 +37,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   final rnd = math.Random();
 
-<<<<<<< HEAD
-  // List<String> listHeader = [
-  //   'HEADER1',
-  //   'HEADER2',
-  //   'HEADER3',
-  //   'HEADER4',
-  //   'HEADER5',
-  // ];
-  List<String> listTitle = [
-    'collection',
-    'order',
-    'sale',
-    'shop visited',
-  ];
-=======
->>>>>>> 6eeec29dc8a03e71320d70f67ed34e7159cff864
   sharedPref() async {
     print("helooo");
     final prefs = await SharedPreferences.getInstance();
@@ -170,8 +154,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
         );
   }
 
-<<<<<<< HEAD
-=======
   // Widget gridHeader(
   //   List listHeader,
   // ) {
@@ -255,7 +237,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
   //     shrinkWrap: true,
   //   );
   // }
->>>>>>> 6eeec29dc8a03e71320d70f67ed34e7159cff864
 
   Widget rowChild(Today list, Size size) {
     print("listtt$list");
