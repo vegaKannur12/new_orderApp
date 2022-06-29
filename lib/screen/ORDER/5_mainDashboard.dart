@@ -46,7 +46,7 @@ class _MainDashboardState extends State<MainDashboard> {
     print("init");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
-    sharedPref();
+    sharedPref(); 
   }
 
   @override

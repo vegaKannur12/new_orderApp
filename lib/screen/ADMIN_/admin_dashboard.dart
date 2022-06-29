@@ -1,9 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/screen/ADMIN_/adminModel.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'dart:math' as math;
 
@@ -15,6 +19,11 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
+  DateTime date = DateTime.now();
+  String? formattedDate;
+  String? sid;
+  String? heading;
+  String? updateDate;
   Color parseColor(String color) {
     print("Colorrrrr...$color");
     String hex = color.replaceAll("#", "");
@@ -59,6 +68,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
     'sale',
     'shop visited',
   ];
+  sharedPref() async {
+    print("helooo");
+    final prefs = await SharedPreferences.getInstance();
+    sid = prefs.getString('sid');
+    heading = prefs.getString('heading');
+    updateDate = prefs.getString('updateDate');
+    print("heading ......$heading");
+    // Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
+  }
+
+  @override
+  void initState() {
+    formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    // s = formattedDate!.split(" ");
+    // TODO: implement initState
+    super.initState();
+    sharedPref();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -72,7 +100,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               Container(
                 height: size.height * 0.04,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     CircleAvatar(
                       radius: 15,
@@ -84,37 +112,67 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     SizedBox(
                       width: size.width * 0.03,
                     ),
-                    Text("Company Name",
+                    Text("${value.cname}",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: P_Settings.wavecolor)),
-                    Text("  - Area",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: P_Settings.collection1,
-                            fontStyle: FontStyle.italic)),
+                    // Text("  - Admin",
+                    //     style: TextStyle(
+                    //         fontSize: 15,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: P_Settings.collection1,
+                    //         fontStyle: FontStyle.italic)),
+                    SizedBox(
+                      width: size.width * 0.1,
+                    ),
+                    value.heading != null && value.updateDate != null
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Text("${value.heading}",
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: P_Settings.wavecolor)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("${value.updateDate}",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: P_Settings.extracolor)),
+                                ],
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              Container(
+                                height: size.height * 0.03,
+                                width: size.width * 0.02,
+                                child: CircularProgressIndicator(),
+                              ),
+                            ],
+                          ),
                   ],
                 ),
               ),
+              ////////////////////////////////////////////////////////////////////////
               SizedBox(
                 height: size.height * 0.03,
               ),
               Expanded(
                 child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  // physics: NeverScrollableScrollPhysics(),
                   itemCount: value.adminDashboardList.length,
                   itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Text(
-                          value.adminDashboardList[index]['heading'],
-                          style: TextStyle(color: Colors.blue, fontSize: 16),
-                        ),
-                        rowChild(value.adminDashboardList[index]['data'], size),
-                      ],
-                    );
+                    return rowChild(value.adminDashboardList[index], size);
                   },
                 ),
               )
@@ -133,7 +191,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
         );
   }
 
-  Widget gridHeader(List listHeader,) {
+  Widget gridHeader(
+    List listHeader,
+  ) {
     Size size = MediaQuery.of(context).size;
     return ListView.builder(
       scrollDirection: Axis.vertical,
@@ -215,51 +275,39 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
-  Widget rowChild(List list, Size size) {
+  Widget rowChild(Today list, Size size) {
     print("listtt$list");
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        children: list
-            .map((e) => Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              e['caption'],
-                            ),
-                            Text(
-                              e['value'],
-                            ),
-                            // Column(
-                            //   mainAxisAlignment: MainAxisAlignment.start,
-                            //   children: [
-
-                            //   ],
-                            // ),
-                            // Spacer(),
-                            SizedBox(
-                              width: size.width * 0.45,
-                            ),
-                            // Column(
-                            //   mainAxisAlignment: MainAxisAlignment.end,
-                            //   children: [
-
-                            //   ],
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ))
-            .toList(),
-      ),
+    return Column(
+      children: [
+        Text(list.group.toString()),
+        GridView.builder(
+            shrinkWrap: true,
+            itemCount: list.data!.length,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10),
+            itemBuilder: (contxt, indx) {
+              return Container(
+                child: Card(
+                  color: P_Settings.roundedButtonColor,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white70, width: 1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  margin: EdgeInsets.all(4.0),
+                  child: Column(
+                    children: [
+                      Text(list.data![indx].caption.toString()),
+                      Text(list.data![indx].cvalue.toString()),
+                    ],
+                  ),
+                ),
+              );
+            }),
+      ],
     );
   }
 }

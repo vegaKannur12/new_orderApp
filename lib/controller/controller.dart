@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/model/accounthead_model.dart';
-import 'package:orderapp/model/adminDash.dart';
 import 'package:orderapp/model/productCompany_model.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
 import 'package:orderapp/model/registration_model.dart';
@@ -12,6 +11,7 @@ import 'package:orderapp/model/sideMenu_model.dart';
 import 'package:orderapp/model/userType_model.dart';
 import 'package:orderapp/model/verify_registrationModel.dart';
 import 'package:orderapp/model/wallet_model.dart';
+import 'package:orderapp/screen/ADMIN_/adminModel.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,6 +45,7 @@ class Controller extends ChangeNotifier {
 
   String? areaidFrompopup;
   List<bool> isExpanded = [];
+  List<Today> adminDashboardList = [];
   bool returnqty = false;
   List<bool> isVisibleTable = [];
   List<Map<String, dynamic>> collectionList = [];
@@ -52,7 +53,7 @@ class Controller extends ChangeNotifier {
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
-  List<Map<String, dynamic>> adminDashboardList = [];
+
 
   List<Map<String, dynamic>> sortList = [];
   List<Map<String, dynamic>> returnList = [];
@@ -73,6 +74,7 @@ class Controller extends ChangeNotifier {
   String? sname;
   String? sid;
   String? userType;
+  String? updateDate;
 
   String? orderTotal;
   String? ordernumber;
@@ -121,7 +123,7 @@ class Controller extends ChangeNotifier {
   String? count;
   String? sof;
   String? versof;
-
+  String? heading;
   String? fp;
   List<Map<String, dynamic>> bagList = [];
   List<Map<String, dynamic>> newList = [];
@@ -201,6 +203,7 @@ class Controller extends ChangeNotifier {
             cname = regModel.c_d![0].cnme;
             notifyListeners();
             for (var item in regModel.c_d!) {
+              print("ciddddddddd......$item");
               c_d.add(item);
             }
             var res =
@@ -1939,98 +1942,49 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////dashbord data  ///////////////////////////
-  Future<AdminDash?> adminDashData(String cid) async {
+  adminDashboard(String cid) async {
     print("cid...............${cid}");
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
       Map body = {
         'cid': cid,
       };
+      // isLoading =true;
+      // notifyListeners();
       http.Response response = await http.post(
         url,
-        body: body,
+        body: body, 
       );
+      // isLoading=false;
+ 
       print("body ${body}");
       var map = jsonDecode(response.body);
       print("maparea ${map}");
-      dashData.clear();
-      head.clear();
-      for (var item in map) {
-        print("dashboard data----${item}");
-        dashData.add(item);
-        // head.add(item['group']);
-        // datavalue.add(item['data']);
-      }
-      print("dashDatainside----${dashData}");
-      // print("heading----${head}");
-      // print("datavalue----${datavalue}");
-      // for (var head in dashData){
+      late Today todayDetails;
+      AdminDash admin = AdminDash.fromJson(map);
+      heading = admin.caption;
+      updateDate = admin.cvalue;
 
-      // }
-      /////////////// insert into local db /////////////////////
+      print("TodayDash ${admin.today![0].group}");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("heading", heading!);
+      prefs.setString("updateDate", updateDate!);
+      adminDashboardList.clear();
+
+     for (var item in admin.today!) {
+        adminDashboardList.add(item);
+        // print("item-----${item.tileCount}");
+      }
+      print("TodayDash ${adminDashboardList}");
+
       notifyListeners();
       // return staffArea;
     } catch (e) {
-      print(e);
+      print("errordash Data $e");
       return null;
     }
   }
 
-  /////////////////////////////////////////////////////////
-  adminDashboard(
-    String cid,
-  ) async {
-    gridHeader.clear();
-    adminDashboardList = [
-      {
-        "heading": "helloo",
-        "data": [
-          {"caption": "sales", "value": "10"}
-        ]
-      },
-      {
-        "heading": "haiiii",
-        "data": [
-          {"caption": "sales", "value": "10"}
-        ]
-      }
-    ];
-
-    // var jsonDecod=jsonDecode(json); 
-
-  //   for(var item in json){
-  //     print("item--head--${item['heading']}");
-  //     gridHeader.add("${item['heading']}");
-  //     adminDashboardList.add(item['data']);
-  //   }
-  //  print("grid----$gridHeader");
-
-  //  for(var item in gridHeader){
-  //   if(item == )
-  //  }
-    try {
-      //   Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
-      //   Map body = {
-      //     'cid': cid,
-      //   };
-      //   // print("compny----${cid}");
-      //   http.Response response = await http.post(
-      //     url,
-      //     body: body,
-      //   );
-      //   var map = jsonDecode(response.body);
-
-      // var jsonD=jsonDecode(json);
-      // print("map ${map["TODAYS COUNTS"]}");
-      // print(map.elementAt(1));
-      // print("adminDashboardList---$adminDashboardList");
-      // /////////////// insert into local db /////////////////////
-      // notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
 
   //////////////////////////////////////////////////////////////////
   uploadCustomers() async {
