@@ -21,6 +21,7 @@ class CollectionPage extends StatefulWidget {
 
 class _CollectionPageState extends State<CollectionPage> {
   ValueNotifier<bool> visible = ValueNotifier(false);
+   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime date = DateTime.now();
   String? gen_condition;
   String? formattedDate;

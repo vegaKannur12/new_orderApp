@@ -12,8 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '6_downloadedPage.dart';
 
 class StaffLogin extends StatelessWidget {
-  String? userType;
-  StaffLogin({this.userType});
+  // String? userType;
+  // StaffLogin({this.userType});
   DateTime now = DateTime.now();
 
   String? date;
@@ -25,6 +25,7 @@ class StaffLogin extends StatelessWidget {
   TextEditingController controller2 = TextEditingController();
   CustomPopup popup = CustomPopup();
   List<String> result = [];
+  String? userType;
   // GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ValueNotifier<bool> visible = ValueNotifier(false);
 
@@ -155,9 +156,14 @@ class StaffLogin extends StatelessWidget {
                                             ),
                                             onPressed: () async {
                                               result.clear();
-                                              // toggle();
+                                              SharedPreferences prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
 
-                                              print("usertype  $userType");
+                                              userType =
+                                                  prefs.getString("userType");
+
+                                              print("usertype staff $userType");
                                               if (_formKey.currentState!
                                                   .validate()) {
                                                 if (userType == "admin") {
@@ -175,6 +181,17 @@ class StaffLogin extends StatelessWidget {
                                                           "success" &&
                                                       result[1] != null) {
                                                     visible.value = false;
+                                                    final prefs =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    await prefs.setString(
+                                                        'sid', result[1]);
+                                                    await prefs.setString(
+                                                        'st_username',
+                                                        controller1.text);
+                                                    await prefs.setString(
+                                                        'st_pwd',
+                                                        controller2.text);
                                                     Provider.of<Controller>(
                                                             context,
                                                             listen: false)

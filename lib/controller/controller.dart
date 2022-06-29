@@ -24,6 +24,7 @@ import '../model/staffdetails_model.dart';
 
 class Controller extends ChangeNotifier {
   bool isLoading = false;
+  String? menu_index;
   bool isListLoading = false;
   int? selectedTabIndex;
   String? userName;
@@ -182,6 +183,7 @@ class Controller extends ChangeNotifier {
           // print("response ${response}");
           RegistrationData regModel = RegistrationData.fromJson(map);
           userType = regModel.type;
+          print("usertype----$userType");
           sof = regModel.sof;
           fp = regModel.fp;
           String? msg = regModel.msg;
@@ -192,7 +194,6 @@ class Controller extends ChangeNotifier {
             late CD dataDetails;
             String? fp1 = regModel.fp;
             String? os = regModel.os;
-            userType = regModel.type;
             regModel.c_d![0].cid;
             cid = regModel.cid;
             cname = regModel.c_d![0].cnme;
@@ -203,19 +204,19 @@ class Controller extends ChangeNotifier {
             }
             var res =
                 await OrderAppDB.instance.insertRegistrationDetails(regModel);
-
             print("inserted ${res}");
             isLoading = false;
             notifyListeners();
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("company_id", company_code);
-            prefs.setString("user_type", userType!);
-
+            prefs.setString("userType", userType!);
             prefs.setString("cid", cid!);
             prefs.setString("os", os!);
             prefs.setString("fp", fp!);
             // verifyRegistration(context);
+            String? user = prefs.getString("userType");
 
+            print("fnjdxf----$user");
             getCompanyData();
             // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
             getMenuAPi(cid!, fp1!, context);
@@ -323,6 +324,10 @@ class Controller extends ChangeNotifier {
 
           SideMenu sidemenuModel = SideMenu.fromJson(map);
           firstMenu = sidemenuModel.first;
+
+          print("firstMenu----$firstMenu");
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString("firstMenu", firstMenu!);
           for (var menuItem in sidemenuModel.menu!) {
             // print("menuitem----${menuItem.menu_name}");
             res = await OrderAppDB.instance
@@ -330,7 +335,6 @@ class Controller extends ChangeNotifier {
             // menuList.add(menuItem);
           }
 
-          // print("menu api---$")
           print("insertion");
           notifyListeners();
         } catch (e) {
@@ -1629,6 +1633,7 @@ class Controller extends ChangeNotifier {
     returnAmount = res[0]["retVal"].toString();
 
     shopVisited = res[0]["cusCount"];
+
     if (customerCount == null) {
       snackbar.showSnackbar(context, "Please download Customers");
     } else {
@@ -1948,10 +1953,10 @@ class Controller extends ChangeNotifier {
       // notifyListeners();
       http.Response response = await http.post(
         url,
-        body: body, 
+        body: body,
       );
       // isLoading=false;
- 
+
       print("body ${body}");
       var map = jsonDecode(response.body);
       print("maparea ${map}");
@@ -1966,7 +1971,7 @@ class Controller extends ChangeNotifier {
       prefs.setString("updateDate", updateDate!);
       adminDashboardList.clear();
 
-     for (var item in admin.today!) {
+      for (var item in admin.today!) {
         adminDashboardList.add(item);
         // print("item-----${item.tileCount}");
       }
@@ -1979,7 +1984,6 @@ class Controller extends ChangeNotifier {
       return null;
     }
   }
-
 
   //////////////////////////////////////////////////////////////////
   uploadCustomers() async {

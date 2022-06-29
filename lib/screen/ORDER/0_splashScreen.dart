@@ -22,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   String? st_uname;
   String? st_pwd;
   String? userType;
+  String? firstMenu;
 
   navigate() async {
     await Future.delayed(Duration(seconds: 3), () async {
@@ -30,7 +31,14 @@ class _SplashScreenState extends State<SplashScreen>
       userType = prefs.getString("user_type");
       st_uname = prefs.getString("st_username");
       st_pwd = prefs.getString("st_pwd");
+      firstMenu = prefs.getString("firstMenu");
 
+      print("username and password  $st_uname  $st_pwd");
+      if (firstMenu != null) {
+        Provider.of<Controller>(context, listen: false).menu_index = firstMenu;
+
+        print(Provider.of<Controller>(context, listen: false).menu_index);
+      }
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -59,6 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
+
     shared();
     navigate();
   }

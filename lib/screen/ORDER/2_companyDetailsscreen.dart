@@ -248,7 +248,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                               await SharedPreferences
                                                   .getInstance();
                                           String? userType =
-                                              prefs.getString("user_type");
+                                              prefs.getString("userType");
                                           Provider.of<Controller>(context,
                                                   listen: false)
                                               .fetchMenusFromMenuTable();
@@ -257,12 +257,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                                   context,
                                                   listen: false)
                                               .cid!;
-                                          Provider.of<Controller>(context,
-                                                  listen: false)
-                                              .getStaffDetails(cid);
-                                          Provider.of<Controller>(context,
-                                                  listen: false)
-                                              .getUserType();
+
                                           Provider.of<Controller>(context,
                                                   listen: false)
                                               .getAreaDetails(cid);
@@ -278,30 +273,25 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                           //         listen: false)
                                           //     .setCname();
 
-                                          if (Provider.of<Controller>(context,
-                                                      listen: false)
-                                                  .userType ==
-                                              "staff") {
+                                          if (userType == "staff") {
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .getStaffDetails(cid);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      StaffLogin(
-                                                        userType: userType!,
-                                                      )),
+                                                      StaffLogin()),
                                             );
-                                          } else if (Provider.of<Controller>(
-                                                      context,
-                                                      listen: false)
-                                                  .userType ==
-                                              "admin") {
+                                          } else if (userType == "admin") {
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .getUserType();
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      StaffLogin(
-                                                        userType: userType!,
-                                                      )),
+                                                      StaffLogin()),
                                             );
                                           }
 
