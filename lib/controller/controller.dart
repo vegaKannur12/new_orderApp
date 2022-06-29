@@ -1938,7 +1938,7 @@ class Controller extends ChangeNotifier {
     String cid,
   ) async {
     gridHeader.clear();
-    final json = [
+    adminDashboardList = [
       {
         "heading": "helloo",
         "data": [
@@ -1956,11 +1956,16 @@ class Controller extends ChangeNotifier {
 
     // var jsonDecod=jsonDecode(json); 
 
-    for(var item in json){
-      print("item--head--${item['heading']}");
-      gridHeader.add("${item['heading']}");
-    }
-   print("grid----$gridHeader");
+  //   for(var item in json){
+  //     print("item--head--${item['heading']}");
+  //     gridHeader.add("${item['heading']}");
+  //     adminDashboardList.add(item['data']);
+  //   }
+  //  print("grid----$gridHeader");
+
+  //  for(var item in gridHeader){
+  //   if(item == )
+  //  }
     try {
     //   Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
     //   Map body = {

@@ -66,7 +66,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   List<String> s = [];
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
-   
   // String j=jsonEncode(json);
   int _selectedIndex = 0;
 

@@ -97,12 +97,29 @@ class _AdminDashboardState extends State<AdminDashboard> {
               SizedBox(
                 height: size.height * 0.03,
               ),
-              SingleChildScrollView(
-                child: Container(
-                  height: size.height * 0.75,
-                  child: gridHeader(value.gridHeader),
+              Expanded(
+                child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: value.adminDashboardList.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Text(
+                          value.adminDashboardList[index]['heading'],
+                          style: TextStyle(color: Colors.blue, fontSize: 16),
+                        ),
+                        rowChild(value.adminDashboardList[index]['data'], size),
+                      ],
+                    );
+                  },
                 ),
-              ),
+              )
+              // SingleChildScrollView(
+              //   child: Container(
+              //     height: size.height * 0.75,
+              //     child: getSizewidget(value.adminDashboardList),
+              //   ),
+              // ),
             ],
           );
         },
@@ -179,6 +196,54 @@ class _AdminDashboardState extends State<AdminDashboard> {
         );
       },
       shrinkWrap: true,
+    );
+  }
+
+  Widget rowChild(List list, Size size) {
+    print("listtt$list");
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: list
+            .map((e) => Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              e['caption'],
+                            ),
+                            Text(
+                              e['value'],
+                            ),
+                            // Column(
+                            //   mainAxisAlignment: MainAxisAlignment.start,
+                            //   children: [
+
+                            //   ],
+                            // ),
+                            // Spacer(),
+                            SizedBox(
+                              width: size.width * 0.45,
+                            ),
+                            // Column(
+                            //   mainAxisAlignment: MainAxisAlignment.end,
+                            //   children: [
+
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ))
+            .toList(),
+      ),
     );
   }
 }
