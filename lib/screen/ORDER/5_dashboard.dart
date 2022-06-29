@@ -135,7 +135,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     cid = prefs.getString("cid");
     os = prefs.getString("os");
     sid = prefs.getString("sid");
-    print("sid...$sid");
+    print("sid...cid$sid...$cid");
 
     print("formattedDate...$formattedDate");
     print("dashboard init");
@@ -208,6 +208,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         );
       case "A1":
         {
+          Provider.of<Controller>(context, listen: false).adminDashData(cid!);
+
           Provider.of<Controller>(context, listen: false).adminDashboard(cid!);
           return AdminDashboard(
               // sid: sid!,

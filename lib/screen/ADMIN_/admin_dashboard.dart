@@ -33,7 +33,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
     {
       "heading": "helloo",
       "data": [
-        {"caption": "sales", "value": "10"}
+        {"caption": "sales", "value": "10"},
+        {"caption": "sales", "value": "10"},
+        {"caption": "sales", "value": "10"},
       ]
     },
     {
@@ -102,7 +104,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               SingleChildScrollView(
                 child: Container(
                   height: size.height * 0.75,
-                  child: gridHeader(value.gridHeader),
+                  child: gridHeader(value.head,),
                 ),
               ),
             ],
@@ -114,7 +116,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         );
   }
 
-  Widget gridHeader(List listHeader) {
+  Widget gridHeader(List listHeader,) {
     Size size = MediaQuery.of(context).size;
     return ListView.builder(
       scrollDirection: Axis.vertical,
@@ -151,7 +153,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   margin: EdgeInsets.all(4.0),
-                  color:  Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                  color: Colors
+                      .primaries[Random().nextInt(Colors.primaries.length)],
                   // color: Colors.grey[400],
                   child: Padding(
                     padding: const EdgeInsets.only(
@@ -177,7 +180,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             ),
                             Text(
                               "5",
-                              style: TextStyle(fontSize: 23, color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 23, color: Colors.white),
                             ),
                           ],
                         ),

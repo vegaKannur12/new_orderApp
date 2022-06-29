@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/model/accounthead_model.dart';
+import 'package:orderapp/model/adminDash.dart';
 import 'package:orderapp/model/productCompany_model.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
 import 'package:orderapp/model/registration_model.dart';
@@ -29,7 +30,8 @@ class Controller extends ChangeNotifier {
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
-  List<String> gridHeader=[];
+  List<String> gridHeader = [];
+  List<Map<String, dynamic>> gridData = [];
   String? areaSelecton;
   int returnCount = 0;
   bool isVisible = false;
@@ -143,6 +145,9 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> todayCollectionList = [];
 
   List<Map<String, dynamic>> copyCus = [];
+  List<Map<String, dynamic>> dashData = [];
+  List<String> head = [];
+  List<String> datavalue = [];
   List<Map<String, dynamic>> prodctItems = [];
   List<Map<String, dynamic>> ordernum = [];
   List<Map<String, dynamic>> approximateSum = [];
@@ -1933,7 +1938,45 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  //////////////////////////////////////////////////////////////////
+  ///////////////dashbord data  ///////////////////////////
+  Future<AdminDash?> adminDashData(String cid) async {
+    print("cid...............${cid}");
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
+      Map body = {
+        'cid': cid,
+      };
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      print("body ${body}");
+      var map = jsonDecode(response.body);
+      print("maparea ${map}");
+      dashData.clear();
+      head.clear();
+      for (var item in map) {
+        print("dashboard data----${item}");
+        dashData.add(item);
+        // head.add(item['group']);
+        // datavalue.add(item['data']);
+      }
+      print("dashDatainside----${dashData}");
+      // print("heading----${head}");
+      // print("datavalue----${datavalue}");
+      // for (var head in dashData){
+
+      // }
+      /////////////// insert into local db /////////////////////
+      notifyListeners();
+      // return staffArea;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  /////////////////////////////////////////////////////////
   adminDashboard(
     String cid,
   ) async {
@@ -1952,26 +1995,26 @@ class Controller extends ChangeNotifier {
         ]
       }
     ];
-     
 
-    // var jsonDecod=jsonDecode(json); 
-
-    for(var item in json){
+    // var jsonDecod=jsonDecode(json);
+    print("item--head--");
+    for (var item in json) {
       print("item--head--${item['heading']}");
       gridHeader.add("${item['heading']}");
+      // gridData.add("${item['data']}");
     }
-   print("grid----$gridHeader");
+    print("grid----$gridHeader");
     try {
-    //   Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
-    //   Map body = {
-    //     'cid': cid,
-    //   };
-    //   // print("compny----${cid}");
-    //   http.Response response = await http.post(
-    //     url,
-    //     body: body,
-    //   );
-    //   var map = jsonDecode(response.body);
+      //   Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
+      //   Map body = {
+      //     'cid': cid,
+      //   };
+      //   // print("compny----${cid}");
+      //   http.Response response = await http.post(
+      //     url,
+      //     body: body,
+      //   );
+      //   var map = jsonDecode(response.body);
 
       // var jsonD=jsonDecode(json);
       // print("map ${map["TODAYS COUNTS"]}");
