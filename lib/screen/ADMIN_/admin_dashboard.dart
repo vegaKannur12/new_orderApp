@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/screen/ADMIN_/adminModel.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'dart:math' as math;
@@ -27,21 +28,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   final rnd = math.Random();
 
-  final json = [
-    {
-      "heading": "helloo",
-      "data": [
-        {"caption": "sales", "value": "10"}
-      ]
-    },
-    {
-      "heading": "helloo",
-      "data": [
-        {"caption": "sales", "value": "10"}
-      ]
-    }
-  ];
-
   // List<String> listHeader = [
   //   'HEADER1',
   //   'HEADER2',
@@ -63,64 +49,15 @@ class _AdminDashboardState extends State<AdminDashboard> {
       padding: const EdgeInsets.all(8.0),
       child: Consumer<Controller>(
         builder: (context, value, child) {
-          return Column(
-            children: [
-              Container(
-                height: size.height * 0.04,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 15,
-                      child: Icon(
-                        Icons.person,
-                        color: P_Settings.wavecolor,
-                      ),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.03,
-                    ),
-                    Text("Company Name",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: P_Settings.wavecolor)),
-                    Text("  - Area",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: P_Settings.collection1,
-                            fontStyle: FontStyle.italic)),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              Expanded(
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: value.adminDashboardList.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Text(
-                          value.adminDashboardList[index]['heading'],
-                          style: TextStyle(color: Colors.blue, fontSize: 16),
-                        ),
-                        rowChild(value.adminDashboardList[index]['data'], size),
-                      ],
-                    );
-                  },
-                ),
-              )
-              // SingleChildScrollView(
-              //   child: Container(
-              //     height: size.height * 0.75,
-              //     child: getSizewidget(value.adminDashboardList),
-              //   ),
-              // ),
-            ],
+          print("haiiii");
+          print("length----vvv-${value.adminDashboardList.length}");
+          return ListView.builder(
+          
+            // physics: NeverScrollableScrollPhysics(),
+            itemCount: value.adminDashboardList.length,
+            itemBuilder: (context, index) {
+              return rowChild(value.adminDashboardList[index], size);
+            },
           );
         },
       ),
@@ -129,121 +66,40 @@ class _AdminDashboardState extends State<AdminDashboard> {
         );
   }
 
-  Widget gridHeader(List listHeader) {
-    Size size = MediaQuery.of(context).size;
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: listHeader.length,
-      itemBuilder: (context, index) {
-        return StickyHeader(
-          header: Container(
-            height: 50.0,
-            color: Colors.white,
-            padding: EdgeInsets.all(10),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              listHeader[index],
-              style: TextStyle(
-                  color: P_Settings.wavecolor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          content: Container(
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: listTitle.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10),
-              itemBuilder: (contxt, indx) {
-                return Card(
+  Widget rowChild(Today list, Size size) {
+    print("listtt$list");
+    return Column(
+      children: [
+        Text(list.group.toString()),
+        GridView.builder(
+            shrinkWrap: true,
+            itemCount: list.data!.length,
+            // physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10),
+            itemBuilder: (contxt, indx) {
+              return Container(
+                child: Card(
+                  color: P_Settings.roundedButtonColor,
                   shape: RoundedRectangleBorder(
                     side: BorderSide(color: Colors.white70, width: 1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   margin: EdgeInsets.all(4.0),
-                  color: P_Settings.roundedButtonColor,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 12.0, top: 6.0, bottom: 2.0),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            listTitle[indx],
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Color.fromARGB(137, 146, 6, 6)),
-                          ),
-                          Text(
-                            "5",
-                            style:
-                                TextStyle(fontSize: 14, color: Colors.black54),
-                          ),
-                        ],
-                      ),
-                    ),
+                  child: Column(
+                    children: [
+                      Text(list.data![indx].caption.toString()),
+                      Text(list.data![indx].cvalue.toString()),
+                    ],
                   ),
-                );
-              },
-            ),
-          ),
-        );
-      },
-      shrinkWrap: true,
+                ),
+              );
+            }),
+      ],
     );
-  }
-
-  Widget rowChild(List list, Size size) {
-    print("listtt$list");
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        children: list
-            .map((e) => Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              e['caption'],
-                            ),
-                            Text(
-                              e['value'],
-                            ),
-                            // Column(
-                            //   mainAxisAlignment: MainAxisAlignment.start,
-                            //   children: [
-
-                            //   ],
-                            // ),
-                            // Spacer(),
-                            SizedBox(
-                              width: size.width * 0.45,
-                            ),
-                            // Column(
-                            //   mainAxisAlignment: MainAxisAlignment.end,
-                            //   children: [
-
-                            //   ],
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ))
-            .toList(),
-      ),
-    );
+    
   }
 }

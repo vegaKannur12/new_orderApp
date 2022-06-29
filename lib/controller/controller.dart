@@ -11,6 +11,7 @@ import 'package:orderapp/model/sideMenu_model.dart';
 import 'package:orderapp/model/userType_model.dart';
 import 'package:orderapp/model/verify_registrationModel.dart';
 import 'package:orderapp/model/wallet_model.dart';
+import 'package:orderapp/screen/ADMIN_/adminModel.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,7 +30,7 @@ class Controller extends ChangeNotifier {
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
-  List<String> gridHeader=[];
+  List<String> gridHeader = [];
   String? areaSelecton;
   int returnCount = 0;
   bool isVisible = false;
@@ -50,7 +51,7 @@ class Controller extends ChangeNotifier {
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
-  List<Map<String, dynamic>> adminDashboardList = [];
+  List<Today> adminDashboardList = [];
 
   List<Map<String, dynamic>> sortList = [];
   List<Map<String, dynamic>> returnList = [];
@@ -1937,53 +1938,27 @@ class Controller extends ChangeNotifier {
   adminDashboard(
     String cid,
   ) async {
-    gridHeader.clear();
-    adminDashboardList = [
-      {
-        "heading": "helloo",
-        "data": [
-          {"caption": "sales", "value": "10"}
-        ]
-      },
-      {
-        "heading": "haiiii",
-        "data": [
-          {"caption": "sales", "value": "10"}
-        ]
-      }
-    ];
-     
-
-    // var jsonDecod=jsonDecode(json); 
-
-  //   for(var item in json){
-  //     print("item--head--${item['heading']}");
-  //     gridHeader.add("${item['heading']}");
-  //     adminDashboardList.add(item['data']);
-  //   }
-  //  print("grid----$gridHeader");
-
-  //  for(var item in gridHeader){
-  //   if(item == )
-  //  }
     try {
-    //   Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
-    //   Map body = {
-    //     'cid': cid,
-    //   };
-    //   // print("compny----${cid}");
-    //   http.Response response = await http.post(
-    //     url,
-    //     body: body,
-    //   );
-    //   var map = jsonDecode(response.body);
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
+      Map body = {
+        'cid': cid,
+      };
 
-      // var jsonD=jsonDecode(json);
-      // print("map ${map["TODAYS COUNTS"]}");
-      // print(map.elementAt(1));
-      // print("adminDashboardList---$adminDashboardList");
-      // /////////////// insert into local db /////////////////////
-      // notifyListeners();
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      var map = jsonDecode(response.body);
+      print("map ${map}");
+      adminDashboardList.clear();
+
+      AdminDash admin = AdminDash.fromJson(map);
+      for (var item in admin.today!) {
+        adminDashboardList.add(item);
+        // print("item-----${item.tileCount}");
+      }
+      print("adminDashboardList-----${adminDashboardList.length}");
+      notifyListeners();
     } catch (e) {
       print(e);
       return null;
