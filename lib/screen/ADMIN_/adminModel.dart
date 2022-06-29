@@ -1,13 +1,15 @@
 class AdminDash {
   String? caption;
   String? cvalue;
+  String? color;
   List<Today>? today;
 
-  AdminDash({this.caption, this.cvalue, this.today});
+  AdminDash({this.caption, this.cvalue, this.color, this.today});
 
   AdminDash.fromJson(Map<String, dynamic> json) {
     caption = json['Caption'];
     cvalue = json['Cvalue'];
+    color = json['color'];
     if (json['today'] != null) {
       today = <Today>[];
       json['today'].forEach((v) {
@@ -20,6 +22,7 @@ class AdminDash {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['Caption'] = this.caption;
     data['Cvalue'] = this.cvalue;
+    data['color'] = this.color;
     if (this.today != null) {
       data['today'] = this.today!.map((v) => v.toJson()).toList();
     }
@@ -59,18 +62,21 @@ class Today {
 class Data {
   String? caption;
   String? cvalue;
+  String? color;
 
   Data({this.caption, this.cvalue});
 
   Data.fromJson(Map<String, dynamic> json) {
     caption = json['caption'];
     cvalue = json['Cvalue'];
+    color = json['color'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['caption'] = this.caption;
     data['Cvalue'] = this.cvalue;
+    data['color'] = this.color;
     return data;
   }
 }
