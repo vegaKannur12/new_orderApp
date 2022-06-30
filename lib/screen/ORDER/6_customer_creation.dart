@@ -26,7 +26,7 @@ class _CustomerCreationState extends State<CustomerCreation> {
   String? gtype;
   CustomToast tst = CustomToast();
 
-  int customerCount = 0;
+  int? customerCount;
   List<Map<String, dynamic>> gtp = [
     {
       "id": "0",
@@ -346,7 +346,14 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                         visible.value = true;
                                       } else {
                                         visible.value = false;
-                                        customerCount = customerCount + 1;
+
+                                        int customerCount = await OrderAppDB
+                                            .instance
+                                            .getMaxCommonQuery(
+                                                'accountHeadsTable',
+                                                'id',
+                                                " ");
+                                        // customerCount = customerCount + 1;
                                         String ac_code = "${widget.os} " +
                                             "${customerCount}";
                                         FocusScope.of(context)

@@ -509,8 +509,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   _onBackPressed(BuildContext context) async {
-    print("Navigation in back button");
-
     Navigator.of(context).push(
       PageRouteBuilder(
           opaque: false, // set to false

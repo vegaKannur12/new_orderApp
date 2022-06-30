@@ -7,7 +7,6 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/adminModel.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'dart:math' as math;
 
 class AdminDashboard extends StatefulWidget {
@@ -64,82 +63,84 @@ class _AdminDashboardState extends State<AdminDashboard> {
       padding: const EdgeInsets.all(8.0),
       child: Consumer<Controller>(
         builder: (context, value, child) {
-          return Column(
-            children: [
-              Container(
-                height: size.height * 0.04,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // CircleAvatar(
-                    //   radius: 15,
-                    //   child: Icon(
-                    //     Icons.person,
-                    //     color: P_Settings.wavecolor,
-                    //   ),
-                    // ),
-                    SizedBox(
-                      width: size.width * 0.03,
-                    ),
-                    // Text("${value.cname}",
-                    //     style: TextStyle(
-                    //         fontSize: 16,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: P_Settings.wavecolor)),
-                    // Text("  - Admin",
-                    //     style: TextStyle(
-                    //         fontSize: 15,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: P_Settings.collection1,
-                    //         fontStyle: FontStyle.italic)),
-                    SizedBox(
-                      width: size.width * 0.1,
-                    ),
-
-                    Container(
-                      height: size.height * 0.08,
-                      width: size.width * 0.8,
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Text("${value.heading}",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: P_Settings.wavecolor)),
-                            Flexible(
-                              child: Text(" : ${value.updateDate}",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: P_Settings.extracolor)),
-                            ),
-                          ],
-                        ),
+          if (value.isLoading) {
+            return CircularProgressIndicator();
+          } else {
+            return Column(
+              children: [
+                Container(
+                  height: size.height * 0.04,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // CircleAvatar(
+                      //   radius: 15,
+                      //   child: Icon(
+                      //     Icons.person,
+                      //     color: P_Settings.wavecolor,
+                      //   ),
+                      // ),
+                      SizedBox(
+                        width: size.width * 0.03,
                       ),
-                    )
-                  ],
+                      // Text("${value.cname}",
+                      //     style: TextStyle(
+                      //         fontSize: 16,
+                      //         fontWeight: FontWeight.bold,
+                      //         color: P_Settings.wavecolor)),
+                      // Text("  - Admin",
+                      //     style: TextStyle(
+                      //         fontSize: 15,
+                      //         fontWeight: FontWeight.bold,
+                      //         color: P_Settings.collection1,
+                      //         fontStyle: FontStyle.italic)),
+                      SizedBox(
+                        width: size.width * 0.1,
+                      ),
+
+                      Container(
+                        height: size.height * 0.08,
+                        width: size.width * 0.8,
+                        child: ListTile(
+                          title:
+                          value.heading==null?SpinKitThreeBounce(color: P_Settings.wavecolor,size:14): Row(
+                            children: [
+                              Text("${value.heading}",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: P_Settings.wavecolor)),
+                              Flexible(
+                                child: Text(" : ${value.updateDate}",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: P_Settings.extracolor)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              ////////////////////////////////////////////////////////////////////////
-              // SizedBox(
-              //   height: size.height * 0.03,
-              // ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
-                child: Divider(thickness: 2),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: value.adminDashboardList.length,
-                  itemBuilder: (context, index) {
-                    return rowChild(value.adminDashboardList[index], size);
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+                  child: Divider(thickness: 2),
                 ),
-              )
-            ],
-          );
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    // physics: NeverScrollableScrollPhysics(),
+                    itemCount: value.adminDashboardList.length,
+                    itemBuilder: (context, index) {
+                      return rowChild(value.adminDashboardList[index], size);
+                    },
+                  ),
+                )
+              ],
+            );
+          }
         },
       ),
     )
@@ -260,88 +261,4 @@ class _AdminDashboardState extends State<AdminDashboard> {
       ],
     );
   }
-  //////////////////////////////////////////////////////////////////////
-  // Widget gridHeader(
-  //   List listHeader,
-  // ) {
-  //   Size size = MediaQuery.of(context).size;
-  //   return ListView.builder(
-  //     scrollDirection: Axis.vertical,
-  //     itemCount: listHeader.length,
-  //     itemBuilder: (context, index) {
-  //       return StickyHeader(
-  //         header: Container(
-  //           height: 50.0,
-  //           color: Colors.white,
-  //           padding: EdgeInsets.all(10),
-  //           alignment: Alignment.center,
-  //           child: Text(
-  //             listHeader[index],
-  //             style: TextStyle(
-  //                 color: P_Settings.wavecolor,
-  //                 fontSize: 20,
-  //                 fontWeight: FontWeight.bold),
-  //           ),
-  //         ),
-  //         content: Container(
-  //           child: GridView.builder(
-  //             shrinkWrap: true,
-  //             physics: NeverScrollableScrollPhysics(),
-  //             itemCount: listTitle.length,
-  //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-  //                 crossAxisCount: 2,
-  //                 childAspectRatio: 1.2,
-  //                 mainAxisSpacing: 10,
-  //                 crossAxisSpacing: 10),
-  //             itemBuilder: (contxt, indx) {
-  //               return Card(
-  //                 shape: RoundedRectangleBorder(
-  //                   side: BorderSide(color: Colors.white70, width: 1),
-  //                   borderRadius: BorderRadius.circular(20),
-  //                 ),
-  //                 margin: EdgeInsets.all(4.0),
-  //                 color: Colors
-  //                     .primaries[Random().nextInt(Colors.primaries.length)],
-  //                 // color: Colors.grey[400],
-  //                 child: Padding(
-  //                   padding: const EdgeInsets.only(
-  //                       left: 12.0, top: 6.0, bottom: 2.0),
-  //                   child: Center(
-  //                     child: Padding(
-  //                       padding: const EdgeInsets.all(8.0),
-  //                       child: Column(
-  //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                         crossAxisAlignment: CrossAxisAlignment.center,
-  //                         children: [
-  //                           Container(
-  //                             height: size.height * 0.08,
-  //                             width: size.width * 0.12,
-  //                             child: Image.asset("asset/3.png"),
-  //                           ),
-  //                           Text(
-  //                             listTitle[indx],
-  //                             style: TextStyle(
-  //                               fontSize: 17,
-  //                               color: Colors.white,
-  //                             ),
-  //                           ),
-  //                           Text(
-  //                             "5",
-  //                             style:
-  //                                 TextStyle(fontSize: 23, color: Colors.white),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //     shrinkWrap: true,
-  //   );
-  // }
 }

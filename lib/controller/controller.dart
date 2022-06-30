@@ -324,10 +324,11 @@ class Controller extends ChangeNotifier {
 
           SideMenu sidemenuModel = SideMenu.fromJson(map);
           firstMenu = sidemenuModel.first;
-
+          print("menuitem----${sidemenuModel.menu![0].menu_name}");
           print("firstMenu----$firstMenu");
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString("firstMenu", firstMenu!);
+
           for (var menuItem in sidemenuModel.menu!) {
             print("menuitem----${menuItem.menu_name}");
             res = await OrderAppDB.instance
@@ -335,7 +336,7 @@ class Controller extends ChangeNotifier {
             // menuList.add(menuItem);
           }
 
-          print("insertion");
+          print("insertion----$res");
           notifyListeners();
         } catch (e) {
           print(e);
@@ -384,7 +385,7 @@ class Controller extends ChangeNotifier {
   fetchMenusFromMenuTable() async {
     menuList.clear();
     var res = await OrderAppDB.instance.selectAllcommon('menuTable', "");
-    // print("menu from table----$res");
+    print("menu from table----$res");
 
     for (var menu in res) {
       menuList.add(menu);
@@ -1949,18 +1950,19 @@ class Controller extends ChangeNotifier {
       Map body = {
         'cid': cid,
       };
-      // isLoading =true;
+      isLoading = true;
       // notifyListeners();
       http.Response response = await http.post(
         url,
         body: body,
       );
-      // isLoading=false;
 
       print("body ${body}");
       var map = jsonDecode(response.body);
       print("maparea ${map}");
       late Today todayDetails;
+      isLoading = false;
+      notifyListeners();
       AdminDash admin = AdminDash.fromJson(map);
       heading = admin.caption;
       updateDate = admin.cvalue;
@@ -1987,10 +1989,41 @@ class Controller extends ChangeNotifier {
 
   //////////////////////////////////////////////////////////////////
   uploadCustomers() async {
-    var result = await OrderAppDB.instance.selectAllcommon('customerTable', "");
-    if (res.length > 0) {
-      //////upload customer////
-      await OrderAppDB.instance.deleteFromTableCommonQuery("customerTable", "");
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/cus_save.php");
+      isLoading = true;
+      notifyListeners();
+      var result =
+          await OrderAppDB.instance.selectAllcommon('customerTable', "");
+      if (result.length > 0) {
+        var customer = await OrderAppDB.instance.uploadCustomer();
+        print("customer result----$customer");
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String? cid = prefs.getString("cid");
+        String cm = jsonEncode(customer);
+        print("cm----$cm");
+        Map body = {
+          'cid': cid,
+          'cm': cm,
+        };
+
+        http.Response response = await http.post(
+          url,
+          body: body,
+        );
+        isLoading = false;
+        notifyListeners();
+        // print("response----$response");
+        var map = jsonDecode(response.body);
+        print("map ${map}");
+        if (map.length > 0) {
+          await OrderAppDB.instance
+              .deleteFromTableCommonQuery("customerTable", "");
+        }
+      }
+      notifyListeners();
+    } catch (e) {
+      print(e);
     }
   }
 }

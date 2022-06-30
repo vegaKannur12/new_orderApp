@@ -133,7 +133,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   navigateToPage(BuildContext context, Size size) {
     print("Navigation in home page");
-       Navigator.of(context).push(
+    Navigator.of(context).push(
       PageRouteBuilder(
           opaque: false, // set to false
           pageBuilder: (_, __, ___) => HomePage()),
@@ -236,7 +236,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               // os: os,
               );
         }
-
+   case "CS":return CustomerCreation(
+          sid: sid!,
+          os: os,
+        );
       case "A2":
         {
           getCompaniId();
@@ -641,6 +644,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         },
                         title: Text(
                           "Settings",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ),
+                      ListTile(
+                        trailing: Icon(Icons.settings),
+                        onTap: () async {
+                             _onSelectItem(0, "CS");
+                        },
+                        title: Text(
+                          "Customer",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),

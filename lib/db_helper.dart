@@ -1191,17 +1191,28 @@ class OrderAppDB {
   }
 
 //////////////////////////////////////////////////////////////////
-  getMaxCommonQuery(String table, String field, String condition) async {
+  getMaxCommonQuery(String table, String field, String? condition) async {
     var res;
     int max;
+    var result;
     Database db = await instance.database;
-    print("field----condition---table ----${field}---${condition}----${table}");
-    var result = await db.rawQuery("SELECT * FROM '$table' WHERE $condition");
-    print("result max---$result");
+    print("condition---${condition}");
+    if (condition==" ") {
+      result = await db.rawQuery("SELECT * FROM '$table'");
+    } else {
+      result = await db.rawQuery("SELECT * FROM '$table' WHERE $condition");
+    }
+    // print("result max---$result");
     if (result != null && result.isNotEmpty) {
       print("if");
-      res = await db.rawQuery(
-          "SELECT MAX($field) max_val FROM '$table' WHERE $condition");
+
+      if (condition == " ") {
+        res = await db.rawQuery("SELECT MAX($field) max_val FROM '$table'");
+      } else {
+        res = await db.rawQuery(
+            "SELECT MAX($field) max_val FROM '$table' WHERE $condition");
+      }
+
       print("max common-----$res");
       print('res[0]["max_val"] ----${res[0]["max_val"]}');
       // int convertedMax = int.parse(res[0]["max_val"]);
@@ -1667,6 +1678,29 @@ class OrderAppDB {
   //   // print("naaknsdJK-----$result");
   //   return result;
   // }
+
+  uploadCustomer() async {
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    String query = "";
+    query = query +
+        " select accountHeadsTable.ac_code as hcd," +
+        " accountHeadsTable.hname as nme,accountHeadsTable.ac_ad1 as ad1," +
+        " accountHeadsTable.ac_ad2 as ad2,accountHeadsTable.ac_ad3 as ad3," +
+        " accountHeadsTable.area_id as aid,accountHeadsTable.gtype as gtype," +
+        " accountHeadsTable.phn as ph,accountHeadsTable.mo as mo " +
+        " from accountHeadsTable inner join customerTable " +
+        " on customerTable.ac_code=accountHeadsTable.ac_code";
+
+    print("query---$query");
+    result = await db.rawQuery(query);
+    if (result.length > 0) {
+      print("inner result------$result");
+      return result;
+    } else {
+      return null;
+    }
+  }
 }
 
 //////////////////////////////////////////////////////////////
