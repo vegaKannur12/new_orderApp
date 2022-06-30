@@ -233,6 +233,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               );
         }
 
+      case "CS":return CustomerCreation(
+          sid: sid!,
+          os: os,
+        );
+
       case "A2":
         {
           getCompaniId();
@@ -637,6 +642,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         },
                         title: Text(
                           "Settings",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ),
+                      ListTile(
+                        trailing: Icon(Icons.settings),
+                        onTap: () async {
+                          _onSelectItem(0, "CS");
+                        },
+                        title: Text(
+                          "Customer",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
