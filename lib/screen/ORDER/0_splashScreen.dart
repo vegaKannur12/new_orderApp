@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
       st_uname = prefs.getString("st_username");
       st_pwd = prefs.getString("st_pwd");
       firstMenu = prefs.getString("firstMenu");
-
+      print("st-----$st_uname---$st_pwd");
       print("username and password  $st_uname  $st_pwd");
       if (firstMenu != null) {
         Provider.of<Controller>(context, listen: false).menu_index = firstMenu;

@@ -934,31 +934,35 @@ class OrderAppDB {
   }
 
   //////////////////////////////////////////////////////////
-  Future<List<Map<String, dynamic>>> getArea(String sid) async {
+  Future<List<Map<String, dynamic>>> getArea(String? sid) async {
     List<Map<String, dynamic>> list = [];
     String areaidfromStaff;
-    String result = "";
+    List<Map<String, dynamic>> area = [];
+    // String result = "";
     print("sid---${sid}");
     Database db = await instance.database;
-    List<Map<String, dynamic>> area = await db
-        .rawQuery('SELECT area FROM staffDetailsTable WHERE sid="${sid}"');
-    areaidfromStaff = area[0]["area"];
-    aidsplit = areaidfromStaff.split(",");
-    print("hudhuh---$aidsplit");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("areaidfromStaff", areaidfromStaff);
-    if (areaidfromStaff == "") {
-      list = await db.rawQuery('SELECT aname,aid FROM areaDetailsTable');
+    if (sid == " ") {
+      list = await db.rawQuery('SELECT * FROM areaDetailsTable');
     } else {
-      list = await db.query(
-        'areaDetailsTable',
-        where: "aid IN (${aidsplit.join(',')})",
-      );
-      // list = await db.rawQuery(
-      //     'SELECT aname,aid FROM areaDetailsTable where aid=${areaid}');
+      area = await db
+          .rawQuery('SELECT area FROM staffDetailsTable WHERE sid="${sid}"');
+      areaidfromStaff = area[0]["area"];
+      aidsplit = areaidfromStaff.split(",");
+      print("hudhuh---$aidsplit");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("areaidfromStaff", areaidfromStaff);
+      if (areaidfromStaff == "") {
+        list = await db.rawQuery('SELECT aname,aid FROM areaDetailsTable');
+      } else {
+        list = await db.query(
+          'areaDetailsTable',
+          where: "aid IN (${aidsplit.join(',')})",
+        );
+        // list = await db.rawQuery(
+        //     'SELECT aname,aid FROM areaDetailsTable where aid=${areaid}');
+      }
     }
-
-    print("res===${result}");
+    // print("res===${result}");
     print("area===${area}");
     print("area---List ${list}");
     return list;
@@ -1196,7 +1200,7 @@ class OrderAppDB {
     var result;
     Database db = await instance.database;
     print("condition---${condition}");
-    if (condition==" ") {
+    if (condition == " ") {
       result = await db.rawQuery("SELECT * FROM '$table'");
     } else {
       result = await db.rawQuery("SELECT * FROM '$table' WHERE $condition");
@@ -1335,9 +1339,14 @@ class OrderAppDB {
 ///////////////////////////////////////////////////////////
   selectMasterTable() async {
     Database db = await instance.database;
-
-    var result = await db.rawQuery(
-        "SELECT orderMasterTable.id as id, orderMasterTable.os  || orderMasterTable.order_id as ser,orderMasterTable.order_id as oid,orderMasterTable.customerid cuid, orderMasterTable.orderdatetime odate, orderMasterTable.userid as sid,orderMasterTable.areaid as aid  FROM orderMasterTable");
+    var result;
+    var res = await db.rawQuery("SELECT  * FROM  orderMasterTable");
+    print("hhs----$res");
+    if (res.length > 0) {
+      result = await db.rawQuery(
+          "SELECT orderMasterTable.id as id, orderMasterTable.os  || orderMasterTable.order_id as ser,orderMasterTable.order_id as oid,orderMasterTable.customerid cuid, orderMasterTable.orderdatetime odate, orderMasterTable.userid as sid,orderMasterTable.areaid as aid  FROM orderMasterTable");
+    }
+    print("result----$result");
     return result;
   }
 

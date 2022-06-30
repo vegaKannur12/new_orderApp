@@ -766,12 +766,12 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////////////////////////////////////////
-  getArea(String sid) async {
+  getArea(String? sid) async {
     String areaName;
     areDetails.clear();
     print("staff...............${sid}");
     try {
-      areaList = await OrderAppDB.instance.getArea(sid);
+      areaList = await OrderAppDB.instance.getArea(sid!);
       print("areaList----${areaList}");
       print("areaList before ----${areDetails}");
       for (var item in areaList) {
@@ -1488,21 +1488,24 @@ class Controller extends ChangeNotifier {
     List<Map<String, dynamic>> om = [];
     var result = await OrderAppDB.instance.selectMasterTable();
     print("output------$result");
-    String jsonE = jsonEncode(result);
-    var jsonDe = jsonDecode(jsonE);
-    print("jsonDe--${jsonDe}");
-    for (var item in jsonDe) {
-      resultQuery = await OrderAppDB.instance.selectDetailTable(item["oid"]);
-      item["od"] = resultQuery;
-      om.add(item);
-    }
-    if (om.length > 0) {
-      print("entede");
-      saveOrderDetails(cid, om, context);
+    if (result != null) {
+      String jsonE = jsonEncode(result);
+      var jsonDe = jsonDecode(jsonE);
+      print("jsonDe--${jsonDe}");
+      for (var item in jsonDe) {
+        resultQuery = await OrderAppDB.instance.selectDetailTable(item["oid"]);
+        item["od"] = resultQuery;
+        om.add(item);
+      }
+      if (om.length > 0) {
+        print("entede");
+        saveOrderDetails(cid, om, context);
+      }
+      print("om----$om");
     } else {
       snackbar.showSnackbar(context, "Nothing to upload!!!");
     }
-    print("om----$om");
+
     notifyListeners();
   }
 
@@ -1988,14 +1991,14 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////////////////////////////////////////////////////
-  uploadCustomers() async {
+  uploadCustomers(BuildContext context) async {
     try {
-      Uri url = Uri.parse("http://trafiqerp.in/order/fj/cus_save.php");
-      isLoading = true;
-      notifyListeners();
       var result =
           await OrderAppDB.instance.selectAllcommon('customerTable', "");
       if (result.length > 0) {
+        Uri url = Uri.parse("http://trafiqerp.in/order/fj/cus_save.php");
+        isLoading = true;
+        notifyListeners();
         var customer = await OrderAppDB.instance.uploadCustomer();
         print("customer result----$customer");
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -2020,6 +2023,8 @@ class Controller extends ChangeNotifier {
           await OrderAppDB.instance
               .deleteFromTableCommonQuery("customerTable", "");
         }
+      } else {
+        snackbar.showSnackbar(context, "Nothing to upload!!!");
       }
       notifyListeners();
     } catch (e) {

@@ -340,24 +340,41 @@ class StaffLogin extends StatelessWidget {
 
                                               MaterialButton(
                                                 onPressed: () async {
-                                                  await OrderAppDB.instance
-                                                      .deleteFromTableCommonQuery(
-                                                          "staffDetailsTable",
-                                                          "");
-                                                  // await OrderAppDB.instance
-                                                  //     .deleteFromTableCommonQuery(
-                                                  //         "staffDetailsTable",
-                                                  //         "");
                                                   SharedPreferences prefs =
                                                       await SharedPreferences
                                                           .getInstance();
                                                   String? cid =
                                                       prefs.getString("cid");
-                                                  print("staff cid----${cid}");
-                                                  Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .getStaffDetails(cid!);
+                                                  String? userType = prefs
+                                                      .getString("userType");
+
+                                                  if (userType == "admin") {
+                                                    await OrderAppDB.instance
+                                                        .deleteFromTableCommonQuery(
+                                                            "userTable", "");
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .getUserType();
+                                                  } else if (userType ==
+                                                      "staff") {
+                                                    await OrderAppDB.instance
+                                                        .deleteFromTableCommonQuery(
+                                                            "staffDetailsTable",
+                                                            "");
+                                                    // await OrderAppDB.instance
+                                                    //     .deleteFromTableCommonQuery(
+                                                    //         "staffDetailsTable",
+                                                    //         "");
+
+                                                    print(
+                                                        "staff cid----${cid}");
+
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .getStaffDetails(cid!);
+                                                  }
                                                   showDialog(
                                                     context: context,
                                                     builder: (BuildContext

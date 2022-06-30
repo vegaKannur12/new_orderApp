@@ -22,6 +22,8 @@ class _CustomerCreationState extends State<CustomerCreation> {
   ValueNotifier<bool> visible = ValueNotifier(false);
 
   String? selected;
+  String? userType;
+
   TextEditingController cusname = TextEditingController();
   String? gtype;
   CustomToast tst = CustomToast();
@@ -50,17 +52,20 @@ class _CustomerCreationState extends State<CustomerCreation> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // shared();
+    shared();
     print("widget----${widget.sid}");
-    Provider.of<Controller>(context, listen: false).getArea(widget.sid!);
+    print("user-----$userType");
+    if (userType == "admin") {
+      Provider.of<Controller>(context, listen: false).getArea(" ");
+    } else if (userType == "staff") {
+      Provider.of<Controller>(context, listen: false).getArea(widget.sid!);
+    }
   }
 
-  // shared() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //  os = prefs.getString("os");
-  //  sid = prefs.getString("sid");
-  //  print("sid==$sid");
-  // }
+  shared() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userType = prefs.getString("userType");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -350,9 +355,7 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                         int customerCount = await OrderAppDB
                                             .instance
                                             .getMaxCommonQuery(
-                                                'accountHeadsTable',
-                                                'id',
-                                                " ");
+                                                'accountHeadsTable', 'id', " ");
                                         // customerCount = customerCount + 1;
                                         String ac_code = "${widget.os} " +
                                             "${customerCount}";

@@ -159,10 +159,15 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       Provider.of<Controller>(context, listen: false).menu_index = "S2";
     }
     print("dididdd");
-    // if (widget.type != "return from cartList") {
-    if (sid != null) {
-      Provider.of<Controller>(context, listen: false).getArea(sid!);
+    print("user-----$userType");
+    if (userType == "admin") {
+      Provider.of<Controller>(context, listen: false).getArea(" ");
+    } else if (userType == "staff") {
+      if (sid != null) {
+        Provider.of<Controller>(context, listen: false).getArea(sid!);
+      }
     }
+
     print("s[0]----${s[0]}");
     Provider.of<Controller>(context, listen: false)
         .todayOrder(s[0], gen_condition!);
@@ -233,7 +238,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               );
         }
 
-      case "CS":return CustomerCreation(
+      case "CS":
+        return CustomerCreation(
           sid: sid!,
           os: os,
         );
