@@ -53,7 +53,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
     // print("initstate----${widget.title.toString()}");
     appBarTitle = Text(
       widget.title.toString(),
-      style: TextStyle(fontSize: 20),
+      style: TextStyle(fontSize: 18),
     );
     myFocusNode = FocusNode();
   }
@@ -64,7 +64,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
     super.dispose();
     myFocusNode.dispose();
   }
- 
+
   @override
   void deactivate() {
     // TODO: implement deactivate
@@ -96,11 +96,11 @@ class _CustomAppbarState extends State<CustomAppbar> {
     // print("widget build context----${widget.title.toString()}");
     return AppBar(
       backgroundColor: widget.level == "level1"
-          ? P_Settings.l1appbarColor
+          ? P_Settings.blue4
           : widget.level == "level2"
-              ? P_Settings.l2appbarColor
+              ? P_Settings.blue4
               : widget.level == "level3"
-                  ? P_Settings.l3appbarColor
+                  ? P_Settings.blue4
                   : null,
       title: appBarTitle,
       leading: IconButton(

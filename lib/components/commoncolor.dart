@@ -103,6 +103,9 @@ class P_Settings {
   static Color get l3datatablecolor => Color.fromARGB(255, 131, 201, 160);
   // static Color get bottomNavButton => Colors.white;
 
-/////////////////////////level1///////////////////////////////////////////////
-
+////// blue color combinations flutter////////////////
+  static Color get blue1 => Color.fromARGB(255, 44, 130, 201);
+  static Color get blue2 => Color.fromARGB(255, 3, 138, 255);
+  static Color get blue3 => Color.fromARGB(255, 161, 212, 238);
+  static Color get blue4 => Color.fromARGB(255, 40, 67, 135);
 }

@@ -588,12 +588,13 @@ class OrderAppDB {
 
   //////////////////////////menu table//////////////////////////////////////////
   Future insertMenuTable(String menu_prefix, String menu_name) async {
+    print("menu_prefix  menu_name ");
     final db = await database;
     // deleteFromTableCommonQuery('menuTable', "");
     var query1 =
         'INSERT INTO menuTable(menu_index,menu_name) VALUES("${menu_prefix}", "${menu_name}")';
     var res = await db.rawInsert(query1);
-    // print("menu----${query1}");
+    print("menu----${query1}");
     print("menu----${res}");
     // print(res);
     return res;

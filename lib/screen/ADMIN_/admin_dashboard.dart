@@ -104,7 +104,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           children: [
                             Text("${value.heading}",
                                 style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: P_Settings.wavecolor)),
                             Flexible(
@@ -132,19 +132,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
               Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
-                  // physics: NeverScrollableScrollPhysics(),
                   itemCount: value.adminDashboardList.length,
                   itemBuilder: (context, index) {
                     return rowChild(value.adminDashboardList[index], size);
                   },
                 ),
               )
-              // SingleChildScrollView(
-              //   child: Container(
-              //     height: size.height * 0.75,
-              //     child: getSizewidget(value.adminDashboardList),
-              //   ),
-              // ),
             ],
           );
         },
@@ -154,6 +147,120 @@ class _AdminDashboardState extends State<AdminDashboard> {
         );
   }
 
+  Widget rowChild(Today list, Size size) {
+    print("listtt$list");
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(list.group.toString(),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: P_Settings.wavecolor)),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GridView.builder(
+              shrinkWrap: true,
+              itemCount: list.data!.length,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: list.tileCount == 1 ? 1 : 2,
+                  childAspectRatio: list.tileCount == 1 ? 3.2 : 1.1,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10),
+              itemBuilder: (contxt, indx) {
+                return Container(
+                  child: Card(
+                    color:
+                        // Colors.red[300],
+                        parseColor(
+                      list.data![indx].color.toString(),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.white70, width: 1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    margin: EdgeInsets.all(4.0),
+                    child: list.tileCount == 1
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(width: size.width * 0.3),
+                                  Container(
+                                    height: size.height * 0.05,
+                                    width: size.width * 0.11,
+                                    child: Image.asset(
+                                      'asset/3.png',
+                                      height: 20.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(width: size.width * 0.3),
+                                    Text(list.data![indx].caption.toString(),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white)),
+                                    SizedBox(
+                                      height: size.height * 0.02,
+                                    ),
+                                    Text(list.data![indx].cvalue.toString(),
+                                        style: TextStyle(
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white)),
+                                  ]),
+                            ],
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: size.height * 0.05,
+                                width: size.width * 0.1,
+                                child: Image.asset(
+                                  'asset/3.png',
+                                  height: 20.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.02,
+                              ),
+                              Text(list.data![indx].caption.toString(),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white)),
+                              SizedBox(
+                                height: size.height * 0.01,
+                              ),
+                              Text(list.data![indx].cvalue.toString(),
+                                  style: TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white)),
+                            ],
+                          ),
+                  ),
+                );
+              }),
+        ),
+      ],
+    );
+  }
+  //////////////////////////////////////////////////////////////////////
   // Widget gridHeader(
   //   List listHeader,
   // ) {
@@ -237,121 +344,4 @@ class _AdminDashboardState extends State<AdminDashboard> {
   //     shrinkWrap: true,
   //   );
   // }
-
-  Widget rowChild(Today list, Size size) {
-    print("listtt$list");
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(list.group.toString(),
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: P_Settings.wavecolor)),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GridView.builder(
-              shrinkWrap: true,
-              itemCount: list.data!.length,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: list.tileCount == 1 ? 1 : 2,
-                  childAspectRatio: list.tileCount == 1 ? 3.2 : 1.1,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10),
-              itemBuilder: (contxt, indx) {
-                return Container(
-                  child: Card(
-                    color:
-                    // Colors.red[300],
-                     parseColor(
-                      list.data![indx].color.toString(),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.white70, width: 1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    margin: EdgeInsets.all(4.0),
-                    child: list.tileCount == 1
-                        ? Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                          
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-               
-                                children: [
-                                  SizedBox(width:size.width*0.3),
-                                  Container(
-                                    height: size.height * 0.05,
-                                    width: size.width * 0.11,
-                                    child: Image.asset(
-                                      'asset/3.png',
-                                      height: 20.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(width:size.width*0.3),
-
-                                Text(list.data![indx].caption.toString(),
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white)),
-                                SizedBox(
-                                  height: size.height * 0.02,
-                                ),
-                                Text(list.data![indx].cvalue.toString(),
-                                    style: TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white)),
-                              ]),
-                            ],
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: size.height * 0.05,
-                                width: size.width * 0.1,
-                                child: Image.asset(
-                                  'asset/3.png',
-                                  height: 20.0,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.02,
-                              ),
-                              Text(list.data![indx].caption.toString(),
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white)),
-                              SizedBox(
-                                height: size.height * 0.01,
-                              ),
-                              Text(list.data![indx].cvalue.toString(),
-                                  style: TextStyle(
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white)),
-                            ],
-                          ),
-                  ),
-                );
-              }),
-        ),
-      ],
-    );
-  }
 }

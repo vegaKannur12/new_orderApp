@@ -139,12 +139,12 @@ class _ExpandedDatatableState extends State<ExpandedDatatable> {
           color: r == itemList.length - 1
               ? MaterialStateProperty.all(P_Settings.l1totColor)
               : widget.level == "level1"
-                  ? MaterialStateProperty.all(P_Settings.l1datatablecolor)
+                  ? MaterialStateProperty.all(P_Settings.blue3)
                   : widget.level == "level2"
                       ? MaterialStateProperty.all(P_Settings.l2datatablecolor)
                       : widget.level == "level3"
                           ? MaterialStateProperty.all(
-                              P_Settings.l3datatablecolor)
+                              P_Settings.blue3)
                           : MaterialStateProperty.all(P_Settings.color4),
           cells: getCelle(itemList[r])));
     }

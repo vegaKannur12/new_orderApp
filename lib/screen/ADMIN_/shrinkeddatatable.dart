@@ -86,11 +86,11 @@ class _ShrinkedDatatableState extends State<ShrinkedDatatable> {
         ),
         dataRowColor:
             MaterialStateColor.resolveWith((states) => widget.level == "level1"
-                ? P_Settings.l1datatablecolor
+                ? P_Settings.color4
                 : widget.level == "level2"
-                    ? P_Settings.l2datatablecolor
+                    ? P_Settings.color4
                     : widget.level == "level3"
-                        ? P_Settings.l3datatablecolor
+                        ? P_Settings.color4
                         : P_Settings.color4),
         columns: getColumns(tableColumn),
         rows: getRowss(newMp),

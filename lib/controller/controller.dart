@@ -318,7 +318,7 @@ class Controller extends ChangeNotifier {
             body: body,
           );
 
-          print("body ${body}");
+          print("bodymenuuuuuu ${body}");
           var map = jsonDecode(response.body);
           print("map menu ${map}");
 
@@ -329,7 +329,7 @@ class Controller extends ChangeNotifier {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString("firstMenu", firstMenu!);
           for (var menuItem in sidemenuModel.menu!) {
-            // print("menuitem----${menuItem.menu_name}");
+            print("menuitem----${menuItem.menu_name}");
             res = await OrderAppDB.instance
                 .insertMenuTable(menuItem.menu_index!, menuItem.menu_name!);
             // menuList.add(menuItem);
