@@ -90,14 +90,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // TODO: implement initState
 
     super.initState();
-
     // print(Provider.of<Controller>(context, listen: false).firstMenu);
-    if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
-      Provider.of<Controller>(context, listen: false).menu_index =
-          Provider.of<Controller>(context, listen: false).firstMenu!;
-    } else {
-      CircularProgressIndicator();
-    }
+    // if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
+    //   Provider.of<Controller>(context, listen: false).menu_index =
+    //       Provider.of<Controller>(context, listen: false).firstMenu!;
+    // } else {
+    //   CircularProgressIndicator();
+    // }
 
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
@@ -133,8 +132,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   }
 
   navigateToPage(BuildContext context, Size size) {
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => HomePage()));
+    print("Navigation in home page");
+    Navigator.of(context).push(
+      PageRouteBuilder(
+          opaque: false, // set to false
+          pageBuilder: (_, __, ___) => HomePage()),
+    );
   }
 
   insertSettings() async {
@@ -148,6 +151,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     os = prefs.getString("os");
     userType = prefs.getString("userType");
     firstMenu = prefs.getString("firstMenu");
+    Provider.of<Controller>(context, listen: false).menu_index = firstMenu;
     // menu_index = firstMenu!;
     sid = prefs.getString("sid");
     print("sid...cid  menu_index $sid...$cid");
@@ -237,12 +241,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               // os: os,
               );
         }
-
-      case "CS":
-        return CustomerCreation(
-          sid: sid!,
-          os: os,
-        );
 
       case "A2":
         {
@@ -651,16 +649,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      ListTile(
-                        trailing: Icon(Icons.settings),
-                        onTap: () async {
-                          _onSelectItem(0, "CS");
-                        },
-                        title: Text(
-                          "Customer",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
+                      
                       ListTile(
                         trailing: Icon(Icons.settings),
                         onTap: () async {

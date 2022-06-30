@@ -1,11 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
-import 'package:orderapp/controller/controller.dart';
-
 import 'package:orderapp/screen/ADMIN_/adminController.dart';
 import 'package:orderapp/screen/ADMIN_/level1.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
@@ -170,14 +167,16 @@ class _HomePageState extends State<HomePage> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: WillPopScope(
-        onWillPop: () async {
-          Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Dashboard()),
-          );
-          return true;
-        },
+        onWillPop: (() => _onBackPressed(context)),
+        // onWillPop: () async {
+        //   Navigator.pop(context);
+
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => Dashboard()),
+        //   );
+        //   return true;
+        // },
         child: Scaffold(
           key: _scaffoldKey,
           resizeToAvoidBottomInset: false,
@@ -200,7 +199,8 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.menu)),
             title: Consumer<AdminController>(
               builder: (context, value, child) {
-                return Text(value.reportType.toString());
+                return Text(value.reportType.toString(),
+                    style: TextStyle(fontSize: 19));
               },
               // child: Text(Provider.of<AdminController>(context, listen: false)
               //     .reportType
@@ -505,6 +505,14 @@ class _HomePageState extends State<HomePage> {
           ]),
         ),
       ),
+    );
+  }
+
+  _onBackPressed(BuildContext context) async {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+          opaque: false, // set to false
+          pageBuilder: (_, __, ___) => Dashboard()),
     );
   }
 }

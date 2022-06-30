@@ -398,9 +398,9 @@ class _LevelOneState extends State<LevelOne> {
                                                                             value.specialelements[index][
                                                                                 "value"]
                                                                         ? P_Settings
-                                                                            .l1appbarColor
+                                                                            .color4
                                                                         : P_Settings
-                                                                            .l1datatablecolor,
+                                                                            .color4,
                                                                     shadowColor:
                                                                         P_Settings
                                                                             .color4,
@@ -643,12 +643,12 @@ class _LevelOneState extends State<LevelOne> {
                                                   .elementAt(1)
                                               : "",
                                           // style: TextStyle(fontSize: 12),
-                                        ),
+                                        ), 
                                       ),
                                       // subtitle:
                                       //     Center(child: Text('/report page flow')),
                                       trailing: IconButton(
-                                          color: P_Settings.l1appbarColor,
+                                          color: P_Settings.l1datatablecolor,
                                           icon: Provider.of<AdminController>(
                                                       context,
                                                       listen: false)
@@ -810,7 +810,7 @@ class _LevelOneState extends State<LevelOne> {
                               children: [
                                 Ink(
                                   decoration: BoxDecoration(
-                                    color: P_Settings.l1datatablecolor,
+                                    color: P_Settings.blue3,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ListTile(

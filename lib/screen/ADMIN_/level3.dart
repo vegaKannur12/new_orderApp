@@ -597,7 +597,7 @@ class _LevelThreeState extends State<LevelThree> {
                                                     icon: Icon(
                                                         Icons.arrow_upward,
                                                         color: P_Settings
-                                                            .l3appbarColor),
+                                                            .blue3),
                                                     onPressed: () {
                                                       setState(() {
                                                         qtyvisible = false;
@@ -611,7 +611,7 @@ class _LevelThreeState extends State<LevelThree> {
                                                     icon: Icon(
                                                         Icons.arrow_downward,
                                                         color: P_Settings
-                                                            .l3appbarColor),
+                                                            .blue4),
                                                     onPressed: () {
                                                       setState(() {
                                                         qtyvisible = true;
@@ -667,9 +667,9 @@ class _LevelThreeState extends State<LevelThree> {
                                                                             value.specialelements[index][
                                                                                 "value"]
                                                                         ? P_Settings
-                                                                            .l3appbarColor
+                                                                            .blue3
                                                                         : P_Settings
-                                                                            .l3datatablecolor,
+                                                                            .blue3,
                                                                     shadowColor:
                                                                         P_Settings
                                                                             .color4,
@@ -806,7 +806,7 @@ class _LevelThreeState extends State<LevelThree> {
                     return Container(
                       height: size.height * 0.6,
                       child: SpinKitPouringHourGlassRefined(
-                          color: P_Settings.l3appbarColor),
+                          color: P_Settings.blue3),
                     );
                   }
                   if (value.isSearch && value.l3newList.length == 0) {
@@ -841,7 +841,7 @@ class _LevelThreeState extends State<LevelThree> {
                                 children: [
                                   Ink(
                                     decoration: BoxDecoration(
-                                      color: P_Settings.l3datatablecolor,
+                                      color: P_Settings.blue3,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: ListTile(
@@ -855,7 +855,7 @@ class _LevelThreeState extends State<LevelThree> {
                                               ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                     primary: P_Settings
-                                                        .l3datatablecolor),
+                                                        .blue3),
                                                 onPressed: () {
                                                   Navigator.of(ctx).pop();
                                                 },
@@ -976,7 +976,7 @@ class _LevelThreeState extends State<LevelThree> {
                                                         child:
                                                             CircularProgressIndicator(
                                                           color: P_Settings
-                                                              .l3appbarColor,
+                                                              .blue3,
                                                         ))
                                                     : ExpandedDatatable(
                                                         dedoded: index >= 0
@@ -1029,7 +1029,7 @@ class _LevelThreeState extends State<LevelThree> {
                               children: [
                                 Ink(
                                   decoration: BoxDecoration(
-                                    color: P_Settings.l3datatablecolor,
+                                    color: P_Settings.blue3,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ListTile(
@@ -1043,7 +1043,7 @@ class _LevelThreeState extends State<LevelThree> {
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                   primary: P_Settings
-                                                      .l3datatablecolor),
+                                                      .blue3),
                                               onPressed: () {
                                                 Navigator.of(ctx).pop();
                                               },
