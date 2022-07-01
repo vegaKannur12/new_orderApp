@@ -155,7 +155,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // menu_index = firstMenu!;
     sid = prefs.getString("sid");
     print("sid...cid  menu_index $sid...$cid");
-
     print("formattedDate...$formattedDate");
     print("dashboard init");
     print("${widget.type}");
@@ -649,7 +648,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      
+
                       ListTile(
                         trailing: Icon(Icons.settings),
                         onTap: () async {

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
@@ -164,10 +165,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                           : widget.type == "collection"
                                               ? "COLLECTION"
                                               : "SALES ORDER",
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          color: P_Settings.bodycolor,
-                                          fontWeight: FontWeight.bold)
+                                      style: GoogleFonts.alike(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                          fontSize: 26,
+                                          color: Colors.white)
                                       // ),
                                       ),
                                 ]),

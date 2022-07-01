@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customPopup.dart';
@@ -116,13 +117,13 @@ class StaffLogin extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(height: size.height * 0.03),
-                                      Text(
-                                        'Login',
-                                        style: TextStyle(
-                                          fontSize: 30,
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      Text('Login',
+                                          style: GoogleFonts.alike(
+                                              textStyle: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2,
+                                              fontSize: 28,
+                                              color: Colors.white)),
                                     ],
                                   ),
                                 ),
