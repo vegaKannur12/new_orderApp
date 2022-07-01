@@ -97,7 +97,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     }
     // Provider.of<Controller>(context, listen: false).custmerSelection = "";
     print("wudiget.areaNmae----${widget.areaname}");
-    
+
     sharedPref();
   }
 

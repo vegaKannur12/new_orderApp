@@ -294,6 +294,9 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                   child: Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: TextFormField(
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(12),
+                                        ],
                                         controller: phoneNo,
                                         keyboardType: TextInputType.number,
                                         decoration: new InputDecoration(
@@ -316,6 +319,9 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                   child: Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: TextFormField(
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(10),
+                                      ],
                                       controller: mob,
                                       keyboardType: TextInputType.number,
                                       decoration: new InputDecoration(
