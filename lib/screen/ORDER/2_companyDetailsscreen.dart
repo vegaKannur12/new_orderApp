@@ -19,6 +19,8 @@ class CompanyDetails extends StatefulWidget {
 
 class _CompanyDetailsState extends State<CompanyDetails> {
   String? cid;
+  String? firstMenu;
+
   CustomSnackbar _snackbar = CustomSnackbar();
   @override
   void initState() {
@@ -252,7 +254,18 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                           Provider.of<Controller>(context,
                                                   listen: false)
                                               .fetchMenusFromMenuTable();
+                                          firstMenu =
+                                              prefs.getString("firstMenu");
+                                          if (firstMenu != null) {
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .menu_index = firstMenu;
 
+                                            print(Provider.of<Controller>(
+                                                    context,
+                                                    listen: false)
+                                                .menu_index);
+                                          }
                                           String cid = Provider.of<Controller>(
                                                   context,
                                                   listen: false)
