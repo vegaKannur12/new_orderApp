@@ -8,7 +8,7 @@ import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
-import 'package:orderapp/screen/6_reportPage.dart';
+
 import 'package:orderapp/screen/ADMIN_/admin_dashboard.dart';
 import 'package:orderapp/screen/ADMIN_/homePage.dart';
 
@@ -19,6 +19,7 @@ import 'package:orderapp/screen/ORDER/5_mainDashboard.dart';
 import 'package:orderapp/screen/ORDER/6_customer_creation.dart';
 import 'package:orderapp/screen/ORDER/6_downloadedPage.dart';
 import 'package:orderapp/screen/ORDER/6_historypage.dart';
+import 'package:orderapp/screen/ORDER/6_reportPage.dart';
 import 'package:orderapp/screen/ORDER/6_uploaddata.dart';
 import 'package:orderapp/screen/ORDER/6_settings.dart';
 import 'package:orderapp/screen/ORDER/todayCollection.dart';
@@ -202,7 +203,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "S1":
         {
           print("djs");
-
+          _tabController!.animateTo((0));
           return new MainDashboard();
         }
 
@@ -315,7 +316,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           // } else {
           //   gen_condition = " ";
           // }
-          Provider.of<Controller>(context, listen: false).setFilter(false);
+          // Provider.of<Controller>(context, listen: false).setFilter(false);
           Provider.of<Controller>(context, listen: false).selectReportFromOrder(
             context,
             sid!,
@@ -649,7 +650,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      
+
                       ListTile(
                         trailing: Icon(Icons.settings),
                         onTap: () async {

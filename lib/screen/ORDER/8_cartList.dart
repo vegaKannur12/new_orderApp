@@ -159,9 +159,11 @@ class _CartListState extends State<CartList> {
                               final prefs =
                                   await SharedPreferences.getInstance();
                               String? sid = await prefs.getString('sid');
+                              String? os = await prefs.getString('os');
+
                               Provider.of<Controller>(context, listen: false)
                                   .insertToOrderbagAndMaster(
-                                      widget.os,
+                                      os!,
                                       s[0],
                                       s[1],
                                       widget.custmerId,

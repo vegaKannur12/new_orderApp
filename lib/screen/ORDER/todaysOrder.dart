@@ -30,17 +30,8 @@ class _TodaysOrderState extends State<TodaysOrder> {
     super.initState();
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     s = date!.split(" ");
- 
   }
 
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    print("todys oredr");
-  }
-
- 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -52,7 +43,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
               color: P_Settings.wavecolor,
             );
           } else {
-            if (value.todayOrderList.length==0) {
+            if (value.todayOrderList.length == 0) {
               return Container(
                 height: size.height * 0.7,
                 width: double.infinity,
@@ -88,6 +79,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
                               // history["Cus_id"]);
                             },
                             child: Card(
+                              color: Colors.grey[100],
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(

@@ -28,6 +28,7 @@ class Controller extends ChangeNotifier {
   bool isListLoading = false;
   int? selectedTabIndex;
   String? userName;
+  String? selectedAreaId;
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
@@ -36,7 +37,7 @@ class Controller extends ChangeNotifier {
   int returnCount = 0;
   bool isVisible = false;
   double returnTotal = 0.0;
-  bool noreportdata = false;
+  bool? noreportdata;
   bool returnprice = false;
   int? shopVisited;
   int? noshopVisited;
@@ -1549,13 +1550,16 @@ class Controller extends ChangeNotifier {
     // notifyListeners();
     var res = await OrderAppDB.instance
         .getReportDataFromOrderDetails(userId, date, context);
+
+    print("result-cxc----$res");
     if (res != null && res.length > 0) {
       for (var item in res) {
         reportData.add(item);
       }
     } else {
       noreportdata = true;
-      notifyListeners();
+      print('report data----$noreportdata');
+      // notifyListeners();
       // snackbar.showSnackbar(context, "please download customers !!!");
     }
     isLoading = false;

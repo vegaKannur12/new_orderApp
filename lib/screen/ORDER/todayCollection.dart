@@ -79,6 +79,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                               child: Container(
                                 height: size.height * 0.15,
                                 child: Card(
+                                  color: Colors.grey[100],
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(

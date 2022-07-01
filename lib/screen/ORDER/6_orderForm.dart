@@ -73,6 +73,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
   bool dropvisible = true;
   String randnum = "";
   int num = 0;
+  // String? _selectedItemarea;
+  String? _selectedAreaId;
   DateTime now = DateTime.now();
   String? date;
   @override
@@ -90,10 +92,15 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     print(
         "seelected area-----${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
+    print("_selectedAreaId----${Provider.of<Controller>(context, listen: false).selectedAreaId}");
+    if (Provider.of<Controller>(context, listen: false).selectedAreaId != null) {
+      Provider.of<Controller>(context, listen: false)
+          .getCustomer("${Provider.of<Controller>(context, listen: false).selectedAreaId}");
+    }
     if (Provider.of<Controller>(context, listen: false).areaidFrompopup !=
         null) {
       Provider.of<Controller>(context, listen: false).getCustomer(
-          "${Provider.of<Controller>(context, listen: false).areaidFrompopup!}");
+          "${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
     }
     // Provider.of<Controller>(context, listen: false).custmerSelection = "";
     print("wudiget.areaNmae----${widget.areaname}");
@@ -115,8 +122,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     double topInsets = MediaQuery.of(context).viewInsets.top;
-    String? _selectedItemarea;
-    String? _selectedAreaId;
+
     print("widget.areaname---${widget.areaname}");
 
     // final bottom = MediaQuery.of(context).viewInsets.bottom;
@@ -235,13 +241,16 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             print("areaName...$areaName");
                                             _selectedAreaId = value["aid"];
                                             Provider.of<Controller>(context,
+                                                    listen: false).selectedAreaId=_selectedAreaId;
+                                            Provider.of<Controller>(context,
                                                     listen: false)
                                                 .areaAutoComplete = [
                                               _selectedAreaId!,
                                               _selectedItemarea!,
                                             ];
 
-                                            print("hjkkllsjm*****************");
+                                            print(
+                                                "hjkkllsjm----$_selectedAreaId");
                                             print(
                                                 "${Provider.of<Controller>(context, listen: false).areaAutoComplete}");
                                             Provider.of<Controller>(context,

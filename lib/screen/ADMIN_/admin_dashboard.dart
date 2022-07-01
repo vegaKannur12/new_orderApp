@@ -83,7 +83,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
         child: Consumer<Controller>(
           builder: (context, value, child) {
             if (value.isLoading) {
-              return CircularProgressIndicator();
+              return Container();
+              // return CircularProgressIndicator();
             } else {
               return Column(
                 children: [

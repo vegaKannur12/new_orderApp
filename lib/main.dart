@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/admin_dashboard.dart';
 
@@ -51,16 +52,19 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.indigo,
         ),
-        // scaffoldBackgroundColor: P_Settings.bodycolor,
-        textTheme: const TextTheme(
-          headline1: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          headline6: TextStyle(
-            fontSize: 25.0,
-          ),
-          bodyText2: TextStyle(
-            fontSize: 14.0,
-          ),
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
         ),
+        // scaffoldBackgroundColor: P_Settings.bodycolor,
+        // textTheme: const TextTheme(
+        //   headline1: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        //   headline6: TextStyle(
+        //     fontSize: 25.0,
+        //   ),
+        //   bodyText2: TextStyle(
+        //     fontSize: 14.0,
+        //   ),
+        // ),
       ),
       home: SplashScreen(),
       // home: MyWaveClipper(),
