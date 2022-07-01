@@ -9,6 +9,7 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MainDashboard extends StatefulWidget {
   const MainDashboard({Key? key}) : super(key: key);
@@ -46,7 +47,7 @@ class _MainDashboardState extends State<MainDashboard> {
     print("init");
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
-    sharedPref(); 
+    sharedPref();
   }
 
   @override
@@ -83,11 +84,13 @@ class _MainDashboardState extends State<MainDashboard> {
                           ),
                           title: Row(
                             children: [
-                              Text("${value.cname}",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: P_Settings.wavecolor)),
+                              Text(
+                                "${value.cname}",
+                                style: GoogleFonts.alike(
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    fontSize: 16),
+                              ),
                               Text(" - ${value.sname}",
                                   style: TextStyle(
                                       fontSize: 15,
@@ -122,15 +125,18 @@ class _MainDashboardState extends State<MainDashboard> {
                             children: [
                               Text(
                                 "Todays  ",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.grey[700],
-                                    fontWeight: FontWeight.bold),
+                                style: GoogleFonts.alike(
+                                  textStyle:
+                                      Theme.of(context).textTheme.headline1,
+                                  fontSize: 20,
+                                ),
                               ),
                               Text(" -  ${s[0]}",
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold))
+                                  style: GoogleFonts.alike(
+                                      textStyle:
+                                          Theme.of(context).textTheme.bodyText2,
+                                      fontSize: 16,
+                                      color: Colors.green))
                             ],
                           ),
                         ),
@@ -187,17 +193,20 @@ class _MainDashboardState extends State<MainDashboard> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  Text(
-                                    "Todays Collection ",
-                                    style: TextStyle(
+                                  Text("Todays Collection ",
+                                      style: GoogleFonts.alike(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .headline1,
                                         fontSize: 20,
-                                        color: Colors.grey[700],
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                      )),
                                   Text("-  ${s[0]}",
-                                      style: TextStyle(
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.bold))
+                                      style: GoogleFonts.alike(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                          fontSize: 16,
+                                          color: Colors.green))
                                 ],
                               ),
                             )
@@ -297,7 +306,8 @@ class _MainDashboardState extends State<MainDashboard> {
                               Provider.of<Controller>(context, listen: false)
                                   .areaSelection(selected!);
                               Provider.of<Controller>(context, listen: false)
-                                  .dashboardSummery(sid!, s[0], selected!,context);
+                                  .dashboardSummery(
+                                      sid!, s[0], selected!, context);
                               String? gen_area = Provider.of<Controller>(
                                       context,
                                       listen: false)
@@ -385,17 +395,16 @@ class _MainDashboardState extends State<MainDashboard> {
                                         : null,
               ),
               Text(title.toString(),
+                  style: GoogleFonts.alike(
+                    textStyle: Theme.of(context).textTheme.bodyText1,
+                    fontSize: 16,
+                    color: Colors.white,
+                  )),
+              Text(value == "null" ? "0" : value.toString(),
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 23,
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
-              
-                
-                  Text(value == "null"?"0":value.toString(),
-                      style: TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
             ],
           ),
         ),

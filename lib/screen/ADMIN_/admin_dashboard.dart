@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -178,7 +179,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(list.group.toString(),
-              style: TextStyle(
+              style: GoogleFonts.alike(
+                  textStyle: Theme.of(context).textTheme.bodyText2,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: P_Settings.wavecolor)),
@@ -231,9 +233,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   children: [
                                     SizedBox(width: size.width * 0.3),
                                     Text(list.data![indx].caption.toString(),
-                                        style: TextStyle(
+                                        style: GoogleFonts.alike(
+                                            textStyle: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
                                             fontSize: 14,
-                                            fontWeight: FontWeight.bold,
                                             color: Colors.white)),
                                     SizedBox(
                                       height: size.height * 0.02,
@@ -263,9 +267,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 height: size.height * 0.02,
                               ),
                               Text(list.data![indx].caption.toString(),
-                                  style: TextStyle(
+                                  style: GoogleFonts.alike(
+                                      textStyle:
+                                          Theme.of(context).textTheme.bodySmall,
                                       fontSize: 14,
-                                      fontWeight: FontWeight.bold,
                                       color: Colors.white)),
                               SizedBox(
                                 height: size.height * 0.01,

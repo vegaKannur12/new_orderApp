@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -89,10 +90,12 @@ class _CustomerCreationState extends State<CustomerCreation> {
                       children: [
                         Text(
                           "Customer Creation",
-                          style: TextStyle(
-                              color: P_Settings.wavecolor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                             style: GoogleFonts.alike(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
+                                          fontSize: 22,
+                                          color: P_Settings.wavecolor)
                         ),
                         Divider(
                           thickness: 2,
