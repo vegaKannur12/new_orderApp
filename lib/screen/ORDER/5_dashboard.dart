@@ -115,7 +115,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     _tabController = TabController(
       vsync: this,
       length: myTabs.length,
-      // initialIndex: 0,
+      initialIndex: 0,
     );
 
     _tabController!.addListener(() {
@@ -201,7 +201,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "S1":
         {
           print("djs");
-
+          _tabController!.animateTo((0));
           return new MainDashboard();
         }
 
