@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customToast.dart';
@@ -76,6 +77,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   _onSelectItem(int index, String? menu) {
     if (!mounted) return;
+    print("menu----$menu");
     if (this.mounted) {
       setState(() {
         _selectedIndex = index;
@@ -151,8 +153,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     cid = prefs.getString("cid");
     os = prefs.getString("os");
     userType = prefs.getString("userType");
-    firstMenu = prefs.getString("firstMenu");
-    Provider.of<Controller>(context, listen: false).menu_index = firstMenu;
+    // firstMenu = prefs.getString("firstMenu");
+    // Provider.of<Controller>(context, listen: false).menu_index = firstMenu;
     // menu_index = firstMenu!;
     sid = prefs.getString("sid");
     print("sid...cid  menu_index $sid...$cid");
@@ -455,7 +457,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                               indicatorWeight: 2.0,
                               // indicatorSize: TabBarIndicatorSize.label,
                               labelColor: Color.fromARGB(255, 58, 54, 54),
-
+                              labelStyle: GoogleFonts.lato(
+                                textStyle:
+                                    Theme.of(context).textTheme.bodyText2,
+                                fontSize: 14,
+                              ),
+                              unselectedLabelColor: P_Settings.wavecolor,
                               tabs: myTabs,
                               controller: _tabController,
                             )
@@ -493,7 +500,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                               Provider.of<Controller>(context, listen: false)
                                   .getCompanyData();
                               drawerOpts.clear();
-                              print("clicked");
+                              print("clicked---${Provider.of<Controller>(context,
+                                              listen: false).menu_index}");
                               // companyAttributes.clear();
                               for (var i = 0;
                                   i <
@@ -510,9 +518,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                         title: Text(
                                           value.menuList[i]["menu_name"]
                                               .toLowerCase(),
-                                          style: TextStyle(
-                                              fontFamily: P_Font.kronaOne,
-                                              fontSize: 17),
+                                          style: GoogleFonts.lato(
+                                            textStyle: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2,
+                                            fontSize: 17,
+                                          ),
                                         ),
                                         // selected: i == _selectedIndex,
                                         onTap: () {

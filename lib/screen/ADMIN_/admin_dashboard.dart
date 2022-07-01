@@ -83,9 +83,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
         controller: _refreshController,
         child: Consumer<Controller>(
           builder: (context, value, child) {
-            if (value.isLoading) {
-              return Container();
-              // return CircularProgressIndicator();
+            if (value.isAdminLoading) {
+              return SpinKitFadingCircle(
+                color: P_Settings.wavecolor,
+              );
             } else {
               return Column(
                 children: [

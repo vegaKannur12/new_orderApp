@@ -24,6 +24,7 @@ import '../model/staffdetails_model.dart';
 
 class Controller extends ChangeNotifier {
   bool isLoading = false;
+  bool isAdminLoading=false;
   String? menu_index;
   bool isListLoading = false;
   int? selectedTabIndex;
@@ -1957,7 +1958,7 @@ class Controller extends ChangeNotifier {
       Map body = {
         'cid': cid,
       };
-      isLoading = true;
+      isAdminLoading = true;
       // notifyListeners();
       http.Response response = await http.post(
         url,
@@ -1968,7 +1969,7 @@ class Controller extends ChangeNotifier {
       var map = jsonDecode(response.body);
       print("maparea ${map}");
       late Today todayDetails;
-      isLoading = false;
+      isAdminLoading = false;
       notifyListeners();
       AdminDash admin = AdminDash.fromJson(map);
       heading = admin.caption;
