@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
@@ -18,6 +19,8 @@ class AdminDashboard extends StatefulWidget {
 
 class _AdminDashboardState extends State<AdminDashboard> {
   DateTime date = DateTime.now();
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   String? formattedDate;
   String? sid;
   String? heading;
@@ -46,6 +49,18 @@ class _AdminDashboardState extends State<AdminDashboard> {
     // Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
   }
 
+  void _onRefresh() async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? cid = prefs.getString("cid");
+    Provider.of<Controller>(context, listen: false).adminDashboard(cid!);
+
+    // monitor network fetch
+    // await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
   @override
   void initState() {
     formattedDate = DateFormat('yyyy-MM-dd').format(date);
@@ -61,87 +76,94 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Consumer<Controller>(
-        builder: (context, value, child) {
-          if (value.isLoading) {
-            return CircularProgressIndicator();
-          } else {
-            return Column(
-              children: [
-                Container(
-                  height: size.height * 0.04,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      // CircleAvatar(
-                      //   radius: 15,
-                      //   child: Icon(
-                      //     Icons.person,
-                      //     color: P_Settings.wavecolor,
-                      //   ),
-                      // ),
-                      SizedBox(
-                        width: size.width * 0.03,
-                      ),
-                      // Text("${value.cname}",
-                      //     style: TextStyle(
-                      //         fontSize: 16,
-                      //         fontWeight: FontWeight.bold,
-                      //         color: P_Settings.wavecolor)),
-                      // Text("  - Admin",
-                      //     style: TextStyle(
-                      //         fontSize: 15,
-                      //         fontWeight: FontWeight.bold,
-                      //         color: P_Settings.collection1,
-                      //         fontStyle: FontStyle.italic)),
-                      SizedBox(
-                        width: size.width * 0.1,
-                      ),
-
-                      Container(
-                        height: size.height * 0.08,
-                        width: size.width * 0.8,
-                        child: ListTile(
-                          title:
-                          value.heading==null?SpinKitThreeBounce(color: P_Settings.wavecolor,size:14): Row(
-                            children: [
-                              Text("${value.heading}",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: P_Settings.wavecolor)),
-                              Flexible(
-                                child: Text(" : ${value.updateDate}",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: P_Settings.extracolor)),
-                              ),
-                            ],
-                          ),
+      child: SmartRefresher(
+        enablePullDown: true,
+        onRefresh: _onRefresh,
+        controller: _refreshController,
+        child: Consumer<Controller>(
+          builder: (context, value, child) {
+            if (value.isLoading) {
+              return CircularProgressIndicator();
+            } else {
+              return Column(
+                children: [
+                  Container(
+                    height: size.height * 0.04,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        // CircleAvatar(
+                        //   radius: 15,
+                        //   child: Icon(
+                        //     Icons.person,
+                        //     color: P_Settings.wavecolor,
+                        //   ),
+                        // ),
+                        SizedBox(
+                          width: size.width * 0.03,
                         ),
-                      )
-                    ],
+                        // Text("${value.cname}",
+                        //     style: TextStyle(
+                        //         fontSize: 16,
+                        //         fontWeight: FontWeight.bold,
+                        //         color: P_Settings.wavecolor)),
+                        // Text("  - Admin",
+                        //     style: TextStyle(
+                        //         fontSize: 15,
+                        //         fontWeight: FontWeight.bold,
+                        //         color: P_Settings.collection1,
+                        //         fontStyle: FontStyle.italic)),
+                        SizedBox(
+                          width: size.width * 0.1,
+                        ),
+
+                        Container(
+                          height: size.height * 0.08,
+                          width: size.width * 0.8,
+                          child: ListTile(
+                            title: value.heading == null
+                                ? SpinKitThreeBounce(
+                                    color: P_Settings.wavecolor, size: 14)
+                                : Row(
+                                    children: [
+                                      Text("${value.heading}",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              color: P_Settings.wavecolor)),
+                                      Flexible(
+                                        child: Text(" : ${value.updateDate}",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: P_Settings.extracolor)),
+                                      ),
+                                    ],
+                                  ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
-                  child: Divider(thickness: 2),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    // physics: NeverScrollableScrollPhysics(),
-                    itemCount: value.adminDashboardList.length,
-                    itemBuilder: (context, index) {
-                      return rowChild(value.adminDashboardList[index], size);
-                    },
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+                    child: Divider(thickness: 2),
                   ),
-                )
-              ],
-            );
-          }
-        },
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      // physics: NeverScrollableScrollPhysics(),
+                      itemCount: value.adminDashboardList.length,
+                      itemBuilder: (context, index) {
+                        return rowChild(value.adminDashboardList[index], size);
+                      },
+                    ),
+                  )
+                ],
+              );
+            }
+          },
+        ),
       ),
     )
         //
