@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
       st_pwd = prefs.getString("st_pwd");
       firstMenu = prefs.getString("firstMenu");
       print("st-----$st_uname---$st_pwd");
-      print("username and password  $st_uname  $st_pwd");
+      print("firstMenu $firstMenu");
       if (firstMenu != null) {
         Provider.of<Controller>(context, listen: false).menu_index = firstMenu;
 
@@ -65,9 +65,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
-
     shared();
     navigate();
   }
