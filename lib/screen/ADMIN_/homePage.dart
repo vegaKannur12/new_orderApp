@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
+import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/adminController.dart';
 import 'package:orderapp/screen/ADMIN_/level1.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   DateTime currentToDate = DateTime.now();
   // String? reportType;
   String? cid;
+  String? firstMenu;
   bool qtyvisible = false;
   String? formattedDate;
   String? crntFromDateFormat;
@@ -122,6 +124,8 @@ class _HomePageState extends State<HomePage> {
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
+    firstMenu = prefs.getString("firstMenu");
+    Provider.of<Controller>(context, listen: false).menu_index = firstMenu;
   }
 
   @override
@@ -167,9 +171,17 @@ class _HomePageState extends State<HomePage> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: WillPopScope(
-        onWillPop: (() => _onBackPressed(context)),
+        onWillPop: () async {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Dashboard()),
+          );
+          return true;
+        },
+        // onWillPop: (() => _onBackPressed(context)),
         // onWillPop: () async {
-        //   Navigator.pop(context);
+        //   // Navigator.pop(context);
 
         //   Navigator.push(
         //     context,
@@ -508,13 +520,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _onBackPressed(BuildContext context) async {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-          opaque: false, // set to false
-          pageBuilder: (_, __, ___) => Dashboard()),
-    );
-  }
+  // _onBackPressed(BuildContext context) async {
+  //   print("back presed");
+  //   Navigator.of(context).push(
+  //     PageRouteBuilder(
+  //         opaque: true, // set to false
+  //         pageBuilder: (_, __, ___) => Dashboard()),
+  //   );
+  // }
 }
 // Future<bool> _onBackPressed(BuildContext context) async {
 //   Navigator.pop(context);
