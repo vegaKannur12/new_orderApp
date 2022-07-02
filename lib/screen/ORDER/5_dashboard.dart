@@ -551,6 +551,51 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             await OrderAppDB.instance
                                 .deleteFromTableCommonQuery(
                                     "orderDetailTable", "");
+                                      await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "accountHeadsTable", "");
+                            await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "customerTable", "");  
+                            await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "registrationTable", "");
+                            await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "staffDetailsTable", "");
+                                      await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "areaDetailsTable", "");
+                            await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "productDetailsTable", "");  await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "productsCategory", "");
+                            await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "companyTable", "");
+                                      await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "orderBagTable", "");
+                            await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "menuTable", "");
+                                      await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "settings", "");
+                            await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "walletTable", "");  await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "collectionTable", "");
+                            await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "remarksTable", "");  await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "returnMasterTable", "");
+                            await OrderAppDB.instance
+                                .deleteFromTableCommonQuery(
+                                    "returnDetailTable", "");
                           },
                           icon: Icon(
                             Icons.delete,
@@ -616,7 +661,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           _onSelectItem(0, "CD");
                         },
                         title: Text(
-                          "Company Details",
+                          "company Details",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -636,7 +681,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           _onSelectItem(0, "DP");
                         },
                         title: Text(
-                          "Download page",
+                          "download page",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -646,7 +691,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           _onSelectItem(0, "UL");
                         },
                         title: Text(
-                          "Upload data",
+                          "upload data",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -656,7 +701,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           _onSelectItem(0, "ST");
                         },
                         title: Text(
-                          "Settings",
+                          "settings",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
@@ -690,7 +735,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                   builder: (context) => StaffLogin()));
                         },
                         title: Text(
-                          "Logout",
+                          "logout",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),

@@ -24,7 +24,7 @@ import '../model/staffdetails_model.dart';
 
 class Controller extends ChangeNotifier {
   bool isLoading = false;
-  bool isAdminLoading=false;
+  bool isAdminLoading = false;
   String? menu_index;
   bool isListLoading = false;
   int? selectedTabIndex;
@@ -570,9 +570,15 @@ class Controller extends ChangeNotifier {
 
   ///////////////////////////////////account head////////////////////////////////////////////
   Future<AccountHead?> getaccountHeadsDetails(
+    BuildContext context,
+    String s,
     String cid,
   ) async {
     print("cid...............${cid}");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userType = prefs.getString("userType");
+    String? sid = prefs.getString("sid");
+
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_achead.php");
       Map body = {
@@ -592,10 +598,19 @@ class Controller extends ChangeNotifier {
       print("map ${map}");
       await OrderAppDB.instance
           .deleteFromTableCommonQuery("accountHeadsTable", "");
+
       for (var ahead in map) {
         print("ahead------${ahead}");
         accountHead = AccountHead.fromJson(ahead);
         var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
+      }
+
+      if (areaidFrompopup != null) {
+        dashboardSummery(sid!, s, areaidFrompopup!, context);
+      } else {
+        if (userType == "staff") {
+          dashboardSummery(sid!, s, "", context);
+        }
       }
 
       isLoading = false;
@@ -1801,6 +1816,8 @@ class Controller extends ChangeNotifier {
     List<Map<String, dynamic>> result = await OrderAppDB.instance
         .selectAllcommon('areaDetailsTable', "aid='${area}'");
     areaSelecton = result[0]["aname"];
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString("areaSelectionPopup", areaSelecton!);
     print("area---$areaidFrompopup");
     notifyListeners();
   }

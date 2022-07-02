@@ -1111,7 +1111,7 @@ class OrderAppDB {
     double rate1 = double.parse(rate);
     int updatedQty = int.parse(qty);
     double amount = (rate1 * updatedQty);
-    print("amoiunt-----$amount");
+    print("amoiunt---$cartrowno-$customerId---$rate--$amount");
     print("updatedqty----$updatedQty");
     // gettotalSum(String os, String customerId);
     var res = await db.rawUpdate(

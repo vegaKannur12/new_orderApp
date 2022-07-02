@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
@@ -16,6 +17,13 @@ class DownloadedPage extends StatefulWidget {
 
 class _DownloadedPageState extends State<DownloadedPage> {
   String? cid;
+  String? sid;
+  String? userType;
+  String? formattedDate;
+  List s = [];
+  DateTime date = DateTime.now();
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
   List<String> downloadItems = [
     "Account Heads",
     "Product Details",
@@ -28,18 +36,23 @@ class _DownloadedPageState extends State<DownloadedPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
+    s = formattedDate!.split(" ");
     getCid();
   }
 
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
+    userType = prefs.getString("userType");
+    sid = prefs.getString("sid");
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _key,
       appBar: widget.type == ""
           ? AppBar(
               backgroundColor: P_Settings.wavecolor,
@@ -90,7 +103,9 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                           "Account Heads") {
                                         Provider.of<Controller>(context,
                                                 listen: false)
-                                            .getaccountHeadsDetails(cid!);
+                                            .getaccountHeadsDetails(context,s[0],cid!);
+
+                                        
                                       }
                                       if (downloadItems[index] ==
                                           "Product category") {
