@@ -58,6 +58,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (com_cid != null) {
       Provider.of<AdminController>(context, listen: false)
           .getCategoryReport(com_cid!);
+      Provider.of<Controller>(context, listen: false).adminDashboard(com_cid!);
     }
   }
 
@@ -66,6 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
+
     shared();
     navigate();
   }
