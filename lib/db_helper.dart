@@ -181,20 +181,56 @@ class OrderAppDB {
   static final rem_status = 'rem_status';
 
   Future<Database> get database async {
-    if (_database != null) return _database!;
+    print("bjhs");
+    if(_database!=null)return _database!;
+    // if (_database != null) {
+    //   print("fkdjshkj");
+    //   _upgradeDB(_database!, 4, 5);
+    //   return _database!;
+    // }
+
     _database = await _initDB("orderapp.db");
     return _database!;
   }
 
   Future<Database> _initDB(String filepath) async {
+    print("db---");
     final dbpath = await getDatabasesPath();
     final path = join(dbpath, filepath);
     return await openDatabase(
       path,
       version: 1, onCreate: _createDB,
-      // onUpgrade: _upgradeDB
+      //  onUpgrade: _upgradeDB
     );
   }
+
+  // _upgradeDB(Database db, int oldVersion, int newVersion) {
+  //   print("hszbds");
+  //   // var batch = db.batch();
+  //   print("old-----$oldVersion---$newVersion");
+
+  //   if (oldVersion == 2) {
+  //     print("yes");
+  //     alterUserTable(db);
+  //   }
+  //   if (oldVersion == 4) {
+  //     print("yes 4");
+  //     alterstaffDetailsTable(db);
+  //   }
+  //   // batch.commit();
+  // }
+
+  // alterUserTable(Database db) {
+  //   print("batch");
+  //   db.execute('alter table userTable add column newClumn text;');
+  //   //  batch.commit();
+  // }
+
+  // alterstaffDetailsTable(Database db) {
+  //   print("batch 4");
+  //   db.execute('alter table staffDetailsTable add column newClumn text;');
+  //   //  batch.commit();
+  // }
 
   Future _createDB(Database db, int version) async {
     print("table created");
@@ -242,8 +278,8 @@ class OrderAppDB {
         $u_name TEXT,
         $upwd TEXT,
         $status INTEGER
-      )
-      ''');
+         )
+         ''');
     await db.execute('''
           CREATE TABLE staffLoginDetailsTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -728,7 +764,7 @@ class OrderAppDB {
     String result = "";
     List<String> resultList = [];
     String? sid;
-    // print("uname---Password----${uname}--${pwd}");
+    print("uname---Password----${uname}--${pwd}");
     resultList.clear();
     print("before kkkk $resultList");
     Database db = await instance.database;

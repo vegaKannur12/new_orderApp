@@ -3,7 +3,7 @@ import 'package:orderapp/components/commoncolor.dart';
 
 class CustomSnackbar {
   showSnackbar(BuildContext context, String content) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    ScaffoldMessenger. of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.indigo,
         duration: const Duration(seconds: 1),

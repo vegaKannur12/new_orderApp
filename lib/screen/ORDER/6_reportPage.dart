@@ -52,6 +52,9 @@ class _ReportPageState extends State<ReportPage> {
                   builder: (context, value, child) {
                     return TextField(
                         decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                             
+                              borderRadius: BorderRadius.circular(20.0)),
                           hintText: "Search with  customer name",
                           hintStyle:
                               TextStyle(fontSize: 14.0, color: Colors.grey),

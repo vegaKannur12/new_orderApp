@@ -93,7 +93,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   Container(
                     height: size.height * 0.04,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // CircleAvatar(
                         //   radius: 15,

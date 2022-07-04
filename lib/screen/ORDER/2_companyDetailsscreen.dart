@@ -103,12 +103,50 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.person),
+                                    Icon(Icons.business),
                                     SizedBox(
                                       width: size.width * 0.02,
                                     ),
+                                    Container(
+                                      width: size.width * 0.3,
+                                      child: Text("company name "),
+                                    ),
                                     Text(
-                                        "company name : ${(value.companyList[0]["cnme"] == null) && (value.companyList[0]["cnme"].isEmpty) ? "" : value.companyList[0]["cnme"]}"),
+                                        ": ${(value.companyList[0]["cnme"] == null) && (value.companyList[0]["cnme"].isEmpty) ? "" : value.companyList[0]["cnme"]}"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.02,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(Icons.business),
+                                    SizedBox(
+                                      width: size.width * 0.02,
+                                    ),
+                                    Container(
+                                      width: size.width * 0.3,
+                                      child: Text("company id"),
+                                    ),
+                                    Text(
+                                        ": ${(value.companyList[0]["cid"] == null) && (value.companyList[0]["cid"].isEmpty) ? "" : value.companyList[0]["cid"]}"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.02,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(Icons.fingerprint),
+                                    SizedBox(
+                                      width: size.width * 0.02,
+                                    ),
+                                    Container(
+                                      width: size.width * 0.3,
+                                      child: Text("fingerprint"),
+                                    ),
+                                    Text(
+                                        ": ${(value.companyList[0]["fp"] == null) && (value.companyList[0]["fp"].isEmpty) ? "" : value.companyList[0]["fp"]}"),
                                   ],
                                 ),
                                 SizedBox(
@@ -119,9 +157,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.book),
                                     SizedBox(
                                       width: size.width * 0.02,
+                                    ),Container(
+                                      width: size.width * 0.3,
+                                      child: Text("Address1"),
                                     ),
                                     Text(
-                                      "Address1           : ${value.companyList[0]['ad1']}",
+                                      ": ${value.companyList[0]['ad1']}",
                                     ),
                                   ],
                                 ),
@@ -133,9 +174,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.book),
                                     SizedBox(
                                       width: size.width * 0.02,
+                                    ),Container(
+                                      width: size.width * 0.3,
+                                      child: Text("Address2"),
                                     ),
                                     Text(
-                                      "Address2            : ${value.companyList[0]['ad2']}",
+                                      ": ${value.companyList[0]['ad2']}",
                                       // value.reportList![index]['filter_names'],
                                     ),
                                   ],
@@ -148,9 +192,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.pin),
                                     SizedBox(
                                       width: size.width * 0.02,
+                                    ),Container(
+                                      width: size.width * 0.3,
+                                      child: Text("PinCode"),
                                     ),
                                     Text(
-                                      "PinCode              : ",
+                                      ": ",
                                       // value.reportList![index]['filter_names'],
                                     ),
                                   ],
@@ -163,9 +210,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.business),
                                     SizedBox(
                                       width: size.width * 0.02,
+                                    ),Container(
+                                      width: size.width * 0.3,
+                                      child: Text("CompanyPrefix"),
                                     ),
                                     Text(
-                                      "CompanyPrefix  : ${value.companyList[0]["cpre"]}",
+                                      ": ${value.companyList[0]["cpre"]}",
                                       // value.reportList![index]['filter_names'],
                                     ),
                                   ],
@@ -178,9 +228,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.landscape),
                                     SizedBox(
                                       width: size.width * 0.02,
+                                    ),Container(
+                                      width: size.width * 0.3,
+                                      child: Text("Land"),
                                     ),
                                     Text(
-                                      "Land                    : ${value.companyList[0]["land"]}",
+                                      ": ${value.companyList[0]["land"]}",
                                       // value.reportList![index]['filter_names'],
                                     ),
                                   ],
@@ -193,9 +246,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.phone),
                                     SizedBox(
                                       width: size.width * 0.02,
+                                    ),Container(
+                                      width: size.width * 0.3,
+                                      child: Text("Mobile"),
                                     ),
                                     Text(
-                                      "Mobile                 : ${value.companyList[0]["mob"]}",
+                                      ": ${value.companyList[0]["mob"]}",
                                       // value.reportList![index]['filter_names'],
                                     ),
                                   ],
@@ -208,9 +264,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.design_services),
                                     SizedBox(
                                       width: size.width * 0.02,
+                                    ),Container(
+                                      width: size.width * 0.3,
+                                      child: Text("GST"),
                                     ),
                                     Text(
-                                      "GST                      : ${value.companyList[0]["gst"]}",
+                                      ": ${value.companyList[0]["gst"]}",
                                       // value.reportList![index]['filter_names'],
                                     ),
                                   ],
@@ -223,9 +282,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.copy_rounded),
                                     SizedBox(
                                       width: size.width * 0.02,
+                                    ),Container(
+                                      width: size.width * 0.3,
+                                      child: Text("Country Code     "),
                                     ),
                                     Text(
-                                      "Country Code     : ${value.companyList[0]["ccode"]}",
+                                      ": ${value.companyList[0]["ccode"]}",
                                       // value.reportList![index]['filter_names'],
                                     ),
                                   ],
@@ -256,6 +318,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                               .fetchMenusFromMenuTable();
                                           firstMenu =
                                               prefs.getString("firstMenu");
+                                          print("first---------$firstMenu");
+
                                           if (firstMenu != null) {
                                             Provider.of<Controller>(context,
                                                     listen: false)
@@ -266,14 +330,11 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                                     listen: false)
                                                 .menu_index);
                                           }
-                                          String cid = Provider.of<Controller>(
-                                                  context,
-                                                  listen: false)
-                                              .cid!;
+                                          String? cid = prefs.getString("cid");
 
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .getAreaDetails(cid);
+                                              .getAreaDetails(cid!);
                                           Provider.of<Controller>(context,
                                                   listen: false)
                                               .cid = cid;
