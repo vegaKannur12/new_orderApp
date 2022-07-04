@@ -84,6 +84,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         child: Consumer<Controller>(
           builder: (context, value, child) {
             if (value.isAdminLoading) {
+              // return Container();
               return SpinKitFadingCircle(
                 color: P_Settings.wavecolor,
               );
