@@ -1410,7 +1410,7 @@ class OrderAppDB {
     print("hhs----$res");
     if (res.length > 0) {
       result = await db.rawQuery(
-          "SELECT orderMasterTable.id as id, orderMasterTable.os  || orderMasterTable.order_id as ser,orderMasterTable.order_id as oid,orderMasterTable.customerid cuid, orderMasterTable.orderdate  || orderMasterTable.ordertime odate, orderMasterTable.userid as sid,orderMasterTable.areaid as aid  FROM orderMasterTable");
+          "SELECT orderMasterTable.id as id, orderMasterTable.os  || orderMasterTable.order_id as ser,orderMasterTable.order_id as oid,orderMasterTable.customerid cuid, orderMasterTable.orderdate  || ' '  ||orderMasterTable.ordertime odate, orderMasterTable.userid as sid,orderMasterTable.areaid as aid  FROM orderMasterTable");
     }
     print("result upload----$result");
     return result;

@@ -145,40 +145,40 @@ class _ItemSelectionState extends State<ItemSelection> {
                 }
               },
             ),
-            // Consumer<Controller>(
-            //   builder: (context, _value, child) {
-            //     return PopupMenuButton<String>(
-            //       onSelected: (value) {
-            //         Provider.of<Controller>(context, listen: false)
-            //             .filteredeValue = value;
-            //         if (value == "0") {
-            //           setState(() {
-            //             Provider.of<Controller>(context, listen: false)
-            //                 .filterCompany = false;
-            //           });
+            Consumer<Controller>(
+              builder: (context, _value, child) {
+                return PopupMenuButton<String>(
+                  onSelected: (value) {
+                    Provider.of<Controller>(context, listen: false)
+                        .filteredeValue = value;
+                    if (value == "0") {
+                      setState(() {
+                        Provider.of<Controller>(context, listen: false)
+                            .filterCompany = false;
+                      });
 
-            //           Provider.of<Controller>(context, listen: false)
-            //               .filteredProductList
-            //               .clear();
-            //           Provider.of<Controller>(context, listen: false)
-            //               .getProductList(widget.customerId);
-            //         } else {
-            //           print("value---$value");
-            //           Provider.of<Controller>(context, listen: false)
-            //               .filterwithCompany(widget.customerId, value);
-            //         }
-            //       },
-            //       itemBuilder: (context) => _value.productcompanyList
-            //           .map((item) => PopupMenuItem<String>(
-            //                 value: item["comid"],
-            //                 child: Text(
-            //                   item["comanme"],
-            //                 ),
-            //               ))
-            //           .toList(),
-            //     );
-            //   },
-            // ),
+                      Provider.of<Controller>(context, listen: false)
+                          .filteredProductList
+                          .clear();
+                      Provider.of<Controller>(context, listen: false)
+                          .getProductList(widget.customerId);
+                    } else {
+                      print("value---$value");
+                      Provider.of<Controller>(context, listen: false)
+                          .filterwithCompany(widget.customerId, value);
+                    }
+                  },
+                  itemBuilder: (context) => _value.productcompanyList
+                      .map((item) => PopupMenuItem<String>(
+                            value: item["comid"],
+                            child: Text(
+                              item["comanme"],
+                            ),
+                          ))
+                      .toList(),
+                );
+              },
+            ),
           ],
         ),
         body: Consumer<Controller>(

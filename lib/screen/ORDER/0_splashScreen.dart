@@ -5,6 +5,7 @@ import 'package:orderapp/screen/ADMIN_/adminController.dart';
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
+import 'package:orderapp/screen/ORDER/background_download.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen>
   String? st_pwd;
   String? userType;
   String? firstMenu;
-
+  AutoDownload downloaddata = AutoDownload();
   navigate() async {
     await Future.delayed(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,8 +36,8 @@ class _SplashScreenState extends State<SplashScreen>
       com_cid = prefs.getString("cid");
       print("st-----$st_uname---$st_pwd");
       print("firstMenu $firstMenu");
-      if(com_cid!=null){
-        Provider.of<Controller>(context, listen: false).cid=com_cid;
+      if (com_cid != null) {
+        Provider.of<Controller>(context, listen: false).cid = com_cid;
       }
       if (firstMenu != null) {
         Provider.of<Controller>(context, listen: false).menu_index = firstMenu;
@@ -62,6 +63,11 @@ class _SplashScreenState extends State<SplashScreen>
       Provider.of<AdminController>(context, listen: false)
           .getCategoryReport(com_cid!);
       Provider.of<Controller>(context, listen: false).adminDashboard(com_cid!);
+      Future.delayed(const Duration(minutes: 15), () {
+        setState(() {
+          downloaddata.DownloadData(context);
+        });
+      });
     }
   }
 
