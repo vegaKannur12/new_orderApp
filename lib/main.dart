@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/admin_dashboard.dart';
@@ -17,17 +20,9 @@ import 'components/commoncolor.dart';
 import 'package:ota_update/ota_update.dart';
 import 'screen/ADMIN_/adminController.dart';
 
-void callbackDispatcher() async {
-  Workmanager().executeTask((task, inputData) async {
-    print("Download Data call back");
-    return Future.value(true);
-  });
-}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
-  print("Download Data main");
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

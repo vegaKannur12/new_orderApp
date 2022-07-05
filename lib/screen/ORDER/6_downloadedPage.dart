@@ -1,5 +1,6 @@
+import 'dart:async';
+import 'dart:isolate';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
@@ -9,6 +10,8 @@ import 'package:orderapp/main.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:flutter_isolate/flutter_isolate.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DownloadedPage extends StatefulWidget {
   String? type;
@@ -37,17 +40,16 @@ class _DownloadedPageState extends State<DownloadedPage> {
     "Images"
   ];
 
+  void isolate1(String arg) async {
+    print("isolate data");
+    final isolate = await FlutterIsolate.spawn(isolate1, "hello2");
+    print("isolate........$isolate");
+  }
+
   @override
   void initState() {
-    // Workmanager().registerPeriodicTask(
-    //   "Download task 2",
-    //   "backup",
-    //   existingWorkPolicy: ExistingWorkPolicy.append,
-    //   frequency: Duration(seconds: 2),
-    //   initialDelay: Duration(seconds: 10),
-    // );
     print("background data download");
-
+    // FlutterIsolate.spawn(isolate1, "hello2");
     // TODO: implement initState
     super.initState();
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
@@ -96,17 +98,6 @@ class _DownloadedPageState extends State<DownloadedPage> {
           print("value.sof-----${value.sof}");
           return Column(
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    print("data download ");
-                    Workmanager().registerPeriodicTask(
-                      "Task",
-                      "excecuted",
-                      initialDelay: Duration(seconds: 5),
-                    );
-                    // Workmanager().cancelByUniqueName("Task");
-                  },
-                  child: Text("Download all")),
               Flexible(
                 child: Container(
                   height: size.height * 0.9,
@@ -124,35 +115,42 @@ class _DownloadedPageState extends State<DownloadedPage> {
                               onPressed: value.versof == "0"
                                   ? null
                                   : () async {
-                                      if (downloadItems[index] ==
-                                          "Account Heads") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getaccountHeadsDetails(
-                                                context, s[0], cid!);
-                                      }
-                                      if (downloadItems[index] ==
-                                          "Product category") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getProductCategory(cid!);
-                                      }
-                                      if (downloadItems[index] == "Company") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getProductCompany(cid!);
-                                      }
-                                      if (downloadItems[index] ==
-                                          "Product Details") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getProductDetails(cid!);
-                                      }
-                                      if (downloadItems[index] == "Wallet") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getWallet(context);
-                                      }
+                                      print("isolate data inside");
+                                      final isolate = FlutterIsolate.spawn(
+                                          isolate1, "hello");
+                                      Timer(Duration(seconds: 10), () async {
+                                        final isolates = await FlutterIsolate
+                                            .runningIsolates;
+                                        if (downloadItems[index] ==
+                                            "Account Heads") {
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getaccountHeadsDetails(
+                                                  context, s[0], cid!);
+                                        }
+                                        if (downloadItems[index] ==
+                                            "Product category") {
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getProductCategory(cid!);
+                                        }
+                                        if (downloadItems[index] == "Company") {
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getProductCompany(cid!);
+                                        }
+                                        if (downloadItems[index] ==
+                                            "Product Details") {
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getProductDetails(cid!);
+                                        }
+                                        if (downloadItems[index] == "Wallet") {
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getWallet(context);
+                                        }
+                                      });
                                     },
                               icon: Icon(Icons.download),
                               color: Colors.white,
