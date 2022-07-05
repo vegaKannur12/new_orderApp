@@ -1280,13 +1280,19 @@ class OrderAppDB {
     print("table key field---${table},${key},${field1}---$condition");
 
     var query =
-        "SELECT * FROM $table  WHERE $field1 LIKE '$key%' OR $field2 LIKE '$key%' OR $field3 LIKE '$key%' $condition";
+        "SELECT * FROM '$table'  where ($field1  || $field2 || $field3  LIKE  '%$key%') $condition";
     var result = await db.rawQuery(query);
 
     print("querty0---$query");
-    // List<Map<String, dynamic>> result = await db.query('$table',
-    //     where: '$field1 LIKE ? OR $field2 LIKE ? OR $field3 LIKE ? $condition',
-    //     whereArgs: ['$key%', '$key%', '$key%']);
+    // List<Map<String, dynamic>> result = await db.query(
+    //   '$table',
+    //   where: '$field1 LIKE ? OR $field2 LIKE ? OR $field3 LIKE ? ',
+    //   whereArgs: [
+    //     '$key%',
+    //     '$key%',
+    //     '$key%',
+    //   ],
+    // );
 
     print("search result----$result");
     return result;

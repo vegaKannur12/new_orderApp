@@ -791,7 +791,7 @@ class Controller extends ChangeNotifier {
   filterwithCompany(String cusId, String comId) async {
     isLoading = true;
     filterCompany = true;
-    notifyListeners();
+    // notifyListeners(); 
     // List<Map<String, dynamic>> result = await OrderAppDB.instance
     //     .selectAllcommon('productDetailsTable', "companyId='${comId}'");
 
@@ -1265,7 +1265,7 @@ class Controller extends ChangeNotifier {
       // }
 // print("jhfdjkhfjd----$bagList");
       List<Map<String, dynamic>> result = await OrderAppDB.instance.searchItem(
-          'productDetailsTable', searchkey!, 'item', 'code', 'categoryId',"AND companyId='${comid}'");
+          'productDetailsTable', searchkey!, 'item', 'code', 'categoryId'," and companyId='${comid}'");
       for (var item in result) {
         newList.add(item);
       }

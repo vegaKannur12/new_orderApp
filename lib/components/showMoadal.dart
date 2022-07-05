@@ -13,6 +13,8 @@ class ShowModal {
       String type,
       String code,
       int selected_index,
+      String filter,
+      String filterValue,
       TextEditingController qty_index) {
     return showModalBottomSheet(
         context: context,
@@ -49,8 +51,19 @@ class ShowModal {
                               child: const Text('delete'),
                               onPressed: () async {
                                 if (type == "already in cart") {
-                                  if (value.selected[selected_index] == false) {
-                                    value.selected[selected_index] = true;
+                                  print("already in cart---$filter");
+                                  if (filter == "no filter") {
+                                    if (value.selected[selected_index] ==
+                                        false) {
+                                      value.selected[selected_index] = true;
+                                    }
+                                  } else if (filter == "with company") {
+                                    if (value.filterComselected[
+                                            selected_index] ==
+                                        false) {
+                                      value.filterComselected[selected_index] =
+                                          true;
+                                    }
                                   }
 
                                   qty_index.clear();
@@ -58,21 +71,40 @@ class ShowModal {
                                       .deleteFromTableCommonQuery(
                                           "orderBagTable",
                                           "code='${code}' AND customerid='${customerId}'");
-
+                                  if (filter == "no filter") {
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .getProductList(customerId);
+                                  } else if (filter == "with company") {
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .filterwithCompany(
+                                            customerId, filterValue);
+                                  }
                                   Provider.of<Controller>(context,
                                           listen: false)
                                       .countFromTable(
                                           "orderBagTable", os, customerId);
-                                  Provider.of<Controller>(context,
-                                          listen: false)
-                                      .getProductList(customerId);
+
                                   Navigator.of(context).pop();
                                 }
 
                                 if (type == "just added") {
-                                  if (value.filterComselected[selected_index]) {
-                                    value.filterComselected[selected_index] =
-                                        !value.filterComselected[selected_index];
+                                  print("just added----$filter");
+                                  if (filter == "no filter") {
+                                    if (value.selected[selected_index]) {
+                                      value.selected[selected_index] =
+                                          !value.selected[selected_index];
+                                    }
+                                  } else if (filter == "with company") {
+                                    print(
+                                        "valuefilterCom--${value.filterComselected[selected_index]}");
+                                    if (value
+                                        .filterComselected[selected_index]) {
+                                      value.filterComselected[selected_index] =
+                                          !value.filterComselected[
+                                              selected_index];
+                                    }
                                   }
 
                                   qty_index.clear();
