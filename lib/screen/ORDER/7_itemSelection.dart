@@ -69,6 +69,8 @@ class _ItemSelectionState extends State<ItemSelection> {
     print("widget.type===${widget.type}");
     print("areaId---${widget.customerId}");
     products = Provider.of<Controller>(context, listen: false).productName;
+    print("products---${products}");
+
     Provider.of<Controller>(context, listen: false).getOrderno();
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     s = date!.split(" ");
@@ -143,40 +145,40 @@ class _ItemSelectionState extends State<ItemSelection> {
                 }
               },
             ),
-            // Consumer<Controller>(
-            //   builder: (context, _value, child) {
-            //     return PopupMenuButton<String>(
-            //       onSelected: (value) {
-            //         Provider.of<Controller>(context, listen: false)
-            //             .filteredeValue = value;
-            //         if (value == "0") {
-            //           setState(() {
-            //             Provider.of<Controller>(context, listen: false)
-            //                 .filterCompany = false;
-            //           });
+            Consumer<Controller>(
+              builder: (context, _value, child) {
+                return PopupMenuButton<String>(
+                  onSelected: (value) {
+                    Provider.of<Controller>(context, listen: false)
+                        .filteredeValue = value;
+                    if (value == "0") {
+                      setState(() {
+                        Provider.of<Controller>(context, listen: false)
+                            .filterCompany = false;
+                      });
 
-            //           Provider.of<Controller>(context, listen: false)
-            //               .filteredProductList
-            //               .clear();
-            //           Provider.of<Controller>(context, listen: false)
-            //               .getProductList(widget.customerId);
-            //         } else {
-            //           print("value---$value");
-            //           Provider.of<Controller>(context, listen: false)
-            //               .filterwithCompany(widget.customerId, value);
-            //         }
-            //       },
-            //       itemBuilder: (context) => _value.productcompanyList
-            //           .map((item) => PopupMenuItem<String>(
-            //                 value: item["comid"],
-            //                 child: Text(
-            //                   item["comanme"],
-            //                 ),
-            //               ))
-            //           .toList(),
-            //     );
-            //   },
-            // ),
+                      Provider.of<Controller>(context, listen: false)
+                          .filteredProductList
+                          .clear();
+                      Provider.of<Controller>(context, listen: false)
+                          .getProductList(widget.customerId);
+                    } else {
+                      print("value---$value");
+                      Provider.of<Controller>(context, listen: false)
+                          .filterwithCompany(widget.customerId, value);
+                    }
+                  },
+                  itemBuilder: (context) => _value.productcompanyList
+                      .map((item) => PopupMenuItem<String>(
+                            value: item["comid"],
+                            child: Text(
+                              item["comanme"],
+                            ),
+                          ))
+                      .toList(),
+                );
+              },
+            ),
           ],
         ),
         body: Consumer<Controller>(
@@ -622,6 +624,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               "newlist just added",
                                                                               value.newList[index]["code"],
                                                                               index,
+                                                                              "no filter",
+                                                                              "",
                                                                               value.qty[index]);
                                                                         }
                                                                       : null
@@ -644,6 +648,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               [
                                                                               "code"],
                                                                           index,
+                                                                          "no filter",
+                                                                          "",
                                                                           value.qty[
                                                                               index]);
                                                                     }
@@ -668,6 +674,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               [
                                                                               "code"],
                                                                           index,
+                                                                          "no filter",
+                                                                          "",
                                                                           value.qty[
                                                                               index]);
                                                                     }
@@ -683,6 +691,9 @@ class _ItemSelectionState extends State<ItemSelection> {
                                         customerId: widget.customerId,
                                         os: widget.os,
                                         s: s,
+                                        value: Provider.of<Controller>(context,
+                                                listen: false)
+                                            .filteredeValue,
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
@@ -944,6 +955,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               "just added",
                                                                               products[index]["code"],
                                                                               index,
+                                                                              "no filter",
+                                                                              "",
                                                                               value.qty[index]);
                                                                         }
                                                                       : null
@@ -965,6 +978,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               [
                                                                               "code"],
                                                                           index,
+                                                                          "no filter",
+                                                                          "",
                                                                           value.qty[
                                                                               index]);
                                                                     }
@@ -988,6 +1003,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               [
                                                                               "code"],
                                                                           index,
+                                                                          "no filter",
+                                                                          "",
                                                                           value.qty[
                                                                               index]);
                                                                     }

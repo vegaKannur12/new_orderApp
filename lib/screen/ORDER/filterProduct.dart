@@ -15,8 +15,9 @@ class FilteredProduct extends StatefulWidget {
   String? os;
   List<String>? s;
   String? customerId;
+  String? value;
   // List<Map<String, dynamic>> list;
-  FilteredProduct({required this.type, this.customerId, this.os, this.s});
+  FilteredProduct({required this.type, this.customerId, this.os, this.s,this.value});
 
   @override
   State<FilteredProduct> createState() => _FilteredProductState();
@@ -42,7 +43,13 @@ class _FilteredProductState extends State<FilteredProduct> {
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<Controller>(context, listen: false)
+                          .filterwithCompany(widget.customerId!, widget.value!);
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -215,6 +222,10 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                 value.filteredProductList[index]
                                                     ["code"],
                                                 index,
+                                                "with company",
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .filteredeValue!,
                                                 value.qty[index]);
                                           }
                                         : null
@@ -234,6 +245,10 @@ class _FilteredProductState extends State<FilteredProduct> {
                                             value.filteredProductList[index]
                                                 ["code"],
                                             index,
+                                            "with company",
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .filteredeValue!,
                                             value.qty[index]);
                                       }
                                 : value.filterComselected[index]
@@ -244,16 +259,21 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                 value.filteredProductList[index]
                                                     ["item"];
                                         showModal.showMoadlBottomsheet(
-                                            widget.os!,
-                                            widget.customerId!,
-                                            item,
-                                            size,
-                                            context,
-                                            "return",
-                                            value.filteredProductList[index]
-                                                ["code"],
-                                            index,
-                                            value.qty[index]);
+                                          widget.os!,
+                                          widget.customerId!,
+                                          item,
+                                          size,
+                                          context,
+                                          "return",
+                                          value.filteredProductList[index]
+                                              ["code"],
+                                          index,
+                                          "with company",
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .filteredeValue!,
+                                          value.qty[index],
+                                        );
                                       }
                                     : null)
                       ],

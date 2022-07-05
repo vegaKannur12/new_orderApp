@@ -791,7 +791,7 @@ class Controller extends ChangeNotifier {
   filterwithCompany(String cusId, String comId) async {
     isLoading = true;
     filterCompany = true;
-    notifyListeners();
+    // notifyListeners(); 
     // List<Map<String, dynamic>> result = await OrderAppDB.instance
     //     .selectAllcommon('productDetailsTable', "companyId='${comId}'");
 
