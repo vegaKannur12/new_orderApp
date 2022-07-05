@@ -182,7 +182,7 @@ class OrderAppDB {
 
   Future<Database> get database async {
     print("bjhs");
-    if(_database!=null)return _database!;
+    if (_database != null) return _database!;
     // if (_database != null) {
     //   print("fkdjshkj");
     //   _upgradeDB(_database!, 4, 5);
@@ -1219,6 +1219,17 @@ class OrderAppDB {
     return result;
   }
 
+  selectfrombagandfilterList(String customerId, String comId) async {
+    print("comid---$comId");
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    result = await db.rawQuery(
+        "SELECT productDetailsTable.* , orderBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code AND orderBagTable.customerid='$customerId' where  productDetailsTable.companyId='${comId}' ORDER BY cartrowno DESC");
+    print("leftjoin result- company---$result");
+    print("length---${result.length}");
+    return result;
+  }
+
 //////////////count from table/////////////////////////////////////////
   countCommonQuery(String table, String? condition) async {
     String count = "0";
@@ -1268,12 +1279,19 @@ class OrderAppDB {
 
   /////////////////////search////////////////////////////////
   searchItem(String table, String key, String field1, String? field2,
-      String? field3) async {
+      String? field3, String condition) async {
     Database db = await instance.database;
-    print("table key field---${table},${key},${field1}");
-    List<Map<String, dynamic>> result = await db.query('$table',
-        where: '$field1 LIKE ? OR $field2 LIKE ? OR $field3 LIKE ?',
-        whereArgs: ['$key%', '$key%', '$key%']);
+    print("table key field---${table},${key},${field1}---$condition");
+
+    var query =
+        "SELECT * FROM $table  WHERE $field1 LIKE '$key%' OR $field2 LIKE '$key%' OR $field3 LIKE '$key%' $condition";
+    var result = await db.rawQuery(query);
+
+    print("querty0---$query");
+    // List<Map<String, dynamic>> result = await db.query('$table',
+    //     where: '$field1 LIKE ? OR $field2 LIKE ? OR $field3 LIKE ? $condition',
+    //     whereArgs: ['$key%', '$key%', '$key%']);
+
     print("search result----$result");
     return result;
   }
@@ -1331,12 +1349,27 @@ class OrderAppDB {
     print("haiiiii");
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
+    var query = "SELECT * FROM '$table' WHERE $condition";
+    print("company query----$query");
     if (condition == null || condition.isEmpty) {
       result = await db.rawQuery("SELECT * FROM '$table'");
     } else {
-      result = await db.rawQuery("SELECT * FROM '$table' WHERE $condition ");
+      result = await db.rawQuery(query);
     }
+
     print("result menu common----$result");
+    return result;
+  }
+
+  //////////////////////////////////////////////////////////
+  executeGeneralQuery(String query) async {
+    print("haiiiii");
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    print("general query---$query");
+    result = await db.rawQuery(query);
+
+    print("result general----$result");
     return result;
   }
 
@@ -1381,7 +1414,7 @@ class OrderAppDB {
     print("hhs----$res");
     if (res.length > 0) {
       result = await db.rawQuery(
-          "SELECT orderMasterTable.id as id, orderMasterTable.os  || orderMasterTable.order_id as ser,orderMasterTable.order_id as oid,orderMasterTable.customerid cuid, orderMasterTable.orderdatetime odate, orderMasterTable.userid as sid,orderMasterTable.areaid as aid  FROM orderMasterTable");
+          "SELECT orderMasterTable.id as id, orderMasterTable.os  || orderMasterTable.order_id as ser,orderMasterTable.order_id as oid,orderMasterTable.customerid cuid, orderMasterTable.orderdate odate, orderMasterTable.userid as sid,orderMasterTable.areaid as aid  FROM orderMasterTable");
     }
     print("result----$result");
     return result;

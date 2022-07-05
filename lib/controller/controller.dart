@@ -24,6 +24,8 @@ import '../model/staffdetails_model.dart';
 
 class Controller extends ChangeNotifier {
   bool isLoading = false;
+  bool filterCompany = false;
+  String? filteredeValue;
   bool isAdminLoading = false;
   String? menu_index;
   bool isListLoading = false;
@@ -43,6 +45,10 @@ class Controller extends ChangeNotifier {
   int? shopVisited;
   int? noshopVisited;
   List<bool> selected = [];
+  List<bool> filterComselected = [];
+  List<bool> returnselected = [];
+
+
   List<bool> returnSelected = [];
 
   String? areaidFrompopup;
@@ -51,12 +57,15 @@ class Controller extends ChangeNotifier {
   bool returnqty = false;
   List<bool> isVisibleTable = [];
   List<Map<String, dynamic>> collectionList = [];
+  List<Map<String, dynamic>> productcompanyList = [];
   List<Map<String, dynamic>> fetchcollectionList = [];
 
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
 
   List<Map<String, dynamic>> sortList = [];
+  List<Map<String, dynamic>> filteredProductList = [];
+
   List<Map<String, dynamic>> returnList = [];
 
   bool filter = false;
@@ -759,6 +768,47 @@ class Controller extends ChangeNotifier {
     }
   }
 
+  //////////////////////////////////////////////////
+  fetchProductCompanyList() async {
+    try {
+      List<Map<String, dynamic>> result =
+          await OrderAppDB.instance.executeGeneralQuery("Select '0' comid,'All' comanme union all select comid,comanme from companyTable");
+      print("resulttttt.....$result");
+      productcompanyList.clear();
+      if (result != 0) {
+        for (var item in result) {
+          productcompanyList.add(item);
+        }
+      }
+      print("executeGeneralQuery---$productcompanyList");
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+///////////////filter company////////////////////////////
+  filterwithCompany(String cusId, String comId) async {
+    isLoading = true;
+    filterCompany = true;
+    notifyListeners();
+    // List<Map<String, dynamic>> result = await OrderAppDB.instance
+    //     .selectAllcommon('productDetailsTable', "companyId='${comId}'");
+
+    List<Map<String, dynamic>> result =
+        await OrderAppDB.instance.selectfrombagandfilterList(cusId, comId);
+    print("products filter-----$result");
+    filteredProductList.clear();
+    for (var item in result) {
+      filteredProductList.add(item);
+    }
+    var length=filteredProductList.length;
+    filterComselected = List.generate(length, (index) => false);
+    print("filteredProductList--$filteredProductList");
+    isLoading = false;
+    notifyListeners();
+  }
+
 ///////////////////////////////////////////////////////
   getCompanyData() async {
     try {
@@ -854,6 +904,8 @@ class Controller extends ChangeNotifier {
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
+      returnselected = List.generate(length, (index) => false);
+
       isLoading = false;
       notifyListeners();
       print("product name----${productName}");
@@ -866,12 +918,12 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  selectedSet() {
-    var length = productName.length;
-    qty = List.generate(length, (index) => TextEditingController());
+  // selectedSet() {
+  //   var length = productName.length;
+  //   qty = List.generate(length, (index) => TextEditingController());
 
-    selected = List.generate(length, (index) => false);
-  }
+  //   selected = List.generate(length, (index) => false);
+  // }
 
 /////////////////////////////////////////////////////////////
   // getProductItems(String table) async {
@@ -1176,8 +1228,8 @@ class Controller extends ChangeNotifier {
   }
 
 ///////////////////////////////////////////////////////////////////////////////
-  searchProcess(String customerId, String os) async {
-    print("searchkey----$searchkey");
+  searchProcess(String customerId, String os,String comid) async {
+    print("searchkey----$comid");
     newList.clear();
 
     if (searchkey!.isEmpty) {
@@ -1213,7 +1265,7 @@ class Controller extends ChangeNotifier {
       // }
 // print("jhfdjkhfjd----$bagList");
       List<Map<String, dynamic>> result = await OrderAppDB.instance.searchItem(
-          'productDetailsTable', searchkey!, 'item', 'code', 'categoryId');
+          'productDetailsTable', searchkey!, 'item', 'code', 'categoryId',"AND companyId='${comid}'");
       for (var item in result) {
         newList.add(item);
       }
@@ -1865,6 +1917,10 @@ class Controller extends ChangeNotifier {
     print("return List----$returnList");
     notifyListeners();
   }
+
+  // selectfromreturnList(){
+  //   returnList.
+  // }
 
   deleteFromreturnList(index) {
     returnList.removeAt(index);

@@ -93,11 +93,13 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     print(
         "seelected area-----${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
-    print("_selectedAreaId----${Provider.of<Controller>(context, listen: false).selectedAreaId}");
-    
-    if (Provider.of<Controller>(context, listen: false).selectedAreaId != null) {
-      Provider.of<Controller>(context, listen: false)
-          .getCustomer("${Provider.of<Controller>(context, listen: false).selectedAreaId}");
+    print(
+        "_selectedAreaId----${Provider.of<Controller>(context, listen: false).selectedAreaId}");
+
+    if (Provider.of<Controller>(context, listen: false).selectedAreaId !=
+        null) {
+      Provider.of<Controller>(context, listen: false).getCustomer(
+          "${Provider.of<Controller>(context, listen: false).selectedAreaId}");
     }
     if (Provider.of<Controller>(context, listen: false).areaidFrompopup !=
         null) {
@@ -245,7 +247,9 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             print("areaName...$areaName");
                                             _selectedAreaId = value["aid"];
                                             Provider.of<Controller>(context,
-                                                    listen: false).selectedAreaId=_selectedAreaId;
+                                                        listen: false)
+                                                    .selectedAreaId =
+                                                _selectedAreaId;
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .areaAutoComplete = [
@@ -919,6 +923,24 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                 custmerId
                                                                     .toString(),
                                                               );
+                                                              Provider.of<Controller>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .fetchProductCompanyList();
+
+                                                              Provider.of<Controller>(
+                                                                      context,
+                                                                      listen:
+                                                                          false).filterCompany=false;
+
+                                                              // Provider.of<Controller>(
+                                                              //         context,
+                                                              //         listen:
+                                                              //             false)
+                                                              //     .getProductList(
+                                                              //         custmerId
+                                                              //             .toString());
                                                               Navigator.of(
                                                                       context)
                                                                   .push(

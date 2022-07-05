@@ -70,9 +70,9 @@ class ShowModal {
                                 }
 
                                 if (type == "just added") {
-                                  if (value.selected[selected_index]) {
-                                    value.selected[selected_index] =
-                                        !value.selected[selected_index];
+                                  if (value.filterComselected[selected_index]) {
+                                    value.filterComselected[selected_index] =
+                                        !value.filterComselected[selected_index];
                                   }
 
                                   qty_index.clear();
