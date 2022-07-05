@@ -236,10 +236,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         );
       case "A1":
         {
-          // getCompaniId();
-          // print("cid--$cid--");
-
-          // Provider.of<Controller>(context, listen: false).adminDashboard(cid!);
+          Provider.of<Controller>(context, listen: false).adminDashboard(Provider.of<Controller>(context, listen: false).cid!);
+          getCompaniId();
           return AdminDashboard(
               // sid: sid!,
               // os: os,
@@ -259,8 +257,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               return navigateToPage(context, size);
             });
           }
-
-          return MainDashboard();
+          return AdminDashboard();
+          // return MainDashboard();
         }
 
       case "SA2":
@@ -460,7 +458,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           //     color:P_Settings.wavecolor),
                           indicatorColor: P_Settings.wavecolor,
                           indicatorSize: TabBarIndicatorSize.label,
-                          indicatorWeight: 2.0,
+                          indicatorWeight: 3.0,
+                          labelPadding: EdgeInsets.symmetric(horizontal: 9.0),
                           // indicatorSize: TabBarIndicatorSize.label,
                           labelColor: Color.fromARGB(255, 58, 54, 54),
                           labelStyle: GoogleFonts.lato(
@@ -585,7 +584,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         await OrderAppDB.instance.deleteFromTableCommonQuery(
                             "returnMasterTable", "");
                         await OrderAppDB.instance.deleteFromTableCommonQuery(
-                            "returnDetailTable", "");
+                            "returnDetailTable", ""); 
                       },
                       icon: Icon(
                         Icons.delete,

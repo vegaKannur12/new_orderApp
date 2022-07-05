@@ -22,7 +22,6 @@ class _ReportPageState extends State<ReportPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
   }
 
   @override
@@ -52,6 +51,8 @@ class _ReportPageState extends State<ReportPage> {
                   builder: (context, value, child) {
                     return TextField(
                         decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
                           hintText: "Search with  customer name",
                           hintStyle:
                               TextStyle(fontSize: 14.0, color: Colors.grey),
@@ -93,13 +94,7 @@ class _ReportPageState extends State<ReportPage> {
                                           Provider.of<Controller>(context,
                                                   listen: false)
                                               .setreportsearch(false);
-
                                           value.setisVisible(false);
-                                          // Provider.of<Controller>(context,
-                                          //         listen: false)
-                                          //     .newreportList
-                                          //     .clear();
-
                                           searchController.clear();
                                         }),
                                   ],

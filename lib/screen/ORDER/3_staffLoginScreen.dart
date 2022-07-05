@@ -6,6 +6,7 @@ import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customPopup.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
+import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
@@ -71,6 +72,31 @@ class StaffLogin extends StatelessWidget {
                 );
               },
               icon: Icon(Icons.table_bar),
+            ),
+            PopupMenuButton<int>(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  // row has two child icon and text.
+                  child: GestureDetector(
+                    onTap: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.remove('company_id');
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegistrationScreen()));
+                    },
+                    child: Row(
+                      children: [Text("un-register")],
+                    ),
+                  ),
+                ),
+                // popupmenu item 2
+              ],
+              offset: Offset(0, 50),
+              // color: Colors.grey,
+              elevation: 2,
             ),
           ],
         ),

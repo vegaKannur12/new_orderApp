@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
+import 'package:orderapp/main.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 
 class DownloadedPage extends StatefulWidget {
   String? type;
@@ -32,8 +36,18 @@ class _DownloadedPageState extends State<DownloadedPage> {
     "Wallet",
     "Images"
   ];
+
   @override
   void initState() {
+    // Workmanager().registerPeriodicTask(
+    //   "Download task 2",
+    //   "backup",
+    //   existingWorkPolicy: ExistingWorkPolicy.append,
+    //   frequency: Duration(seconds: 2),
+    //   initialDelay: Duration(seconds: 10),
+    // );
+    print("background data download");
+
     // TODO: implement initState
     super.initState();
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
@@ -82,6 +96,17 @@ class _DownloadedPageState extends State<DownloadedPage> {
           print("value.sof-----${value.sof}");
           return Column(
             children: [
+              ElevatedButton(
+                  onPressed: () {
+                    print("data download ");
+                    Workmanager().registerPeriodicTask(
+                      "Task",
+                      "excecuted",
+                      initialDelay: Duration(seconds: 5),
+                    );
+                    // Workmanager().cancelByUniqueName("Task");
+                  },
+                  child: Text("Download all")),
               Flexible(
                 child: Container(
                   height: size.height * 0.9,
@@ -103,9 +128,8 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                           "Account Heads") {
                                         Provider.of<Controller>(context,
                                                 listen: false)
-                                            .getaccountHeadsDetails(context,s[0],cid!);
-
-                                        
+                                            .getaccountHeadsDetails(
+                                                context, s[0], cid!);
                                       }
                                       if (downloadItems[index] ==
                                           "Product category") {

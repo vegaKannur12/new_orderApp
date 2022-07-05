@@ -59,6 +59,8 @@ class _ItemSelectionState extends State<ItemSelection> {
     print("widget.type===${widget.type}");
     print("areaId---${widget.customerId}");
     products = Provider.of<Controller>(context, listen: false).productName;
+    print("products---${products}");
+
     Provider.of<Controller>(context, listen: false).getOrderno();
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     s = date!.split(" ");

@@ -170,32 +170,34 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                       ],
                                     ),
                                     Divider(),
-                                    Row(
-                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "No: of Items  :",
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        Text(
-                                            "${value.todayOrderList[index]["count"].toString()}",
+                                    Flexible(
+                                      child: Row(
+                                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "No: of Items  :",
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                          Text(
+                                              "${value.todayOrderList[index]["count"].toString()}",
+                                              style: TextStyle(
+                                                  color: Colors.grey[700],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17)),
+                                          Spacer(),
+                                          Text(
+                                            "Total  :",
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                          Text(
+                                            "\u{20B9}${value.todayOrderList[index]["total_price"].toString()}",
                                             style: TextStyle(
-                                                color: Colors.grey[700],
+                                                color: Colors.red,
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 17)),
-                                        Spacer(),
-                                        Text(
-                                          "Total  :",
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        Text(
-                                          "\u{20B9}${value.todayOrderList[index]["total_price"].toString()}",
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17),
-                                        ),
-                                      ],
+                                                fontSize: 17),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     // SizedBox(height: size.height * 0.05,),
                                     // Provider.of<Controller>(context, listen: false)

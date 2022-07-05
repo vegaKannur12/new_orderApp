@@ -23,11 +23,6 @@ class _TodayCollectionState extends State<TodayCollection> {
     sid = prefs.getString('sid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
-    // Future.delayed(const Duration(milliseconds: 1000), () async {
-    //   if (!mounted) return;
-    //   await Provider.of<Controller>(context, listen: false)
-    //       .todayCollection(formattedDate!, context);
-    // });
   }
 
   @override
@@ -125,7 +120,8 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                   child: Text(
                                                     "\u{20B9}${value.todayCollectionList[index]['rec_amount'].toString()}",
                                                     style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         color: Colors.red,
                                                         fontSize: 16),
                                                   ),

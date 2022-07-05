@@ -12,13 +12,23 @@ import 'package:orderapp/screen/scrolltoSpecific.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 import 'components/commoncolor.dart';
 import 'package:ota_update/ota_update.dart';
-
 import 'screen/ADMIN_/adminController.dart';
+
+void callbackDispatcher() async {
+  Workmanager().executeTask((task, inputData) async {
+    print("Download Data call back");
+    return Future.value(true);
+  });
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+  print("Download Data main");
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -35,7 +45,9 @@ Future<void> main() async {
     child: MyApp(),
   ));
 }
+///////////////////////// background run /////////////////////////////
 
+////////////////////////////////////////////////////////////
 class MyApp extends StatelessWidget {
   late OtaEvent currentEvent;
 
