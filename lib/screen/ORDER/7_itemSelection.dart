@@ -22,6 +22,7 @@ class ItemSelection extends StatefulWidget {
   String areaId;
   String areaName;
   String type;
+  bool _isLoading = false;
 
   ItemSelection(
       {required this.customerId,
@@ -55,7 +56,7 @@ class _ItemSelectionState extends State<ItemSelection> {
   bool loading = true;
   bool loading1 = false;
   CustomSnackbar snackbar = CustomSnackbar();
-  bool isVisible = false;
+  bool _isLoading = false;
   @override
   void dispose() {
     super.dispose();
@@ -76,6 +77,11 @@ class _ItemSelectionState extends State<ItemSelection> {
     s = date!.split(" ");
     Provider.of<Controller>(context, listen: false)
         .getProductList(widget.customerId);
+    Future.delayed(Duration(seconds: 1), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
   @override
@@ -346,13 +352,15 @@ class _ItemSelectionState extends State<ItemSelection> {
                                 ? P_Settings.wavecolor
                                 : P_Settings.returnbuttnColor))
                     : value.prodctItems.length == 0
-                        ? Container(
-                            height: size.height * 0.6,
-                            child: Text(
-                              "No Products!!!",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          )
+                        ? _isLoading
+                            ? CircularProgressIndicator()
+                            : Container(
+                                height: size.height * 0.6,
+                                child: Text(
+                                  "No Products !!!",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              )
                         : Expanded(
                             child: value.isSearch
                                 ? value.isListLoading
