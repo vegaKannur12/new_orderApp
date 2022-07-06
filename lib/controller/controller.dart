@@ -47,7 +47,7 @@ class Controller extends ChangeNotifier {
   List<bool> selected = [];
   List<bool> filterComselected = [];
   List<bool> returnselected = [];
-
+  bool isautodownload = false;
 
   List<bool> returnSelected = [];
 
@@ -771,8 +771,10 @@ class Controller extends ChangeNotifier {
   //////////////////////////////////////////////////
   fetchProductCompanyList() async {
     try {
-      List<Map<String, dynamic>> result =
-          await OrderAppDB.instance.executeGeneralQuery("Select '0' comid,'All' comanme union all select comid,comanme from companyTable");
+      List<
+          Map<String,
+              dynamic>> result = await OrderAppDB.instance.executeGeneralQuery(
+          "Select '0' comid,'All' comanme union all select comid,comanme from companyTable");
       print("resulttttt.....$result");
       productcompanyList.clear();
       if (result != 0) {
@@ -791,7 +793,7 @@ class Controller extends ChangeNotifier {
   filterwithCompany(String cusId, String comId) async {
     isLoading = true;
     filterCompany = true;
-    // notifyListeners(); 
+    // notifyListeners();
     // List<Map<String, dynamic>> result = await OrderAppDB.instance
     //     .selectAllcommon('productDetailsTable', "companyId='${comId}'");
 
@@ -802,7 +804,7 @@ class Controller extends ChangeNotifier {
     for (var item in result) {
       filteredProductList.add(item);
     }
-    var length=filteredProductList.length;
+    var length = filteredProductList.length;
     filterComselected = List.generate(length, (index) => false);
     print("filteredProductList--$filteredProductList");
     isLoading = false;
@@ -1228,7 +1230,7 @@ class Controller extends ChangeNotifier {
   }
 
 ///////////////////////////////////////////////////////////////////////////////
-  searchProcess(String customerId, String os,String comid) async {
+  searchProcess(String customerId, String os, String comid) async {
     print("searchkey----$comid");
     newList.clear();
 
@@ -1265,7 +1267,12 @@ class Controller extends ChangeNotifier {
       // }
 // print("jhfdjkhfjd----$bagList");
       List<Map<String, dynamic>> result = await OrderAppDB.instance.searchItem(
-          'productDetailsTable', searchkey!, 'item', 'code', 'categoryId'," and companyId='${comid}'");
+          'productDetailsTable',
+          searchkey!,
+          'item',
+          'code',
+          'categoryId',
+          " and companyId='${comid}'");
       for (var item in result) {
         newList.add(item);
       }

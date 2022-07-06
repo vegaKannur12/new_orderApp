@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:isolated_worker/isolated_worker.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/adminController.dart';
@@ -19,12 +22,39 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   String? cid;
   String? com_cid;
-
+  bool? isautodownload;
   String? st_uname;
   String? st_pwd;
   String? userType;
   String? firstMenu;
-  AutoDownload downloaddata = AutoDownload();
+  // AutoDownload downloaddata = AutoDownload();
+  // Future<void> initializeService() async {
+  //   print("inside download");
+
+  //   final service = FlutterBackgroundService();
+  //   await service.configure(
+  //     androidConfiguration: AndroidConfiguration(
+  //       // this will be executed when app is in foreground or background in separated isolate
+  //       onStart: onStart,
+
+  //       // auto start service
+  //       autoStart: true,
+  //       isForegroundMode: true,
+  //     ),
+  //     iosConfiguration: IosConfiguration(
+  //       // auto start service
+  //       autoStart: true,
+
+  //       // this will be executed when app is in foreground in separated isolate
+  //       onForeground: onStart,
+
+  //       // you have to enable background fetch capability on xcode project
+  //       onBackground: onIosBackground,
+  //     ),
+  //   );
+  //   service.startService();
+  // }
+
   navigate() async {
     await Future.delayed(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -34,8 +64,11 @@ class _SplashScreenState extends State<SplashScreen>
       st_pwd = prefs.getString("st_pwd");
       firstMenu = prefs.getString("firstMenu");
       com_cid = prefs.getString("cid");
+      isautodownload = prefs.getBool("isautodownload");
+
       print("st-----$st_uname---$st_pwd");
       print("firstMenu $firstMenu");
+
       if (com_cid != null) {
         Provider.of<Controller>(context, listen: false).cid = com_cid;
       }
@@ -59,15 +92,13 @@ class _SplashScreenState extends State<SplashScreen>
   shared() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     com_cid = prefs.getString("cid");
+
+    IsolatedWorker().run(doSomethingHeavy(context), null);
+
     if (com_cid != null) {
       Provider.of<AdminController>(context, listen: false)
           .getCategoryReport(com_cid!);
       Provider.of<Controller>(context, listen: false).adminDashboard(com_cid!);
-      Future.delayed(const Duration(minutes: 15), () {
-        setState(() {
-          downloaddata.DownloadData(context);
-        });
-      });
     }
   }
 

@@ -1,24 +1,16 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orderapp/controller/controller.dart';
-import 'package:orderapp/screen/ADMIN_/admin_dashboard.dart';
-
 import 'package:orderapp/screen/ORDER/0_splashScreen.dart';
-import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
-import 'package:orderapp/screen/ORDER/tab.dart';
-import 'package:orderapp/screen/report.dart';
-import 'package:orderapp/screen/scrolltoSpecific.dart';
-
+import 'package:orderapp/screen/ORDER/background_download.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:workmanager/workmanager.dart';
 import 'components/commoncolor.dart';
 import 'package:ota_update/ota_update.dart';
 import 'screen/ADMIN_/adminController.dart';
+
 
 
 Future<void> main() async {
@@ -30,6 +22,8 @@ Future<void> main() async {
   ]);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? cid = prefs.getString("company_id");
+ 
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => Controller()),
@@ -79,26 +73,26 @@ class MyApp extends StatelessWidget {
   }
 
   ////////////////////////////////
-  Future<void> tryOtaUpdate() async {
-    try {
-      //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
-      OtaUpdate()
-          .execute(
-        'https://internal1.4q.sk/flutter_hello_world.apk',
-        destinationFilename: 'flutter_hello_world.apk',
-        //FOR NOW ANDROID ONLY - ABILITY TO VALIDATE CHECKSUM OF FILE:
-        sha256checksum:
-            'd6da28451a1e15cf7a75f2c3f151befad3b80ad0bb232ab15c20897e54f21478',
-      )
-          .listen(
-        (OtaEvent event) {
-          currentEvent = event;
-          // setState(() => currentEvent = event
-        },
-      );
-      // ignore: avoid_catches_without_on_clauses
-    } catch (e) {
-      print('Failed to make OTA update. Details: $e');
-    }
-  }
+  // Future<void> tryOtaUpdate() async {
+  //   try {
+  //     //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
+  //     OtaUpdate()
+  //         .execute(
+  //       'https://internal1.4q.sk/flutter_hello_world.apk',
+  //       destinationFilename: 'flutter_hello_world.apk',
+  //       //FOR NOW ANDROID ONLY - ABILITY TO VALIDATE CHECKSUM OF FILE:
+  //       sha256checksum:
+  //           'd6da28451a1e15cf7a75f2c3f151befad3b80ad0bb232ab15c20897e54f21478',
+  //     )
+  //         .listen(
+  //       (OtaEvent event) {
+  //         currentEvent = event;
+  //         // setState(() => currentEvent = event
+  //       },
+  //     );
+  //     // ignore: avoid_catches_without_on_clauses
+  //   } catch (e) {
+  //     print('Failed to make OTA update. Details: $e');
+  //   }
+  // }
 }

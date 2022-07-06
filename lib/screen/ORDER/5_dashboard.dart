@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -23,6 +24,7 @@ import 'package:orderapp/screen/ORDER/6_historypage.dart';
 import 'package:orderapp/screen/ORDER/6_reportPage.dart';
 import 'package:orderapp/screen/ORDER/6_uploaddata.dart';
 import 'package:orderapp/screen/ORDER/6_settings.dart';
+import 'package:orderapp/screen/ORDER/background_download.dart';
 import 'package:orderapp/screen/ORDER/todayCollection.dart';
 import 'package:orderapp/screen/ORDER/todaySale.dart';
 import 'package:orderapp/screen/ORDER/todaysOrder.dart';
@@ -61,7 +63,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? os;
   bool val = true;
   String? userType;
-
+ bool? isautodownload;
   // String menu_index = "";
   List defaultitems = ["upload data", "download page", "logout"];
   DateTime date = DateTime.now();
@@ -69,10 +71,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? selected;
   String? firstMenu;
   List<String> s = [];
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
-  //  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // String j=jsonEncode(json);
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
 
   _onSelectItem(int index, String? menu) {
@@ -195,6 +195,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // Provider.of<Controller>(context, listen: false)
     //     .dashboardSummery(sid!, s[0], "");
     print("cid--sid--$cid--$sid");
+     isautodownload = prefs.getBool("isautodownload");
+    // if (isautodownload != null && isautodownload!) {
+    //     Timer.periodic(Duration(seconds: 2), (timer) {
+    //       print("download data");
+    //       downloaddata.DownloadData(context);
+    //     });
+    //   }
     return sid;
   }
 

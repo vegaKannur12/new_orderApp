@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/screen/ORDER/background_download.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,8 +38,6 @@ class _DownloadedPageState extends State<DownloadedPage> {
 
   @override
   void initState() {
-    print("background data download");
-    // FlutterIsolate.spawn(isolate1, "hello2");
     // TODO: implement initState
     super.initState();
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
@@ -104,6 +103,12 @@ class _DownloadedPageState extends State<DownloadedPage> {
                               onPressed: value.versof == "0"
                                   ? null
                                   : () async {
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.setBool("isautodownload", true);
+                                      // Provider.of<Controller>(context,
+                                      //         listen: false)
+                                      //     .isautodownload = true;
                                       print("time delay inside");
                                       if (downloadItems[index] ==
                                           "Account Heads") {
