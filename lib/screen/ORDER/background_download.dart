@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controller/controller.dart';
 
-doSomethingHeavy( BuildContext context) {
+doSomethingHeavy(BuildContext context) {
   AutoDownload down = AutoDownload();
   Timer(
     const Duration(seconds: 3),
