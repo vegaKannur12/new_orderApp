@@ -333,7 +333,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                         widget.msg!=""
                                             ? widget.msg.toString()
                                             : "Company Registration Successfull",
-                                        style: TextStyle(color: Colors.red),
+                                        style: TextStyle(color: Colors.red,fontSize: 17),
                                       ),
                                 SizedBox(
                                   height: size.height * 0.02,

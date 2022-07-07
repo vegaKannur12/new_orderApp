@@ -307,7 +307,7 @@ class Controller extends ChangeNotifier {
           // /////////////////////////////////////////////////////
 
           print("cid----fp-----$compny_code---$fp");
-          if (fp != null) {
+          if (fp != null && compny_code!=null) {
             print("entereddddsd");
             prefs.setString("versof", versof!);
             prefs.setString("vermsg", vermsg!);
