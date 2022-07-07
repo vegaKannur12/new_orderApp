@@ -233,6 +233,8 @@ class Controller extends ChangeNotifier {
             prefs.setString("cid", cid!);
             prefs.setString("os", os!);
             prefs.setString("fp", fp!);
+            prefs.setString("cname", cname!);
+
 
             // verifyRegistration(context);
             String? user = prefs.getString("userType");

@@ -379,8 +379,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                           print("cid-----${cid}");
 
                                           // prefs.setString("cid", cid);
-                                          prefs.setString(
-                                              "cname", value.cname!);
+                                          // prefs.setString(
+                                          //     "cname", value.cname!);
                                           // Provider.of<Controller>(context,
                                           //         listen: false)
                                           //     .setCname();
