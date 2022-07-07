@@ -106,6 +106,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).verifyRegistration(context);
+    print("sofffff ${Provider.of<Controller>(context, listen: false).versof}");
     if (Provider.of<Controller>(context, listen: false).versof == "0") {
       Navigator.push(
         context,

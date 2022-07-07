@@ -297,8 +297,7 @@ class Controller extends ChangeNotifier {
 
           VerifyRegistration verRegModel = VerifyRegistration.fromJson(map);
           versof = verRegModel.sof;
-           vermsg = verRegModel.msg;
-
+          vermsg = verRegModel.msg;
           print("sof----${versof}");
 
           // /////////////////////////////////////////////////////
