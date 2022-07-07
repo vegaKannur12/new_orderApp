@@ -69,6 +69,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> returnList = [];
 
   bool filter = false;
+  bool isAccount = false;
+
   // String? custmerSelection;
   int? customerCount;
   List<String> tableColumn = [];
@@ -172,7 +174,10 @@ class Controller extends ChangeNotifier {
   Future<RegistrationData?> postRegistration(
       String company_code, BuildContext context) async {
     NetConnection.networkConnection(context).then((value) async {
+      await OrderAppDB.instance
+          .deleteFromTableCommonQuery('registrationTable', "");
       await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
+
       if (value == true) {
         try {
           Uri url =
@@ -229,6 +234,7 @@ class Controller extends ChangeNotifier {
 
             print("fnjdxf----$user");
             getCompanyData();
+            print("helooooo");
             // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
             getMenuAPi(cid!, fp1!, context);
             Navigator.push(
@@ -539,6 +545,8 @@ class Controller extends ChangeNotifier {
             'cid': cid,
           };
           // print("compny----${company_code}");
+          isAccount = true;
+
           isLoading = true;
           notifyListeners();
           http.Response response = await http.post(
@@ -557,6 +565,8 @@ class Controller extends ChangeNotifier {
             await OrderAppDB.instance.insertwalletTable(walletModal);
             // menuList.add(menuItem);
           }
+          isAccount = false;
+
           isLoading = false;
           notifyListeners();
         } catch (e) {
@@ -595,8 +605,8 @@ class Controller extends ChangeNotifier {
       };
 
       isLoading = true;
+      isAccount = true;
       notifyListeners();
-
       print("compny----${cid}");
       http.Response response = await http.post(
         url,
@@ -621,7 +631,7 @@ class Controller extends ChangeNotifier {
           dashboardSummery(sid!, s, "", context);
         }
       }
-
+      isAccount = false;
       isLoading = false;
       notifyListeners();
 
@@ -660,6 +670,7 @@ class Controller extends ChangeNotifier {
         'cid': cid,
       };
       print("compny----${cid}");
+      isAccount = true;
 
       isLoading = true;
       notifyListeners();
@@ -678,6 +689,7 @@ class Controller extends ChangeNotifier {
         var product =
             await OrderAppDB.instance.insertProductDetails(proDetails);
       }
+      isAccount = false;
 
       isLoading = false;
       notifyListeners();
@@ -699,7 +711,7 @@ class Controller extends ChangeNotifier {
         'cid': cid,
       };
       print("compny----${cid}");
-
+      isAccount = true;
       isLoading = true;
       notifyListeners();
 
@@ -716,7 +728,7 @@ class Controller extends ChangeNotifier {
       for (var cat in map) {
         category = ProductsCategoryModel.fromJson(cat);
         var product = await OrderAppDB.instance.insertProductCategory(category);
-
+        isAccount = false;
         isLoading = false;
         notifyListeners();
 
@@ -741,7 +753,7 @@ class Controller extends ChangeNotifier {
         'cid': cid,
       };
       print("compny----${cid}");
-
+      isAccount = true;
       isLoading = true;
       notifyListeners();
 
@@ -759,6 +771,8 @@ class Controller extends ChangeNotifier {
         var product =
             await OrderAppDB.instance.insertProductCompany(productCompany);
       }
+      isAccount = false;
+
       isLoading = false;
       notifyListeners();
       /////////////// insert into local db /////////////////////

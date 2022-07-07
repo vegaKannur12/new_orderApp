@@ -137,6 +137,23 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                 ),
                                 Row(
                                   children: [
+                                    Icon(Icons.numbers_rounded),
+                                    SizedBox(
+                                      width: size.width * 0.02,
+                                    ),
+                                    Container(
+                                      width: size.width * 0.3,
+                                      child: Text("Order Series"),
+                                    ),
+                                    Text(
+                                        ": ${(value.companyList[0]["os"] == null) && (value.companyList[0]["os"].isEmpty) ? "" : value.companyList[0]["os"]}"),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.02,
+                                ),
+                                Row(
+                                  children: [
                                     Icon(Icons.fingerprint),
                                     SizedBox(
                                       width: size.width * 0.02,
@@ -157,7 +174,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.book),
                                     SizedBox(
                                       width: size.width * 0.02,
-                                    ),Container(
+                                    ),
+                                    Container(
                                       width: size.width * 0.3,
                                       child: Text("Address1"),
                                     ),
@@ -174,7 +192,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.book),
                                     SizedBox(
                                       width: size.width * 0.02,
-                                    ),Container(
+                                    ),
+                                    Container(
                                       width: size.width * 0.3,
                                       child: Text("Address2"),
                                     ),
@@ -192,7 +211,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.pin),
                                     SizedBox(
                                       width: size.width * 0.02,
-                                    ),Container(
+                                    ),
+                                    Container(
                                       width: size.width * 0.3,
                                       child: Text("PinCode"),
                                     ),
@@ -210,7 +230,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.business),
                                     SizedBox(
                                       width: size.width * 0.02,
-                                    ),Container(
+                                    ),
+                                    Container(
                                       width: size.width * 0.3,
                                       child: Text("CompanyPrefix"),
                                     ),
@@ -228,7 +249,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.landscape),
                                     SizedBox(
                                       width: size.width * 0.02,
-                                    ),Container(
+                                    ),
+                                    Container(
                                       width: size.width * 0.3,
                                       child: Text("Land"),
                                     ),
@@ -246,7 +268,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.phone),
                                     SizedBox(
                                       width: size.width * 0.02,
-                                    ),Container(
+                                    ),
+                                    Container(
                                       width: size.width * 0.3,
                                       child: Text("Mobile"),
                                     ),
@@ -264,7 +287,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.design_services),
                                     SizedBox(
                                       width: size.width * 0.02,
-                                    ),Container(
+                                    ),
+                                    Container(
                                       width: size.width * 0.3,
                                       child: Text("GST"),
                                     ),
@@ -282,7 +306,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     Icon(Icons.copy_rounded),
                                     SizedBox(
                                       width: size.width * 0.02,
-                                    ),Container(
+                                    ),
+                                    Container(
                                       width: size.width * 0.3,
                                       child: Text("Country Code     "),
                                     ),

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../components/commoncolor.dart';
+import '../../db_helper.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override

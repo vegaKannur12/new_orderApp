@@ -80,6 +80,8 @@ class StaffLogin extends StatelessWidget {
                   // row has two child icon and text.
                   child: GestureDetector(
                     onTap: () async {
+                      await OrderAppDB.instance
+                          .deleteFromTableCommonQuery('registrationTable', "");
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.remove('company_id');
                       Navigator.pushReplacement(
