@@ -177,8 +177,6 @@ class Controller extends ChangeNotifier {
   Future<RegistrationData?> postRegistration(
       String company_code, BuildContext context) async {
     NetConnection.networkConnection(context).then((value) async {
-      await OrderAppDB.instance
-          .deleteFromTableCommonQuery('registrationTable', "");
       await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
 
       if (value == true) {
@@ -224,6 +222,8 @@ class Controller extends ChangeNotifier {
               print("ciddddddddd......$item");
               c_d.add(item);
             }
+            await OrderAppDB.instance
+                .deleteFromTableCommonQuery('registrationTable', "");
             var res =
                 await OrderAppDB.instance.insertRegistrationDetails(regModel);
             print("inserted ${res}");
