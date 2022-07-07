@@ -135,6 +135,8 @@ class Controller extends ChangeNotifier {
   String? count;
   String? sof;
   String? versof;
+  String? vermsg;
+
   String? heading;
   String? fp;
   List<Map<String, dynamic>> bagList = [];
@@ -249,7 +251,7 @@ class Controller extends ChangeNotifier {
 
           if (sof == "0") {
             CustomSnackbar snackbar = CustomSnackbar();
-            snackbar.showSnackbar(context, "Invalid key");
+            snackbar.showSnackbar(context, msg.toString());
           }
 
           notifyListeners();
@@ -271,7 +273,7 @@ class Controller extends ChangeNotifier {
 
       Map map = {
         '0': compny_code,
-        "1": fp,
+        "1": "fgcfgcfgfc",
       };
 
       List list = [];
@@ -295,7 +297,7 @@ class Controller extends ChangeNotifier {
 
           VerifyRegistration verRegModel = VerifyRegistration.fromJson(map);
           versof = verRegModel.sof;
-          String? error = verRegModel.error;
+           vermsg = verRegModel.msg;
 
           print("sof----${versof}");
 

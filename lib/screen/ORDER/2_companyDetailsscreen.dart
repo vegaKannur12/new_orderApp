@@ -323,7 +323,9 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                 widget.type == "drawer call"
                                     ? Container()
                                     : Text(
-                                        "Company Registration Successfull",
+                                        value.versof == "0"
+                                            ? value.vermsg.toString()
+                                            : "Company Registration Successfull",
                                         style: TextStyle(color: Colors.red),
                                       ),
                                 SizedBox(
