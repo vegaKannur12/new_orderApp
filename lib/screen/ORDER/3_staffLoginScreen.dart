@@ -343,6 +343,7 @@ class StaffLogin extends StatelessWidget {
                                                           listen: false)
                                                       .verifyRegistration(
                                                           context);
+                                                  
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(

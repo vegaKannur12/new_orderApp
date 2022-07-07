@@ -12,7 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CompanyDetails extends StatefulWidget {
   String? type;
-  CompanyDetails({this.type});
+  String? msg;
+  CompanyDetails({this.type,this.msg});
   @override
   State<CompanyDetails> createState() => _CompanyDetailsState();
 }
@@ -20,6 +21,8 @@ class CompanyDetails extends StatefulWidget {
 class _CompanyDetailsState extends State<CompanyDetails> {
   String? cid;
   String? firstMenu;
+  String? versof;
+  String? vermsg;
 
   CustomSnackbar _snackbar = CustomSnackbar();
   @override
@@ -33,9 +36,13 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
-
-    Provider.of<AdminController>(context, listen: false)
-        .getCategoryReport(cid!);
+    versof = prefs.getString("versof");
+    vermsg = prefs.getString("vermsg");
+    print("hdszdn-----$versof");
+    if (cid != null) {
+      Provider.of<AdminController>(context, listen: false)
+          .getCategoryReport(cid!);
+    }
   }
 
   @override
@@ -323,21 +330,25 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                 widget.type == "drawer call"
                                     ? Container()
                                     : Text(
-                                        value.versof == "0"
-                                            ? value.vermsg.toString()
+                                        widget.msg!=""
+                                            ? widget.msg.toString()
                                             : "Company Registration Successfull",
                                         style: TextStyle(color: Colors.red),
                                       ),
                                 SizedBox(
                                   height: size.height * 0.02,
                                 ),
-                                widget.type == "drawer call"
+                                widget.type == "drawer call" || widget.msg!=""
                                     ? Container()
                                     : ElevatedButton(
                                         onPressed: () async {
+                                          // Provider.of<Controller>(context,
+                                          //         listen: false)
+                                          //     .continueClicked = true;
                                           SharedPreferences prefs =
                                               await SharedPreferences
                                                   .getInstance();
+                                          prefs.setBool("continueClicked", true);
                                           String? userType =
                                               prefs.getString("userType");
                                           Provider.of<Controller>(context,

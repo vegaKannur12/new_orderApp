@@ -304,7 +304,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "CD":
         // title = "Download data";
         return CompanyDetails(
-          type: "drawer call",
+          type: "drawer call",msg: "",
         );
       case "HR":
         // title = "Download data";
