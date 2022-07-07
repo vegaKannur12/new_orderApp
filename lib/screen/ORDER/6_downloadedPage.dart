@@ -33,7 +33,7 @@ class _DownloadedPageState extends State<DownloadedPage> {
     "Product category",
     "Company",
     "Wallet",
-    "Images"
+    // "Images"
   ];
 
   @override
@@ -102,7 +102,7 @@ class _DownloadedPageState extends State<DownloadedPage> {
                             trailing: IconButton(
                               onPressed: value.versof == "0"
                                   ? null
-                                  : () async {
+                                  : value.isAccount?null:() async {
                                       SharedPreferences prefs =
                                           await SharedPreferences.getInstance();
                                       prefs.setBool("isautodownload", true);
@@ -110,34 +110,45 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                       //         listen: false)
                                       //     .isautodownload = true;
                                       print("time delay inside");
+                                      
                                       if (downloadItems[index] ==
                                           "Account Heads") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getaccountHeadsDetails(
-                                                context, s[0], cid!);
+                                       
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getaccountHeadsDetails(
+                                                  context, s[0], cid!);
+                                        
                                       }
                                       if (downloadItems[index] ==
                                           "Product category") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getProductCategory(cid!);
+                                       
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getProductCategory(cid!);
+                                      
                                       }
                                       if (downloadItems[index] == "Company") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getProductCompany(cid!);
+                                       
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getProductCompany(cid!);
+                                      
                                       }
                                       if (downloadItems[index] ==
                                           "Product Details") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getProductDetails(cid!);
+                                        
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getProductDetails(cid!);
+                                        
                                       }
                                       if (downloadItems[index] == "Wallet") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getWallet(context);
+                                       
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .getWallet(context);
+                                       
                                       }
                                     },
                               icon: Icon(Icons.download),

@@ -4,18 +4,30 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/0_splashScreen.dart';
+import 'package:orderapp/screen/ORDER/autoDownload.dart';
 import 'package:orderapp/screen/ORDER/background_download.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 import 'components/commoncolor.dart';
 import 'package:ota_update/ota_update.dart';
 import 'screen/ADMIN_/adminController.dart';
 
 
+void callbackDispatcher(){
+  AutoDownload down=AutoDownload();
+
+  Workmanager().executeTask((taskName, inputData) {
+    // Provider.of<Controller>(NavigationService.navigatorKey.currentContext!, listen: false).getWallet(NavigationService.navigatorKey.currentContext!);
+  //  down.DownloadData();
+   print("task executing  : " +taskName);
+   return Future.value(true);
+  });
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  Workmanager().initialize(callbackDispatcher);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -43,6 +55,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: NavigationService.navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
@@ -95,4 +108,9 @@ class MyApp extends StatelessWidget {
   //     print('Failed to make OTA update. Details: $e');
   //   }
   // }
+}
+
+class NavigationService { 
+  static GlobalKey<NavigatorState> navigatorKey = 
+  GlobalKey<NavigatorState>();
 }

@@ -1,27 +1,29 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:orderapp/main.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controller/controller.dart';
 
-doSomethingHeavy(BuildContext context) {
-  AutoDownload down = AutoDownload();
-  Timer(
-    const Duration(seconds: 3),
-    () {
-      print("done");
+// doSomethingHeavy(BuildContext context) {
+//   AutoDownload down = AutoDownload();
+//   Timer(
+//     const Duration(seconds: 3),
+//     () {
+//       print("done");
 
-      down.DownloadData(context);
+//       down.DownloadData(context);
 
-      // Navigate to your favorite place
-    },
-  );
-}
+//       // Navigate to your favorite place
+//     },
+//   );
+// }
 
 class AutoDownload {
   DownloadData(BuildContext context) async {
+    // BuildContext context;
     print("inside manager");
     String? formattedDate;
     List s = [];

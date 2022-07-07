@@ -93,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     com_cid = prefs.getString("cid");
 
-    IsolatedWorker().run(doSomethingHeavy(context), "hello".toString());
+    // IsolatedWorker().run(doSomethingHeavy(context), "hello".toString());
 
     if (com_cid != null) {
       Provider.of<AdminController>(context, listen: false)
