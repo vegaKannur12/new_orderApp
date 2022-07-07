@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:isolated_worker/isolated_worker.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/adminController.dart';
@@ -93,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     com_cid = prefs.getString("cid");
 
-    IsolatedWorker().run(doSomethingHeavy(context), "hello".toString());
+    // await IsolatedWorker().run(doSomethingHeavy(context), "");
 
     if (com_cid != null) {
       Provider.of<AdminController>(context, listen: false)

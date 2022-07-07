@@ -112,10 +112,16 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                       print("time delay inside");
                                       if (downloadItems[index] ==
                                           "Account Heads") {
-                                        Provider.of<Controller>(context,
-                                                listen: false)
-                                            .getaccountHeadsDetails(
-                                                context, s[0], cid!);
+                                        Future.delayed(
+                                            const Duration(milliseconds: 500),
+                                            () {
+                                          setState(() {
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .getaccountHeadsDetails(
+                                                    context, s[0], cid!);
+                                          });
+                                        });
                                       }
                                       if (downloadItems[index] ==
                                           "Product category") {
