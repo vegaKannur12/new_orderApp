@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class WebView extends StatefulWidget {
-  const WebView({Key? key}) : super(key: key);
+class WebViewTest extends StatefulWidget {
+  const WebViewTest({Key? key}) : super(key: key);
 
   @override
-  State<WebView> createState() => _WebViewState();
+  State<WebViewTest> createState() => _WebViewTestState();
 }
 
-class _WebViewState extends State<WebView> {
+class _WebViewTestState extends State<WebViewTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: ,
-      body: SafeArea(child: Column()),
+      body: WebView(
+        javascriptMode:JavascriptMode.unrestricted,
+        initialUrl: "http://aiwasilks.in/reports/",
+          
+        
+      ),
     );
   }
 }
