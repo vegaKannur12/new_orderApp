@@ -249,7 +249,7 @@ class Controller extends ChangeNotifier {
 
           if (sof == "0") {
             CustomSnackbar snackbar = CustomSnackbar();
-            snackbar.showSnackbar(context, "Invalid key");
+            snackbar.showSnackbar(context, msg.toString());
           }
 
           notifyListeners();
