@@ -11,7 +11,7 @@ class VerifyRegistration {
     cid = json['cid'];
     fp = json['fp'];
     cD = json['cD'];
-    msg = json['error'];
+    msg = json['msg'];
     sof = json['sof'];
   }
 
@@ -20,7 +20,7 @@ class VerifyRegistration {
     data['cid'] = this.cid;
     data['fp'] = this.fp;
     data['cD'] = this.cD;
-    data['error'] = this.msg;
+    data['msg'] = this.msg;
     data['sof'] = this.sof;
     return data;
   }

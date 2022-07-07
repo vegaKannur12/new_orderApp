@@ -41,6 +41,7 @@ class Controller extends ChangeNotifier {
   bool isVisible = false;
   double returnTotal = 0.0;
   bool? noreportdata;
+  bool? continueClicked;
   bool returnprice = false;
   int? shopVisited;
   int? noshopVisited;
@@ -208,6 +209,9 @@ class Controller extends ChangeNotifier {
           print("fp----- $fp");
           print("sof----${sof}");
           if (sof == "1") {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString("company_id", company_code);
+
             /////////////// insert into local db /////////////////////
             late CD dataDetails;
             String? fp1 = regModel.fp;
@@ -225,12 +229,11 @@ class Controller extends ChangeNotifier {
             print("inserted ${res}");
             isLoading = false;
             notifyListeners();
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString("company_id", company_code);
             prefs.setString("userType", userType!);
             prefs.setString("cid", cid!);
             prefs.setString("os", os!);
             prefs.setString("fp", fp!);
+
             // verifyRegistration(context);
             String? user = prefs.getString("userType");
 
@@ -243,7 +246,7 @@ class Controller extends ChangeNotifier {
               context,
               MaterialPageRoute(
                   builder: (context) => CompanyDetails(
-                        type: "",
+                        type: "",msg: "",
                       )),
             );
           }
@@ -267,13 +270,14 @@ class Controller extends ChangeNotifier {
   Future<RegistrationData?> verifyRegistration(BuildContext context) async {
     NetConnection.networkConnection(context).then((value) async {
       // await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
+      String? compny_code;
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? compny_code = prefs.getString("company_id");
+      compny_code = prefs.getString("company_id");
       String? fp = prefs.getString("fp");
-
+      // print(cid-----4cid)
       Map map = {
         '0': compny_code,
-        "1":fp,
+        "1": fp,
       };
 
       List list = [];
@@ -298,16 +302,28 @@ class Controller extends ChangeNotifier {
           VerifyRegistration verRegModel = VerifyRegistration.fromJson(map);
           versof = verRegModel.sof;
           vermsg = verRegModel.msg;
-          prefs.setString("versof", versof!);
-
-          print("versofbhg----${versof}");
+          print("vermsg----$vermsg");
 
           // /////////////////////////////////////////////////////
 
-          // if (sof == "0") {
-          //   CustomSnackbar snackbar = CustomSnackbar();
-          //   snackbar.showSnackbar(context, "Invalid key");
-          // }
+          print("cid----fp-----$compny_code---$fp");
+          if (fp != null) {
+            print("entereddddsd");
+            prefs.setString("versof", versof!);
+            prefs.setString("vermsg", vermsg!);
+            print("versofbhg----${vermsg}");
+            getCompanyData();
+            if (versof == "0") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CompanyDetails(
+                          type: "",
+                          msg: vermsg,
+                        )),
+              );
+            }
+          }
 
           notifyListeners();
         } catch (e) {
