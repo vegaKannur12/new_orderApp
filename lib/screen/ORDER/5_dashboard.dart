@@ -28,6 +28,7 @@ import 'package:orderapp/screen/ORDER/background_download.dart';
 import 'package:orderapp/screen/ORDER/todayCollection.dart';
 import 'package:orderapp/screen/ORDER/todaySale.dart';
 import 'package:orderapp/screen/ORDER/todaysOrder.dart';
+import 'package:orderapp/screen/ORDER/webview.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -698,6 +699,21 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         },
                         title: Text(
                           "settings",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ),
+                      ListTile(
+                        trailing: Icon(Icons.web),
+                        onTap: () async {
+                        
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WebView()),
+                        );
+                        },
+                        title: Text(
+                          "WebView",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
