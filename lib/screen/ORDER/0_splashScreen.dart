@@ -62,8 +62,7 @@ class _SplashScreenState extends State<SplashScreen>
       cid = prefs.getString("company_id");
       userType = prefs.getString("user_type");
       st_uname = prefs.getString("st_username");
-      versof = prefs.getString("versof");
-      print("versof----$versof");
+
       st_pwd = prefs.getString("st_pwd");
       firstMenu = prefs.getString("firstMenu");
       com_cid = prefs.getString("cid");
@@ -79,6 +78,7 @@ class _SplashScreenState extends State<SplashScreen>
         Provider.of<Controller>(context, listen: false).menu_index = firstMenu;
         print(Provider.of<Controller>(context, listen: false).menu_index);
       }
+
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -103,21 +103,29 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
+  versofFun() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    versof = prefs.getString("versof");
+    print("versof----$versof");
+    if (versof != null) {
+      if (versof == "0") {
+        print("haiiiijhgjhgjj");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CompanyDetails()),
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).verifyRegistration(context);
-    // print("sofffff ${Provider.of<Controller>(context, listen: false).versof}");
-    // if (Provider.of<Controller>(context, listen: false).versof != null) {
-    //   if (Provider.of<Controller>(context, listen: false).versof == "0") {
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(builder: (context) => CompanyDetails()),
-    //     );
-    //   }
-    // }
+    versofFun();
+    // print("versof----$versof");
 
     shared();
     navigate();

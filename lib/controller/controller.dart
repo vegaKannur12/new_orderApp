@@ -273,7 +273,7 @@ class Controller extends ChangeNotifier {
 
       Map map = {
         '0': compny_code,
-        "1": "fgcfgcfgfc",
+        "1":fp,
       };
 
       List list = [];
@@ -300,7 +300,7 @@ class Controller extends ChangeNotifier {
           vermsg = verRegModel.msg;
           prefs.setString("versof", versof!);
 
-          print("sof----${versof}");
+          print("versofbhg----${versof}");
 
           // /////////////////////////////////////////////////////
 

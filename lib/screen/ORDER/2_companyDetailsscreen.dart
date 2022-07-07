@@ -20,6 +20,7 @@ class CompanyDetails extends StatefulWidget {
 class _CompanyDetailsState extends State<CompanyDetails> {
   String? cid;
   String? firstMenu;
+  String? versof;
 
   CustomSnackbar _snackbar = CustomSnackbar();
   @override
@@ -33,7 +34,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
-
+    versof = prefs.getString("versof");
     Provider.of<AdminController>(context, listen: false)
         .getCategoryReport(cid!);
   }
@@ -323,16 +324,17 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                 widget.type == "drawer call"
                                     ? Container()
                                     : Text(
-                                      value.versof!=null?
-                                        value.versof == "0"
+                                        versof == "0"
                                             ? value.vermsg.toString()
-                                            : "Company Registration Successfull":"Company Registration Successfull",
+                                            : 
+                                            
+                                            "Company Registration Successfull",
                                         style: TextStyle(color: Colors.red),
                                       ),
                                 SizedBox(
                                   height: size.height * 0.02,
                                 ),
-                                widget.type == "drawer call"
+                                widget.type == "drawer call" || versof=="0"
                                     ? Container()
                                     : ElevatedButton(
                                         onPressed: () async {
