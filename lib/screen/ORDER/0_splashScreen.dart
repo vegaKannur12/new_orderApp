@@ -5,6 +5,7 @@ import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/adminController.dart';
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
+import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
 import 'package:orderapp/screen/ORDER/background_download.dart';
@@ -104,7 +105,13 @@ class _SplashScreenState extends State<SplashScreen>
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
-
+    Provider.of<Controller>(context, listen: false).verifyRegistration(context);
+    if (Provider.of<Controller>(context, listen: false).versof == "0") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CompanyDetails()),
+      );
+    }
     shared();
     navigate();
   }
