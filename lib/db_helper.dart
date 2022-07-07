@@ -1427,7 +1427,7 @@ class OrderAppDB {
     Database db = await instance.database;
 
     var result = await db.rawQuery(
-        "SELECT returnMasterTable.id as id, returnMasterTable.os  || returnMasterTable.return_id as ser,returnMasterTable.return_id as srid,returnMasterTable.customerid cuid, returnMasterTable.return_date sdate, returnMasterTable.userid as sid,returnMasterTable.areaid as aid  FROM returnMasterTable");
+        "SELECT returnMasterTable.id as id, returnMasterTable.os  || returnMasterTable.return_id as ser,returnMasterTable.return_id as srid,returnMasterTable.customerid cuid,returnMasterTable.return_date  || ' '  ||returnMasterTable.return_time return_date, returnMasterTable.userid as sid,returnMasterTable.areaid as aid  FROM returnMasterTable");
     return result;
   }
 
