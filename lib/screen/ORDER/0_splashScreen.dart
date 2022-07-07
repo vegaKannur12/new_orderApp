@@ -27,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen>
   String? st_pwd;
   String? userType;
   String? firstMenu;
+  String? versof;
   // AutoDownload downloaddata = AutoDownload();
   // Future<void> initializeService() async {
   //   print("inside download");
@@ -61,6 +62,8 @@ class _SplashScreenState extends State<SplashScreen>
       cid = prefs.getString("company_id");
       userType = prefs.getString("user_type");
       st_uname = prefs.getString("st_username");
+      versof = prefs.getString("versof");
+      print("versof----$versof");
       st_pwd = prefs.getString("st_pwd");
       firstMenu = prefs.getString("firstMenu");
       com_cid = prefs.getString("cid");
@@ -106,13 +109,16 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).verifyRegistration(context);
-    print("sofffff ${Provider.of<Controller>(context, listen: false).versof}");
-    if (Provider.of<Controller>(context, listen: false).versof == "0") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => CompanyDetails()),
-      );
-    }
+    // print("sofffff ${Provider.of<Controller>(context, listen: false).versof}");
+    // if (Provider.of<Controller>(context, listen: false).versof != null) {
+    //   if (Provider.of<Controller>(context, listen: false).versof == "0") {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(builder: (context) => CompanyDetails()),
+    //     );
+    //   }
+    // }
+
     shared();
     navigate();
   }
