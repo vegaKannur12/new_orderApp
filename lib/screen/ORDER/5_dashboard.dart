@@ -7,6 +7,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
+import 'package:orderapp/components/customPopup.dart';
 import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/components/network_connectivity.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -73,7 +74,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? selected;
   String? firstMenu;
   List<String> s = [];
-
+  CustomPopup popup = CustomPopup();
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
 
@@ -715,9 +716,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                 MaterialPageRoute(
                                     builder: (context) => WebViewTest()),
                               );
-                            } else {
-                              
-                            }
+                            } else {}
                           });
                         },
                         title: Text(
@@ -731,6 +730,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         onTap: () async {
                           final prefs = await SharedPreferences.getInstance();
                           await prefs.remove('company_id');
+
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
