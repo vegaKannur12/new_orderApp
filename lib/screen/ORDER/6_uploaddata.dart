@@ -96,8 +96,10 @@ class _UploaddataState extends State<Uploaddata> {
                                       }
                                       if (uploadItems[index] ==
                                           "Upload Stock Return") {
-                                        Provider.of<Controller>(context, listen: false)
-                                            .uploadReturnData(widget.cid, context);
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .uploadReturnData(
+                                                widget.cid, context);
                                       }
                                       if (uploadItems[index] ==
                                           "Upload Sales") {
@@ -106,7 +108,9 @@ class _UploaddataState extends State<Uploaddata> {
                                       }
                                       if (uploadItems[index] ==
                                           "Upload Customer") {
-                                        Provider.of<Controller>(context, listen: false).uploadCustomers(context);
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .uploadCustomers(context);
                                         //     .getProductCategory(cid!, "");
                                       }
                                     },
@@ -125,6 +129,15 @@ class _UploaddataState extends State<Uploaddata> {
                   ),
                 ),
               ),
+              value.versof == "0"
+                  ? Container(
+                      height: size.height * 0.2,
+                      child: Text(
+                        "Invalid Registration!!!",
+                        style: TextStyle(fontSize: 18, color: Colors.red),
+                      ),
+                    )
+                  : Container()
             ],
           );
         },

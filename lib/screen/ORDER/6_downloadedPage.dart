@@ -161,6 +161,10 @@ class _DownloadedPageState extends State<DownloadedPage> {
                   ),
                 ),
               ),
+              value.versof=="0"?Container(
+                height: size.height*0.2,
+                child: Text("Invalid Registration!!!",style: TextStyle(fontSize: 18,color: Colors.red),),
+              ):Container()
             ],
           );
         },
