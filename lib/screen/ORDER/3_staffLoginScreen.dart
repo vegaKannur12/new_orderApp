@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customPopup.dart';
+import 'package:orderapp/components/unregister_popup.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
@@ -28,6 +29,7 @@ class StaffLogin extends StatelessWidget {
   CustomPopup popup = CustomPopup();
   List<String> result = [];
   String? userType;
+  Unreg popupunreg = Unreg();
   // GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ValueNotifier<bool> visible = ValueNotifier(false);
 
@@ -80,9 +82,8 @@ class StaffLogin extends StatelessWidget {
                   // row has two child icon and text.
                   child: GestureDetector(
                     onTap: () async {
-                      showAlertDialog(context);
-                      await OrderAppDB.instance
-                          .deleteFromTableCommonQuery('registrationTable', "");
+                      popupunreg.showAlertDialog(context);
+
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.remove('company_id');
                     },
@@ -535,33 +536,6 @@ class StaffLogin extends StatelessWidget {
       ),
     );
   }
-}
-
-showAlertDialog(BuildContext context) {
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => RegistrationScreen()));
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Do you want to unregister!!"),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }
 
 //////////////////////////////

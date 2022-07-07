@@ -10,6 +10,8 @@ import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customPopup.dart';
 import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/components/network_connectivity.dart';
+import 'package:orderapp/components/noNetwork.dart';
+import 'package:orderapp/components/unregister_popup.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 
@@ -68,13 +70,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? userType;
   bool? isautodownload;
   // String menu_index = "";
-  List defaultitems = ["upload data", "download page", "logout"];
+  // List defaultitems = ["upload data", "download page", "logout"];
   DateTime date = DateTime.now();
   String? formattedDate;
   String? selected;
   String? firstMenu;
   List<String> s = [];
-  CustomPopup popup = CustomPopup();
+  Unreg popup = Unreg();
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
 
@@ -716,7 +718,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                 MaterialPageRoute(
                                     builder: (context) => WebViewTest()),
                               );
-                            } else {}
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NoNetwork()),
+                              );
+                            }
                           });
                         },
                         title: Text(
@@ -730,11 +738,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         onTap: () async {
                           final prefs = await SharedPreferences.getInstance();
                           await prefs.remove('company_id');
-
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegistrationScreen()));
+                          popup.showAlertDialog(context);
                         },
                         title: Text(
                           "un-register",
@@ -748,7 +752,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           await prefs.remove('st_username');
                           await prefs.remove('st_pwd');
                           String? userType = prefs.getString("user_type");
-
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

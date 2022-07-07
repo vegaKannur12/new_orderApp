@@ -23,14 +23,13 @@ class _WebViewTestState extends State<WebViewTest> {
       // appBar: ,
       body: WebView(
         navigationDelegate: (NavigationRequest request) {
-          if (request.url.startsWith(url)) {
+          if (request.url.startsWith("http://aiwasilks.in/reports/")) {
             return NavigationDecision.prevent;
           }
           return NavigationDecision.navigate;
         },
         javascriptMode: JavascriptMode.unrestricted,
-        initialUrl: url,
-        onWebViewCreated: (WebViewController webViewController) {},
+        initialUrl: "http://aiwasilks.in/reports/",
       ),
     );
   }

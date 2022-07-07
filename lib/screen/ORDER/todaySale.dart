@@ -10,14 +10,19 @@ class TodaySale extends StatefulWidget {
 class _TodaySaleState extends State<TodaySale> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: Center(
+        body: Container(
+      height: size.height * 0.7,
+      width: double.infinity,
+      child: Center(
           child: Text(
         "No Sales!!!",
         style: TextStyle(
           fontSize: 19,
         ),
       )),
-    );
+    ));
   }
 }
