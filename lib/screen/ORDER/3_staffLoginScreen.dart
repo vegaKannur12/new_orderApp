@@ -84,10 +84,35 @@ class StaffLogin extends StatelessWidget {
                           .deleteFromTableCommonQuery('registrationTable', "");
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.remove('company_id');
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegistrationScreen()));
+                      showAlertDialog(BuildContext context) {
+                        // set up the button
+                        Widget okButton = TextButton(
+                          child: Text("OK"),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        RegistrationScreen()));
+                          },
+                        );
+
+                        // set up the AlertDialog
+                        AlertDialog alert = AlertDialog(
+                          title: Text("Are you sure to unregister"),
+                          actions: [
+                            okButton,
+                          ],
+                        );
+
+                        // show the dialog
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return alert;
+                          },
+                        );
+                      }
                     },
                     child: Row(
                       children: [Text("un-register")],

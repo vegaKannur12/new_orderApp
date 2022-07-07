@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:orderapp/components/network_connectivity.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewTest extends StatefulWidget {
@@ -9,15 +10,27 @@ class WebViewTest extends StatefulWidget {
 }
 
 class _WebViewTestState extends State<WebViewTest> {
+  String url = "http://aiwasilks.in/reports/";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: ,
       body: WebView(
-        javascriptMode:JavascriptMode.unrestricted,
-        initialUrl: "http://aiwasilks.in/reports/",
-          
-        
+        navigationDelegate: (NavigationRequest request) {
+          if (request.url.startsWith(url)) {
+            return NavigationDecision.prevent;
+          }
+          return NavigationDecision.navigate;
+        },
+        javascriptMode: JavascriptMode.unrestricted,
+        initialUrl: url,
+        onWebViewCreated: (WebViewController webViewController) {},
       ),
     );
   }

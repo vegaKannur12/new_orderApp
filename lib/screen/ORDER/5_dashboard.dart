@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customToast.dart';
+import 'package:orderapp/components/network_connectivity.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 
@@ -64,7 +65,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String? os;
   bool val = true;
   String? userType;
- bool? isautodownload;
+  bool? isautodownload;
   // String menu_index = "";
   List defaultitems = ["upload data", "download page", "logout"];
   DateTime date = DateTime.now();
@@ -196,7 +197,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // Provider.of<Controller>(context, listen: false)
     //     .dashboardSummery(sid!, s[0], "");
     print("cid--sid--$cid--$sid");
-     isautodownload = prefs.getBool("isautodownload");
+    isautodownload = prefs.getBool("isautodownload");
     // if (isautodownload != null && isautodownload!) {
     //     Timer.periodic(Duration(seconds: 2), (timer) {
     //       print("download data");
@@ -244,7 +245,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         );
       case "A1":
         {
-          Provider.of<Controller>(context, listen: false).adminDashboard(Provider.of<Controller>(context, listen: false).cid!);
+          Provider.of<Controller>(context, listen: false).adminDashboard(
+              Provider.of<Controller>(context, listen: false).cid!);
           getCompaniId();
           return AdminDashboard(
               // sid: sid!,
@@ -592,7 +594,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         await OrderAppDB.instance.deleteFromTableCommonQuery(
                             "returnMasterTable", "");
                         await OrderAppDB.instance.deleteFromTableCommonQuery(
-                            "returnDetailTable", ""); 
+                            "returnDetailTable", "");
                       },
                       icon: Icon(
                         Icons.delete,
@@ -705,12 +707,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       ListTile(
                         trailing: Icon(Icons.web),
                         onTap: () async {
-                        
-                          Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WebViewTest()),
-                        );
+                          NetConnection.networkConnection(context)
+                              .then((value) async {
+                            if (value == true) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WebViewTest()),
+                              );
+                            } else {
+                              
+                            }
+                          });
                         },
                         title: Text(
                           "WebView",
