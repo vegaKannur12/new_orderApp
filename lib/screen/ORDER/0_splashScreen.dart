@@ -94,7 +94,8 @@ class _SplashScreenState extends State<SplashScreen>
                         return StaffLogin();
                       }
                     } else {
-                      Provider.of<Controller>(context, listen: false).getCompanyData();
+                      Provider.of<Controller>(context, listen: false)
+                          .getCompanyData();
                       return CompanyDetails(
                         type: "",
                         msg: "",

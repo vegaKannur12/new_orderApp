@@ -235,7 +235,6 @@ class Controller extends ChangeNotifier {
             prefs.setString("fp", fp!);
             prefs.setString("cname", cname!);
 
-
             // verifyRegistration(context);
             String? user = prefs.getString("userType");
 
@@ -248,7 +247,8 @@ class Controller extends ChangeNotifier {
               context,
               MaterialPageRoute(
                   builder: (context) => CompanyDetails(
-                        type: "",msg: "",
+                        type: "",
+                        msg: "",
                       )),
             );
           }
@@ -309,7 +309,7 @@ class Controller extends ChangeNotifier {
           // /////////////////////////////////////////////////////
 
           print("cid----fp-----$compny_code---$fp");
-          if (fp != null && compny_code!=null) {
+          if (fp != null && compny_code != null) {
             print("entereddddsd");
             prefs.setString("versof", versof!);
             prefs.setString("vermsg", vermsg!);
