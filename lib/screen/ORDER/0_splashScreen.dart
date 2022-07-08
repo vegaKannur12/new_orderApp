@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
       firstMenu = prefs.getString("firstMenu");
       com_cid = prefs.getString("cid");
       isautodownload = prefs.getBool("isautodownload");
-      continueClicked=prefs.getBool("continueClicked");
+      continueClicked = prefs.getBool("continueClicked");
       print("st-----$st_uname---$st_pwd");
       print("continueClicked $continueClicked");
 
@@ -87,10 +87,8 @@ class _SplashScreenState extends State<SplashScreen>
               opaque: false, // set to false
               pageBuilder: (_, __, ___) => cid != null
                   ? st_uname != null && st_pwd != null
-                      ? Dashboard():
-                     
-                      StaffLogin()
-                     
+                      ? Dashboard()
+                      : StaffLogin()
                   : RegistrationScreen()),
         );
       }
