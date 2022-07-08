@@ -233,6 +233,8 @@ class Controller extends ChangeNotifier {
             prefs.setString("cid", cid!);
             prefs.setString("os", os!);
             prefs.setString("fp", fp!);
+            prefs.setString("cname", cname!);
+
 
             // verifyRegistration(context);
             String? user = prefs.getString("userType");
@@ -307,7 +309,7 @@ class Controller extends ChangeNotifier {
           // /////////////////////////////////////////////////////
 
           print("cid----fp-----$compny_code---$fp");
-          if (fp != null) {
+          if (fp != null && compny_code!=null) {
             print("entereddddsd");
             prefs.setString("versof", versof!);
             prefs.setString("vermsg", vermsg!);

@@ -82,15 +82,43 @@ class _SplashScreenState extends State<SplashScreen>
       print("versof----$versof");
       if (versof != "0") {
         Navigator.push(
-          context,
-          PageRouteBuilder(
-              opaque: false, // set to false
-              pageBuilder: (_, __, ___) => cid != null
-                  ? st_uname != null && st_pwd != null
-                      ? Dashboard()
-                      : StaffLogin()
-                  : RegistrationScreen()),
-        );
+            context,
+            PageRouteBuilder(
+                opaque: false, // set to false
+                pageBuilder: (_, __, ___) {
+                  if (cid != null) {
+                    if (continueClicked != null && continueClicked!) {
+                      if (st_uname != null && st_pwd != null) {
+                        return Dashboard();
+                      } else {
+                        return StaffLogin();
+                      }
+                    } else {
+                      Provider.of<Controller>(context, listen: false).getCompanyData();
+                      return CompanyDetails(
+                        type: "",
+                        msg: "",
+                      );
+                    }
+                    // if (st_uname != null && st_pwd != null) {
+                    //   return Dashboard();
+                    // } else {
+                    //   return StaffLogin();
+                    // }
+                  } else {
+                    return RegistrationScreen();
+                  }
+                })
+            // cid != null
+            //     ?continueClicked!=null && continueClicked!
+            //     ?
+            //      st_uname != null && st_pwd != null
+            //         ? Dashboard():
+
+            //         StaffLogin()
+
+            //     : RegistrationScreen()),
+            );
       }
     });
   }

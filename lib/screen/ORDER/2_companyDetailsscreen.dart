@@ -333,7 +333,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                         widget.msg!=""
                                             ? widget.msg.toString()
                                             : "Company Registration Successfull",
-                                        style: TextStyle(color: Colors.red),
+                                        style: TextStyle(color: Colors.red,fontSize: 17),
                                       ),
                                 SizedBox(
                                   height: size.height * 0.02,
@@ -379,8 +379,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                           print("cid-----${cid}");
 
                                           // prefs.setString("cid", cid);
-                                          prefs.setString(
-                                              "cname", value.cname!);
+                                          // prefs.setString(
+                                          //     "cname", value.cname!);
                                           // Provider.of<Controller>(context,
                                           //         listen: false)
                                           //     .setCname();
