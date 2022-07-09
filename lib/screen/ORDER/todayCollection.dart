@@ -123,7 +123,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          left: 38),
+                                                          left: 38, top: 5),
                                                   child: Text(
                                                     "\u{20B9}${value.todayCollectionList[index]['rec_amount'].toString()}",
                                                     style: TextStyle(
@@ -144,10 +144,10 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          left: 53),
+                                                          left: 38),
                                                   child: Text(
                                                     "${value.todayCollectionList[index]['rec_note'].toString()}",
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontStyle:
                                                           FontStyle.italic,
                                                       fontWeight:

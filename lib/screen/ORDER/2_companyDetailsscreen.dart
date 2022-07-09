@@ -1,19 +1,17 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:file/file.dart';
 import 'package:file/memory.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customSnackbar.dart';
-import 'package:orderapp/components/file_creation.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/adminController.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:external_path/external_path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CompanyDetails extends StatefulWidget {
   String? type;
@@ -33,60 +31,12 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   String? fingerprint;
 
   CustomSnackbar _snackbar = CustomSnackbar();
-  // Future<Directory?> get _localPath async {
-  //   final directory = await getExternalStorageDirectory();
-  //   print("directory.path...${directory}");
-  //   return directory;
-  // }
-
-  // Future<File> get _localFile async {
-  //   final path = await _localPath;
-  //   print("path...${path}");
-  //   return File('$path/fingerPrint.txt');
-  // }
-
-  // Future<String> readContent() async {
-  //   try {
-  //     final file = await _localFile;
-  //     // Read the file
-  //     String contents = await file.readAsString();
-  //     // Returning the contents of the file
-  //     return contents;
-  //   } catch (e) {
-  //     // If encountering an error, return
-  //     return 'Error!';
-  //   }
-  // }
-
-  // Future<File> writeContent(String fp) async {
-  //   final file = await _localFile;
-  //   print("fp.........$fp");
-  //   return file.writeAsString(fp);
-  // }
-
-  // fetchFileData() async {
-  //   String response;
-  //   final path = await _localPath;
-  //   response = await rootBundle.loadString('$path/fingerPrint.txt');
-  //   return response.split('\n');
-  // }
-
-  // Future<List<String>> getFileLines() async {
-  //   final path = await _localPath;
-  //   final data = await rootBundle.load('$path/fingerPrint.txt');
-  //   final directory = (await getTemporaryDirectory()).path;
-  //   final file = await writeContent('{$directory/bot.txt}');
-  //   print("file.......$file");
-  //   return await file.readAsLines();
-  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
     getCid();
-    // Provider.of<Controller>(context, listen: false).getCompanyData(cid!);
   }
 
   getCid() async {
@@ -100,20 +50,6 @@ class _CompanyDetailsState extends State<CompanyDetails> {
       Provider.of<AdminController>(context, listen: false)
           .getCategoryReport(cid!);
     }
-    // writeContent(fingerprint!);
-    // readContent().then((String value) {
-    //   setState(() {
-    //     data = value;
-    //   });
-    //   print("data...$data");
-    // });
-    final FileSystem fs = MemoryFileSystem();
-    final Directory tmp = await fs.systemTempDirectory.createTemp('orderApp');
-    final File outputFile = tmp.childFile('fingerprint');
-    print("directory............$outputFile");
-
-    await outputFile.writeAsString(fingerprint!);
-    print("output..${outputFile.readAsStringSync()}");
   }
 
   @override
