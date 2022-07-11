@@ -8,6 +8,7 @@ import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
+import 'package:orderapp/screen/ORDER/autoDownload.dart';
 import 'package:orderapp/screen/ORDER/background_download.dart';
 
 import 'package:provider/provider.dart';
@@ -29,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
   String? firstMenu;
   String? versof;
   bool? continueClicked;
+  Example sample = Example();
   // AutoDownload downloaddata = AutoDownload();
   // Future<void> initializeService() async {
   //   print("inside download");
@@ -127,7 +129,10 @@ class _SplashScreenState extends State<SplashScreen>
   shared() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     com_cid = prefs.getString("cid");
-
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => Example()),
+    // );
     if (com_cid != null) {
       Provider.of<AdminController>(context, listen: false)
           .getCategoryReport(com_cid!);

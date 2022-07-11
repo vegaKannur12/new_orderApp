@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -86,6 +87,13 @@ class _DownloadedPageState extends State<DownloadedPage> {
           print("value.sof-----${value.sof}");
           return Column(
             children: [
+              ElevatedButton(
+                onPressed: () {
+                  FlutterBackgroundService().invoke("setAsForeground");
+                  
+                },
+                child: Text("Run task"),
+              ),
               Flexible(
                 child: Container(
                   height: size.height * 0.9,
@@ -161,10 +169,15 @@ class _DownloadedPageState extends State<DownloadedPage> {
                   ),
                 ),
               ),
-              value.versof=="0"?Container(
-                height: size.height*0.2,
-                child: Text("Invalid Registration!!!",style: TextStyle(fontSize: 18,color: Colors.red),),
-              ):Container()
+              value.versof == "0"
+                  ? Container(
+                      height: size.height * 0.2,
+                      child: Text(
+                        "Invalid Registration!!!",
+                        style: TextStyle(fontSize: 18, color: Colors.red),
+                      ),
+                    )
+                  : Container()
             ],
           );
         },
