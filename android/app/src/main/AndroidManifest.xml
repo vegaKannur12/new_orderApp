@@ -7,8 +7,13 @@
    
    <application
         android:label="orderapp"
+<<<<<<< HEAD
         android:preserveLegacyExternalStorage="true"
         android:requestLegacyExternalStorage="true"
+=======
+        android:requestLegacyExternalStorage="true"
+        android:preserveLegacyExternalStorage="true"
+>>>>>>> 7c7b4a7294c69840def7d7dccd915ee0db3b6ac0
         android:usesCleartextTraffic="true"
         android:name="${applicationName}"
         android:networkSecurityConfig="@xml/network_security_config"

@@ -1,19 +1,23 @@
+import 'dart:io';
 import 'dart:ui';
-
+import 'package:file/file.dart';
+import 'package:file/memory.dart';
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/adminController.dart';
-
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:external_path/external_path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CompanyDetails extends StatefulWidget {
   String? type;
   String? msg;
-  CompanyDetails({this.type,this.msg});
+
+  CompanyDetails({this.type, this.msg});
   @override
   State<CompanyDetails> createState() => _CompanyDetailsState();
 }
@@ -23,14 +27,16 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   String? firstMenu;
   String? versof;
   String? vermsg;
+  String? data;
+  String? fingerprint;
 
   CustomSnackbar _snackbar = CustomSnackbar();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getCid();
-    // Provider.of<Controller>(context, listen: false).getCompanyData(cid!);
   }
 
   getCid() async {
@@ -38,7 +44,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     cid = prefs.getString("cid");
     versof = prefs.getString("versof");
     vermsg = prefs.getString("vermsg");
-    print("hdszdn-----$versof");
+    fingerprint = prefs.getString("fp");
+    print("fingerprint-----$fingerprint");
     if (cid != null) {
       Provider.of<AdminController>(context, listen: false)
           .getCategoryReport(cid!);
@@ -330,15 +337,16 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                 widget.type == "drawer call"
                                     ? Container()
                                     : Text(
-                                        widget.msg!=""
+                                        widget.msg != ""
                                             ? widget.msg.toString()
                                             : "Company Registration Successfull",
-                                        style: TextStyle(color: Colors.red,fontSize: 17),
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 17),
                                       ),
                                 SizedBox(
                                   height: size.height * 0.02,
                                 ),
-                                widget.type == "drawer call" || widget.msg!=""
+                                widget.type == "drawer call" || widget.msg != ""
                                     ? Container()
                                     : ElevatedButton(
                                         onPressed: () async {
@@ -348,7 +356,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                           SharedPreferences prefs =
                                               await SharedPreferences
                                                   .getInstance();
-                                          prefs.setBool("continueClicked", true);
+                                          prefs.setBool(
+                                              "continueClicked", true);
                                           String? userType =
                                               prefs.getString("userType");
                                           Provider.of<Controller>(context,
@@ -417,7 +426,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                         );
                       } else {
                         return Container(
-                          child: Text(""),
+                          child: Column(children: [Text("")]),
                         );
                       }
                     }

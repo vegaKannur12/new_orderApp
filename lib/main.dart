@@ -10,6 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'components/commoncolor.dart';
 import 'package:ota_update/ota_update.dart';
 import 'screen/ADMIN_/adminController.dart';
+import 'package:file/file.dart';
+import 'package:file/memory.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,7 @@ Future<void> main() async {
   ]);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? cid = prefs.getString("company_id");
-
+ 
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => Controller()),

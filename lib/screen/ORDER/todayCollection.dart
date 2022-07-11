@@ -72,7 +72,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                height: size.height * 0.15,
+                                height: size.height * 0.13,
                                 child: Card(
                                   color: Colors.grey[100],
                                   child: Padding(
@@ -83,21 +83,28 @@ class _TodayCollectionState extends State<TodayCollection> {
                                       children: [
                                         Row(
                                           children: [
-                                            CircleAvatar(
-                                              child: Icon(
-                                                Icons.reviews,
-                                                size: 13,
-                                              ),
-                                              backgroundColor:
-                                                  P_Settings.roundedButtonColor,
+                                            Icon(
+                                              Icons.collections,
+                                              size: 25,
+                                              color: Colors.green,
                                             ),
+                                            // CircleAvatar(
+                                            //   child: Icon(
+                                            //     Icons.filter,
+                                            //     size: 13,
+                                            //   ),
+                                            //   backgroundColor:
+                                            //       P_Settings.roundedButtonColor,
+                                            // ),
                                             SizedBox(width: size.width * 0.03),
-                                            Text(
-                                              "${value.todayCollectionList[index]['cus_name'].toString()} ",
-                                              style: TextStyle(
-                                                  color: Colors.grey[700],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
+                                            Flexible(
+                                              child: Text(
+                                                "${value.todayCollectionList[index]['cus_name'].toString()} ",
+                                                style: TextStyle(
+                                                    color: Colors.grey[700],
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15),
+                                              ),
                                             ),
                                             Text(
                                               " - ${value.todayCollectionList[index]['rec_cusid'].toString()}",
@@ -116,7 +123,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          left: 53),
+                                                          left: 38, top: 5),
                                                   child: Text(
                                                     "\u{20B9}${value.todayCollectionList[index]['rec_amount'].toString()}",
                                                     style: TextStyle(
@@ -137,10 +144,10 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          left: 53),
+                                                          left: 38),
                                                   child: Text(
                                                     "${value.todayCollectionList[index]['rec_note'].toString()}",
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontStyle:
                                                           FontStyle.italic,
                                                       fontWeight:
