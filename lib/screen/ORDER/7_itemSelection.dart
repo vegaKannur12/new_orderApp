@@ -871,6 +871,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                           }
                                                           if (widget.type ==
                                                               "return") {
+                                                                
                                                             rate1 = value
                                                                     .productName[
                                                                 index]["rate1"];

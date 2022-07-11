@@ -29,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
   String? firstMenu;
   String? versof;
   bool? continueClicked;
+    
   // AutoDownload downloaddata = AutoDownload();
   // Future<void> initializeService() async {
   //   print("inside download");

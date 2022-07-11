@@ -86,7 +86,7 @@ class _UploaddataState extends State<Uploaddata> {
                             trailing: IconButton(
                               onPressed: value.versof == "0"
                                   ? null
-                                  : () async {
+                                  : value.isUpload?null:() async {
                                       if (uploadItems[index] ==
                                           "Upload Orders") {
                                         Provider.of<Controller>(context,

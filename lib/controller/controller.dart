@@ -13,6 +13,7 @@ import 'package:orderapp/model/verify_registrationModel.dart';
 import 'package:orderapp/model/wallet_model.dart';
 import 'package:orderapp/screen/ADMIN_/adminModel.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
+import 'package:orderapp/screen/ORDER/externalDir.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,10 +25,12 @@ import '../model/staffdetails_model.dart';
 
 class Controller extends ChangeNotifier {
   bool isLoading = false;
+  bool isUpload = false;
   bool filterCompany = false;
   String? filteredeValue;
   bool isAdminLoading = false;
   String? menu_index;
+  ExternalDir externalDir = ExternalDir();
   bool isListLoading = false;
   int? selectedTabIndex;
   String? userName;
@@ -234,8 +237,7 @@ class Controller extends ChangeNotifier {
             prefs.setString("os", os!);
             prefs.setString("fp", fp!);
             prefs.setString("cname", cname!);
-
-
+            // externalDir.getPublicDirectoryPath(fp!);
             // verifyRegistration(context);
             String? user = prefs.getString("userType");
 
@@ -248,7 +250,8 @@ class Controller extends ChangeNotifier {
               context,
               MaterialPageRoute(
                   builder: (context) => CompanyDetails(
-                        type: "",msg: "",
+                        type: "",
+                        msg: "",
                       )),
             );
           }
@@ -300,7 +303,6 @@ class Controller extends ChangeNotifier {
           );
           var map = jsonDecode(response.body);
           print("verify--$map");
-
           VerifyRegistration verRegModel = VerifyRegistration.fromJson(map);
           versof = verRegModel.sof;
           vermsg = verRegModel.msg;
@@ -309,7 +311,7 @@ class Controller extends ChangeNotifier {
           // /////////////////////////////////////////////////////
 
           print("cid----fp-----$compny_code---$fp");
-          if (fp != null && compny_code!=null) {
+          if (fp != null && compny_code != null) {
             print("entereddddsd");
             prefs.setString("versof", versof!);
             prefs.setString("vermsg", vermsg!);
@@ -1597,6 +1599,8 @@ class Controller extends ChangeNotifier {
   uploadOrdersData(String cid, BuildContext context) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
+    isUpload = true;
+    notifyListeners();
     var result = await OrderAppDB.instance.selectMasterTable();
     print("output------$result");
     if (result != null) {
@@ -1612,6 +1616,8 @@ class Controller extends ChangeNotifier {
         print("entede");
         saveOrderDetails(cid, om, context);
       }
+      isUpload = false;
+      notifyListeners();
       print("om----$om");
     } else {
       snackbar.showSnackbar(context, "Nothing to upload!!!");
@@ -1954,8 +1960,37 @@ class Controller extends ChangeNotifier {
 
   ///////////////Return////////////////////////
   addToreturnList(Map<String, dynamic> value) {
-    returnList.add(value);
-    returnCount = returnList.length;
+    print("value---${value}");
+    bool flag = false;
+    int i;
+    if (returnList.length > 0) {
+      print("return length----${returnList.length}");
+      for (i = 0; i < returnList.length; i++) {
+        print("hyyyyy----${returnList[i]["code"]}");
+        if (returnList[i]["code"] == value["code"]) {
+          flag = true;
+          break;
+        } else {
+          flag = false;
+        }
+      }
+      if (flag == true) {
+        print(
+            "returnList[i]------------------${returnList[i]["total"].runtimeType}");
+        print("value[i]------------------${value["total"].runtimeType}");
+
+        returnList[i]["qty"] = returnList[i]["qty"] + value["qty"];
+        double d =
+            double.parse(returnList[i]["total"]) + double.parse(value["total"]);
+        returnList[i]["total"] = d.toString();
+        print("qty--${returnList[i]["qty"]}");
+      } else {
+        returnList.add(value);
+      }
+    } else {
+      returnList.add(value);
+    }
+    returnCount=returnList.length;
     print("return List----$returnList");
     notifyListeners();
   }
@@ -2044,6 +2079,8 @@ class Controller extends ChangeNotifier {
   uploadReturnData(String cid, BuildContext context) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
+    isUpload = true;
+    notifyListeners();
     var result = await OrderAppDB.instance.selectReturnMasterTable();
     print("output------$result");
     String jsonE = jsonEncode(result);
@@ -2058,6 +2095,8 @@ class Controller extends ChangeNotifier {
     if (om.length > 0) {
       print("entede");
       saveReturnDetails(cid, om, context);
+      isUpload = false;
+      notifyListeners();
     } else {
       snackbar.showSnackbar(context, "Nothing to upload!!!");
     }
@@ -2117,6 +2156,7 @@ class Controller extends ChangeNotifier {
           await OrderAppDB.instance.selectAllcommon('customerTable', "");
       if (result.length > 0) {
         Uri url = Uri.parse("http://trafiqerp.in/order/fj/cus_save.php");
+        isUpload = true;
         isLoading = true;
         notifyListeners();
         var customer = await OrderAppDB.instance.uploadCustomer();
@@ -2134,6 +2174,8 @@ class Controller extends ChangeNotifier {
           url,
           body: body,
         );
+        isUpload = false;
+
         isLoading = false;
         notifyListeners();
         // print("response----$response");
