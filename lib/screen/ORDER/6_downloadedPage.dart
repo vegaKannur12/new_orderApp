@@ -1,19 +1,21 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:io';
+import 'dart:ui';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
-import 'package:orderapp/controller/controller.dart';
-import 'package:orderapp/screen/ORDER/background_download.dart';
-
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:background_mode_new/background_mode_new.dart';
+
+import '../../controller/controller.dart';
 
 class DownloadedPage extends StatefulWidget {
   String? type;
   String? title;
-  DownloadedPage({this.type, this.title});
+  final BuildContext context;
+  DownloadedPage({this.type, this.title, required this.context});
 
   @override
   State<DownloadedPage> createState() => _DownloadedPageState();
@@ -39,12 +41,25 @@ class _DownloadedPageState extends State<DownloadedPage> {
 
   @override
   void initState() {
+    // initPlatformState();
     // TODO: implement initState
     super.initState();
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
     getCid();
   }
+
+  // void initPlatformState() async {
+  //   BackgroundMode.start();
+  //   Timer.periodic(Duration(seconds: 10), (timer) {
+  //     print("download data");
+  //     // Provider.of<Controller>(context, listen: false)
+  //     //     .getaccountHeadsDetails(context, s[0], cid!);
+  //     // Provider.of<Controller>(context, listen: false).getProductCategory(cid!);
+  //     BackgroundMode.disable();
+  //     BackgroundMode.bringToForeground();
+  //   });
+  // }
 
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -87,13 +102,15 @@ class _DownloadedPageState extends State<DownloadedPage> {
           print("value.sof-----${value.sof}");
           return Column(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  FlutterBackgroundService().invoke("setAsForeground");
-                  
-                },
-                child: Text("Run task"),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     print("");
+              //     FlutterBackgroundService().invoke(
+              //       "setAsForeground",
+              //     );
+              //   },
+              //   child: Text("Auto Download"),
+              // ),
               Flexible(
                 child: Container(
                   height: size.height * 0.9,

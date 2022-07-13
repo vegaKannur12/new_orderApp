@@ -18,7 +18,6 @@ class _TodayCollectionState extends State<TodayCollection> {
   String? formattedDate;
   String? sid;
   sharedPref() async {
-    print("helooo");
     final prefs = await SharedPreferences.getInstance();
     sid = prefs.getString('sid');
     print("sid ......$sid");

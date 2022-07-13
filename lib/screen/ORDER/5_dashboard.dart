@@ -298,6 +298,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           return DownloadedPage(
             title: "Download Page",
             type: "drawer call",
+            context: context,
           );
         }
 

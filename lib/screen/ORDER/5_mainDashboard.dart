@@ -30,7 +30,6 @@ class _MainDashboardState extends State<MainDashboard> {
   AreaSelectionPopup popup = AreaSelectionPopup();
   String? sid;
   sharedPref() async {
-    print("helooo");
     final prefs = await SharedPreferences.getInstance();
     sid = prefs.getString('sid');
     print("sid ......$sid");

@@ -1,10 +1,15 @@
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:orderapp/components/device_information.dart';
 import 'package:orderapp/components/waveclipper.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/screen/ORDER/externalDir.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../components/commoncolor.dart';
 import '../../db_helper.dart';
@@ -15,18 +20,49 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  Map<String, dynamic> _deviceData = <String, dynamic>{};
   final _formKey = GlobalKey<FormState>();
   FocusNode? fieldFocusNode;
   TextEditingController codeController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ExternalDir externalDirtext = ExternalDir();
 
   late String uniqId;
+  Future<void> initPlatformState() async {
+    var deviceData = <String, dynamic>{};
+
+    try {
+      if (Platform.isAndroid) {
+        deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+      }
+    } on PlatformException {
+      deviceData = <String, dynamic>{
+        'Error:': 'Failed to get platform version.'
+      };
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _deviceData = deviceData;
+    });
+  }
+
+  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
+    return <String, dynamic>{
+      'manufacturer': build.manufacturer,
+      'model': build.model,
+    };
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     deletemenu();
+    initPlatformState();
   }
 
   deletemenu() async {
@@ -36,6 +72,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final textfile = externalDirtext.getPublicDirectoryPath("");
+    // print("Textfile data....$textfile");
     double topInsets = MediaQuery.of(context).viewInsets.top;
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
@@ -66,30 +104,45 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 color: P_Settings.wavecolor,
                                 height: size.height * 0.3,
                                 alignment: Alignment.center,
-                                //   child: Text(
-                                //   "Company Registration",
-                                //   style: TextStyle(
-                                //     fontSize: 20,
-                                //     // fontWeight: FontWeight.bold,
-                                //     color: Colors.white,
-                                //   ),
-                                // ),
                               ),
                             ),
                           ],
                         ),
                       ),
+                      Visibility(
+                        visible: false,
+                        child: Container(
+                          height: size.height * 0.08,
+                          child: ListView(
+                            children: _deviceData.keys.map(
+                              (String property) {
+                                return Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                        child: Container(
+                                      child: Text(
+                                        '${_deviceData[property]}',
+                                        maxLines: 10,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    )),
+                                  ],
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        ),
+                      ),
                       SizedBox(
-                        height: size.height * 0.13,
+                        height: size.height * 0.12,
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding:
+                            const EdgeInsets.only(top: 8, left: 20, right: 20),
                         child: TextFormField(
                           controller: codeController,
                           decoration: const InputDecoration(
                             icon: Icon(Icons.business),
-                            // contentPadding: EdgeInsets.all(15.0),
-                            // hintText: 'What do people call you?',
                             labelText: 'Company Key',
                           ),
                           validator: (text) {
@@ -98,9 +151,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             }
                             return null;
                           },
-                          // scrollPadding: EdgeInsets.only(
-                          //     top:100),
-                          // focusNode: fieldFocusNode,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 20, left: 20, right: 20),
+                        child: TextFormField(
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(7),
+                          ],
+                          controller: phoneController,
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.phone),
+                            labelText: 'Phone Number',
+                          ),
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return 'Please Enter Phone Number';
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.number,
                         ),
                       ),
                       SizedBox(
@@ -111,11 +182,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         width: size.width * 0.3,
                         child: ElevatedButton(
                             onPressed: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              String? fp = prefs.getString("fp");
+                              print("finger print....$fp");
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (_formKey.currentState!.validate()) {
                                 Provider.of<Controller>(context, listen: false)
                                     .postRegistration(
-                                        codeController.text, context);
+                                        codeController.text,
+                                        "",
+                                        phoneController.text,
+                                        "Redmi Note 9 Pro Max",
+                                        context);
                               }
                             },
                             child: Text("Register")),

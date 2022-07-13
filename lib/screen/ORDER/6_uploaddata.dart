@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Uploaddata extends StatefulWidget {
   String? title;
@@ -86,7 +85,7 @@ class _UploaddataState extends State<Uploaddata> {
                             trailing: IconButton(
                               onPressed: value.versof == "0"
                                   ? null
-                                  : () async {
+                                  : value.isUpload?null:() async {
                                       if (uploadItems[index] ==
                                           "Upload Orders") {
                                         Provider.of<Controller>(context,

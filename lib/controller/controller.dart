@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:orderapp/components/customSnackbar.dart';
@@ -13,6 +15,9 @@ import 'package:orderapp/model/verify_registrationModel.dart';
 import 'package:orderapp/model/wallet_model.dart';
 import 'package:orderapp/screen/ADMIN_/adminModel.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
+import 'package:orderapp/screen/ORDER/externalDir.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,10 +29,12 @@ import '../model/staffdetails_model.dart';
 
 class Controller extends ChangeNotifier {
   bool isLoading = false;
+  bool isUpload = false;
   bool filterCompany = false;
   String? filteredeValue;
   bool isAdminLoading = false;
   String? menu_index;
+  ExternalDir externalDir = ExternalDir();
   bool isListLoading = false;
   int? selectedTabIndex;
   String? userName;
@@ -168,25 +175,33 @@ class Controller extends ChangeNotifier {
   // List<WalletModal> wallet = [];
   StaffDetails staffModel = StaffDetails();
   UserTypeModel userTypemodel = UserTypeModel();
-
   Balance balanceModel = Balance();
   AccountHead accountHead = AccountHead();
   StaffArea staffArea = StaffArea();
   ProductDetails proDetails = ProductDetails();
+  String? text;
 ////////////////////////////////////////////////////////////////////////
   Future<RegistrationData?> postRegistration(
-      String company_code, BuildContext context) async {
+      String company_code,
+      String fingerprints,
+      String phoneno,
+      String deviceinfo,
+      BuildContext context) async {
     NetConnection.networkConnection(context).then((value) async {
       await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
 
+      print("Text fp...$fp");
       if (value == true) {
         try {
           Uri url =
               Uri.parse("http://trafiqerp.in/order/fj/get_registration.php");
           Map body = {
             'company_code': company_code,
+            'fcode': "",
+            'deviceinfo': deviceinfo,
+            'phoneno': phoneno
           };
-          print("compny----${company_code}");
+          print("body----${body}");
           isLoading = true;
           notifyListeners();
           http.Response response = await http.post(
@@ -209,10 +224,21 @@ class Controller extends ChangeNotifier {
           if (sof == "1") {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("company_id", company_code);
+            externalDir.getPublicDirectoryPath(fp!);
+            String path;
 
+            path = await ExternalPath.getExternalStoragePublicDirectory(
+                ExternalPath.DIRECTORY_DOWNLOADS);
+            print("path-----$path"); //
+            final File file = File('$path/fingerprint.txt');
+            String filpath = '$path/fingerprint.txt';
+
+            text = await file.readAsString();
+            print("text file $text");
             /////////////// insert into local db /////////////////////
             late CD dataDetails;
             String? fp1 = regModel.fp;
+            print("fingerprint......$fp1");
             String? os = regModel.os;
             regModel.c_d![0].cid;
             cid = regModel.cid;
@@ -222,6 +248,12 @@ class Controller extends ChangeNotifier {
               print("ciddddddddd......$item");
               c_d.add(item);
             }
+
+            // externalDir.getPublicDirectoryPath(fp!).then((String value) {
+
+            // });
+            verifyRegistration(context);
+
             await OrderAppDB.instance
                 .deleteFromTableCommonQuery('registrationTable', "");
             var res =
@@ -235,12 +267,10 @@ class Controller extends ChangeNotifier {
             prefs.setString("fp", fp!);
             prefs.setString("cname", cname!);
 
-            // verifyRegistration(context);
             String? user = prefs.getString("userType");
 
             print("fnjdxf----$user");
             getCompanyData();
-            print("helooooo");
             // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
             getMenuAPi(cid!, fp1!, context);
             Navigator.push(
@@ -271,11 +301,18 @@ class Controller extends ChangeNotifier {
 //////////////////////verify registration/////////////////////////////
   Future<RegistrationData?> verifyRegistration(BuildContext context) async {
     NetConnection.networkConnection(context).then((value) async {
-      // await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
+      // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      // AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      // print('Running on ${androidInfo.model}');
       String? compny_code;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       compny_code = prefs.getString("company_id");
       String? fp = prefs.getString("fp");
+      ///////////////// find app version///////////////////
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String version = packageInfo.version;
+      // externalDir.getPublicDirectoryPath(fp!);
+      print("App new version $version");
       // print(cid-----4cid)
       Map map = {
         '0': compny_code,
@@ -300,14 +337,12 @@ class Controller extends ChangeNotifier {
           );
           var map = jsonDecode(response.body);
           print("verify--$map");
-
           VerifyRegistration verRegModel = VerifyRegistration.fromJson(map);
           versof = verRegModel.sof;
           vermsg = verRegModel.msg;
           print("vermsg----$vermsg");
 
           // /////////////////////////////////////////////////////
-
           print("cid----fp-----$compny_code---$fp");
           if (fp != null && compny_code != null) {
             print("entereddddsd");
@@ -1597,6 +1632,8 @@ class Controller extends ChangeNotifier {
   uploadOrdersData(String cid, BuildContext context) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
+    isUpload = true;
+    notifyListeners();
     var result = await OrderAppDB.instance.selectMasterTable();
     print("output------$result");
     if (result != null) {
@@ -1612,6 +1649,8 @@ class Controller extends ChangeNotifier {
         print("entede");
         saveOrderDetails(cid, om, context);
       }
+      isUpload = false;
+      notifyListeners();
       print("om----$om");
     } else {
       snackbar.showSnackbar(context, "Nothing to upload!!!");
@@ -1954,7 +1993,36 @@ class Controller extends ChangeNotifier {
 
   ///////////////Return////////////////////////
   addToreturnList(Map<String, dynamic> value) {
-    returnList.add(value);
+    print("value---${value}");
+    bool flag = false;
+    int i;
+    if (returnList.length > 0) {
+      print("return length----${returnList.length}");
+      for (i = 0; i < returnList.length; i++) {
+        print("hyyyyy----${returnList[i]["code"]}");
+        if (returnList[i]["code"] == value["code"]) {
+          flag = true;
+          break;
+        } else {
+          flag = false;
+        }
+      }
+      if (flag == true) {
+        print(
+            "returnList[i]------------------${returnList[i]["total"].runtimeType}");
+        print("value[i]------------------${value["total"].runtimeType}");
+
+        returnList[i]["qty"] = returnList[i]["qty"] + value["qty"];
+        double d =
+            double.parse(returnList[i]["total"]) + double.parse(value["total"]);
+        returnList[i]["total"] = d.toString();
+        print("qty--${returnList[i]["qty"]}");
+      } else {
+        returnList.add(value);
+      }
+    } else {
+      returnList.add(value);
+    }
     returnCount = returnList.length;
     print("return List----$returnList");
     notifyListeners();
@@ -2044,6 +2112,8 @@ class Controller extends ChangeNotifier {
   uploadReturnData(String cid, BuildContext context) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
+    isUpload = true;
+    notifyListeners();
     var result = await OrderAppDB.instance.selectReturnMasterTable();
     print("output------$result");
     String jsonE = jsonEncode(result);
@@ -2058,6 +2128,8 @@ class Controller extends ChangeNotifier {
     if (om.length > 0) {
       print("entede");
       saveReturnDetails(cid, om, context);
+      isUpload = false;
+      notifyListeners();
     } else {
       snackbar.showSnackbar(context, "Nothing to upload!!!");
     }
@@ -2117,6 +2189,7 @@ class Controller extends ChangeNotifier {
           await OrderAppDB.instance.selectAllcommon('customerTable', "");
       if (result.length > 0) {
         Uri url = Uri.parse("http://trafiqerp.in/order/fj/cus_save.php");
+        isUpload = true;
         isLoading = true;
         notifyListeners();
         var customer = await OrderAppDB.instance.uploadCustomer();
@@ -2134,6 +2207,8 @@ class Controller extends ChangeNotifier {
           url,
           body: body,
         );
+        isUpload = false;
+
         isLoading = false;
         notifyListeners();
         // print("response----$response");

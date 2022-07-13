@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:orderapp/components/commoncolor.dart';
@@ -12,8 +11,6 @@ import 'package:orderapp/screen/ORDER/8_cartList.dart';
 import 'package:orderapp/screen/ORDER/filterProduct.dart';
 import 'package:orderapp/screen/RETURN/return_cart.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemSelection extends StatefulWidget {
   // List<Map<String,dynamic>>  products;
@@ -871,6 +868,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                           }
                                                           if (widget.type ==
                                                               "return") {
+                                                                
                                                             rate1 = value
                                                                     .productName[
                                                                 index]["rate1"];
