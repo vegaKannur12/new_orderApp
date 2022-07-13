@@ -180,6 +180,7 @@ class Controller extends ChangeNotifier {
   StaffArea staffArea = StaffArea();
   ProductDetails proDetails = ProductDetails();
   String? text;
+  String? path;
 ////////////////////////////////////////////////////////////////////////
   Future<RegistrationData?> postRegistration(
       String company_code,
@@ -224,17 +225,27 @@ class Controller extends ChangeNotifier {
           if (sof == "1") {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("company_id", company_code);
-            externalDir.getPublicDirectoryPath(fp!);
-            String path;
+            // externalDir.getPublicDirectoryPath(fp!);
 
             path = await ExternalPath.getExternalStoragePublicDirectory(
                 ExternalPath.DIRECTORY_DOWNLOADS);
             print("path-----$path"); //
-            final File file = File('$path/fingerprint.txt');
-            String filpath = '$path/fingerprint.txt';
+            // final File file = File('$path/fingerprint.txt');
+            // String filpath = '$path/fingerprint.txt';
+            // if (await File(filpath).exists()) {
+            //   text = await file.readAsString();
+            //   print("file exist----$text");
 
-            text = await file.readAsString();
-            print("text file $text");
+            //   // return text;
+            // } else {
+            //   print("not exist");
+
+            //   // await file.writeAsString(fp);
+            //   text = await file.readAsString();
+            //   print("file not----$text");
+            //   // return null;
+            // }
+            // print("text file $text");
             /////////////// insert into local db /////////////////////
             late CD dataDetails;
             String? fp1 = regModel.fp;
@@ -248,7 +259,9 @@ class Controller extends ChangeNotifier {
               print("ciddddddddd......$item");
               c_d.add(item);
             }
-
+            prefs.setString("fp", fp!);
+            String? finger = prefs.getString("fp");
+            print("fnjdxf----$finger");
             // externalDir.getPublicDirectoryPath(fp!).then((String value) {
 
             // });
@@ -264,7 +277,7 @@ class Controller extends ChangeNotifier {
             prefs.setString("userType", userType!);
             prefs.setString("cid", cid!);
             prefs.setString("os", os!);
-            prefs.setString("fp", fp!);
+
             prefs.setString("cname", cname!);
 
             String? user = prefs.getString("userType");

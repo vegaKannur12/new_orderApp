@@ -28,6 +28,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController phoneController = TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ExternalDir externalDirtext = ExternalDir();
+  String? manufacturer;
+  String? model;
 
   late String uniqId;
   Future<void> initPlatformState() async {
@@ -36,6 +38,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     try {
       if (Platform.isAndroid) {
         deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+        manufacturer = deviceData["manufacturer"];
+        model = deviceData["model"];
       }
     } on PlatformException {
       deviceData = <String, dynamic>{
@@ -182,6 +186,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         width: size.width * 0.3,
                         child: ElevatedButton(
                             onPressed: () async {
+                              String deviceInfo =
+                                  "$manufacturer" + '' + "$model";
+                              print("device info-----$deviceInfo");
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               String? fp = prefs.getString("fp");
@@ -193,7 +200,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         codeController.text,
                                         "",
                                         phoneController.text,
-                                        "Redmi Note 9 Pro Max",
+                                        deviceInfo,
                                         context);
                               }
                             },
