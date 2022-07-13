@@ -229,8 +229,9 @@ class Controller extends ChangeNotifier {
           if (sof == "1") {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("company_id", company_code);
-            textFile = await externalDir.getPublicDirectoryPath();
+            textFile = await externalDir.getPublicDirectoryPath(fp!);
             print("text data.$textFile");
+
             /////////////// insert into local db /////////////////////
             late CD dataDetails;
             String? fp1 = regModel.fp;
