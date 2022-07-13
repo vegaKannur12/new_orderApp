@@ -197,9 +197,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               print("finger print....$fp");
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (_formKey.currentState!.validate()) {
-                                textFile = await externalDir
-                                    .getPublicDirectoryPath();
-                                print("textfile........$textFile");
+                                // textFile = await externalDir
+                                //     .getPublicDirectoryPath();
+                                // print("textfile........$textFile");
 
                                 Provider.of<Controller>(context, listen: false)
                                     .postRegistration(

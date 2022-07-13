@@ -130,6 +130,7 @@ class _SplashScreenState extends State<SplashScreen>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     fp = prefs.getString("fp");
     print("fingerPrint......$fp");
+    // await externalDir.getPublicDirectoryPath();
     if (com_cid != null) {
       Provider.of<AdminController>(context, listen: false)
           .getCategoryReport(com_cid!);
