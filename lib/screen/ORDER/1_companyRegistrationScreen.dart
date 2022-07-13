@@ -30,7 +30,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   ExternalDir externalDirtext = ExternalDir();
   String? manufacturer;
   String? model;
-
+  String? fp;
+  String? textFile;
+  ExternalDir externalDir = ExternalDir();
   late String uniqId;
   Future<void> initPlatformState() async {
     var deviceData = <String, dynamic>{};
@@ -191,17 +193,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               print("device info-----$deviceInfo");
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              String? fp = prefs.getString("fp");
+                              fp = prefs.getString("fp");
                               print("finger print....$fp");
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (_formKey.currentState!.validate()) {
+                                textFile = await externalDir
+                                    .getPublicDirectoryPath();
+                                print("textfile........$textFile");
+
                                 Provider.of<Controller>(context, listen: false)
                                     .postRegistration(
                                         codeController.text,
-                                        "",
+                                        fp,
                                         phoneController.text,
                                         deviceInfo,
                                         context);
+                                // : Provider.of<Controller>(context,
+                                //         listen: false)
+                                //     .postRegistration(
+                                //         codeController.text,
+                                //         fp,
+                                //         phoneController.text,
+                                //         deviceInfo,
+                                //         context);
                               }
                             },
                             child: Text("Register")),

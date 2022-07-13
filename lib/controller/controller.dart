@@ -179,26 +179,30 @@ class Controller extends ChangeNotifier {
   AccountHead accountHead = AccountHead();
   StaffArea staffArea = StaffArea();
   ProductDetails proDetails = ProductDetails();
-  String? text;
+
   String? path;
+  String? textFile;
 ////////////////////////////////////////////////////////////////////////
   Future<RegistrationData?> postRegistration(
       String company_code,
-      String fingerprints,
+      String? fingerprints,
       String phoneno,
       String deviceinfo,
       BuildContext context) async {
     NetConnection.networkConnection(context).then((value) async {
       await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
 
-      print("Text fp...$fp");
+      print("Text fp...$fingerprints");
+      if (fingerprints == null) {
+        fingerprints = "";
+      }
       if (value == true) {
         try {
           Uri url =
               Uri.parse("http://trafiqerp.in/order/fj/get_registration.php");
           Map body = {
             'company_code': company_code,
-            'fcode': "",
+            'fcode': fingerprints,
             'deviceinfo': deviceinfo,
             'phoneno': phoneno
           };
@@ -225,27 +229,8 @@ class Controller extends ChangeNotifier {
           if (sof == "1") {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("company_id", company_code);
-            // externalDir.getPublicDirectoryPath(fp!);
-
-            path = await ExternalPath.getExternalStoragePublicDirectory(
-                ExternalPath.DIRECTORY_DOWNLOADS);
-            print("path-----$path"); //
-            // final File file = File('$path/fingerprint.txt');
-            // String filpath = '$path/fingerprint.txt';
-            // if (await File(filpath).exists()) {
-            //   text = await file.readAsString();
-            //   print("file exist----$text");
-
-            //   // return text;
-            // } else {
-            //   print("not exist");
-
-            //   // await file.writeAsString(fp);
-            //   text = await file.readAsString();
-            //   print("file not----$text");
-            //   // return null;
-            // }
-            // print("text file $text");
+            textFile = await externalDir.getPublicDirectoryPath();
+            print("text data.$textFile");
             /////////////// insert into local db /////////////////////
             late CD dataDetails;
             String? fp1 = regModel.fp;
@@ -260,11 +245,6 @@ class Controller extends ChangeNotifier {
               c_d.add(item);
             }
             prefs.setString("fp", fp!);
-            String? finger = prefs.getString("fp");
-            print("fnjdxf----$finger");
-            // externalDir.getPublicDirectoryPath(fp!).then((String value) {
-
-            // });
             verifyRegistration(context);
 
             await OrderAppDB.instance

@@ -1,19 +1,22 @@
 import 'dart:io';
 import 'package:external_path/external_path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExternalDir {
   String? fingerprint;
-  Future<void> getPublicDirectoryPath(String fp) async {
-    print("fp---------$fp");
+  Future<String> getPublicDirectoryPath() async {
     String path;
     String text;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? fp = prefs.getString("fp");
+    print("fp---------$fp");
 
     path = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
 
     print("path-----$path"); //
-    final File file = File('$path/fingerprint.txt');
-    String filpath = '$path/fingerprint.txt';
+    final File file = File('$path/fingerprint3.txt');
+    String filpath = '$path/fingerprint3.txt';
     if (await File(filpath).exists()) {
       text = await file.readAsString();
       print("file exist----$text");
@@ -22,7 +25,7 @@ class ExternalDir {
     } else {
       print("not exist");
       // fingerprint="";
-      await file.writeAsString(fp);
+      await file.writeAsString(fp!);
       text = await file.readAsString();
       print("file not----$text");
       // return null;
@@ -30,6 +33,7 @@ class ExternalDir {
     // await file.writeAsString('1234  5678\n');
     // await file.writeAsString('ghgjg\n');
     // print(await file.readAsString());
+    return text;
   }
 }
 
