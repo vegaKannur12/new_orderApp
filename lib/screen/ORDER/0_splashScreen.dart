@@ -148,9 +148,9 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(const Duration(milliseconds: 200), () async {
-      requestPermission();
-    });
+    // Future.delayed(const Duration(milliseconds: 200), () async {
+    //   // requestPermission();
+    // });
 
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).verifyRegistration(context);
@@ -160,16 +160,17 @@ class _SplashScreenState extends State<SplashScreen>
     navigate();
   }
 
-  void requestPermission() async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-    var status1 = await Permission.manageExternalStorage.status;
-    if (!status.isGranted) {
-      await Permission.manageExternalStorage.request();
-    }
-  }
+//////////////////////// file access permission //////////////
+  // void requestPermission() async {
+  //   var status = await Permission.storage.status;
+  //   if (!status.isGranted) {
+  //     await Permission.storage.request();
+  //   }
+  //   var status1 = await Permission.manageExternalStorage.status;
+  //   if (!status.isGranted) {
+  //     await Permission.manageExternalStorage.request();
+  //   }
+  // }
 
   @override
   void dispose() {

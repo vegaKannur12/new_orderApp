@@ -64,7 +64,8 @@ class ExternalDir {
   fileRead() async {
     String path;
     path = await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
+        ExternalPath.DIRECTORY_ALARMS);
+
     print("path-----$path"); //
 
     final File file = File('$path/fingerprint16.txt');
@@ -98,19 +99,19 @@ class ExternalDir {
     String path;
     print("fpppp====$fp");
     path = await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
+        ExternalPath.DIRECTORY_ALARMS);
     print("path-----$path"); //
 
     final File file = File('$path/fingerprint16.txt');
     String filpath = '$path/fingerprint16.txt';
     if (await File(filpath).exists()) {
       print("file exists");
-      // String textDirectory = '$path/';
+      String textDirectory = '$path/';
       // print("Directory files.......$textDirectory");
 
       // final myDir = new Directory(textDirectory);
-      // _folders =
-      //     myDir.listSync().where((e) => e.path.endsWith('.txt')).toList();
+      // // _folders =
+      // myDir.listSync().where((e) => e.path.endsWith('.txt')).toList();
       // print("files list.......$_folders");
     } else {
       await file.writeAsString(fp);
