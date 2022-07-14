@@ -22,6 +22,7 @@ void requestPermission() async {
   var status1 = await Permission.manageExternalStorage.status;
   if (!status.isGranted) {
     await Permission.manageExternalStorage.request();
+    // await Permission.app
   }
 }
 

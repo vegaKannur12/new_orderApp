@@ -132,6 +132,8 @@ class _SplashScreenState extends State<SplashScreen>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     fp = prefs.getString("fp");
     print("fingerPrint......$fp");
+    // String tempFp1 = await externalDir.fileRead();
+
     // Future.delayed(const Duration(seconds: 1), () async {
     //   String fppp = await externalDir.fileRead();
     //   print("fppp---$fppp");

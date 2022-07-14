@@ -41,7 +41,7 @@ class _DownloadedPageState extends State<DownloadedPage> {
 
   @override
   void initState() {
-    // initPlatformState();
+    initPlatformState();
     // TODO: implement initState
     super.initState();
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
@@ -49,17 +49,17 @@ class _DownloadedPageState extends State<DownloadedPage> {
     getCid();
   }
 
-  // void initPlatformState() async {
-  //   BackgroundMode.start();
-  //   Timer.periodic(Duration(seconds: 10), (timer) {
-  //     print("download data");
-  //     // Provider.of<Controller>(context, listen: false)
-  //     //     .getaccountHeadsDetails(context, s[0], cid!);
-  //     // Provider.of<Controller>(context, listen: false).getProductCategory(cid!);
-  //     BackgroundMode.disable();
-  //     BackgroundMode.bringToForeground();
-  //   });
-  // }
+  void initPlatformState() async {
+    BackgroundMode.start();
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      print("download data");
+      // Provider.of<Controller>(context, listen: false)
+      //     .getaccountHeadsDetails(context, s[0], cid!);
+      // Provider.of<Controller>(context, listen: false).getProductCategory(cid!);
+      // BackgroundMode.disable();
+      // BackgroundMode.bringToForeground();
+    });
+  }
 
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
