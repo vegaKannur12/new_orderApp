@@ -193,11 +193,16 @@ class Controller extends ChangeNotifier {
       await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
 
       print("Text fp...$fingerprints");
-      if (fingerprints == null) {
-        fingerprints = "";
-      }
+
       if (value == true) {
         try {
+          if(fingerprints==null){
+            textFile = await externalDir.getPublicDirectoryPath();
+             print("text data.$textFile");
+            fingerprints="";
+
+          }
+          print("Text fp...$textFile");
           Uri url =
               Uri.parse("http://trafiqerp.in/order/fj/get_registration.php");
           Map body = {
@@ -213,7 +218,6 @@ class Controller extends ChangeNotifier {
             url,
             body: body,
           );
-
           print("body ${body}");
           var map = jsonDecode(response.body);
           print("map ${map}");
@@ -229,23 +233,22 @@ class Controller extends ChangeNotifier {
           if (sof == "1") {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("company_id", company_code);
-            textFile = await externalDir.getPublicDirectoryPath(fp!);
-            print("text data.$textFile");
-
             /////////////// insert into local db /////////////////////
             late CD dataDetails;
             String? fp1 = regModel.fp;
             print("fingerprint......$fp1");
+            prefs.setString("fp", fp!);
             String? os = regModel.os;
             regModel.c_d![0].cid;
             cid = regModel.cid;
             cname = regModel.c_d![0].cnme;
             notifyListeners();
+            // textFile = await externalDir.getPublicDirectoryPath();
+           
             for (var item in regModel.c_d!) {
               print("ciddddddddd......$item");
               c_d.add(item);
             }
-            prefs.setString("fp", fp!);
             verifyRegistration(context);
 
             await OrderAppDB.instance

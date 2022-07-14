@@ -1,37 +1,65 @@
 import 'dart:io';
 import 'package:external_path/external_path.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExternalDir {
+  List<String> result = [];
   String? fingerprint;
-  Future<String?> getPublicDirectoryPath(String fp) async {
-    print("fp---------$fp");
-    String path;
-    String text;
 
-    path = await ExternalPath.getExternalStoragePublicDirectory(
+  Future<String> fileExistsOrNot() async {
+    String path = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
 
     print("path-----$path"); //
-    final File file = File('$path/fingerprints.txt');
-    String filpath = '$path/fingerprints.txt';
+    final File file = File('$path/fingerprint4.txt');
+    String filpath = '$path/fingerprint4.txt';
     if (await File(filpath).exists()) {
-      print("file exist");
-      text = await file.readAsString();
-
-      print("file exist----$text");
-
-      return text;
+      return "exist";
     } else {
-      print("not exist");
-      // fingerprint="";
-      await file.writeAsString(fp);
-      text = await file.readAsString();
-      print("file not----$text");
-      return null;
+      return "not exist";
     }
-    // await file.writeAsString('1234  5678\n');
-    // await file.writeAsString('ghgjg\n');
-    // print(await file.readAsString());
+  }
+
+  Future<String?> getPublicDirectoryPath() async {
+    String path;
+    String? text;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? fp = prefs.getString("fp");
+    print("fp---------$fp");
+
+    path = await ExternalPath.getExternalStoragePublicDirectory(
+        ExternalPath.DIRECTORY_DOWNLOADS);
+    print("path-----$path"); //
+
+    final File file = File('$path/fingerprint5.txt');
+    String filpath = '$path/fingerprint5.txt';
+    var status = await Permission.storage.status;
+
+    if (!status.isGranted) {
+      print("permission");
+      await Permission.storage.request();
+      if (await File(filpath).exists()) {
+        print("existgfgf");
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        text = await file.readAsString();
+        // prefs.setString("fp", text);
+        // String? fps = prefs.getString("fp");
+        // print("shared pref----$fps");
+
+        // print("file exist----$text");
+
+        // return text;
+      } else {
+        print("not exist");
+        // fingerprint="";
+        await file.writeAsString(fp!);
+        text = await file.readAsString();
+        print("file not----$text");
+      }
+    }
+    return text;
   }
 }
 

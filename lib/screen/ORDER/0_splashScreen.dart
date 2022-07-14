@@ -18,7 +18,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen>
-  with TickerProviderStateMixin {
+    with TickerProviderStateMixin {
   String? cid;
   String? com_cid;
   String? fp;
@@ -29,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
   String? firstMenu;
   String? versof;
   bool? continueClicked;
+  String? dataFile;
   ExternalDir externalDir = ExternalDir();
 
   // AutoDownload downloaddata = AutoDownload();
@@ -129,7 +130,8 @@ class _SplashScreenState extends State<SplashScreen>
   shared() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     fp = prefs.getString("fp");
-    print("fingerPrint......$fp");
+    print("fingerPrintin splash......$fp");
+    // dataFile = await externalDir.getPublicDirectoryPath();
     if (com_cid != null) {
       Provider.of<AdminController>(context, listen: false)
           .getCategoryReport(com_cid!);

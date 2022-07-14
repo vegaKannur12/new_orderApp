@@ -191,15 +191,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               String deviceInfo =
                                   "$manufacturer" + '' + "$model";
                               print("device info-----$deviceInfo");
-                              // textFile =
-                              //     await externalDir.getPublicDirectoryPath();
-                              // print("textfile........$textFile");
+
+                            
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               fp = prefs.getString("fp");
-                              print("finger print....$fp");
+                              print("fingerprint registration....$fp");
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (_formKey.currentState!.validate()) {
+                                // textFile = await externalDir
+                                //     .getPublicDirectoryPath();
+                                // print("textfile........$textFile");
+
                                 Provider.of<Controller>(context, listen: false)
                                     .postRegistration(
                                         codeController.text,
