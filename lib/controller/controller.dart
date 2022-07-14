@@ -196,13 +196,15 @@ class Controller extends ChangeNotifier {
 
       if (value == true) {
         try {
-          if(fingerprints==null){
-            textFile = await externalDir.getPublicDirectoryPath();
-             print("text data.$textFile");
-            fingerprints="";
+          // textFile = await externalDir.getPublicDirectoryPath();
+          // print("Text fp..fingerprints.$textFile--$fingerprints");
+          // if (fingerprints == null && textFile == "") {
+          //   print("text data.$textFile");
+          //   fingerprints = "";
+          // } else {
+          //   fingerprints = textFile;
+          // }
 
-          }
-          print("Text fp...$textFile");
           Uri url =
               Uri.parse("http://trafiqerp.in/order/fj/get_registration.php");
           Map body = {
@@ -243,8 +245,9 @@ class Controller extends ChangeNotifier {
             cid = regModel.cid;
             cname = regModel.c_d![0].cnme;
             notifyListeners();
-            // textFile = await externalDir.getPublicDirectoryPath();
-           
+
+            await externalDir.fileWrite(fp1!);
+
             for (var item in regModel.c_d!) {
               print("ciddddddddd......$item");
               c_d.add(item);
@@ -269,7 +272,7 @@ class Controller extends ChangeNotifier {
             print("fnjdxf----$user");
             getCompanyData();
             // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
-            getMenuAPi(cid!, fp1!, context);
+            getMenuAPi(cid!, fp1, context);
             Navigator.push(
               context,
               MaterialPageRoute(

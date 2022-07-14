@@ -729,7 +729,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           });
                         },
                         title: Text(
-                          "WebView",
+                          "webview",
                           style: TextStyle(fontSize: 17),
                         ),
                       ),

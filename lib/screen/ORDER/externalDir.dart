@@ -4,64 +4,123 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExternalDir {
-  List<String> result = [];
-  String? fingerprint;
+  // List<String> result = [];
+  // String? fingerprint;
 
-  Future<String> fileExistsOrNot() async {
-    String path = await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
+  // Future<String> fileExistsOrNot() async {
+  //   String path = await ExternalPath.getExternalStoragePublicDirectory(
+  //       ExternalPath.DIRECTORY_DOWNLOADS);
 
-    print("path-----$path"); //
-    final File file = File('$path/fingerprint4.txt');
-    String filpath = '$path/fingerprint4.txt';
-    if (await File(filpath).exists()) {
-      return "exist";
-    } else {
-      return "not exist";
-    }
-  }
+  //   print("path-----$path"); //
+  //   final File file = File('$path/fingerprint4.txt');
+  //   String filpath = '$path/fingerprint4.txt';
+  //   if (await File(filpath).exists()) {
+  //     return "exist";
+  //   } else {
+  //     return "not exist";
+  //   }
+  // }
+  // //////////////////////////////////////////////////////
 
-  Future<String?> getPublicDirectoryPath() async {
+  // Future<String?> getPublicDirectoryPath() async {
+  //   String path;
+  //   String? text;
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? fp = prefs.getString("fp");
+  //   print("fp---------$fp");
+
+  //   path = await ExternalPath.getExternalStoragePublicDirectory(
+  //       ExternalPath.DIRECTORY_DOWNLOADS);
+  //   print("path-----$path"); //
+
+  //   final File file = File('$path/fingerprint11.txt');
+  //   String filpath = '$path/fingerprint11.txt';
+  //   // var status = await Permission.storage.status;
+  //   // if (!status.isGranted) {
+
+  //   // await Permission.storage.request();
+  //   var status = await Permission.storage.request();
+  //   if (status.isGranted) {
+  //     if (await File(filpath).exists()) {
+  //       print("existgfgf");
+  //       text = await file.readAsString();
+  //       print("file exist----$text");
+
+  //       // return text;
+  //     } else {
+  //       print("not exist");
+  //       await file.writeAsString(fp!);
+  //       text = await file.readAsString();
+
+  //       print("file not----$text");
+  //     }
+  //     // }
+  //     return text;
+  //   }
+  // }
+
+  String? tempFp;
+  List<FileSystemEntity> _folders = [];
+  fileRead() async {
     String path;
-    String? text;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? fp = prefs.getString("fp");
-    print("fp---------$fp");
-
     path = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
     print("path-----$path"); //
 
-    final File file = File('$path/fingerprint5.txt');
-    String filpath = '$path/fingerprint5.txt';
-    var status = await Permission.storage.status;
+    final File file = File('$path/fingerprint16.txt');
+    print("file...$file");
+    String filpath = '$path/fingerprint16.txt';
 
-    if (!status.isGranted) {
-      print("permission");
-      await Permission.storage.request();
-      if (await File(filpath).exists()) {
-        print("existgfgf");
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(_folders);
+    if (await File(filpath).exists()) {
+      print("existgfgf");
+      tempFp = await file.readAsString();
+      print("file exist----$tempFp");
+      // final dir = path;
+      // String textDirectory = '$path/';
+      // print("Directory files.......$textDirectory");
 
-        text = await file.readAsString();
-        // prefs.setString("fp", text);
-        // String? fps = prefs.getString("fp");
-        // print("shared pref----$fps");
+      // final myDir = new Directory(textDirectory);
+      // _folders =
+      //     myDir.listSync().where((e) => e.path.endsWith('.txt')).toList();
+      // print("files list.......$_folders");
 
-        // print("file exist----$text");
-
-        // return text;
-      } else {
-        print("not exist");
-        // fingerprint="";
-        await file.writeAsString(fp!);
-        text = await file.readAsString();
-        print("file not----$text");
-      }
+      // return text;
+    } else {
+      tempFp = "";
     }
-    return text;
+    print("file exist----$tempFp");
+    return tempFp;
+  }
+
+///////////////////////////////////////////////////////////////////////////////////
+  fileWrite(String fp) async {
+    String path;
+    print("fpppp====$fp");
+    path = await ExternalPath.getExternalStoragePublicDirectory(
+        ExternalPath.DIRECTORY_DOWNLOADS);
+    print("path-----$path"); //
+
+    final File file = File('$path/fingerprint16.txt');
+    String filpath = '$path/fingerprint16.txt';
+    if (await File(filpath).exists()) {
+      print("file exists");
+      // String textDirectory = '$path/';
+      // print("Directory files.......$textDirectory");
+
+      // final myDir = new Directory(textDirectory);
+      // _folders =
+      //     myDir.listSync().where((e) => e.path.endsWith('.txt')).toList();
+      // print("files list.......$_folders");
+    } else {
+      await file.writeAsString(fp);
+
+      // _folders = myDir.listSync(recursive: true, followLinks: false);
+      // print("file exist----$tempFp");
+    }
   }
 }
+
 
 // class ExternalDir extends StatefulWidget {
 //   const ExternalDir({Key? key}) : super(key: key);
