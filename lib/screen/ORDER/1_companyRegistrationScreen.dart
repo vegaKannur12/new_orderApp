@@ -200,9 +200,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 // textFile = await externalDir
                                 //     .getPublicDirectoryPath();
                                 // print("textfile........$textFile");
-                                String tempFp1=await externalDir.fileRead();
+                                String tempFp1 = await externalDir.fileRead();
                                 // String? tempFp1=externalDir.tempFp;
-                              
+
                                 // if(externalDir.tempFp==null){
                                 //    tempFp="";
                                 // }

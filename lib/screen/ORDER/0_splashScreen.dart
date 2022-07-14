@@ -9,6 +9,7 @@ import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
 import 'package:orderapp/screen/ORDER/externalDir.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,7 +19,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen>
-  with TickerProviderStateMixin {
+    with TickerProviderStateMixin {
   String? cid;
   String? com_cid;
   String? fp;
@@ -29,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
   String? firstMenu;
   String? versof;
   bool? continueClicked;
+  String? dataFile;
   ExternalDir externalDir = ExternalDir();
 
   // AutoDownload downloaddata = AutoDownload();
@@ -130,9 +132,13 @@ class _SplashScreenState extends State<SplashScreen>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     fp = prefs.getString("fp");
     print("fingerPrint......$fp");
+    // String tempFp1 = await externalDir.fileRead();
 
-    String fppp=await externalDir.fileRead();
-    print("fppp---$fppp");
+    // Future.delayed(const Duration(seconds: 1), () async {
+    //   String fppp = await externalDir.fileRead();
+    //   print("fppp---$fppp");
+    // });
+
     if (com_cid != null) {
       Provider.of<AdminController>(context, listen: false)
           .getCategoryReport(com_cid!);
@@ -140,42 +146,33 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
-  // versofFun() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   versof = prefs.getString("versof");
-  //   print("versof----$versof");
-  //   if (versof != null) {
-  //     if (versof == "0") {
-  //       print("haiiiijhgjhgjj");
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => CompanyDetails()),
-  //       );
-  //     }
-  //   }
-  // }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    Future.delayed(const Duration(milliseconds: 200), () async {
+      requestPermission();
+    });
+
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).verifyRegistration(context);
     // versofFun();
     // print("versof----$versof");
-
     shared();
     navigate();
   }
 
-  // late final AnimationController _controller = AnimationController(
-  //   duration: const Duration(seconds: 2),
-  //   vsync: this,
-  // )..repeat();
-  // late final Animation<double> _animation = CurvedAnimation(
-  //   parent: _controller,
-  //   curve: Curves.bounceInOut,
-  // );
+  void requestPermission() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+    var status1 = await Permission.manageExternalStorage.status;
+    if (!status.isGranted) {
+      await Permission.manageExternalStorage.request();
+    }
+  }
+
   @override
   void dispose() {
     // _controller.dispose();
