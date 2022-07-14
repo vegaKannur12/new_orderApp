@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExternalDir {
+
   // List<String> result = [];
   // String? fingerprint;
 
@@ -77,11 +78,11 @@ class ExternalDir {
       // return text;
     } else {
       tempFp = "";
-
     }
-     print("file exist----$tempFp");
-     return tempFp;
+    print("file exist----$tempFp");
+    return tempFp;
   }
+
 ///////////////////////////////////////////////////////////////////////////////////
   fileWrite(String fp) async {
     String path;
