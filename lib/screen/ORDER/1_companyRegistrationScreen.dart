@@ -34,6 +34,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String? textFile;
   ExternalDir externalDir = ExternalDir();
   late String uniqId;
+
+  
   Future<void> initPlatformState() async {
     var deviceData = <String, dynamic>{};
 
@@ -164,16 +166,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             const EdgeInsets.only(top: 20, left: 20, right: 20),
                         child: TextFormField(
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(7),
+                            LengthLimitingTextInputFormatter(10),
                           ],
                           controller: phoneController,
                           decoration: const InputDecoration(
                             icon: Icon(Icons.phone),
-                            labelText: 'Phone Number',
+                            labelText: 'Mobile Number',
                           ),
                           validator: (text) {
                             if (text == null || text.isEmpty) {
-                              return 'Please Enter Phone Number';
+                              return 'Please Enter Mobile Number';
                             }
                             return null;
                           },
@@ -214,14 +216,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         phoneController.text,
                                         deviceInfo,
                                         context);
-                                // : Provider.of<Controller>(context,
-                                //         listen: false)
-                                //     .postRegistration(
-                                //         codeController.text,
-                                //         fp,
-                                //         phoneController.text,
-                                //         deviceInfo,
-                                //         context);
                               }
                             },
                             child: Text("Register")),

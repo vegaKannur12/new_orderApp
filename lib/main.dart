@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,7 +21,19 @@ void requestPermission() async {
     await Permission.storage.request();
   }
   var status1 = await Permission.manageExternalStorage.status;
-  if (!status.isGranted) {
+  if (!status.isDenied) {
+    await Permission.manageExternalStorage.request();
+  }
+
+  if (!status1.isGranted) {
+    await Permission.manageExternalStorage.request();
+    // await Permission.app
+  }
+  if (!status1.isRestricted) {
+    await Permission.manageExternalStorage.request();
+    // await Permission.app
+  }
+  if (!status1.isPermanentlyDenied) {
     await Permission.manageExternalStorage.request();
     // await Permission.app
   }

@@ -33,34 +33,6 @@ class _SplashScreenState extends State<SplashScreen>
   String? dataFile;
   ExternalDir externalDir = ExternalDir();
 
-  // AutoDownload downloaddata = AutoDownload();
-  // Future<void> initializeService() async {
-  //   print("inside download");
-
-  //   final service = FlutterBackgroundService();
-  //   await service.configure(
-  //     androidConfiguration: AndroidConfiguration(
-  //       // this will be executed when app is in foreground or background in separated isolate
-  //       onStart: onStart,
-
-  //       // auto start service
-  //       autoStart: true,
-  //       isForegroundMode: true,
-  //     ),
-  //     iosConfiguration: IosConfiguration(
-  //       // auto start service
-  //       autoStart: true,
-
-  //       // this will be executed when app is in foreground in separated isolate
-  //       onForeground: onStart,
-
-  //       // you have to enable background fetch capability on xcode project
-  //       onBackground: onIosBackground,
-  //     ),
-  //   );
-  //   service.startService();
-  // }
-
   navigate() async {
     await Future.delayed(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -113,31 +85,16 @@ class _SplashScreenState extends State<SplashScreen>
                   } else {
                     return RegistrationScreen();
                   }
-                })
-            // cid != null
-            //     ?continueClicked!=null && continueClicked!
-            //     ?
-            //      st_uname != null && st_pwd != null
-            //         ? Dashboard():
-
-            //         StaffLogin()
-
-            //     : RegistrationScreen()),
-            );
+                }));
       }
     });
   }
 
   shared() async {
+    var status = await Permission.storage.status;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     fp = prefs.getString("fp");
     print("fingerPrint......$fp");
-    // String tempFp1 = await externalDir.fileRead();
-
-    // Future.delayed(const Duration(seconds: 1), () async {
-    //   String fppp = await externalDir.fileRead();
-    //   print("fppp---$fppp");
-    // });
 
     if (com_cid != null) {
       Provider.of<AdminController>(context, listen: false)
@@ -150,29 +107,11 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    // Future.delayed(const Duration(milliseconds: 200), () async {
-    //   // requestPermission();
-    // });
-
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
     Provider.of<Controller>(context, listen: false).verifyRegistration(context);
-    // versofFun();
-    // print("versof----$versof");
     shared();
     navigate();
   }
-
-//////////////////////// file access permission //////////////
-  // void requestPermission() async {
-  //   var status = await Permission.storage.status;
-  //   if (!status.isGranted) {
-  //     await Permission.storage.request();
-  //   }
-  //   var status1 = await Permission.manageExternalStorage.status;
-  //   if (!status.isGranted) {
-  //     await Permission.manageExternalStorage.request();
-  //   }
-  // }
 
   @override
   void dispose() {

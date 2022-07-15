@@ -41,7 +41,6 @@ class _DownloadedPageState extends State<DownloadedPage> {
 
   @override
   void initState() {
-    initPlatformState();
     // TODO: implement initState
     super.initState();
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
@@ -49,23 +48,27 @@ class _DownloadedPageState extends State<DownloadedPage> {
     getCid();
   }
 
-  void initPlatformState() async {
-    BackgroundMode.start();
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      print("download data");
-      // Provider.of<Controller>(context, listen: false)
-      //     .getaccountHeadsDetails(context, s[0], cid!);
-      // Provider.of<Controller>(context, listen: false).getProductCategory(cid!);
-      // BackgroundMode.disable();
-      // BackgroundMode.bringToForeground();
-    });
-  }
+  // void initPlatformState() async {
+  //   BackgroundMode.start();
+  //   print("background download");
+  //   Timer.periodic(Duration(seconds: 1), (timer) {
+  //     print("download data");
+  //     // Provider.of<Controller>(context, listen: false)
+  //     //     .getaccountHeadsDetails(context, s[0], cid!);
+  //     // Provider.of<Controller>(context, listen: false).getProductCompany(cid!);
+  //     // Provider.of<Controller>(context, listen: false).getProductCategory(cid!);
+  //     Provider.of<Controller>(context, listen: false).getWallet(context);
+  //     BackgroundMode.disable();
+  //     BackgroundMode.bringToForeground();
+  //   });
+  // }
 
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
     userType = prefs.getString("userType");
     sid = prefs.getString("sid");
+    // initPlatformState();
   }
 
   @override
@@ -103,11 +106,14 @@ class _DownloadedPageState extends State<DownloadedPage> {
           return Column(
             children: [
               // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //     primary: P_Settings.wavecolor,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(10), // <-- Radius
+              //     ),
+              //   ),
               //   onPressed: () {
-              //     print("");
-              //     FlutterBackgroundService().invoke(
-              //       "setAsForeground",
-              //     );
+              //     initPlatformState();
               //   },
               //   child: Text("Auto Download"),
               // ),
