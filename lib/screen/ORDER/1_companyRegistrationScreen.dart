@@ -6,6 +6,7 @@ import 'package:orderapp/components/device_information.dart';
 import 'package:orderapp/components/waveclipper.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/externalDir.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -35,7 +36,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   ExternalDir externalDir = ExternalDir();
   late String uniqId;
 
-  
   Future<void> initPlatformState() async {
     var deviceData = <String, dynamic>{};
 

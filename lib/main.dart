@@ -17,26 +17,58 @@ import 'package:file/memory.dart';
 
 void requestPermission() async {
   var status = await Permission.storage.status;
-  if (!status.isGranted) {
+  var status1 = await Permission.manageExternalStorage.status;
+  if (!status1.isGranted) {
     await Permission.storage.request();
   }
-  var status1 = await Permission.manageExternalStorage.status;
-  if (!status.isDenied) {
-    await Permission.manageExternalStorage.request();
-  }
-
   if (!status1.isGranted) {
     await Permission.manageExternalStorage.request();
     // await Permission.app
-  }
+  } else {}
   if (!status1.isRestricted) {
     await Permission.manageExternalStorage.request();
-    // await Permission.app
   }
   if (!status1.isPermanentlyDenied) {
     await Permission.manageExternalStorage.request();
-    // await Permission.app
   }
+    if (await Permission.manageExternalStorage.status.isDenied) {
+    // await Permission.manageExternalStorage.request();
+  
+  }
+  // if (!status1.isRestricted) {
+  //   print("denaied2");
+
+  //   await Permission.manageExternalStorage.request();
+  //   // await Permission.app
+  // }
+  // if (!status1.isPermanentlyDenied) {
+  //   print("denaied3");
+
+  //   await Permission.manageExternalStorage.request();
+  //   // await Permission.app
+  // }
+}
+
+void dialog() {
+  AlertDialog(
+    // title: const Text('Popup example'),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(""),
+      ],
+    ),
+    actions: <Widget>[
+      ElevatedButton(
+        onPressed: () async {
+          await Permission.manageExternalStorage.request();
+        },
+        // textColor: Theme.of(context).primaryColor,
+        child: Text('Close'),
+      ),
+    ],
+  );
 }
 
 Future<void> main() async {

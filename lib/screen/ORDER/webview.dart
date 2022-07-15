@@ -10,7 +10,7 @@ class WebViewTest extends StatefulWidget {
 }
 
 class _WebViewTestState extends State<WebViewTest> {
-  String url = "http://aiwasilks.in/reports/";
+  String url = "http://trafiqerp.in/order/php/";
   @override
   void initState() {
     // TODO: implement initState
@@ -23,13 +23,13 @@ class _WebViewTestState extends State<WebViewTest> {
       // appBar: ,
       body: WebView(
         navigationDelegate: (NavigationRequest request) {
-          if (request.url.startsWith("http://aiwasilks.in/reports/")) {
+          if (request.url.startsWith("http://trafiqerp.in/order/php/")) {
             return NavigationDecision.prevent;
           }
           return NavigationDecision.navigate;
         },
         javascriptMode: JavascriptMode.unrestricted,
-        initialUrl: "http://aiwasilks.in/reports/",
+        initialUrl: "http://trafiqerp.in/order/php/",
       ),
     );
   }
