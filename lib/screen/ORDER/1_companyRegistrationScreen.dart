@@ -164,7 +164,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             const EdgeInsets.only(top: 20, left: 20, right: 20),
                         child: TextFormField(
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(7),
+                            LengthLimitingTextInputFormatter(10),
                           ],
                           controller: phoneController,
                           decoration: const InputDecoration(

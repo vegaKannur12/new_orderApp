@@ -13,13 +13,15 @@ class ExternalDir {
     String path;
 
     Directory? extDir = await getExternalStorageDirectory();
-    String dirPath = '${extDir!.path}/VgFp';
+    String dirPath = '${extDir!.path}/VgFp/';
+
+    print("dirPath----$dirPath");
     dirPath =
         dirPath.replaceAll("Android/data/com.example.orderapp/files/", "");
     await Directory(dirPath).create(recursive: true);
-    final File file = File('${dirPath}/fpCode.txt'); 
+    final File file = File('${dirPath}/fpCode1.txt'); 
     print("file...$file");
-    String filpath = '$dirPath/fpCode.txt';
+    String filpath = '$dirPath/fpCode1.txt';
     if (await File(filpath).exists()) {
       print("existgfgf");  
       tempFp = await file.readAsString();
@@ -54,9 +56,9 @@ class ExternalDir {
     await Directory(dirPath).create(recursive: true);
 
     // Directory? baseDir = Directory('storage/emulated/0/Android/data');
-    final File file = File('${dirPath}/fpCode.txt');
+    final File file = File('${dirPath}/fpCode1.txt');
     print("file...$file");
-    String filpath = '$dirPath/fpCode.txt';
+    String filpath = '$dirPath/fpCode1.txt';
 
     if (await File(filpath).exists()) {
       print("file exists");
