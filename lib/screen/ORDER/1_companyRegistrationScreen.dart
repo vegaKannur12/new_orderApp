@@ -6,6 +6,7 @@ import 'package:orderapp/components/device_information.dart';
 import 'package:orderapp/components/waveclipper.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/externalDir.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -34,6 +35,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String? textFile;
   ExternalDir externalDir = ExternalDir();
   late String uniqId;
+
   Future<void> initPlatformState() async {
     var deviceData = <String, dynamic>{};
 
@@ -169,11 +171,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: phoneController,
                           decoration: const InputDecoration(
                             icon: Icon(Icons.phone),
-                            labelText: 'Phone Number',
+                            labelText: 'Mobile Number',
                           ),
                           validator: (text) {
                             if (text == null || text.isEmpty) {
-                              return 'Please Enter Phone Number';
+                              return 'Please Enter Mobile Number';
                             }
                             return null;
                           },
@@ -214,14 +216,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         phoneController.text,
                                         deviceInfo,
                                         context);
-                                // : Provider.of<Controller>(context,
-                                //         listen: false)
-                                //     .postRegistration(
-                                //         codeController.text,
-                                //         fp,
-                                //         phoneController.text,
-                                //         deviceInfo,
-                                //         context);
                               }
                             },
                             child: Text("Register")),
