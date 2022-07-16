@@ -31,10 +31,6 @@ void requestPermission() async {
   if (!status1.isPermanentlyDenied) {
     await Permission.manageExternalStorage.request();
   }
-    if (await Permission.manageExternalStorage.status.isDenied) {
-    // await Permission.manageExternalStorage.request();
-  
-  }
   // if (!status1.isRestricted) {
   //   print("denaied2");
 
@@ -49,28 +45,6 @@ void requestPermission() async {
   // }
 }
 
-void dialog() {
-  AlertDialog(
-    // title: const Text('Popup example'),
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(""),
-      ],
-    ),
-    actions: <Widget>[
-      ElevatedButton(
-        onPressed: () async {
-          await Permission.manageExternalStorage.request();
-        },
-        // textColor: Theme.of(context).primaryColor,
-        child: Text('Close'),
-      ),
-    ],
-  );
-}
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -79,6 +53,8 @@ Future<void> main() async {
   ]);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? cid = prefs.getString("company_id");
+  var status = await Permission.storage.status;
+
   requestPermission();
   runApp(MultiProvider(
     providers: [
@@ -91,8 +67,7 @@ Future<void> main() async {
   ));
 }
 
-///////////////////////// background run /////////////////////////////
-////////////////////////////////////////////////////////////
+///////////////////// background run /////////////////////
 class MyApp extends StatelessWidget {
   late OtaEvent currentEvent;
 
