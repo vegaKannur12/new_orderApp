@@ -2153,8 +2153,10 @@ class Controller extends ChangeNotifier {
           print("update data.......$map");
           if (item["col_id"] != null) {
             print("update data1.......");
-            await OrderAppDB.instance.upadteCommonQuery("collectionTable",
-                "rec_status='${item["col_id"]}'", "rec_row_num='${item["phid"]}'");
+            await OrderAppDB.instance.upadteCommonQuery(
+                "collectionTable",
+                "rec_status='${item["col_id"]}'",
+                "rec_row_num='${item["phid"]}'");
             isUpload = false;
           }
         }

@@ -904,7 +904,7 @@ class OrderAppDB {
       int rec_row_num,
       String ser,
       String mode,
-      double amt,
+      double? amt,
       String disc,
       String note,
       String sttid,
