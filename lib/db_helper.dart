@@ -1268,7 +1268,6 @@ class OrderAppDB {
             "SELECT MAX($field) max_val FROM '$table' WHERE $condition");
       }
 
-      print("max common-----$res");
       print('res[0]["max_val"] ----${res[0]["max_val"]}');
       // int convertedMax = int.parse(res[0]["max_val"]);
       max = res[0]["max_val"] + 1;
@@ -1277,6 +1276,8 @@ class OrderAppDB {
       print("else");
       max = 1;
     }
+    print("max common-----$res");
+
     print(res);
     return max;
   }

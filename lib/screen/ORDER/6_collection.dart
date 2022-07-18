@@ -242,10 +242,8 @@ class _CollectionPageState extends State<CollectionPage> {
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       int max = await OrderAppDB.instance
-                                          .getMaxCommonQuery(
-                                              'collectionTable',
-                                              'rec_row_num',
-                                              "rec_cusid='${widget.cuid}'");
+                                          .getMaxCommonQuery('collectionTable',
+                                              'rec_row_num', " ");
                                       print("max value in collection....$max");
                                       final prefs =
                                           await SharedPreferences.getInstance();

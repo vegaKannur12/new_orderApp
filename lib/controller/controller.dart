@@ -2074,6 +2074,7 @@ class Controller extends ChangeNotifier {
 
   /////////////////////////upload customer/////////////////////////////////////////
   uploadRemarks(BuildContext context) async {
+    print("haicollection");
     try {
       var result = await OrderAppDB.instance.uploadRemark();
       print("remark result......$result");
@@ -2082,12 +2083,10 @@ class Controller extends ChangeNotifier {
         isUpload = true;
         isLoading = true;
         notifyListeners();
-        // var remarks = await OrderAppDB.instance.uploadCustomer();
-        // print("remark result...$remarks");
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String? cid = prefs.getString("cid");
         String rm = jsonEncode(result);
-        print("remark----$rm");
+        print("collection----$rm");
         Map body = {
           'cid': cid,
           'rm': rm,
@@ -2097,19 +2096,17 @@ class Controller extends ChangeNotifier {
           url,
           body: body,
         );
-
         isLoading = false;
         notifyListeners();
+        // print("response----$response");
         var map = jsonDecode(response.body);
         print("response remark----${map}");
-
         for (var item in map) {
-          print("update remark....");
+          print("update data.......$map");
           if (item["rid"] != null) {
-            print("update remark rid....");
-
+            print("update data1.......$map");
             await OrderAppDB.instance.upadteCommonQuery("remarksTable",
-                "rem_status='${item["rid"]}'", "id='${item["phid"]}'");
+                "rem_status='${item["rid"]}'", "rem_row_num='${item["phid"]}'");
             isUpload = false;
           }
         }
@@ -2157,7 +2154,7 @@ class Controller extends ChangeNotifier {
           if (item["col_id"] != null) {
             print("update data1.......");
             await OrderAppDB.instance.upadteCommonQuery("collectionTable",
-                "rec_status='${item["col_id"]}'", "id='${item["phid"]}'");
+                "rec_status='${item["col_id"]}'", "rec_row_num='${item["phid"]}'");
             isUpload = false;
           }
         }
