@@ -160,11 +160,13 @@ class OrderAppDB {
   static final rec_series = 'rec_series';
   static final rec_mode = 'rec_mode';
   static final rec_amount = 'rec_amount';
+  static final rec_row_num = 'rec_row_num';
   static final rec_disc = 'rec_disc';
   static final rec_note = 'rec_note';
   static final rec_staffid = 'rec_staffid';
   static final rec_cancel = 'rec_cancel';
   static final rec_status = 'rec_status';
+  static final rec_time = 'rec_time';
 ///////remark table//////////////////////
 
   static final rem_date = 'rem_date';
@@ -175,7 +177,7 @@ class OrderAppDB {
   static final rem_row_num = 'rem_row_num';
   static final rem_cancel = 'rem_cancel';
   static final rem_status = 'rem_status';
-
+  static final rem_time = 'rem_time';
   Future<Database> get database async {
     print("bjhs");
     if (_database != null) return _database!;
@@ -427,7 +429,9 @@ class OrderAppDB {
       CREATE TABLE collectionTable (
         $id INTEGER PRIMARY KEY AUTOINCREMENT,
         $rec_date TEXT NOT NULL,
+        $rec_time TEXT,
         $rec_cusid TEXT,
+        $rec_row_num INTEGER,
         $rec_series TEXT NOT NULL,
         $rec_mode TEXT,
         $rec_amount REAL,
@@ -442,6 +446,7 @@ class OrderAppDB {
       CREATE TABLE remarksTable (
         $id INTEGER PRIMARY KEY AUTOINCREMENT,
         $rem_date TEXT NOT NULL,
+        $rem_time TEXT,
         $rem_cusid TEXT,
         $rem_series TEXT NOT NULL,
         $rem_text TEXT,
@@ -894,7 +899,9 @@ class OrderAppDB {
 /////////////////////////collectionTable/////////////////////////////
   Future insertCollectionTable(
       String rec_date,
+      String rec_time,
       String rec_cusid,
+      int rec_row_num,
       String ser,
       String mode,
       double amt,
@@ -905,7 +912,7 @@ class OrderAppDB {
       int status) async {
     final db = await database;
     var query =
-        'INSERT INTO collectionTable(rec_date, rec_cusid, rec_series, rec_mode, rec_amount, rec_disc, rec_note, rec_staffid, rec_cancel, rec_status) VALUES("${rec_date}", "${rec_cusid}", "${ser}", "${mode}", $amt, "${disc}", "${note}", "${sttid}", ${cancel}, ${status})';
+        'INSERT INTO collectionTable(rec_date, rec_time, rec_cusid, rec_row_num, rec_series, rec_mode, rec_amount, rec_disc, rec_note, rec_staffid, rec_cancel, rec_status) VALUES("${rec_date}","${rec_time}","${rec_cusid}", $rec_row_num, "${ser}", "${mode}", $amt, "${disc}", "${note}", "${sttid}", ${cancel}, ${status})';
     var res = await db.rawInsert(query);
     print(query);
 
@@ -924,6 +931,7 @@ class OrderAppDB {
 ////////////////////////insert remark/////////////////////////////////
   Future insertremarkTable(
     String rem_date,
+    String rem_time,
     String rem_cusid,
     String ser,
     String text,
@@ -934,7 +942,7 @@ class OrderAppDB {
   ) async {
     final db = await database;
     var query =
-        'INSERT INTO remarksTable(rem_date, rem_cusid, rem_series, rem_text, rem_staffid, rem_row_num, rem_cancel, rem_status) VALUES("${rem_date}", "${rem_cusid}", "${ser}", "${text}","${sttid}",${row_num},${cancel},${status})';
+        'INSERT INTO remarksTable(rem_date, rem_time, rem_cusid, rem_series, rem_text, rem_staffid, rem_row_num, rem_cancel, rem_status) VALUES("${rem_date}", "${rem_time}","${rem_cusid}", "${ser}", "${text}","${sttid}",${row_num},${cancel},${status})';
     var res = await db.rawInsert(query);
     print(query);
     // print(res);
@@ -1431,8 +1439,27 @@ class OrderAppDB {
     return result;
   }
 
-  //////////////////////////////////////////////////////////
+////////////////////upload remark data////////////////////////
+  uploadRemark() async {
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        "SELECT remarksTable.id as rid, remarksTable.rem_row_num as phid, remarksTable.rem_cusid as cid,remarksTable.rem_date as rdate,remarksTable.rem_text as rtext,remarksTable.rem_staffid as sid,remarksTable.rem_cancel as cflag,remarksTable.rem_status as dflag,remarksTable.rem_date || ' '  || remarksTable.rem_time as edate FROM remarksTable");
+    print("remark select result.........$result");
+    return result;
+  }
 
+  ////////////////////upload collection data////////////////////////
+  uploadCollections() async {
+    print("collectionnn");
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        // "SELECT * FROM collectionTable");
+        "SELECT collectionTable.id as colid, collectionTable.rec_row_num as phid, collectionTable.rec_cusid as cid,collectionTable.rec_date as cdate,collectionTable.rec_series || collectionTable.rec_row_num as cseries,collectionTable.rec_mode as cmode,collectionTable.rec_amount as camt,collectionTable.rec_disc as cdisc,collectionTable.rec_note as cremark, collectionTable.rec_staffid as sid,collectionTable.rec_cancel as cflag,collectionTable.rec_cancel as dflag,collectionTable.rec_date || ' ' || collectionTable.rec_time as edate FROM collectionTable");
+    print("collectionTable select result.........$result");
+    return result;
+  }
+
+////////////////////////////////////////////
   selectDetailTable(int order_id) async {
     Database db = await instance.database;
 

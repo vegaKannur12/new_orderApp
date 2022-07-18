@@ -6,14 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ExternalDir {
   String? tempFp;
-
   List<FileSystemEntity> _folders = [];
-
   fileRead() async {
     String path;
-
     Directory? extDir = await getExternalStorageDirectory();
-    String dirPath = '${extDir!.path}/VgFp';
+    String dirPath = '${extDir!.path}/VgFp/';
+    print("dirPath----$dirPath");
     dirPath =
         dirPath.replaceAll("Android/data/com.example.orderapp/files/", "");
     await Directory(dirPath).create(recursive: true);
@@ -24,17 +22,6 @@ class ExternalDir {
       print("existgfgf");
       tempFp = await file.readAsString();
       print("file exist----$tempFp");
-
-      // final dir = path;
-      // String textDirectory = '$path/';
-      // print("Directory files.......$textDirectory");
-
-      // final myDir = new Directory(textDirectory);
-      // _folders =
-      //     myDir.listSync().where((e) => e.path.endsWith('.txt')).toList();
-      // print("files list.......$_folders");
-
-      // return text;
     } else {
       tempFp = "";
     }

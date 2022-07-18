@@ -75,8 +75,6 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                   size,
                                   value.todayOrderList[index]["Order_Num"],
                                   value.todayOrderList[index]["Cus_id"]);
-                              // history["Order_Num"],
-                              // history["Cus_id"]);
                             },
                             child: Card(
                               color: Colors.grey[100],
@@ -122,14 +120,6 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                                 fontSize: 15),
                                           ),
                                         ),
-                                        // Text(
-                                        //   value.todayOrderList[index]
-                                        //       ["cus_name"],
-                                        //   style: TextStyle(
-                                        //       color: Colors.grey[700],
-                                        //       fontWeight: FontWeight.bold,
-                                        //       fontSize: 16),
-                                        // ),
                                         Text(" - "),
                                         Text(
                                           value.todayOrderList[index]["Cus_id"],
@@ -140,33 +130,6 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                               fontSize: 14),
                                         ),
                                         Spacer(),
-                                        // IconButton(
-                                        //     onPressed: () {
-                                        //       Provider.of<Controller>(context,
-                                        //               listen: false)
-                                        //           .toggleExpansion(index);
-                                        //       setState(() {
-                                        //         value.isExpanded[index] =
-                                        //             !value.isExpanded[index];
-                                        //         value.isVisibleTable[index] =
-                                        //             !value.isVisibleTable[index];
-                                        //       });
-                                        //       Provider.of<Controller>(context,
-                                        //               listen: false)
-                                        //           .getHistoryData('orderDetailTable',
-                                        //               "order_id='${value.todayOrderList[index]["order_id"]}'");
-                                        //       popup.buildPopupDialog(
-                                        //           context,
-                                        //           size,"","");
-                                        //           // history["Order_Num"],
-                                        //           // history["Cus_id"]);
-                                        //     },
-                                        //     icon: Icon(
-                                        //       value.isExpanded[index]
-                                        //           ? Icons.arrow_upward
-                                        //           : Icons.arrow_downward,
-                                        //       size: 20,
-                                        //     ))
                                       ],
                                     ),
                                     Divider(),
@@ -199,44 +162,12 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                         ],
                                       ),
                                     ),
-                                    // SizedBox(height: size.height * 0.05,),
-                                    // Provider.of<Controller>(context, listen: false)
-                                    //         .isVisibleTable[index]
-                                    //     ? Visibility(
-                                    //         visible: value.isVisibleTable[index],
-                                    //         child: value.isLoading
-                                    //             ? CircularProgressIndicator()
-                                    //             : Padding(
-                                    //                 padding: const EdgeInsets.only(
-                                    //                     left: 5.0, right: 5),
-                                    //                 child: Container(
-                                    //                     alignment: Alignment.center,
-                                    //                     height: size.height * 0.1,
-                                    //                     child: OrderDetailsToday()),
-                                    //               ))
-                                    //     : Container()
                                   ],
                                 ),
                               ),
                             ),
                           ),
                         ),
-
-                        // Provider.of<Controller>(context, listen: false)
-                        //         .isVisibleTable[index]
-                        //     ? Visibility(
-                        //         visible: value.isVisibleTable[index],
-                        //         child: value.isLoading
-                        //             ? CircularProgressIndicator()
-                        //             : Padding(
-                        //                 padding: const EdgeInsets.only(
-                        //                     left: 5.0, right: 5),
-                        //                 child: Container(
-                        //                     alignment: Alignment.center,
-                        //                     height: size.height * 0.1,
-                        //                     child: OrderDetailsToday()),
-                        //               ))
-                        //     : Container()
                       ],
                     ),
                   );

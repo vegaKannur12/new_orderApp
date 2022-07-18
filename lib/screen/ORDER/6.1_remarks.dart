@@ -158,6 +158,7 @@ class _RemarkPageState extends State<RemarkPage> {
                                       await OrderAppDB.instance
                                           .insertremarkTable(
                                               s[0],
+                                              s[1],
                                               widget.cus_id,
                                               widget.ser,
                                               remarkController.text,
@@ -172,13 +173,16 @@ class _RemarkPageState extends State<RemarkPage> {
                                       if (value.areaidFrompopup != null) {
                                         Provider.of<Controller>(context,
                                                 listen: false)
-                                            .dashboardSummery(widget.sid, s[0],
-                                                value.areaidFrompopup!,context);
+                                            .dashboardSummery(
+                                                widget.sid,
+                                                s[0],
+                                                value.areaidFrompopup!,
+                                                context);
                                       } else {
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .dashboardSummery(
-                                                widget.sid, s[0], "",context);
+                                                widget.sid, s[0], "", context);
                                       }
                                       // Provider.of<Controller>(context,
                                       //         listen: false)

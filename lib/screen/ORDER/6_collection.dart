@@ -21,7 +21,7 @@ class CollectionPage extends StatefulWidget {
 
 class _CollectionPageState extends State<CollectionPage> {
   ValueNotifier<bool> visible = ValueNotifier(false);
-   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime date = DateTime.now();
   String? gen_condition;
   String? formattedDate;
@@ -241,6 +241,12 @@ class _CollectionPageState extends State<CollectionPage> {
                                   height: size.height * 0.05,
                                   child: ElevatedButton(
                                     onPressed: () async {
+                                      int max = await OrderAppDB.instance
+                                          .getMaxCommonQuery(
+                                              'collectionTable',
+                                              'rec_row_num',
+                                              "rec_cusid='${widget.cuid}'");
+                                      print("max value in collection....$max");
                                       final prefs =
                                           await SharedPreferences.getInstance();
                                       String? sid =
@@ -260,7 +266,9 @@ class _CollectionPageState extends State<CollectionPage> {
                                         await OrderAppDB.instance
                                             .insertCollectionTable(
                                                 s[0],
+                                                s[1],
                                                 widget.cuid!,
+                                                max,
                                                 widget.os!,
                                                 selected!,
                                                 double.parse(
@@ -278,16 +286,21 @@ class _CollectionPageState extends State<CollectionPage> {
                                                 listen: false)
                                             .fetchtotalcollectionFromTable(
                                                 widget.cuid!);
-                                        print("value.areaidFrompopup----${value.areaidFrompopup}");
+                                        print(
+                                            "value.areaidFrompopup----${value.areaidFrompopup}");
                                         if (value.areaidFrompopup != null) {
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .dashboardSummery(sid!, s[0],
-                                                  value.areaidFrompopup!,context);
+                                              .dashboardSummery(
+                                                  sid!,
+                                                  s[0],
+                                                  value.areaidFrompopup!,
+                                                  context);
                                         } else {
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .dashboardSummery(sid!, s[0], "",context);
+                                              .dashboardSummery(
+                                                  sid!, s[0], "", context);
                                         }
 
                                         // Provider.of<Controller>(context,

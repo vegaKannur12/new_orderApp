@@ -92,7 +92,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                         Theme.of(context).textTheme.bodyLarge,
                                     fontSize: 16),
                               ),
-                              Text(" - ${value.sname}",
+                              Text(" - ${value.sname?.toUpperCase()}",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
@@ -261,7 +261,7 @@ class _MainDashboardState extends State<MainDashboard> {
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return new AlertDialog(
+            return AlertDialog(
               content: Consumer<Controller>(builder: (context, value, child) {
                 if (value.isLoading) {
                   return CircularProgressIndicator();
@@ -325,14 +325,6 @@ class _MainDashboardState extends State<MainDashboard> {
                                   .todayCollection(s[0], gen_condition!);
                               Provider.of<Controller>(context, listen: false)
                                   .selectReportFromOrder(context, sid!, s[0]);
-                              // Provider.of<Controller>(context, listen: false)
-                              //     .mainDashtileValues(sid!, s[0]);
-                              // Provider.of<Controller>(context, listen: false)
-                              //     .mainDashAmounts(sid!, s[0]);
-                              // Provider.of<Controller>(context, listen: false)
-                              //     .getShopVisited(
-                              //   sid!,s[0]
-                              // );
                             }
 
                             Navigator.pop(context);

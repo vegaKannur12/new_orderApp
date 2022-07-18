@@ -22,12 +22,12 @@ class _WebViewTestState extends State<WebViewTest> {
     return Scaffold(
       // appBar: ,
       body: WebView(
-        navigationDelegate: (NavigationRequest request) {
-          if (request.url.startsWith("http://trafiqerp.in/order/php/")) {
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
+        // navigationDelegate: (NavigationRequest request) {
+        //   if (request.url.startsWith("http://trafiqerp.in/order/php/")) {
+        //     return NavigationDecision.prevent;
+        //   }
+        //   return NavigationDecision.navigate;
+        // },
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl: "http://trafiqerp.in/order/php/",
       ),

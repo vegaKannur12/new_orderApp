@@ -67,26 +67,19 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> collectionList = [];
   List<Map<String, dynamic>> productcompanyList = [];
   List<Map<String, dynamic>> fetchcollectionList = [];
-
   List<bool> settingOption = [];
   List<Map<String, dynamic>> filterList = [];
-
   List<Map<String, dynamic>> sortList = [];
   List<Map<String, dynamic>> filteredProductList = [];
-
   List<Map<String, dynamic>> returnList = [];
-
   bool filter = false;
   bool isAccount = false;
-
   // String? custmerSelection;
   int? customerCount;
   List<String> tableColumn = [];
   List<Map<String, dynamic>> res = [];
-
   List<String> tableHistorydataColumn = [];
   // List<Map<String, dynamic>> reportOriginalList1 = [];
-
   String? editedRate;
   String? order_id;
   String? searchkey;
@@ -95,14 +88,12 @@ class Controller extends ChangeNotifier {
   String? sid;
   String? userType;
   String? updateDate;
-
   String? orderTotal;
   String? ordernumber;
   String? cid;
   String? cname;
   int? qtyinc;
   int? returnqtyinc;
-
   String? itemRate;
   List<CD> c_d = [];
   List<Map<String, dynamic>> historyList = [];
@@ -117,7 +108,6 @@ class Controller extends ChangeNotifier {
   List<CD> data = [];
   double? totalPrice;
   double? returntotalPrice;
-
   String? totrate;
   List<String> areaAutoComplete = [];
   List<Map<String, dynamic>> menuList = [];
@@ -126,13 +116,11 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> collectionsumPrice = [];
   String collectionAmount = "0.0";
   String returnAmount = "0.0";
-
   String ordrAmount = "0.0";
   String? remarkCount;
   String? orderCount;
   String? collectionCount;
   String? ret_count;
-
   List<Map<String, dynamic>> remarkList = [];
   List<Map<String, dynamic>> remarkStaff = [];
   String? firstMenu;
@@ -144,15 +132,12 @@ class Controller extends ChangeNotifier {
   String? sof;
   String? versof;
   String? vermsg;
-
   String? heading;
   String? fp;
   List<Map<String, dynamic>> bagList = [];
   List<Map<String, dynamic>> newList = [];
-
   List<Map<String, dynamic>> newreportList = [];
   List<Map<String, dynamic>> remarkreportList = [];
-
   List<Map<String, dynamic>> masterList = [];
   List<Map<String, dynamic>> orderdetailsList = [];
   bool settingsRateOption = false;
@@ -167,7 +152,6 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> customerList = [];
   List<Map<String, dynamic>> todayOrderList = [];
   List<Map<String, dynamic>> todayCollectionList = [];
-
   List<Map<String, dynamic>> copyCus = [];
   List<Map<String, dynamic>> prodctItems = [];
   List<Map<String, dynamic>> ordernum = [];
@@ -179,10 +163,10 @@ class Controller extends ChangeNotifier {
   AccountHead accountHead = AccountHead();
   StaffArea staffArea = StaffArea();
   ProductDetails proDetails = ProductDetails();
-
   String? path;
   String? textFile;
-////////////////////////////////////////////////////////////////////////
+//////////////////////////////// API CONNECTION //////////////////////
+//////////////////////////////REGISTRATION ///////////////////////////
   Future<RegistrationData?> postRegistration(
       String company_code,
       String? fingerprints,
@@ -191,20 +175,9 @@ class Controller extends ChangeNotifier {
       BuildContext context) async {
     NetConnection.networkConnection(context).then((value) async {
       await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
-
       print("Text fp...$fingerprints");
-
       if (value == true) {
         try {
-          // textFile = await externalDir.getPublicDirectoryPath();
-          // print("Text fp..fingerprints.$textFile--$fingerprints");
-          // if (fingerprints == null && textFile == "") {
-          //   print("text data.$textFile");
-          //   fingerprints = "";
-          // } else {
-          //   fingerprints = textFile;
-          // }
-
           Uri url =
               Uri.parse("http://trafiqerp.in/order/fj/get_registration.php");
           Map body = {
@@ -298,22 +271,18 @@ class Controller extends ChangeNotifier {
     });
   }
 
-//////////////////////verify registration/////////////////////////////
+//////////////////////VERIFY REGISTRATION/////////////////////////////
   Future<RegistrationData?> verifyRegistration(BuildContext context) async {
     NetConnection.networkConnection(context).then((value) async {
-      // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      // AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      // print('Running on ${androidInfo.model}');
       String? compny_code;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       compny_code = prefs.getString("company_id");
       String? fp = prefs.getString("fp");
-      ///////////////// find app version///////////////////
+      ///////////////// find app version/////////////////////////
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String version = packageInfo.version;
-      // externalDir.getPublicDirectoryPath(fp!);
       print("App new version $version");
-      // print(cid-----4cid)
+      ///////////////////////////////////////////////////////////
       Map map = {
         '0': compny_code,
         "1": fp,
@@ -371,7 +340,7 @@ class Controller extends ChangeNotifier {
     });
   }
 
-  //////////////////////getMenu////////////////////////////////////////
+  //////////////////////GET MENU////////////////////////////////////////
   Future<RegistrationData?> getMenuAPi(
       String company_code, String fp, BuildContext context) async {
     var res;
@@ -419,7 +388,7 @@ class Controller extends ChangeNotifier {
     });
   }
 
-  /////////////////////////// get balance ////////////////////////////
+  /////////////////////////// GET BALANCE ////////////////////////////
   Future<Balance?> getBalance(String? cid, String? code) async {
     print("get balance...............${cid}");
     var restaff;
@@ -429,7 +398,6 @@ class Controller extends ChangeNotifier {
         'cid': cid,
         'code': code,
       };
-      // print("compny----${cid}");
       http.Response response = await http.post(
         url,
         body: body,
@@ -440,13 +408,9 @@ class Controller extends ChangeNotifier {
       if (map != null) {
         for (var getbal in map) {
           balanceModel = Balance.fromJson(getbal);
-          // restaff = await OrderAppDB.instance.insertStaffDetails(staffModel);
         }
       }
-
       print("inserted staff ${balanceModel}");
-      /////////////// insert into local db /////////////////////
-      notifyListeners();
       return balanceModel;
     } catch (e) {
       print(e);
@@ -454,7 +418,35 @@ class Controller extends ChangeNotifier {
     }
   }
 
-  ////////////////////menu table fetch///////////////////////////////
+  /////////////////////// GET STAFF DETAILS////////////////////////////////
+  Future<StaffDetails?> getStaffDetails(String cid) async {
+    print("getStaffDetails...............${cid}");
+    var restaff;
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_staff.php");
+      Map body = {
+        'cid': cid,
+      };
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      List map = jsonDecode(response.body);
+      print("map ${map}");
+      for (var staff in map) {
+        staffModel = StaffDetails.fromJson(staff);
+        restaff = await OrderAppDB.instance.insertStaffDetails(staffModel);
+      }
+      print("inserted staff ${restaff}");
+      notifyListeners();
+      return staffModel;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  ////////////////////FETCH MENU TABLE ///////////////////////////////
   fetchMenusFromMenuTable() async {
     menuList.clear();
     var res = await OrderAppDB.instance.selectAllcommon('menuTable', "");
@@ -468,56 +460,7 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  ////////////////////remark selection/////////
-  fetchremarkFromTable(String custmerId) async {
-    remarkList.clear();
-    var res = await OrderAppDB.instance
-        .selectAllcommon('remarksTable', "rem_cusid='${custmerId}'");
-
-    for (var menu in res) {
-      remarkList.add(menu);
-    }
-    print("remarkList----${remarkList}");
-
-    notifyListeners();
-  }
-
-  /////////////////////// Staff details////////////////////////////////
-  Future<StaffDetails?> getStaffDetails(String cid) async {
-    print("getStaffDetails...............${cid}");
-    var restaff;
-    try {
-      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_staff.php");
-      Map body = {
-        'cid': cid,
-      };
-      // print("compny----${cid}");
-      http.Response response = await http.post(
-        url,
-        body: body,
-      );
-      // print("body ${body}");
-      List map = jsonDecode(response.body);
-      print("map ${map}");
-
-      for (var staff in map) {
-        // print("staff----${staff}");
-        staffModel = StaffDetails.fromJson(staff);
-        restaff = await OrderAppDB.instance.insertStaffDetails(staffModel);
-        // print("inserted ${restaff}");
-      }
-      print("inserted staff ${restaff}");
-
-      /////////////// insert into local db /////////////////////
-      notifyListeners();
-      return staffModel;
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
-/////////////////get UserType//////////////////////////////////////
+/////////////////GET USER TYPE//////////////////////////////////////
   getUserType() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? cid = prefs.getString("cid");
@@ -553,7 +496,7 @@ class Controller extends ChangeNotifier {
     }
   }
 
-////////////////////// Staff Area ///////////////////////////////////
+////////////////////// GET STAFF AREA ///////////////////////////////////
   Future<StaffArea?> getAreaDetails(String cid) async {
     print("cid...............${cid}");
     try {
@@ -588,62 +531,7 @@ class Controller extends ChangeNotifier {
     }
   }
 
-  ////////////////////////// wallet///////////////////////////////////////
-  Future<WalletModal?> getWallet(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? cid = prefs.getString("cid");
-    NetConnection.networkConnection(context).then((value) async {
-      // await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
-      if (value == true) {
-        try {
-          Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_wallet.php");
-          Map body = {
-            'cid': cid,
-          };
-          // print("compny----${company_code}");
-          isAccount = true;
-
-          isLoading = true;
-          notifyListeners();
-          http.Response response = await http.post(
-            url,
-            body: body,
-          );
-          await OrderAppDB.instance
-              .deleteFromTableCommonQuery("walletTable", "");
-          var map = jsonDecode(response.body);
-          print("map ${map}");
-          WalletModal walletModal;
-
-          // walletModal.
-          for (var item in map) {
-            walletModal = WalletModal.fromJson(item);
-            await OrderAppDB.instance.insertwalletTable(walletModal);
-            // menuList.add(menuItem);
-          }
-          isAccount = false;
-
-          isLoading = false;
-          notifyListeners();
-        } catch (e) {
-          print(e);
-          return null;
-        }
-      }
-    });
-  }
-
-  ////////////////////////////////////////////////////////////////////////////////////////
-  fetchwallet() async {
-    walletList.clear();
-    var res = await OrderAppDB.instance.selectAllcommon('walletTable', "");
-    for (var item in res) {
-      walletList.add(item);
-    }
-    print("fetch wallet-----$walletList");
-  }
-
-  ///////////////////////////////////account head////////////////////////////////////////////
+//////////////////////////////////GET ACCOUNT HEADS//////////////////////////////////////
   Future<AccountHead?> getaccountHeadsDetails(
     BuildContext context,
     String s,
@@ -698,24 +586,132 @@ class Controller extends ChangeNotifier {
     }
   }
 
-  ///////////////////////////////////////////////////////////
-  setCname() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? came = prefs.getString("cname");
-    cname = came;
-    notifyListeners();
+  ////////////////////////// GET WALLET ///////////////////////////////////////
+  Future<WalletModal?> getWallet(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? cid = prefs.getString("cid");
+    NetConnection.networkConnection(context).then((value) async {
+      // await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
+      if (value == true) {
+        try {
+          Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_wallet.php");
+          Map body = {
+            'cid': cid,
+          };
+          isAccount = true;
+
+          isLoading = true;
+          notifyListeners();
+          http.Response response = await http.post(
+            url,
+            body: body,
+          );
+          await OrderAppDB.instance
+              .deleteFromTableCommonQuery("walletTable", "");
+          var map = jsonDecode(response.body);
+          print("map ${map}");
+          WalletModal walletModal;
+          // walletModal.
+          for (var item in map) {
+            walletModal = WalletModal.fromJson(item);
+            await OrderAppDB.instance.insertwalletTable(walletModal);
+            // menuList.add(menuItem);
+          }
+          isAccount = false;
+          isLoading = false;
+          notifyListeners();
+        } catch (e) {
+          print(e);
+          return null;
+        }
+      }
+    });
   }
 
-  ///////////////////////////////////////////////////////////
-  setSname() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? same = prefs.getString("st_username");
+  /////////////////////////SAVE RETURN TABLE //////////////////////////////////
+  saveReturnDetails(
+      String cid, List<Map<String, dynamic>> om, BuildContext context) async {
+    try {
+      print("haiii");
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/stock_return_save.php");
+      isLoading = true;
+      notifyListeners();
+      // print("body--${body}");
+      var mapBody = jsonEncode(om);
+      print("mapBody--${mapBody}");
 
-    sname = same;
-    notifyListeners();
+      var jsonD = jsonDecode(mapBody);
+
+      http.Response response = await http.post(
+        url,
+        body: {'cid': cid, 'om': mapBody},
+      );
+
+      print("after");
+
+      var map = jsonDecode(response.body);
+      print("response return----${map}");
+
+      for (var item in map) {
+        if (item["stock_r_id"] != null) {
+          await OrderAppDB.instance.upadteCommonQuery("returnMasterTable",
+              "status='${item["stock_r_id"]}'", "id='${item["id"]}'");
+        }
+      }
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
-  ///////////////////////////////////////////////////////////////
+  ///////////////DASHBOARD DATA ///////////////////////////
+  adminDashboard(String cid) async {
+    print("cid...............${cid}");
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
+      Map body = {
+        'cid': cid,
+      };
+      isAdminLoading = true;
+      // notifyListeners();
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+
+      print("body ${body}");
+      var map = jsonDecode(response.body);
+      print("maparea ${map}");
+      late Today todayDetails;
+      isAdminLoading = false;
+      notifyListeners();
+      AdminDash admin = AdminDash.fromJson(map);
+      heading = admin.caption;
+      updateDate = admin.cvalue;
+
+      print("TodayDash ${admin.today![0].group}");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("heading", heading!);
+      prefs.setString("updateDate", updateDate!);
+      adminDashboardList.clear();
+
+      for (var item in admin.today!) {
+        adminDashboardList.add(item);
+        // print("item-----${item.tileCount}");
+      }
+      print("TodayDash ${adminDashboardList}");
+
+      notifyListeners();
+      // return staffArea;
+    } catch (e) {
+      print("errordash Data $e");
+      return null;
+    }
+  }
+
+  ///////////////////////GET PRODUCT DETAILS//////////////////////////
   Future<ProductDetails?> getProductDetails(
     String cid,
   ) async {
@@ -756,7 +752,45 @@ class Controller extends ChangeNotifier {
     }
   }
 
-  /////////////////////////////product category//////////////////////////////
+  //////////////////ORDER SAVE AND SEND/////////////////////////
+  saveOrderDetails(
+      String cid, List<Map<String, dynamic>> om, BuildContext context) async {
+    try {
+      print("haiii");
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/order_save.php");
+      isLoading = true;
+      notifyListeners();
+      // print("body--${body}");
+      var mapBody = jsonEncode(om);
+      print("mapBody--${mapBody}");
+
+      var jsonD = jsonDecode(mapBody);
+
+      http.Response response = await http.post(
+        url,
+        body: {'cid': cid, 'om': mapBody},
+      );
+
+      print("after");
+
+      var map = jsonDecode(response.body);
+      print("response----${map}");
+
+      for (var item in map) {
+        if (item["order_id"] != null) {
+          await OrderAppDB.instance.upadteCommonQuery("orderMasterTable",
+              "status='${item["order_id"]}'", "id='${item["id"]}'");
+        }
+      }
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+/////////////////////////////GET PRODUCT CATEGORY//////////////////////////////
   Future<ProductsCategoryModel?> getProductCategory(
     String cid,
   ) async {
@@ -798,7 +832,7 @@ class Controller extends ChangeNotifier {
     }
   }
 
-  ////////////////////////////////get company//////////////////////////////////
+  ////////////////////////////////GET COMPANY/////////////////////////////////
   Future<ProductCompanymodel?> getProductCompany(
     String cid,
   ) async {
@@ -838,333 +872,7 @@ class Controller extends ChangeNotifier {
     }
   }
 
-  //////////////////////////////////////////////////
-  fetchProductCompanyList() async {
-    try {
-      List<
-          Map<String,
-              dynamic>> result = await OrderAppDB.instance.executeGeneralQuery(
-          "Select '0' comid,'All' comanme union all select comid,comanme from companyTable");
-      print("resulttttt.....$result");
-      productcompanyList.clear();
-      if (result != 0) {
-        for (var item in result) {
-          productcompanyList.add(item);
-        }
-      }
-      print("executeGeneralQuery---$productcompanyList");
-      notifyListeners();
-    } catch (e) {
-      print(e);
-    }
-  }
-
-///////////////filter company////////////////////////////
-  filterwithCompany(String cusId, String comId) async {
-    isLoading = true;
-    filterCompany = true;
-    // notifyListeners();
-    // List<Map<String, dynamic>> result = await OrderAppDB.instance
-    //     .selectAllcommon('productDetailsTable', "companyId='${comId}'");
-
-    List<Map<String, dynamic>> result =
-        await OrderAppDB.instance.selectfrombagandfilterList(cusId, comId);
-    print("products filter-----$result");
-    filteredProductList.clear();
-    for (var item in result) {
-      filteredProductList.add(item);
-    }
-    var length = filteredProductList.length;
-    filterComselected = List.generate(length, (index) => false);
-    print("filteredProductList--$filteredProductList");
-    isLoading = false;
-    notifyListeners();
-  }
-
-///////////////////////////////////////////////////////
-  getCompanyData() async {
-    try {
-      isLoading = true;
-      // notifyListeners();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? cid = prefs.getString("cid");
-      print('cojhkjd---$cid');
-      var res = await OrderAppDB.instance.selectCompany("cid='${cid}'");
-      print("res companyList----${res}");
-      for (var item in res) {
-        companyList.add(item);
-      }
-      print("companyList ----${companyList}");
-      isLoading = false;
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-    notifyListeners();
-  }
-
-  //////////////////////////////////////////////////////
-  getArea(String? sid) async {
-    String areaName;
-    areDetails.clear();
-    print("staff...............${sid}");
-    try {
-      areaList = await OrderAppDB.instance.getArea(sid!);
-      print("areaList----${areaList}");
-      print("areaList before ----${areDetails}");
-      for (var item in areaList) {
-        areDetails.add(item);
-      }
-      print("areaList adding ----${areDetails.length}");
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-    notifyListeners();
-  }
-
-  /////////////////////////////////////////////////////
-  getCustomer(String aid) async {
-    print("aid...............${aid}");
-    try {
-      print("custmerDetails after clear----${custmerDetails}");
-      custmerDetails.clear();
-      customerList = await OrderAppDB.instance.getCustomer(aid);
-      print("customerList----${customerList}");
-      for (var item in customerList) {
-        custmerDetails.add(item);
-      }
-      print("custmr length----${custmerDetails.length}");
-      print("custmerDetails adding $custmerDetails");
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-    notifyListeners();
-  }
-
-  /////////////////////////////////////////////////////
-  customerListClear() {
-    customerList.clear();
-    notifyListeners();
-  }
-
-  setSplittedCode(String splitted) {
-    splittedCode = splitted;
-    notifyListeners();
-  }
-
-  ///////////////////////////////////////////////////////
-  getProductList(String customerId) async {
-    print("haii---");
-    int flag = 0;
-    productName.clear();
-    try {
-      isLoading = true;
-      // notifyListeners();
-      prodctItems =
-          await OrderAppDB.instance.selectfromOrderbagTable(customerId);
-      print("prodctItems----${prodctItems.length}");
-
-      for (var item in prodctItems) {
-        productName.add(item);
-      }
-      var length = productName.length;
-      print("text length----$length");
-      qty = List.generate(length, (index) => TextEditingController());
-      selected = List.generate(length, (index) => false);
-      returnselected = List.generate(length, (index) => false);
-
-      isLoading = false;
-      notifyListeners();
-      print("product name----${productName}");
-
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-    notifyListeners();
-  }
-
-  // selectedSet() {
-  //   var length = productName.length;
-  //   qty = List.generate(length, (index) => TextEditingController());
-
-  //   selected = List.generate(length, (index) => false);
-  // }
-
-/////////////////////////////////////////////////////////////
-  // getProductItems(String table) async {
-  //   productName.clear();
-  //   try {
-  //     isLoading = true;
-  //     // notifyListeners();
-  //     prodctItems = await OrderAppDB.instance.selectCommonquery(table, '');
-  //     print("prodctItems----${prodctItems}");
-
-  //     for (var item in prodctItems) {
-  //       productName.add(item);
-  //       // productName.add(item["code"] + '-' + item["item"]);
-  //       // notifyListeners();
-  //     }
-  //     var length = productName.length;
-  //     print("text length----$length");
-  //     qty = List.generate(length, (index) => TextEditingController());
-  //     isLoading = false;
-  //     notifyListeners();
-  //     print("product name----${productName}");
-  //     // print("product productRate----${productRate}");
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print(e);
-  //     return null;
-  //   }
-  //   notifyListeners();
-  // }
-
-////////////////////////////////////////////////////////////
-  getOrderno() async {
-    try {
-      ordernum = await OrderAppDB.instance.getOrderNo();
-      print("ordernum----${ordernum}");
-
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-    notifyListeners();
-  }
-
-  /////////////////////////////////////
-  Future<dynamic> setStaffid(String sname) async {
-    print("Sname.............$sname");
-    try {
-      ordernum = await OrderAppDB.instance.setStaffid(sname);
-      print("ordernum----${ordernum}");
-
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-    notifyListeners();
-  }
-
-////////////////////////////////
-  generateTextEditingController() {
-    var length = bagList.length;
-    print("text length----$length");
-    controller = List.generate(length, (index) => TextEditingController());
-    print("length----$length");
-    // notifyListeners();
-  }
-
-  /////////////////////////////////
-  calculateAmt(String rate, String _controller) {
-    amt = double.parse(rate) * double.parse(_controller);
-    // notifyListeners();
-  }
-
-  ////////////////////////////////////
-  getBagDetails(String customerId, String os) async {
-    bagList.clear();
-    isLoading = true;
-    notifyListeners();
-    List<Map<String, dynamic>> res =
-        await OrderAppDB.instance.getOrderBagTable(customerId, os);
-    for (var item in res) {
-      bagList.add(item);
-    }
-    rateEdit = List.generate(bagList.length, (index) => false);
-    generateTextEditingController();
-    print("bagList vxdvxd----$bagList");
-
-    isLoading = false;
-    notifyListeners();
-  }
-
-  ///////////////////////////////////
-  deleteFromOrderBagTable(int cartrowno, String customerId, int index) async {
-    print("cartrowno--$cartrowno--index----$index");
-    List<Map<String, dynamic>> res = await OrderAppDB.instance
-        .deleteFromOrderbagTable(cartrowno, customerId);
-
-    bagList.clear();
-    for (var item in res) {
-      bagList.add(item);
-    }
-    print("after delete------$res");
-    controller.removeAt(index);
-    print("controllers----$controller");
-    generateTextEditingController();
-    notifyListeners();
-  }
-
-  /////////////////////////////updateqty/////////////////////
-  updateQty(String qty, int cartrowno, String customerId, String rate) async {
-    // print("qty-----${qty}");
-    List<Map<String, dynamic>> res = await OrderAppDB.instance
-        .updateQtyOrderBagTable(qty, cartrowno, customerId, rate);
-
-    if (res.length >= 0) {
-      bagList.clear();
-      for (var item in res) {
-        bagList.add(item);
-      }
-      print("re from controller----$res");
-      notifyListeners();
-    }
-  }
-
-  ////////////// update remarks /////////////////////////////
-  // updateRemarks(String customerId, String remark) async {
-  //   print("remark.....${customerId}${remark}");
-  //   // res = await OrderAppDB.instance.updateRemarks(customerId, remark);
-  //   if (res != null) {
-  //     for (var item in res) {
-  //       remarkList.add(item);
-  //     }
-  //   }
-
-  //   print("re from controller----$res");
-  //   notifyListeners();
-  // }
-
-  /////////calculate total////////////////
-  calculateTotal(String os, String customerId) async {
-    orderTotal = await OrderAppDB.instance.gettotalSum(os, customerId);
-    print("orderTotal---$orderTotal");
-    notifyListeners();
-  }
-
-  calculatereturnTotal() async {
-    returnTotal = 0;
-    for (int i = 0; i < returnList.length; i++) {
-      print(" returnList[i]-${returnList[i]["total"]}");
-      returnTotal = returnTotal + double.parse(returnList[i]["total"]);
-    }
-
-    print("orderTotal---$returnTotal");
-    // notifyListeners();
-  }
-
-  ////////////////count from table///////
-  countFromTable(String table, String os, String customerId) async {
-    isLoading = true;
-    // notifyListeners();
-    print("table--customerId-$table-$customerId");
-    count = await OrderAppDB.instance
-        .countCommonQuery(table, "os='${os}' AND customerid='${customerId}'");
-    isLoading = false;
-
-    notifyListeners();
-  }
-
+/////////////////////////////INSERT ///////////////////////////////////////////////
   //////////////insert to order master and details///////////////////////
   insertToOrderbagAndMaster(
       String os,
@@ -1228,7 +936,7 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///////////////////////////////////////////////////////////////////////////
+///////////////////////insertreturnMasterandDetailsTable//////////////////////////////
   insertreturnMasterandDetailsTable(
       String os,
       String date,
@@ -1299,90 +1007,6 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-///////////////////////////////////////////////////////////////////////////////
-  searchProcess(String customerId, String os, String comid) async {
-    print("searchkey----$comid");
-    newList.clear();
-
-    if (searchkey!.isEmpty) {
-      newList = productName;
-      var length = newList.length;
-      print("text length----$length");
-      qty = List.generate(length, (index) => TextEditingController());
-      selected = List.generate(length, (index) => false);
-    } else {
-      // newList.clear();
-      isListLoading = true;
-      notifyListeners();
-      print("else is search");
-      isSearch = true;
-
-      // newList = productName
-      //     .where((product) =>
-      //         product["item"]
-      //             .toLowerCase()
-      //             .contains(searchkey!.toLowerCase()) ||
-      //         product["code"]
-      //             .toLowerCase()
-      //             .contains(searchkey!.toLowerCase()) ||
-      //         product["categoryId"]
-      //             .toLowerCase()
-      //             .contains(searchkey!.toLowerCase()))
-      //     .toList();
-
-      // List<Map<String, dynamic>> res =
-      //     await OrderAppDB.instance.getOrderBagTable(customerId, os);
-      // for (var item in res) {
-      //   bagList.add(item);
-      // }
-// print("jhfdjkhfjd----$bagList");
-      List<Map<String, dynamic>> result = await OrderAppDB.instance.searchItem(
-          'productDetailsTable',
-          searchkey!,
-          'item',
-          'code',
-          'categoryId',
-          " and companyId='${comid}'");
-      for (var item in result) {
-        newList.add(item);
-      }
-      isListLoading = false;
-      notifyListeners();
-      var length = newList.length;
-      selected = List.generate(length, (index) => false);
-      qty = List.generate(length, (index) => TextEditingController());
-
-      if (newList.length > 0) {
-        print("enterde");
-        for (var item = 0; item < newList.length; item++) {
-          print("newList[item]----${newList[item]}");
-
-          for (var i = 0; i < bagList.length; i++) {
-            print("bagList[item]----${bagList[i]}");
-
-            if (bagList[i]["code"] == newList[item]["code"]) {
-              print("ifff");
-              selected[item] = true;
-              break;
-            } else {
-              print("else----");
-              selected[item] = false;
-            }
-          }
-        }
-      }
-
-      print("text length----$length");
-
-      print("selected[item]-----${selected}");
-
-      // notifyListeners();
-    }
-
-    print("nw list---$newList");
-    notifyListeners();
-  }
-
   //////////////////staff log details insertion//////////////////////
   insertStaffLogDetails(String sid, String sname, String datetime) async {
     var logdata =
@@ -1390,29 +1014,406 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-////////////////////////////////Remarks/////////////////////////////////////
-  // insertRemarks(String date, String Cus_id, String ser, String text,
-  //     String sttid, String cancel, String status) async {
-  //   var logdata =
-  //       await OrderAppDB.instance.insertremarkTable(date, Cus_id, ser, text,sttid,cancel,status);
+//////////////////////////////////UPDATE ////////////////////
+  /////////////////////////////updateqty/////////////////////
+  updateQty(String qty, int cartrowno, String customerId, String rate) async {
+    List<Map<String, dynamic>> res = await OrderAppDB.instance
+        .updateQtyOrderBagTable(qty, cartrowno, customerId, rate);
+    if (res.length >= 0) {
+      bagList.clear();
+      for (var item in res) {
+        bagList.add(item);
+      }
+      print("re from controller----$res");
+      notifyListeners();
+    }
+  }
+
+  /////////////////// SELECT //////////////////////
+  //////////////////////SELECT WALLET ////////////////////////////////////////////////////
+  fetchwallet() async {
+    walletList.clear();
+    var res = await OrderAppDB.instance.selectAllcommon('walletTable', "");
+    for (var item in res) {
+      walletList.add(item);
+    }
+    print("fetch wallet-----$walletList");
+  }
+
+  ////////////////////remark selection/////////
+  fetchremarkFromTable(String custmerId) async {
+    remarkList.clear();
+    var res = await OrderAppDB.instance
+        .selectAllcommon('remarksTable', "rem_cusid='${custmerId}'");
+
+    for (var menu in res) {
+      remarkList.add(menu);
+    }
+    print("remarkList----${remarkList}");
+
+    notifyListeners();
+  }
+
+  ///////////////////////FETCH PRODUCT COMPANY LIST ///////////////////////////////////////
+  fetchProductCompanyList() async {
+    try {
+      List<
+          Map<String,
+              dynamic>> result = await OrderAppDB.instance.executeGeneralQuery(
+          "Select '0' comid,'All' comanme union all select comid,comanme from companyTable");
+      print("resulttttt.....$result");
+      productcompanyList.clear();
+      if (result != 0) {
+        for (var item in result) {
+          productcompanyList.add(item);
+        }
+      }
+      print("executeGeneralQuery---$productcompanyList");
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+///////////////filter company////////////////////////////
+  filterwithCompany(String cusId, String comId) async {
+    isLoading = true;
+    filterCompany = true;
+    // notifyListeners();
+    // List<Map<String, dynamic>> result = await OrderAppDB.instance
+    //     .selectAllcommon('productDetailsTable', "companyId='${comId}'");
+
+    List<Map<String, dynamic>> result =
+        await OrderAppDB.instance.selectfrombagandfilterList(cusId, comId);
+    print("products filter-----$result");
+    filteredProductList.clear();
+    for (var item in result) {
+      filteredProductList.add(item);
+    }
+    var length = filteredProductList.length;
+    print("filter list length.........$length");
+    filterComselected = List.generate(length, (index) => false);
+    print("filteredProductList--$filteredProductList");
+    isLoading = false;
+    notifyListeners();
+  }
+
+///////////////////////////////////////////////////////
+  getCompanyData() async {
+    try {
+      isLoading = true;
+      // notifyListeners();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? cid = prefs.getString("cid");
+      print('cojhkjd---$cid');
+      var res = await OrderAppDB.instance.selectCompany("cid='${cid}'");
+      print("res companyList----${res}");
+      for (var item in res) {
+        companyList.add(item);
+      }
+      print("companyList ----${companyList}");
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    notifyListeners();
+  }
+
+  ///////////////////////GET AREA///////////////////////////////
+  getArea(String? sid) async {
+    String areaName;
+    areDetails.clear();
+    print("staff...............${sid}");
+    try {
+      areaList = await OrderAppDB.instance.getArea(sid!);
+      print("areaList----${areaList}");
+      print("areaList before ----${areDetails}");
+      for (var item in areaList) {
+        areDetails.add(item);
+      }
+      print("areaList adding ----${areDetails.length}");
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    notifyListeners();
+  }
+
+  /////////////////////GET CUSTOMER////////////////////////////////
+  getCustomer(String aid) async {
+    print("aid...............${aid}");
+    try {
+      print("custmerDetails after clear----${custmerDetails}");
+      custmerDetails.clear();
+      customerList = await OrderAppDB.instance.getCustomer(aid);
+      print("customerList----${customerList}");
+      for (var item in customerList) {
+        custmerDetails.add(item);
+      }
+      print("custmr length----${custmerDetails.length}");
+      print("custmerDetails adding $custmerDetails");
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    notifyListeners();
+  }
+
+  //////////////////////GET PRODUCT LIST/////////////////////////////////
+  getProductList(String customerId) async {
+    print("haii---");
+    int flag = 0;
+    productName.clear();
+    try {
+      isLoading = true;
+      // notifyListeners();
+      prodctItems =
+          await OrderAppDB.instance.selectfromOrderbagTable(customerId);
+      print("prodctItems----${prodctItems.length}");
+
+      for (var item in prodctItems) {
+        productName.add(item);
+      }
+      var length = productName.length;
+      print("text length----$length");
+      qty = List.generate(length, (index) => TextEditingController());
+      selected = List.generate(length, (index) => false);
+      returnselected = List.generate(length, (index) => false);
+
+      isLoading = false;
+      notifyListeners();
+      print("product name----${productName}");
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    notifyListeners();
+  }
+
+//////////////////GET ORDER NUMBER///////////////////////////////////
+  getOrderno() async {
+    try {
+      ordernum = await OrderAppDB.instance.getOrderNo();
+      print("ordernum----${ordernum}");
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    notifyListeners();
+  }
+
+  ///////////////GET BAG DETAILS/////////////////////
+  getBagDetails(String customerId, String os) async {
+    bagList.clear();
+    isLoading = true;
+    notifyListeners();
+    List<Map<String, dynamic>> res =
+        await OrderAppDB.instance.getOrderBagTable(customerId, os);
+    for (var item in res) {
+      bagList.add(item);
+    }
+    rateEdit = List.generate(bagList.length, (index) => false);
+    generateTextEditingController();
+    print("bagList vxdvxd----$bagList");
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+  ////////////////////GET HISTORY DATA/////////////////////////
+  getHistoryData(String table, String? condition) async {
+    isLoading = true;
+    print("haiiii");
+    historydataList.clear();
+    tableHistorydataColumn.clear();
+    List<Map<String, dynamic>> result =
+        await OrderAppDB.instance.selectCommonQuery(table, condition);
+
+    for (var item in result) {
+      historydataList.add(item);
+    }
+    print("historydataList----$historydataList");
+    var list = historydataList[0].keys.toList();
+    print("**list----$list");
+    for (var item in list) {
+      print(item);
+      tableHistorydataColumn.add(item);
+    }
+    isLoading = false;
+    notifyListeners();
+
+    notifyListeners();
+  }
+
+  /////////////////SELCT TOTAL ORDER FROM MASTER TABLE///////////
+  getOrderMasterTotal(String table, String? condition) async {
+    print("inside select data");
+
+    List<Map<String, dynamic>> result =
+        await OrderAppDB.instance.selectAllcommon(table, condition);
+    print("resulttttt.....$result");
+    if (result != 0) {
+      for (var item in result) {
+        staffOrderTotal.add(item);
+      }
+    }
+
+    print("staff order total........$staffOrderTotal");
+    notifyListeners();
+  }
+  // selectedSet() {
+  //   var length = productName.length;
+  //   qty = List.generate(length, (index) => TextEditingController());
+
+  //   selected = List.generate(length, (index) => false);
+  // }
+////////////////////////////GET SHOP VISITED//////////////////////////////////////
+  getShopVisited(String userId, String date) async {
+    shopVisited = await OrderAppDB.instance.getShopsVisited(userId, date);
+    var res = await OrderAppDB.instance.countCustomer(areaidFrompopup);
+    print("col--ret-- $collectionCount--$orderCount--$remarkCount--$ret_count");
+    if (res != null) {
+      customerCount = res.length;
+    }
+    if (collectionCount == 0 &&
+        orderCount == 0 &&
+        remarkCount == null &&
+        ret_count == null) {
+      print("collection--");
+      noshopVisited = customerCount;
+    } else {
+      noshopVisited = customerCount! - shopVisited!;
+    }
+    notifyListeners();
+  }
+
+  //////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////
+  setCname() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? came = prefs.getString("cname");
+    cname = came;
+    notifyListeners();
+  }
+
+  ///////////////////////////////////////////////////////////
+  setSname() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? same = prefs.getString("st_username");
+
+    sname = same;
+    notifyListeners();
+  }
+
+  customerListClear() {
+    customerList.clear();
+    notifyListeners();
+  }
+
+  setSplittedCode(String splitted) {
+    splittedCode = splitted;
+    notifyListeners();
+  }
+
+  ////////////////////////////////
+  generateTextEditingController() {
+    var length = bagList.length;
+    print("text length----$length");
+    controller = List.generate(length, (index) => TextEditingController());
+    print("length----$length");
+    // notifyListeners();
+  }
+
+/////////////////////////////////////////////////////////////
+
+  Future<dynamic> setStaffid(String sname) async {
+    print("Sname.............$sname");
+    try {
+      ordernum = await OrderAppDB.instance.setStaffid(sname);
+      print("ordernum----${ordernum}");
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    notifyListeners();
+  }
+
+  ///////////////////////////////////
+  deleteFromOrderBagTable(int cartrowno, String customerId, int index) async {
+    print("cartrowno--$cartrowno--index----$index");
+    List<Map<String, dynamic>> res = await OrderAppDB.instance
+        .deleteFromOrderbagTable(cartrowno, customerId);
+
+    bagList.clear();
+    for (var item in res) {
+      bagList.add(item);
+    }
+    print("after delete------$res");
+    controller.removeAt(index);
+    print("controllers----$controller");
+    generateTextEditingController();
+    notifyListeners();
+  }
+
+  ////////////// update remarks /////////////////////////////
+  // updateRemarks(String customerId, String remark) async {
+  //   print("remark.....${customerId}${remark}");
+  //   // res = await OrderAppDB.instance.updateRemarks(customerId, remark);
+  //   if (res != null) {
+  //     for (var item in res) {
+  //       remarkList.add(item);
+  //     }
+  //   }
+
+  //   print("re from controller----$res");
   //   notifyListeners();
   // }
-  ///////////////////////////////////////////////////////////////////////
-  // downloadAllPages(String cid) async {
-  //   isLoading = true;
-  //   print("isloaading---$isLoading");
-  //   notifyListeners();
-  //   // getaccountHeadsDetails(cid, "all");
-  //   getProductCategory(cid, "all");
-  //   getProductCompany(cid, "all");
-  //   // getProductDetails(cid, "all");
-  //   isLoading = false;
-  //   print("isloaading---$isLoading");
+  //////////////////// CALCULATION ///////////////////////////
+  /////////calculate total////////////////
+  calculateTotal(String os, String customerId) async {
+    orderTotal = await OrderAppDB.instance.gettotalSum(os, customerId);
+    print("orderTotal---$orderTotal");
+    notifyListeners();
+  }
 
-  //   notifyListeners();
-  // }
+  calculateAmt(String rate, String _controller) {
+    amt = double.parse(rate) * double.parse(_controller);
+    // notifyListeners();
+  }
 
-  ////////////////////////////////////////////////////////////////
+  calculatereturnTotal() async {
+    returnTotal = 0;
+    for (int i = 0; i < returnList.length; i++) {
+      print(" returnList[i]-${returnList[i]["total"]}");
+      returnTotal = returnTotal + double.parse(returnList[i]["total"]);
+    }
+
+    print("orderTotal---$returnTotal");
+    // notifyListeners();
+  }
+
+  ////////////////count from table///////
+  countFromTable(String table, String os, String customerId) async {
+    isLoading = true;
+    // notifyListeners();
+    print("table--customerId-$table-$customerId");
+    count = await OrderAppDB.instance
+        .countCommonQuery(table, "os='${os}' AND customerid='${customerId}'");
+    isLoading = false;
+
+    notifyListeners();
+  }
+
   qtyIncrement() {
     qtyinc = 1 + qtyinc!;
     print("qty-----$qtyinc");
@@ -1505,7 +1506,58 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  //////getHistory/////////////////////////////
+  ////////////////////////////////////////////////////
+  editRate(String rate, int index) {
+    rateEdit[index] = true;
+    editedRate = rate;
+    notifyListeners();
+  }
+
+  generateEditRateList() {
+    var length = bagList.length;
+    List.generate(length, (index) => false);
+    // notifyListeners();
+  }
+
+  selectFromSettings() async {
+    settingsList.clear();
+    var res = await OrderAppDB.instance.selectAllcommon('settings', "");
+    for (var item in res) {
+      settingsList.add(item);
+    }
+    print("settingsList--$settingsList");
+    notifyListeners();
+  }
+
+  ///////////////////////////////////////////////////////
+  setSettingOption(int length) {
+    settingOption = List.generate(length, (index) => false);
+    notifyListeners();
+  }
+////////////////////////////////Remarks/////////////////////////////////////
+  // insertRemarks(String date, String Cus_id, String ser, String text,
+  //     String sttid, String cancel, String status) async {
+  //   var logdata =
+  //       await OrderAppDB.instance.insertremarkTable(date, Cus_id, ser, text,sttid,cancel,status);
+  //   notifyListeners();
+  // }
+  ///////////////////////////////////////////////////////////////////////
+  // downloadAllPages(String cid) async {
+  //   isLoading = true;
+  //   print("isloaading---$isLoading");
+  //   notifyListeners();
+  //   // getaccountHeadsDetails(cid, "all");
+  //   getProductCategory(cid, "all");
+  //   getProductCompany(cid, "all");
+  //   // getProductDetails(cid, "all");
+  //   isLoading = false;
+  //   print("isloaading---$isLoading");
+
+  //   notifyListeners();
+  // }
+
+  //////////////////////TODAY COLLECTION AND ORDER//////////////////////////////////////////
+
   Future<dynamic> todayOrder(String date, String? condition) async {
     todayOrderList.clear();
     isLoading = true;
@@ -1548,146 +1600,6 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  /////////////////////////////////////////////
-  getHistoryData(String table, String? condition) async {
-    isLoading = true;
-    print("haiiii");
-    historydataList.clear();
-    tableHistorydataColumn.clear();
-    List<Map<String, dynamic>> result =
-        await OrderAppDB.instance.selectCommonQuery(table, condition);
-
-    for (var item in result) {
-      historydataList.add(item);
-    }
-    print("historydataList----$historydataList");
-    var list = historydataList[0].keys.toList();
-    print("**list----$list");
-    for (var item in list) {
-      print(item);
-      tableHistorydataColumn.add(item);
-    }
-    isLoading = false;
-    notifyListeners();
-
-    notifyListeners();
-  }
-
-  /////////////////SELCT TOTAL ORDER FROM MASTER TABLE///////////
-  getOrderMasterTotal(String table, String? condition) async {
-    print("inside select data");
-
-    List<Map<String, dynamic>> result =
-        await OrderAppDB.instance.selectAllcommon(table, condition);
-    print("resulttttt.....$result");
-    if (result != 0) {
-      for (var item in result) {
-        staffOrderTotal.add(item);
-      }
-    }
-
-    print("staff order total........$staffOrderTotal");
-    notifyListeners();
-  }
-
-  //////////////////order save and send/////////////////////////
-  saveOrderDetails(
-      String cid, List<Map<String, dynamic>> om, BuildContext context) async {
-    try {
-      print("haiii");
-      Uri url = Uri.parse("http://trafiqerp.in/order/fj/order_save.php");
-      isLoading = true;
-      notifyListeners();
-      // print("body--${body}");
-      var mapBody = jsonEncode(om);
-      print("mapBody--${mapBody}");
-
-      var jsonD = jsonDecode(mapBody);
-
-      http.Response response = await http.post(
-        url,
-        body: {'cid': cid, 'om': mapBody},
-      );
-
-      print("after");
-
-      var map = jsonDecode(response.body);
-      print("response----${map}");
-
-      for (var item in map) {
-        if (item["order_id"] != null) {
-          await OrderAppDB.instance.upadteCommonQuery("orderMasterTable",
-              "status='${item["order_id"]}'", "id='${item["id"]}'");
-        }
-      }
-      isLoading = false;
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
-///////////////////////////upload order data//////////////////////////////////////////
-  uploadOrdersData(String cid, BuildContext context) async {
-    List<Map<String, dynamic>> resultQuery = [];
-    List<Map<String, dynamic>> om = [];
-    isUpload = true;
-    notifyListeners();
-    var result = await OrderAppDB.instance.selectMasterTable();
-    print("output------$result");
-    if (result != null) {
-      String jsonE = jsonEncode(result);
-      var jsonDe = jsonDecode(jsonE);
-      print("jsonDe--${jsonDe}");
-      for (var item in jsonDe) {
-        resultQuery = await OrderAppDB.instance.selectDetailTable(item["oid"]);
-        item["od"] = resultQuery;
-        om.add(item);
-      }
-      if (om.length > 0) {
-        print("entede");
-        saveOrderDetails(cid, om, context);
-      }
-      isUpload = false;
-      notifyListeners();
-      print("om----$om");
-    } else {
-      snackbar.showSnackbar(context, "Nothing to upload!!!");
-    }
-
-    notifyListeners();
-  }
-
-  ////////////////////////////////////////////////////
-  editRate(String rate, int index) {
-    rateEdit[index] = true;
-    editedRate = rate;
-    notifyListeners();
-  }
-
-  generateEditRateList() {
-    var length = bagList.length;
-    List.generate(length, (index) => false);
-    // notifyListeners();
-  }
-
-  selectFromSettings() async {
-    settingsList.clear();
-    var res = await OrderAppDB.instance.selectAllcommon('settings', "");
-    for (var item in res) {
-      settingsList.add(item);
-    }
-    print("settingsList--$settingsList");
-    notifyListeners();
-  }
-
-  ///////////////////////////////////////////////////////
-  setSettingOption(int length) {
-    settingOption = List.generate(length, (index) => false);
-    notifyListeners();
-  }
-
 //////////////////////////////////////////////////////////
   selectReportFromOrder(
       BuildContext context, String userId, String date) async {
@@ -1715,6 +1627,28 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+  /////////////////////////////////////////////
+  searchfromreport() async {
+    print("searchkey----$reportSearchkey");
+
+    newreportList.clear();
+
+    if (reportSearchkey!.isEmpty) {
+      // isreportSearch = false;
+      newreportList = reportData;
+      print("reportlist..........$newreportList");
+    } else {
+      newreportList.clear();
+      print("re----$reportData");
+      newreportList = reportData
+          .where((element) => element["name"]
+              .toLowerCase()
+              .contains(reportSearchkey!.toLowerCase()))
+          .toList();
+      print("new---${newreportList.length}");
+      print("new---$newreportList");
+    }
+  }
   ////////////////// remark from filter //////////////
   //  setRemarkfilterReports(String remark, String  remarked) {
   //   isLoading = true;
@@ -1747,25 +1681,6 @@ class Controller extends ChangeNotifier {
   ///////////////////////////////////////////////////////
   setDateFilter(String fromDate, String toDate) {
     print("remarked......$fromDate $toDate");
-  }
-
-  /////////////////////////////////////////////
-  searchfromreport() async {
-    print("searchkey----$reportSearchkey");
-    newreportList.clear();
-
-    if (reportSearchkey!.isEmpty) {
-      // isreportSearch = false;
-      newreportList = reportData;
-    } else {
-      print("re----$reportData");
-      newreportList = reportData
-          .where((element) => element["name"]
-              .toLowerCase()
-              .contains(reportSearchkey!.toLowerCase()))
-          .toList();
-      print("new---$newreportList");
-    }
   }
 
 ///////////////// dashboard summery /////////////
@@ -2050,65 +1965,85 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-/////////////////////////////////////////////////////////////////////////
-  getShopVisited(String userId, String date) async {
-    shopVisited = await OrderAppDB.instance.getShopsVisited(userId, date);
-    var res = await OrderAppDB.instance.countCustomer(areaidFrompopup);
-    print("col--ret-- $collectionCount--$orderCount--$remarkCount--$ret_count");
-    if (res != null) {
-      customerCount = res.length;
-    }
-    if (collectionCount == 0 &&
-        orderCount == 0 &&
-        remarkCount == null &&
-        ret_count == null) {
-      print("collection--");
-      noshopVisited = customerCount;
+  ///////////////////////////////////////////////////////////////////////////
+  ////////////////////////// uploads ////////////////////////////////////////
+  ///////////////////////////upload order data///////////////////////////////
+  uploadOrdersData(String cid, BuildContext context) async {
+    List<Map<String, dynamic>> resultQuery = [];
+    List<Map<String, dynamic>> om = [];
+    isUpload = true;
+    notifyListeners();
+    var result = await OrderAppDB.instance.selectMasterTable();
+    print("output------$result");
+    if (result != null) {
+      String jsonE = jsonEncode(result);
+      var jsonDe = jsonDecode(jsonE);
+      print("jsonDe--${jsonDe}");
+      for (var item in jsonDe) {
+        resultQuery = await OrderAppDB.instance.selectDetailTable(item["oid"]);
+        item["od"] = resultQuery;
+        om.add(item);
+      }
+      if (om.length > 0) {
+        print("entede");
+        saveOrderDetails(cid, om, context);
+      }
+      isUpload = false;
+      notifyListeners();
+      print("om----$om");
     } else {
-      noshopVisited = customerCount! - shopVisited!;
+      snackbar.showSnackbar(context, "Nothing to upload!!!");
     }
+
     notifyListeners();
   }
 
-  /////////////////////////save return details////////////////////////////////////
-  saveReturnDetails(
-      String cid, List<Map<String, dynamic>> om, BuildContext context) async {
+  /////////////////////////upload customer/////////////////////////////////////////
+  uploadCustomers(BuildContext context) async {
     try {
-      print("haiii");
-      Uri url = Uri.parse("http://trafiqerp.in/order/fj/stock_return_save.php");
-      isLoading = true;
-      notifyListeners();
-      // print("body--${body}");
-      var mapBody = jsonEncode(om);
-      print("mapBody--${mapBody}");
+      var result =
+          await OrderAppDB.instance.selectAllcommon('customerTable', "");
+      if (result.length > 0) {
+        Uri url = Uri.parse("http://trafiqerp.in/order/fj/cus_save.php");
+        isUpload = true;
+        isLoading = true;
+        notifyListeners();
+        var customer = await OrderAppDB.instance.uploadCustomer();
+        print("customer result----$customer");
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String? cid = prefs.getString("cid");
+        String cm = jsonEncode(customer);
+        print("cm----$cm");
+        Map body = {
+          'cid': cid,
+          'cm': cm,
+        };
+        print("order body.....$body");
+        http.Response response = await http.post(
+          url,
+          body: body,
+        );
+        isUpload = false;
 
-      var jsonD = jsonDecode(mapBody);
-
-      http.Response response = await http.post(
-        url,
-        body: {'cid': cid, 'om': mapBody},
-      );
-
-      print("after");
-
-      var map = jsonDecode(response.body);
-      print("response----${map}");
-
-      for (var item in map) {
-        if (item["stock_r_id"] != null) {
-          await OrderAppDB.instance.upadteCommonQuery("returnMasterTable",
-              "status='${item["stock_r_id"]}'", "id='${item["id"]}'");
+        isLoading = false;
+        notifyListeners();
+        // print("response----$response");
+        var map = jsonDecode(response.body);
+        print("map ${map}");
+        if (map.length > 0) {
+          await OrderAppDB.instance
+              .deleteFromTableCommonQuery("customerTable", "");
         }
+      } else {
+        snackbar.showSnackbar(context, "Nothing to upload!!!");
       }
-      isLoading = false;
       notifyListeners();
     } catch (e) {
       print(e);
-      return null;
     }
   }
 
-///////////////////////////upload order data//////////////////////////////////////////
+  ////////////////////////upload return data////////////////////////
   uploadReturnData(String cid, BuildContext context) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
@@ -2137,93 +2072,214 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///////////////dashbord data  ///////////////////////////
-  adminDashboard(String cid) async {
-    print("cid...............${cid}");
+  /////////////////////////upload customer/////////////////////////////////////////
+  uploadRemarks(BuildContext context) async {
     try {
-      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_today.php");
-      Map body = {
-        'cid': cid,
-      };
-      isAdminLoading = true;
-      // notifyListeners();
-      http.Response response = await http.post(
-        url,
-        body: body,
-      );
-
-      print("body ${body}");
-      var map = jsonDecode(response.body);
-      print("maparea ${map}");
-      late Today todayDetails;
-      isAdminLoading = false;
-      notifyListeners();
-      AdminDash admin = AdminDash.fromJson(map);
-      heading = admin.caption;
-      updateDate = admin.cvalue;
-
-      print("TodayDash ${admin.today![0].group}");
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("heading", heading!);
-      prefs.setString("updateDate", updateDate!);
-      adminDashboardList.clear();
-
-      for (var item in admin.today!) {
-        adminDashboardList.add(item);
-        // print("item-----${item.tileCount}");
-      }
-      print("TodayDash ${adminDashboardList}");
-
-      notifyListeners();
-      // return staffArea;
-    } catch (e) {
-      print("errordash Data $e");
-      return null;
-    }
-  }
-
-  //////////////////////////////////////////////////////////////////
-  uploadCustomers(BuildContext context) async {
-    try {
-      var result =
-          await OrderAppDB.instance.selectAllcommon('customerTable', "");
+      var result = await OrderAppDB.instance.uploadRemark();
+      print("remark result......$result");
       if (result.length > 0) {
-        Uri url = Uri.parse("http://trafiqerp.in/order/fj/cus_save.php");
+        Uri url = Uri.parse("http://trafiqerp.in/order/fj/rem_save.php");
         isUpload = true;
         isLoading = true;
         notifyListeners();
-        var customer = await OrderAppDB.instance.uploadCustomer();
-        print("customer result----$customer");
+        // var remarks = await OrderAppDB.instance.uploadCustomer();
+        // print("remark result...$remarks");
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String? cid = prefs.getString("cid");
-        String cm = jsonEncode(customer);
-        print("cm----$cm");
+        String rm = jsonEncode(result);
+        print("remark----$rm");
         Map body = {
           'cid': cid,
-          'cm': cm,
+          'rm': rm,
         };
-
+        print("remark map......$body");
         http.Response response = await http.post(
           url,
           body: body,
         );
-        isUpload = false;
 
         isLoading = false;
         notifyListeners();
-        // print("response----$response");
         var map = jsonDecode(response.body);
-        print("map ${map}");
-        if (map.length > 0) {
-          await OrderAppDB.instance
-              .deleteFromTableCommonQuery("customerTable", "");
+        print("response remark----${map}");
+
+        for (var item in map) {
+          print("update remark....");
+          if (item["rid"] != null) {
+            print("update remark rid....");
+
+            await OrderAppDB.instance.upadteCommonQuery("remarksTable",
+                "rem_status='${item["rid"]}'", "id='${item["phid"]}'");
+            isUpload = false;
+          }
         }
       } else {
         snackbar.showSnackbar(context, "Nothing to upload!!!");
       }
+
       notifyListeners();
     } catch (e) {
       print(e);
     }
+  }
+
+  /////////////////UPLOAD COLLECTION TABLE////////////////
+  uploadCollectionData(BuildContext context) async {
+    print("haicollection");
+    try {
+      var result = await OrderAppDB.instance.uploadCollections();
+      print("collection result......$result");
+      if (result.length > 0) {
+        Uri url = Uri.parse("http://trafiqerp.in/order/fj/col_save.php");
+        isUpload = true;
+        isLoading = true;
+        notifyListeners();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String? cid = prefs.getString("cid");
+        String rm = jsonEncode(result);
+        print("collection----$rm");
+        Map body = {
+          'cid': cid,
+          'rm': rm,
+        };
+        print("collection map......$body");
+        http.Response response = await http.post(
+          url,
+          body: body,
+        );
+        isLoading = false;
+        notifyListeners();
+        // print("response----$response");
+        var map = jsonDecode(response.body);
+        print("response collection----${map}");
+        for (var item in map) {
+          print("update data.......$map");
+          if (item["col_id"] != null) {
+            print("update data1.......");
+            await OrderAppDB.instance.upadteCommonQuery("collectionTable",
+                "rec_status='${item["col_id"]}'", "id='${item["phid"]}'");
+            isUpload = false;
+          }
+        }
+      } else {
+        snackbar.showSnackbar(context, "Nothing to upload!!!");
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+  // getProductItems(String table) async {
+  //   productName.clear();
+  //   try {
+  //     isLoading = true;
+  //     // notifyListeners();
+  //     prodctItems = await OrderAppDB.instance.selectCommonquery(table, '');
+  //     print("prodctItems----${prodctItems}");
+
+  //     for (var item in prodctItems) {
+  //       productName.add(item);
+  //       // productName.add(item["code"] + '-' + item["item"]);
+  //       // notifyListeners();
+  //     }
+  //     var length = productName.length;
+  //     print("text length----$length");
+  //     qty = List.generate(length, (index) => TextEditingController());
+  //     isLoading = false;
+  //     notifyListeners();
+  //     print("product name----${productName}");
+  //     // print("product productRate----${productRate}");
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print(e);
+  //     return null;
+  //   }
+  //   notifyListeners();
+  // }
+
+  ////////////////////////SEARCH PROCESS ////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
+  searchProcess(String customerId, String os, String comid) async {
+    print("searchkey----$comid");
+    newList.clear();
+
+    if (searchkey!.isEmpty) {
+      newList = productName;
+      var length = newList.length;
+      print("text length----$length");
+      qty = List.generate(length, (index) => TextEditingController());
+      selected = List.generate(length, (index) => false);
+    } else {
+      // newList.clear();
+      isListLoading = true;
+      notifyListeners();
+      print("else is search");
+      isSearch = true;
+
+      // newList = productName
+      //     .where((product) =>
+      //         product["item"]
+      //             .toLowerCase()
+      //             .contains(searchkey!.toLowerCase()) ||
+      //         product["code"]
+      //             .toLowerCase()
+      //             .contains(searchkey!.toLowerCase()) ||
+      //         product["categoryId"]
+      //             .toLowerCase()
+      //             .contains(searchkey!.toLowerCase()))
+      //     .toList();
+
+      // List<Map<String, dynamic>> res =
+      //     await OrderAppDB.instance.getOrderBagTable(customerId, os);
+      // for (var item in res) {
+      //   bagList.add(item);
+      // }
+// print("jhfdjkhfjd----$bagList");
+      List<Map<String, dynamic>> result = await OrderAppDB.instance.searchItem(
+          'productDetailsTable',
+          searchkey!,
+          'item',
+          'code',
+          'categoryId',
+          " and companyId='${comid}'");
+      for (var item in result) {
+        newList.add(item);
+      }
+      isListLoading = false;
+      notifyListeners();
+      var length = newList.length;
+      selected = List.generate(length, (index) => false);
+      qty = List.generate(length, (index) => TextEditingController());
+
+      if (newList.length > 0) {
+        print("enterde");
+        for (var item = 0; item < newList.length; item++) {
+          print("newList[item]----${newList[item]}");
+
+          for (var i = 0; i < bagList.length; i++) {
+            print("bagList[item]----${bagList[i]}");
+
+            if (bagList[i]["code"] == newList[item]["code"]) {
+              print("ifff");
+              selected[item] = true;
+              break;
+            } else {
+              print("else----");
+              selected[item] = false;
+            }
+          }
+        }
+      }
+
+      print("text length----$length");
+
+      print("selected[item]-----${selected}");
+
+      // notifyListeners();
+    }
+
+    print("nw list---$newList");
+    notifyListeners();
   }
 }

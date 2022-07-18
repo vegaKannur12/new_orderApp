@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/0_splashScreen.dart';
+import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/externalDir.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -31,18 +32,6 @@ void requestPermission() async {
   if (!status1.isPermanentlyDenied) {
     await Permission.manageExternalStorage.request();
   }
-  // if (!status1.isRestricted) {
-  //   print("denaied2");
-
-  //   await Permission.manageExternalStorage.request();
-  //   // await Permission.app
-  // }
-  // if (!status1.isPermanentlyDenied) {
-  //   print("denaied3");
-
-  //   await Permission.manageExternalStorage.request();
-  //   // await Permission.app
-  // }
 }
 
 Future<void> main() async {

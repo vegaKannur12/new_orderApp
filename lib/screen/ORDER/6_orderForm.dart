@@ -224,9 +224,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                           if (value.text.isEmpty) {
                                             return [];
                                           } else {
-                                            // print(
-                                            //     "TextEditingValue---${value.text}");
-
                                             print(
                                                 "values.areDetails----${values.areDetails}");
                                             return values.areDetails.where(
@@ -932,7 +929,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               Provider.of<Controller>(
                                                                       context,
                                                                       listen:
-                                                                          false).filterCompany=false;
+                                                                          false)
+                                                                  .filterCompany = false;
 
                                                               // Provider.of<Controller>(
                                                               //         context,
