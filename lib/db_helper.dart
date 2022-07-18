@@ -897,13 +897,22 @@ class OrderAppDB {
       String rec_cusid,
       String ser,
       String mode,
-      double amt,
+      String amtString,
       String disc,
       String note,
       String sttid,
       int cancel,
       int status) async {
+    double amt = 0.0;
     final db = await database;
+    print("amt---- $amtString---$disc");
+    if (amtString == "") {
+      // print("nullll");
+      amt=0.0;
+      // double.parse(amtString);
+    }else{
+      amt=double.parse(amtString);
+    }
     var query =
         'INSERT INTO collectionTable(rec_date, rec_cusid, rec_series, rec_mode, rec_amount, rec_disc, rec_note, rec_staffid, rec_cancel, rec_status) VALUES("${rec_date}", "${rec_cusid}", "${ser}", "${mode}", $amt, "${disc}", "${note}", "${sttid}", ${cancel}, ${status})';
     var res = await db.rawInsert(query);
@@ -1505,7 +1514,8 @@ class OrderAppDB {
         if (likeCondition == "") {
           condition = " where A.area_id in ($areaidfromStaff) ";
         } else {
-          condition = " where A.area_id in ($areaidfromStaff) and $likeCondition";
+          condition =
+              " where A.area_id in ($areaidfromStaff) and $likeCondition";
         }
       }
     }
@@ -1547,12 +1557,13 @@ class OrderAppDB {
     result = await db.rawQuery(query2);
 
     print("result.length-${result.length}");
-    if (result.length > 0) {
-      print("result-order-----$result");
-      return result;
-    } else {
-      return null;
-    }
+    return result;
+    // if (result.length > 0) {
+    //   print("result-order-----$result");
+    //   return result;
+    // } else {
+    //   return [];
+    // }
   }
 
 //////////////////////shops not visited///////////////////////

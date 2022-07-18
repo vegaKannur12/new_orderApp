@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
+import 'package:orderapp/components/customPopup.dart';
 import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
@@ -21,12 +22,13 @@ class CollectionPage extends StatefulWidget {
 
 class _CollectionPageState extends State<CollectionPage> {
   ValueNotifier<bool> visible = ValueNotifier(false);
-   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime date = DateTime.now();
   String? gen_condition;
   String? formattedDate;
   bool amtVal = true;
   bool dscVal = true;
+  CustomPopup popup=CustomPopup();
   // List<String> items = ["Cash receipt", "Google pay"];
   String? selected;
   String? os;
@@ -263,8 +265,8 @@ class _CollectionPageState extends State<CollectionPage> {
                                                 widget.cuid!,
                                                 widget.os!,
                                                 selected!,
-                                                double.parse(
-                                                    amtController.text),
+                                                
+                                                    amtController.text,
                                                 dscController.text,
                                                 noteController.text,
                                                 widget.sid!,
@@ -278,16 +280,21 @@ class _CollectionPageState extends State<CollectionPage> {
                                                 listen: false)
                                             .fetchtotalcollectionFromTable(
                                                 widget.cuid!);
-                                        print("value.areaidFrompopup----${value.areaidFrompopup}");
+                                        print(
+                                            "value.areaidFrompopup----${value.areaidFrompopup}");
                                         if (value.areaidFrompopup != null) {
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .dashboardSummery(sid!, s[0],
-                                                  value.areaidFrompopup!,context);
+                                              .dashboardSummery(
+                                                  sid!,
+                                                  s[0],
+                                                  value.areaidFrompopup!,
+                                                  context);
                                         } else {
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .dashboardSummery(sid!, s[0], "",context);
+                                              .dashboardSummery(
+                                                  sid!, s[0], "", context);
                                         }
 
                                         // Provider.of<Controller>(context,
@@ -366,6 +373,19 @@ class _CollectionPageState extends State<CollectionPage> {
                                           ),
                                           subtitle: Text(
                                               "\u{20B9}${value.fetchcollectionList[index]['rec_amount'].toString()}"),
+                                          trailing: IconButton(
+                                            icon: Icon(Icons.delete),
+                                            onPressed: () {
+                                              showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        popup.buildPopupDialog(
+                                                            context,
+                                                            "Do you want to cancel the Collection?","collection"),
+                                                  );
+                                            },
+                                          ),
                                         ),
                                       );
                                     },

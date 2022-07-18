@@ -1135,7 +1135,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                     context) =>
                                                                 popup.buildPopupDialog(
                                                                     context,
-                                                                    '\u{20B9}${values.balanceModel.ba}'),
+                                                                    '\u{20B9}${values.balanceModel.ba}',"balance"),
                                                           );
                                                         }
                                                         setState(() {

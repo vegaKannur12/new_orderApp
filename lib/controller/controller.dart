@@ -1617,7 +1617,7 @@ class Controller extends ChangeNotifier {
       for (var item in map) {
         if (item["order_id"] != null) {
           await OrderAppDB.instance.upadteCommonQuery("orderMasterTable",
-              "status='${item["order_id"]}'", "id='${item["id"]}'");
+              "status='${item["order_id"]}'", "order_id='${item["id"]}'");
         }
       }
       isLoading = false;
@@ -1761,7 +1761,7 @@ class Controller extends ChangeNotifier {
     } else {
       print("re----${reportData.length}");
       // newreportList.clear();
-      newreportList = await OrderAppDB.instance.getReportDataFromOrderDetails(
+       newreportList = await OrderAppDB.instance.getReportDataFromOrderDetails(
           userId,
           date,
           context,
@@ -2105,7 +2105,7 @@ class Controller extends ChangeNotifier {
       for (var item in map) {
         if (item["stock_r_id"] != null) {
           await OrderAppDB.instance.upadteCommonQuery("returnMasterTable",
-              "status='${item["stock_r_id"]}'", "id='${item["id"]}'");
+              "status='${item["stock_r_id"]}'", "return_id='${item["id"]}'");
         }
       }
       isLoading = false;
