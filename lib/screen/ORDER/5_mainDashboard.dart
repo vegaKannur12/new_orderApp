@@ -92,7 +92,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                         Theme.of(context).textTheme.bodyLarge,
                                     fontSize: 16),
                               ),
-                              Text(" - ${value.sname}",
+                              Text(" - ${value.sname?.toUpperCase()}",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
@@ -261,7 +261,7 @@ class _MainDashboardState extends State<MainDashboard> {
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return new AlertDialog(
+            return AlertDialog(
               content: Consumer<Controller>(builder: (context, value, child) {
                 if (value.isLoading) {
                   return CircularProgressIndicator();
@@ -304,6 +304,9 @@ class _MainDashboardState extends State<MainDashboard> {
                       ElevatedButton(
                           onPressed: () async {
                             if (selected != null) {
+                              Provider.of<Controller>(
+                                      context,
+                                      listen: false).areaId=selected;
                               Provider.of<Controller>(context, listen: false)
                                   .areaSelection(selected!);
                               Provider.of<Controller>(context, listen: false)
@@ -323,16 +326,8 @@ class _MainDashboardState extends State<MainDashboard> {
                                   .todayOrder(s[0], gen_condition!);
                               Provider.of<Controller>(context, listen: false)
                                   .todayCollection(s[0], gen_condition!);
-                              // Provider.of<Controller>(context, listen: false)
-                              //     .selectReportFromOrder(context, sid!, s[0]);
-                              // Provider.of<Controller>(context, listen: false)
-                              //     .mainDashtileValues(sid!, s[0]);
-                              // Provider.of<Controller>(context, listen: false)
-                              //     .mainDashAmounts(sid!, s[0]);
-                              // Provider.of<Controller>(context, listen: false)
-                              //     .getShopVisited(
-                              //   sid!,s[0]
-                              // );
+                              Provider.of<Controller>(context, listen: false)
+                                  .selectReportFromOrder(context, sid!, s[0],"");
                             }
 
                             Navigator.pop(context);
@@ -353,6 +348,8 @@ class _MainDashboardState extends State<MainDashboard> {
     String title,
     String value,
   ) {
+
+    print("valuenjn-----$value");
     return Container(
       height: size.height * 0.2,
       width: size.width * 0.45,

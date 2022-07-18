@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/0_splashScreen.dart';
+import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/externalDir.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -16,72 +17,21 @@ import 'package:file/file.dart';
 import 'package:file/memory.dart';
 
 void requestPermission() async {
-  bool flagRern = false;
   var status = await Permission.storage.status;
   var status1 = await Permission.manageExternalStorage.status;
-  if (!status.isGranted) {
+  if (!status1.isGranted) {
     await Permission.storage.request();
   }
-  if (!status.isGranted) {
+  if (!status1.isGranted) {
     await Permission.manageExternalStorage.request();
     // await Permission.app
-  }
+  } else {}
   if (!status1.isRestricted) {
     await Permission.manageExternalStorage.request();
   }
   if (!status1.isPermanentlyDenied) {
     await Permission.manageExternalStorage.request();
   }
-  if (!status.isLimited) {
-    await Permission.manageExternalStorage.request();
-  }
-  // if (!status.isDenied) {
-  //   flagRern = await permissionFun();
-  //   if (flagRern == false) {
-  //     requestPermission();
-  //   }
-  //   // await Permission.manageExternalStorage.request();
-  // }
-
-  // if (!status1.isRestricted) {
-  //   print("denaied2");
-
-  //   await Permission.manageExternalStorage.request();
-  //   // await Permission.app
-  // }
-  // if (!status1.isPermanentlyDenied) {
-  //   print("denaied3");
-
-  //   await Permission.manageExternalStorage.request();
-  //   // await Permission.app
-  // }
-}
-
-// Future<bool> permissionFun() async {
-//   bool flag = await Permission.storage.status;
-//   return flag;
-// }
-
-void dialog() {
-  AlertDialog(
-    // title: const Text('Popup example'),
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(""),
-      ],
-    ),
-    actions: <Widget>[
-      ElevatedButton(
-        onPressed: () async {
-          await Permission.manageExternalStorage.request();
-        },
-        // textColor: Theme.of(context).primaryColor,
-        child: Text('Close'),
-      ),
-    ],
-  );
 }
 
 Future<void> main() async {
@@ -92,6 +42,8 @@ Future<void> main() async {
   ]);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? cid = prefs.getString("company_id");
+  var status = await Permission.storage.status;
+
   requestPermission();
   runApp(MultiProvider(
     providers: [
@@ -104,8 +56,7 @@ Future<void> main() async {
   ));
 }
 
-///////////////////////// background run /////////////////////////////
-////////////////////////////////////////////////////////////
+///////////////////// background run /////////////////////
 class MyApp extends StatelessWidget {
   late OtaEvent currentEvent;
 

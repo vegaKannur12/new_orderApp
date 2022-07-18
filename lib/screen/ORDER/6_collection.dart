@@ -13,8 +13,8 @@ class CollectionPage extends StatefulWidget {
   String? os;
   String? sid;
   String? cuid;
-
-  CollectionPage({this.os, this.sid, this.cuid});
+  String? aid;
+  CollectionPage({this.os, this.sid, this.cuid, this.aid});
 
   @override
   State<CollectionPage> createState() => _CollectionPageState();
@@ -28,7 +28,7 @@ class _CollectionPageState extends State<CollectionPage> {
   String? formattedDate;
   bool amtVal = true;
   bool dscVal = true;
-  CustomPopup popup=CustomPopup();
+  CustomPopup popup = CustomPopup();
   // List<String> items = ["Cash receipt", "Google pay"];
   String? selected;
   String? os;
@@ -47,7 +47,7 @@ class _CollectionPageState extends State<CollectionPage> {
     // shared();
     formattedDate = DateFormat('yyyy-MM-dd kk:mm:ss').format(date);
     s = formattedDate!.split(" ");
-    print("cuid----${widget.cuid}");
+    print("jhsjahjs----${widget.aid}");
     Provider.of<Controller>(context, listen: false)
         .fetchtotalcollectionFromTable(widget.cuid!);
   }
@@ -243,6 +243,10 @@ class _CollectionPageState extends State<CollectionPage> {
                                   height: size.height * 0.05,
                                   child: ElevatedButton(
                                     onPressed: () async {
+                                      int max = await OrderAppDB.instance
+                                          .getMaxCommonQuery('collectionTable',
+                                              'rec_row_num', " ");
+                                      print("max value in collection....$max");
                                       final prefs =
                                           await SharedPreferences.getInstance();
                                       String? sid =
@@ -262,11 +266,12 @@ class _CollectionPageState extends State<CollectionPage> {
                                         await OrderAppDB.instance
                                             .insertCollectionTable(
                                                 s[0],
+                                                s[1],
                                                 widget.cuid!,
+                                                max,
                                                 widget.os!,
                                                 selected!,
-                                                
-                                                    amtController.text,
+                                                amtController.text,
                                                 dscController.text,
                                                 noteController.text,
                                                 widget.sid!,
@@ -377,13 +382,19 @@ class _CollectionPageState extends State<CollectionPage> {
                                             icon: Icon(Icons.delete),
                                             onPressed: () {
                                               showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        popup.buildPopupDialog(
-                                                            context,
-                                                            "Do you want to cancel the Collection?","collection"),
-                                                  );
+                                                  context: context,
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      popup.buildPopupDialog(
+                                                          context,
+                                                          "Do you want to cancel the Collection?",
+                                                          "collection",
+                                                          value.fetchcollectionList[
+                                                                  index]
+                                                              ["rec_row_num"],
+                                                          widget.sid!,
+                                                          s[0],
+                                                          widget.aid!));
                                             },
                                           ),
                                         ),

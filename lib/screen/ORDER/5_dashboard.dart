@@ -314,7 +314,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             // type: "drawer call",
             );
       case "0":
-        return new MainDashboard();
+        return MainDashboard();
+
       case "1":
         {
           return new TodaysOrder();

@@ -87,14 +87,6 @@ class _TodayCollectionState extends State<TodayCollection> {
                                               size: 25,
                                               color: Colors.green,
                                             ),
-                                            // CircleAvatar(
-                                            //   child: Icon(
-                                            //     Icons.filter,
-                                            //     size: 13,
-                                            //   ),
-                                            //   backgroundColor:
-                                            //       P_Settings.roundedButtonColor,
-                                            // ),
                                             SizedBox(width: size.width * 0.03),
                                             Flexible(
                                               child: Text(
@@ -166,22 +158,6 @@ class _TodayCollectionState extends State<TodayCollection> {
                                   ),
                                 ),
                               ),
-                              // ListTile(
-                              //   leading: CircleAvatar(
-                              //     child: Icon(
-                              //       Icons.reviews,
-                              //       size: 16,
-                              //     ),
-                              //     backgroundColor:
-                              //         P_Settings.roundedButtonColor,
-                              //   ),
-                              //   title: Text(
-                              //     "\u{20B9}${value.collectionList[index]['rec_amount'].toString()}",
-                              //     style: TextStyle(fontSize: 16),
-                              //   ),
-                              //   subtitle: Text(
-                              //       "\u{20B9}${value.collectionList[index]['rec_cusid'].toString()} "),
-                              // ),
                             );
                           },
                         ),

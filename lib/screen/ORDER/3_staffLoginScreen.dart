@@ -410,7 +410,7 @@ class StaffLogin extends StatelessWidget {
                                                             context) =>
                                                         popup.buildPopupDialog(
                                                             context,
-                                                            "Details Saved","staffLogin"),
+                                                            "Details Saved","staffLogin",0,"","",""),
                                                   );
                                                 },
                                                 color: P_Settings
@@ -429,7 +429,7 @@ class StaffLogin extends StatelessWidget {
                                                   CustomPopup popu =
                                                       CustomPopup();
                                                   popup.buildPopupDialog(
-                                                      context, "Exit ap?","staffLogin");
+                                                      context, "Exit ap?","staffLogin",0,"","","");
                                                   exit(0);
                                                 },
                                                 color: P_Settings

@@ -224,9 +224,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                           if (value.text.isEmpty) {
                                             return [];
                                           } else {
-                                            // print(
-                                            //     "TextEditingValue---${value.text}");
-
                                             print(
                                                 "values.areDetails----${values.areDetails}");
                                             return values.areDetails.where(
@@ -265,6 +262,9 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                         listen: false)
                                                     .areaSelecton =
                                                 _selectedItemarea;
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .areaId = _selectedAreaId;
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getCustomer(_selectedAreaId!);
@@ -342,10 +342,13 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     return ListTile(
                                                       onTap: () {
                                                         onSelected(option);
-                                                        // Provider.of<Controller>(
-                                                        //             context,
-                                                        //             listen: false)
-                                                        //         .areaSelection =
+                                                        print(
+                                                            "optionaid------${option["aid"]}");
+                                                        Provider.of<Controller>(
+                                                                    context,
+                                                                    listen: false)
+                                                                .areaId =
+                                                            option["aid"];
                                                         //     option["aid"];
                                                       },
                                                       title: Text(
@@ -660,6 +663,30 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                         child:
                                                             ElevatedButton.icon(
                                                           onPressed: () async {
+                                                            String areaId;
+
+                                                            print(
+                                                                "prov area-xx----${Provider.of<Controller>(context, listen: false).areaId}");
+                                                            // if (Provider.of<Controller>(
+                                                            //             context,
+                                                            //             listen:
+                                                            //                 false)
+                                                            //         .areaId ==
+                                                            //     null) {
+                                                            //   areaId = Provider.of<
+                                                            //               Controller>(
+                                                            //           context,
+                                                            //           listen:
+                                                            //               false)
+                                                            //       .selectedAreaId!;
+                                                            // } else {
+                                                            //   areaId = Provider.of<
+                                                            //               Controller>(
+                                                            //           context,
+                                                            //           listen:
+                                                            //               false)
+                                                            //       .areaId!;
+                                                            // }
                                                             FocusScopeNode
                                                                 currentFocus =
                                                                 FocusScope.of(
@@ -695,10 +722,14 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                           __,
                                                                           ___) =>
                                                                       CollectionPage(
-                                                                    os: os,
-                                                                    sid: sid,
-                                                                    cuid: cuid,
-                                                                  ),
+                                                                          os:
+                                                                              os,
+                                                                          sid:
+                                                                              sid,
+                                                                          cuid:
+                                                                              cuid,
+                                                                          aid:
+                                                                              Provider.of<Controller>(context, listen: false).areaId),
                                                                 ),
                                                               );
                                                             }
@@ -812,6 +843,25 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                         child:
                                                             ElevatedButton.icon(
                                                           onPressed: () async {
+                                                            String areaId;
+
+                                                            print(
+                                                                "widget.areajhabs-----${Provider.of<Controller>(context, listen: false).areaId}");
+
+                                                            // Provider.of<Controller>(
+                                                            //         context,
+                                                            //         listen:
+                                                            //             false)
+                                                            //     .areaSelection(Provider.of<
+                                                            //                 Controller>(
+                                                            //             context,
+                                                            //             listen:
+                                                            //                 false)
+                                                            //         .areaSelecton!);
+                                                           
+                                                            print(
+                                                                "prov area--xx---${Provider.of<Controller>(context, listen: false).areaId}");
+                                                            
                                                             FocusScopeNode
                                                                 currentFocus =
                                                                 FocusScope.of(
@@ -850,6 +900,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                     os: os,
                                                                     sid: sid,
                                                                     cuid: cuid,
+                                                                    aid: Provider.of<Controller>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .areaId,
                                                                   ),
                                                                 ),
                                                               );
@@ -932,7 +987,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               Provider.of<Controller>(
                                                                       context,
                                                                       listen:
-                                                                          false).filterCompany=false;
+                                                                          false)
+                                                                  .filterCompany = false;
 
                                                               // Provider.of<Controller>(
                                                               //         context,
@@ -1135,7 +1191,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                     context) =>
                                                                 popup.buildPopupDialog(
                                                                     context,
-                                                                    '\u{20B9}${values.balanceModel.ba}',"balance"),
+                                                                    '\u{20B9}${values.balanceModel.ba}',
+                                                                    "balance",
+                                                                    0,
+                                                                    "",
+                                                                    "",
+                                                                    ""),
                                                           );
                                                         }
                                                         setState(() {

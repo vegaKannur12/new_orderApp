@@ -149,15 +149,14 @@ class _RemarkPageState extends State<RemarkPage> {
                                     if (remarkController.text != null ||
                                         remarkController.text.isNotEmpty) {
                                       int max = await OrderAppDB.instance
-                                          .getMaxCommonQuery(
-                                              'remarksTable',
-                                              'rem_row_num',
-                                              "rem_cusid='${widget.cus_id}'");
+                                          .getMaxCommonQuery('remarksTable',
+                                              'rem_row_num', " ");
                                       print("jhjdfmax---$max");
 
                                       await OrderAppDB.instance
                                           .insertremarkTable(
                                               s[0],
+                                              s[1],
                                               widget.cus_id,
                                               widget.ser,
                                               remarkController.text,
@@ -172,13 +171,16 @@ class _RemarkPageState extends State<RemarkPage> {
                                       if (value.areaidFrompopup != null) {
                                         Provider.of<Controller>(context,
                                                 listen: false)
-                                            .dashboardSummery(widget.sid, s[0],
-                                                value.areaidFrompopup!,context);
+                                            .dashboardSummery(
+                                                widget.sid,
+                                                s[0],
+                                                value.areaidFrompopup!,
+                                                context);
                                       } else {
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .dashboardSummery(
-                                                widget.sid, s[0], "",context);
+                                                widget.sid, s[0], "", context);
                                       }
                                       // Provider.of<Controller>(context,
                                       //         listen: false)
@@ -234,83 +236,187 @@ class _RemarkPageState extends State<RemarkPage> {
                                         backgroundColor:
                                             P_Settings.roundedButtonColor,
                                       ),
-                                      title: Text(
-                                        value.remarkList[index]['rem_text']
-                                            .toString(),
-                                        style: TextStyle(fontSize: 16),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              value.remarkList[index]
+                                                      ['rem_text']
+                                                  .toString(),
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                          // SizedBox(
+                                          //   width: size.width * 0.2,
+                                          // ),
+
+                                          /////////////////////////////////////////////
+                                        ],
                                       ),
-                                      trailing: IconButton(
-                                        icon: Icon(Icons.edit),
-                                        onPressed: () {
-                                          remarkController1.clear();
-                                          showDialog(
-                                            context: context,
-                                            builder: (ctx) => AlertDialog(
-                                              content: TextField(
-                                                controller: remarkController1,
-                                                minLines:
-                                                    3, // any number you need (It works as the rows for the textarea)
-                                                keyboardType:
-                                                    TextInputType.multiline,
-                                                maxLines: null,
-                                                decoration: InputDecoration(
-                                                  suffixIcon: IconButton(
-                                                    onPressed:
-                                                        remarkController1.clear,
-                                                    icon: Icon(
-                                                      Icons.clear,
-                                                      size: 18,
+                                      trailing: Container(
+                                        width: size.width * 0.2,
+                                        child: Row(
+                                          children: [
+                                            Flexible(
+                                              child: IconButton(
+                                                icon: Icon(Icons.edit),
+                                                onPressed: () {
+                                                  remarkController1.clear();
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (ctx) =>
+                                                        AlertDialog(
+                                                      content: TextField(
+                                                        controller:
+                                                            remarkController1,
+                                                        minLines:
+                                                            3, // any number you need (It works as the rows for the textarea)
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .multiline,
+                                                        maxLines: null,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          suffixIcon:
+                                                              IconButton(
+                                                            onPressed:
+                                                                remarkController1
+                                                                    .clear,
+                                                            icon: Icon(
+                                                              Icons.clear,
+                                                              size: 18,
+                                                            ),
+                                                          ),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          40,
+                                                                      horizontal:
+                                                                          20),
+                                                          border:
+                                                              OutlineInputBorder(),
+                                                          // hintText: value.remarkList[index]
+                                                          //         ['rem_text']
+                                                          //     .toString(),
+                                                        ),
+                                                        onChanged: (value) {
+                                                          value =
+                                                              remarkController1
+                                                                  .text;
+                                                        },
+                                                      ),
+                                                      actions: <Widget>[
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            ElevatedButton(
+                                                              style: ElevatedButton
+                                                                  .styleFrom(
+                                                                      primary:
+                                                                          P_Settings
+                                                                              .wavecolor),
+                                                              onPressed:
+                                                                  () async {
+                                                                await OrderAppDB
+                                                                    .instance
+                                                                    .upadteCommonQuery(
+                                                                        "remarksTable",
+                                                                        "rem_text='${remarkController1.text}'",
+                                                                        "rem_row_num='${value.remarkList[index]["rem_row_num"]}'");
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .fetchremarkFromTable(
+                                                                        widget
+                                                                            .cus_id);
+                                                                Navigator.of(
+                                                                        ctx)
+                                                                    .pop();
+                                                              },
+                                                              child:
+                                                                  Text("Edit"),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  size.width *
+                                                                      0.01,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          vertical: 40,
-                                                          horizontal: 20),
-                                                  border: OutlineInputBorder(),
-                                                  // hintText: value.remarkList[index]
-                                                  //         ['rem_text']
-                                                  //     .toString(),
-                                                ),
-                                                onChanged: (value) {
-                                                  value =
-                                                      remarkController1.text;
+                                                  );
                                                 },
                                               ),
-                                              actions: <Widget>[
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                              primary: P_Settings
-                                                                  .wavecolor),
-                                                      onPressed: () async {
-                                                        await OrderAppDB
-                                                            .instance
-                                                            .upadteCommonQuery(
-                                                                "remarksTable",
-                                                                "rem_text='${remarkController1.text}'",
-                                                                "rem_row_num='${value.remarkList[index]["rem_row_num"]}'");
-                                                        Provider.of<Controller>(
-                                                                context,
-                                                                listen: false)
-                                                            .fetchremarkFromTable(
-                                                                widget.cus_id);
-                                                        Navigator.of(ctx).pop();
-                                                      },
-                                                      child: Text("Edit"),
-                                                    ),
-                                                    SizedBox(
-                                                      width: size.width * 0.01,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
                                             ),
-                                          );
-                                        },
+                                            IconButton(
+                                              icon: Icon(Icons.delete),
+                                              onPressed: () {
+                                                remarkController1.clear();
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (ctx) => AlertDialog(
+                                                    content: Text(
+                                                        "Do you want to cancel"),
+                                                    actions: <Widget>[
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          ElevatedButton(
+                                                            style: ElevatedButton
+                                                                .styleFrom(
+                                                                    primary:
+                                                                        P_Settings
+                                                                            .wavecolor),
+                                                            onPressed:
+                                                                () async {
+                                                              await OrderAppDB
+                                                                  .instance
+                                                                  .upadteCommonQuery(
+                                                                      "remarksTable",
+                                                                      "rem_cancel=1",
+                                                                      "rem_row_num='${value.remarkList[index]["rem_row_num"]}'");
+                                                              Provider.of<Controller>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .fetchremarkFromTable(
+                                                                      widget
+                                                                          .cus_id);
+                                                              Navigator.of(ctx)
+                                                                  .pop();
+                                                            },
+                                                            child: Text("Yes"),
+                                                          ),
+                                                          SizedBox(
+                                                            width: size.width *
+                                                                0.01,
+                                                          ),
+                                                          ElevatedButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: Text("No"),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

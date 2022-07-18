@@ -160,11 +160,13 @@ class OrderAppDB {
   static final rec_series = 'rec_series';
   static final rec_mode = 'rec_mode';
   static final rec_amount = 'rec_amount';
+  static final rec_row_num = 'rec_row_num';
   static final rec_disc = 'rec_disc';
   static final rec_note = 'rec_note';
   static final rec_staffid = 'rec_staffid';
   static final rec_cancel = 'rec_cancel';
   static final rec_status = 'rec_status';
+  static final rec_time = 'rec_time';
 ///////remark table//////////////////////
 
   static final rem_date = 'rem_date';
@@ -175,7 +177,7 @@ class OrderAppDB {
   static final rem_row_num = 'rem_row_num';
   static final rem_cancel = 'rem_cancel';
   static final rem_status = 'rem_status';
-
+  static final rem_time = 'rem_time';
   Future<Database> get database async {
     print("bjhs");
     if (_database != null) return _database!;
@@ -427,7 +429,9 @@ class OrderAppDB {
       CREATE TABLE collectionTable (
         $id INTEGER PRIMARY KEY AUTOINCREMENT,
         $rec_date TEXT NOT NULL,
+        $rec_time TEXT,
         $rec_cusid TEXT,
+        $rec_row_num INTEGER,
         $rec_series TEXT NOT NULL,
         $rec_mode TEXT,
         $rec_amount REAL,
@@ -442,6 +446,7 @@ class OrderAppDB {
       CREATE TABLE remarksTable (
         $id INTEGER PRIMARY KEY AUTOINCREMENT,
         $rem_date TEXT NOT NULL,
+        $rem_time TEXT,
         $rem_cusid TEXT,
         $rem_series TEXT NOT NULL,
         $rem_text TEXT,
@@ -894,7 +899,9 @@ class OrderAppDB {
 /////////////////////////collectionTable/////////////////////////////
   Future insertCollectionTable(
       String rec_date,
+      String rec_time,
       String rec_cusid,
+      int rec_row_num,
       String ser,
       String mode,
       String amtString,
@@ -908,13 +915,13 @@ class OrderAppDB {
     print("amt---- $amtString---$disc");
     if (amtString == "") {
       // print("nullll");
-      amt=0.0;
+      amt = 0.0;
       // double.parse(amtString);
-    }else{
-      amt=double.parse(amtString);
+    } else {
+      amt = double.parse(amtString);
     }
     var query =
-        'INSERT INTO collectionTable(rec_date, rec_cusid, rec_series, rec_mode, rec_amount, rec_disc, rec_note, rec_staffid, rec_cancel, rec_status) VALUES("${rec_date}", "${rec_cusid}", "${ser}", "${mode}", $amt, "${disc}", "${note}", "${sttid}", ${cancel}, ${status})';
+        'INSERT INTO collectionTable(rec_date, rec_time, rec_cusid, rec_row_num, rec_series, rec_mode, rec_amount, rec_disc, rec_note, rec_staffid, rec_cancel, rec_status) VALUES("${rec_date}","${rec_time}","${rec_cusid}", $rec_row_num, "${ser}", "${mode}", $amt, "${disc}", "${note}", "${sttid}", ${cancel}, ${status})';
     var res = await db.rawInsert(query);
     print(query);
 
@@ -933,6 +940,7 @@ class OrderAppDB {
 ////////////////////////insert remark/////////////////////////////////
   Future insertremarkTable(
     String rem_date,
+    String rem_time,
     String rem_cusid,
     String ser,
     String text,
@@ -943,7 +951,7 @@ class OrderAppDB {
   ) async {
     final db = await database;
     var query =
-        'INSERT INTO remarksTable(rem_date, rem_cusid, rem_series, rem_text, rem_staffid, rem_row_num, rem_cancel, rem_status) VALUES("${rem_date}", "${rem_cusid}", "${ser}", "${text}","${sttid}",${row_num},${cancel},${status})';
+        'INSERT INTO remarksTable(rem_date, rem_time, rem_cusid, rem_series, rem_text, rem_staffid, rem_row_num, rem_cancel, rem_status) VALUES("${rem_date}", "${rem_time}","${rem_cusid}", "${ser}", "${text}","${sttid}",${row_num},${cancel},${status})';
     var res = await db.rawInsert(query);
     print(query);
     // print(res);
@@ -1269,7 +1277,6 @@ class OrderAppDB {
             "SELECT MAX($field) max_val FROM '$table' WHERE $condition");
       }
 
-      print("max common-----$res");
       print('res[0]["max_val"] ----${res[0]["max_val"]}');
       // int convertedMax = int.parse(res[0]["max_val"]);
       max = res[0]["max_val"] + 1;
@@ -1278,6 +1285,8 @@ class OrderAppDB {
       print("else");
       max = 1;
     }
+    print("max common-----$res");
+
     print(res);
     return max;
   }
@@ -1454,8 +1463,27 @@ class OrderAppDB {
     return result;
   }
 
-  //////////////////////////////////////////////////////////
+////////////////////upload remark data////////////////////////
+  uploadRemark() async {
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        "SELECT remarksTable.id as rid, remarksTable.rem_row_num as phid, remarksTable.rem_cusid as cid,remarksTable.rem_date as rdate,remarksTable.rem_text as rtext,remarksTable.rem_staffid as sid,remarksTable.rem_cancel as cflag,remarksTable.rem_status as dflag,remarksTable.rem_date || ' '  || remarksTable.rem_time as edate FROM remarksTable");
+    print("remark select result.........$result");
+    return result;
+  }
 
+  ////////////////////upload collection data////////////////////////
+  uploadCollections() async {
+    print("collectionnn");
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        // "SELECT * FROM collectionTable");
+        "SELECT collectionTable.id as colid, collectionTable.rec_row_num as phid, collectionTable.rec_cusid as cid,collectionTable.rec_date as cdate,collectionTable.rec_series || collectionTable.rec_row_num as cseries,collectionTable.rec_mode as cmode,collectionTable.rec_amount as camt,collectionTable.rec_disc as cdisc,collectionTable.rec_note as cremark, collectionTable.rec_staffid as sid,collectionTable.rec_cancel as cflag,collectionTable.rec_cancel as dflag,collectionTable.rec_date || ' ' || collectionTable.rec_time as edate FROM collectionTable");
+    print("collectionTable select result.........$result");
+    return result;
+  }
+
+////////////////////////////////////////////
   selectDetailTable(int order_id) async {
     Database db = await instance.database;
 
@@ -1536,7 +1564,7 @@ class OrderAppDB {
         " A.ac_ad1 as ad1,A.mo as mob ," +
         " A.ba as bln, Y.ord  as order_value," +
         " Y.remark as remark_count , Y.col as collection_sum" +
-        " from accountHeadsTable A" +
+        " from accountHeadsTable A " +
         " left join (select cid,sum(Ord) as ord," +
         " sum(remark) as remark ,sum(col) as col from (" +
         " select O.customerid cid, sum(O.total_price) Ord," +
@@ -1544,12 +1572,12 @@ class OrderAppDB {
         " where O.userid='$userId' and O.orderdate = '$date' group by O.customerid" +
         " union all " +
         " select R.rem_cusid cid, 0 Ord, count(R.rem_cusid) remark ," +
-        " 0 col from remarksTable R where R.rem_staffid='$userId' and R.rem_date  = '$date' " +
+        " 0 col from remarksTable R where R.rem_staffid='$userId' and R.rem_date  = '$date' and R.rem_cancel=0 " +
         " group by R.rem_cusid" +
         " union all" +
         " select C.rec_cusid cid, 0 Ord , 0 remark," +
         " sum(C.rec_amount) col" +
-        " from collectionTable C where C.rec_staffid='$userId' and C.rec_date  = '$date' " +
+        " from collectionTable C where C.rec_staffid='$userId' and C.rec_date  = '$date' and C.rec_cancel=0 " +
         " group by C.rec_cusid) x group by cid ) Y on Y.cid=A.ac_code" +
         " $condition " +
         " order by Y.ord+ Y.remark+ Y.col desc ;";
@@ -1573,23 +1601,6 @@ class OrderAppDB {
     String? areaidfromStaff = prefs.getString("areaidfromStaff");
     String condition = " ";
     int? area;
-
-    // if (areaidfromStaff == null || areaidfromStaff.isEmpty) {
-    //   if (aid == null) {
-    //     condition = " where A.area_id in ($areaidfromStaff) ";
-    //   } else {
-    //     condition = " where A.area_id in ($area) ";
-    //   }
-    // } else if (aid == null && areaidfromStaff != null) {
-    //   list = await db.query(
-    //     'accountHeadsTable',
-    //     where: "area_id IN (${aidsplit.join(',')})",
-    //   );
-    // } else {
-    //   list = await db
-    //       .rawQuery('SELECT  * FROM accountHeadsTable where area_id="$areaId"');
-    // }
-
     print("userrr---$userId");
     if (aid != "") {
       area = int.parse(aid);
@@ -1625,11 +1636,11 @@ class OrderAppDB {
         " group by O.customerid" +
         " union all" +
         " Select R.rem_cusid cid , 0 ordCnt,0 ordVal,Count(R.id) rmCnt,0 colCnt,0 colVal,0 retCnt,0 retVal" +
-        " From remarksTable R where R.rem_date='$date' and R.rem_staffid='$userId'" +
+        " From remarksTable R where R.rem_date='$date' and R.rem_staffid='$userId' and R.rem_cancel=0" +
         " group by R.rem_cusid" +
         " union all" +
         " Select C.rec_cusid cid , 0 ordCnt,0 ordVal,0 rmCnt,Count(C.id) colCnt,Sum(C.rec_amount) colVal,0 retCnt,0 retVal" +
-        " From collectionTable C  where C.rec_date='$date' and C.rec_staffid='$userId'" +
+        " From collectionTable C  where C.rec_date='$date' and C.rec_staffid='$userId' and C.rec_cancel=0" +
         " group by C.rec_cusid" +
         " union all" +
         " Select RT.customerid cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(RT.id) retCnt,Sum(RT.total_price) retVal" +
@@ -1640,7 +1651,7 @@ class OrderAppDB {
 
     result = await db.rawQuery(query);
     print("dashboard sum-$condition");
-    print("result------$result");
+    print("result--dashboard----$result");
     return result;
   }
 
@@ -1666,12 +1677,12 @@ class OrderAppDB {
         "union all " +
         " select R.rem_cusid cid " +
         "from remarksTable R " +
-        " where R.rem_staffid='$userId' and rem_date='$date' " +
+        " where R.rem_staffid='$userId' and rem_date='$date' and R.rem_cancel=0 " +
         " group by R.rem_cusid " +
         "union all " +
         "select C.rec_cusid cid   " +
         " from collectionTable C " +
-        "where C.rec_staffid='$userId' and rec_date='$date' " +
+        "where C.rec_staffid='$userId' and rec_date='$date' and C.rec_cancel=0 " +
         "group by C.rec_cusid " +
         " UNION ALL " +
         "select RT.customerid " +

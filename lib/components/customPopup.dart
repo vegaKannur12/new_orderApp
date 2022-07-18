@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:orderapp/db_helper.dart';
 
 class CustomPopup{
-  Widget buildPopupDialog(BuildContext context,String content,String type) {
+  Widget buildPopupDialog(BuildContext context,String content,String type,int rowNum,String userId,String date,String aid) {
   return new AlertDialog(
     // title: const Text('Popup example'),
     content: new Column(
@@ -15,9 +15,11 @@ class CustomPopup{
     actions: <Widget>[
       new ElevatedButton(
         onPressed: () async{
+          print("hfzsdhfu----$aid");
           if(type=="collection"){
             await OrderAppDB.instance.upadteCommonQuery("collectionTable",
-              "rec_cancel='1'", "id='${item["id"]}'");
+              "rec_cancel='1'", "rec_row_num=$rowNum");
+            await OrderAppDB.instance.dashboardSummery(userId, date, aid);
           }
           Navigator.of(context).pop();
         },

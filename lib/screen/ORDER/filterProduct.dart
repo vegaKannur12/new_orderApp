@@ -16,8 +16,8 @@ class FilteredProduct extends StatefulWidget {
   List<String>? s;
   String? customerId;
   String? value;
-  // List<Map<String, dynamic>> list;
-  FilteredProduct({required this.type, this.customerId, this.os, this.s,this.value});
+  FilteredProduct(
+      {required this.type, this.customerId, this.os, this.s, this.value});
 
   @override
   State<FilteredProduct> createState() => _FilteredProductState();
@@ -25,10 +25,8 @@ class FilteredProduct extends StatefulWidget {
 
 class _FilteredProductState extends State<FilteredProduct> {
   String rate1 = "1";
-  // List<String> s = [];
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-
   CustomSnackbar snackbar = CustomSnackbar();
   ShowModal showModal = ShowModal();
 
@@ -36,24 +34,20 @@ class _FilteredProductState extends State<FilteredProduct> {
     await Future.delayed(Duration(milliseconds: 1000));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? cid = prefs.getString("cid");
-    // Provider.of<Controller>(context, listen: false).adminDashboard(cid!);
-
-    // monitor network fetch
-    // await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false)
-                          .filterwithCompany(widget.customerId!, widget.value!);
+        .filterwithCompany(widget.customerId!, widget.value!);
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: Consumer<Controller>(
         builder: (context, value, child) {
@@ -113,7 +107,6 @@ class _FilteredProductState extends State<FilteredProduct> {
                               if (value.filterComselected[index] == false) {
                                 value.filterComselected[index] =
                                     !value.filterComselected[index];
-                                // selected = index;
                               }
 
                               if (value.qty[index].text == null ||
@@ -126,10 +119,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                   'orderBagTable',
                                   'cartrowno',
                                   "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
-
                               print("max----$max");
-                              // print("value.qty[index].text---${value.qty[index].text}");
-
                               rate1 = value.filteredProductList[index]["rate1"];
                               var total = int.parse(rate1) *
                                   int.parse(value.qty[index].text);
@@ -178,8 +168,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                 "status": 0
                               });
                             }
-
-                            /////////////////////////
+                            /////////////////////////////////////////////////////////////
                             (widget.customerId!.isNotEmpty ||
                                         widget.customerId != null) &&
                                     (value.filteredProductList[index]["code"]
