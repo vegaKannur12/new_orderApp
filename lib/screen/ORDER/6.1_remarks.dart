@@ -169,7 +169,7 @@ class _RemarkPageState extends State<RemarkPage> {
                                           .fetchremarkFromTable(widget.cus_id);
                                       remarkController.clear();
                                       if (value.areaidFrompopup != null) {
-                                        Provider.of<Controller>(context,
+                                        await Provider.of<Controller>(context,
                                                 listen: false)
                                             .dashboardSummery(
                                                 widget.sid,
@@ -177,7 +177,7 @@ class _RemarkPageState extends State<RemarkPage> {
                                                 value.areaidFrompopup!,
                                                 context);
                                       } else {
-                                        Provider.of<Controller>(context,
+                                        await Provider.of<Controller>(context,
                                                 listen: false)
                                             .dashboardSummery(
                                                 widget.sid, s[0], "", context);
@@ -391,6 +391,7 @@ class _RemarkPageState extends State<RemarkPage> {
                                                                   .fetchremarkFromTable(
                                                                       widget
                                                                           .cus_id);
+
                                                               Navigator.of(ctx)
                                                                   .pop();
                                                             },

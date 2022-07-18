@@ -1621,11 +1621,11 @@ class OrderAppDB {
         " group by O.customerid" +
         " union all" +
         " Select R.rem_cusid cid , 0 ordCnt,0 ordVal,Count(R.id) rmCnt,0 colCnt,0 colVal,0 retCnt,0 retVal" +
-        " From remarksTable R where R.rem_date='$date' and R.rem_staffid='$userId'" +
+        " From remarksTable R where R.rem_date='$date' and R.rem_staffid='$userId' and R.rem_cancel=0" +
         " group by R.rem_cusid" +
         " union all" +
         " Select C.rec_cusid cid , 0 ordCnt,0 ordVal,0 rmCnt,Count(C.id) colCnt,Sum(C.rec_amount) colVal,0 retCnt,0 retVal" +
-        " From collectionTable C  where C.rec_date='$date' and C.rec_staffid='$userId'" +
+        " From collectionTable C  where C.rec_date='$date' and C.rec_staffid='$userId' and C.rec_cancel=0" +
         " group by C.rec_cusid" +
         " union all" +
         " Select RT.customerid cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(RT.id) retCnt,Sum(RT.total_price) retVal" +
@@ -1641,50 +1641,50 @@ class OrderAppDB {
   }
 
 //////////////////////////////////////////////////////////////
-  getShopsVisited(String userId, String date) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? areaidfromStaff = prefs.getString("areaidfromStaff");
-    String condition = " ";
-    print("userId kjdfkljfkml---$areaidfromStaff");
-    List<Map<String, dynamic>> result;
-    if (areaidfromStaff != null) {
-      condition = " and area_id in ($areaidfromStaff)";
-    }
+  // getShopsVisited(String userId, String date) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? areaidfromStaff = prefs.getString("areaidfromStaff");
+  //   String condition = " ";
+  //   print("userId kjdfkljfkml---$areaidfromStaff");
+  //   List<Map<String, dynamic>> result;
+  //   if (areaidfromStaff != null) {
+  //     condition = " and area_id in ($areaidfromStaff)";
+  //   }
 
-    int count;
-    Database db = await instance.database;
-    String query = "";
-    query = query +
-        "select count(distinct cid) cnt from accountHeadsTable A  inner join  (" +
-        " select O.customerid cid from orderMasterTable O " +
-        "where O.userid='$userId' and orderdate='$date' " +
-        " group by O.customerid " +
-        "union all " +
-        " select R.rem_cusid cid " +
-        "from remarksTable R " +
-        " where R.rem_staffid='$userId' and rem_date='$date' " +
-        " group by R.rem_cusid " +
-        "union all " +
-        "select C.rec_cusid cid   " +
-        " from collectionTable C " +
-        "where C.rec_staffid='$userId' and rec_date='$date' " +
-        "group by C.rec_cusid " +
-        " UNION ALL " +
-        "select RT.customerid " +
-        "from returnMasterTable RT " +
-        "where RT.userid='$userId' and return_date='$date' " +
-        "group by RT.customerid) x on A.ac_code = x.cid $condition;";
-    print(query);
-    result = await db.rawQuery(query);
-    print("result.length-${result.length}");
-    if (result.length > 0) {
-      count = result[0]["cnt"];
-      print("result shop visited-----$result");
-      return count;
-    } else {
-      return null;
-    }
-  }
+  //   int count;
+  //   Database db = await instance.database;
+  //   String query = "";
+  //   query = query +
+  //       "select count(distinct cid) cnt from accountHeadsTable A  inner join  (" +
+  //       " select O.customerid cid from orderMasterTable O " +
+  //       "where O.userid='$userId' and orderdate='$date' " +
+  //       " group by O.customerid " +
+  //       "union all " +
+  //       " select R.rem_cusid cid " +
+  //       "from remarksTable R " +
+  //       " where R.rem_staffid='$userId' and rem_date='$date' and R.rem_cancel=0" +
+  //       " group by R.rem_cusid " +
+  //       "union all " +
+  //       "select C.rec_cusid cid   " +
+  //       " from collectionTable C " +
+  //       "where C.rec_staffid='$userId' and rec_date='$date' and C.rec_cancel=0 " +
+  //       "group by C.rec_cusid " +
+  //       " UNION ALL " +
+  //       "select RT.customerid " +
+  //       "from returnMasterTable RT " +
+  //       "where RT.userid='$userId' and return_date='$date' " +
+  //       "group by RT.customerid) x on A.ac_code = x.cid $condition;";
+  //   print(query);
+  //   result = await db.rawQuery(query);
+  //   print("result today collection -${result}");
+  //   if (result.length > 0) {
+  //     count = result[0]["cnt"];
+  //     print("result shop visited-----$result");
+  //     return count;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
 //////////////////////select  collection///////////////////////
   selectAllcommonwithdesc(String table, String? condition) async {

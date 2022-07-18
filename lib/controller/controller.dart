@@ -1276,24 +1276,24 @@ class Controller extends ChangeNotifier {
   //   selected = List.generate(length, (index) => false);
   // }
 ////////////////////////////GET SHOP VISITED//////////////////////////////////////
-  getShopVisited(String userId, String date) async {
-    shopVisited = await OrderAppDB.instance.getShopsVisited(userId, date);
-    var res = await OrderAppDB.instance.countCustomer(areaidFrompopup);
-    print("col--ret-- $collectionCount--$orderCount--$remarkCount--$ret_count");
-    if (res != null) {
-      customerCount = res.length;
-    }
-    if (collectionCount == 0 &&
-        orderCount == 0 &&
-        remarkCount == null &&
-        ret_count == null) {
-      print("collection--");
-      noshopVisited = customerCount;
-    } else {
-      noshopVisited = customerCount! - shopVisited!;
-    }
-    notifyListeners();
-  }
+  // getShopVisited(String userId, String date) async {
+  //   shopVisited = await OrderAppDB.instance.getShopsVisited(userId, date);
+  //   var res = await OrderAppDB.instance.countCustomer(areaidFrompopup);
+  //   print("col--ret-- $collectionCount--$orderCount--$remarkCount--$ret_count");
+  //   if (res != null) {
+  //     customerCount = res.length;
+  //   }
+  //   if (collectionCount == 0 &&
+  //       orderCount == 0 &&
+  //       remarkCount == null &&
+  //       ret_count == null) {
+  //     print("collection--");
+  //     noshopVisited = customerCount;
+  //   } else {
+  //     noshopVisited = customerCount! - shopVisited!;
+  //   }
+  //   notifyListeners();
+  // }
 
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
@@ -1697,7 +1697,9 @@ class Controller extends ChangeNotifier {
     print("customerCount----$customerCount");
     orderCount = res[0]["ordCnt"].toString();
     collectionCount = res[0]["colCnt"].toString();
+    print("collectioncount...$collectionCount");
     remarkCount = res[0]["rmCnt"].toString();
+    print("remarkCount...$remarkCount");
     ret_count = res[0]["retCnt"].toString();
 
     collectionAmount = res[0]["colVal"].toString();
