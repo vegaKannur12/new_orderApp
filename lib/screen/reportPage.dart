@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 
 import 'package:orderapp/screen/filter_Report.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportPage extends StatefulWidget {
   ReportPage({Key? key}) : super(key: key);
@@ -16,6 +18,12 @@ class ReportPage extends StatefulWidget {
 class _ReportPageState extends State<ReportPage> {
   static final GlobalKey<FormState> _key = GlobalKey<FormState>();
   double? outstand;
+  DateTime date = DateTime.now();
+  List<String> s = [];
+  String? formattedDate;
+  String? sid;
+
+
   final formKey = GlobalKey<FormState>();
   final TextEditingController searchController = TextEditingController();
   // Filter filter = Filter();
@@ -24,6 +32,15 @@ class _ReportPageState extends State<ReportPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
+    s = formattedDate!.split(" ");
+    getShared();
+  }
+
+  getShared() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    sid = prefs.getString("sid");
   }
 
   @override
@@ -110,7 +127,7 @@ class _ReportPageState extends State<ReportPage> {
                                               .setreportsearch(true);
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .searchfromreport();
+                                              .searchfromreport(context, sid!,s[0]);
                                         }),
                                     IconButton(
                                         icon: Icon(
@@ -257,30 +274,35 @@ class _ReportPageState extends State<ReportPage> {
                                       SizedBox(
                                         height: size.height * 0.01,
                                       ),
-
-                                      value.filterList[index]
-                                                      ["order_value"]!=null && value.filterList[index]
-                                                      ["order_value"]!=0?
-                                      Row(
-                                        children: [
-                                          Icon(Icons.currency_rupee, size: 15),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text(
+                                      value.filterList[index]["order_value"] !=
+                                                  null &&
                                               value.filterList[index]
-                                                      ["order_value"]
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.grey[700])),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text("(order)")
-                                        ],
-                                      ):Container(),
+                                                      ["order_value"] !=
+                                                  0
+                                          ? Row(
+                                              children: [
+                                                Icon(Icons.currency_rupee,
+                                                    size: 15),
+                                                SizedBox(
+                                                  width: size.width * 0.01,
+                                                ),
+                                                Text(
+                                                    value.filterList[index]
+                                                            ["order_value"]
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color:
+                                                            Colors.grey[700])),
+                                                SizedBox(
+                                                  width: size.width * 0.01,
+                                                ),
+                                                Text("(order)")
+                                              ],
+                                            )
+                                          : Container(),
                                       SizedBox(
                                         height: size.height * 0.01,
                                       ),

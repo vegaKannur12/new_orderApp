@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportPage extends StatefulWidget {
-  ReportPage({Key? key}) : super(key: key);
+  String sid;
+  ReportPage({required this.sid});
 
   @override
   State<ReportPage> createState() => _ReportPageState();
@@ -14,6 +17,11 @@ class ReportPage extends StatefulWidget {
 class _ReportPageState extends State<ReportPage> {
   static final GlobalKey<FormState> _key = GlobalKey<FormState>();
   double? outstand;
+
+  String? formattedDate;
+  DateTime date = DateTime.now();
+
+  List<String> s = [];
   final formKey = GlobalKey<FormState>();
   final TextEditingController searchController = TextEditingController();
   // Filter filter = Filter();
@@ -22,6 +30,8 @@ class _ReportPageState extends State<ReportPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
+    s = formattedDate!.split(" ");
   }
 
   @override
@@ -65,10 +75,6 @@ class _ReportPageState extends State<ReportPage> {
                                           size: 20,
                                         ),
                                         onPressed: () async {
-                                          // Provider.of<Controller>(context,
-                                          //         listen: false)
-                                          //     .selectReportFromOrder(context);
-                                          // FocusScope.of(context).requestFocus(FocusNode());
                                           Provider.of<Controller>(context,
                                                       listen: false)
                                                   .reportSearchkey =
@@ -78,7 +84,8 @@ class _ReportPageState extends State<ReportPage> {
                                               .setreportsearch(true);
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .searchfromreport();
+                                              .searchfromreport(
+                                                  context, widget.sid, s[0]);
                                         }),
                                     IconButton(
                                         icon: Icon(
@@ -314,6 +321,8 @@ class _ReportPageState extends State<ReportPage> {
                           },
                         );
                       }
+                      print(
+                          "value.newreportList.length-----${value.newreportList.length}");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                       if (value.isreportSearch &&
                           value.newreportList.length == 0) {

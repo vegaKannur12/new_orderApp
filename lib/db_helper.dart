@@ -1298,6 +1298,20 @@ class OrderAppDB {
     return result;
   }
 
+///////////////////search account heads/////////////////////
+  accountHeadsSearch(String key) async {
+    print("key--hai---$key");
+    Database db = await instance.database;
+    List<Map<String, dynamic>> result = await db.query(
+      'accountHeadsTable',
+      where: 'hname LIKE ?',
+      whereArgs: [
+        '$key%',
+      ],
+    );
+    print("search result-----$result");
+    return result;
+  }
 ////////////////////////left join///////////////////////////
 
   Future<dynamic> todayOrder(String date, String condition) async {
@@ -1473,9 +1487,8 @@ class OrderAppDB {
   }
 
 ///////////////////////////////////////////////////////
-  getReportDataFromOrderDetails(
-      String userId, String date, BuildContext context) async {
-    String? gen_condition1, gen_condition2, gen_condition3;
+  getReportDataFromOrderDetails(String userId, String date,
+      BuildContext context, String likeCondition) async {
     List<Map<String, dynamic>> result;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? areaidfromStaff = prefs.getString("areaidfromStaff");
@@ -1483,9 +1496,17 @@ class OrderAppDB {
     String condition = " ";
     if (areaidfromStaff != null || areaidfromStaff!.isNotEmpty) {
       if (areaidfromStaff == "") {
-        condition = "";
+        if (likeCondition == "") {
+          condition = "";
+        } else {
+          condition = " where $likeCondition";
+        }
       } else {
-        condition = "where A.area_id in ($areaidfromStaff)";
+        if (likeCondition == "") {
+          condition = " where A.area_id in ($areaidfromStaff) ";
+        } else {
+          condition = " where A.area_id in ($areaidfromStaff) and $likeCondition";
+        }
       }
     }
 

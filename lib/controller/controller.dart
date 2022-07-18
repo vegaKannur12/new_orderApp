@@ -1689,8 +1689,8 @@ class Controller extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////////////
-  selectReportFromOrder(
-      BuildContext context, String userId, String date) async {
+  selectReportFromOrder(BuildContext context, String userId, String date,
+      String likeCondition) async {
     print("report userId----$userId");
     reportData.clear();
     reportOriginalList.clear();
@@ -1698,7 +1698,7 @@ class Controller extends ChangeNotifier {
     isLoading = true;
     // notifyListeners();
     var res = await OrderAppDB.instance
-        .getReportDataFromOrderDetails(userId, date, context);
+        .getReportDataFromOrderDetails(userId, date, context, likeCondition);
 
     print("result-cxc----$res");
     if (res != null && res.length > 0) {
@@ -1707,10 +1707,11 @@ class Controller extends ChangeNotifier {
       }
     } else {
       noreportdata = true;
-      print('report data----$noreportdata');
+
       // notifyListeners();
       // snackbar.showSnackbar(context, "please download customers !!!");
     }
+    print('report data----${reportData.length}');
     isLoading = false;
     notifyListeners();
   }
@@ -1750,20 +1751,27 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////////////////////////////
-  searchfromreport() async {
+  searchfromreport(BuildContext context, String userId, String date) async {
     print("searchkey----$reportSearchkey");
-    newreportList.clear();
+    
 
     if (reportSearchkey!.isEmpty) {
       // isreportSearch = false;
       newreportList = reportData;
     } else {
-      print("re----$reportData");
-      newreportList = reportData
-          .where((element) => element["name"]
-              .toLowerCase()
-              .contains(reportSearchkey!.toLowerCase()))
-          .toList();
+      print("re----${reportData.length}");
+      // newreportList.clear();
+      newreportList = await OrderAppDB.instance.getReportDataFromOrderDetails(
+          userId,
+          date,
+          context,
+          " A.hname LIKE '$reportSearchkey%' ");
+      // newreportList = reportData
+      //     .where((element) => element["name"]
+      //         .toLowerCase()
+      //         .contains(reportSearchkey!.toLowerCase()))
+      //     .toList();
+      notifyListeners();
       print("new---$newreportList");
     }
   }

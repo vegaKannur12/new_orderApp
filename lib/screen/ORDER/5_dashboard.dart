@@ -312,8 +312,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return History(
             // type: "drawer call",
             );
-      case "0":
+      case "0":{
+        print("majkjkjk");
+
         return new MainDashboard();
+        
+      }
       case "1":
         {
           return new TodaysOrder();
@@ -324,6 +328,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         return new TodaySale();
       case "4":
         {
+          print("report page---");
           // String? gen_area =
           //     Provider.of<Controller>(context, listen: false).areaidFrompopup;
           // if (gen_area != null) {
@@ -336,9 +341,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             context,
             sid!,
             s[0],
+            ""
           );
           // Navigator.pop(context);
-          return ReportPage();
+          return ReportPage(sid: sid!,);
         }
       // case "RP":
       //   Provider.of<Controller>(context, listen: false).setFilter(false);
