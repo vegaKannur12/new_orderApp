@@ -1701,7 +1701,9 @@ class Controller extends ChangeNotifier {
     print("customerCount----$customerCount");
     orderCount = res[0]["ordCnt"].toString();
     collectionCount = res[0]["colCnt"].toString();
+    print("collectioncount...$collectionCount");
     remarkCount = res[0]["rmCnt"].toString();
+    print("remarkCount...$remarkCount");
     ret_count = res[0]["retCnt"].toString();
 
     collectionAmount = res[0]["colVal"].toString();
