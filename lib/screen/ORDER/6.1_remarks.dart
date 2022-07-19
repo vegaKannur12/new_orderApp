@@ -234,9 +234,7 @@ class _RemarkPageState extends State<RemarkPage> {
                                       }
                                     },
                                     child: Card(
-                                      color: colorlist == true
-                                          ? Colors.red[100]
-                                          : Colors.grey[100],
+                                      color: Colors.grey[100],
                                       child: ListTile(
                                         leading: CircleAvatar(
                                           child: Icon(
@@ -325,6 +323,8 @@ class _RemarkPageState extends State<RemarkPage> {
                                                                             P_Settings.wavecolor),
                                                                 onPressed:
                                                                     () async {
+                                                                  colorlist =
+                                                                      true;
                                                                   await OrderAppDB
                                                                       .instance
                                                                       .upadteCommonQuery(
@@ -359,27 +359,40 @@ class _RemarkPageState extends State<RemarkPage> {
                                                 ),
                                               ),
                                               IconButton(
-                                                icon: Icon(Icons.delete),
-                                                onPressed: () {
-                                                  colorlist = true;
-                                                  print(
-                                                      "colorlist.....$colorlist");
-                                                  remarkController1.clear();
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          popup.buildPopupDialog(
-                                                              context,
-                                                              "Do you want to cancel the Remark?",
-                                                              "remark",
-                                                              value.remarkList[
-                                                                      index][
-                                                                  "rem_row_num"],
-                                                              widget.sid,
-                                                              s[0],
-                                                              widget.aid));
-                                                },
+                                                icon: Icon(Icons.delete,
+                                                    color: value.remarkList[
+                                                                    index][
+                                                                'rem_cancel'] ==
+                                                            1
+                                                        ? Colors.grey
+                                                        : Colors.red[400]),
+                                                onPressed:
+                                                    value.remarkList[index][
+                                                                'rem_cancel'] ==
+                                                            1
+                                                        ? null
+                                                        : () {
+                                                            remarkController1
+                                                                .clear();
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    popup.buildPopupDialog(
+                                                                        "",
+                                                                        context,
+                                                                        "Do you want to cancel the Remark?",
+                                                                        "remark",
+                                                                        value.remarkList[index]
+                                                                            [
+                                                                            "rem_row_num"],
+                                                                        widget
+                                                                            .sid,
+                                                                        s[0],
+                                                                        widget
+                                                                            .aid));
+                                                          },
                                               ),
                                             ],
                                           ),

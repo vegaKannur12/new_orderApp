@@ -1176,7 +1176,7 @@ class Controller extends ChangeNotifier {
           await OrderAppDB.instance.selectfromOrderbagTable(customerId);
       print("prodctItems----${prodctItems.length}");
 
-      for (var item in prodctItems) {
+      for (var item in prodctItems) { 
         productName.add(item);
       }
       var length = productName.length;

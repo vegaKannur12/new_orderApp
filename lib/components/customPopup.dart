@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 class CustomPopup {
   String? gen_condition;
 
-  Widget buildPopupDialog(BuildContext context, String content, String type,
-      int rowNum, String userId, String date, String aid) {
+  Widget buildPopupDialog(String cuid, BuildContext context, String content,
+      String type, int rowNum, String userId, String date, String aid) {
     String? gen_area =
         Provider.of<Controller>(context, listen: false).areaidFrompopup;
     if (gen_area != null) {
