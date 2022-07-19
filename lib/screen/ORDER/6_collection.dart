@@ -288,7 +288,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                         print(
                                             "value.areaidFrompopup----${value.areaidFrompopup}");
                                         if (value.areaidFrompopup != null) {
-                                          Provider.of<Controller>(context,
+                                          await Provider.of<Controller>(context,
                                                   listen: false)
                                               .dashboardSummery(
                                                   sid!,
@@ -296,7 +296,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                                   value.areaidFrompopup!,
                                                   context);
                                         } else {
-                                          Provider.of<Controller>(context,
+                                          await Provider.of<Controller>(context,
                                                   listen: false)
                                               .dashboardSummery(
                                                   sid!, s[0], "", context);
@@ -318,7 +318,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                         } else {
                                           gen_condition = " ";
                                         }
-                                        Provider.of<Controller>(context,
+                                        await Provider.of<Controller>(context,
                                                 listen: false)
                                             .todayCollection(
                                                 s[0], gen_condition!);
