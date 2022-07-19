@@ -33,13 +33,10 @@ class CustomPopup {
                   "collectionTable", "rec_cancel='1'", "rec_row_num=$rowNum");
               Provider.of<Controller>(context, listen: false)
                   .dashboardSummery(userId, date, aid, context);
-            }
-            if (type == "remark") {
-              print("hai........   ");
-              await OrderAppDB.instance.upadteCommonQuery(
-                  "remarksTable", "rem_cancel='1'", "rem_row_num=$rowNum");
               Provider.of<Controller>(context, listen: false)
-                  .dashboardSummery(userId, date, aid, context);
+                  .todayCollection(date, gen_condition!);
+              Provider.of<Controller>(context, listen: false)
+                  .fetchtotalcollectionFromTable(cuid);
             }
             Navigator.of(context).pop();
           },
