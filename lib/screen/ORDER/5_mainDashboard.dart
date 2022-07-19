@@ -14,7 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MainDashboard extends StatefulWidget {
-  const MainDashboard({Key? key}) : super(key: key);
+  BuildContext context;
+  MainDashboard({required this.context});
 
   @override
   State<MainDashboard> createState() => _MainDashboardState();
@@ -26,16 +27,36 @@ class _MainDashboardState extends State<MainDashboard> {
   DateTime date = DateTime.now();
   String? formattedDate;
   String? gen_condition;
-
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  String? userType;
   String? selected;
   List<String> s = [];
   AreaSelectionPopup popup = AreaSelectionPopup();
   String? sid;
+
   sharedPref() async {
+    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
+    s = formattedDate!.split(" ");
     final prefs = await SharedPreferences.getInstance();
     sid = prefs.getString('sid');
-    print("sid ......$sid");
+    userType = prefs.getString("userType");
+    print("sid .sdd.....$sid");
+
     print("formattedDate...$formattedDate");
+    print("sid ......$sid");
+
+    // if (Provider.of<Controller>(context, listen: false).areaId != null) {
+    //   Provider.of<Controller>(context, listen: false).dashboardSummery(
+    //       sid!,
+    //       s[0],
+    //       Provider.of<Controller>(context, listen: false).areaId!,
+    //       widget.context);
+    // } else {
+    //   if (userType == "staff") {
+    //     Provider.of<Controller>(context, listen: false)
+    //         .dashboardSummery(sid!, s[0], "",widget.context);
+    //   }
+    // }
     // Provider.of<Controller>(context, listen: false).todayOrder(s[0], context);
   }
 
@@ -46,9 +67,15 @@ class _MainDashboardState extends State<MainDashboard> {
     // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
     // initPlatformState();
     print("init");
-    formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
-    s = formattedDate!.split(" ");
     sharedPref();
+
+    // String? gen_area = Provider.of<Controller>(context, listen: false).areaId;
+    // print("gen area----$gen_area");
+    // if (gen_area != null) {
+    //   gen_condition = " and accountHeadsTable.area_id=$gen_area";
+    // } else {
+    //   gen_condition = " ";
+    // }
   }
 
   @override
@@ -304,9 +331,8 @@ class _MainDashboardState extends State<MainDashboard> {
                       ElevatedButton(
                           onPressed: () async {
                             if (selected != null) {
-                              Provider.of<Controller>(
-                                      context,
-                                      listen: false).areaId=selected;
+                              Provider.of<Controller>(context, listen: false)
+                                  .areaId = selected;
                               Provider.of<Controller>(context, listen: false)
                                   .areaSelection(selected!);
                               Provider.of<Controller>(context, listen: false)
@@ -315,7 +341,7 @@ class _MainDashboardState extends State<MainDashboard> {
                               String? gen_area = Provider.of<Controller>(
                                       context,
                                       listen: false)
-                                  .areaidFrompopup;
+                                  .areaId;
                               if (gen_area != null) {
                                 gen_condition =
                                     " and accountHeadsTable.area_id=$gen_area";
@@ -327,7 +353,8 @@ class _MainDashboardState extends State<MainDashboard> {
                               Provider.of<Controller>(context, listen: false)
                                   .todayCollection(s[0], gen_condition!);
                               Provider.of<Controller>(context, listen: false)
-                                  .selectReportFromOrder(context, sid!, s[0],"");
+                                  .selectReportFromOrder(
+                                      context, sid!, s[0], "");
                             }
 
                             Navigator.pop(context);
@@ -348,7 +375,6 @@ class _MainDashboardState extends State<MainDashboard> {
     String title,
     String value,
   ) {
-
     print("valuenjn-----$value");
     return Container(
       height: size.height * 0.2,
