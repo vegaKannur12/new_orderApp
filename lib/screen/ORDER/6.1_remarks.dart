@@ -380,7 +380,7 @@ class _RemarkPageState extends State<RemarkPage> {
                                                                 builder: (BuildContext
                                                                         context) =>
                                                                     popup.buildPopupDialog(
-                                                                        "",
+                                                                        widget.cus_id,
                                                                         context,
                                                                         "Do you want to cancel the Remark?",
                                                                         "remark",
