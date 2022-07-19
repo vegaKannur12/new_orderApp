@@ -408,7 +408,7 @@ class StaffLogin extends StatelessWidget {
                                                     context: context,
                                                     builder: (BuildContext
                                                             context) =>
-                                                        popup.buildPopupDialog(
+                                                        popup.buildPopupDialog("",
                                                             context,
                                                             "Details Saved","staffLogin",0,"","",""),
                                                   );
@@ -428,7 +428,7 @@ class StaffLogin extends StatelessWidget {
                                                 onPressed: () {
                                                   CustomPopup popu =
                                                       CustomPopup();
-                                                  popup.buildPopupDialog(
+                                                  popup.buildPopupDialog("",
                                                       context, "Exit ap?","staffLogin",0,"","","");
                                                   exit(0);
                                                 },
