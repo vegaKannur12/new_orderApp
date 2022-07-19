@@ -11,7 +11,12 @@ class RemarkPage extends StatefulWidget {
   String cus_id;
   String ser;
   String sid;
-  RemarkPage({required this.cus_id, required this.ser, required this.sid});
+  String aid;
+  RemarkPage(
+      {required this.cus_id,
+      required this.ser,
+      required this.sid,
+      required this.aid});
 
   @override
   State<RemarkPage> createState() => _RemarkPageState();
@@ -360,60 +365,74 @@ class _RemarkPageState extends State<RemarkPage> {
                                               onPressed: () {
                                                 remarkController1.clear();
                                                 showDialog(
-                                                  context: context,
-                                                  builder: (ctx) => AlertDialog(
-                                                    content: Text(
-                                                        "Do you want to cancel"),
-                                                    actions: <Widget>[
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          ElevatedButton(
-                                                            style: ElevatedButton
-                                                                .styleFrom(
-                                                                    primary:
-                                                                        P_Settings
-                                                                            .wavecolor),
-                                                            onPressed:
-                                                                () async {
-                                                              await OrderAppDB
-                                                                  .instance
-                                                                  .upadteCommonQuery(
-                                                                      "remarksTable",
-                                                                      "rem_cancel=1",
-                                                                      "rem_row_num='${value.remarkList[index]["rem_row_num"]}'");
-                                                              Provider.of<Controller>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .fetchremarkFromTable(
-                                                                      widget
-                                                                          .cus_id);
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        popup.buildPopupDialog(
+                                                            context,
+                                                            "Do you want to cancel the Remark?",
+                                                            "remark",
+                                                            value.remarkList[
+                                                                    index]
+                                                                ["rem_row_num"],
+                                                            widget.sid,
+                                                            s[0],
+                                                            widget.aid));
+                                                // showDialog(
+                                                //   context: context,
+                                                //   builder: (ctx) => AlertDialog(
+                                                //     content: Text(
+                                                //         "Do you want to cancel"),
+                                                //     actions: <Widget>[
+                                                //       Row(
+                                                //         mainAxisAlignment:
+                                                //             MainAxisAlignment
+                                                //                 .end,
+                                                //         children: [
+                                                //           ElevatedButton(
+                                                //             style: ElevatedButton
+                                                //                 .styleFrom(
+                                                //                     primary:
+                                                //                         P_Settings
+                                                //                             .wavecolor),
+                                                //             onPressed:
+                                                //                 () async {
+                                                //               await OrderAppDB
+                                                //                   .instance
+                                                //                   .upadteCommonQuery(
+                                                //                       "remarksTable",
+                                                //                       "rem_cancel=1",
+                                                //                       "rem_row_num='${value.remarkList[index]["rem_row_num"]}'");
+                                                //               Provider.of<Controller>(
+                                                //                       context,
+                                                //                       listen:
+                                                //                           false)
+                                                //                   .fetchremarkFromTable(
+                                                //                       widget
+                                                //                           .cus_id);
 
-                                                              Navigator.of(ctx)
-                                                                  .pop();
-                                                            },
-                                                            child: Text("Yes"),
-                                                          ),
-                                                          SizedBox(
-                                                            width: size.width *
-                                                                0.01,
-                                                          ),
-                                                          ElevatedButton(
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop(); 
-                                                            },
-                                                            child: Text("No"),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
+                                                //               Navigator.of(ctx)
+                                                //                   .pop();
+                                                //             },
+                                                //             child: Text("Yes"),
+                                                //           ),
+                                                //           SizedBox(
+                                                //             width: size.width *
+                                                //                 0.01,
+                                                //           ),
+                                                //           ElevatedButton(
+                                                //             onPressed: () {
+                                                //               Navigator.of(
+                                                //                       context)
+                                                //                   .pop();
+                                                //             },
+                                                //             child: Text("No"),
+                                                //           ),
+                                                //         ],
+                                                //       ),
+                                                //     ],
+                                                //   ),
+                                                // );
                                               },
                                             ),
                                           ],

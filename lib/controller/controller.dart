@@ -1045,7 +1045,7 @@ class Controller extends ChangeNotifier {
   fetchremarkFromTable(String custmerId) async {
     remarkList.clear();
     var res = await OrderAppDB.instance
-        .selectAllcommon('remarksTable', "rem_cusid='${custmerId}'");
+        .selectAllcommonwithdesc('remarksTable', "rem_cusid='${custmerId}'");
 
     for (var menu in res) {
       remarkList.add(menu);
