@@ -217,6 +217,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         {
           print("djs");
           _tabController!.animateTo((0));
+
           return new MainDashboard();
         }
 
