@@ -196,7 +196,7 @@ class Controller extends ChangeNotifier {
           );
           print("body ${body}");
           var map = jsonDecode(response.body);
-          print("map ${map}");
+          print("map register ${map}");
           // print("response ${response}");
           RegistrationData regModel = RegistrationData.fromJson(map);
           userType = regModel.type;
@@ -1176,7 +1176,7 @@ class Controller extends ChangeNotifier {
           await OrderAppDB.instance.selectfromOrderbagTable(customerId);
       print("prodctItems----${prodctItems.length}");
 
-      for (var item in prodctItems) { 
+      for (var item in prodctItems) {
         productName.add(item);
       }
       var length = productName.length;
