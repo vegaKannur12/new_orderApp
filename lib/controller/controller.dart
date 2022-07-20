@@ -475,12 +475,12 @@ class Controller extends ChangeNotifier {
         url,
         body: body,
       );
-      // print("body ${body}");
-      List map = jsonDecode(response.body);
-      print("map ${map}");
+      print("body user ${body}");
+      var map = jsonDecode(response.body);
+      print("mapuser ${map}");
 
       for (var user in map) {
-        // print("staff----${staff}");
+        print("user----${user}");
         userTypemodel = UserTypeModel.fromJson(user);
         resuser = await OrderAppDB.instance.insertUserType(userTypemodel);
         // print("inserted ${restaff}");

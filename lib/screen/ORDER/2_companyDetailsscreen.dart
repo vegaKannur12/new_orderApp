@@ -377,6 +377,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                                     listen: false)
                                                 .menu_index);
                                           }
+
                                           String? cid = prefs.getString("cid");
 
                                           Provider.of<Controller>(context,

@@ -376,7 +376,7 @@ class StaffLogin extends StatelessWidget {
                                                       prefs.getString("cid");
                                                   String? userType = prefs
                                                       .getString("userType");
-
+                                                  
                                                   if (userType == "admin") {
                                                     await OrderAppDB.instance
                                                         .deleteFromTableCommonQuery(
@@ -404,13 +404,20 @@ class StaffLogin extends StatelessWidget {
                                                             listen: false)
                                                         .getStaffDetails(cid!);
                                                   }
+                                                  
                                                   showDialog(
                                                     context: context,
                                                     builder: (BuildContext
                                                             context) =>
-                                                        popup.buildPopupDialog("",
+                                                        popup.buildPopupDialog(
+                                                            "",
                                                             context,
-                                                            "Details Saved","staffLogin",0,"","",""),
+                                                            "Details Saved",
+                                                            "staffLogin",
+                                                            0,
+                                                            "",
+                                                            "",
+                                                            ""),
                                                   );
                                                 },
                                                 color: P_Settings
@@ -428,8 +435,15 @@ class StaffLogin extends StatelessWidget {
                                                 onPressed: () {
                                                   CustomPopup popu =
                                                       CustomPopup();
-                                                  popup.buildPopupDialog("",
-                                                      context, "Exit ap?","staffLogin",0,"","","");
+                                                  popup.buildPopupDialog(
+                                                      "",
+                                                      context,
+                                                      "Exit ap?",
+                                                      "staffLogin",
+                                                      0,
+                                                      "",
+                                                      "",
+                                                      "");
                                                   exit(0);
                                                 },
                                                 color: P_Settings
