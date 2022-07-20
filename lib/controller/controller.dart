@@ -444,9 +444,10 @@ class Controller extends ChangeNotifier {
 
   ////////////////////FETCH MENU TABLE ///////////////////////////////
   fetchMenusFromMenuTable() async {
-    menuList.clear();
     var res = await OrderAppDB.instance.selectAllcommon('menuTable', "");
+
     print("menu from table----$res");
+    menuList.clear();
 
     for (var menu in res) {
       menuList.add(menu);

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ADMIN_/adminController.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:provider/provider.dart';
@@ -360,9 +361,10 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                               "continueClicked", true);
                                           String? userType =
                                               prefs.getString("userType");
-                                          Provider.of<Controller>(context,
-                                                  listen: false)
-                                              .fetchMenusFromMenuTable();
+                                          print("compny deatils userType----$userType");
+                                          // Provider.of<Controller>(context,
+                                          //         listen: false)
+                                          //     .fetchMenusFromMenuTable();
                                           firstMenu =
                                               prefs.getString("firstMenu");
                                           print("first---------$firstMenu");
@@ -396,6 +398,11 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                           //     .setCname();
 
                                           if (userType == "staff") {
+                                            print("stffjknkdf");
+
+                                            await OrderAppDB.instance
+                                                .deleteFromTableCommonQuery(
+                                                    "staffDetailsTable", "");
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getStaffDetails(cid);
@@ -406,6 +413,10 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                                       StaffLogin()),
                                             );
                                           } else if (userType == "admin") {
+                                            print("adminjknkdf");
+                                            await OrderAppDB.instance
+                                                .deleteFromTableCommonQuery(
+                                                    "userTable", "");
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getUserType();

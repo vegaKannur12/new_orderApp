@@ -193,10 +193,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               String deviceInfo =
                                   "$manufacturer" + '' + "$model";
                               print("device info-----$deviceInfo");
-                              // SharedPreferences prefs =
-                              //     await SharedPreferences.getInstance();
-                              // fp = prefs.getString("fp");
-                              // print("finger print....$fp");
+                              await OrderAppDB.instance
+                                  .deleteFromTableCommonQuery('menuTable', "");
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (_formKey.currentState!.validate()) {
                                 // textFile = await externalDir

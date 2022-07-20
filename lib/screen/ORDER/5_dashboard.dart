@@ -98,6 +98,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     // TODO: implement initState
     print("returned---");
     super.initState();
+    Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
+    drawerOpts.clear();
+
     // print(Provider.of<Controller>(context, listen: false).firstMenu);
     // if (Provider.of<Controller>(context, listen: false).firstMenu != null) {
     //   Provider.of<Controller>(context, listen: false).menu_index =
@@ -117,7 +120,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       gen_condition = " ";
     }
     getCompaniId();
-    Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
+
     Provider.of<Controller>(context, listen: false).setCname();
     Provider.of<Controller>(context, listen: false).setSname();
     _tabController = TabController(
@@ -373,7 +376,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     // Provider.of<Controller>(context, listen: false)
     //     .todayCollection(s[0], context);
-
+    print(
+        "length menu-0----${Provider.of<Controller>(context, listen: false).menuList.length}");
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
         onWillPop: () => _onBackPressed(context),
@@ -513,10 +517,15 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                               ? P_Settings.wavecolor
                               : Colors.white,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          drawerOpts.clear();
+
                           Provider.of<Controller>(context, listen: false)
                               .getCompanyData();
-                          drawerOpts.clear();
+
+                          // drawerOpts.clear();
+                          print(
+                              "drwer op---${drawerOpts.length}----${Provider.of<Controller>(context, listen: false).menuList.length}");
                           for (var i = 0;
                               i <
                                   Provider.of<Controller>(context,
@@ -525,31 +534,31 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                       .length;
                               i++) {
                             // var d =Provider.of<Controller>(context, listen: false).drawerItems[i];
-                            setState(() {
-                              drawerOpts.add(Consumer<Controller>(
-                                builder: (context, value, child) {
-                                  return ListTile(
-                                    title: Text(
-                                      value.menuList[i]["menu_name"]
-                                          .toLowerCase(),
-                                      style: GoogleFonts.lato(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2,
-                                        fontSize: 17,
-                                      ),
+
+                            drawerOpts.add(Consumer<Controller>(
+                              builder: (context, value, child) {
+                                // print(
+                                //     "menulist[menu]-------${value.menuList[i]["menu_name"]}");
+                                return ListTile(
+                                  title: Text(
+                                    value.menuList[i]["menu_name"]
+                                        .toLowerCase(),
+                                    style: GoogleFonts.lato(
+                                      textStyle:
+                                          Theme.of(context).textTheme.bodyText2,
+                                      fontSize: 17,
                                     ),
-                                    // selected: i == _selectedIndex,
-                                    onTap: () {
-                                      _onSelectItem(
-                                        i,
-                                        value.menuList[i]["menu_index"],
-                                      );
-                                    },
-                                  );
-                                },
-                              ));
-                            });
+                                  ),
+                                  // selected: i == _selectedIndex,
+                                  onTap: () {
+                                    _onSelectItem(
+                                      i,
+                                      value.menuList[i]["menu_index"],
+                                    );
+                                  },
+                                );
+                              },
+                            ));
                           }
                           Scaffold.of(context).openDrawer();
                         }),
