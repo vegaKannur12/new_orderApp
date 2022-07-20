@@ -353,7 +353,7 @@ class Controller extends ChangeNotifier {
             'company_code': company_code,
             'fingerprint': fp,
           };
-
+          print("body.........$body");
           http.Response response = await http.post(
             url,
             body: body,
@@ -362,21 +362,18 @@ class Controller extends ChangeNotifier {
           print("bodymenuuuuuu ${body}");
           var map = jsonDecode(response.body);
           print("map menu ${map}");
-
           SideMenu sidemenuModel = SideMenu.fromJson(map);
           firstMenu = sidemenuModel.first;
           print("menuitem----${sidemenuModel.menu![0].menu_name}");
           print("firstMenu----$firstMenu");
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString("firstMenu", firstMenu!);
-
           for (var menuItem in sidemenuModel.menu!) {
             print("menuitem----${menuItem.menu_name}");
             res = await OrderAppDB.instance
                 .insertMenuTable(menuItem.menu_index!, menuItem.menu_name!);
             // menuList.add(menuItem);
           }
-
           print("insertion----$res");
           notifyListeners();
         } catch (e) {
@@ -1123,12 +1120,13 @@ class Controller extends ChangeNotifier {
   ///////////////////////GET AREA///////////////////////////////
   getArea(String? sid) async {
     String areaName;
-    areDetails.clear();
     print("staff...............${sid}");
     try {
       areaList = await OrderAppDB.instance.getArea(sid!);
       print("areaList----${areaList}");
       print("areaList before ----${areDetails}");
+      areDetails.clear();
+
       for (var item in areaList) {
         areDetails.add(item);
       }
