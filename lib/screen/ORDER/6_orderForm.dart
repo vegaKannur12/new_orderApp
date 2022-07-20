@@ -1235,6 +1235,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                           ),
                                         ),
                                         onPressed: () async {
+                                          print("sales item");
                                           FocusScopeNode currentFocus =
                                               FocusScope.of(context);
 

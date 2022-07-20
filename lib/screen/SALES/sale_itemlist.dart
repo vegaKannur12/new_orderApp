@@ -414,17 +414,19 @@ class _SalesItemState extends State<SalesItem> {
                                                       Text(
                                                         '\u{20B9}${value.newList[index]["rate1"]}',
                                                         style: TextStyle(
-                                                          color:
-                                                              P_Settings.ratecolor,
+                                                          color: P_Settings
+                                                              .ratecolor,
                                                           fontStyle:
                                                               FontStyle.italic,
                                                         ),
                                                       ),
-                                                       Text(
-                                                        'helloooo',
+                                                      SizedBox(width: size.width*0.055,),
+
+                                                      Text(
+                                                        '\u{20B9}${value.newList[index]["tax"]}',
                                                         style: TextStyle(
-                                                          color:
-                                                              P_Settings.ratecolor,
+                                                          color: P_Settings
+                                                              .ratecolor,
                                                           fontStyle:
                                                               FontStyle.italic,
                                                         ),
@@ -755,14 +757,28 @@ class _SalesItemState extends State<SalesItem> {
                                                                     .grey[700],
                                                         fontSize: 16),
                                                   ),
-                                                  subtitle: Text(
-                                                    '\u{20B9}${value.productName[index]["rate1"]}',
-                                                    style: TextStyle(
-                                                      color:
-                                                          P_Settings.ratecolor,
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                    ),
+                                                  subtitle: Row(
+                                                    children: [
+                                                      Text(
+                                                        '\u{20B9}${value.productName[index]["rate1"]}',
+                                                        style: TextStyle(
+                                                          color: P_Settings
+                                                              .ratecolor,
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: size.width*0.055,),
+                                                      Text(
+                                                        '\u{20B9}${value.newList[index]["tax"]}',
+                                                        style: TextStyle(
+                                                          color: P_Settings
+                                                              .ratecolor,
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                   trailing: Row(
                                                     mainAxisSize:
