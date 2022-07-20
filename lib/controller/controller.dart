@@ -451,7 +451,7 @@ class Controller extends ChangeNotifier {
     for (var menu in res) {
       menuList.add(menu);
     }
-    //print("menuList----${menuList}");
+    print("menuList----${menuList}");
 
     notifyListeners();
   }
