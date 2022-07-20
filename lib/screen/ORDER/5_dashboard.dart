@@ -229,7 +229,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
       case "S2":
         if (widget.type == "return from cartList") {
-          return OrderForm(widget.areaName!, "sales");
+          return OrderForm(widget.areaName!, "sale order");
         } else if (widget.type == "Product return confirmed") {
           return OrderForm(widget.areaName!, "");
         } else {
@@ -315,9 +315,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           type: "drawer call",
           msg: "",
         );
-      case "SO":
-        // title = "Download data";
-        return OrderForm("","sale");
+
       case "HR":
         // title = "Download data";
         return History(
@@ -678,15 +676,15 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      ListTile(
-                        onTap: () async {
-                          _onSelectItem(0, "SO");
-                        },
-                        title: Text(
-                          "Sales",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
+                      // ListTile(
+                      //   onTap: () async {
+                      //     _onSelectItem(0, "SO");
+                      //   },
+                      //   title: Text(
+                      //     "Sales",
+                      //     style: TextStyle(fontSize: 17),
+                      //   ),
+                      // ),
                       ListTile(
                         trailing: Icon(Icons.arrow_downward),
                         onTap: () async {
