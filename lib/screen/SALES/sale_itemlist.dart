@@ -420,8 +420,10 @@ class _SalesItemState extends State<SalesItem> {
                                                               FontStyle.italic,
                                                         ),
                                                       ),
-                                                      SizedBox(width: size.width*0.055,),
-
+                                                      SizedBox(
+                                                        width:
+                                                            size.width * 0.055,
+                                                      ),
                                                       Text(
                                                         '\u{20B9}${value.newList[index]["tax"]}',
                                                         style: TextStyle(
@@ -768,7 +770,10 @@ class _SalesItemState extends State<SalesItem> {
                                                               FontStyle.italic,
                                                         ),
                                                       ),
-                                                      SizedBox(width: size.width*0.055,),
+                                                      SizedBox(
+                                                        width:
+                                                            size.width * 0.055,
+                                                      ),
                                                       Text(
                                                         '\u{20B9}${value.newList[index]["tax"]}',
                                                         style: TextStyle(

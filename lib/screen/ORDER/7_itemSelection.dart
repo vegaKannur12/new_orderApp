@@ -103,7 +103,7 @@ class _ItemSelectionState extends State<ItemSelection> {
             },
           ),
           elevation: 0,
-          backgroundColor: widget.type == "sales"
+          backgroundColor: widget.type == "sale order"
               ? P_Settings.wavecolor
               : P_Settings.returnbuttnColor,
           actions: <Widget>[
@@ -117,7 +117,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                 if (widget.customerId == null || widget.customerId.isEmpty) {
                 } else {
                   FocusManager.instance.primaryFocus?.unfocus();
-                  if (widget.type == "sales") {
+                  if (widget.type == "sale order") {
                     Provider.of<Controller>(context, listen: false)
                         .getBagDetails(widget.customerId, widget.os);
 
@@ -190,7 +190,7 @@ class _ItemSelectionState extends State<ItemSelection> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    if (widget.type == "sales") {
+                    if (widget.type == "sale order") {
                       Provider.of<Controller>(context, listen: false)
                           .getBagDetails(widget.customerId, widget.os);
                       Navigator.of(context).push(
@@ -225,20 +225,20 @@ class _ItemSelectionState extends State<ItemSelection> {
                       child: value.isLoading
                           ? Center(
                               child: SpinKitThreeBounce(
-                              color: widget.type == "sales"
+                              color: widget.type == "sale order"
                                   ? P_Settings.wavecolor
                                   : P_Settings.returnbuttnColor,
                               size: 15,
                             ))
                           : Text(
-                              widget.type == "sales"
+                              widget.type == "sale order"
                                   ? "${value.count}"
                                   : "${value.returnCount}",
                               style: TextStyle(
                                   fontSize: 19, fontWeight: FontWeight.bold),
                             ),
                       decoration: BoxDecoration(
-                        color: widget.type == "sales"
+                        color: widget.type == "sale order"
                             ? P_Settings.roundedButtonColor
                             : P_Settings.returncountColor,
                         borderRadius: BorderRadius.only(
@@ -345,7 +345,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                 value.isLoading
                     ? Container(
                         child: CircularProgressIndicator(
-                            color: widget.type == "sales"
+                            color: widget.type == "sale order"
                                 ? P_Settings.wavecolor
                                 : P_Settings.returnbuttnColor))
                     : value.prodctItems.length == 0
@@ -363,7 +363,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                 ? value.isListLoading
                                     ? Center(
                                         child: SpinKitCircle(
-                                          color: widget.type == "sales"
+                                          color: widget.type == "sale order"
                                               ? P_Settings.wavecolor
                                               : P_Settings.returnbuttnColor,
                                           size: 40,
@@ -391,7 +391,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         //     ? Colors.green
                                                         //     : Colors.grey[700],
                                                         color: widget.type ==
-                                                                "sales"
+                                                                "sale order"
                                                             ? value.selected[
                                                                     index]
                                                                 ? Colors.green
@@ -470,7 +470,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                             }
                                                           });
                                                           if (widget.type ==
-                                                              "sales") {
+                                                              "sale order") {
                                                             int max = await OrderAppDB
                                                                 .instance
                                                                 .getMaxCommonQuery(
@@ -608,7 +608,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                           ),
                                                           onPressed: widget
                                                                       .type ==
-                                                                  "sales"
+                                                                  "sale order"
                                                               ? value.newList[index]
                                                                           [
                                                                           "cartrowno"] ==
@@ -717,7 +717,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         '${value.productName[index]["item"]}',
                                                     style: TextStyle(
                                                         color: widget.type ==
-                                                                "sales"
+                                                                "sale order"
                                                             ? value.productName[
                                                                             index]
                                                                         [
@@ -803,7 +803,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                             }
                                                           });
                                                           if (widget.type ==
-                                                              "sales") {
+                                                              "sale order") {
                                                             int max = await OrderAppDB
                                                                 .instance
                                                                 .getMaxCommonQuery(
@@ -939,7 +939,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                           ),
                                                           onPressed: widget
                                                                       .type ==
-                                                                  "sales"
+                                                                  "sale order"
                                                               ? value.productName[
                                                                               index]
                                                                           [
