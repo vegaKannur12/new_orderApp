@@ -74,15 +74,20 @@ class _TableContentState extends State<TableContent> {
               .where((cat) =>
                   cat["sid"].toUpperCase().contains(value.toUpperCase()))
               .toList();
-        }else if (widget.tableName == "areaDetailsTable") {
+        } else if (widget.tableName == "areaDetailsTable") {
           newList = widget.list
               .where((cat) =>
                   cat["aid"].toUpperCase().contains(value.toUpperCase()))
               .toList();
-        }else if (widget.tableName == "accountHeadsTable") {
+        } else if (widget.tableName == "accountHeadsTable") {
           newList = widget.list
               .where((cat) =>
                   cat["hname"].toUpperCase().contains(value.toUpperCase()))
+              .toList();
+        } else if (widget.tableName == "productDetailsTable") {
+          newList = widget.list
+              .where((cat) =>
+                  cat["tax"].toUpperCase().contains(value.toUpperCase()))
               .toList();
         }
       }
