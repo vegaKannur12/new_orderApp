@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:orderapp/components/customSnackbar.dart';
@@ -17,10 +15,7 @@ import 'package:orderapp/screen/ADMIN_/adminModel.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 import 'package:orderapp/screen/ORDER/externalDir.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../components/network_connectivity.dart';
 import '../model/balanceGet_model.dart';
 import '../model/productdetails_model.dart';
@@ -292,6 +287,7 @@ class Controller extends ChangeNotifier {
       List list = [];
       list.add(map);
       var jsonen = jsonEncode(list);
+      print("json----$jsonen");
       print("listrrr----$list");
       if (value == true) {
         try {
@@ -1176,7 +1172,7 @@ class Controller extends ChangeNotifier {
           await OrderAppDB.instance.selectfromOrderbagTable(customerId);
       print("prodctItems----${prodctItems.length}");
 
-      for (var item in prodctItems) { 
+      for (var item in prodctItems) {
         productName.add(item);
       }
       var length = productName.length;
