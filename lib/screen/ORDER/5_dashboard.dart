@@ -33,6 +33,7 @@ import 'package:orderapp/screen/ORDER/todayCollection.dart';
 import 'package:orderapp/screen/ORDER/todaySale.dart';
 import 'package:orderapp/screen/ORDER/todaysOrder.dart';
 import 'package:orderapp/screen/ORDER/webview.dart';
+import 'package:orderapp/screen/SALES/sale_itemlist.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -314,6 +315,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           type: "drawer call",
           msg: "",
         );
+      case "SO":
+        // title = "Download data";
+        return OrderForm("","sale");
       case "HR":
         // title = "Download data";
         return History(
@@ -674,16 +678,15 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      // ListTile(
-                      //   trailing: Icon(Icons.logout),
-                      //   onTap: () async {
-                      //     _onSelectItem(0, "TO");
-                      //   },
-                      //   title: Text(
-                      //     "Todays Order",
-                      //     style: TextStyle(fontSize: 17),
-                      //   ),
-                      // ),
+                      ListTile(
+                        onTap: () async {
+                          _onSelectItem(0, "SO");
+                        },
+                        title: Text(
+                          "Sales",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ),
                       ListTile(
                         trailing: Icon(Icons.arrow_downward),
                         onTap: () async {
@@ -739,7 +742,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-
                       ListTile(
                         trailing: Icon(Icons.settings),
                         onTap: () async {

@@ -12,7 +12,7 @@ import 'package:orderapp/screen/ORDER/filterProduct.dart';
 import 'package:orderapp/screen/RETURN/return_cart.dart';
 import 'package:provider/provider.dart';
 
-class ItemSelection extends StatefulWidget {
+class SalesItem extends StatefulWidget {
   // List<Map<String,dynamic>>  products;
   String customerId;
   String os;
@@ -21,7 +21,7 @@ class ItemSelection extends StatefulWidget {
   String type;
   bool _isLoading = false;
 
-  ItemSelection(
+  SalesItem(
       {required this.customerId,
       required this.areaId,
       required this.os,
@@ -29,10 +29,10 @@ class ItemSelection extends StatefulWidget {
       required this.type});
 
   @override
-  State<ItemSelection> createState() => _ItemSelectionState();
+  State<SalesItem> createState() => _SalesItemState();
 }
 
-class _ItemSelectionState extends State<ItemSelection> {
+class _SalesItemState extends State<SalesItem> {
   String rate1 = "1";
   TextEditingController searchcontroll = TextEditingController();
   ShowModal showModal = ShowModal();
@@ -409,14 +409,27 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                     .grey[700],
                                                         fontSize: 16),
                                                   ),
-                                                  subtitle: Text(
-                                                    '\u{20B9}${value.newList[index]["rate1"]}',
-                                                    style: TextStyle(
-                                                      color:
-                                                          P_Settings.ratecolor,
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                    ),
+                                                  subtitle: Row(
+                                                    children: [
+                                                      Text(
+                                                        '\u{20B9}${value.newList[index]["rate1"]}',
+                                                        style: TextStyle(
+                                                          color:
+                                                              P_Settings.ratecolor,
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                        ),
+                                                      ),
+                                                       Text(
+                                                        'helloooo',
+                                                        style: TextStyle(
+                                                          color:
+                                                              P_Settings.ratecolor,
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                   trailing: Row(
                                                     mainAxisSize:
