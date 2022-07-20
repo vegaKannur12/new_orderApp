@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
         //   ),
         // ),
       ),
-      home: RegistrationScreen(),
+      home: SplashScreen(),
       // home: MyWaveClipper(),
     );
   }

@@ -517,9 +517,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           Provider.of<Controller>(context, listen: false)
                               .getCompanyData();
                           drawerOpts.clear();
-                          print(
-                              "clicked---${Provider.of<Controller>(context, listen: false).menu_index}");
-                          // companyAttributes.clear();
                           for (var i = 0;
                               i <
                                   Provider.of<Controller>(context,
