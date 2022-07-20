@@ -109,9 +109,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
     Provider.of<Controller>(context, listen: false).verifyRegistration(context);
-    String? gen_area =
-        Provider.of<Controller>(context, listen: false).areaId;
-        print("gen area----$gen_area");
+    String? gen_area = Provider.of<Controller>(context, listen: false).areaId;
+    print("gen area----$gen_area");
     if (gen_area != null) {
       gen_condition = " and accountHeadsTable.area_id=$gen_area";
     } else {
@@ -219,7 +218,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           print("djs");
           _tabController!.animateTo((0));
 
-          return new MainDashboard(context: context,);
+          return new MainDashboard(
+            context: context,
+          );
         }
 
       case "S2":
@@ -316,7 +317,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             // type: "drawer call",
             );
       case "0":
-        return MainDashboard(context: context,);
+        return MainDashboard(
+          context: context,
+        );
 
       case "1":
         {

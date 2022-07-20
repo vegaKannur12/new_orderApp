@@ -177,6 +177,7 @@ class Controller extends ChangeNotifier {
     NetConnection.networkConnection(context).then((value) async {
       await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
       print("Text fp...$fingerprints");
+      print("company_code.........$company_code");
       if (value == true) {
         try {
           Uri url =
@@ -246,7 +247,7 @@ class Controller extends ChangeNotifier {
             print("fnjdxf----$user");
             getCompanyData();
             // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
-            getMenuAPi(cid!, fp1, context);
+            getMenuAPi(cid!, fp1, company_code, context);
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -342,16 +343,17 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////////GET MENU////////////////////////////////////////
-  Future<RegistrationData?> getMenuAPi(
-      String company_code, String fp, BuildContext context) async {
+  Future<RegistrationData?> getMenuAPi(String company_code, String fp,
+      String apk_key, BuildContext context) async {
     var res;
     NetConnection.networkConnection(context).then((value) async {
       if (value == true) {
-        print("company_code---fp-${company_code}---${fp}");
+        print("company_code---fp-${company_code}---${fp}..${apk_key}");
 
         try {
           Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_menu.php");
           Map body = {
+            'apk_key': apk_key,
             'company_code': company_code,
             'fingerprint': fp,
           };
