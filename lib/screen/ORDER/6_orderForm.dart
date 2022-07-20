@@ -1231,80 +1231,85 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                         child: Container(
                                           alignment: Alignment.center,
                                           width: size.width * 0.85,
-                                          height: size.height * 0.05,
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                primary: P_Settings.dashbordcl1,
-                                                shape:
-                                                    new RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          10.0),
-                                                ),
+                                          height: size.height * 0.06,
+                                          child: ElevatedButton.icon(
+                                            icon: Icon(
+                                              Icons.sell,
+                                              color: Colors.white,
+                                              size: 15.0,
+                                            ),
+                                            label: Text(
+                                              "Sales",
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                              primary: P_Settings.dashbordcl1,
+                                              shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        10.0),
                                               ),
-                                              onPressed: () async {
-                                                FocusScopeNode currentFocus =
-                                                    FocusScope.of(context);
+                                            ),
+                                            onPressed: () async {
+                                              FocusScopeNode currentFocus =
+                                                  FocusScope.of(context);
 
-                                                if (!currentFocus
-                                                    .hasPrimaryFocus) {
-                                                  currentFocus.unfocus();
-                                                }
+                                              if (!currentFocus
+                                                  .hasPrimaryFocus) {
+                                                currentFocus.unfocus();
+                                              }
 
-                                                if (_formKey.currentState!
-                                                    .validate()) {
-                                                  Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .countFromTable(
-                                                    "orderBagTable",
-                                                    values.ordernum[0]['os'],
-                                                    custmerId.toString(),
-                                                  );
-                                                  Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .fetchProductCompanyList();
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .countFromTable(
+                                                  "orderBagTable",
+                                                  values.ordernum[0]['os'],
+                                                  custmerId.toString(),
+                                                );
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .fetchProductCompanyList();
 
-                                                  Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .filterCompany = false;
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .filterCompany = false;
 
-                                                  // Provider.of<Controller>(
-                                                  //         context,
-                                                  //         listen:
-                                                  //             false)
-                                                  //     .getProductList(
-                                                  //         custmerId
-                                                  //             .toString());
-                                                  Navigator.of(context).push(
-                                                    PageRouteBuilder(
-                                                      opaque:
-                                                          false, // set to false
-                                                      pageBuilder: (_, __, ___) => SalesItem(
-                                                          customerId: custmerId
-                                                              .toString(),
-                                                          areaId: values.areaidFrompopup == null ||
-                                                                  values
-                                                                      .areaidFrompopup!
-                                                                      .isEmpty
-                                                              ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
-                                                                  0]
-                                                              : Provider.of<Controller>(context, listen: false)
-                                                                  .areaidFrompopup!,
-                                                          os: values.ordernum[0]
-                                                              ['os'],
-                                                          areaName: values.areaidFrompopup == null ||
-                                                                  values.areaidFrompopup!.isEmpty
-                                                              ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
-                                                              : Provider.of<Controller>(context, listen: false).areaSelecton!,
-                                                          type: "sale"),
-                                                    ),
-                                                  );
-                                                }
-                                              },
-                                              child: Text("Sales")),
+                                                // Provider.of<Controller>(
+                                                //         context,
+                                                //         listen:
+                                                //             false)
+                                                //     .getProductList(
+                                                //         custmerId
+                                                //             .toString());
+                                                Navigator.of(context).push(
+                                                  PageRouteBuilder(
+                                                    opaque:
+                                                        false, // set to false
+                                                    pageBuilder: (_, __, ___) => SalesItem(
+                                                        customerId: custmerId
+                                                            .toString(),
+                                                        areaId: values.areaidFrompopup == null ||
+                                                                values
+                                                                    .areaidFrompopup!
+                                                                    .isEmpty
+                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                0]
+                                                            : Provider.of<Controller>(context, listen: false)
+                                                                .areaidFrompopup!,
+                                                        os: values.ordernum[0]
+                                                            ['os'],
+                                                        areaName: values.areaidFrompopup == null ||
+                                                                values.areaidFrompopup!.isEmpty
+                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
+                                                            : Provider.of<Controller>(context, listen: false).areaSelecton!,
+                                                        type: "sale"),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          ),
                                         ),
                                       ),
                                     ],
