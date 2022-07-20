@@ -775,7 +775,7 @@ class _SalesItemState extends State<SalesItem> {
                                                             size.width * 0.055,
                                                       ),
                                                       Text(
-                                                        '\u{20B9}${value.newList[index]["tax"]}',
+                                                        '\u{20B9}${value.newList[index]["rate 2"]}',
                                                         style: TextStyle(
                                                           color: P_Settings
                                                               .ratecolor,

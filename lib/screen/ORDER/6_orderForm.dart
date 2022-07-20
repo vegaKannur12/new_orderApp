@@ -1232,12 +1232,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                           alignment: Alignment.center,
                                           width: size.width * 0.85,
                                           height: size.height * 0.05,
-                                          child: ElevatedButton.icon(
-                                            icon: Icon(
-                                                        Icons.library_add_check,
-                                                        color: Colors.white,
-                                                        size: 15.0,
-                                                      ),
+                                          child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 primary: P_Settings.dashbordcl1,
                                                 shape:
