@@ -168,7 +168,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                     } else {
                       print("value---$value");
                       Provider.of<Controller>(context, listen: false)
-                          .filterwithCompany(widget.customerId, value);
+                          .filterwithCompany(widget.customerId, value,"sale order");
                     }
                   },
                   itemBuilder: (context) => _value.productcompanyList
@@ -698,7 +698,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                         s: s,
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
-                                            .filteredeValue,appType: "sale order",
+                                            .filteredeValue
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()

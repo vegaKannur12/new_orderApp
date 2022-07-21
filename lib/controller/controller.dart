@@ -574,7 +574,7 @@ class Controller extends ChangeNotifier {
       //     dashboardSummery(sid!, s, "", context);
       //   }
       // }
-      
+
       isAccount = false;
       isLoading = false;
       notifyListeners();
@@ -1076,15 +1076,22 @@ class Controller extends ChangeNotifier {
   }
 
 ///////////////filter company////////////////////////////
-  filterwithCompany(String cusId, String comId) async {
+  filterwithCompany(String cusId, String comId, String type) async {
     isLoading = true;
     filterCompany = true;
+    List<Map<String, dynamic>> result=[];
     // notifyListeners();
     // List<Map<String, dynamic>> result = await OrderAppDB.instance
     //     .selectAllcommon('productDetailsTable', "companyId='${comId}'");
+    if (type == "sale order") {
+      result =
+          await OrderAppDB.instance.selectfrombagandfilterList(cusId, comId);
+    }
+    if (type == "sales") {
+      result = await OrderAppDB.instance
+          .selectfromsalesbagandfilterList(cusId, comId);
+    }
 
-    List<Map<String, dynamic>> result =
-        await OrderAppDB.instance.selectfrombagandfilterList(cusId, comId);
     print("products filter-----$result");
     filteredProductList.clear();
     for (var item in result) {

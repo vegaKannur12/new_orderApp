@@ -1259,7 +1259,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                   context,
                                                                   listen: false)
                                                               .countFromTable(
-                                                            "orderBagTable",
+                                                            "salesBagTable",
                                                             values.ordernum[0]
                                                                 ['os'],
                                                             custmerId

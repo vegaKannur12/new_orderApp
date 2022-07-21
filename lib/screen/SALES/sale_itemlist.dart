@@ -9,6 +9,7 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/8_cartList.dart';
 import 'package:orderapp/screen/ORDER/filterProduct.dart';
+import 'package:orderapp/screen/SALES/saleFilteredProductList.dart';
 import 'package:orderapp/screen/SALES/sale_cart.dart';
 
 import 'package:provider/provider.dart';
@@ -150,7 +151,7 @@ class _SalesItemState extends State<SalesItem> {
                     } else {
                       print("value---$value");
                       Provider.of<Controller>(context, listen: false)
-                          .filterwithCompany(widget.customerId, value);
+                          .filterwithCompany(widget.customerId, value,"sales");
                     }
                   },
                   itemBuilder: (context) => _value.productcompanyList
@@ -488,7 +489,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   context,
                                                                   listen: false)
                                                               .countFromTable(
-                                                            "orderBagTable",
+                                                            "salesBagTable",
                                                             widget.os,
                                                             widget.customerId,
                                                           );
@@ -595,7 +596,7 @@ class _SalesItemState extends State<SalesItem> {
                                               );
                                             })
                                 : value.filterCompany
-                                    ? FilteredProduct(
+                                    ? SaleFilteredProduct(
                                         type: widget.type,
                                         customerId: widget.customerId,
                                         os: widget.os,
@@ -603,7 +604,7 @@ class _SalesItemState extends State<SalesItem> {
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
                                             .filteredeValue,
-                                        appType: "sales",
+                                        
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
@@ -773,7 +774,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   context,
                                                                   listen: false)
                                                               .countFromTable(
-                                                            "orderBagTable",
+                                                            "salesBagTable",
                                                             widget.os,
                                                             widget.customerId,
                                                           );

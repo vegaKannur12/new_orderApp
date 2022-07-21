@@ -16,14 +16,14 @@ class FilteredProduct extends StatefulWidget {
   List<String>? s;
   String? customerId;
   String? value;
-  String? appType;
+ 
   FilteredProduct(
       {required this.type,
       this.customerId,
       this.os,
       this.s,
       this.value,
-      this.appType});
+      });
 
   @override
   State<FilteredProduct> createState() => _FilteredProductState();
@@ -48,7 +48,7 @@ class _FilteredProductState extends State<FilteredProduct> {
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false)
-        .filterwithCompany(widget.customerId!, widget.value!);
+        .filterwithCompany(widget.customerId!, widget.value!,"sale order");
   }
 
   @override
@@ -235,8 +235,8 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .filteredeValue!,
-                                                value.qty[index],
-                                                widget.appType!);
+                                                value.qty[index],"sale order"
+                                                );
                                           }
                                         : null
                                     : () async {
@@ -260,7 +260,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                     listen: false)
                                                 .filteredeValue!,
                                             value.qty[index],
-                                            widget.appType!);
+                                            "sale order");
                                       }
                                 : value.filterComselected[index]
                                     ? () async {
@@ -284,7 +284,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                     listen: false)
                                                 .filteredeValue!,
                                             value.qty[index],
-                                            widget.appType!);
+                                            "sale order");
                                       }
                                     : null)
                       ],
