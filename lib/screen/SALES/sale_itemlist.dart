@@ -88,6 +88,7 @@ class _SalesItemState extends State<SalesItem> {
       opacity: 1.0,
       child: Scaffold(
         appBar: AppBar(
+          
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
@@ -103,9 +104,9 @@ class _SalesItemState extends State<SalesItem> {
             },
           ),
           elevation: 0,
-          backgroundColor: widget.type == "sales"
+          backgroundColor: widget.type == "sale"
               ? P_Settings.wavecolor
-              : P_Settings.returnbuttnColor,
+              : P_Settings.wavecolor,
           actions: <Widget>[
             IconButton(
               icon: Icon(
@@ -425,7 +426,7 @@ class _SalesItemState extends State<SalesItem> {
                                                             size.width * 0.055,
                                                       ),
                                                       Text(
-                                                        '\u{20B9}${value.newList[index]["rate2"]}',
+                                                        'tax: \u{20B9}${value.newList[index]["tax"]}',
                                                         style: TextStyle(
                                                           color: Colors.grey,
                                                           fontStyle:
@@ -774,7 +775,7 @@ class _SalesItemState extends State<SalesItem> {
                                                             size.width * 0.055,
                                                       ),
                                                       Text(
-                                                        '(tax: \u{20B9}${value.newList[index]["rate2"]})',
+                                                        '(tax: \u{20B9}${value.productName[index]["tax"]})',
                                                         style: TextStyle(
                                                           color: Colors.grey,
                                                           fontStyle:
