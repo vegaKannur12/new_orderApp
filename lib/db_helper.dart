@@ -690,7 +690,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per,  cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", "${hsn}", "${tax}", "${discount}", "${ces_per}", $cstatus)';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per,  cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, ${rate}, "${totalamount}", "${hsn}", ${tax}", "${discount}", "${ces_per}", $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
@@ -733,31 +733,49 @@ class OrderAppDB {
       print(query3);
     }
   }
+
   //////////// Insert into sales master and sales details table/////////////
-   Future insertsalesMasterandDetailsTable(
-      String item,
-      int sales_id,
-      int? qty,
-      double rate,
-      String? code,
-      String orderdate,
-      String ordertime,
-      String os,
-      String customerid,
-      String userid,
-      String areaid,
-      int status,
-      String unit,
-      int rowNum,
-      String table,
-      double total_price) async {
+  Future insertsalesMasterandDetailsTable(
+    String item,
+    int sales_id,
+    int? qty,
+    double rate,
+    String? code,
+    String salesdate,
+    String salestime,
+    String os,
+    String customerid,
+    String cus_type,
+    String bill_no,
+    String staff_id,
+    String areaid,
+    String total_qty,
+    String cgst,
+    String sgst,
+    String payment_mode,
+    String credit_option,
+    String unit,
+    int rowNum,
+    String table,
+    String item_name,
+    double gross_amount,
+    double dis_amt,
+    double dis_per,
+    double tax_amt,
+    double tax_per,
+    double ces_amt,
+    double ces_per,
+    double net_amt,
+    double total_price,
+    int status,
+  ) async {
     final db = await database;
     var res2;
     var res3;
 
     if (table == "orderDetailTable") {
       var query2 =
-          'INSERT INTO orderDetailTable(order_id, row_num,os,code, item, qty, rate, unit) VALUES(${order_id},${rowNum},"${os}","${code}","${item}", ${qty}, $rate, "${unit}")';
+          'INSERT INTO salesDetailTable(order_id, row_num,os,code, item, qty, rate, unit) VALUES(${order_id},${rowNum},"${os}","${code}","${item}", ${qty}, $rate, "${unit}")';
       print(query2);
       res2 = await db.rawInsert(query2);
     } else if (table == "orderMasterTable") {
@@ -767,6 +785,7 @@ class OrderAppDB {
       print(query3);
     }
   }
+
   ////////////////////insert to return table/////////////////////////////////
   Future insertreturnMasterandDetailsTable(
       String item,
@@ -1410,16 +1429,6 @@ class OrderAppDB {
     Database db = await instance.database;
     result = await db.rawQuery(
         "SELECT productDetailsTable.* , orderBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code AND orderBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
-    print("leftjoin result----$result");
-    print("length---${result.length}");
-    return result;
-  }
-
-  selectfromsalebagTable(String customerId) async {
-    List<Map<String, dynamic>> result;
-    Database db = await instance.database;
-    result = await db.rawQuery(
-        "SELECT productDetailsTable.* , salesBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'salesBagTable' ON productDetailsTable.code = salesBagTable.code AND salesBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
     print("leftjoin result----$result");
     print("length---${result.length}");
     return result;
