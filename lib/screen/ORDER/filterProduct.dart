@@ -77,12 +77,26 @@ class _FilteredProductState extends State<FilteredProduct> {
                                   : Colors.grey[700],
                           fontSize: 16),
                     ),
-                    subtitle: Text(
-                      '\u{20B9}${value.filteredProductList[index]["rate1"]}',
-                      style: TextStyle(
-                        color: P_Settings.ratecolor,
-                        fontStyle: FontStyle.italic,
-                      ),
+                    subtitle: Row(
+                      children: [
+                        Text(
+                          '\u{20B9}${value.filteredProductList[index]["rate1"]}',
+                          style: TextStyle(
+                            color: P_Settings.ratecolor,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        SizedBox(
+                          width: size.width * 0.055,
+                        ),
+                        Text(
+                          '(tax: \u{20B9}${value.filteredProductList[index]["tax"]})',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ],
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
