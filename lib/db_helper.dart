@@ -178,6 +178,35 @@ class OrderAppDB {
   static final rem_cancel = 'rem_cancel';
   static final rem_status = 'rem_status';
   static final rem_time = 'rem_time';
+
+  //////////////////sales bag//////////////////
+  static final method = 'method';
+  static final discount = 'discount';
+  ///////////////// sales details /////////
+  static final item_name = 'item_name';
+  static final hsn_code = 'hsn_code';
+  static final gross_amount = 'gross_amount';
+  static final tax_per = 'tax_per';
+  static final tax_amt = 'tax_amt';
+  static final sess_per = 'sess_per';
+  static final sess_amt = 'sess_amt';
+  static final dis_amt = 'dis_amt';
+  static final dis_per = 'dis_per';
+  static final net_amt = 'net_amt';
+  static final sales_id = 'sales_id';
+  ///////////// salesmastertable////////
+  static final salestime = 'salestime';
+  static final salesdate = 'salesdate';
+  static final cus_type = 'cus_type';
+  static final customer_id = 'customer_id';
+  static final staff_id = 'staff_id';
+  static final cgst = 'cgst';
+  static final sgst = 'sgst';
+  static final total_qty = 'total_qty';
+  static final payment_mode = 'payment_mode';
+  static final credit_option = 'credit_option';
+  static final bill_no = 'bill_no';
+
   Future<Database> get database async {
     print("bjhs");
     if (_database != null) return _database!;
@@ -360,6 +389,7 @@ class OrderAppDB {
             $comanme TEXT
           )
           ''');
+    /////////////// order master table//////////
     await db.execute('''
           CREATE TABLE orderMasterTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -370,6 +400,28 @@ class OrderAppDB {
             $customerid TEXT,
             $userid TEXT,
             $areaid TEXT,
+            $status INTEGER,
+            $total_price REAL
+          )
+          ''');
+    ///////////// sales master table //////////////////
+    await db.execute('''
+          CREATE TABLE salesMasterTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $sales_id INTEGER,
+            $salesdate TEXT,
+            $salestime TEXT,
+            $os TEXT NOT NULL,
+            $cus_type TEXT,
+            $bill_no TEXT,
+            $customer_id TEXT,
+            $staff_id TEXT,
+            $areaid TEXT,
+            $total_qty TEXT,
+            $cgst TEXT,
+            $sgst TEXT,
+            $payment_mode TEXT,
+            $credit_option TEXT,
             $status INTEGER,
             $total_price REAL
           )
@@ -387,6 +439,29 @@ class OrderAppDB {
             $rate REAL  
           )
           ''');
+    ///////////////////////////////
+    await db.execute('''
+          CREATE TABLE salesDetailTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $item TEXT,
+            $os TEXT NOT NULL,
+            $sales_id INTEGER,
+            $row_num INTEGER,
+            $item_name TEXT,
+            $code TEXT,
+            $qty INTEGER,
+            $unit TEXT,
+            $gross_amount REAL,
+            $dis_amt REAL,
+            $dis_per REAL,
+            $tax_amt REAL,
+            $tax_per REAL,
+            $sess_amt REAL,
+            $sess_per REAL,
+            $net_amt REAL,
+            $rate REAL  
+          )
+          ''');
     await db.execute(''' 
           CREATE TABLE orderBagTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -400,6 +475,28 @@ class OrderAppDB {
             $qty INTEGER,
             $rate TEXT,
             $totalamount TEXT,
+            $cstatus INTEGER
+          )
+          ''');
+    ////////////////////////////////////////
+    await db.execute(''' 
+          CREATE TABLE salesBagTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $itemName TEXT NOT NULL,
+            $cartdate TEXT,
+            $carttime TEXT,
+            $os TEXT NOT NULL,
+            $customerid TEXT,
+            $cartrowno INTEGER,
+            $code TEXT,
+            $qty INTEGER,
+            $rate REAL,
+            $totalamount REAL,
+            $method TEXT,
+            $hsn TEXT,
+            $tax REAL,
+            $discount TEXT,
+            $sess_per TEXT,
             $cstatus INTEGER
           )
           ''');
@@ -1200,7 +1297,7 @@ class OrderAppDB {
   deleteFromTableCommonQuery(String table, String? condition) async {
     print("table--condition -$table---$condition");
     Database db = await instance.database;
-    if (condition == null || condition.isEmpty || condition=="") {
+    if (condition == null || condition.isEmpty || condition == "") {
       print("no condition");
       await db.delete('$table');
     } else {
@@ -1354,12 +1451,12 @@ class OrderAppDB {
   Future<dynamic> todayCollection(String date, String condition) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
-   print("jhsjh----$condition");
+    print("jhsjh----$condition");
     result = await db.rawQuery(
         'select accountHeadsTable.hname as cus_name,collectionTable.rec_cusid,collectionTable.rec_cusid,collectionTable.rec_date,collectionTable.rec_amount,collectionTable.rec_note from collectionTable inner join accountHeadsTable on accountHeadsTable.ac_code = collectionTable.rec_cusid where collectionTable.rec_date="${date}" $condition and collectionTable.rec_cancel=0  order by collectionTable.id DESC');
     // if (result.length > 0) {
-      print("inner collc result------$result");
-      return result;
+    print("inner collc result------$result");
+    return result;
     // } else {
     //   return null;
     // }
