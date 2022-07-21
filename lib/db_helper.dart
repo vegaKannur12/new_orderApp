@@ -403,6 +403,7 @@ class OrderAppDB {
             $cstatus INTEGER
           )
           ''');
+
     /////////////////////////////////////////
     await db.execute('''
           CREATE TABLE menuTable (
@@ -1200,7 +1201,7 @@ class OrderAppDB {
   deleteFromTableCommonQuery(String table, String? condition) async {
     print("table--condition -$table---$condition");
     Database db = await instance.database;
-    if (condition == null || condition.isEmpty || condition=="") {
+    if (condition == null || condition.isEmpty || condition == "") {
       print("no condition");
       await db.delete('$table');
     } else {
@@ -1225,6 +1226,16 @@ class OrderAppDB {
   // }
 //////////////////////////////select left join/////////////////////
   selectfromOrderbagTable(String customerId) async {
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    result = await db.rawQuery(
+        "SELECT productDetailsTable.* , orderBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code AND orderBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
+    print("leftjoin result----$result");
+    print("length---${result.length}");
+    return result;
+  }
+
+  selectfromsalebagTable(String customerId) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
     result = await db.rawQuery(
@@ -1354,12 +1365,12 @@ class OrderAppDB {
   Future<dynamic> todayCollection(String date, String condition) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
-   print("jhsjh----$condition");
+    print("jhsjh----$condition");
     result = await db.rawQuery(
         'select accountHeadsTable.hname as cus_name,collectionTable.rec_cusid,collectionTable.rec_cusid,collectionTable.rec_date,collectionTable.rec_amount,collectionTable.rec_note from collectionTable inner join accountHeadsTable on accountHeadsTable.ac_code = collectionTable.rec_cusid where collectionTable.rec_date="${date}" $condition and collectionTable.rec_cancel=0  order by collectionTable.id DESC');
     // if (result.length > 0) {
-      print("inner collc result------$result");
-      return result;
+    print("inner collc result------$result");
+    return result;
     // } else {
     //   return null;
     // }

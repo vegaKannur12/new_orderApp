@@ -49,11 +49,13 @@ class Controller extends ChangeNotifier {
   int? shopVisited;
   int? noshopVisited;
   List<bool> selected = [];
+  // List<bool> saleItemselected = [];
+
   List<bool> filterComselected = [];
   List<bool> returnselected = [];
   bool isautodownload = false;
 
-  List<bool> returnSelected = [];
+  // List<bool> returnSelected = [];
 
   String? areaidFrompopup;
   List<bool> isExpanded = [];
@@ -2282,5 +2284,23 @@ class Controller extends ChangeNotifier {
 
     print("nw list---$newList");
     notifyListeners();
+  }
+
+  ///////////////////////////////////////////////////////////
+  taxCalculation(
+      double rate, double tax_percentage, double total, String method) {
+    double total_amt;
+    double tax_exclud_amt;
+    double tax_amt;
+
+    if (method == "0") {
+      double tax = rate * (tax_percentage / 100);
+      total_amt = rate + tax;
+      return total_amt;
+    } else if (method == "1") {
+      double tax = total * (tax_percentage / 100);
+      tax_exclud_amt = total * (100 / tax);
+      tax_amt = total - tax_exclud_amt;
+    }
   }
 }
