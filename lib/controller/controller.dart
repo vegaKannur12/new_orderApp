@@ -1164,7 +1164,7 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////////GET PRODUCT LIST/////////////////////////////////
-  getProductList(String customerId) async {
+  getProductList(String customerId, String type) async {
     print("haii---");
     int flag = 0;
     productName.clear();
@@ -1173,6 +1173,38 @@ class Controller extends ChangeNotifier {
       // notifyListeners();
       prodctItems =
           await OrderAppDB.instance.selectfromOrderbagTable(customerId);
+      print("prodctItems----${prodctItems.length}");
+
+      for (var item in prodctItems) {
+        productName.add(item);
+      }
+      var length = productName.length;
+      print("text length----$length");
+      qty = List.generate(length, (index) => TextEditingController());
+      selected = List.generate(length, (index) => false);
+      returnselected = List.generate(length, (index) => false);
+
+      isLoading = false;
+      notifyListeners();
+      print("product name----${productName}");
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    notifyListeners();
+  }
+
+  getSaleProductList(String customerId, String type) async {
+    print("haii---");
+    int flag = 0;
+    productName.clear();
+    try {
+      isLoading = true;
+      // notifyListeners();
+      prodctItems =
+          await OrderAppDB.instance.selectfromsalebagTable(customerId);
       print("prodctItems----${prodctItems.length}");
 
       for (var item in prodctItems) {
