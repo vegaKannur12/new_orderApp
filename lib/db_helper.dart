@@ -188,8 +188,8 @@ class OrderAppDB {
   static final gross_amount = 'gross_amount';
   static final tax_per = 'tax_per';
   static final tax_amt = 'tax_amt';
-  static final sess_per = 'sess_per';
-  static final sess_amt = 'sess_amt';
+  static final ces_per = 'ces_per';
+  static final ces_amt = 'ces_amt';
   static final dis_amt = 'dis_amt';
   static final dis_per = 'dis_per';
   static final net_amt = 'net_amt';
@@ -456,8 +456,8 @@ class OrderAppDB {
             $dis_per REAL,
             $tax_amt REAL,
             $tax_per REAL,
-            $sess_amt REAL,
-            $sess_per REAL,
+            $ces_amt REAL,
+            $ces_per REAL,
             $net_amt REAL,
             $rate REAL  
           )
@@ -496,7 +496,7 @@ class OrderAppDB {
             $hsn TEXT,
             $tax REAL,
             $discount TEXT,
-            $sess_per TEXT,
+            $ces_per TEXT,
             $cstatus INTEGER
           )
           ''');
@@ -648,6 +648,57 @@ class OrderAppDB {
     return res;
   }
 
+////////////////////////// insert into sales bag table /////////////////
+  Future insertsalesBagTable(
+    String itemName,
+    String cartdate,
+    String carttime,
+    String os,
+    String customerid,
+    int cartrowno,
+    String code,
+    int qty,
+    String rate,
+    String totalamount,
+    String method,
+    String hsn,
+    double tax,
+    String discount,
+    String ces_per,
+    int cstatus,
+  ) async {
+    print("qty--$qty");
+    print("code...........$code");
+    final db = await database;
+    var res;
+    var query3;
+    var query2;
+    List<Map<String, dynamic>> res1 = await db.rawQuery(
+        'SELECT  * FROM salesBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
+    print("SELECT from ---$res1");
+    if (res1.length == 1) {
+      int qty1 = res1[0]["qty"];
+      int updatedQty = qty1 + qty;
+      double amount = double.parse(res1[0]["totalamount"]);
+      print("res1.length----${res1.length}");
+
+      print("upadted qty-----$updatedQty");
+      double amount1 = double.parse(totalamount);
+      double updatedAmount = amount + amount1;
+      var res = await db.rawUpdate(
+          'UPDATE salesBagTable SET qty=$updatedQty , totalamount="${updatedAmount}" WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
+      print("response-------$res");
+    } else {
+      query2 =
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per,  cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", "${hsn}", "${tax}", "${discount}", "${ces_per}", $cstatus)';
+      var res = await db.rawInsert(query2);
+    }
+
+    print("insert query result $res");
+    print("insert-----$query2");
+    return res;
+  }
+
   /////////////////////// order master table insertion//////////////////////
   Future insertorderMasterandDetailsTable(
       String item,
@@ -682,7 +733,40 @@ class OrderAppDB {
       print(query3);
     }
   }
+  //////////// Insert into sales master and sales details table/////////////
+   Future insertsalesMasterandDetailsTable(
+      String item,
+      int sales_id,
+      int? qty,
+      double rate,
+      String? code,
+      String orderdate,
+      String ordertime,
+      String os,
+      String customerid,
+      String userid,
+      String areaid,
+      int status,
+      String unit,
+      int rowNum,
+      String table,
+      double total_price) async {
+    final db = await database;
+    var res2;
+    var res3;
 
+    if (table == "orderDetailTable") {
+      var query2 =
+          'INSERT INTO orderDetailTable(order_id, row_num,os,code, item, qty, rate, unit) VALUES(${order_id},${rowNum},"${os}","${code}","${item}", ${qty}, $rate, "${unit}")';
+      print(query2);
+      res2 = await db.rawInsert(query2);
+    } else if (table == "orderMasterTable") {
+      var query3 =
+          'INSERT INTO orderMasterTable(order_id, orderdate, ordertime, os, customerid, userid, areaid, status, total_price) VALUES("${order_id}", "${orderdate}", "${ordertime}", "${os}", "${customerid}", "${userid}", "${areaid}", ${status},${total_price})';
+      res2 = await db.rawInsert(query3);
+      print(query3);
+    }
+  }
   ////////////////////insert to return table/////////////////////////////////
   Future insertreturnMasterandDetailsTable(
       String item,
