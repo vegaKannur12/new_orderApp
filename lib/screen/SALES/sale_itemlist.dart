@@ -472,9 +472,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                       .toString(),
                                                                   "0",
                                                                   value.newList[index]
-                                                                      ["hsn"],
-                                                                  value.newList[index]
-                                                                      ["tax"],
+                                                                      ["hsn"],0.0,
+                                                                  // value.newList[index]
+                                                                  //     ["tax"],
                                                                   0.0,
                                                                   0.0,
                                                                   0);
@@ -750,10 +750,10 @@ class _SalesItemState extends State<SalesItem> {
                                                                   "0",
                                                                   products[
                                                                           index]
-                                                                      ["hsn"],
-                                                                  products[
-                                                                          index]
-                                                                      ["tax"],
+                                                                      ["hsn"],0.0,
+                                                                  // products[
+                                                                  //         index]
+                                                                      // ["tax"],
                                                                   0.0,
                                                                   0.0,
                                                                   0);

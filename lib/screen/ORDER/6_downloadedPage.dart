@@ -136,10 +136,10 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                   : value.isAccount
                                       ? null
                                       : () async {
-                                          SharedPreferences prefs =
-                                              await SharedPreferences
-                                                  .getInstance();
-                                          prefs.setBool("isautodownload", true);
+                                          // SharedPreferences prefs =
+                                          //     await SharedPreferences
+                                          //         .getInstance();
+                                          // prefs.setBool("isautodownload", true);
                                           // Provider.of<Controller>(context,
                                           //         listen: false)
                                           //     .isautodownload = true;
