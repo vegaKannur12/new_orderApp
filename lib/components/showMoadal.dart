@@ -84,7 +84,7 @@ class ShowModal {
                                       Provider.of<Controller>(context,
                                               listen: false)
                                           .filterwithCompany(
-                                              customerId, filterValue);
+                                              customerId, filterValue,"sale order");
                                     }
                                     Provider.of<Controller>(context,
                                             listen: false)
@@ -105,7 +105,7 @@ class ShowModal {
                                       Provider.of<Controller>(context,
                                               listen: false)
                                           .filterwithCompany(
-                                              customerId, filterValue);
+                                              customerId, filterValue,"sales");
                                     }
                                     Provider.of<Controller>(context,
                                             listen: false)
