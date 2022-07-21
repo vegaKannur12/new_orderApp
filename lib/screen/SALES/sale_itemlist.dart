@@ -425,10 +425,9 @@ class _SalesItemState extends State<SalesItem> {
                                                             size.width * 0.055,
                                                       ),
                                                       Text(
-                                                        '\u{20B9}${value.newList[index]["tax"]}',
+                                                        '\u{20B9}${value.newList[index]["rate2"]}',
                                                         style: TextStyle(
-                                                          color: P_Settings
-                                                              .ratecolor,
+                                                          color: Colors.grey,
                                                           fontStyle:
                                                               FontStyle.italic,
                                                         ),
@@ -774,16 +773,14 @@ class _SalesItemState extends State<SalesItem> {
                                                         width:
                                                             size.width * 0.055,
                                                       ),
-                                                      // Text(
-                                                      //   value.newList[index]["tax"]==""|| value.newList[index]["tax"].isEmpty?"0":
-                                                      //   '\u{20B9}${value.newList[index]["tax"]=="" }',
-                                                      //   style: TextStyle(
-                                                      //     color: P_Settings
-                                                      //         .ratecolor,
-                                                      //     fontStyle:
-                                                      //         FontStyle.italic,
-                                                      //   ),
-                                                      // ),
+                                                      Text(
+                                                        '(tax: \u{20B9}${value.newList[index]["rate2"]})',
+                                                        style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
                                                   trailing: Row(
