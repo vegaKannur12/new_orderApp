@@ -663,8 +663,8 @@ class OrderAppDB {
     String method,
     String hsn,
     double tax,
-    String discount,
-    String ces_per,
+    double discount,
+    double ces_per,
     int cstatus,
   ) async {
     print("qty--$qty");
@@ -690,7 +690,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per,  cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, ${rate}, "${totalamount}", "${hsn}", ${tax}", "${discount}", "${ces_per}", $cstatus)';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per,  cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", "${hsn}", "${tax}", ${discount}, ${ces_per}, $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
@@ -893,6 +893,19 @@ class OrderAppDB {
         'SELECT  * FROM orderBagTable WHERE customerid="${customerId}" AND os = "${os}"');
     print(
         'SELECT  * FROM orderBagTable WHERE customerid="${customerId}" AND os = "${os}"');
+    print(res);
+    return res;
+  }
+
+  Future<List<Map<String, dynamic>>> getSaleBagTable(
+      String customerId, String os) async {
+    print("enteredcustomerId---${customerId}");
+    // .of<Controller>(context, listen: false).customerList.clear();
+    Database db = await instance.database;
+    var res = await db.rawQuery(
+        'SELECT  * FROM salesBagTable WHERE customerid="${customerId}" AND os = "${os}"');
+    print(
+        'SELECT  * FROM salesBagTable WHERE customerid="${customerId}" AND os = "${os}"');
     print(res);
     return res;
   }
@@ -1427,6 +1440,16 @@ class OrderAppDB {
     Database db = await instance.database;
     result = await db.rawQuery(
         "SELECT productDetailsTable.* , orderBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code AND orderBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
+    print("leftjoin result----$result");
+    print("length---${result.length}");
+    return result;
+  }
+
+  selectfromsalebagTable(String customerId) async {
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    result = await db.rawQuery(
+        "SELECT productDetailsTable.* , salesBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'salesBagTable' ON productDetailsTable.code = salesBagTable.code AND salesBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
     print("leftjoin result----$result");
     print("length---${result.length}");
     return result;

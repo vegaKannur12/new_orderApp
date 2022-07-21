@@ -1164,7 +1164,7 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////////GET PRODUCT LIST/////////////////////////////////
-  getProductList(String customerId, String type) async {
+  getProductList(String customerId) async {
     print("haii---");
     int flag = 0;
     productName.clear();
@@ -1196,7 +1196,8 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  getSaleProductList(String customerId, String type) async {
+/////////////////////////////////////////////////////////////////
+  getSaleProductList(String customerId) async {
     print("haii---");
     int flag = 0;
     productName.clear();
@@ -1249,6 +1250,25 @@ class Controller extends ChangeNotifier {
     notifyListeners();
     List<Map<String, dynamic>> res =
         await OrderAppDB.instance.getOrderBagTable(customerId, os);
+    for (var item in res) {
+      bagList.add(item);
+    }
+    rateEdit = List.generate(bagList.length, (index) => false);
+    generateTextEditingController();
+    print("bagList vxdvxd----$bagList");
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+//////////////////////////////////////////////////////
+  getSaleBagDetails(String customerId, String os) async {
+    bagList.clear();
+
+    isLoading = true;
+    notifyListeners();
+    List<Map<String, dynamic>> res =
+        await OrderAppDB.instance.getSaleBagTable(customerId, os);
     for (var item in res) {
       bagList.add(item);
     }

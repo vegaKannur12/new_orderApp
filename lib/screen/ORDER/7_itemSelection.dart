@@ -73,7 +73,7 @@ class _ItemSelectionState extends State<ItemSelection> {
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     s = date!.split(" ");
     Provider.of<Controller>(context, listen: false)
-        .getProductList(widget.customerId,"sale order");
+        .getProductList(widget.customerId);
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
         _isLoading = false;
@@ -164,7 +164,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                           .filteredProductList
                           .clear();
                       Provider.of<Controller>(context, listen: false)
-                          .getProductList(widget.customerId,"sale order");
+                          .getProductList(widget.customerId);
                     } else {
                       print("value---$value");
                       Provider.of<Controller>(context, listen: false)
@@ -319,7 +319,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                       onPressed: () {
                                         Provider.of<Controller>(context,
                                                 listen: false)
-                                            .getProductList(widget.customerId,"sale order");
+                                            .getProductList(widget.customerId);
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .setIssearch(false);
