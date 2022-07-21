@@ -690,7 +690,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, ${rate}, ${totalamount}, "${hsn}", ${tax}, ${discount}, ${ces_per}, $cstatus)';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", "${hsn}", ${tax}, ${discount}, ${ces_per}, $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
