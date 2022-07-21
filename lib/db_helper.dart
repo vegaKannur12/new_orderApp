@@ -490,8 +490,8 @@ class OrderAppDB {
             $cartrowno INTEGER,
             $code TEXT,
             $qty INTEGER,
-            $rate REAL,
-            $totalamount REAL,
+            $rate TEXT,
+            $totalamount TEXT,
             $method TEXT,
             $hsn TEXT,
             $tax REAL,
@@ -690,7 +690,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per,  cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", "${hsn}", "${tax}", ${discount}, ${ces_per}, $cstatus)';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, ${rate}, ${totalamount}, "${hsn}", ${tax}, ${discount}, ${ces_per}, $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
@@ -1053,7 +1053,7 @@ class OrderAppDB {
         'INSERT INTO accountHeadsTable(ac_code, hname, gtype, ac_ad1, ac_ad2, ac_ad3, area_id, phn, ba, ri, rc, ht, mo, ac_gst, ac, cag) VALUES("${accountHead.code}", "${accountHead.hname}", "${accountHead.gtype}", "${accountHead.ad1}", "${accountHead.ad2}", "${accountHead.ad3}", "${accountHead.aid}", "${accountHead.ph}", ${accountHead.ba}, "${accountHead.ri}", "${accountHead.rc}", "${accountHead.ht}", "${accountHead.mo}", "${accountHead.gst}", "${accountHead.ac}", "${accountHead.cag}")';
     var res = await db.rawInsert(query);
     print(query);
-    // print(res);
+    print(res);
     return res;
   }
 

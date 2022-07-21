@@ -567,13 +567,13 @@ class Controller extends ChangeNotifier {
         var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
       }
 
-      if (areaidFrompopup != null) {
-        dashboardSummery(sid!, s, areaidFrompopup!, context);
-      } else {
-        if (userType == "staff") {
-          dashboardSummery(sid!, s, "", context);
-        }
-      }
+      // if (areaidFrompopup != null) {
+      //   dashboardSummery(sid!, s, areaidFrompopup!, context);
+      // } else {
+      //   if (userType == "staff") {
+      //     dashboardSummery(sid!, s, "", context);
+      //   }
+      // }
       isAccount = false;
       isLoading = false;
       notifyListeners();
