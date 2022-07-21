@@ -45,7 +45,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false)
-        .filterwithCompany(widget.customerId!, widget.value!,"sales");
+        .filterwithCompany(widget.customerId!, widget.value!,"sale");
   }
 
   @override
@@ -178,7 +178,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                             null)
                                 ? Provider.of<Controller>(context,
                                         listen: false)
-                                    .calculateTotal(value.ordernum[0]['os'],
+                                    .calculateorderTotal(value.ordernum[0]['os'],
                                         widget.customerId!)
                                 : Text("No data");
                           },

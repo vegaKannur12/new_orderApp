@@ -123,7 +123,7 @@ class _SaleCartState extends State<SaleCart> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
                               Flexible(
-                                child: Text("\u{20B9}${value.orderTotal}",
+                                child: Text("\u{20B9}${value.orderTotal2}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)),
@@ -147,16 +147,17 @@ class _SaleCartState extends State<SaleCart> {
                                   await SharedPreferences.getInstance();
                               String? sid = await prefs.getString('sid');
                               String? os = await prefs.getString('os');
-
+                              print("order total...${double.parse(value.orderTotal2!)}");
                               Provider.of<Controller>(context, listen: false)
                                   .insertToSalesbagAndMaster(
-                                      os!,
-                                      s[0],
-                                      s[1],
-                                      widget.custmerId,
-                                      sid!,
-                                      widget.areaId,
-                                      double.parse(value.orderTotal!));
+                                os!,
+                                s[0],
+                                s[1],
+                                widget.custmerId,
+                                sid!,
+                                widget.areaId,
+                                double.parse(value.orderTotal2!),
+                              );
                               String? gen_area = Provider.of<Controller>(
                                       context,
                                       listen: false)
@@ -581,7 +582,7 @@ class _SaleCartState extends State<SaleCart> {
                                                                             cartrowno,
                                                                             widget.custmerId,
                                                                             rate);
-                                                                        Provider.of<Controller>(context, listen: false).calculateTotal(
+                                                                        Provider.of<Controller>(context, listen: false).calculatesalesTotal(
                                                                             widget.os,
                                                                             widget.custmerId);
                                                                         Navigator.pop(
@@ -730,7 +731,7 @@ class _SaleCartState extends State<SaleCart> {
                           widget.custmerId,
                           rateController.text);
                       Provider.of<Controller>(context, listen: false)
-                          .calculateTotal(widget.os, widget.custmerId);
+                          .calculatesalesTotal(widget.os, widget.custmerId);
                       rateController.clear();
                       Navigator.of(context).pop();
                     },

@@ -198,7 +198,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                             null)
                                 ? Provider.of<Controller>(context,
                                         listen: false)
-                                    .calculateTotal(value.ordernum[0]['os'],
+                                    .calculateorderTotal(value.ordernum[0]['os'],
                                         widget.customerId!)
                                 : Text("No data");
                           },

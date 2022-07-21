@@ -585,7 +585,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       context,
                                                                       listen:
                                                                           false)
-                                                                  .calculateTotal(
+                                                                  .calculateorderTotal(
                                                                       value.ordernum[0]
                                                                           [
                                                                           'os'],
@@ -921,7 +921,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       context,
                                                                       listen:
                                                                           false)
-                                                                  .calculateTotal(
+                                                                  .calculateorderTotal(
                                                                       value.ordernum[0]
                                                                           [
                                                                           'os'],

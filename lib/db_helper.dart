@@ -758,8 +758,10 @@ class OrderAppDB {
     String item_name,
     double gross_amount,
     double dis_amt,
+    double dis_per,
     double tax_amt,
     double tax_per,
+    double ces_amt,
     double ces_per,
     double net_amt,
     double total_price,
@@ -771,7 +773,7 @@ class OrderAppDB {
 
     if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(os, sales_id, row_num, item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, ces_amt, ces_per, net_amt, rate) VALUES("${item}", "${os}", ${sales_id}, ${rowNum}, "${item_name}", "${code}", ${qty},"${unit}", $gross_amount, $dis_amt, $dis_per, $tax_amt, $tax_per, $ces_amt, $ces_per, $net_amt, $rate)';
+          'INSERT INTO salesDetailTable(os, sales_id, row_num, item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, ces_amt, ces_per, net_amt, rate) VALUES("${os}", ${sales_id}, ${rowNum}, "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, $ces_amt, $ces_per, $net_amt, $rate)';
       print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
@@ -1362,7 +1364,6 @@ class OrderAppDB {
     } else {
       sum = "0.0";
     }
-
     return sum;
   }
 

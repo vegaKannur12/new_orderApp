@@ -86,7 +86,8 @@ class Controller extends ChangeNotifier {
   String? sid;
   String? userType;
   String? updateDate;
-  String? orderTotal;
+  String? orderTotal1;
+  String? orderTotal2;
   String? ordernumber;
   String? cid;
   String? cname;
@@ -908,9 +909,11 @@ class Controller extends ChangeNotifier {
           "",
           "",
           "",
-          1,
+          rowNum,
           "salesMasterTable",
           "",
+          0.0,
+          0.0,
           0.0,
           0.0,
           0.0,
@@ -943,8 +946,10 @@ class Controller extends ChangeNotifier {
             "",
             "",
             rowNum,
-            "salesDetailsTable",
+            "salesDetailTable",
             item["itemName"],
+            0.0,
+            0.0,
             0.0,
             0.0,
             0.0,
@@ -1562,12 +1567,18 @@ class Controller extends ChangeNotifier {
   //   notifyListeners();
   // }
   //////////////////// CALCULATION ///////////////////////////
-  /////////calculate total////////////////
-  calculateTotal(String os, String customerId) async {
-    orderTotal = await OrderAppDB.instance.getsaletotalSum(os, customerId);
-    print("orderTotal---$orderTotal");
+   calculateorderTotal(String os, String customerId) async {
+    orderTotal1 = await OrderAppDB.instance.gettotalSum(os, customerId);
+    print("orderTotal1---$orderTotal1");
     notifyListeners();
   }
+  /////////calculate total////////////////
+  calculatesalesTotal(String os, String customerId) async {
+    orderTotal2 = await OrderAppDB.instance.getsaletotalSum(os, customerId);
+    print("orderTotal2---$orderTotal2");
+    notifyListeners();
+  }
+/////////////////////////////////////////////////
 
   calculateAmt(String rate, String _controller) {
     amt = double.parse(rate) * double.parse(_controller);
