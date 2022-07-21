@@ -1573,7 +1573,7 @@ class Controller extends ChangeNotifier {
     print("after delete------$res");
     controller.removeAt(index);
     print("controllers----$controller");
-    generateTextEditingController();
+    generateTextEditingController("sales");
     notifyListeners();
   }
 

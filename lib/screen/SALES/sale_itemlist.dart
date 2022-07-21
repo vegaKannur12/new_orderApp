@@ -156,11 +156,8 @@ class _SalesItemState extends State<SalesItem> {
                     } else {
                       print("value---$value");
                       Provider.of<Controller>(context, listen: false)
-<<<<<<< HEAD
                             .salefilterCompany = true;
                       Provider.of<Controller>(context, listen: false)
-=======
->>>>>>> d499b85a2b5a4277b25a5434caa626737ea88928
                           .filterwithCompany(widget.customerId, value, "sales");
                     }
                   },
@@ -622,11 +619,7 @@ class _SalesItemState extends State<SalesItem> {
                                         s: s,
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
-<<<<<<< HEAD
                                             .salefilteredeValue,
-=======
-                                            .filteredeValue,
->>>>>>> d499b85a2b5a4277b25a5434caa626737ea88928
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
