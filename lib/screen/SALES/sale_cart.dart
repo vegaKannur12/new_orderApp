@@ -147,7 +147,8 @@ class _SaleCartState extends State<SaleCart> {
                                   await SharedPreferences.getInstance();
                               String? sid = await prefs.getString('sid');
                               String? os = await prefs.getString('os');
-                              print("order total...${double.parse(value.orderTotal2!)}");
+                              print(
+                                  "order total...${double.parse(value.orderTotal2!)}");
                               Provider.of<Controller>(context, listen: false)
                                   .insertToSalesbagAndMaster(
                                 os!,
