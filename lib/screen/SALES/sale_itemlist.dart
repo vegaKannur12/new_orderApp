@@ -105,7 +105,7 @@ class _SalesItemState extends State<SalesItem> {
             },
           ),
           elevation: 0,
-          backgroundColor: P_Settings.wavecolor,
+          backgroundColor: P_Settings.salewaveColor,
           actions: <Widget>[
             IconButton(
               icon: Icon(
@@ -188,7 +188,7 @@ class _SalesItemState extends State<SalesItem> {
                       child: value.isLoading
                           ? Center(
                               child: SpinKitThreeBounce(
-                              color: P_Settings.wavecolor,
+                              color: P_Settings.salewaveColor,
                               size: 15,
                             ))
                           : Text(
@@ -197,7 +197,7 @@ class _SalesItemState extends State<SalesItem> {
                                   fontSize: 19, fontWeight: FontWeight.bold),
                             ),
                       decoration: BoxDecoration(
-                        color: P_Settings.roundedButtonColor,
+                        color: P_Settings.saleroundedButtonColor,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(50),
                           bottomRight: Radius.circular(50),
@@ -303,7 +303,7 @@ class _SalesItemState extends State<SalesItem> {
                 value.isLoading
                     ? Container(
                         child: CircularProgressIndicator(
-                        color: P_Settings.wavecolor,
+                        color: P_Settings.salewaveColor,
                       ))
                     : value.prodctItems.length == 0
                         ? _isLoading
@@ -320,7 +320,7 @@ class _SalesItemState extends State<SalesItem> {
                                 ? value.isListLoading
                                     ? Center(
                                         child: SpinKitCircle(
-                                          color: P_Settings.wavecolor,
+                                          color: P_Settings.salewaveColor,
                                           size: 40,
                                         ),
                                       )
@@ -451,7 +451,8 @@ class _SalesItemState extends State<SalesItem> {
                                                           var res = await OrderAppDB
                                                               .instance
                                                               .insertsalesBagTable(
-                                                                  value.newList[index]
+                                                                  value.newList[
+                                                                          index]
                                                                       ["item"],
                                                                   s[0],
                                                                   s[1],
@@ -471,8 +472,10 @@ class _SalesItemState extends State<SalesItem> {
                                                                   total
                                                                       .toString(),
                                                                   "0",
-                                                                  value.newList[index]
-                                                                      ["hsn"],0.0,
+                                                                  value.newList[
+                                                                          index]
+                                                                      ["hsn"],
+                                                                  0.0,
                                                                   // value.newList[index]
                                                                   //     ["tax"],
                                                                   0.0,
@@ -553,7 +556,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "no filter",
                                                                           "",
                                                                           value.qty[
-                                                                              index]);
+                                                                              index],
+                                                                          "sales");
                                                                     }
                                                                   : null
                                                               : () async {
@@ -582,7 +586,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                       "no filter",
                                                                       "",
                                                                       value.qty[
-                                                                          index]);
+                                                                          index],
+                                                                      "sales");
                                                                 })
                                                     ],
                                                   ),
@@ -598,6 +603,7 @@ class _SalesItemState extends State<SalesItem> {
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
                                             .filteredeValue,
+                                        appType: "sales",
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
@@ -751,10 +757,11 @@ class _SalesItemState extends State<SalesItem> {
                                                                   "0",
                                                                   products[
                                                                           index]
-                                                                      ["hsn"],0.0,
+                                                                      ["hsn"],
+                                                                  0.0,
                                                                   // products[
                                                                   //         index]
-                                                                      // ["tax"],
+                                                                  // ["tax"],
                                                                   0.0,
                                                                   0.0,
                                                                   0);
@@ -828,7 +835,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "no filter",
                                                                           "",
                                                                           value.qty[
-                                                                              index]);
+                                                                              index],
+                                                                          "sales");
                                                                     }
                                                                   : null
                                                               : () async {
@@ -856,7 +864,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                       "no filter",
                                                                       "",
                                                                       value.qty[
-                                                                          index]);
+                                                                          index],
+                                                                      "sales");
                                                                 })
                                                     ],
                                                   ),

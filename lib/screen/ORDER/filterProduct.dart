@@ -16,8 +16,14 @@ class FilteredProduct extends StatefulWidget {
   List<String>? s;
   String? customerId;
   String? value;
+  String? appType;
   FilteredProduct(
-      {required this.type, this.customerId, this.os, this.s, this.value});
+      {required this.type,
+      this.customerId,
+      this.os,
+      this.s,
+      this.value,
+      this.appType});
 
   @override
   State<FilteredProduct> createState() => _FilteredProductState();
@@ -229,7 +235,8 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .filteredeValue!,
-                                                value.qty[index]);
+                                                value.qty[index],
+                                                widget.appType!);
                                           }
                                         : null
                                     : () async {
@@ -252,7 +259,8 @@ class _FilteredProductState extends State<FilteredProduct> {
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .filteredeValue!,
-                                            value.qty[index]);
+                                            value.qty[index],
+                                            widget.appType!);
                                       }
                                 : value.filterComselected[index]
                                     ? () async {
@@ -262,21 +270,21 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                 value.filteredProductList[index]
                                                     ["item"];
                                         showModal.showMoadlBottomsheet(
-                                          widget.os!,
-                                          widget.customerId!,
-                                          item,
-                                          size,
-                                          context,
-                                          "return",
-                                          value.filteredProductList[index]
-                                              ["code"],
-                                          index,
-                                          "with company",
-                                          Provider.of<Controller>(context,
-                                                  listen: false)
-                                              .filteredeValue!,
-                                          value.qty[index],
-                                        );
+                                            widget.os!,
+                                            widget.customerId!,
+                                            item,
+                                            size,
+                                            context,
+                                            "return",
+                                            value.filteredProductList[index]
+                                                ["code"],
+                                            index,
+                                            "with company",
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .filteredeValue!,
+                                            value.qty[index],
+                                            widget.appType!);
                                       }
                                     : null)
                       ],

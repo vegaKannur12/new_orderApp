@@ -15,7 +15,8 @@ class ShowModal {
       int selected_index,
       String filter,
       String filterValue,
-      TextEditingController qty_index) {
+      TextEditingController qty_index,
+      String appType) {
     return showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -52,7 +53,10 @@ class ShowModal {
                               onPressed: () async {
                                 if (type == "already in cart") {
                                   print("already in cart---$filter");
+
                                   if (filter == "no filter") {
+                                    print(
+                                        "value.seleectd------${value.selected[selected_index]}");
                                     if (value.selected[selected_index] ==
                                         false) {
                                       value.selected[selected_index] = true;
@@ -67,24 +71,47 @@ class ShowModal {
                                   }
 
                                   qty_index.clear();
-                                  await OrderAppDB.instance
-                                      .deleteFromTableCommonQuery(
-                                          "orderBagTable",
-                                          "code='${code}' AND customerid='${customerId}'");
-                                  if (filter == "no filter") {
+                                  if (appType == "sale order") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "orderBagTable",
+                                            "code='${code}' AND customerid='${customerId}'");
+                                    if (filter == "no filter") {
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .getProductList(customerId);
+                                    } else if (filter == "with company") {
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .filterwithCompany(
+                                              customerId, filterValue);
+                                    }
                                     Provider.of<Controller>(context,
                                             listen: false)
-                                        .getProductList(customerId);
-                                  } else if (filter == "with company") {
-                                    Provider.of<Controller>(context,
-                                            listen: false)
-                                        .filterwithCompany(
-                                            customerId, filterValue);
+                                        .countFromTable(
+                                            "orderBagTable", os, customerId);
                                   }
-                                  Provider.of<Controller>(context,
-                                          listen: false)
-                                      .countFromTable(
-                                          "orderBagTable", os, customerId);
+                                  if (appType == "sales") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "salesBagTable",
+                                            "code='${code}' AND customerid='${customerId}'");
+
+                                    if (filter == "no filter") {
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .getSaleProductList(customerId);
+                                    } else if (filter == "with company") {
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .filterwithCompany(
+                                              customerId, filterValue);
+                                    }
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                            "salesBagTable", os, customerId);
+                                  }
 
                                   Navigator.of(context).pop();
                                 }
@@ -108,18 +135,35 @@ class ShowModal {
                                   }
 
                                   qty_index.clear();
-                                  await OrderAppDB.instance
-                                      .deleteFromTableCommonQuery(
-                                          "orderBagTable",
-                                          "code='${code}' AND customerid='${customerId}'");
 
-                                  Provider.of<Controller>(context,
-                                          listen: false)
-                                      .countFromTable(
-                                    "orderBagTable",
-                                    os,
-                                    customerId,
-                                  );
+                                  if (appType == "sale order") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "orderBagTable",
+                                            "code='${code}' AND customerid='${customerId}'");
+
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                      "orderBagTable",
+                                      os,
+                                      customerId,
+                                    );
+                                  }
+                                  if (appType == "sales") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "salesBagTable",
+                                            "code='${code}' AND customerid='${customerId}'");
+
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                      "salesBagTable",
+                                      os,
+                                      customerId,
+                                    );
+                                  }
                                   Navigator.of(context).pop();
                                 }
                                 if (type == "newlist just added") {
@@ -129,20 +173,37 @@ class ShowModal {
                                   }
 
                                   value.qty[selected_index].clear();
-                                  await OrderAppDB.instance
-                                      .deleteFromTableCommonQuery(
-                                          "orderBagTable",
-                                          "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
+                                  if (appType == "sale order") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "orderBagTable",
+                                            "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
 
-                                  Provider.of<Controller>(context,
-                                          listen: false)
-                                      .countFromTable(
-                                    "orderBagTable",
-                                    os,
-                                    customerId,
-                                  );
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                      "orderBagTable",
+                                      os,
+                                      customerId,
+                                    );
+                                  }
+                                  if (appType == "sales") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "salesBagTable",
+                                            "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
+
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                      "salesBagTable",
+                                      os,
+                                      customerId,
+                                    );
+                                  }
                                   Navigator.of(context).pop();
                                 }
+
                                 if (type == "newlist already in cart") {
                                   if (value.selected[selected_index]) {
                                     value.selected[selected_index] =
@@ -150,18 +211,34 @@ class ShowModal {
                                   }
 
                                   value.qty[selected_index].clear();
-                                  await OrderAppDB.instance
-                                      .deleteFromTableCommonQuery(
-                                          "orderBagTable",
-                                          "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
+                                  if (appType == "sale order") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "orderBagTable",
+                                            "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
 
-                                  Provider.of<Controller>(context,
-                                          listen: false)
-                                      .countFromTable(
-                                    "orderBagTable",
-                                    os,
-                                    customerId,
-                                  );
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                      "orderBagTable",
+                                      os,
+                                      customerId,
+                                    );
+                                  }
+                                  if (appType == "sales") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "salesBagTable",
+                                            "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
+
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                      "salesBagTable",
+                                      os,
+                                      customerId,
+                                    );
+                                  }
                                   // Provider.of<Controller>(context,
                                   //       listen: false)
                                   //   .searchProcess();
