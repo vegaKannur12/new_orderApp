@@ -47,7 +47,7 @@ class _CartListState extends State<CartList> {
     Provider.of<Controller>(context, listen: false).getOrderno();
     super.initState();
     Provider.of<Controller>(context, listen: false)
-        .generateTextEditingController();
+        .generateTextEditingController("sale order");
     Provider.of<Controller>(context, listen: false)
         .calculateorderTotal(widget.os, widget.custmerId);
     Provider.of<Controller>(context, listen: false).setSname();

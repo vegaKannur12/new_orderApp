@@ -990,6 +990,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                       listen:
                                                                           false)
                                                                   .filterCompany = false;
+                                                                 
 
                                                               // Provider.of<Controller>(
                                                               //         context,
@@ -1273,7 +1274,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
-                                                              .filterCompany = false;
+                                                              .salefilterCompany = false;
 
                                                           // Provider.of<Controller>(
                                                           //         context,
