@@ -71,7 +71,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                           '-' +
                           '${value.filteredProductList[index]["item"]}',
                       style: TextStyle(
-                          color: widget.type == "sales"
+                          color: widget.type == "sale order"
                               ? value.filteredProductList[index]["cartrowno"] ==
                                       null
                                   ? value.filterComselected[index]
@@ -134,7 +134,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                 value.qty[index].text = "1";
                               }
                             });
-                            if (widget.type == "sales") {
+                            if (widget.type == "sale order") {
                               int max = await OrderAppDB.instance.getMaxCommonQuery(
                                   'orderBagTable',
                                   'cartrowno',
@@ -210,7 +210,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                               size: 18,
                               // color: Colors.redAccent,
                             ),
-                            onPressed: widget.type == "sales"
+                            onPressed: widget.type == "sale order"
                                 ? value.filteredProductList[index]
                                             ["cartrowno"] ==
                                         null

@@ -154,6 +154,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                   onSelected: (value) {
                     Provider.of<Controller>(context, listen: false)
                         .filteredeValue = value;
+
                     if (value == "0") {
                       setState(() {
                         Provider.of<Controller>(context, listen: false)
@@ -167,6 +168,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                           .getProductList(widget.customerId);
                     } else {
                       print("value---$value");
+                      Provider.of<Controller>(context, listen: false)
+                            .filterCompany = true;
                       Provider.of<Controller>(context, listen: false)
                           .filterwithCompany(widget.customerId, value,"sale order");
                     }

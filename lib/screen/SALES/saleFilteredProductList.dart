@@ -56,7 +56,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
         builder: (context, value, child) {
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: value.filteredProductList.length,
+            itemCount: value.salefilteredProductList.length,
             itemBuilder: (BuildContext context, index) {
               return Padding(
                 padding: const EdgeInsets.only(left: 0.4, right: 0.4),
@@ -64,11 +64,11 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                   key: ObjectKey(index),
                   child: ListTile(
                     title: Text(
-                      '${value.filteredProductList[index]["code"]}' +
+                      '${value.salefilteredProductList[index]["code"]}' +
                           '-' +
-                          '${value.filteredProductList[index]["item"]}',
+                          '${value.salefilteredProductList[index]["item"]}',
                       style: TextStyle(
-                          color: value.filteredProductList[index]
+                          color: value.salefilteredProductList[index]
                                       ["cartrowno"] ==
                                   null
                               ? value.filterComselected[index]
@@ -80,7 +80,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                     subtitle: Row(
                       children: [
                         Text(
-                          '\u{20B9}${value.filteredProductList[index]["rate1"]}',
+                          '\u{20B9}${value.salefilteredProductList[index]["rate1"]}',
                           style: TextStyle(
                             color: P_Settings.ratecolor,
                             fontStyle: FontStyle.italic,
@@ -90,7 +90,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                           width: size.width * 0.055,
                         ),
                         Text(
-                          '(tax: \u{20B9}${value.filteredProductList[index]["tax"]})',
+                          '(tax: \u{20B9}${value.salefilteredProductList[index]["tax"]})',
                           style: TextStyle(
                             color: Colors.grey,
                             fontStyle: FontStyle.italic,
@@ -134,33 +134,33 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                 'cartrowno',
                                 "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
                             print("max----$max");
-                            rate1 = value.filteredProductList[index]["rate1"];
+                            rate1 = value.salefilteredProductList[index]["rate1"];
                             var total = int.parse(rate1) *
                                 int.parse(value.qty[index].text);
                             print("total rate $total");
 
                             var res =
                                 await OrderAppDB.instance.insertsalesBagTable(
-                                    value.filteredProductList[index]["item"],
+                                    value.salefilteredProductList[index]["item"],
                                     widget.s![0],
                                     widget.s![1],
                                     value.ordernum[0]["os"],
                                     widget.customerId!,
                                     max,
-                                    value.filteredProductList[index]["code"],
+                                    value.salefilteredProductList[index]["code"],
                                     int.parse(value.qty[index].text),
                                     rate1,
                                     total.toString(),
                                     "0",
-                                    value.filteredProductList[index]["hsn"],
-                                    // value.filteredProductList[index]["tax"],
+                                    value.salefilteredProductList[index]["hsn"],
+                                    // value.salefilteredProductList[index]["tax"],
                                     0.0,
                                     0.0,
                                     0.0,
                                     0);
 
                             snackbar.showSnackbar(context,
-                                "${value.filteredProductList[index]["code"] + value.filteredProductList[index]['item']} - Added to cart");
+                                "${value.salefilteredProductList[index]["code"] + value.salefilteredProductList[index]['item']} - Added to cart");
                             Provider.of<Controller>(context, listen: false)
                                 .countFromTable(
                               "salesBagTable",
@@ -171,9 +171,9 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                             /////////////////////////////////////////////////////////////
                             (widget.customerId!.isNotEmpty ||
                                         widget.customerId != null) &&
-                                    (value.filteredProductList[index]["code"]
+                                    (value.salefilteredProductList[index]["code"]
                                             .isNotEmpty ||
-                                        value.filteredProductList[index]
+                                        value.salefilteredProductList[index]
                                                 ["code"] !=
                                             null)
                                 ? Provider.of<Controller>(context,
@@ -190,15 +190,15 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                               size: 18,
                               // color: Colors.redAccent,
                             ),
-                            onPressed: value.filteredProductList[index]
+                            onPressed: value.salefilteredProductList[index]
                                         ["cartrowno"] ==
                                     null
                                 ? value.filterComselected[index]
                                     ? () async {
                                         String item =
-                                            value.filteredProductList[index]
+                                            value.salefilteredProductList[index]
                                                     ["code"] +
-                                                value.filteredProductList[index]
+                                                value.salefilteredProductList[index]
                                                     ["item"];
                                         showModal.showMoadlBottomsheet(
                                             widget.os!,
@@ -207,22 +207,22 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                             size,
                                             context,
                                             "just added",
-                                            value.filteredProductList[index]
+                                            value.salefilteredProductList[index]
                                                 ["code"],
                                             index,
                                             "with company",
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .filteredeValue!,
+                                                .salefilteredeValue!,
                                             value.qty[index],
                                             "sales");
                                       }
                                     : null
                                 : () async {
                                     String item =
-                                        value.filteredProductList[index]
+                                        value.salefilteredProductList[index]
                                                 ["code"] +
-                                            value.filteredProductList[index]
+                                            value.salefilteredProductList[index]
                                                 ["item"];
                                     showModal.showMoadlBottomsheet(
                                         widget.os!,
@@ -231,13 +231,13 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                         size,
                                         context,
                                         "already in cart",
-                                        value.filteredProductList[index]
+                                        value.salefilteredProductList[index]
                                             ["code"],
                                         index,
                                         "with company",
                                         Provider.of<Controller>(context,
                                                 listen: false)
-                                            .filteredeValue!,
+                                            .salefilteredeValue!,
                                         value.qty[index],
                                         "sales");
                                   })

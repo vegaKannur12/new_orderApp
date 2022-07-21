@@ -26,6 +26,8 @@ class Controller extends ChangeNotifier {
   bool isLoading = false;
   bool isUpload = false;
   bool filterCompany = false;
+  bool salefilterCompany = false;
+  String? salefilteredeValue;
   String? filteredeValue;
   bool isAdminLoading = false;
   String? menu_index;
@@ -49,7 +51,7 @@ class Controller extends ChangeNotifier {
   int? shopVisited;
   int? noshopVisited;
   List<bool> selected = [];
-  // List<bool> saleItemselected = [];
+  List<bool> saleItemselected = [];
 
   List<bool> filterComselected = [];
   List<bool> returnselected = [];
@@ -69,6 +71,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> filterList = [];
   List<Map<String, dynamic>> sortList = [];
   List<Map<String, dynamic>> filteredProductList = [];
+  List<Map<String, dynamic>> salefilteredProductList = [];
+
   List<Map<String, dynamic>> returnList = [];
   bool filter = false;
   bool isAccount = false;
@@ -133,6 +137,8 @@ class Controller extends ChangeNotifier {
   String? heading;
   String? fp;
   List<Map<String, dynamic>> bagList = [];
+  List<Map<String, dynamic>> salebagList = [];
+
   List<Map<String, dynamic>> newList = [];
   List<Map<String, dynamic>> newreportList = [];
   List<Map<String, dynamic>> remarkreportList = [];
@@ -1078,29 +1084,41 @@ class Controller extends ChangeNotifier {
 ///////////////filter company////////////////////////////
   filterwithCompany(String cusId, String comId, String type) async {
     isLoading = true;
-    filterCompany = true;
-    List<Map<String, dynamic>> result=[];
+    List<Map<String, dynamic>> result = [];
     // notifyListeners();
     // List<Map<String, dynamic>> result = await OrderAppDB.instance
     //     .selectAllcommon('productDetailsTable', "companyId='${comId}'");
     if (type == "sale order") {
+      filterCompany = true;
+
       result =
           await OrderAppDB.instance.selectfrombagandfilterList(cusId, comId);
+      filteredProductList.clear();
+      for (var item in result) {
+        filteredProductList.add(item);
+      }
+      var length = filteredProductList.length;
+      print("filter list length.........$length");
+      filterComselected = List.generate(length, (index) => false);
+      print("filteredProductList--$filteredProductList");
     }
     if (type == "sales") {
+      salefilterCompany = true;
+
       result = await OrderAppDB.instance
           .selectfromsalesbagandfilterList(cusId, comId);
+      salefilteredProductList.clear();
+      for (var item in result) {
+        salefilteredProductList.add(item);
+      }
+      var length = salefilteredProductList.length;
+      print("filter list length.........$length");
+      filterComselected = List.generate(length, (index) => false);
+      print("filteredProductList--$salefilteredProductList");
     }
 
     print("products filter-----$result");
-    filteredProductList.clear();
-    for (var item in result) {
-      filteredProductList.add(item);
-    }
-    var length = filteredProductList.length;
-    print("filter list length.........$length");
-    filterComselected = List.generate(length, (index) => false);
-    print("filteredProductList--$filteredProductList");
+
     isLoading = false;
     notifyListeners();
   }
@@ -1262,7 +1280,7 @@ class Controller extends ChangeNotifier {
       bagList.add(item);
     }
     rateEdit = List.generate(bagList.length, (index) => false);
-    generateTextEditingController();
+    generateTextEditingController("sale order");
     print("bagList vxdvxd----$bagList");
 
     isLoading = false;
@@ -1271,18 +1289,18 @@ class Controller extends ChangeNotifier {
 
 //////////////////////////////////////////////////////
   getSaleBagDetails(String customerId, String os) async {
-    bagList.clear();
+    salebagList.clear();
 
     isLoading = true;
     notifyListeners();
     List<Map<String, dynamic>> res =
         await OrderAppDB.instance.getSaleBagTable(customerId, os);
     for (var item in res) {
-      bagList.add(item);
+      salebagList.add(item);
     }
-    rateEdit = List.generate(bagList.length, (index) => false);
-    generateTextEditingController();
-    print("bagList vxdvxd----$bagList");
+    rateEdit = List.generate(salebagList.length, (index) => false);
+    generateTextEditingController("sales");
+    print("salebagList vxdvxd----$salebagList");
 
     isLoading = false;
     notifyListeners();
@@ -1384,8 +1402,14 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////////////
-  generateTextEditingController() {
-    var length = bagList.length;
+  generateTextEditingController(String type) {
+    var length;
+    if (type == "sale order") {
+      length = bagList.length;
+    }
+    if (type == "sales") {
+      length = salebagList.length;
+    }
     print("text length----$length");
     controller = List.generate(length, (index) => TextEditingController());
     print("length----$length");
@@ -1421,7 +1445,7 @@ class Controller extends ChangeNotifier {
     print("after delete------$res");
     controller.removeAt(index);
     print("controllers----$controller");
-    generateTextEditingController();
+    generateTextEditingController("sale order");
     notifyListeners();
   }
 
@@ -2264,7 +2288,8 @@ class Controller extends ChangeNotifier {
   ////////////////////////SEARCH PROCESS ////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////
   searchProcess(String customerId, String os, String comid) async {
-    print("searchkey----$comid");
+    print("searchkey--comid--$searchkey---$comid");
+    List<Map<String, dynamic>> result = [];
     newList.clear();
 
     if (searchkey!.isEmpty) {
@@ -2299,13 +2324,24 @@ class Controller extends ChangeNotifier {
       //   bagList.add(item);
       // }
 // print("jhfdjkhfjd----$bagList");
-      List<Map<String, dynamic>> result = await OrderAppDB.instance.searchItem(
-          'productDetailsTable',
-          searchkey!,
-          'item',
-          'code',
-          'categoryId',
-          " and companyId='${comid}'");
+      if (comid == "") {
+         result = await OrderAppDB.instance.searchItem(
+            'productDetailsTable',
+            searchkey!,
+            'item',
+            'code',
+            'categoryId',
+            " ");
+      } else {
+        result = await OrderAppDB.instance.searchItem(
+            'productDetailsTable',
+            searchkey!,
+            'item',
+            'code',
+            'categoryId',
+            " and companyId='${comid}'");
+      }
+
       for (var item in result) {
         newList.add(item);
       }
