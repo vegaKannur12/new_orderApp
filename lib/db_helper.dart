@@ -663,8 +663,8 @@ class OrderAppDB {
     String method,
     String hsn,
     double tax,
-    String discount,
-    String ces_per,
+    double discount,
+    double ces_per,
     int cstatus,
   ) async {
     print("qty--$qty");
@@ -690,7 +690,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per,  cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", "${hsn}", "${tax}", "${discount}", "${ces_per}", $cstatus)';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per,  cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", "${hsn}", "${tax}", ${discount}, ${ces_per}, $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
@@ -733,8 +733,9 @@ class OrderAppDB {
       print(query3);
     }
   }
+
   //////////// Insert into sales master and sales details table/////////////
-   Future insertsalesMasterandDetailsTable(
+  Future insertsalesMasterandDetailsTable(
       String item,
       int sales_id,
       int? qty,
@@ -767,6 +768,7 @@ class OrderAppDB {
       print(query3);
     }
   }
+
   ////////////////////insert to return table/////////////////////////////////
   Future insertreturnMasterandDetailsTable(
       String item,
@@ -876,6 +878,19 @@ class OrderAppDB {
         'SELECT  * FROM orderBagTable WHERE customerid="${customerId}" AND os = "${os}"');
     print(
         'SELECT  * FROM orderBagTable WHERE customerid="${customerId}" AND os = "${os}"');
+    print(res);
+    return res;
+  }
+
+  Future<List<Map<String, dynamic>>> getSaleBagTable(
+      String customerId, String os) async {
+    print("enteredcustomerId---${customerId}");
+    // .of<Controller>(context, listen: false).customerList.clear();
+    Database db = await instance.database;
+    var res = await db.rawQuery(
+        'SELECT  * FROM salesBagTable WHERE customerid="${customerId}" AND os = "${os}"');
+    print(
+        'SELECT  * FROM salesBagTable WHERE customerid="${customerId}" AND os = "${os}"');
     print(res);
     return res;
   }
