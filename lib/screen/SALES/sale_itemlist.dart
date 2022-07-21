@@ -728,7 +728,8 @@ class _SalesItemState extends State<SalesItem> {
                                                           var res = await OrderAppDB
                                                               .instance
                                                               .insertsalesBagTable(
-                                                                  products[index]
+                                                                  products[
+                                                                          index]
                                                                       ["item"],
                                                                   s[0],
                                                                   s[1],
