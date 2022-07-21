@@ -443,7 +443,6 @@ class OrderAppDB {
     await db.execute('''
           CREATE TABLE salesDetailTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
-            $item TEXT,
             $os TEXT NOT NULL,
             $sales_id INTEGER,
             $row_num INTEGER,
@@ -690,7 +689,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", "${hsn}", ${tax}, ${discount}, ${ces_per}, $cstatus)';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}", ${tax}, ${discount}, ${ces_per}, $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
@@ -736,7 +735,6 @@ class OrderAppDB {
 
   //////////// Insert into sales master and sales details table/////////////
   Future insertsalesMasterandDetailsTable(
-    String item,
     int sales_id,
     int? qty,
     double rate,
@@ -771,16 +769,16 @@ class OrderAppDB {
     var res2;
     var res3;
 
-    if (table == "orderDetailTable") {
+    if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(item, os, sales_id, row_num, item_name , code,  qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, ces_amt, ces_per, net_amt, rate) VALUES("${os}",${sales_id},${rowNum},"${item}","${code}", ${qty},"${unit}", $gross_amount, $dis_amt, $dis_per, $tax_amt, $tax_per, $ces_amt, $ces_per, $net_amt, $rate, )';
-      print(query2);
+          'INSERT INTO salesDetailTable(os, sales_id, row_num, item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, ces_amt, ces_per, net_amt, rate) VALUES("${item}", "${os}", ${sales_id}, ${rowNum}, "${item_name}", "${code}", ${qty},"${unit}", $gross_amount, $dis_amt, $dis_per, $tax_amt, $tax_per, $ces_amt, $ces_per, $net_amt, $rate)';
+      print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
-    } else if (table == "orderMasterTable") {
+    } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(osales_id, salesdate, salestime, os, cus_type,bill_no, customer_id, staff_idid, areaid, total_qty, cgst, sgst, payment_mode, credit_option, status, total_price) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${customer_id}", "${staff_id}", "${areaid}",$total_qty,"${cgst}","${sgst}","${payment_mode}","${credit_option}", ${status},${total_price})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, cgst, sgst, payment_mode, credit_option, status, total_price) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${cgst}", "${sgst}", "${payment_mode}", "${credit_option}", ${status}, ${total_price})';
       res2 = await db.rawInsert(query3);
-      print(query3);
+      print("insertsalesmaster$query3");
     }
   }
 
@@ -1348,6 +1346,26 @@ class OrderAppDB {
     return sum;
   }
 
+  /////////////////////sales product sum ////////////////////
+  getsaletotalSum(String os, String customerId) async {
+    // double sum=0.0;
+    String sum;
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        "SELECT * FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+
+    if (result != null && result.isNotEmpty) {
+      List<Map<String, dynamic>> res = await db.rawQuery(
+          "SELECT SUM(totalamount) s FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+      sum = res[0]["s"].toString();
+      print("sum from db----$sum");
+    } else {
+      sum = "0.0";
+    }
+
+    return sum;
+  }
+
   ////////////// delete//////////////////////////////////////
   deleteFromOrderbagTable(int cartrowno, String customerId) async {
     var res1;
@@ -1358,6 +1376,22 @@ class OrderAppDB {
     if (res == 1) {
       res1 = await db.rawQuery(
           "SELECT * FROM orderBagTable WHERE customerid='$customerId'");
+      print(res1);
+    }
+    return res1;
+  }
+
+///////////////////////////////////////////////////////////////////////
+  ////////////// delete from sales bag table/ /////////////////////////////////////
+  deleteFromSalesagTable(int cartrowno, String customerId) async {
+    var res1;
+    Database db = await instance.database;
+    print("DELETE FROM 'salesBagTable' WHERE cartrowno = $cartrowno");
+    var res = await db.rawDelete(
+        "DELETE FROM 'salesBagTable' WHERE cartrowno = $cartrowno AND customerid='$customerId'");
+    if (res == 1) {
+      res1 = await db.rawQuery(
+          "SELECT * FROM salesBagTable WHERE customerid='$customerId'");
       print(res1);
     }
     return res1;
@@ -1381,6 +1415,31 @@ class OrderAppDB {
     if (res == 1) {
       res1 = await db.rawQuery(
           "SELECT * FROM orderBagTable WHERE customerid='$customerId'");
+      print(res1);
+    }
+
+    return res1;
+  }
+
+  ////////////////////////////////////////////////
+  /////////////////////////update qty///////////////////////////////////
+  updateQtySalesBagTable(
+      String qty, int cartrowno, String customerId, String rate) async {
+    Database db = await instance.database;
+    var res1;
+    double rate1 = double.parse(rate);
+    int updatedQty = int.parse(qty);
+    double amount = (rate1 * updatedQty);
+    print("amoiunt---$cartrowno-$customerId---$rate--$amount");
+    print("updatedqty----$updatedQty");
+    // gettotalSum(String os, String customerId);
+    var res = await db.rawUpdate(
+        'UPDATE salesBagTable SET qty=$updatedQty , totalamount="${amount}" , rate="${rate}" WHERE cartrowno=$cartrowno AND customerid="$customerId"');
+    print("response-------$res");
+
+    if (res == 1) {
+      res1 = await db.rawQuery(
+          "SELECT * FROM salesBagTable WHERE customerid='$customerId'");
       print(res1);
     }
 
@@ -1503,6 +1562,7 @@ class OrderAppDB {
       print('res[0]["max_val"] ----${res[0]["max_val"]}');
       // int convertedMax = int.parse(res[0]["max_val"]);
       max = res[0]["max_val"] + 1;
+      print("max value.........$max");
       print("SELECT MAX($field) max_val FROM '$table' WHERE $condition");
     } else {
       print("else");

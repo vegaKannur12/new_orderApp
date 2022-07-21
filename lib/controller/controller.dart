@@ -567,13 +567,14 @@ class Controller extends ChangeNotifier {
         var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
       }
 
-      if (areaidFrompopup != null) {
-        dashboardSummery(sid!, s, areaidFrompopup!, context);
-      } else {
-        if (userType == "staff") {
-          dashboardSummery(sid!, s, "", context);
-        }
-      }
+      // if (areaidFrompopup != null) {
+      //   dashboardSummery(sid!, s, areaidFrompopup!, context);
+      // } else {
+      //   if (userType == "staff") {
+      //     dashboardSummery(sid!, s, "", context);
+      //   }
+      // }
+
       isAccount = false;
       isLoading = false;
       notifyListeners();
@@ -871,7 +872,97 @@ class Controller extends ChangeNotifier {
     }
   }
 
-/////////////////////////////INSERT ///////////////////////////////////////////////
+// /////////////////////////////INSERT into SALES bag and master table///////////////////////////////////////////////
+  insertToSalesbagAndMaster(
+    String os,
+    String date,
+    String time,
+    String customer_id,
+    String staff_id,
+    String aid,
+    double total_price,
+  ) async {
+    print("hhjk----$date");
+    List<Map<String, dynamic>> om = [];
+    int sales_id = await OrderAppDB.instance
+        .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
+    int rowNum = 1;
+    print("baglist length........${bagList.length}");
+    if (bagList.length > 0) {
+      await OrderAppDB.instance.insertsalesMasterandDetailsTable(
+          sales_id,
+          0,
+          0.0,
+          "",
+          date,
+          time,
+          os,
+          customer_id,
+          "",
+          "",
+          staff_id,
+          aid,
+          0,
+          "",
+          "",
+          "",
+          "",
+          "",
+          1,
+          "salesMasterTable",
+          "",
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          total_price,
+          1);
+
+      for (var item in bagList) {
+        print("orderid---$order_id");
+        double rate = double.parse(item["rate"]);
+        await OrderAppDB.instance.insertsalesMasterandDetailsTable(
+            1,
+            item["qty"],
+            rate,
+            item["code"],
+            date,
+            time,
+            os,
+            customer_id,
+            "",
+            "",
+            staff_id,
+            aid,
+            0,
+            "",
+            "",
+            "",
+            "",
+            "",
+            rowNum,
+            "salesDetailsTable",
+            item["itemName"],
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            total_price,
+            1);
+        rowNum = rowNum + 1;
+      }
+    }
+    await OrderAppDB.instance.deleteFromTableCommonQuery(
+        "salesBagTable", "os='${os}' AND customerid='${customer_id}'");
+
+    bagList.clear();
+    notifyListeners();
+  }
+
   //////////////insert to order master and details///////////////////////
   insertToOrderbagAndMaster(
       String os,
@@ -1018,6 +1109,21 @@ class Controller extends ChangeNotifier {
   updateQty(String qty, int cartrowno, String customerId, String rate) async {
     List<Map<String, dynamic>> res = await OrderAppDB.instance
         .updateQtyOrderBagTable(qty, cartrowno, customerId, rate);
+    if (res.length >= 0) {
+      bagList.clear();
+      for (var item in res) {
+        bagList.add(item);
+      }
+      print("re from controller----$res");
+      notifyListeners();
+    }
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  salesupdateQty(
+      String qty, int cartrowno, String customerId, String rate) async {
+    List<Map<String, dynamic>> res = await OrderAppDB.instance
+        .updateQtySalesBagTable(qty, cartrowno, customerId, rate);
     if (res.length >= 0) {
       bagList.clear();
       for (var item in res) {
@@ -1198,16 +1304,17 @@ class Controller extends ChangeNotifier {
 
 /////////////////////////////////////////////////////////////////
   getSaleProductList(String customerId) async {
+    print("customer id......$customerId");
     print("haii---");
     int flag = 0;
-    productName.clear();
+
     try {
       isLoading = true;
       // notifyListeners();
       prodctItems =
           await OrderAppDB.instance.selectfromsalebagTable(customerId);
       print("prodctItems----${prodctItems.length}");
-
+      productName.clear();
       for (var item in prodctItems) {
         productName.add(item);
       }
@@ -1417,6 +1524,23 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+/////////////////////////////////////////////////////////////
+  deleteFromSalesBagTable(int cartrowno, String customerId, int index) async {
+    print("cartrowno--$cartrowno--index----$index");
+    List<Map<String, dynamic>> res =
+        await OrderAppDB.instance.deleteFromSalesagTable(cartrowno, customerId);
+
+    bagList.clear();
+    for (var item in res) {
+      bagList.add(item);
+    }
+    print("after delete------$res");
+    controller.removeAt(index);
+    print("controllers----$controller");
+    generateTextEditingController();
+    notifyListeners();
+  }
+
   ////////////// update remarks /////////////////////////////
   // updateRemarks(String customerId, String remark) async {
   //   print("remark.....${customerId}${remark}");
@@ -1433,7 +1557,7 @@ class Controller extends ChangeNotifier {
   //////////////////// CALCULATION ///////////////////////////
   /////////calculate total////////////////
   calculateTotal(String os, String customerId) async {
-    orderTotal = await OrderAppDB.instance.gettotalSum(os, customerId);
+    orderTotal = await OrderAppDB.instance.getsaletotalSum(os, customerId);
     print("orderTotal---$orderTotal");
     notifyListeners();
   }

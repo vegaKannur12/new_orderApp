@@ -67,7 +67,7 @@ class _SalesItemState extends State<SalesItem> {
     // TODO: implement initState
     super.initState();
 
-    print("areaId---${widget.customerId}");
+    print("customer id........${widget.customerId}");
     products = Provider.of<Controller>(context, listen: false).productName;
     print("products---${products}");
 
@@ -119,14 +119,19 @@ class _SalesItemState extends State<SalesItem> {
                   FocusManager.instance.primaryFocus?.unfocus();
 
                   Provider.of<Controller>(context, listen: false)
-                      .getBagDetails(widget.customerId, widget.os);
+                      .getSaleBagDetails(widget.customerId, widget.os);
 
-                  // Navigator.of(context).push(
-                  //   PageRouteBuilder(
-                  //     opaque: false, // set to false
-                  //     pageBuilder: (_, __, ___) => SaleCart(),
-                  //   ),
-                  // );
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      opaque: false, // set to false
+                      pageBuilder: (_, __, ___) => SaleCart(
+                        areaId: widget.areaId,
+                        custmerId: widget.customerId,
+                        os: widget.os,
+                        areaname: widget.areaName,
+                      ),
+                    ),
+                  );
                 }
               },
             ),
@@ -174,12 +179,17 @@ class _SalesItemState extends State<SalesItem> {
                   onTap: () {
                     Provider.of<Controller>(context, listen: false)
                         .getSaleBagDetails(widget.customerId, widget.os);
-                    // Navigator.of(context).push(
-                    //   PageRouteBuilder(
-                    //     opaque: false, // set to false
-                    //     pageBuilder: (_, __, ___) => SaleCart(),
-                    //   ),
-                    // );
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        opaque: false, // set to false
+                        pageBuilder: (_, __, ___) => SaleCart(
+                          areaId: widget.areaId,
+                          custmerId: widget.customerId,
+                          os: widget.os,
+                          areaname: widget.areaName,
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                       alignment: Alignment.center,
@@ -435,7 +445,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                   'cartrowno',
                                                                   "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
 
-                                                          print("max----$max");
+                                                          print(
+                                                              "sales max----$max");
                                                           // print("value.qty[index].text---${value.qty[index].text}");
 
                                                           rate1 = value.newList[
@@ -451,7 +462,8 @@ class _SalesItemState extends State<SalesItem> {
                                                           var res = await OrderAppDB
                                                               .instance
                                                               .insertsalesBagTable(
-                                                                  value.newList[index]
+                                                                  value.newList[
+                                                                          index]
                                                                       ["item"],
                                                                   s[0],
                                                                   s[1],
@@ -471,10 +483,12 @@ class _SalesItemState extends State<SalesItem> {
                                                                   total
                                                                       .toString(),
                                                                   "0",
-                                                                  value.newList[index]
+                                                                  value.newList[
+                                                                          index]
                                                                       ["hsn"],
-                                                                  value.newList[index]
-                                                                      ["tax"],
+                                                                  0.0,
+                                                                  // value.newList[index]
+                                                                  //     ["tax"],
                                                                   0.0,
                                                                   0.0,
                                                                   0);
@@ -728,7 +742,8 @@ class _SalesItemState extends State<SalesItem> {
                                                           var res = await OrderAppDB
                                                               .instance
                                                               .insertsalesBagTable(
-                                                                  products[index]
+                                                                  products[
+                                                                          index]
                                                                       ["item"],
                                                                   s[0],
                                                                   s[1],
@@ -752,6 +767,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                           index]
                                                                       ["hsn"],
                                                                   0.0,
+                                                                  // products[
+                                                                  //         index]
+                                                                  // ["tax"],
                                                                   0.0,
                                                                   0.0,
                                                                   0);
