@@ -49,7 +49,7 @@ class _CartListState extends State<CartList> {
     Provider.of<Controller>(context, listen: false)
         .generateTextEditingController("sale order");
     Provider.of<Controller>(context, listen: false)
-        .calculateTotal(widget.os, widget.custmerId);
+        .calculateorderTotal(widget.os, widget.custmerId);
     Provider.of<Controller>(context, listen: false).setSname();
   }
 
@@ -136,7 +136,7 @@ class _CartListState extends State<CartList> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
                               Flexible(
-                                child: Text("\u{20B9}${value.orderTotal}",
+                                child: Text("\u{20B9}${value.orderTotal1}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)),
@@ -169,7 +169,7 @@ class _CartListState extends State<CartList> {
                                       widget.custmerId,
                                       sid!,
                                       widget.areaId,
-                                      double.parse(value.orderTotal!));
+                                      double.parse(value.orderTotal1!));
                               String? gen_area = Provider.of<Controller>(
                                       context,
                                       listen: false)
@@ -593,7 +593,7 @@ class _CartListState extends State<CartList> {
                                                                             cartrowno,
                                                                             widget.custmerId,
                                                                             rate);
-                                                                        Provider.of<Controller>(context, listen: false).calculateTotal(
+                                                                        Provider.of<Controller>(context, listen: false).calculateorderTotal(
                                                                             widget.os,
                                                                             widget.custmerId);
                                                                         Navigator.pop(
@@ -727,7 +727,7 @@ class _CartListState extends State<CartList> {
                           widget.custmerId,
                           rateController.text);
                       Provider.of<Controller>(context, listen: false)
-                          .calculateTotal(widget.os, widget.custmerId);
+                          .calculateorderTotal(widget.os, widget.custmerId);
                       rateController.clear();
                       Navigator.of(context).pop();
                     },

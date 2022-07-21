@@ -68,7 +68,7 @@ class _SalesItemState extends State<SalesItem> {
     // TODO: implement initState
     super.initState();
 
-    print("areaId---${widget.customerId}");
+    print("customer id........${widget.customerId}");
     products = Provider.of<Controller>(context, listen: false).productName;
     print("products---${products}");
 
@@ -120,14 +120,19 @@ class _SalesItemState extends State<SalesItem> {
                   FocusManager.instance.primaryFocus?.unfocus();
 
                   Provider.of<Controller>(context, listen: false)
-                      .getBagDetails(widget.customerId, widget.os);
+                      .getSaleBagDetails(widget.customerId, widget.os);
 
-                  // Navigator.of(context).push(
-                  //   PageRouteBuilder(
-                  //     opaque: false, // set to false
-                  //     pageBuilder: (_, __, ___) => SaleCart(),
-                  //   ),
-                  // );
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      opaque: false, // set to false
+                      pageBuilder: (_, __, ___) => SaleCart(
+                        areaId: widget.areaId,
+                        custmerId: widget.customerId,
+                        os: widget.os,
+                        areaname: widget.areaName,
+                      ),
+                    ),
+                  );
                 }
               },
             ),
@@ -151,8 +156,11 @@ class _SalesItemState extends State<SalesItem> {
                     } else {
                       print("value---$value");
                       Provider.of<Controller>(context, listen: false)
+<<<<<<< HEAD
                             .salefilterCompany = true;
                       Provider.of<Controller>(context, listen: false)
+=======
+>>>>>>> d499b85a2b5a4277b25a5434caa626737ea88928
                           .filterwithCompany(widget.customerId, value, "sales");
                     }
                   },
@@ -177,12 +185,17 @@ class _SalesItemState extends State<SalesItem> {
                   onTap: () {
                     Provider.of<Controller>(context, listen: false)
                         .getSaleBagDetails(widget.customerId, widget.os);
-                    // Navigator.of(context).push(
-                    //   PageRouteBuilder(
-                    //     opaque: false, // set to false
-                    //     pageBuilder: (_, __, ___) => SaleCart(),
-                    //   ),
-                    // );
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        opaque: false, // set to false
+                        pageBuilder: (_, __, ___) => SaleCart(
+                          areaId: widget.areaId,
+                          custmerId: widget.customerId,
+                          os: widget.os,
+                          areaname: widget.areaName,
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                       alignment: Alignment.center,
@@ -441,7 +454,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                   'cartrowno',
                                                                   "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
 
-                                                          print("max----$max");
+                                                          print(
+                                                              "sales max----$max");
                                                           // print("value.qty[index].text---${value.qty[index].text}");
 
                                                           rate1 = value.newList[
@@ -512,7 +526,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                       context,
                                                                       listen:
                                                                           false)
-                                                                  .calculateTotal(
+                                                                  .calculatesalesTotal(
                                                                       value.ordernum[0]
                                                                           [
                                                                           'os'],
@@ -608,7 +622,11 @@ class _SalesItemState extends State<SalesItem> {
                                         s: s,
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
+<<<<<<< HEAD
                                             .salefilteredeValue,
+=======
+                                            .filteredeValue,
+>>>>>>> d499b85a2b5a4277b25a5434caa626737ea88928
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
@@ -718,7 +736,7 @@ class _SalesItemState extends State<SalesItem> {
                                                           int max = await OrderAppDB
                                                               .instance
                                                               .getMaxCommonQuery(
-                                                                  'orderBagTable',
+                                                                  'salesBagTable',
                                                                   'cartrowno',
                                                                   "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
 
@@ -796,7 +814,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                       context,
                                                                       listen:
                                                                           false)
-                                                                  .calculateTotal(
+                                                                  .calculatesalesTotal(
                                                                       value.ordernum[0]
                                                                           [
                                                                           'os'],
@@ -807,7 +825,7 @@ class _SalesItemState extends State<SalesItem> {
                                                         color: Colors.black,
                                                       ),
                                                       IconButton(
-                                                          icon: Icon(
+                                                          icon: const Icon(
                                                             Icons.delete,
                                                             size: 18,
                                                             // color: Colors.redAccent,
