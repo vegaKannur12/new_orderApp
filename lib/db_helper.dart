@@ -417,7 +417,7 @@ class OrderAppDB {
             $customer_id TEXT,
             $staff_id TEXT,
             $areaid TEXT,
-            $total_qty TEXT,
+            $total_qty INTEGER,
             $cgst TEXT,
             $sgst TEXT,
             $payment_mode TEXT,
@@ -744,12 +744,12 @@ class OrderAppDB {
     String salesdate,
     String salestime,
     String os,
-    String customerid,
+    String customer_id,
     String cus_type,
     String bill_no,
     String staff_id,
     String areaid,
-    String total_qty,
+    int total_qty,
     String cgst,
     String sgst,
     String payment_mode,
@@ -760,10 +760,8 @@ class OrderAppDB {
     String item_name,
     double gross_amount,
     double dis_amt,
-    double dis_per,
     double tax_amt,
     double tax_per,
-    double ces_amt,
     double ces_per,
     double net_amt,
     double total_price,
@@ -775,12 +773,12 @@ class OrderAppDB {
 
     if (table == "orderDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(order_id, row_num,os,code, item, qty, rate, unit) VALUES(${order_id},${rowNum},"${os}","${code}","${item}", ${qty}, $rate, "${unit}")';
+          'INSERT INTO salesDetailTable(item, os, sales_id, row_num, item_name , code,  qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, ces_amt, ces_per, net_amt, rate) VALUES("${os}",${sales_id},${rowNum},"${item}","${code}", ${qty},"${unit}", $gross_amount, $dis_amt, $dis_per, $tax_amt, $tax_per, $ces_amt, $ces_per, $net_amt, $rate, )';
       print(query2);
       res2 = await db.rawInsert(query2);
     } else if (table == "orderMasterTable") {
       var query3 =
-          'INSERT INTO orderMasterTable(order_id, orderdate, ordertime, os, customerid, userid, areaid, status, total_price) VALUES("${order_id}", "${orderdate}", "${ordertime}", "${os}", "${customerid}", "${userid}", "${areaid}", ${status},${total_price})';
+          'INSERT INTO salesMasterTable(osales_id, salesdate, salestime, os, cus_type,bill_no, customer_id, staff_idid, areaid, total_qty, cgst, sgst, payment_mode, credit_option, status, total_price) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${customer_id}", "${staff_id}", "${areaid}",$total_qty,"${cgst}","${sgst}","${payment_mode}","${credit_option}", ${status},${total_price})';
       res2 = await db.rawInsert(query3);
       print(query3);
     }
