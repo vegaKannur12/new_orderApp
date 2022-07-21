@@ -1524,6 +1524,17 @@ class OrderAppDB {
     print("length---${result.length}");
     return result;
   }
+//////////////////////////////////////////////////////////////////////////
+  selectfromsalesbagandfilterList(String customerId, String comId) async {
+    print("comid---$comId");
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    result = await db.rawQuery(
+        "SELECT productDetailsTable.* , salesBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'salesBagTable' ON productDetailsTable.code = salesBagTable.code AND salesBagTable.customerid='$customerId' where  productDetailsTable.companyId='${comId}' ORDER BY cartrowno DESC");
+    print("leftjoin result- company---$result");
+    print("length---${result.length}");
+    return result;
+  }
 
 //////////////count from table/////////////////////////////////////////
   countCommonQuery(String table, String? condition) async {

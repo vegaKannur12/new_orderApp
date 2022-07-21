@@ -168,7 +168,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                     } else {
                       print("value---$value");
                       Provider.of<Controller>(context, listen: false)
-                          .filterwithCompany(widget.customerId, value);
+                          .filterwithCompany(widget.customerId, value,"sale order");
                     }
                   },
                   itemBuilder: (context) => _value.productcompanyList
@@ -631,7 +631,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               index,
                                                                               "no filter",
                                                                               "",
-                                                                              value.qty[index]);
+                                                                              value.qty[index],"sale order");
                                                                         }
                                                                       : null
                                                                   : () async {
@@ -656,7 +656,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                           "no filter",
                                                                           "",
                                                                           value.qty[
-                                                                              index]);
+                                                                              index],"sale order");
                                                                     }
                                                               : value.selected[
                                                                       index]
@@ -682,7 +682,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                           "no filter",
                                                                           "",
                                                                           value.qty[
-                                                                              index]);
+                                                                              index],"sale order");
                                                                     }
                                                                   : null)
                                                     ],
@@ -698,7 +698,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                         s: s,
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
-                                            .filteredeValue,
+                                            .filteredeValue
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
@@ -962,7 +962,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               index,
                                                                               "no filter",
                                                                               "",
-                                                                              value.qty[index]);
+                                                                              value.qty[index],"sale order");
                                                                         }
                                                                       : null
                                                                   : () async {
@@ -986,7 +986,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                           "no filter",
                                                                           "",
                                                                           value.qty[
-                                                                              index]);
+                                                                              index],"sale order");
                                                                     }
                                                               : value.selected[
                                                                       index]
@@ -1011,7 +1011,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                           "no filter",
                                                                           "",
                                                                           value.qty[
-                                                                              index]);
+                                                                              index],"sale order");
                                                                     }
                                                                   : null)
                                                     ],

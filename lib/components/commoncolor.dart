@@ -108,4 +108,10 @@ class P_Settings {
   static Color get blue2 => Color.fromARGB(255, 3, 138, 255);
   static Color get blue3 => Color.fromARGB(255, 161, 212, 238);
   static Color get blue4 => Color.fromARGB(255, 40, 67, 135);
+
+  ///////////////sales///////////////////////////////////////////
+  static Color get salewaveColor => Color.fromARGB(255, 33, 133, 30);
+  static Color get saleroundedButtonColor => Color.fromARGB(255, 196, 245, 194);
+
+  ///
 }

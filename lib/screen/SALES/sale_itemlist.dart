@@ -9,6 +9,7 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/8_cartList.dart';
 import 'package:orderapp/screen/ORDER/filterProduct.dart';
+import 'package:orderapp/screen/SALES/saleFilteredProductList.dart';
 import 'package:orderapp/screen/SALES/sale_cart.dart';
 
 import 'package:provider/provider.dart';
@@ -105,7 +106,7 @@ class _SalesItemState extends State<SalesItem> {
             },
           ),
           elevation: 0,
-          backgroundColor: P_Settings.wavecolor,
+          backgroundColor: P_Settings.salewaveColor,
           actions: <Widget>[
             IconButton(
               icon: Icon(
@@ -155,7 +156,7 @@ class _SalesItemState extends State<SalesItem> {
                     } else {
                       print("value---$value");
                       Provider.of<Controller>(context, listen: false)
-                          .filterwithCompany(widget.customerId, value);
+                          .filterwithCompany(widget.customerId, value,"sales");
                     }
                   },
                   itemBuilder: (context) => _value.productcompanyList
@@ -198,7 +199,7 @@ class _SalesItemState extends State<SalesItem> {
                       child: value.isLoading
                           ? Center(
                               child: SpinKitThreeBounce(
-                              color: P_Settings.wavecolor,
+                              color: P_Settings.salewaveColor,
                               size: 15,
                             ))
                           : Text(
@@ -207,7 +208,7 @@ class _SalesItemState extends State<SalesItem> {
                                   fontSize: 19, fontWeight: FontWeight.bold),
                             ),
                       decoration: BoxDecoration(
-                        color: P_Settings.roundedButtonColor,
+                        color: P_Settings.saleroundedButtonColor,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(50),
                           bottomRight: Radius.circular(50),
@@ -313,7 +314,7 @@ class _SalesItemState extends State<SalesItem> {
                 value.isLoading
                     ? Container(
                         child: CircularProgressIndicator(
-                        color: P_Settings.wavecolor,
+                        color: P_Settings.salewaveColor,
                       ))
                     : value.prodctItems.length == 0
                         ? _isLoading
@@ -330,7 +331,7 @@ class _SalesItemState extends State<SalesItem> {
                                 ? value.isListLoading
                                     ? Center(
                                         child: SpinKitCircle(
-                                          color: P_Settings.wavecolor,
+                                          color: P_Settings.salewaveColor,
                                           size: 40,
                                         ),
                                       )
@@ -499,7 +500,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   context,
                                                                   listen: false)
                                                               .countFromTable(
-                                                            "orderBagTable",
+                                                            "salesBagTable",
                                                             widget.os,
                                                             widget.customerId,
                                                           );
@@ -567,7 +568,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "no filter",
                                                                           "",
                                                                           value.qty[
-                                                                              index]);
+                                                                              index],
+                                                                          "sales");
                                                                     }
                                                                   : null
                                                               : () async {
@@ -596,7 +598,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                       "no filter",
                                                                       "",
                                                                       value.qty[
-                                                                          index]);
+                                                                          index],
+                                                                      "sales");
                                                                 })
                                                     ],
                                                   ),
@@ -604,7 +607,7 @@ class _SalesItemState extends State<SalesItem> {
                                               );
                                             })
                                 : value.filterCompany
-                                    ? FilteredProduct(
+                                    ? SaleFilteredProduct(
                                         type: widget.type,
                                         customerId: widget.customerId,
                                         os: widget.os,
@@ -612,6 +615,7 @@ class _SalesItemState extends State<SalesItem> {
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
                                             .filteredeValue,
+                                        
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
@@ -781,7 +785,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   context,
                                                                   listen: false)
                                                               .countFromTable(
-                                                            "orderBagTable",
+                                                            "salesBagTable",
                                                             widget.os,
                                                             widget.customerId,
                                                           );
@@ -843,7 +847,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "no filter",
                                                                           "",
                                                                           value.qty[
-                                                                              index]);
+                                                                              index],
+                                                                          "sales");
                                                                     }
                                                                   : null
                                                               : () async {
@@ -871,7 +876,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                       "no filter",
                                                                       "",
                                                                       value.qty[
-                                                                          index]);
+                                                                          index],
+                                                                      "sales");
                                                                 })
                                                     ],
                                                   ),

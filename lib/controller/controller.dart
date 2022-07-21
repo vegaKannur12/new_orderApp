@@ -921,10 +921,10 @@ class Controller extends ChangeNotifier {
           1);
 
       for (var item in bagList) {
-        print("orderid---$order_id");
+        print("sales_id....$sales_id");
         double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertsalesMasterandDetailsTable(
-            1,
+            sales_id,
             item["qty"],
             rate,
             item["code"],
@@ -1181,15 +1181,22 @@ class Controller extends ChangeNotifier {
   }
 
 ///////////////filter company////////////////////////////
-  filterwithCompany(String cusId, String comId) async {
+  filterwithCompany(String cusId, String comId, String type) async {
     isLoading = true;
     filterCompany = true;
+    List<Map<String, dynamic>> result=[];
     // notifyListeners();
     // List<Map<String, dynamic>> result = await OrderAppDB.instance
     //     .selectAllcommon('productDetailsTable', "companyId='${comId}'");
+    if (type == "sale order") {
+      result =
+          await OrderAppDB.instance.selectfrombagandfilterList(cusId, comId);
+    }
+    if (type == "sales") {
+      result = await OrderAppDB.instance
+          .selectfromsalesbagandfilterList(cusId, comId);
+    }
 
-    List<Map<String, dynamic>> result =
-        await OrderAppDB.instance.selectfrombagandfilterList(cusId, comId);
     print("products filter-----$result");
     filteredProductList.clear();
     for (var item in result) {

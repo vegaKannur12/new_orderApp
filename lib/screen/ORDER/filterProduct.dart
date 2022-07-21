@@ -16,8 +16,14 @@ class FilteredProduct extends StatefulWidget {
   List<String>? s;
   String? customerId;
   String? value;
+ 
   FilteredProduct(
-      {required this.type, this.customerId, this.os, this.s, this.value});
+      {required this.type,
+      this.customerId,
+      this.os,
+      this.s,
+      this.value,
+      });
 
   @override
   State<FilteredProduct> createState() => _FilteredProductState();
@@ -42,7 +48,7 @@ class _FilteredProductState extends State<FilteredProduct> {
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false)
-        .filterwithCompany(widget.customerId!, widget.value!);
+        .filterwithCompany(widget.customerId!, widget.value!,"sale order");
   }
 
   @override
@@ -229,7 +235,8 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .filteredeValue!,
-                                                value.qty[index]);
+                                                value.qty[index],"sale order"
+                                                );
                                           }
                                         : null
                                     : () async {
@@ -252,7 +259,8 @@ class _FilteredProductState extends State<FilteredProduct> {
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .filteredeValue!,
-                                            value.qty[index]);
+                                            value.qty[index],
+                                            "sale order");
                                       }
                                 : value.filterComselected[index]
                                     ? () async {
@@ -262,21 +270,21 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                 value.filteredProductList[index]
                                                     ["item"];
                                         showModal.showMoadlBottomsheet(
-                                          widget.os!,
-                                          widget.customerId!,
-                                          item,
-                                          size,
-                                          context,
-                                          "return",
-                                          value.filteredProductList[index]
-                                              ["code"],
-                                          index,
-                                          "with company",
-                                          Provider.of<Controller>(context,
-                                                  listen: false)
-                                              .filteredeValue!,
-                                          value.qty[index],
-                                        );
+                                            widget.os!,
+                                            widget.customerId!,
+                                            item,
+                                            size,
+                                            context,
+                                            "return",
+                                            value.filteredProductList[index]
+                                                ["code"],
+                                            index,
+                                            "with company",
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .filteredeValue!,
+                                            value.qty[index],
+                                            "sale order");
                                       }
                                     : null)
                       ],
