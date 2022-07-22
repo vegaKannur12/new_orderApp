@@ -224,7 +224,7 @@ class _SaleCartState extends State<SaleCart> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Place Sale",
+                                  "Sale",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
@@ -264,7 +264,7 @@ class _SaleCartState extends State<SaleCart> {
     _controller.text = qty.toString();
 
     return Container(
-      height: size.height * 0.17,
+      height: size.height * 0.2,
       child: Padding(
         padding: const EdgeInsets.only(left: 2, right: 2, top: 8, bottom: 8),
         child: Ink(
@@ -344,79 +344,24 @@ class _SaleCartState extends State<SaleCart> {
                                   },
                                   child: Row(
                                     children: [
-                                      Text(
-                                        "Rate :",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        "\u{20B9}${rate}",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.3,
-                                      ),
-                                      Flexible(
-                                        child: IconButton(
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (ctx) => AlertDialog(
-                                                content: Text("delete?"),
-                                                actions: <Widget>[
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                primary: P_Settings
-                                                                    .wavecolor),
-                                                        onPressed: () {
-                                                          Navigator.of(ctx)
-                                                              .pop();
-                                                        },
-                                                        child: Text("cancel"),
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            size.width * 0.01,
-                                                      ),
-                                                      ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                primary: P_Settings
-                                                                    .wavecolor),
-                                                        onPressed: () async {
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .deleteFromSalesBagTable(
-                                                                  cartrowno,
-                                                                  widget
-                                                                      .custmerId,
-                                                                  index);
-                                                          Navigator.of(ctx)
-                                                              .pop();
-                                                        },
-                                                        child: Text("ok"),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          icon: Icon(
-                                            Icons.delete,
-                                            size: 17,
-                                          ),
-                                          color: P_Settings.extracolor,
+                                      Expanded(
+                                        flex: 2,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Rate :",
+                                              style: TextStyle(fontSize: 13),
+                                            ),
+                                            SizedBox(
+                                              width: size.width * 0.02,
+                                            ),
+                                            Text(
+                                              "\u{20B9}${rate}",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 13),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
@@ -606,17 +551,53 @@ class _SaleCartState extends State<SaleCart> {
                                       },
                                     );
                                   },
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Qty :",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Container(child: Text(qty.toString())),
-                                    ],
+                                  child: Expanded(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Qty :",
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                              SizedBox(
+                                                width: size.width * 0.02,
+                                              ),
+                                              Container(
+                                                child: Text(
+                                                  qty.toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 13),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Discount:",
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                              SizedBox(
+                                                width: size.width * 0.03,
+                                              ),
+                                              Container(
+                                                child: Text(
+                                                  tax.toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 13),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -625,14 +606,48 @@ class _SaleCartState extends State<SaleCart> {
                               padding: const EdgeInsets.only(left: 4),
                               child: Row(
                                 children: [
-                                  Text(
-                                    "Tax:",
-                                    style: TextStyle(fontSize: 13),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Tax:",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                        SizedBox(
+                                          width: size.width * 0.03,
+                                        ),
+                                        Container(
+                                          child: Text(
+                                            tax.toString(),
+                                            style: TextStyle(fontSize: 13),
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Cess :",
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                              SizedBox(
+                                                width: size.width * 0.02,
+                                              ),
+                                              Container(
+                                                child: Text(
+                                                  qty.toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 13),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  SizedBox(
-                                    width: size.width * 0.03,
-                                  ),
-                                  Container(child: Text(tax.toString())),
                                 ],
                               ),
                             ),
@@ -647,24 +662,93 @@ class _SaleCartState extends State<SaleCart> {
                   color: Color.fromARGB(255, 182, 179, 179),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Total price : ",
-                        style: TextStyle(fontSize: 13),
-                      ),
-                      Flexible(
-                        child: Text(
-                          "\u{20B9}${totalamount}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: P_Settings.extracolor),
+                  padding: const EdgeInsets.only(
+                    bottom: 7,
+                  ),
+                  child: Container(
+                    height: size.height*0.03,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Remove ",
+                                style: TextStyle(fontSize: 13),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) => AlertDialog(
+                                      content: Text("delete?"),
+                                      actions: <Widget>[
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: P_Settings.wavecolor),
+                                              onPressed: () {
+                                                Navigator.of(ctx).pop();
+                                              },
+                                              child: Text("cancel"),
+                                            ),
+                                            SizedBox(
+                                              width: size.width * 0.01,
+                                            ),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: P_Settings.wavecolor),
+                                              onPressed: () async {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .deleteFromSalesBagTable(
+                                                        cartrowno,
+                                                        widget.custmerId,
+                                                        index);
+                                                Navigator.of(ctx).pop();
+                                              },
+                                              child: Text("ok"),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.close,
+                                  size: 17,
+                                ),
+                                color: P_Settings.extracolor,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        Spacer(),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Total price : ",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "\u{20B9}${totalamount}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: P_Settings.extracolor),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

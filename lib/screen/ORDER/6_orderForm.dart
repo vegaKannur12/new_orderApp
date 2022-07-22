@@ -136,8 +136,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     return WillPopScope(
       onWillPop: () => _onBackPressed(context),
       child: Scaffold(
-        // resizeToAvoidBottomInset: true,
-        // backgroundColor: Colors.white,
         body: InkWell(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
@@ -159,7 +157,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                             height: size.height * 0.2,
                             decoration: BoxDecoration(
                               color: P_Settings.wavecolor,
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 bottomLeft: Radius.circular(50),
                                 bottomRight: Radius.circular(50),
                               ),
@@ -1055,6 +1053,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
+                                  ///////////////////// return buttton //////////////////
                                                 Container(
                                                   width: size.width * 0.27,
                                                   height: size.height * 0.05,
@@ -1161,6 +1160,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 SizedBox(
                                                   width: size.width * 0.05,
                                                 ),
+                                  //////////////////// balance button ///////////////////
                                                 Container(
                                                   width: size.width * 0.27,
                                                   height: size.height * 0.05,
