@@ -666,12 +666,12 @@ class _SaleCartState extends State<SaleCart> {
                     bottom: 7,
                   ),
                   child: Container(
-                    height: size.height*0.03,
+                    height: size.height * 0.03,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 3,
+                          flex: 4,
                           child: Row(
                             children: [
                               Text(
@@ -691,7 +691,8 @@ class _SaleCartState extends State<SaleCart> {
                                           children: [
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                  primary: P_Settings.wavecolor),
+                                                  primary:
+                                                      P_Settings.wavecolor),
                                               onPressed: () {
                                                 Navigator.of(ctx).pop();
                                               },
@@ -702,7 +703,8 @@ class _SaleCartState extends State<SaleCart> {
                                             ),
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                  primary: P_Settings.wavecolor),
+                                                  primary:
+                                                      P_Settings.wavecolor),
                                               onPressed: () async {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
