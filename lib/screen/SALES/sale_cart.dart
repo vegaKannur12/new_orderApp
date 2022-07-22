@@ -4,6 +4,7 @@ import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
+import 'package:orderapp/screen/SALES/saleItemDetails.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +28,7 @@ class SaleCart extends StatefulWidget {
 class _SaleCartState extends State<SaleCart> {
   List<String> s = [];
   String? gen_condition;
+  SaleItemDetails saleItemDetails=SaleItemDetails();
   TextEditingController rateController = TextEditingController();
   DateTime now = DateTime.now();
   String? date;
@@ -274,6 +276,10 @@ class _SaleCartState extends State<SaleCart> {
             // borderRadius: BorderRadius.circular(20),
           ),
           child: ListTile(
+            onTap: (){
+              print("clickedd-----");
+                saleItemDetails.showMoadlBottomsheet(qty,double.parse(rate) , 0.0, 0.0, double.parse(tax), 0.0, context, size);
+            },
             // leading: CircleAvatar(backgroundColor: Colors.green),
             title: Column(
               children: [
