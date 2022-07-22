@@ -678,6 +678,7 @@ class OrderAppDB {
     if (res1.length == 1) {
       int qty1 = res1[0]["qty"];
       int updatedQty = qty1 + qty;
+      print("totalamount---${res1[0]["totalamount"]}");
       double amount = double.parse(res1[0]["totalamount"]);
       print("res1.length----${res1.length}");
 
@@ -906,7 +907,7 @@ class OrderAppDB {
         'SELECT  * FROM salesBagTable WHERE customerid="${customerId}" AND os = "${os}"');
     print(
         'SELECT  * FROM salesBagTable WHERE customerid="${customerId}" AND os = "${os}"');
-    print(res);
+    print("result sale cart...$res");
     return res;
   }
 

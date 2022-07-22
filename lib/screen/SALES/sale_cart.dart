@@ -82,26 +82,26 @@ class _SaleCartState extends State<SaleCart> {
               return CircularProgressIndicator();
             } else {
               print("value.rateEdit----${value.rateEdit}");
-              print("baglist length...........${value.bagList.length}");
+              print("baglist length...........${value.salebagList.length}");
               return Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
-                      itemCount: value.bagList.length,
+                      itemCount: value.salebagList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return listItemFunction(
-                          value.bagList[index]["cartrowno"],
-                          value.bagList[index]["itemName"],
+                          value.salebagList[index]["cartrowno"],
+                          value.salebagList[index]["itemName"],
                           value.rateEdit[index]
                               ? value.editedRate
-                              : value.bagList[index]["rate"],
-                          value.bagList[index]["totalamount"],
-                          value.bagList[index]["qty"],
+                              : value.salebagList[index]["rate"],
+                          value.salebagList[index]["totalamount"],
+                          value.salebagList[index]["qty"],
                           size,
                           value.controller[index],
                           index,
-                          value.bagList[index]["code"],
-                          value.bagList[index]["tax"].toString(),
+                          value.salebagList[index]["code"],
+                          value.salebagList[index]["tax"].toString(),
                         );
                       },
                     ),
@@ -140,7 +140,7 @@ class _SaleCartState extends State<SaleCart> {
                                 .setStaffid(value.sname!);
                             print("Sid........${value.sname}$sid");
                             if (Provider.of<Controller>(context, listen: false)
-                                    .bagList
+                                    .salebagList
                                     .length >
                                 0) {
                               final prefs =

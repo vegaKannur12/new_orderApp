@@ -1400,6 +1400,7 @@ class Controller extends ChangeNotifier {
 
 //////////////////////////////////////////////////////
   getSaleBagDetails(String customerId, String os) async {
+    print("customer id sale .................$customerId...$os");
     salebagList.clear();
 
     isLoading = true;
@@ -1591,11 +1592,12 @@ class Controller extends ChangeNotifier {
   //   notifyListeners();
   // }
   //////////////////// CALCULATION ///////////////////////////
-   calculateorderTotal(String os, String customerId) async {
+  calculateorderTotal(String os, String customerId) async {
     orderTotal1 = await OrderAppDB.instance.gettotalSum(os, customerId);
     print("orderTotal1---$orderTotal1");
     notifyListeners();
   }
+
   /////////calculate total////////////////
   calculatesalesTotal(String os, String customerId) async {
     orderTotal2 = await OrderAppDB.instance.getsaletotalSum(os, customerId);
@@ -2459,13 +2461,8 @@ class Controller extends ChangeNotifier {
       // }
 // print("jhfdjkhfjd----$bagList");
       if (comid == "") {
-         result = await OrderAppDB.instance.searchItem(
-            'productDetailsTable',
-            searchkey!,
-            'item',
-            'code',
-            'categoryId',
-            " ");
+        result = await OrderAppDB.instance.searchItem('productDetailsTable',
+            searchkey!, 'item', 'code', 'categoryId', " ");
       } else {
         result = await OrderAppDB.instance.searchItem(
             'productDetailsTable',
