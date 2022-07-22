@@ -897,8 +897,8 @@ class Controller extends ChangeNotifier {
     int sales_id = await OrderAppDB.instance
         .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
     int rowNum = 1;
-    print("baglist length........${bagList.length}");
-    if (bagList.length > 0) {
+    print("salebagList length........${salebagList.length}");
+    if (salebagList.length > 0) {
       await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
           0,
@@ -932,7 +932,7 @@ class Controller extends ChangeNotifier {
           total_price,
           1);
 
-      for (var item in bagList) {
+      for (var item in salebagList) {
         print("sales_id....$sales_id");
         double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertsalesMasterandDetailsTable(

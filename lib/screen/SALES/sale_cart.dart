@@ -95,7 +95,7 @@ class _SaleCartState extends State<SaleCart> {
                           value.salebagList[index]["itemName"],
                           // value.rateEdit[index]
                           //     ? value.editedRate
-                          //     : 
+                          //     :
                           value.salebagList[index]["rate"].toString(),
                           value.salebagList[index]["totalamount"].toString(),
                           value.salebagList[index]["qty"],
@@ -188,8 +188,7 @@ class _SaleCartState extends State<SaleCart> {
                                             opaque: false, // set to false
                                             pageBuilder: (_, __, ___) =>
                                                 Dashboard(
-                                                    type:
-                                                        "return from cartList",
+                                                    type: " ",
                                                     areaName: widget.areaname)
                                             // OrderForm(widget.areaname,"return"),
                                             ),
@@ -199,7 +198,7 @@ class _SaleCartState extends State<SaleCart> {
                                         content: Row(
                                       children: [
                                         Text(
-                                          'Sales Order Placed!!!!',
+                                          'Sales  Placed!!!!',
                                           style: TextStyle(
                                               color: P_Settings.extracolor),
                                         ),
@@ -225,7 +224,7 @@ class _SaleCartState extends State<SaleCart> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Place Order",
+                                  "Place Sale",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),

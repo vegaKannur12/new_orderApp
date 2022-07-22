@@ -71,8 +71,8 @@ class _TodaySaleState extends State<TodaySale> {
                           child: GestureDetector(
                             onTap: () {
                               Provider.of<Controller>(context, listen: false)
-                                  .getHistoryData('orderDetailTable',
-                                      "order_id='${value.todaySalesList[index]["order_id"]}'");
+                                  .getHistoryData('salesDetailTable',
+                                      "sales_id='${value.todaySalesList[index]["sales_id"]}'");
                               popup.buildPopupDialog(
                                   context,
                                   size,
