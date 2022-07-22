@@ -1665,7 +1665,7 @@ class OrderAppDB {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
     var query =
-        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id, salesMasterTable.os  || salesMasterTable.sales_id as Order_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate Date, count(salesDetailTable.row_num) count, salesMasterTable.total_price  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
+        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate Date, count(salesDetailTable.row_num) count, salesMasterTable.total_price  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
     print("query---$query");
 
     result = await db.rawQuery(query);
@@ -1942,7 +1942,7 @@ class OrderAppDB {
         "Select " +
         " count(Distinct X.cid) cusCount," +
         " sum(X.ordCnt) ordCnt,sum(X.ordVal) ordVal,sum(X.rmCnt) rmCnt," +
-        " sum(X.colCnt) colCnt,Sum(X.colVal) colVal,sum(X.retCnt) retCnt ,Sum(X.retVal) retVal" +
+        " sum(X.colCnt) colCnt, sum(X.saleCnt) saleCnt ,sum(X.colVal) colVal,sum(X.retCnt) retCnt ,sum(X.retVal) retVal,sum(X.saleVal) saleVal" +
         " from accountHeadsTable A  " +
         " inner join (" +
         " Select O.customerid cid , Count(O.id) ordCnt,Sum(O.total_price) ordVal,0 rmCnt,0 colCnt,0 colVal,0 retCnt,0 retVal" +
@@ -1960,11 +1960,15 @@ class OrderAppDB {
         " Select RT.customerid cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(RT.id) retCnt,Sum(RT.total_price) retVal" +
         " From returnMasterTable RT   where RT.return_date='$date' and RT.userid='$userId'" +
         " group by RT.customerid" +
+        " union all" +
+        " Select S.customer_id cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(S.id) saleCnt,Sum(S.total_price) saleVal" +
+        " From salesMasterTable S   where S.salesdate='$date' and S.staff_id='$userId'" +
+        " group by S.customer_id" +
         " ) X ON X.cid=A.ac_code" +
         " $condition;";
 
     result = await db.rawQuery(query);
-    print("dashboard sum-$condition");
+    // print("dashboard sum-$condition");
     print("result--dashboard----$result");
     return result;
   }
