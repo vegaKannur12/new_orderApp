@@ -295,13 +295,15 @@ class _SalesItemState extends State<SalesItem> {
                                                     Provider.of<Controller>(
                                                             context,
                                                             listen: false)
-                                                        .salefilteredeValue!,"sales")
+                                                        .salefilteredeValue!,
+                                                    "sales")
                                             : Provider.of<Controller>(context,
                                                     listen: false)
                                                 .searchProcess(
                                                     widget.customerId,
                                                     widget.os,
-                                                    "","sales");
+                                                    "",
+                                                    "sales");
                                       }),
                                   IconButton(
                                       icon: Icon(
@@ -511,9 +513,11 @@ class _SalesItemState extends State<SalesItem> {
                                                                   value.newList[
                                                                           index]
                                                                       ["hsn"],
-                                                                  0.0,
-                                                                  // value.newList[index]
-                                                                  //     ["tax"],
+                                                                  double.parse(
+                                                                    products[
+                                                                            index]
+                                                                        ["tax"],
+                                                                  ),
                                                                   0.0,
                                                                   0.0,
                                                                   0);
@@ -769,8 +773,7 @@ class _SalesItemState extends State<SalesItem> {
                                                           var res = await OrderAppDB
                                                               .instance
                                                               .insertsalesBagTable(
-                                                                  products[
-                                                                          index]
+                                                                  products[index]
                                                                       ["item"],
                                                                   s[0],
                                                                   s[1],
@@ -793,10 +796,14 @@ class _SalesItemState extends State<SalesItem> {
                                                                   products[
                                                                           index]
                                                                       ["hsn"],
-                                                                  0.0,
+                                                                  double.parse(
+                                                                    products[
+                                                                            index]
+                                                                        ["tax"],
+                                                                  ),
                                                                   // products[
                                                                   //         index]
-                                                                  // ["tax"],
+                                                                  //     ["tax"],
                                                                   0.0,
                                                                   0.0,
                                                                   0);

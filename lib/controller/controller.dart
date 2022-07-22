@@ -897,8 +897,8 @@ class Controller extends ChangeNotifier {
     int sales_id = await OrderAppDB.instance
         .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
     int rowNum = 1;
-    print("baglist length........${bagList.length}");
-    if (bagList.length > 0) {
+    print("salebagList length........${salebagList.length}");
+    if (salebagList.length > 0) {
       await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
           0,
@@ -932,7 +932,7 @@ class Controller extends ChangeNotifier {
           total_price,
           1);
 
-      for (var item in bagList) {
+      for (var item in salebagList) {
         print("sales_id....$sales_id");
         double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertsalesMasterandDetailsTable(
@@ -1945,7 +1945,7 @@ class Controller extends ChangeNotifier {
 
     print("customerCount----$customerCount");
     orderCount = res[0]["ordCnt"].toString();
-    // salesCount =
+    salesCount = res[0]["saleCnt"].toString();
     collectionCount = res[0]["colCnt"].toString();
     print("collectioncount...$collectionCount");
     remarkCount = res[0]["rmCnt"].toString();
@@ -1954,7 +1954,7 @@ class Controller extends ChangeNotifier {
 
     collectionAmount = res[0]["colVal"].toString();
     ordrAmount = res[0]["ordVal"].toString();
-    // salesAmount = res[0]["ordVal"].toString();
+    salesAmount = res[0]["saleVal"].toString();
     returnAmount = res[0]["retVal"].toString();
 
     shopVisited = res[0]["cusCount"];

@@ -350,102 +350,115 @@ class _CollectionPageState extends State<CollectionPage> {
                             ],
                           ),
                         ),
-                        Column(
-                          children: [
-                            Consumer<Controller>(
-                              builder: (context, value, child) {
-                                return Container(
-                                  // color: P_Settings.collection,
-                                  height: size.height * 0.7,
-                                  child: ListView.builder(
-                                    itemCount: value.fetchcollectionList.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        height: size.height * 0.1,
-                                        child: Card(
-                                          // shape: RoundedRectangleBorder(
-                                          //   side: BorderSide(
-                                          //       color: value.fetchcollectionList[
-                                          //                       index]
-                                          //                   ['rec_cancel'] ==
-                                          //               1
-                                          //           ? Colors.red
-                                          //           : Colors.grey),
-                                          //   borderRadius:
-                                          //       BorderRadius.circular(15.0),
-                                          // ),
-                                          color: Colors.grey[100],
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: ListTile(
-                                              leading: CircleAvatar(
-                                                child: Icon(
-                                                  Icons.reviews,
-                                                  size: 16,
-                                                ),
-                                                backgroundColor:
-                                                    P_Settings.roundedButtonColor,
-                                              ),
-                                              title: Row(
-                                                children: [
-                                                  Text(
-                                                    value.fetchcollectionList[
-                                                        index]['rec_date'],
-                                                    style:
-                                                        TextStyle(fontSize: 15),
+                        Visibility(
+                          visible: value.fetchcollectionList.length == 0
+                              ? false
+                              : true,
+                          child: Column(
+                            children: [
+                              Consumer<Controller>(
+                                builder: (context, value, child) {
+                                  return Container(
+                                    // color: P_Settings.collection,
+                                    height: size.height * 0.7,
+                                    child: ListView.builder(
+                                      // physics: const NeverScrollableScrollPhysics();
+                                      itemCount:
+                                          value.fetchcollectionList.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          height: size.height * 0.1,
+                                          child: Card(
+                                            // shape: RoundedRectangleBorder(
+                                            //   side: BorderSide(
+                                            //       color: value.fetchcollectionList[
+                                            //                       index]
+                                            //                   ['rec_cancel'] ==
+                                            //               1
+                                            //           ? Colors.red
+                                            //           : Colors.grey),
+                                            //   borderRadius:
+                                            //       BorderRadius.circular(15.0),
+                                            // ),
+                                            color: Colors.grey[100],
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: ListTile(
+                                                leading: CircleAvatar(
+                                                  child: Icon(
+                                                    Icons.reviews,
+                                                    size: 16,
                                                   ),
-                                                  Text(
-                                                    value.fetchcollectionList[
-                                                        index]['rec_time'],
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontStyle:
-                                                            FontStyle.italic),
-                                                  ),
-                                                ],
-                                              ),
-                                              subtitle: Text(
-                                                  "\u{20B9}${value.fetchcollectionList[index]['rec_amount'].toString()}"),
-                                              trailing: IconButton(
-                                                icon: Icon(Icons.delete,
-                                                color: value.fetchcollectionList[
-                                                                index]
-                                                            ['rec_cancel'] ==
-                                                        1?Colors.grey:Colors.red[400]
+                                                  backgroundColor: P_Settings
+                                                      .roundedButtonColor,
                                                 ),
-                                                onPressed:
-                                                    value.fetchcollectionList[
-                                                                    index]
-                                                                ["rec_cancel"] ==
-                                                            1
-                                                        ? null
-                                                        : () {
-                                                            showDialog(
-                                                                context: context,
-                                                                builder: (BuildContext context) => popup.buildPopupDialog(
-                                                                    widget.cuid!,
-                                                                    context,
-                                                                    "Do you want to cancel the Collection?",
-                                                                    "collection",
-                                                                    value.fetchcollectionList[
-                                                                            index]
-                                                                        [
-                                                                        "rec_row_num"],
-                                                                    widget.sid!,
-                                                                    s[0],
-                                                                    widget.aid!));
-                                                          },
+                                                title: Row(
+                                                  children: [
+                                                    Text(
+                                                      value.fetchcollectionList[
+                                                          index]['rec_date'],
+                                                      style: TextStyle(
+                                                          fontSize: 15),
+                                                    ),
+                                                    Text(
+                                                      value.fetchcollectionList[
+                                                          index]['rec_time'],
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontStyle:
+                                                              FontStyle.italic),
+                                                    ),
+                                                  ],
+                                                ),
+                                                subtitle: Text(
+                                                    "\u{20B9}${value.fetchcollectionList[index]['rec_amount'].toString()}"),
+                                                trailing: IconButton(
+                                                  icon: Icon(Icons.delete,
+                                                      color: value.fetchcollectionList[
+                                                                      index][
+                                                                  'rec_cancel'] ==
+                                                              1
+                                                          ? Colors.grey
+                                                          : Colors.red[400]),
+                                                  onPressed:
+                                                      value.fetchcollectionList[
+                                                                      index][
+                                                                  "rec_cancel"] ==
+                                                              1
+                                                          ? null
+                                                          : () {
+                                                              showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder: (BuildContext context) => popup.buildPopupDialog(
+                                                                      widget
+                                                                          .cuid!,
+                                                                      context,
+                                                                      "Do you want to cancel the Collection?",
+                                                                      "collection",
+                                                                      value.fetchcollectionList[
+                                                                              index]
+                                                                          [
+                                                                          "rec_row_num"],
+                                                                      widget
+                                                                          .sid!,
+                                                                      s[0],
+                                                                      widget
+                                                                          .aid!));
+                                                            },
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     );

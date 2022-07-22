@@ -991,7 +991,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                       listen:
                                                                           false)
                                                                   .filterCompany = false;
-                                                                 
 
                                                               // Provider.of<Controller>(
                                                               //         context,
