@@ -45,7 +45,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false)
-        .filterwithCompany(widget.customerId!, widget.value!,"sale");
+        .filterwithCompany(widget.customerId!, widget.value!,"sales");
   }
 
   @override

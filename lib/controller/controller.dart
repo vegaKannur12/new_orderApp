@@ -1213,6 +1213,7 @@ class Controller extends ChangeNotifier {
       print("filteredProductList--$filteredProductList");
     }
     if (type == "sales") {
+
       salefilterCompany = true;
 
       result = await OrderAppDB.instance
@@ -1226,7 +1227,7 @@ class Controller extends ChangeNotifier {
       filterComselected = List.generate(length, (index) => false);
       print("filteredProductList--$salefilteredProductList");
     }
-
+    
     print("products filter-----$result");
 
     isLoading = false;

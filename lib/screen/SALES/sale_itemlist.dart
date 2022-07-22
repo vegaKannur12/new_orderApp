@@ -140,23 +140,45 @@ class _SalesItemState extends State<SalesItem> {
               builder: (context, _value, child) {
                 return PopupMenuButton<String>(
                   onSelected: (value) {
+                    //  Provider.of<Controller>(context, listen: false)
+                    //     .filteredeValue = value;
+
+                    // if (value == "0") {
+                    //   setState(() {
+                    //     Provider.of<Controller>(context, listen: false)
+                    //         .filterCompany = false;
+                    //   });
+
+                    //   Provider.of<Controller>(context, listen: false)
+                    //       .filteredProductList
+                    //       .clear();
+                    //   Provider.of<Controller>(context, listen: false)
+                    //       .getProductList(widget.customerId);
+                    // } else {
+                    //   print("value---$value");
+                    //   Provider.of<Controller>(context, listen: false)
+                    //         .filterCompany = true;
+                    //   Provider.of<Controller>(context, listen: false)
+                    //       .filterwithCompany(widget.customerId, value,"sale order");
+                    // }///////////////
+
                     Provider.of<Controller>(context, listen: false)
-                        .filteredeValue = value;
+                        .salefilteredeValue = value;
                     if (value == "0") {
                       setState(() {
                         Provider.of<Controller>(context, listen: false)
-                            .filterCompany = false;
+                            .salefilterCompany = false;
                       });
 
                       Provider.of<Controller>(context, listen: false)
-                          .filteredProductList
+                          .salefilteredProductList
                           .clear();
                       Provider.of<Controller>(context, listen: false)
                           .getSaleProductList(widget.customerId);
                     } else {
                       print("value---$value");
                       Provider.of<Controller>(context, listen: false)
-                            .salefilterCompany = true;
+                          .salefilterCompany = true;
                       Provider.of<Controller>(context, listen: false)
                           .filterwithCompany(widget.customerId, value, "sales");
                     }
@@ -608,7 +630,7 @@ class _SalesItemState extends State<SalesItem> {
                                                 ),
                                               );
                                             })
-                                : value.filterCompany
+                                : value.salefilterCompany
                                     ? SaleFilteredProduct(
                                         type: widget.type,
                                         customerId: widget.customerId,
