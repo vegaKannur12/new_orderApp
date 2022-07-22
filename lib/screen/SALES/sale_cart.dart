@@ -113,24 +113,29 @@ class _SaleCartState extends State<SaleCart> {
                     color: Colors.yellow,
                     child: Row(
                       children: [
-                        Container(
-                          width: size.width * 0.5,
-                          height: size.height * 0.07,
-                          color: Colors.yellow,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(" Order Total  : ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15)),
-                              Flexible(
-                                child: Text("\u{20B9}${value.orderTotal2}",
+                        GestureDetector(
+                          onTap: () {
+                            
+                          },
+                          child: Container(
+                            width: size.width * 0.5,
+                            height: size.height * 0.07,
+                            color: Colors.yellow,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(" Order Total  : ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 16)),
-                              )
-                            ],
+                                        fontSize: 15)),
+                                Flexible(
+                                  child: Text("\u{20B9}${value.orderTotal2}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16)),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         GestureDetector(
@@ -274,6 +279,9 @@ class _SaleCartState extends State<SaleCart> {
             // borderRadius: BorderRadius.circular(20),
           ),
           child: ListTile(
+            onTap: () {
+              
+            },
             // leading: CircleAvatar(backgroundColor: Colors.green),
             title: Column(
               children: [
