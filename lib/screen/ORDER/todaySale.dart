@@ -71,12 +71,12 @@ class _TodaySaleState extends State<TodaySale> {
                           child: GestureDetector(
                             onTap: () {
                               Provider.of<Controller>(context, listen: false)
-                                  .getHistoryData('orderDetailTable',
-                                      "order_id='${value.todaySalesList[index]["order_id"]}'");
+                                  .getHistoryData('salesDetailTable',
+                                      "sales_id='${value.todaySalesList[index]["sales_id"]}'");
                               popup.buildPopupDialog(
                                   context,
                                   size,
-                                  value.todaySalesList[index]["Order_Num"],
+                                  value.todaySalesList[index]["sale_Num"],
                                   value.todaySalesList[index]["Cus_id"]);
                             },
                             child: Card(
@@ -94,7 +94,7 @@ class _TodaySaleState extends State<TodaySale> {
                                         Flexible(
                                           child: Text(
                                               value.todaySalesList[index]
-                                                  ["Order_Num"],
+                                                  ["sale_Num"],
                                               style: TextStyle(
                                                   color: Colors.grey[700],
                                                   fontWeight: FontWeight.bold,
