@@ -2562,20 +2562,66 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////////////////////////////////////////////
-  taxCalculation(
-      double rate, double tax_percentage, double total, String method) {
-    double total_amt;
-    double tax_exclud_amt;
-    double tax_amt;
+  List rawCalculation(
+      double rate,
+      double qty,
+      double disc_per,
+      double disc_amount,
+      double tax_per,
+      double cess_per,
+      String method,
+      int state_status) {
+    double gross = 0.0;
+    double disc_amt = 0.0;
+    double net_amt = 0.0;
+    double taxable_rate = 0.0;
+    double tax = 0.0;
+    double cgst_amt = 0.0;
+    double cgst_per = 0.0;
+    double sgst_amt = 0.0;
+    double sgst_per = 0.0;
+    double igst_amt = 0.0;
+    double igst_per = 0.0;
 
-    if (method == "0") {
-      double tax = rate * (tax_percentage / 100);
-      total_amt = rate + tax;
-      return total_amt;
-    } else if (method == "1") {
-      double tax = total * (tax_percentage / 100);
-      tax_exclud_amt = total * (100 / tax);
-      tax_amt = total - tax_exclud_amt;
+    double cess = 0.0;
+
+    if (disc_amount != 0) {
+      disc_per = (disc_amount / rate) * 100;
     }
+
+    if (state_status == 0) {
+      ///////state_status=0--loacal///////////state_status=1----inter-state
+      cgst_per = tax_per / 2;
+      sgst_per = tax_per / 2;
+      igst_per = 0;
+    } else {
+      cgst_per = 0;
+      sgst_per = 0;
+      igst_per = tax_per;
+    }
+    if (method == "0") {
+      /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
+      gross = rate * qty;
+      disc_amt = (gross * disc_per) / 100;
+      tax = (gross - disc_amt) * (tax_per / 100);
+      cgst_amt = (gross - disc_amt) * (cgst_per / 100);
+      sgst_amt = (gross - disc_amt) * (sgst_per / 100);
+      igst_amt = (gross - disc_amt) * (igst_per / 100);
+      cess = (gross - disc_amt) * (cess_per / 100);
+      net_amt = (gross - disc_amt) + tax + cess;
+    } else if (method == "1") {
+      double percnt = tax_per + cess_per;
+      taxable_rate = rate * 1 - (percnt / (100 + percnt));
+    }
+    return [
+      disc_amt,
+      tax,
+      cgst_amt,
+      sgst_amt,
+      igst_amt,
+      cess,
+      net_amt,
+      taxable_rate
+    ];
   }
 }
