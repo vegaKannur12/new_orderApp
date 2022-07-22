@@ -52,7 +52,7 @@ class SaleItemDetails {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Disc percentage",
+                          Text("Discount percentage",
                               style: TextStyle(fontSize: 15)),
                           TextField(
                             style: TextStyle(color: Colors.red, fontSize: 15),
@@ -62,7 +62,7 @@ class SaleItemDetails {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Disc Amount", style: TextStyle(fontSize: 15)),
+                          Text("Discount Amount", style: TextStyle(fontSize: 15)),
                           TextField(
                             style: TextStyle(color: Colors.red, fontSize: 15),
                           ),
