@@ -188,6 +188,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         .todayOrder(s[0], gen_condition!);
     Provider.of<Controller>(context, listen: false)
         .todayCollection(s[0], gen_condition!);
+    Provider.of<Controller>(context, listen: false)
+        .todaySales(s[0], gen_condition!);
     if (Provider.of<Controller>(context, listen: false).areaidFrompopup !=
         null) {
       Provider.of<Controller>(context, listen: false).dashboardSummery(

@@ -353,6 +353,8 @@ class _MainDashboardState extends State<MainDashboard> {
                               Provider.of<Controller>(context, listen: false)
                                   .todayCollection(s[0], gen_condition!);
                               Provider.of<Controller>(context, listen: false)
+                                  .todaySales(s[0], gen_condition!);
+                              Provider.of<Controller>(context, listen: false)
                                   .selectReportFromOrder(
                                       context, sid!, s[0], "");
                             }

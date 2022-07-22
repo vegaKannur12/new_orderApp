@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
+import 'package:orderapp/screen/ORDER/5_dashboard.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -181,17 +182,17 @@ class _SaleCartState extends State<SaleCart> {
                                         () {
                                       Navigator.of(context).pop(true);
 
-                                      // Navigator.of(context).push(
-                                      //   PageRouteBuilder(
-                                      //       opaque: false, // set to false
-                                      //       pageBuilder: (_, __, ___) =>
-                                      //           Dashboard(
-                                      //               type:
-                                      //                   "return from cartList",
-                                      //               areaName: widget.areaname)
-                                      //       // OrderForm(widget.areaname,"return"),
-                                      //       ),
-                                      // );
+                                      Navigator.of(context).push(
+                                        PageRouteBuilder(
+                                            opaque: false, // set to false
+                                            pageBuilder: (_, __, ___) =>
+                                                Dashboard(
+                                                    type:
+                                                        "return from cartList",
+                                                    areaName: widget.areaname)
+                                            // OrderForm(widget.areaname,"return"),
+                                            ),
+                                      );
                                     });
                                     return AlertDialog(
                                         content: Row(

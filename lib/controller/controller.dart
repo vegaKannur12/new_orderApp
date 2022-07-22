@@ -120,9 +120,11 @@ class Controller extends ChangeNotifier {
   String collectionAmount = "0.0";
   String returnAmount = "0.0";
   String ordrAmount = "0.0";
+  String salesAmount = "0.0";
   String? remarkCount;
   String? orderCount;
   String? collectionCount;
+  String? salesCount;
   String? ret_count;
   List<Map<String, dynamic>> remarkList = [];
   List<Map<String, dynamic>> remarkStaff = [];
@@ -157,6 +159,7 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> customerList = [];
   List<Map<String, dynamic>> todayOrderList = [];
   List<Map<String, dynamic>> todayCollectionList = [];
+  List<Map<String, dynamic>> todaySalesList = [];
   List<Map<String, dynamic>> copyCus = [];
   List<Map<String, dynamic>> prodctItems = [];
   List<Map<String, dynamic>> ordernum = [];
@@ -1136,9 +1139,9 @@ class Controller extends ChangeNotifier {
     List<Map<String, dynamic>> res = await OrderAppDB.instance
         .updateQtySalesBagTable(qty, cartrowno, customerId, rate);
     if (res.length >= 0) {
-      bagList.clear();
+      salebagList.clear();
       for (var item in res) {
-        bagList.add(item);
+        salebagList.add(item);
       }
       print("re from controller----$res");
       notifyListeners();
@@ -1675,6 +1678,7 @@ class Controller extends ChangeNotifier {
 ////////////////////////////////////////////////////////////////
   setQty(int qty) {
     qtyinc = qty;
+    print("qty.......$qty");
     // notifyListeners();
   }
 
@@ -1820,6 +1824,28 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+///////////////////////// today sales ///////////////////
+  Future<dynamic> todaySales(String date, String condition) async {
+    todaySalesList.clear();
+    isLoading = true;
+    print("haiiii");
+    print("contrler date----$date");
+    var result = await OrderAppDB.instance.todaySales(date, condition);
+
+    print("aftr cut----$result");
+    if (result != null) {
+      for (var item in result) {
+        todaySalesList.add(item);
+      }
+      isExpanded = List.generate(todaySalesList.length, (index) => false);
+      isVisibleTable = List.generate(todaySalesList.length, (index) => false);
+    }
+
+    print("today sales date ----$todaySalesList");
+    isLoading = false;
+    notifyListeners();
+  }
+
 //////////////////////////////////////////////////////////
   selectReportFromOrder(BuildContext context, String userId, String date,
       String likeCondition) async {
@@ -1919,6 +1945,7 @@ class Controller extends ChangeNotifier {
 
     print("customerCount----$customerCount");
     orderCount = res[0]["ordCnt"].toString();
+    // salesCount =
     collectionCount = res[0]["colCnt"].toString();
     print("collectioncount...$collectionCount");
     remarkCount = res[0]["rmCnt"].toString();
@@ -1927,6 +1954,7 @@ class Controller extends ChangeNotifier {
 
     collectionAmount = res[0]["colVal"].toString();
     ordrAmount = res[0]["ordVal"].toString();
+    // salesAmount = res[0]["ordVal"].toString();
     returnAmount = res[0]["retVal"].toString();
 
     shopVisited = res[0]["cusCount"];

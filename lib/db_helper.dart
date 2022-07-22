@@ -1526,6 +1526,7 @@ class OrderAppDB {
     print("length---${result.length}");
     return result;
   }
+
 //////////////////////////////////////////////////////////////////////////
   selectfromsalesbagandfilterList(String customerId, String comId) async {
     print("comid---$comId");
@@ -1657,6 +1658,23 @@ class OrderAppDB {
     // } else {
     //   return null;
     // }
+  }
+
+  //////////////////////////////////////////////////////////////////
+  Future<dynamic> todaySales(String date, String condition) async {
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    var query =
+        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id, salesMasterTable.os  || salesMasterTable.sales_id as Order_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate Date, count(salesDetailTable.row_num) count, salesMasterTable.total_price  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
+    print("query---$query");
+
+    result = await db.rawQuery(query);
+    if (result.length > 0) {
+      print("inner result------$result");
+      return result;
+    } else {
+      return null;
+    }
   }
   //////////////select total amount form ordermasterTable ////////////
 
