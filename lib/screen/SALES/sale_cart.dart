@@ -332,278 +332,84 @@ class _SaleCartState extends State<SaleCart> {
                             ),
                             Flexible(
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 5, top: 0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    String item = "${itemName} (${code})";
-                                    Provider.of<Controller>(context,
-                                                listen: false)
-                                            .settingsRateOption
-                                        ? popup(item, rate, size, index, qty)
-                                        : null;
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Rate :",
-                                              style: TextStyle(fontSize: 13),
-                                            ),
-                                            SizedBox(
-                                              width: size.width * 0.02,
-                                            ),
-                                            Text(
-                                              "\u{20B9}${rate}",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 13),
-                                            ),
-                                          ],
-                                        ),
+                                padding: const EdgeInsets.only(left: 4, top: 0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "Rate :",
+                                            style: TextStyle(fontSize: 13),
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.02,
+                                          ),
+                                          Text(
+                                            "\u{20B9}${rate}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 13),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 5, top: 0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Provider.of<Controller>(context,
-                                            listen: false)
-                                        .setQty(qty);
-                                    Provider.of<Controller>(context,
-                                            listen: false)
-                                        .setAmt(totalamount);
-                                    showModalBottomSheet<void>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Consumer<Controller>(
-                                          builder: (context, value, child) {
-                                            return Container(
-                                              height: size.height * 0.3,
-                                              color: Colors.white,
-                                              child: Center(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.01,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          IconButton(
-                                                            icon: Icon(
-                                                                Icons.close),
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          FloatingActionButton
-                                                              .small(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .grey,
-                                                                  child: Icon(Icons
-                                                                      .remove),
-                                                                  onPressed:
-                                                                      () {
-                                                                    if (value
-                                                                            .qtyinc! >
-                                                                        1) {
-                                                                      value
-                                                                          .qtyDecrement();
-                                                                      value.totalCalculation(
-                                                                          rate);
-                                                                    }
-                                                                  }),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 15.0,
-                                                                    right: 15),
-                                                            child: Text(
-                                                              value.qtyinc
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  fontSize: 20),
-                                                            ),
-                                                          ),
-                                                          FloatingActionButton
-                                                              .small(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .grey,
-                                                                  child: Icon(
-                                                                      Icons
-                                                                          .add),
-                                                                  onPressed:
-                                                                      () {
-                                                                    value
-                                                                        .qtyIncrement();
-                                                                    value.totalCalculation(
-                                                                        rate);
-                                                                  }),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.02,
-                                                      ),
-                                                      Divider(
-                                                        thickness: 1,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                top: 8.0,
-                                                                bottom: 8),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              "Total Price :",
-                                                              style: TextStyle(
-                                                                  fontSize: 17),
-                                                            ),
-                                                            Flexible(
-                                                              child: Text(
-                                                                "\u{20B9}${value.totalPrice.toString()}",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Divider(
-                                                        thickness: 1,
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.02,
-                                                      ),
-                                                      Flexible(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Container(
-                                                              height:
-                                                                  size.height *
-                                                                      0.035,
-                                                              width:
-                                                                  size.width *
-                                                                      0.6,
-                                                              child:
-                                                                  ElevatedButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        Provider.of<Controller>(context, listen: false).salesupdateQty(
-                                                                            value.qtyinc.toString(),
-                                                                            cartrowno,
-                                                                            widget.custmerId,
-                                                                            rate);
-                                                                        Provider.of<Controller>(context, listen: false).calculatesalesTotal(
-                                                                            widget.os,
-                                                                            widget.custmerId);
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child: Text(
-                                                                          "continue..")),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Expanded(
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "Qty :",
-                                                style: TextStyle(fontSize: 13),
-                                              ),
-                                              SizedBox(
-                                                width: size.width * 0.02,
-                                              ),
-                                              Container(
-                                                child: Text(
-                                                  qty.toString(),
-                                                  style:
-                                                      TextStyle(fontSize: 13),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "Discount:",
-                                                style: TextStyle(fontSize: 13),
-                                              ),
-                                              SizedBox(
-                                                width: size.width * 0.03,
-                                              ),
-                                              Container(
-                                                child: Text(
-                                                  tax.toString(),
-                                                  style:
-                                                      TextStyle(fontSize: 13),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 4),
+                              padding: const EdgeInsets.only(left: 4, top: 0),
+                              child: Expanded(
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "Qty :",
+                                            style: TextStyle(fontSize: 13),
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.02,
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              qty.toString(),
+                                              style: TextStyle(fontSize: 13),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "Discount:",
+                                            style: TextStyle(fontSize: 13),
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.03,
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              tax.toString(),
+                                              style: TextStyle(fontSize: 13),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4, top: 2),
                               child: Row(
                                 children: [
                                   Expanded(
