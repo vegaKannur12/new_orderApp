@@ -2451,7 +2451,7 @@ class Controller extends ChangeNotifier {
 
   ////////////////////////SEARCH PROCESS ////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////
-  searchProcess(String customerId, String os, String comid) async {
+  searchProcess(String customerId, String os, String comid, String type) async {
     print("searchkey--comid--$searchkey---$comid");
     List<Map<String, dynamic>> result = [];
     newList.clear();
@@ -2512,13 +2512,32 @@ class Controller extends ChangeNotifier {
 
       if (newList.length > 0) {
         print("enterde");
-        for (var item = 0; item < newList.length; item++) {
+        if (type == "sale order") {
+          for (var item = 0; item < newList.length; item++) {
+            print("newList[item]----${newList[item]}");
+
+            for (var i = 0; i < bagList.length; i++) {
+              print("bagList[item]----${bagList[i]}");
+
+              if (bagList[i]["code"] == newList[item]["code"]) {
+                print("ifff");
+                selected[item] = true;
+                break;
+              } else {
+                print("else----");
+                selected[item] = false;
+              }
+            }
+          }
+        }
+        if(type=="sales"){
+          for (var item = 0; item < newList.length; item++) {
           print("newList[item]----${newList[item]}");
 
-          for (var i = 0; i < bagList.length; i++) {
-            print("bagList[item]----${bagList[i]}");
+          for (var i = 0; i < salebagList.length; i++) {
+            print("bagList[item]----${salebagList[i]}");
 
-            if (bagList[i]["code"] == newList[item]["code"]) {
+            if (salebagList[i]["code"] == newList[item]["code"]) {
               print("ifff");
               selected[item] = true;
               break;
@@ -2527,6 +2546,7 @@ class Controller extends ChangeNotifier {
               selected[item] = false;
             }
           }
+        }
         }
       }
 

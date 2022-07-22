@@ -306,13 +306,13 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                     Provider.of<Controller>(
                                                             context,
                                                             listen: false)
-                                                        .filteredeValue!)
+                                                        .filteredeValue!,"sale order")
                                             : Provider.of<Controller>(context,
                                                     listen: false)
                                                 .searchProcess(
                                                     widget.customerId,
                                                     widget.os,
-                                                    "");
+                                                    "","sale order");
                                       }),
                                   IconButton(
                                       icon: Icon(
