@@ -286,7 +286,7 @@ class _SalesItemState extends State<SalesItem> {
                                             .setIssearch(true);
                                         Provider.of<Controller>(context,
                                                     listen: false)
-                                                .filterCompany
+                                                .salefilterCompany
                                             ? Provider.of<Controller>(context,
                                                     listen: false)
                                                 .searchProcess(
@@ -295,13 +295,13 @@ class _SalesItemState extends State<SalesItem> {
                                                     Provider.of<Controller>(
                                                             context,
                                                             listen: false)
-                                                        .filteredeValue!)
+                                                        .salefilteredeValue!,"sales")
                                             : Provider.of<Controller>(context,
                                                     listen: false)
                                                 .searchProcess(
                                                     widget.customerId,
                                                     widget.os,
-                                                    "");
+                                                    "","sales");
                                       }),
                                   IconButton(
                                       icon: Icon(
