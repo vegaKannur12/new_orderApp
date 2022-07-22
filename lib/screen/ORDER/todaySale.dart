@@ -52,7 +52,7 @@ class _TodaySaleState extends State<TodaySale> {
                 width: double.infinity,
                 child: Center(
                     child: Text(
-                  "No Orders!!!",
+                  "No Sales!!!",
                   style: TextStyle(
                     fontSize: 19,
                   ),

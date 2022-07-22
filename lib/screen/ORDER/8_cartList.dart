@@ -184,7 +184,7 @@ class _CartListState extends State<CartList> {
                                   .todayOrder(s[0], gen_condition);
                               Provider.of<Controller>(context, listen: false)
                                   .clearList(value.areDetails);
-                              
+
                               return showDialog(
                                   context: context,
                                   builder: (context) {
@@ -571,7 +571,7 @@ class _CartListState extends State<CartList> {
                                                         height:
                                                             size.height * 0.02,
                                                       ),
-                                                      Flexible(
+                                                      Expanded(
                                                         child: Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -580,7 +580,7 @@ class _CartListState extends State<CartList> {
                                                             Container(
                                                               height:
                                                                   size.height *
-                                                                      0.035,
+                                                                      0.05,
                                                               width:
                                                                   size.width *
                                                                       0.6,

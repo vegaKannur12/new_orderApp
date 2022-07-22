@@ -577,13 +577,13 @@ class Controller extends ChangeNotifier {
         var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
       }
 
-      // if (areaidFrompopup != null) {
-      //   dashboardSummery(sid!, s, areaidFrompopup!, context);
-      // } else {
-      //   if (userType == "staff") {
-      //     dashboardSummery(sid!, s, "", context);
-      //   }
-      // }
+      if (areaidFrompopup != null) {
+        dashboardSummery(sid!, s, areaidFrompopup!, context);
+      } else {
+        if (userType == "staff") {
+          dashboardSummery(sid!, s, "", context);
+        }
+      }
 
       isAccount = false;
       isLoading = false;
@@ -2530,23 +2530,23 @@ class Controller extends ChangeNotifier {
             }
           }
         }
-        if(type=="sales"){
+        if (type == "sales") {
           for (var item = 0; item < newList.length; item++) {
-          print("newList[item]----${newList[item]}");
+            print("newList[item]----${newList[item]}");
 
-          for (var i = 0; i < salebagList.length; i++) {
-            print("bagList[item]----${salebagList[i]}");
+            for (var i = 0; i < salebagList.length; i++) {
+              print("bagList[item]----${salebagList[i]}");
 
-            if (salebagList[i]["code"] == newList[item]["code"]) {
-              print("ifff");
-              selected[item] = true;
-              break;
-            } else {
-              print("else----");
-              selected[item] = false;
+              if (salebagList[i]["code"] == newList[item]["code"]) {
+                print("ifff");
+                selected[item] = true;
+                break;
+              } else {
+                print("else----");
+                selected[item] = false;
+              }
             }
           }
-        }
         }
       }
 

@@ -331,6 +331,9 @@ class _MainDashboardState extends State<MainDashboard> {
                       ElevatedButton(
                           onPressed: () async {
                             if (selected != null) {
+                              
+
+
                               Provider.of<Controller>(context, listen: false)
                                   .areaId = selected;
                               Provider.of<Controller>(context, listen: false)
@@ -341,7 +344,7 @@ class _MainDashboardState extends State<MainDashboard> {
                               String? gen_area = Provider.of<Controller>(
                                       context,
                                       listen: false)
-                                  .areaId;
+                                  .areaidFrompopup;
                               if (gen_area != null) {
                                 gen_condition =
                                     " and accountHeadsTable.area_id=$gen_area";
