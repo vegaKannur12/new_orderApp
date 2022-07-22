@@ -17,7 +17,7 @@ class CustomPopup {
     }
     return new AlertDialog(
       // title: const Text('Popup example'),
-      content: new Column(
+      content:  Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -25,7 +25,7 @@ class CustomPopup {
         ],
       ),
       actions: <Widget>[
-        new ElevatedButton(
+         ElevatedButton(
           onPressed: () async {
             print("hfzsdhfu----$aid");
             if (type == "collection") {

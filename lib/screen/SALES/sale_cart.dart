@@ -4,6 +4,7 @@ import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
+import 'package:orderapp/screen/SALES/ordertotal_bottomsheet.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +26,7 @@ class SaleCart extends StatefulWidget {
 }
 
 class _SaleCartState extends State<SaleCart> {
+  SalesBottomSheet sheet = SalesBottomSheet();
   List<String> s = [];
   String? gen_condition;
   TextEditingController rateController = TextEditingController();
@@ -115,7 +117,7 @@ class _SaleCartState extends State<SaleCart> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            
+                          sheet.sheet(context);
                           },
                           child: Container(
                             width: size.width * 0.5,
@@ -279,9 +281,7 @@ class _SaleCartState extends State<SaleCart> {
             // borderRadius: BorderRadius.circular(20),
           ),
           child: ListTile(
-            onTap: () {
-              
-            },
+            onTap: () {},
             // leading: CircleAvatar(backgroundColor: Colors.green),
             title: Column(
               children: [
