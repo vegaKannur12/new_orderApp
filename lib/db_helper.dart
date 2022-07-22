@@ -1942,26 +1942,26 @@ class OrderAppDB {
         "Select " +
         " count(Distinct X.cid) cusCount," +
         " sum(X.ordCnt) ordCnt,sum(X.ordVal) ordVal,sum(X.rmCnt) rmCnt," +
-        " sum(X.colCnt) colCnt, sum(X.saleCnt) saleCnt ,sum(X.colVal) colVal,sum(X.retCnt) retCnt ,sum(X.retVal) retVal,sum(X.saleVal) saleVal" +
+        " sum(X.colCnt) colCnt,sum(X.colVal) colVal, sum(X.saleCnt) saleCnt ,sum(X.saleVal) saleVal,sum(X.retCnt) retCnt ,sum(X.retVal) retVal" +
         " from accountHeadsTable A  " +
         " inner join (" +
-        " Select O.customerid cid , Count(O.id) ordCnt,Sum(O.total_price) ordVal,0 rmCnt,0 colCnt,0 colVal,0 retCnt,0 retVal" +
+        " Select O.customerid cid , Count(O.id) ordCnt,Sum(O.total_price) ordVal,0 rmCnt,0 colCnt,0 colVal,0 saleCnt,0 saleVal,0 retCnt,0 retVal" +
         " From orderMasterTable O where O.orderdate='$date' and  O.userid='$userId'" +
         " group by O.customerid" +
         " union all" +
-        " Select R.rem_cusid cid , 0 ordCnt,0 ordVal,Count(R.id) rmCnt,0 colCnt,0 colVal,0 retCnt,0 retVal" +
+        " Select R.rem_cusid cid , 0 ordCnt,0 ordVal,Count(R.id) rmCnt,0 colCnt,0 colVal,0 saleCnt,0 saleVal,0 retCnt,0 retVal" +
         " From remarksTable R where R.rem_date='$date' and R.rem_staffid='$userId' and R.rem_cancel=0" +
         " group by R.rem_cusid" +
         " union all" +
-        " Select C.rec_cusid cid , 0 ordCnt,0 ordVal,0 rmCnt,Count(C.id) colCnt,Sum(C.rec_amount) colVal,0 retCnt,0 retVal" +
+        " Select C.rec_cusid cid , 0 ordCnt,0 ordVal,0 rmCnt,Count(C.id) colCnt,Sum(C.rec_amount) colVal,0 saleCnt,0 saleVal,0 retCnt,0 retVal" +
         " From collectionTable C  where C.rec_date='$date' and C.rec_staffid='$userId' and C.rec_cancel=0" +
         " group by C.rec_cusid" +
         " union all" +
-        " Select RT.customerid cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(RT.id) retCnt,Sum(RT.total_price) retVal" +
+        " Select RT.customerid cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,0 saleCnt,0 saleVal,Count(RT.id) retCnt,Sum(RT.total_price) retVal" +
         " From returnMasterTable RT   where RT.return_date='$date' and RT.userid='$userId'" +
         " group by RT.customerid" +
         " union all" +
-        " Select S.customer_id cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(S.id) saleCnt,Sum(S.total_price) saleVal" +
+        " Select S.customer_id cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(S.id) saleCnt,Sum(S.total_price) saleVal,0 retCnt,0 retVal" +
         " From salesMasterTable S   where S.salesdate='$date' and S.staff_id='$userId'" +
         " group by S.customer_id" +
         " ) X ON X.cid=A.ac_code" +
