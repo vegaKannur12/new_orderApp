@@ -92,10 +92,11 @@ class _SaleCartState extends State<SaleCart> {
                         return listItemFunction(
                           value.salebagList[index]["cartrowno"],
                           value.salebagList[index]["itemName"],
-                          value.rateEdit[index]
-                              ? value.editedRate
-                              : value.salebagList[index]["rate"],
-                          value.salebagList[index]["totalamount"],
+                          // value.rateEdit[index]
+                          //     ? value.editedRate
+                          //     : 
+                          value.salebagList[index]["rate"].toString(),
+                          value.salebagList[index]["totalamount"].toString(),
                           value.salebagList[index]["qty"],
                           size,
                           value.controller[index],
