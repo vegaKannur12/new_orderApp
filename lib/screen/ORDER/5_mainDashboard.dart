@@ -187,7 +187,8 @@ class _MainDashboardState extends State<MainDashboard> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "Sales", ""),
+                              child: customcard(size, "Sales",
+                                  "${value.salesCount != "null" ? value.salesCount : "0"}"),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -258,7 +259,7 @@ class _MainDashboardState extends State<MainDashboard> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "Sales", ""),
+                              child: customcard(size, "Sales", "\u{20B9}${value.salesAmount == "null" ? "0.0" : value.salesAmount}"),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -331,9 +332,6 @@ class _MainDashboardState extends State<MainDashboard> {
                       ElevatedButton(
                           onPressed: () async {
                             if (selected != null) {
-                              
-
-
                               Provider.of<Controller>(context, listen: false)
                                   .areaId = selected;
                               Provider.of<Controller>(context, listen: false)

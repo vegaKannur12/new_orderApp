@@ -1945,7 +1945,7 @@ class Controller extends ChangeNotifier {
 
     print("customerCount----$customerCount");
     orderCount = res[0]["ordCnt"].toString();
-    // salesCount =
+    salesCount = res[0]["saleCnt"].toString();
     collectionCount = res[0]["colCnt"].toString();
     print("collectioncount...$collectionCount");
     remarkCount = res[0]["rmCnt"].toString();
@@ -1954,7 +1954,7 @@ class Controller extends ChangeNotifier {
 
     collectionAmount = res[0]["colVal"].toString();
     ordrAmount = res[0]["ordVal"].toString();
-    // salesAmount = res[0]["ordVal"].toString();
+    salesAmount = res[0]["saleVal"].toString();
     returnAmount = res[0]["retVal"].toString();
 
     shopVisited = res[0]["cusCount"];
