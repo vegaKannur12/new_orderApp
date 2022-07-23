@@ -159,81 +159,9 @@ class _CartListState extends State<CartList> {
                                       widget.areaname,
                                       widget.custmerId,
                                       s[0],
-                                      s[1]),
+                                      s[1],),
                             );
-                            // sid = await Provider.of<Controller>(context,
-                            //         listen: false)
-                            //     .setStaffid(value.sname!);
-                            // print("Sid........${value.sname}$sid");
-                            // if (Provider.of<Controller>(context, listen: false)
-                            //         .bagList
-                            //         .length >
-                            //     0) {
-                            //   final prefs =
-                            //       await SharedPreferences.getInstance();
-                            //   String? sid = await prefs.getString('sid');
-                            //   String? os = await prefs.getString('os');
-
-                            //   Provider.of<Controller>(context, listen: false)
-                            //       .insertToOrderbagAndMaster(
-                            //           os!,
-                            //           s[0],
-                            //           s[1],
-                            //           widget.custmerId,
-                            //           sid!,
-                            //           widget.areaId,
-                            //           double.parse(value.orderTotal1!));
-                            //   String? gen_area = Provider.of<Controller>(
-                            //           context,
-                            //           listen: false)
-                            //       .areaidFrompopup;
-                            //   if (gen_area != null) {
-                            //     gen_condition =
-                            //         " and accountHeadsTable.area_id=$gen_area";
-                            //   } else {
-                            //     gen_condition = " ";
-                            //   }
-                            //   Provider.of<Controller>(context, listen: false)
-                            //       .todayOrder(s[0], gen_condition);
-                            //   Provider.of<Controller>(context, listen: false)
-                            //       .clearList(value.areDetails);
-
-                            //   return showDialog(
-                            //       context: context,
-                            //       builder: (context) {
-                            //         Future.delayed(Duration(milliseconds: 500),
-                            //             () {
-                            //           Navigator.of(context).pop(true);
-
-                            //           Navigator.of(context).push(
-                            //             PageRouteBuilder(
-                            //                 opaque: false, // set to false
-                            //                 pageBuilder: (_, __, ___) =>
-                            //                     Dashboard(
-                            //                         type:
-                            //                             "return from cartList",
-                            //                         areaName: widget.areaname)
-                            //                 // OrderForm(widget.areaname,"return"),
-                            //                 ),
-                            //           );
-                            //         });
-                            //         return AlertDialog(
-                            //             content: Row(
-                            //           children: [
-                            //             Text(
-                            //               'Order Placed!!!!',
-                            //               style: TextStyle(
-                            //                   color: P_Settings.extracolor),
-                            //             ),
-                            //             Icon(
-                            //               Icons.done,
-                            //               color: Colors.green,
-                            //             )
-                            //           ],
-                            //         ));
-                            //       });
-                            // }
-
+                           
                             Provider.of<Controller>(context, listen: false)
                                 .count = "0";
                             print("area name ${widget.areaname}");

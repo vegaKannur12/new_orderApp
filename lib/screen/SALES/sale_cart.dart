@@ -116,7 +116,14 @@ class _SaleCartState extends State<SaleCart> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          sheet.sheet(context);
+                          sheet.sheet(
+                              context,
+                              value.orderTotal2[1],
+                              value.orderTotal2[0],
+                              "",
+                              value.orderTotal2[2],
+                              "",
+                              "");
                         },
                         child: Container(
                           width: size.width * 0.5,
@@ -130,7 +137,7 @@ class _SaleCartState extends State<SaleCart> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
                               Flexible(
-                                child: Text("\u{20B9}${value.orderTotal2}",
+                                child: Text("${value.orderTotal2[0]}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)),
@@ -141,18 +148,20 @@ class _SaleCartState extends State<SaleCart> {
                       ),
                       GestureDetector(
                         onTap: (() async {
+                          // print("order total.......${value.orderTotal2![0][]}");
                           showDialog(
                             context: context,
                             builder: (BuildContext context) =>
                                 salepopup.buildPopupDialog(
-                                    "sales",
-                                    context,
-                                    "Confirm your sale?",
-                                    widget.areaId,
-                                    widget.areaname,
-                                    widget.custmerId,
-                                    s[0],
-                                    s[1]),
+                              "sales",
+                              context,
+                              "Confirm your sale?",
+                              widget.areaId,
+                              widget.areaname,
+                              widget.custmerId,
+                              s[0],
+                              s[1],
+                            ),
                           );
 
                           // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
@@ -390,7 +399,7 @@ class _SaleCartState extends State<SaleCart> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                   color: Color.fromARGB(255, 182, 179, 179),
                 ),
