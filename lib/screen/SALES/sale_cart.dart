@@ -147,7 +147,7 @@ class _SaleCartState extends State<SaleCart> {
                                 salepopup.buildPopupDialog(
                                     "sales",
                                     context,
-                                    "Confirm your order?",
+                                    "Confirm your sale?",
                                     widget.areaId,
                                     widget.areaname,
                                     widget.custmerId,

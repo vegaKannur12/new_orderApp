@@ -33,6 +33,7 @@ class CommonPopup {
           builder: (context, value, child) {
             return ElevatedButton(
               onPressed: () async {
+                print("typeee...$type");
                 sid = await Provider.of<Controller>(context, listen: false)
                     .setStaffid(value.sname!);
                 print("Sid........${value.sname}$sid");
@@ -67,6 +68,7 @@ class CommonPopup {
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
                   } else if (type == "sale order") {
+                    print("inside order.......");
                     Provider.of<Controller>(context, listen: false)
                         .insertToOrderbagAndMaster(
                       os!,
