@@ -30,9 +30,9 @@ class SaleCart extends StatefulWidget {
 class _SaleCartState extends State<SaleCart> {
   CommonPopup salepopup = CommonPopup();
   SalesBottomSheet sheet = SalesBottomSheet();
+  SaleItemDetails saleDetails=SaleItemDetails();
   List<String> s = [];
   String? gen_condition;
-  SaleItemDetails saleItemDetails=SaleItemDetails();
   TextEditingController rateController = TextEditingController();
   DateTime now = DateTime.now();
   String? date;
@@ -215,9 +215,8 @@ class _SaleCartState extends State<SaleCart> {
             // borderRadius: BorderRadius.circular(20),
           ),
           child: ListTile(
-            onTap: (){
-              print("clickedd-----");
-                // saleItemDetails.showsalesMoadlBottomsheet(qty,double.parse(rate) , 0.0, 0.0, double.parse(tax), 0.0, context, size);
+            onTap: () {
+              saleDetails.showsalesMoadlBottomsheet(itemName,code,qty, double.parse(rate), 0.0, 100, double.parse(tax), double.parse(totalamount), context, size);
             },
             // leading: CircleAvatar(backgroundColor: Colors.green),
             title: Column(
@@ -395,7 +394,7 @@ class _SaleCartState extends State<SaleCart> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                   color: Color.fromARGB(255, 182, 179, 179),
                 ),
@@ -410,11 +409,7 @@ class _SaleCartState extends State<SaleCart> {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              "Remove ",
-                              style: TextStyle(fontSize: 13),
-                            ),
-                            IconButton(
+                            ElevatedButton.icon(
                               onPressed: () {
                                 showDialog(
                                   context: context,
@@ -456,12 +451,32 @@ class _SaleCartState extends State<SaleCart> {
                                   ),
                                 );
                               },
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                primary: Colors.grey[100], // background
+                                // onPrimary: Colors.yellow, // foreground
+                              ),
+                              label: Text("Remove",style: TextStyle(color: Colors.black),),
                               icon: Icon(
                                 Icons.close,
                                 size: 17,
+                                color: P_Settings.extracolor,
                               ),
-                              color: P_Settings.extracolor,
                             ),
+                            // Text(
+                            //   "Remove ",
+                            //   style: TextStyle(fontSize: 13),
+                            // ),
+                            // IconButton(
+                            //   onPressed: () {
+
+                            //   },
+                            //   icon: Icon(
+                            //     Icons.close,
+                            //     size: 17,
+                            //   ),
+                            //   color: P_Settings.extracolor,
+                            // ),
                           ],
                         ),
                         Spacer(),

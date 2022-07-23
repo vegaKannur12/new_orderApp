@@ -133,9 +133,8 @@ class Controller extends ChangeNotifier {
   List<TextEditingController> controller = [];
   List<TextEditingController> qty = [];
   List<TextEditingController> salesqty = [];
-  List<TextEditingController>  discount_prercent = [];
-  List<TextEditingController>  discount_amount = [];
-
+  List<TextEditingController> discount_prercent = [];
+  List<TextEditingController> discount_amount = [];
 
   List<bool> rateEdit = [];
   String? count;
@@ -1419,6 +1418,13 @@ class Controller extends ChangeNotifier {
       salebagList.add(item);
     }
     rateEdit = List.generate(salebagList.length, (index) => false);
+    salesqty =
+        List.generate(salebagList.length, (index) => TextEditingController());
+    discount_prercent =
+        List.generate(salebagList.length, (index) => TextEditingController());
+    discount_amount =
+        List.generate(salebagList.length, (index) => TextEditingController());
+
     generateTextEditingController("sales");
     print("salebagList vxdvxd----$salebagList");
 
