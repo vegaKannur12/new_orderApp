@@ -332,7 +332,7 @@ class _SaleCartState extends State<SaleCart> {
                                       ),
                                       Container(
                                         child: Text(
-                                          tax.toString(),
+                                          "",
                                           style: TextStyle(fontSize: 13),
                                         ),
                                       ),
@@ -350,7 +350,7 @@ class _SaleCartState extends State<SaleCart> {
                                   Row(
                                     children: [
                                       Text(
-                                        "Cess :",
+                                        "Tax :",
                                         style: TextStyle(fontSize: 13),
                                       ),
                                       SizedBox(
@@ -358,7 +358,7 @@ class _SaleCartState extends State<SaleCart> {
                                       ),
                                       Container(
                                         child: Text(
-                                          qty.toString(),
+                                          tax.toString(),
                                           style: TextStyle(fontSize: 13),
                                         ),
                                       ),
@@ -367,7 +367,7 @@ class _SaleCartState extends State<SaleCart> {
                                   Row(
                                     children: [
                                       Text(
-                                        "Net amount :",
+                                        "Cess :",
                                         style: TextStyle(fontSize: 13),
                                       ),
                                       SizedBox(
