@@ -68,6 +68,7 @@ class CommonPopup {
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
                   } else if (type == "sale order") {
+                    
                     print("inside order.......");
                     Provider.of<Controller>(context, listen: false)
                         .insertToOrderbagAndMaster(
