@@ -132,6 +132,11 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> listWidget = [];
   List<TextEditingController> controller = [];
   List<TextEditingController> qty = [];
+  List<TextEditingController> salesqty = [];
+  List<TextEditingController>  discount_prercent = [];
+  List<TextEditingController>  discount_amount = [];
+
+
   List<bool> rateEdit = [];
   String? count;
   String? sof;
