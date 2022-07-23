@@ -1053,7 +1053,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                  ///////////////////// return buttton //////////////////
+                                                ///////////////////// return buttton //////////////////
                                                 Container(
                                                   width: size.width * 0.27,
                                                   height: size.height * 0.05,
@@ -1160,7 +1160,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 SizedBox(
                                                   width: size.width * 0.05,
                                                 ),
-                                  //////////////////// balance button ///////////////////
+                                                //////////////////// balance button ///////////////////
                                                 Container(
                                                   width: size.width * 0.27,
                                                   height: size.height * 0.05,
