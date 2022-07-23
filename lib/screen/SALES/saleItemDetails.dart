@@ -4,7 +4,7 @@ import 'package:orderapp/db_helper.dart';
 import 'package:provider/provider.dart';
 
 class SaleItemDetails {
-  showMoadlBottomsheet(int qty, double rate, double dis_per, double dis_amt,
+  showsalesMoadlBottomsheet(int qty, double rate, double dis_per, double dis_amt,
       double tax_per, double net_amt, BuildContext context, Size size) {
     return showModalBottomSheet(
         context: context,
@@ -12,7 +12,7 @@ class SaleItemDetails {
           return Consumer<Controller>(
             builder: (context, value, child) {
               return Container(
-                height: size.width * 0.6,
+                height: size.width * 0.4,
                 // color: Colors.amber,
                 child: Center(
                   child: Column(
