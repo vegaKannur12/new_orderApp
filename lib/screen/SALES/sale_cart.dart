@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:orderapp/components/common_popup.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
@@ -26,6 +27,7 @@ class SaleCart extends StatefulWidget {
 }
 
 class _SaleCartState extends State<SaleCart> {
+  CommonPopup salepopup = CommonPopup();
   SalesBottomSheet sheet = SalesBottomSheet();
   List<String> s = [];
   String? gen_condition;
@@ -48,211 +50,141 @@ class _SaleCartState extends State<SaleCart> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Opacity(
-      opacity: 1.0,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: P_Settings.wavecolor,
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  await OrderAppDB.instance
-                      .deleteFromTableCommonQuery("salesBagTable", "");
-                },
-                icon: Icon(Icons.delete)),
-            IconButton(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: P_Settings.wavecolor,
+        actions: [
+          IconButton(
               onPressed: () async {
-                List<Map<String, dynamic>> list =
-                    await OrderAppDB.instance.getListOfTables();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TableList(list: list)),
-                );
+                await OrderAppDB.instance
+                    .deleteFromTableCommonQuery("salesBagTable", "");
               },
-              icon: Icon(Icons.table_bar),
-            ),
-          ],
-        ),
-        body: GestureDetector(onTap: (() {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        }), child: Center(
-          child: Consumer<Controller>(builder: (context, value, child) {
-            if (value.isLoading) {
-              return CircularProgressIndicator();
-            } else {
-              print("value.rateEdit----${value.rateEdit}");
-              print("baglist length...........${value.salebagList.length}");
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: value.salebagList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return listItemFunction(
-                          value.salebagList[index]["cartrowno"],
-                          value.salebagList[index]["itemName"],
-                          // value.rateEdit[index]
-                          //     ? value.editedRate
-                          //     :
-                          value.salebagList[index]["rate"].toString(),
-                          value.salebagList[index]["totalamount"].toString(),
-                          value.salebagList[index]["qty"],
-                          size,
-                          value.controller[index],
-                          index,
-                          value.salebagList[index]["code"],
-                          value.salebagList[index]["tax"].toString(),
-                        );
-                      },
-                    ),
+              icon: Icon(Icons.delete)),
+          IconButton(
+            onPressed: () async {
+              List<Map<String, dynamic>> list =
+                  await OrderAppDB.instance.getListOfTables();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TableList(list: list)),
+              );
+            },
+            icon: Icon(Icons.table_bar),
+          ),
+        ],
+      ),
+      body: GestureDetector(onTap: (() {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      }), child: Center(
+        child: Consumer<Controller>(builder: (context, value, child) {
+          if (value.isLoading) {
+            return CircularProgressIndicator();
+          } else {
+            print("value.rateEdit----${value.rateEdit}");
+            print("baglist length...........${value.salebagList.length}");
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: value.salebagList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return listItemFunction(
+                        value.salebagList[index]["cartrowno"],
+                        value.salebagList[index]["itemName"],
+                        // value.rateEdit[index]
+                        //     ? value.editedRate
+                        //     :
+                        value.salebagList[index]["rate"].toString(),
+                        value.salebagList[index]["totalamount"].toString(),
+                        value.salebagList[index]["qty"],
+                        size,
+                        value.controller[index],
+                        index,
+                        value.salebagList[index]["code"],
+                        value.salebagList[index]["tax"].toString(),
+                      );
+                    },
                   ),
-                  Container(
-                    height: size.height * 0.07,
-                    color: Colors.yellow,
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
+                ),
+                Container(
+                  height: size.height * 0.07,
+                  color: Colors.yellow,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
                           sheet.sheet(context);
-                          },
-                          child: Container(
-                            width: size.width * 0.5,
-                            height: size.height * 0.07,
-                            color: Colors.yellow,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(" Order Total  : ",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15)),
-                                Flexible(
-                                  child: Text("\u{20B9}${value.orderTotal2}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: (() async {
-                            // value.areDetails.clear();
-
-                            sid = await Provider.of<Controller>(context,
-                                    listen: false)
-                                .setStaffid(value.sname!);
-                            print("Sid........${value.sname}$sid");
-                            if (Provider.of<Controller>(context, listen: false)
-                                    .salebagList
-                                    .length >
-                                0) {
-                              final prefs =
-                                  await SharedPreferences.getInstance();
-                              String? sid = await prefs.getString('sid');
-                              String? os = await prefs.getString('os');
-                              print(
-                                  "order total...${double.parse(value.orderTotal2!)}");
-                              Provider.of<Controller>(context, listen: false)
-                                  .insertToSalesbagAndMaster(
-                                os!,
-                                s[0],
-                                s[1],
-                                widget.custmerId,
-                                sid!,
-                                widget.areaId,
-                                double.parse(value.orderTotal2!),
-                              );
-                              String? gen_area = Provider.of<Controller>(
-                                      context,
-                                      listen: false)
-                                  .areaidFrompopup;
-                              if (gen_area != null) {
-                                gen_condition =
-                                    " and accountHeadsTable.area_id=$gen_area";
-                              } else {
-                                gen_condition = " ";
-                              }
-                              Provider.of<Controller>(context, listen: false)
-                                  .todayOrder(s[0], gen_condition);
-                              Provider.of<Controller>(context, listen: false)
-                                  .clearList(value.areDetails);
-
-                              return showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    Future.delayed(Duration(milliseconds: 500),
-                                        () {
-                                      Navigator.of(context).pop(true);
-
-                                      Navigator.of(context).push(
-                                        PageRouteBuilder(
-                                            opaque: false, // set to false
-                                            pageBuilder: (_, __, ___) =>
-                                                Dashboard(
-                                                    type: " ",
-                                                    areaName: widget.areaname)
-                                            // OrderForm(widget.areaname,"return"),
-                                            ),
-                                      );
-                                    });
-                                    return AlertDialog(
-                                        content: Row(
-                                      children: [
-                                        Text(
-                                          'Sales  Placed!!!!',
-                                          style: TextStyle(
-                                              color: P_Settings.extracolor),
-                                        ),
-                                        Icon(
-                                          Icons.done,
-                                          color: Colors.green,
-                                        )
-                                      ],
-                                    ));
-                                  });
-                            }
-
-                            Provider.of<Controller>(context, listen: false)
-                                .count = "0";
-                            print("area name ${widget.areaname}");
-                            // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
-                          }),
-                          child: Container(
-                            width: size.width * 0.5,
-                            height: size.height * 0.07,
-                            color: P_Settings.roundedButtonColor,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Sale",
+                        },
+                        child: Container(
+                          width: size.width * 0.5,
+                          height: size.height * 0.07,
+                          color: Colors.yellow,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(" Order Total  : ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                SizedBox(
-                                  width: size.width * 0.01,
-                                ),
-                                Icon(Icons.shopping_basket)
-                              ],
-                            ),
+                                      fontSize: 15)),
+                              Flexible(
+                                child: Text("\u{20B9}${value.orderTotal2}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16)),
+                              )
+                            ],
                           ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              );
-            }
-          }),
-        )),
-      ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (() async {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                salepopup.buildPopupDialog(
+                                    "sales",
+                                    context,
+                                    "Confirm your order?",
+                                    widget.areaId,
+                                    widget.areaname,
+                                    widget.custmerId,
+                                    s[0],
+                                    s[1]),
+                          );
+
+                          // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
+                        }),
+                        child: Container(
+                          width: size.width * 0.5,
+                          height: size.height * 0.07,
+                          color: P_Settings.roundedButtonColor,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Sale",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.01,
+                              ),
+                              Icon(Icons.shopping_basket)
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            );
+          }
+        }),
+      )),
     );
   }
 
@@ -316,7 +248,7 @@ class _SaleCartState extends State<SaleCart> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Flexible(
-                                  flex: 5,
+                                  // flex: 5,
                                   child: Text(
                                     "${itemName} ",
                                     overflow: TextOverflow.ellipsis,
@@ -327,7 +259,7 @@ class _SaleCartState extends State<SaleCart> {
                                   ),
                                 ),
                                 Flexible(
-                                  flex: 3,
+                                  // flex: 3,
                                   child: Text(
                                     " (${code})",
                                     style: TextStyle(
@@ -343,25 +275,22 @@ class _SaleCartState extends State<SaleCart> {
                                 padding: const EdgeInsets.only(left: 4, top: 0),
                                 child: Row(
                                   children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "Rate :",
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.02,
-                                          ),
-                                          Text(
-                                            "\u{20B9}${rate}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 13),
-                                          ),
-                                        ],
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Rate :",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                        SizedBox(
+                                          width: size.width * 0.02,
+                                        ),
+                                        Text(
+                                          "\u{20B9}${rate}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 13),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -369,102 +298,92 @@ class _SaleCartState extends State<SaleCart> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 4, top: 0),
-                              child: Expanded(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "Qty :",
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.02,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              qty.toString(),
-                                              style: TextStyle(fontSize: 13),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "Discount:",
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.03,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              tax.toString(),
-                                              style: TextStyle(fontSize: 13),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4, top: 2),
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Tax:",
+                                  Row(
+                                    // mainAxisAlignment:
+                                    // MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Qty :",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          qty.toString(),
                                           style: TextStyle(fontSize: 13),
                                         ),
-                                        SizedBox(
-                                          width: size.width * 0.03,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Discount:",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.03,
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          tax.toString(),
+                                          style: TextStyle(fontSize: 13),
                                         ),
-                                        Container(
-                                          child: Text(
-                                            tax.toString(),
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "Cess :",
-                                                style: TextStyle(fontSize: 13),
-                                              ),
-                                              SizedBox(
-                                                width: size.width * 0.02,
-                                              ),
-                                              Container(
-                                                child: Text(
-                                                  qty.toString(),
-                                                  style:
-                                                      TextStyle(fontSize: 13),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4, top: 0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Cess :",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          qty.toString(),
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Net amount :",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.02,
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          qty.toString(),
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -484,84 +403,73 @@ class _SaleCartState extends State<SaleCart> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Expanded(
-                          flex: 4,
-                          child: Row(
-                            children: [
-                              Text(
-                                "Remove ",
-                                style: TextStyle(fontSize: 13),
+                        Row(
+                          children: [
+                            Text(
+                              "Remove ",
+                              style: TextStyle(fontSize: 13),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    content: Text("delete?"),
+                                    actions: <Widget>[
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                primary: P_Settings.wavecolor),
+                                            onPressed: () {
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: Text("cancel"),
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.01,
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                primary: P_Settings.wavecolor),
+                                            onPressed: () async {
+                                              Provider.of<Controller>(context,
+                                                      listen: false)
+                                                  .deleteFromSalesBagTable(
+                                                      cartrowno,
+                                                      widget.custmerId,
+                                                      index);
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: Text("ok"),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                size: 17,
                               ),
-                              IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                      content: Text("delete?"),
-                                      actions: <Widget>[
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary:
-                                                      P_Settings.wavecolor),
-                                              onPressed: () {
-                                                Navigator.of(ctx).pop();
-                                              },
-                                              child: Text("cancel"),
-                                            ),
-                                            SizedBox(
-                                              width: size.width * 0.01,
-                                            ),
-                                            ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary:
-                                                      P_Settings.wavecolor),
-                                              onPressed: () async {
-                                                Provider.of<Controller>(context,
-                                                        listen: false)
-                                                    .deleteFromSalesBagTable(
-                                                        cartrowno,
-                                                        widget.custmerId,
-                                                        index);
-                                                Navigator.of(ctx).pop();
-                                              },
-                                              child: Text("ok"),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.close,
-                                  size: 17,
-                                ),
-                                color: P_Settings.extracolor,
-                              ),
-                            ],
-                          ),
+                              color: P_Settings.extracolor,
+                            ),
+                          ],
                         ),
                         Spacer(),
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            "Total price : ",
-                            style: TextStyle(fontSize: 13),
-                          ),
+                        Text(
+                          "Total price : ",
+                          style: TextStyle(fontSize: 13),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            "\u{20B9}${totalamount}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: P_Settings.extracolor),
-                          ),
+                        Text(
+                          "\u{20B9}${totalamount}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: P_Settings.extracolor),
                         ),
                       ],
                     ),
@@ -575,6 +483,7 @@ class _SaleCartState extends State<SaleCart> {
     );
   }
 
+//////////////////////////////////////////////////////////////////////
   popup(String item, String rate, Size size, int index, int qty) {
     return showDialog(
         context: context,

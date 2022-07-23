@@ -10,51 +10,53 @@ class SalesBottomSheet {
         context: context,
         builder: (context) {
           return Container(
-            height: size.height * 0.9,
+            height: size.height * 0.5,
             child: Column(
-              // mainAxisSize: MainAxisSize.min,
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ListTile(
-                  leading: new Icon(Icons.photo),
-                  title: new Text('Tax'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(onPressed: () {
+                      Navigator.pop(context);
+                    }, icon: Icon(Icons.close))
+                  ],
                 ),
                 ListTile(
-                  leading: new Icon(Icons.music_note),
-                  title: new Text('Music'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                  leading: Icon(Icons.discount),
+                  title: Row(
+                    children: [
+                      Text('Discount : '),
+                      Text('436'),
+                    ],
+                  ),
                 ),
                 ListTile(
-                  leading: new Icon(Icons.videocam),
-                  title: new Text('Video'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                  leading: Icon(Icons.money),
+                  title: Row(
+                    children: [
+                      Text('Tax : '),
+                      Text('1000'),
+                    ],
+                  ),
                 ),
                 ListTile(
-                  leading: new Icon(Icons.share),
-                  title: new Text('Share'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                  leading: Icon(Icons.money),
+                  title: Row(
+                    children: [
+                      Text('Cess : '),
+                      Text('436'),
+                    ],
+                  ),
                 ),
                 ListTile(
-                  leading: new Icon(Icons.share),
-                  title: new Text('Share'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: new Icon(Icons.share),
-                  title: new Text('Share'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                  leading: new Icon(Icons.currency_bitcoin),
+                  title: Row(
+                    children: [
+                      Text('Net amount : '),
+                      Text('436'),
+                    ],
+                  ),
                 ),
               ],
             ),
