@@ -1355,25 +1355,30 @@ class OrderAppDB {
     String sum;
     String count;
     String taxval;
+    String discount;
+    String cesamount;
     Database db = await instance.database;
     var result = await db.rawQuery(
         "SELECT * FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) s, COUNT(cartrowno) c, SUM(tax) t FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+          "SELECT SUM(totalamount) s, COUNT(cartrowno) c, SUM(tax) t, SUM(discount) d, SUM(ces_per) ces FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale........$res");
       sum = res[0]["s"].toStringAsFixed(2);
-      print("total ordersale .......$sum");
       count = res[0]["c"].toString();
       taxval = res[0]["t"].toStringAsFixed(2);
-      print("taxval ordersale .......$taxval");
+      discount = res[0]["d"].toStringAsFixed(2);
+      cesamount = res[0]["ces"].toStringAsFixed(2);
+      print("taxval ordersale .......$taxval..$discount..$cesamount");
     } else {
       sum = "0.00";
       count = "0.00";
       taxval = "0.00";
+      discount = "0.00";
+      cesamount = "0.00";
     }
-    return [sum, count, taxval];
+    return [sum, count, taxval, discount, cesamount];
   }
 
   ////////////// delete//////////////////////////////////////

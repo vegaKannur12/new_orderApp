@@ -29,8 +29,9 @@ class SaleCart extends StatefulWidget {
 
 class _SaleCartState extends State<SaleCart> {
   CommonPopup salepopup = CommonPopup();
-  SalesBottomSheet sheet = SalesBottomSheet();
   SaleItemDetails saleDetails = SaleItemDetails();
+  SalesBottomSheet sheet = SalesBottomSheet();
+
   List<String> s = [];
   List rawCalcResult = [];
 
@@ -105,7 +106,7 @@ class _SaleCartState extends State<SaleCart> {
                         //     ? value.editedRate
                         //     :
                         value.salebagList[index]["rate"].toString(),
-                        0.0,100,
+                        0.0, 100,
                         value.salebagList[index]["totalamount"].toString(),
                         value.salebagList[index]["qty"],
                         size,
@@ -113,6 +114,8 @@ class _SaleCartState extends State<SaleCart> {
                         index,
                         value.salebagList[index]["code"],
                         value.salebagList[index]["tax"].toString(),
+                        value.salebagList[index]["discount"].toString(),
+                        value.salebagList[index]["ces_per"].toString(),
                       );
                     },
                   ),
@@ -216,7 +219,9 @@ class _SaleCartState extends State<SaleCart> {
       TextEditingController _controller,
       int index,
       String code,
-      String tax) {
+      String tax,
+      String discount,
+      String cesamount) {
     // print("qty-------$qty");
     _controller.text = qty.toString();
 
@@ -376,7 +381,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              "",
+                                              " \u{20B9}${discount.toString()}",
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
@@ -403,7 +408,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              tax.toString(),
+                                              "\u{20B9}${tax.toString()}",
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
@@ -420,7 +425,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              qty.toString(),
+                                              "\u{20B9}${cesamount}",
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
@@ -450,7 +455,11 @@ class _SaleCartState extends State<SaleCart> {
                           children: [
                             Row(
                               children: [
-                                ElevatedButton.icon(
+                                Text(
+                                  "Remove ",
+                                  style: TextStyle(fontSize: 13),
+                                ),
+                                IconButton(
                                   onPressed: () {
                                     showDialog(
                                       context: context,
@@ -495,35 +504,12 @@ class _SaleCartState extends State<SaleCart> {
                                       ),
                                     );
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    primary: Colors.grey[100], // background
-                                    // onPrimary: Colors.yellow, // foreground
-                                  ),
-                                  label: Text(
-                                    "Remove",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
                                   icon: Icon(
                                     Icons.close,
                                     size: 17,
-                                    color: P_Settings.extracolor,
                                   ),
+                                  color: P_Settings.extracolor,
                                 ),
-                                // Text(
-                                //   "Remove ",
-                                //   style: TextStyle(fontSize: 13),
-                                // ),
-                                // IconButton(
-                                //   onPressed: () {
-
-                                //   },
-                                //   icon: Icon(
-                                //     Icons.close,
-                                //     size: 17,
-                                //   ),
-                                //   color: P_Settings.extracolor,
-                                // ),
                               ],
                             ),
                             Spacer(),

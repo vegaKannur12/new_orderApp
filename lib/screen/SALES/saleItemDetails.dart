@@ -36,59 +36,62 @@ class SaleItemDetails {
                       // mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(
-                                      Icons.close,
-                                      color: P_Settings.extracolor,
-                                    )),
-                              ],
-                            ),
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(
+                                  Icons.close,
+                                  color: P_Settings.extracolor,
+                                )),
+                          ],
+                        ),
                         Column(
                           children: [
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    item,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text("-"),
-                                  Text(
-                                    code,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  item,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text("-"),
+                                Text(
+                                  code,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
                                 Text(
-                                  "hsn",
+                                  "HSN",
                                 ),
                                 Spacer(),
                                 Text(
                                   hsn,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -97,19 +100,27 @@ class SaleItemDetails {
                                 ),
                                 Spacer(),
                                 Container(
-                                  width: size.width * 0.4,
+                                  width: size.width * 0.2,
                                   child: TextField(
                                     onSubmitted: (values) {
-                                      double valueqty = double.parse(values);
+                                      double valueqty =
+                                          double.parse(values);
                                       Provider.of<Controller>(context,
                                               listen: false)
-                                          .rawCalculation(rate, valueqty, 0.0,
-                                              100, tax_per, 0.0, "0", 0);
+                                          .rawCalculation(
+                                              rate,
+                                              valueqty,
+                                              0.0,
+                                              100,
+                                              tax_per,
+                                              0.0,
+                                              "0",
+                                              0);
                                     },
                                     textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
+                                    // decoration: InputDecoration(
+                                    //   border: InputBorder.none,
+                                    // ),
                                     controller: value.salesqty[index],
                                   ),
                                 ),
@@ -118,7 +129,8 @@ class SaleItemDetails {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -126,13 +138,14 @@ class SaleItemDetails {
                                   "Rate",
                                 ),
                                 Spacer(),
-                                Text(rate.toString())
+                                Text(rate.toStringAsFixed(2))
                               ],
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -141,14 +154,15 @@ class SaleItemDetails {
                                 ),
                                 Spacer(),
                                 Text(
-                                  value.gross.toString(),
+                                  value.gross.toStringAsFixed(2),
                                 )
                               ],
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -156,22 +170,38 @@ class SaleItemDetails {
                                   "Tax %",
                                 ),
                                 Spacer(),
-                                Text(tax_per.toString())
+                                Text(tax_per.toStringAsFixed(2))
                               ],
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
                                 Text(
-                                  "Discount percentage",
+                                  "Tax amount",
+                                ),
+                                Spacer(),
+                                Text(value.tax.toStringAsFixed(2))
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Discount %",
                                 ),
                                 Spacer(),
                                 Container(
-                                  width: size.width * 0.4,
+                                  width: size.width * 0.2,
                                   child: TextField(
                                     onSubmitted: (values) {
                                       double valuediscper =
@@ -180,8 +210,8 @@ class SaleItemDetails {
                                               listen: false)
                                           .rawCalculation(
                                               rate,
-                                              double.parse(
-                                                  value.salesqty[index].text),
+                                              double.parse(value
+                                                  .salesqty[index].text),
                                               valuediscper,
                                               100,
                                               tax_per,
@@ -189,11 +219,12 @@ class SaleItemDetails {
                                               "0",
                                               0);
                                     },
-                                    controller: value.discount_prercent[index],
+                                    controller:
+                                        value.discount_prercent[index],
                                     textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
+                                    // decoration: InputDecoration(
+                                    //   border: InputBorder.none,
+                                    // ),
                                   ),
                                 ),
                               ],
@@ -201,7 +232,8 @@ class SaleItemDetails {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -210,7 +242,7 @@ class SaleItemDetails {
                                 ),
                                 Spacer(),
                                 Container(
-                                  width: size.width * 0.4,
+                                  width: size.width * 0.2,
                                   child: TextField(
                                     onSubmitted: (values) {
                                       // value.discount_amount[index].text=;
@@ -220,8 +252,8 @@ class SaleItemDetails {
                                               listen: false)
                                           .rawCalculation(
                                               rate,
-                                              double.parse(
-                                                  value.salesqty[index].text),
+                                              double.parse(value
+                                                  .salesqty[index].text),
                                               double.parse(value
                                                   .discount_prercent[index]
                                                   .text),
@@ -231,11 +263,12 @@ class SaleItemDetails {
                                               "0",
                                               0);
                                     },
-                                    controller: value.discount_amount[index],
+                                    controller:
+                                        value.discount_amount[index],
                                     textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
+                                    // decoration: InputDecoration(
+                                    //   border: InputBorder.none,
+                                    // ),
                                   ),
                                 ),
                               ],
@@ -246,17 +279,20 @@ class SaleItemDetails {
                           thickness: 1,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(children: [
                               Text(
                                 "Net Amount",
-                                style: TextStyle(color: P_Settings.extracolor),
+                                style:
+                                    TextStyle(color: P_Settings.extracolor),
                               ),
                               Spacer(),
                               Text(
                                 value.net_amt.toString(),
-                                style: TextStyle(color: P_Settings.extracolor),
+                                style:
+                                    TextStyle(color: P_Settings.extracolor),
                               ),
                             ]),
                           ),
@@ -269,10 +305,11 @@ class SaleItemDetails {
                               Container(
                                   width: size.width * 0.4,
                                   child: ElevatedButton(
-                                      onPressed: () {}, child: Text("Apply")))
+                                      onPressed: () {},
+                                      child: Text("Apply")))
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

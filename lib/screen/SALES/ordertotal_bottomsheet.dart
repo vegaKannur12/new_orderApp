@@ -12,129 +12,138 @@ class SalesBottomSheet {
         context: context,
         builder: (context) {
           print("order total.........$grosstot");
-          return Container(
-            height: size.height * 0.9,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.close,
-                        color: P_Settings.extracolor,
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Column(
+          return SingleChildScrollView(
+            child: Container(
+              // height: size.height * 0.9,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      ListTile(
-                        leading: Icon(
-                          Icons.discount,
-                          color: P_Settings.salewaveColor,
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          Icons.close,
+                          color: P_Settings.extracolor,
                         ),
-                        title: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Item count : '),
-                            Spacer(),
-                            Text(
-                              '$itemcount',
-                              textAlign: TextAlign.end,
-                            ),
-                          ],
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(
-                          Icons.currency_rupee_outlined,
-                          color: P_Settings.salewaveColor,
-                        ),
-                        title: Row(
-                          children: [
-                            Text('Gross total : '),
-                            Spacer(),
-                            Text(
-                              '${grosstot}',
-                              textAlign: TextAlign.end,
-                            ),
-                          ],
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(
-                          Icons.discount,
-                          color: P_Settings.salewaveColor,
-                        ),
-                        title: Row(
-                          children: [
-                            Text('Discount : '),
-                            Spacer(),
-                            Text(
-                              '0.00',
-                              textAlign: TextAlign.end,
-                            ),
-                          ],
-                        ),
-                      ), 
-                      ListTile(
-                        leading: Icon(
-                          Icons.money,
-                          color: P_Settings.salewaveColor,
-                        ),
-                        title: Row(
-                          children: [
-                            Text('Tax : '),
-                            Spacer(),
-                            Text(
-                              '$tax',
-                              textAlign: TextAlign.end,
-                            ),
-                          ],
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(
-                          Icons.money,
-                          color: P_Settings.salewaveColor,
-                        ),
-                        title: Row(
-                          children: [
-                            Text('Cess : '),
-                            Spacer(),
-                            Text(
-                              '0.00',
-                              textAlign: TextAlign.end,
-                            ),
-                          ],
-                        ),
-                      ),
-                      ListTile(
-                        leading: new Icon(
-                          Icons.money,
-                          color: P_Settings.salewaveColor,
-                        ),
-                        title: Row(
-                          children: [
-                            Text('Net amount : '),
-                            Spacer(),
-                            Text(
-                              '0.00',
-                              textAlign: TextAlign.end,
-                            ),
-                          ],
-                        ),
-                      ),
+                      )
                     ],
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          // leading: Icon(
+                          //   Icons.numbers,
+                          //   color: P_Settings.salewaveColor,
+                          // ),
+                          title: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Item count : '),
+                              Spacer(),
+                              Text(
+                                '$itemcount',
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          // leading: Icon(
+                          //   Icons.currency_rupee_outlined,
+                          //   color: P_Settings.salewaveColor,
+                          // ),
+                          title: Row(
+                            children: [
+                              Text('Gross total : '),
+                              Spacer(),
+                              Text(
+                                '\u{20B9}${grosstot}',
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          // leading: Icon(
+                          //   Icons.discount,
+                          //   color: P_Settings.salewaveColor,
+                          // ),
+                          title: Row(
+                            children: [
+                              Text('Discount : '),
+                              Spacer(),
+                              Text(
+                                '\u{20B9} ${discount}',
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          // leading: Icon(
+                          //   Icons.currency_rupee_outlined,
+                          //   color: P_Settings.salewaveColor,
+                          // ),
+                          title: Row(
+                            children: [
+                              Text('Tax : '),
+                              Spacer(),
+                              Text(
+                                '\u{20B9}$tax',
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          // leading: Icon(
+                          //   Icons.currency_rupee_outlined,
+                          //   color: P_Settings.salewaveColor,
+                          // ),
+                          title: Row(
+                            children: [
+                              Text('Cess : '),
+                              Spacer(),
+                              Text(
+                                '\u{20B9}${cess}',
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(
+                          thickness: 2,
+                        ),
+                        ListTile(
+                          // leading: new Icon(
+                          //   Icons.currency_rupee_outlined,
+                          //   color: P_Settings.salewaveColor,
+                          // ),
+                          title: Row(
+                            children: [
+                              Text(
+                                'Net amount : ',
+                                style: TextStyle(color: P_Settings.extracolor),
+                              ),
+                              Spacer(),
+                              Text(
+                                '\u{20B9}0.00',
+                                style: TextStyle(color: P_Settings.extracolor),
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         });
