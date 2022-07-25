@@ -152,87 +152,16 @@ class _CartListState extends State<CartList> {
                               context: context,
                               builder: (BuildContext context) =>
                                   orderpopup.buildPopupDialog(
-                                      "sale order",
-                                      context,
-                                      "Confirm your order?",
-                                      widget.areaId,
-                                      widget.areaname,
-                                      widget.custmerId,
-                                      s[0],
-                                      s[1]),
+                                "sale order",
+                                context,
+                                "Confirm your order?",
+                                widget.areaId,
+                                widget.areaname,
+                                widget.custmerId,
+                                s[0],
+                                s[1],
+                              ),
                             );
-                            // sid = await Provider.of<Controller>(context,
-                            //         listen: false)
-                            //     .setStaffid(value.sname!);
-                            // print("Sid........${value.sname}$sid");
-                            // if (Provider.of<Controller>(context, listen: false)
-                            //         .bagList
-                            //         .length >
-                            //     0) {
-                            //   final prefs =
-                            //       await SharedPreferences.getInstance();
-                            //   String? sid = await prefs.getString('sid');
-                            //   String? os = await prefs.getString('os');
-
-                            //   Provider.of<Controller>(context, listen: false)
-                            //       .insertToOrderbagAndMaster(
-                            //           os!,
-                            //           s[0],
-                            //           s[1],
-                            //           widget.custmerId,
-                            //           sid!,
-                            //           widget.areaId,
-                            //           double.parse(value.orderTotal1!));
-                            //   String? gen_area = Provider.of<Controller>(
-                            //           context,
-                            //           listen: false)
-                            //       .areaidFrompopup;
-                            //   if (gen_area != null) {
-                            //     gen_condition =
-                            //         " and accountHeadsTable.area_id=$gen_area";
-                            //   } else {
-                            //     gen_condition = " ";
-                            //   }
-                            //   Provider.of<Controller>(context, listen: false)
-                            //       .todayOrder(s[0], gen_condition);
-                            //   Provider.of<Controller>(context, listen: false)
-                            //       .clearList(value.areDetails);
-
-                            //   return showDialog(
-                            //       context: context,
-                            //       builder: (context) {
-                            //         Future.delayed(Duration(milliseconds: 500),
-                            //             () {
-                            //           Navigator.of(context).pop(true);
-
-                            //           Navigator.of(context).push(
-                            //             PageRouteBuilder(
-                            //                 opaque: false, // set to false
-                            //                 pageBuilder: (_, __, ___) =>
-                            //                     Dashboard(
-                            //                         type:
-                            //                             "return from cartList",
-                            //                         areaName: widget.areaname)
-                            //                 // OrderForm(widget.areaname,"return"),
-                            //                 ),
-                            //           );
-                            //         });
-                            //         return AlertDialog(
-                            //             content: Row(
-                            //           children: [
-                            //             Text(
-                            //               'Order Placed!!!!',
-                            //               style: TextStyle(
-                            //                   color: P_Settings.extracolor),
-                            //             ),
-                            //             Icon(
-                            //               Icons.done,
-                            //               color: Colors.green,
-                            //             )
-                            //           ],
-                            //         ));
-                            //       });
-                            // }
 
                             Provider.of<Controller>(context, listen: false)
                                 .count = "0";
@@ -462,163 +391,171 @@ class _CartListState extends State<CartList> {
                                       builder: (BuildContext context) {
                                         return Consumer<Controller>(
                                           builder: (context, value, child) {
-                                            return Container(
-                                              height: size.height * 0.3,
-                                              color: Colors.white,
-                                              child: Center(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.01,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          IconButton(
-                                                            icon: Icon(
-                                                                Icons.close),
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          FloatingActionButton
-                                                              .small(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .grey,
-                                                                  child: Icon(Icons
-                                                                      .remove),
-                                                                  onPressed:
-                                                                      () {
-                                                                    if (value
-                                                                            .qtyinc! >
-                                                                        1) {
-                                                                      value
-                                                                          .qtyDecrement();
-                                                                      value.totalCalculation(
-                                                                          rate);
-                                                                    }
-                                                                  }),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 15.0,
-                                                                    right: 15),
-                                                            child: Text(
-                                                              value.qtyinc
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  fontSize: 20),
-                                                            ),
-                                                          ),
-                                                          FloatingActionButton
-                                                              .small(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .grey,
-                                                                  child: Icon(
-                                                                      Icons
-                                                                          .add),
-                                                                  onPressed:
-                                                                      () {
-                                                                    value
-                                                                        .qtyIncrement();
-                                                                    value.totalCalculation(
-                                                                        rate);
-                                                                  }),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.02,
-                                                      ),
-                                                      Divider(
-                                                        thickness: 1,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                top: 8.0,
-                                                                bottom: 8),
-                                                        child: Row(
+                                            return SingleChildScrollView(
+                                              child: Container(
+                                                // height: size.height * 0.3,
+                                                color: Colors.white,
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.01,
+                                                        ),
+                                                        Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .spaceBetween,
+                                                                  .end,
                                                           children: [
-                                                            Text(
-                                                              "Total Price :",
-                                                              style: TextStyle(
-                                                                  fontSize: 17),
-                                                            ),
-                                                            Flexible(
-                                                              child: Text(
-                                                                "\u{20B9}${value.totalPrice.toString()}",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17),
-                                                              ),
-                                                            ),
+                                                            IconButton(
+                                                              icon: Icon(
+                                                                  Icons.close),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            )
                                                           ],
                                                         ),
-                                                      ),
-                                                      Divider(
-                                                        thickness: 1,
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.02,
-                                                      ),
-                                                      Expanded(
-                                                        child: Row(
+                                                        Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            Container(
-                                                              height:
-                                                                  size.height *
-                                                                      0.05,
-                                                              width:
-                                                                  size.width *
-                                                                      0.6,
-                                                              child:
-                                                                  ElevatedButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        Provider.of<Controller>(context, listen: false).updateQty(
-                                                                            value.qtyinc.toString(),
-                                                                            cartrowno,
-                                                                            widget.custmerId,
+                                                            FloatingActionButton
+                                                                .small(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .grey,
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .remove),
+                                                                    onPressed:
+                                                                        () {
+                                                                      if (value
+                                                                              .qtyinc! >
+                                                                          1) {
+                                                                        value
+                                                                            .qtyDecrement();
+                                                                        value.totalCalculation(
                                                                             rate);
-                                                                        Provider.of<Controller>(context, listen: false).calculateorderTotal(
-                                                                            widget.os,
-                                                                            widget.custmerId);
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child: Text(
-                                                                          "continue..")),
-                                                            )
+                                                                      }
+                                                                    }),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          15.0,
+                                                                      right:
+                                                                          15),
+                                                              child: Text(
+                                                                value.qtyinc
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        20),
+                                                              ),
+                                                            ),
+                                                            FloatingActionButton
+                                                                .small(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .grey,
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .add),
+                                                                    onPressed:
+                                                                        () {
+                                                                      value
+                                                                          .qtyIncrement();
+                                                                      value.totalCalculation(
+                                                                          rate);
+                                                                    }),
                                                           ],
                                                         ),
-                                                      )
-                                                    ],
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.02,
+                                                        ),
+                                                        Divider(
+                                                          thickness: 1,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 8.0,
+                                                                  bottom: 8),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                "Total Price :",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        17),
+                                                              ),
+                                                              Flexible(
+                                                                child: Text(
+                                                                  "\u{20B9}${value.totalPrice.toString()}",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          17),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Divider(
+                                                          thickness: 1,
+                                                        ),
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.02,
+                                                        ),
+                                                        Expanded(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Container(
+                                                                height:
+                                                                    size.height *
+                                                                        0.05,
+                                                                width:
+                                                                    size.width *
+                                                                        0.6,
+                                                                child:
+                                                                    ElevatedButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Provider.of<Controller>(context, listen: false).updateQty(
+                                                                              value.qtyinc.toString(),
+                                                                              cartrowno,
+                                                                              widget.custmerId,
+                                                                              rate);
+                                                                          Provider.of<Controller>(context, listen: false).calculateorderTotal(
+                                                                              widget.os,
+                                                                              widget.custmerId);
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        child: Text(
+                                                                            "continue..")),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),

@@ -779,7 +779,7 @@ class OrderAppDB {
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, cgst, sgst, payment_mode, credit_option, status, total_price) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${cgst}", "${sgst}", "${payment_mode}", "${credit_option}", ${status}, ${total_price})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, cgst, sgst, payment_mode, credit_option, status, total_price) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${cgst}", "${sgst}", "${payment_mode}", "${credit_option}", ${status}, ${total_price.toStringAsFixed(2)})';
       res2 = await db.rawInsert(query3);
       print("insertsalesmaster$query3");
     }
@@ -1353,19 +1353,27 @@ class OrderAppDB {
   getsaletotalSum(String os, String customerId) async {
     // double sum=0.0;
     String sum;
+    String count;
+    String taxval;
     Database db = await instance.database;
     var result = await db.rawQuery(
         "SELECT * FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) s FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
-      sum = res[0]["s"].toString();
-      print("sum from db----$sum");
+          "SELECT SUM(totalamount) s, COUNT(cartrowno) c, SUM(tax) t FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+      print("result sale........$res");
+      sum = res[0]["s"].toStringAsFixed(2);
+      print("total ordersale .......$sum");
+      count = res[0]["c"].toString();
+      taxval = res[0]["t"].toStringAsFixed(2);
+      print("taxval ordersale .......$taxval");
     } else {
-      sum = "0.0";
+      sum = "0.00";
+      count = "0.00";
+      taxval = "0.00";
     }
-    return sum;
+    return [sum, count, taxval];
   }
 
   ////////////// delete//////////////////////////////////////

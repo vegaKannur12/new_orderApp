@@ -104,7 +104,8 @@ class Controller extends ChangeNotifier {
   String? userType;
   String? updateDate;
   String? orderTotal1;
-  String? orderTotal2;
+  String? saleTot;
+  List<String> orderTotal2 = [];
   String? ordernumber;
   String? cid;
   String? cname;
@@ -1626,10 +1627,23 @@ class Controller extends ChangeNotifier {
   }
 
   /////////calculate total////////////////
-  calculatesalesTotal(String os, String customerId) async {
-    orderTotal2 = await OrderAppDB.instance.getsaletotalSum(os, customerId);
-    print("orderTotal2---$orderTotal2");
-    notifyListeners();
+  Future<dynamic> calculatesalesTotal(String os, String customerId) async {
+    try {
+      print("nsgadnsaghda");
+      var res = await OrderAppDB.instance.getsaletotalSum(os, customerId);
+      print("result sale...$res");
+      orderTotal2.clear();
+      if (res != null && res.length != 0) {
+        for (var item in res) {
+          orderTotal2.add(item);
+          print("orderTotal2.....$orderTotal2");
+        }
+          notifyListeners();
+
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 /////////////////////////////////////////////////
 

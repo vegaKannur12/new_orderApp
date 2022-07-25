@@ -44,7 +44,7 @@ class CommonPopup {
                   final prefs = await SharedPreferences.getInstance();
                   String? sid = await prefs.getString('sid');
                   String? os = await prefs.getString('os');
-                  print("order total...${double.parse(value.orderTotal2!)}");
+                  print("order total...${double.parse(value.orderTotal2[0])}");
                   String? gen_area =
                       Provider.of<Controller>(context, listen: false)
                           .areaidFrompopup;
@@ -63,12 +63,11 @@ class CommonPopup {
                       custmerId,
                       sid!,
                       areaid,
-                      double.parse(value.orderTotal2!),
+                      double.parse(value.orderTotal2[0]),
                     );
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
                   } else if (type == "sale order") {
-                    
                     print("inside order.......");
                     Provider.of<Controller>(context, listen: false)
                         .insertToOrderbagAndMaster(
