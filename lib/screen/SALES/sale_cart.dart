@@ -115,7 +115,7 @@ class _SaleCartState extends State<SaleCart> {
                         index,
                         value.salebagList[index]["code"],
                         value.salebagList[index]["tax_per"].toString(),
-                        value.salebagList[index]["tax"].toString(),
+                        value.salebagList[index]["tax"],
 
                         // value.salebagList[index]["discount"].toString(),
                         value.salebagList[index]["ces_per"].toString(),
@@ -225,7 +225,7 @@ class _SaleCartState extends State<SaleCart> {
       TextEditingController _controller,
       int index,
       String code,
-      String tax,String tax_amt,
+      String tax,double tax_amt,
       // String discount,
       String cesamount) {
     // print("qty-------$qty");
@@ -263,12 +263,12 @@ class _SaleCartState extends State<SaleCart> {
                       disc_per,
                       disc_amt,
                       double.parse(tax),
-                      double.parse(tax_amt),
+                       tax_amt,
                       double.parse(net_amt),
                       gross,
                       context,
                       size,
-                      index);
+                      index,widget.custmerId,widget.os);
                 },
                 // leading: CircleAvatar(backgroundColor: Colors.green),
                 title: Column(
@@ -331,6 +331,8 @@ class _SaleCartState extends State<SaleCart> {
                                     padding:
                                         const EdgeInsets.only(left: 4, top: 0),
                                     child: Row(
+                                      mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
@@ -348,7 +350,25 @@ class _SaleCartState extends State<SaleCart> {
                                                   fontSize: 13),
                                             ),
                                           ],
-                                        ),
+                                        ),// Row(
+
+                                        Row(
+                                        children: [
+                                          Text(
+                                            "Discount:",
+                                            style: TextStyle(fontSize: 13),
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.03,
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              " \u{20B9}${disc_amt.toString()}",
+                                              style: TextStyle(fontSize: 13),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                       ],
                                     ),
                                   ),
@@ -382,7 +402,7 @@ class _SaleCartState extends State<SaleCart> {
                                       Row(
                                         children: [
                                           Text(
-                                            "Discount:",
+                                            "Tax:",
                                             style: TextStyle(fontSize: 13),
                                           ),
                                           SizedBox(
@@ -390,12 +410,29 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              " \u{20B9}${disc_amt.toString()}",
+                                              " \u{20B9}${tax_amt.toStringAsFixed(2)}",
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
                                         ],
                                       ),
+                                      // Row(
+                                      //   children: [
+                                      //     Text(
+                                      //       "Discount:",
+                                      //       style: TextStyle(fontSize: 13),
+                                      //     ),
+                                      //     SizedBox(
+                                      //       width: size.width * 0.03,
+                                      //     ),
+                                      //     Container(
+                                      //       child: Text(
+                                      //         " \u{20B9}${disc_amt.toString()}",
+                                      //         style: TextStyle(fontSize: 13),
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
                                     ],
                                   ),
                                 ),
@@ -409,7 +446,7 @@ class _SaleCartState extends State<SaleCart> {
                                       Row(
                                         children: [
                                           Text(
-                                            "Tax :",
+                                            "Gross:",
                                             style: TextStyle(fontSize: 13),
                                           ),
                                           SizedBox(
@@ -417,7 +454,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              "\u{20B9}${tax.toString()}",
+                                              "\u{20B9}${gross.toString()}",
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),

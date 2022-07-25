@@ -20,7 +20,8 @@ class SaleItemDetails {
       double gross,
       BuildContext context,
       Size size,
-      int index) {
+      int index,
+      String customerId,String os) {
     return showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -277,7 +278,7 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                               "\u{20B9}${value.net_amt.toString()}",
+                                "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
                                 style: TextStyle(color: P_Settings.extracolor),
                               ),
                             ]),
@@ -291,7 +292,18 @@ class SaleItemDetails {
                               Container(
                                   width: size.width * 0.4,
                                   child: ElevatedButton(
-                                      onPressed: () {}, child: Text("Apply")))
+                                      onPressed: () async {
+                                        await OrderAppDB.instance.upadteCommonQuery(
+                                            "salesBagTable",
+                                            "net_amt=${value.net_amt},discount=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax=${value.tax}",
+                                            "cartrowno=$index and customerid='$customerId'");
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .getSaleBagDetails(
+                                                customerId, os);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Apply")))
                             ],
                           ),
                         ),

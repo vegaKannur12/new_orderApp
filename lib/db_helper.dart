@@ -741,7 +741,7 @@ class OrderAppDB {
   //////////// Insert into sales master and sales details table/////////////
   Future insertsalesMasterandDetailsTable(
     int sales_id,
-    int? qty,
+    double? qty,
     double rate,
     String? code,
     String salesdate,

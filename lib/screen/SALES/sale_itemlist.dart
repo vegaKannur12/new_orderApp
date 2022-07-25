@@ -855,6 +855,7 @@ class _SalesItemState extends State<SalesItem> {
                                                             //         .text
                                                             //         .toString();
                                                             // value.discount_prercent[index].text = value.disc_per.toString();
+                                                            
                                                             var res = await OrderAppDB
                                                                 .instance
                                                                 .insertsalesBagTable(
