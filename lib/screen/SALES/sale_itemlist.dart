@@ -546,7 +546,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                               index]
                                                                           [
                                                                           "tax"],
-                                                                    ),
+                                                                    ),value.tax,
                                                                     100,
                                                                     0.0,
                                                                     0,
@@ -835,6 +835,7 @@ class _SalesItemState extends State<SalesItem> {
                                                               "result----$result");
                                                           if (result ==
                                                               "success") {
+                                                            // value.discount_prercent[index].text = value.disc_per.toString();
                                                             var res = await OrderAppDB
                                                                 .instance
                                                                 .insertsalesBagTable(
@@ -871,7 +872,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                               index]
                                                                           [
                                                                           "tax"],
+                                                                          
                                                                     ),
+                                                                    value.tax,
                                                                     100,
                                                                     0.0,
                                                                     0,
