@@ -2608,6 +2608,7 @@ class Controller extends ChangeNotifier {
       double cess_per,
       String method,
       int state_status,int index) {
+        print("qtymk---$qty");
     if (disc_amount != 0) {
       disc_per = (disc_amount / rate) * 100;
     }
