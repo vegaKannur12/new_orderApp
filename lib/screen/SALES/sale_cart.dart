@@ -104,15 +104,20 @@ class _SaleCartState extends State<SaleCart> {
                         //     ? value.editedRate
                         //     :
                         value.salebagList[index]["rate"].toString(),
-                        0.0, 100,
-                        value.salebagList[index]["totalamount"].toString(),
+                        0.0,
+                        double.parse(value.salebagList[index]["discount"]),
+                        value.salebagList[index]["net_amt"].toString(),
+                        double.parse(value.salebagList[index]["totalamount"]),
+
                         value.salebagList[index]["qty"],
                         size,
                         value.controller[index],
                         index,
                         value.salebagList[index]["code"],
+                        value.salebagList[index]["tax_per"].toString(),
                         value.salebagList[index]["tax"].toString(),
-                        value.salebagList[index]["discount"].toString(),
+
+                        // value.salebagList[index]["discount"].toString(),
                         value.salebagList[index]["ces_per"].toString(),
                       );
                     },
@@ -213,14 +218,16 @@ class _SaleCartState extends State<SaleCart> {
       String rate,
       double disc_per,
       double disc_amt,
-      String totalamount,
+      String net_amt,
+      double gross,
       int qty,
       Size size,
       TextEditingController _controller,
       int index,
       String code,
       String tax,
-      String discount,
+      String tax_amt,
+      // String discount,
       String cesamount) {
     // print("qty-------$qty");
     _controller.text = qty.toString();
@@ -248,19 +255,35 @@ class _SaleCartState extends State<SaleCart> {
                   //     .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
                   //         100, double.parse(tax), 0.0, "0", 0);
 
+                  Provider.of<Controller>(context, listen: false)
+                      .rawCalculation(
+                          double.parse(rate),
+                          double.parse(qty.toString()),
+                          0.0,
+                          100,
+                          double.parse(tax),
+                          0.0,
+                          "0",
+                          0,
+                          index);
+                          
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
                       code,
                       hsn,
                       qty,
                       double.parse(rate),
-                      0.0,
-                      100,
+                      disc_per,
+                      disc_amt,
                       double.parse(tax),
-                      double.parse(totalamount),
+                      double.parse(tax_amt),
+                      double.parse(net_amt),
+                      gross,
                       context,
                       size,
                       index);
+                  print(
+                      "gross new value in display------$rate..$qty...$tax_amt,$net_amt");
                 },
                 // leading: CircleAvatar(backgroundColor: Colors.green),
                 title: Column(
@@ -382,7 +405,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              " \u{20B9}${discount.toString()}",
+                                              " \u{20B9}${disc_amt.toString()}",
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
@@ -519,7 +542,7 @@ class _SaleCartState extends State<SaleCart> {
                               style: TextStyle(fontSize: 13),
                             ),
                             Text(
-                              "\u{20B9}${totalamount}",
+                              "\u{20B9}${net_amt}",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,
@@ -545,7 +568,7 @@ class _SaleCartState extends State<SaleCart> {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return AlertDialog(
+          return new AlertDialog(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
