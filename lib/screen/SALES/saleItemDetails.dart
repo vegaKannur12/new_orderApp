@@ -22,7 +22,6 @@ class SaleItemDetails {
     return showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          print("keryy");
           // rawCalcResult = Provider.of<Controller>(context,listen: false).rawCalculation(rate,qty.toDouble(), 0.0, 100,tax_per, 0.0, "0", 0);
           return SingleChildScrollView(
             child: Consumer<Controller>(

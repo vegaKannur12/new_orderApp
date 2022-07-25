@@ -247,7 +247,7 @@ class _SaleCartState extends State<SaleCart> {
                   // Provider.of<Controller>(context, listen: false)
                   //     .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
                   //         100, double.parse(tax), 0.0, "0", 0);
-                  
+
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
                       code,
@@ -545,7 +545,7 @@ class _SaleCartState extends State<SaleCart> {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return new AlertDialog(
+          return AlertDialog(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -566,7 +566,7 @@ class _SaleCartState extends State<SaleCart> {
                 Row(
                   children: [
                     Text("Old rate    :"),
-                    Text("   \u{20B9}${rate}"),
+                    Text("  \u{20B9}${rate}"),
                   ],
                 ),
                 SizedBox(

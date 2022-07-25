@@ -2611,7 +2611,7 @@ class Controller extends ChangeNotifier {
     if (disc_amount != 0) {
       disc_per = (disc_amount / rate) * 100;
     }
-
+ 
     if (state_status == 0) {
       ///////state_status=0--loacal///////////state_status=1----inter-state
       cgst_per = tax_per / 2;

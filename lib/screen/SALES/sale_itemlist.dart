@@ -508,7 +508,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
-                                                                  0,index);
+                                                                  0,
+                                                                  index);
 
                                                           if (result ==
                                                               "success") {
@@ -828,7 +829,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
-                                                                  0,index);
+                                                                  0,
+                                                                  index);
                                                           print(
                                                               "result----$result");
                                                           if (result ==
