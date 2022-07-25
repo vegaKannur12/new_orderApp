@@ -36,38 +36,38 @@ class SaleItemDetails {
                       // mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(
-                                      Icons.close,
-                                      color: P_Settings.extracolor,
-                                    )),
-                              ],
-                            ),
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(
+                                  Icons.close,
+                                  color: P_Settings.extracolor,
+                                )),
+                          ],
+                        ),
                         Column(
                           children: [
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    item,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text("-"),
-                                  Text(
-                                    code,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  item,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text("-"),
+                                Text(
+                                  code,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                         Padding(
@@ -76,7 +76,7 @@ class SaleItemDetails {
                             title: Row(
                               children: [
                                 Text(
-                                  "hsn",
+                                  "HSN",
                                 ),
                                 Spacer(),
                                 Text(
