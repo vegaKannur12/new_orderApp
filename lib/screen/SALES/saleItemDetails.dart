@@ -115,7 +115,7 @@ class SaleItemDetails {
                                               tax_per,
                                               0.0,
                                               "0",
-                                              0);
+                                              0,index);
                                     },
                                     textAlign: TextAlign.right,
                                     // decoration: InputDecoration(
@@ -217,7 +217,7 @@ class SaleItemDetails {
                                               tax_per,
                                               0.0,
                                               "0",
-                                              0);
+                                              0,index);
                                     },
                                     controller:
                                         value.discount_prercent[index],
@@ -261,7 +261,7 @@ class SaleItemDetails {
                                               tax_per,
                                               0.0,
                                               "0",
-                                              0);
+                                              0,index);
                                     },
                                     controller:
                                         value.discount_amount[index],

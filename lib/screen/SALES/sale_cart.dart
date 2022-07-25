@@ -247,6 +247,7 @@ class _SaleCartState extends State<SaleCart> {
                   // Provider.of<Controller>(context, listen: false)
                   //     .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
                   //         100, double.parse(tax), 0.0, "0", 0);
+                  
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
                       code,

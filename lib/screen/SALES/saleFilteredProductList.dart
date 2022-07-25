@@ -155,7 +155,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                                 ["tax"]),
                                         0.0,
                                         "0",
-                                        0);
+                                        0,index);
                             if (result == "success") {
                               var res = await OrderAppDB.instance
                                   .insertsalesBagTable(

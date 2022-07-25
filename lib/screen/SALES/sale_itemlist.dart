@@ -508,7 +508,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
-                                                                  0);
+                                                                  0,index);
 
                                                           if (result ==
                                                               "success") {
@@ -541,12 +541,12 @@ class _SalesItemState extends State<SalesItem> {
                                                                             index]
                                                                         ["hsn"],
                                                                     double.parse(
-                                                                      products[
+                                                                      value.newList[
                                                                               index]
                                                                           [
                                                                           "tax"],
                                                                     ),
-                                                                    0.0,
+                                                                    100,
                                                                     0.0,
                                                                     0,
                                                                     value.net_amt);
@@ -802,7 +802,7 @@ class _SalesItemState extends State<SalesItem> {
                                                               "total rate $total");
 
                                                           //                                         value.salesqty[index].text = qty.toString();
-                                                          // value.discount_prercent[index].text = disc_per.toString();
+                                                          // value.discount_prercent[index].text = value.disc_per.toString();
                                                           // value.discount_amount[index].text = disc_amt.toString();
 
                                                           String result = Provider.of<
@@ -828,7 +828,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
-                                                                  0);
+                                                                  0,index);
                                                           print(
                                                               "result----$result");
                                                           if (result ==
@@ -870,10 +870,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           [
                                                                           "tax"],
                                                                     ),
-                                                                    // products[
-                                                                    //         index]
-                                                                    //     ["tax"],
-                                                                    0.0,
+                                                                    100,
                                                                     0.0,
                                                                     0,
                                                                     value
