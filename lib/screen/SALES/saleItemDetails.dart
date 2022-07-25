@@ -71,7 +71,8 @@ class SaleItemDetails {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -81,14 +82,16 @@ class SaleItemDetails {
                                 Spacer(),
                                 Text(
                                   hsn,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -100,11 +103,19 @@ class SaleItemDetails {
                                   width: size.width * 0.4,
                                   child: TextField(
                                     onSubmitted: (values) {
-                                      double valueqty = double.parse(values);
+                                      double valueqty =
+                                          double.parse(values);
                                       Provider.of<Controller>(context,
                                               listen: false)
-                                          .rawCalculation(rate, valueqty, 0.0,
-                                              100, tax_per, 0.0, "0", 0);
+                                          .rawCalculation(
+                                              rate,
+                                              valueqty,
+                                              0.0,
+                                              100,
+                                              tax_per,
+                                              0.0,
+                                              "0",
+                                              0);
                                     },
                                     textAlign: TextAlign.right,
                                     decoration: InputDecoration(
@@ -118,7 +129,8 @@ class SaleItemDetails {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -132,7 +144,8 @@ class SaleItemDetails {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -148,7 +161,8 @@ class SaleItemDetails {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -162,7 +176,8 @@ class SaleItemDetails {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -180,8 +195,8 @@ class SaleItemDetails {
                                               listen: false)
                                           .rawCalculation(
                                               rate,
-                                              double.parse(
-                                                  value.salesqty[index].text),
+                                              double.parse(value
+                                                  .salesqty[index].text),
                                               valuediscper,
                                               100,
                                               tax_per,
@@ -189,7 +204,8 @@ class SaleItemDetails {
                                               "0",
                                               0);
                                     },
-                                    controller: value.discount_prercent[index],
+                                    controller:
+                                        value.discount_prercent[index],
                                     textAlign: TextAlign.right,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -201,7 +217,8 @@ class SaleItemDetails {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(
                               children: [
@@ -220,8 +237,8 @@ class SaleItemDetails {
                                               listen: false)
                                           .rawCalculation(
                                               rate,
-                                              double.parse(
-                                                  value.salesqty[index].text),
+                                              double.parse(value
+                                                  .salesqty[index].text),
                                               double.parse(value
                                                   .discount_prercent[index]
                                                   .text),
@@ -231,7 +248,8 @@ class SaleItemDetails {
                                               "0",
                                               0);
                                     },
-                                    controller: value.discount_amount[index],
+                                    controller:
+                                        value.discount_amount[index],
                                     textAlign: TextAlign.right,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -246,17 +264,20 @@ class SaleItemDetails {
                           thickness: 1,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          padding:
+                              const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: ListTile(
                             title: Row(children: [
                               Text(
                                 "Net Amount",
-                                style: TextStyle(color: P_Settings.extracolor),
+                                style:
+                                    TextStyle(color: P_Settings.extracolor),
                               ),
                               Spacer(),
                               Text(
                                 value.net_amt.toString(),
-                                style: TextStyle(color: P_Settings.extracolor),
+                                style:
+                                    TextStyle(color: P_Settings.extracolor),
                               ),
                             ]),
                           ),
@@ -269,10 +290,11 @@ class SaleItemDetails {
                               Container(
                                   width: size.width * 0.4,
                                   child: ElevatedButton(
-                                      onPressed: () {}, child: Text("Apply")))
+                                      onPressed: () {},
+                                      child: Text("Apply")))
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
