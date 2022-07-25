@@ -109,7 +109,7 @@ class _SaleCartState extends State<SaleCart> {
                         value.salebagList[index]["net_amt"].toString(),
                         double.parse(value.salebagList[index]["totalamount"]),
 
-                        value.salebagList[index]["qty"],
+                       value.salebagList[index]["qty"],
                         size,
                         value.controller[index],
                         index,
@@ -220,7 +220,7 @@ class _SaleCartState extends State<SaleCart> {
       double disc_amt,
       String net_amt,
       double gross,
-      int qty,
+      double qty,
       Size size,
       TextEditingController _controller,
       int index,
@@ -246,13 +246,13 @@ class _SaleCartState extends State<SaleCart> {
               ),
               child: ListTile(
                 onTap: () {
-                  // value.salesqty[index].text = qty.toString();
-                  // value.discount_prercent[index].text = disc_per.toString();
-                  // value.discount_amount[index].text = disc_amt.toString();
+                  value.salesqty[index].text = qty.toString();
+                  value.discount_prercent[index].text = disc_per.toString();
+                  value.discount_amount[index].text = disc_amt.toString();
 
-                  // Provider.of<Controller>(context, listen: false)
-                  //     .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
-                  //         100, double.parse(tax), 0.0, "0", 0);
+                  Provider.of<Controller>(context, listen: false)
+                      .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
+                          100, double.parse(tax), 0.0, "0", 0,index);
 
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,

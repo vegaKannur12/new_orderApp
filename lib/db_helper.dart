@@ -488,7 +488,7 @@ class OrderAppDB {
             $customerid TEXT,
             $cartrowno INTEGER,
             $code TEXT,
-            $qty INTEGER,
+            $qty REAL,
             $rate TEXT,
             $totalamount TEXT,
             $method TEXT,
@@ -658,7 +658,7 @@ class OrderAppDB {
     String customerid,
     int cartrowno,
     String code,
-    int qty,
+    double qty,
     String rate,
     String totalamount,
     String method,
@@ -680,8 +680,8 @@ class OrderAppDB {
         'SELECT  * FROM salesBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
     print("SELECT from ---$res1");
     if (res1.length == 1) {
-      int qty1 = res1[0]["qty"];
-      int updatedQty = qty1 + qty;
+      double qty1 = res1[0]["qty"];
+      double updatedQty = qty1 + qty;
       print("totalamount---${res1[0]["totalamount"]}");
       double amount = double.parse(res1[0]["totalamount"]);
       print("res1.length----${res1.length}");
@@ -1447,7 +1447,7 @@ class OrderAppDB {
     Database db = await instance.database;
     var res1;
     double rate1 = double.parse(rate);
-    int updatedQty = int.parse(qty);
+    double updatedQty = double.parse(qty);
     double amount = (rate1 * updatedQty);
     print("amoiunt---$cartrowno-$customerId---$rate--$amount");
     print("updatedqty----$updatedQty");

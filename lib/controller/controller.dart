@@ -53,6 +53,7 @@ class Controller extends ChangeNotifier {
   bool isSearch = false;
   bool isreportSearch = false;
   String? areaId;
+  bool flag=false;
   List<String> gridHeader = [];
   String? areaSelecton;
   int returnCount = 0;
@@ -2199,7 +2200,7 @@ class Controller extends ChangeNotifier {
   ///////////////Return////////////////////////
   addToreturnList(Map<String, dynamic> value) {
     print("value---${value}");
-    bool flag = false;
+    bool flag = true;
     int i;
     if (returnList.length > 0) {
       print("return length----${returnList.length}");
@@ -2609,6 +2610,7 @@ class Controller extends ChangeNotifier {
       String method,
       int state_status,int index) {
         print("qtymk---$qty");
+         flag=false;
     if (disc_amount != 0) {
       disc_per = (disc_amount / rate) * 100;
     }
@@ -2637,10 +2639,13 @@ class Controller extends ChangeNotifier {
       double percnt = tax_per + cess_per;
       taxable_rate = rate * 1 - (percnt / (100 + percnt));
     }
+    // salesqty[index].text=qty.toString();
+    notifyListeners();
   //  discount_prercent[index].text = disc_per.toString();
   //  print("index--discount_prercent---$index-${discount_prercent[index].text}");
     print("gross------$gross----$tax-----$net_amt--$disc_per");
     return "success";
-    notifyListeners();
+    
   }
+  notifyListeners();
 }

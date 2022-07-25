@@ -10,7 +10,7 @@ class SaleItemDetails {
       String item,
       String code,
       String hsn,
-      int qty,
+      double qty,
       double rate,
       double dis_per,
       double dis_amt,
@@ -20,16 +20,18 @@ class SaleItemDetails {
       double gross,
       BuildContext context,
       Size size,
-      int index
-      ) {
+      int index) {
     return showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          print("keryy");
+          print("keryy---$qty");
           // rawCalcResult = Provider.of<Controller>(context,listen: false).rawCalculation(rate,qty.toDouble(), 0.0, 100,tax_per, 0.0, "0", 0);
           return SingleChildScrollView(
             child: Consumer<Controller>(
               builder: (context, value, child) {
+                // value.discount_prercent[index].text = dis_per.toString();
+                // value.discount_amount[index].text = dis_amt.toString();
+                // value.salesqty[index].text = qty.toString();
                 return Container(
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -103,6 +105,7 @@ class SaleItemDetails {
                                   width: size.width * 0.2,
                                   child: TextField(
                                     onSubmitted: (values) {
+                                      print("values----$values");
                                       double valueqty = double.parse(values);
                                       Provider.of<Controller>(context,
                                               listen: false)
@@ -144,7 +147,7 @@ class SaleItemDetails {
                                 ),
                                 Spacer(),
                                 Text(
-                                  "\u{20B9}${gross.toString()}",
+                                  "\u{20B9}${value.gross.toString()}",
                                 )
                               ],
                             ),
@@ -274,7 +277,7 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                                "\u{20B9}${net_amt.toString()}",
+                               "\u{20B9}${value.net_amt.toString()}",
                                 style: TextStyle(color: P_Settings.extracolor),
                               ),
                             ]),
