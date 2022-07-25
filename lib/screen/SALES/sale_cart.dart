@@ -31,10 +31,8 @@ class _SaleCartState extends State<SaleCart> {
   CommonPopup salepopup = CommonPopup();
   SaleItemDetails saleDetails = SaleItemDetails();
   SalesBottomSheet sheet = SalesBottomSheet();
-
   List<String> s = [];
   List rawCalcResult = [];
-
   String? gen_condition;
   TextEditingController rateController = TextEditingController();
   DateTime now = DateTime.now();
@@ -47,7 +45,8 @@ class _SaleCartState extends State<SaleCart> {
   void initState() {
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     s = date!.split(" ");
-
+    Provider.of<Controller>(context, listen: false)
+        .calculatesalesTotal(widget.os, widget.custmerId);
     // TODO: implement initState
     super.initState();
   }
@@ -83,8 +82,7 @@ class _SaleCartState extends State<SaleCart> {
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
         }
-      }), 
-      child: Center(
+      }), child: Center(
         child: Consumer<Controller>(builder: (context, value, child) {
           if (value.isLoading) {
             return CircularProgressIndicator();
@@ -148,7 +146,7 @@ class _SaleCartState extends State<SaleCart> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
                               Flexible(
-                                child: Text("\u{20B9}${value.orderTotal2}",
+                                child: Text("\u{20B9}${value.orderTotal2[0]}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)),
@@ -159,18 +157,20 @@ class _SaleCartState extends State<SaleCart> {
                       ),
                       GestureDetector(
                         onTap: (() async {
+                          // print("order total.......${value.orderTotal2![0][]}");
                           showDialog(
                             context: context,
                             builder: (BuildContext context) =>
                                 salepopup.buildPopupDialog(
-                                    "sales",
-                                    context,
-                                    "Confirm your sale?",
-                                    widget.areaId,
-                                    widget.areaname,
-                                    widget.custmerId,
-                                    s[0],
-                                    s[1]),
+                              "sales",
+                              context,
+                              "Confirm your sale?",
+                              widget.areaId,
+                              widget.areaname,
+                              widget.custmerId,
+                              s[0],
+                              s[1],
+                            ),
                           );
 
                           // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
