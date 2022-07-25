@@ -32,6 +32,7 @@ class _SaleCartState extends State<SaleCart> {
   SaleItemDetails saleDetails = SaleItemDetails();
   SalesBottomSheet sheet = SalesBottomSheet();
   List<String> s = [];
+  List rawCalcResult = [];
   String? gen_condition;
   TextEditingController rateController = TextEditingController();
   DateTime now = DateTime.now();
@@ -145,7 +146,7 @@ class _SaleCartState extends State<SaleCart> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
                               Flexible(
-                                child: Text("${value.orderTotal2[0]}",
+                                child: Text("\u{20B9}${value.orderTotal2[0]}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)),
@@ -244,8 +245,8 @@ class _SaleCartState extends State<SaleCart> {
                   value.discount_amount[index].text = disc_amt.toString();
 
                   Provider.of<Controller>(context, listen: false)
-                      .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
-                          100, double.parse(tax), 0.0, "0", 0);
+                      .rawCalculation(double.parse(rate), qty.toDouble(), 0.00,
+                          100, double.parse(tax), 0.00, "0", 0);
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
                       code,

@@ -97,7 +97,7 @@ class SaleItemDetails {
                                 ),
                                 Spacer(),
                                 Container(
-                                  width: size.width * 0.4,
+                                  width: size.width * 0.2,
                                   child: TextField(
                                     onSubmitted: (values) {
                                       double valueqty = double.parse(values);
@@ -107,9 +107,9 @@ class SaleItemDetails {
                                               100, tax_per, 0.0, "0", 0);
                                     },
                                     textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
+                                    // decoration: InputDecoration(
+                                    //   border: InputBorder.none,
+                                    // ),
                                     controller: value.salesqty[index],
                                   ),
                                 ),
@@ -156,7 +156,21 @@ class SaleItemDetails {
                                   "Tax %",
                                 ),
                                 Spacer(),
-                                Text(tax_per.toString())
+                                Text(tax_per.toStringAsFixed(2))
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Tax amount",
+                                ),
+                                Spacer(),
+                                Text(value.tax.toStringAsFixed(2))
                               ],
                             ),
                           ),
@@ -171,7 +185,7 @@ class SaleItemDetails {
                                 ),
                                 Spacer(),
                                 Container(
-                                  width: size.width * 0.4,
+                                  width: size.width * 0.2,
                                   child: TextField(
                                     onSubmitted: (values) {
                                       double valuediscper =
@@ -191,9 +205,9 @@ class SaleItemDetails {
                                     },
                                     controller: value.discount_prercent[index],
                                     textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
+                                    // decoration: InputDecoration(
+                                    //   border: InputBorder.none,
+                                    // ),
                                   ),
                                 ),
                               ],
@@ -210,7 +224,7 @@ class SaleItemDetails {
                                 ),
                                 Spacer(),
                                 Container(
-                                  width: size.width * 0.4,
+                                  width: size.width * 0.2,
                                   child: TextField(
                                     onSubmitted: (values) {
                                       // value.discount_amount[index].text=;
@@ -233,9 +247,9 @@ class SaleItemDetails {
                                     },
                                     controller: value.discount_amount[index],
                                     textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
+                                    // decoration: InputDecoration(
+                                    //   border: InputBorder.none,
+                                    // ),
                                   ),
                                 ),
                               ],
