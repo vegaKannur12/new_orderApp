@@ -174,8 +174,8 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       "0",
                                       value.salefilteredProductList[index]
                                           ["hsn"],
-                                      // value.salefilteredProductList[index]["tax"],
-                                      0.0,
+                                      value.salefilteredProductList[index]["tax"],value.tax,
+                                      // 0.0,
                                       0.0,
                                       0.0,
                                       0,

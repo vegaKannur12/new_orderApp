@@ -15,10 +15,13 @@ class SaleItemDetails {
       double dis_per,
       double dis_amt,
       double tax_per,
+      double tax_amt,
       double net_amt,
+      double gross,
       BuildContext context,
       Size size,
-      int index) {
+      int index
+      ) {
     return showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -76,7 +79,7 @@ class SaleItemDetails {
                             title: Row(
                               children: [
                                 Text(
-                                  "HSN",
+                                  "Hsn",
                                 ),
                                 Spacer(),
                                 Text(
@@ -93,7 +96,7 @@ class SaleItemDetails {
                             title: Row(
                               children: [
                                 Text(
-                                  "qty",
+                                  "Qty",
                                 ),
                                 Spacer(),
                                 Container(
@@ -103,15 +106,8 @@ class SaleItemDetails {
                                       double valueqty = double.parse(values);
                                       Provider.of<Controller>(context,
                                               listen: false)
-                                          .rawCalculation(
-                                              rate,
-                                              valueqty,
-                                              0.0,
-                                              100,
-                                              tax_per,
-                                              0.0,
-                                              "0",
-                                              0,index);
+                                          .rawCalculation(rate, valueqty, 0.0,
+                                              100, tax_per, 0.0, "0", 0, index);
                                     },
                                     textAlign: TextAlign.right,
                                     // decoration: InputDecoration(
@@ -144,40 +140,12 @@ class SaleItemDetails {
                             title: Row(
                               children: [
                                 Text(
-                                  "gross value",
+                                  "Gross value",
                                 ),
                                 Spacer(),
                                 Text(
-                                  "\u{20B9}${value.gross.toString()}",
+                                  "\u{20B9}${gross.toString()}",
                                 )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: ListTile(
-                            title: Row(
-                              children: [
-                                Text(
-                                  "Tax %",
-                                ),
-                                Spacer(),
-                                Text(tax_per.toStringAsFixed(2))
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: ListTile(
-                            title: Row(
-                              children: [
-                                Text(
-                                  "Tax amount",
-                                ),
-                                Spacer(),
-                                Text(value.tax.toStringAsFixed(2))
                               ],
                             ),
                           ),
@@ -208,7 +176,8 @@ class SaleItemDetails {
                                               tax_per,
                                               0.0,
                                               "0",
-                                              0,index);
+                                              0,
+                                              index);
                                     },
                                     controller: value.discount_prercent[index],
                                     textAlign: TextAlign.right,
@@ -250,7 +219,8 @@ class SaleItemDetails {
                                               tax_per,
                                               0.0,
                                               "0",
-                                              0,index);
+                                              0,
+                                              index);
                                     },
                                     controller: value.discount_amount[index],
                                     textAlign: TextAlign.right,
@@ -259,6 +229,34 @@ class SaleItemDetails {
                                     // ),
                                   ),
                                 ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Tax %",
+                                ),
+                                Spacer(),
+                                Text(tax_per.toStringAsFixed(2))
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Tax amount",
+                                ),
+                                Spacer(),
+                                Text(tax_amt.toStringAsFixed(2))
                               ],
                             ),
                           ),
@@ -276,7 +274,7 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                                "\u{20B9}${value.net_amt.toString()}",
+                                "\u{20B9}${net_amt.toString()}",
                                 style: TextStyle(color: P_Settings.extracolor),
                               ),
                             ]),
