@@ -42,7 +42,8 @@ class _SaleCartState extends State<SaleCart> {
   void initState() {
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     s = date!.split(" ");
-
+    Provider.of<Controller>(context, listen: false)
+        .calculatesalesTotal(widget.os, widget.custmerId);
     // TODO: implement initState
     super.initState();
   }

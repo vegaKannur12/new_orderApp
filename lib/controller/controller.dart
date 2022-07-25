@@ -23,6 +23,19 @@ import '../model/staffarea_model.dart';
 import '../model/staffdetails_model.dart';
 
 class Controller extends ChangeNotifier {
+  double gross = 0.0;
+    double disc_amt = 0.0;
+    double net_amt = 0.0;
+    double taxable_rate = 0.0;
+    double tax = 0.0;
+    double cgst_amt = 0.0;
+    double cgst_per = 0.0;
+    double sgst_amt = 0.0;
+    double sgst_per = 0.0;
+    double igst_amt = 0.0;
+    double igst_per = 0.0;
+
+    double cess = 0.0;
   bool isLoading = false;
   bool isUpload = false;
   bool filterCompany = false;
@@ -133,6 +146,10 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> listWidget = [];
   List<TextEditingController> controller = [];
   List<TextEditingController> qty = [];
+  List<TextEditingController> salesqty = [];
+  List<TextEditingController> discount_prercent = [];
+  List<TextEditingController> discount_amount = [];
+
   List<bool> rateEdit = [];
   String? count;
   String? sof;
@@ -1415,6 +1432,13 @@ class Controller extends ChangeNotifier {
       salebagList.add(item);
     }
     rateEdit = List.generate(salebagList.length, (index) => false);
+    salesqty =
+        List.generate(salebagList.length, (index) => TextEditingController());
+    discount_prercent =
+        List.generate(salebagList.length, (index) => TextEditingController());
+    discount_amount =
+        List.generate(salebagList.length, (index) => TextEditingController());
+
     generateTextEditingController("sales");
     print("salebagList vxdvxd----$salebagList");
 
@@ -1605,6 +1629,7 @@ class Controller extends ChangeNotifier {
   /////////calculate total////////////////
   Future<dynamic> calculatesalesTotal(String os, String customerId) async {
     try {
+      print("nsgadnsaghda");
       var res = await OrderAppDB.instance.getsaletotalSum(os, customerId);
       print("result sale...$res");
       orderTotal2.clear();
@@ -1612,10 +1637,13 @@ class Controller extends ChangeNotifier {
         for (var item in res) {
           orderTotal2.add(item);
           print("orderTotal2.....$orderTotal2");
-          notifyListeners();
         }
+          notifyListeners();
+
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 /////////////////////////////////////////////////
 
@@ -2572,7 +2600,7 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////////////////////////////////////////////
-  List rawCalculation(
+  rawCalculation(
       double rate,
       double qty,
       double disc_per,
@@ -2581,19 +2609,7 @@ class Controller extends ChangeNotifier {
       double cess_per,
       String method,
       int state_status) {
-    double gross = 0.0;
-    double disc_amt = 0.0;
-    double net_amt = 0.0;
-    double taxable_rate = 0.0;
-    double tax = 0.0;
-    double cgst_amt = 0.0;
-    double cgst_per = 0.0;
-    double sgst_amt = 0.0;
-    double sgst_per = 0.0;
-    double igst_amt = 0.0;
-    double igst_per = 0.0;
-
-    double cess = 0.0;
+    
 
     if (disc_amount != 0) {
       disc_per = (disc_amount / rate) * 100;
@@ -2619,19 +2635,12 @@ class Controller extends ChangeNotifier {
       igst_amt = (gross - disc_amt) * (igst_per / 100);
       cess = (gross - disc_amt) * (cess_per / 100);
       net_amt = (gross - disc_amt) + tax + cess;
-    } else if (method == "1") {
+    } 
+    else if (method == "1") {
       double percnt = tax_per + cess_per;
       taxable_rate = rate * 1 - (percnt / (100 + percnt));
     }
-    return [
-      disc_amt,
-      tax,
-      cgst_amt,
-      sgst_amt,
-      igst_amt,
-      cess,
-      net_amt,
-      taxable_rate
-    ];
+    print("gross------$gross----$tax-----$net_amt");
+    
   }
 }

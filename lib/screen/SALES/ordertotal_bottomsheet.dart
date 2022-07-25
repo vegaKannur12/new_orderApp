@@ -53,7 +53,7 @@ class SalesBottomSheet {
                       ),
                       ListTile(
                         leading: Icon(
-                          Icons.money,
+                          Icons.currency_rupee_outlined,
                           color: P_Settings.salewaveColor,
                         ),
                         title: Row(
@@ -82,7 +82,7 @@ class SalesBottomSheet {
                             ),
                           ],
                         ),
-                      ),
+                      ), 
                       ListTile(
                         leading: Icon(
                           Icons.money,
