@@ -485,53 +485,84 @@ class _SalesItemState extends State<SalesItem> {
                                                                   .text);
                                                           print(
                                                               "total rate $total");
-
-                                                          var res = await OrderAppDB
-                                                              .instance
-                                                              .insertsalesBagTable(
-                                                                  value.newList[
-                                                                          index]
-                                                                      ["item"],
-                                                                  s[0],
-                                                                  s[1],
-                                                                  value.ordernum[
-                                                                      0]["os"],
-                                                                  widget
-                                                                      .customerId,
-                                                                  max,
-                                                                  value.newList[
-                                                                          index]
-                                                                      ["code"],
-                                                                  int.parse(value
-                                                                      .qty[
-                                                                          index]
-                                                                      .text),
-                                                                  rate1,
-                                                                  total
-                                                                      .toString(),
-                                                                  "0",
-                                                                  value.newList[
-                                                                          index]
-                                                                      ["hsn"],
-                                                                  double.parse(
-                                                                    products[
-                                                                            index]
-                                                                        ["tax"],
-                                                                  ),
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0);
-                                                          snackbar.showSnackbar(
-                                                              context,
-                                                              "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart");
-                                                          Provider.of<Controller>(
+                                                          String result = Provider.of<
+                                                                      Controller>(
                                                                   context,
                                                                   listen: false)
-                                                              .countFromTable(
-                                                            "salesBagTable",
-                                                            widget.os,
-                                                            widget.customerId,
-                                                          );
+                                                              .rawCalculation(
+                                                                  double.parse(value
+                                                                              .newList[
+                                                                          index]
+                                                                      [
+                                                                      "rate1"]),
+                                                                  double.parse(
+                                                                    value
+                                                                        .qty[
+                                                                            index]
+                                                                        .text,
+                                                                  ),
+                                                                  0.0,
+                                                                  100,
+                                                                  double.parse(
+                                                                      value.newList[index]
+                                                                          ["tax"]),
+                                                                  0.0,
+                                                                  "0",
+                                                                  0);
+
+                                                          if (result ==
+                                                              "success") {
+                                                            var res = await OrderAppDB
+                                                                .instance
+                                                                .insertsalesBagTable(
+                                                                    value.newList[index]
+                                                                        [
+                                                                        "item"],
+                                                                    s[0],
+                                                                    s[1],
+                                                                    value.ordernum[0]
+                                                                        ["os"],
+                                                                    widget
+                                                                        .customerId,
+                                                                    max,
+                                                                    value.newList[
+                                                                            index]
+                                                                        [
+                                                                        "code"],
+                                                                    int.parse(value
+                                                                        .qty[
+                                                                            index]
+                                                                        .text),
+                                                                    rate1,
+                                                                    total
+                                                                        .toString(),
+                                                                    "0",
+                                                                    value.newList[
+                                                                            index]
+                                                                        ["hsn"],
+                                                                    double.parse(
+                                                                      products[
+                                                                              index]
+                                                                          [
+                                                                          "tax"],
+                                                                    ),
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0,
+                                                                    value.net_amt);
+                                                            snackbar.showSnackbar(
+                                                                context,
+                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart");
+                                                            Provider.of<Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .countFromTable(
+                                                              "salesBagTable",
+                                                              widget.os,
+                                                              widget.customerId,
+                                                            );
+                                                          }
 
                                                           /////////////////////////
                                                           (widget.customerId
@@ -770,55 +801,97 @@ class _SalesItemState extends State<SalesItem> {
                                                           print(
                                                               "total rate $total");
 
-                                                          var res = await OrderAppDB
-                                                              .instance
-                                                              .insertsalesBagTable(
-                                                                  products[index]
-                                                                      ["item"],
-                                                                  s[0],
-                                                                  s[1],
-                                                                  value.ordernum[
-                                                                      0]["os"],
-                                                                  widget
-                                                                      .customerId,
-                                                                  max,
-                                                                  products[
-                                                                          index]
-                                                                      ["code"],
-                                                                  int.parse(value
-                                                                      .qty[
-                                                                          index]
-                                                                      .text),
-                                                                  rate1,
-                                                                  total
-                                                                      .toString(),
-                                                                  "0",
-                                                                  products[
-                                                                          index]
-                                                                      ["hsn"],
-                                                                  double.parse(
-                                                                    products[
-                                                                            index]
-                                                                        ["tax"],
-                                                                  ),
-                                                                  // products[
-                                                                  //         index]
-                                                                  //     ["tax"],
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0);
+                                                          //                                         value.salesqty[index].text = qty.toString();
+                                                          // value.discount_prercent[index].text = disc_per.toString();
+                                                          // value.discount_amount[index].text = disc_amt.toString();
 
-                                                          snackbar.showSnackbar(
-                                                              context,
-                                                              "${products[index]["code"] + products[index]['item']} - Added to cart");
-                                                          Provider.of<Controller>(
+                                                          String result = Provider.of<
+                                                                      Controller>(
                                                                   context,
                                                                   listen: false)
-                                                              .countFromTable(
-                                                            "salesBagTable",
-                                                            widget.os,
-                                                            widget.customerId,
-                                                          );
+                                                              .rawCalculation(
+                                                                  double.parse(value
+                                                                              .productName[
+                                                                          index]
+                                                                      [
+                                                                      "rate1"]),
+                                                                  double.parse(
+                                                                    value
+                                                                        .qty[
+                                                                            index]
+                                                                        .text,
+                                                                  ),
+                                                                  0.0,
+                                                                  100,
+                                                                  double.parse(
+                                                                      value.productName[index]
+                                                                          ["tax"]),
+                                                                  0.0,
+                                                                  "0",
+                                                                  0);
+                                                          print(
+                                                              "result----$result");
+                                                          if (result ==
+                                                              "success") {
+                                                            var res = await OrderAppDB
+                                                                .instance
+                                                                .insertsalesBagTable(
+                                                                    products[
+                                                                            index]
+                                                                        [
+                                                                        "item"],
+                                                                    s[0],
+                                                                    s[1],
+                                                                    value.ordernum[
+                                                                            0][
+                                                                        "os"],
+                                                                    widget
+                                                                        .customerId,
+                                                                    max,
+                                                                    products[
+                                                                            index]
+                                                                        [
+                                                                        "code"],
+                                                                    int.parse(value
+                                                                        .qty[
+                                                                            index]
+                                                                        .text),
+                                                                    rate1,
+                                                                    total
+                                                                        .toString(),
+                                                                    "0",
+                                                                    products[
+                                                                            index]
+                                                                        ["hsn"],
+                                                                    double
+                                                                        .parse(
+                                                                      products[
+                                                                              index]
+                                                                          [
+                                                                          "tax"],
+                                                                    ),
+                                                                    // products[
+                                                                    //         index]
+                                                                    //     ["tax"],
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0,
+                                                                    value
+                                                                        .net_amt);
+
+                                                            snackbar.showSnackbar(
+                                                                context,
+                                                                "${products[index]["code"] + products[index]['item']} - Added to cart");
+                                                            Provider.of<Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .countFromTable(
+                                                              "salesBagTable",
+                                                              widget.os,
+                                                              widget.customerId,
+                                                            );
+                                                          }
 
                                                           /////////////////////////
                                                           (widget.customerId

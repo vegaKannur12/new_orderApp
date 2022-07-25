@@ -240,13 +240,13 @@ class _SaleCartState extends State<SaleCart> {
               ),
               child: ListTile(
                 onTap: () {
-                  value.salesqty[index].text = qty.toString();
-                  value.discount_prercent[index].text = disc_per.toString();
-                  value.discount_amount[index].text = disc_amt.toString();
+                  // value.salesqty[index].text = qty.toString();
+                  // value.discount_prercent[index].text = disc_per.toString();
+                  // value.discount_amount[index].text = disc_amt.toString();
 
-                  Provider.of<Controller>(context, listen: false)
-                      .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
-                          100, double.parse(tax), 0.0, "0", 0);
+                  // Provider.of<Controller>(context, listen: false)
+                  //     .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
+                  //         100, double.parse(tax), 0.0, "0", 0);
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
                       code,

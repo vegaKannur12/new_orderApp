@@ -45,7 +45,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false)
-        .filterwithCompany(widget.customerId!, widget.value!,"sales");
+        .filterwithCompany(widget.customerId!, widget.value!, "sales");
   }
 
   @override
@@ -134,51 +134,77 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                 'cartrowno',
                                 "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
                             print("max----$max");
-                            rate1 = value.salefilteredProductList[index]["rate1"];
+                            rate1 =
+                                value.salefilteredProductList[index]["rate1"];
                             var total = int.parse(rate1) *
                                 int.parse(value.qty[index].text);
                             print("total rate $total");
+                            String result =
+                                Provider.of<Controller>(context, listen: false)
+                                    .rawCalculation(
+                                        double.parse(
+                                            value.salefilteredProductList[index]
+                                                ["rate1"]),
+                                        double.parse(
+                                          value.qty[index].text,
+                                        ),
+                                        0.0,
+                                        100,
+                                        double.parse(
+                                            value.salefilteredProductList[index]
+                                                ["tax"]),
+                                        0.0,
+                                        "0",
+                                        0);
+                            if (result == "success") {
+                              var res = await OrderAppDB.instance
+                                  .insertsalesBagTable(
+                                      value.salefilteredProductList[index]
+                                          ["item"],
+                                      widget.s![0],
+                                      widget.s![1],
+                                      value.ordernum[0]["os"],
+                                      widget.customerId!,
+                                      max,
+                                      value.salefilteredProductList[index]
+                                          ["code"],
+                                      int.parse(value.qty[index].text),
+                                      rate1,
+                                      total.toString(),
+                                      "0",
+                                      value.salefilteredProductList[index]
+                                          ["hsn"],
+                                      // value.salefilteredProductList[index]["tax"],
+                                      0.0,
+                                      0.0,
+                                      0.0,
+                                      0,
+                                      value.net_amt);
 
-                            var res =
-                                await OrderAppDB.instance.insertsalesBagTable(
-                                    value.salefilteredProductList[index]["item"],
-                                    widget.s![0],
-                                    widget.s![1],
-                                    value.ordernum[0]["os"],
-                                    widget.customerId!,
-                                    max,
-                                    value.salefilteredProductList[index]["code"],
-                                    int.parse(value.qty[index].text),
-                                    rate1,
-                                    total.toString(),
-                                    "0",
-                                    value.salefilteredProductList[index]["hsn"],
-                                    // value.salefilteredProductList[index]["tax"],
-                                    0.0,
-                                    0.0,
-                                    0.0,
-                                    0);
-
-                            snackbar.showSnackbar(context,
-                                "${value.salefilteredProductList[index]["code"] + value.salefilteredProductList[index]['item']} - Added to cart");
-                            Provider.of<Controller>(context, listen: false)
-                                .countFromTable(
-                              "salesBagTable",
-                              widget.os!,
-                              widget.customerId!,
-                            );
+                              snackbar.showSnackbar(context,
+                                  "${value.salefilteredProductList[index]["code"] + value.salefilteredProductList[index]['item']} - Added to cart");
+                              Provider.of<Controller>(context, listen: false)
+                                  .countFromTable(
+                                "salesBagTable",
+                                widget.os!,
+                                widget.customerId!,
+                              );
+                            }
 
                             /////////////////////////////////////////////////////////////
                             (widget.customerId!.isNotEmpty ||
                                         widget.customerId != null) &&
-                                    (value.salefilteredProductList[index]["code"]
+                                    (value
+                                            .salefilteredProductList[index]
+                                                ["code"]
                                             .isNotEmpty ||
                                         value.salefilteredProductList[index]
                                                 ["code"] !=
                                             null)
                                 ? Provider.of<Controller>(context,
                                         listen: false)
-                                    .calculateorderTotal(value.ordernum[0]['os'],
+                                    .calculateorderTotal(
+                                        value.ordernum[0]['os'],
                                         widget.customerId!)
                                 : Text("No data");
                           },
@@ -198,8 +224,8 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                         String item =
                                             value.salefilteredProductList[index]
                                                     ["code"] +
-                                                value.salefilteredProductList[index]
-                                                    ["item"];
+                                                value.salefilteredProductList[
+                                                    index]["item"];
                                         showModal.showMoadlBottomsheet(
                                             widget.os!,
                                             widget.customerId!,

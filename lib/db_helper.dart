@@ -496,7 +496,8 @@ class OrderAppDB {
             $tax REAL,
             $discount TEXT,
             $ces_per TEXT,
-            $cstatus INTEGER
+            $cstatus INTEGER,
+            $net_amt REAL
           )
           ''');
     /////////////////////////////////////////
@@ -665,6 +666,7 @@ class OrderAppDB {
     double discount,
     double ces_per,
     int cstatus,
+    double net_amt,
   ) async {
     print("qty--$qty");
     print("code...........$code");
@@ -690,7 +692,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}", ${tax}, ${discount}, ${ces_per}, $cstatus)';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn, tax, discount, ces_per, cstatus,net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}", ${tax}, ${discount}, ${ces_per}, $cstatus,"$net_amt")';
       var res = await db.rawInsert(query2);
     }
 
