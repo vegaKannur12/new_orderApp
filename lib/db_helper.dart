@@ -488,7 +488,7 @@ class OrderAppDB {
             $customerid TEXT,
             $cartrowno INTEGER,
             $code TEXT,
-            $qty INTEGER,
+            $qty REAL,
             $rate TEXT,
             $totalamount TEXT,
             $method TEXT,
@@ -658,7 +658,7 @@ class OrderAppDB {
     String customerid,
     int cartrowno,
     String code,
-    int qty,
+    double qty,
     String rate,
     String totalamount,
     String method,
@@ -680,8 +680,8 @@ class OrderAppDB {
         'SELECT  * FROM salesBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
     print("SELECT from ---$res1");
     if (res1.length == 1) {
-      int qty1 = res1[0]["qty"];
-      int updatedQty = qty1 + qty;
+      double qty1 = res1[0]["qty"];
+      double updatedQty = qty1 + qty;
       print("totalamount---${res1[0]["totalamount"]}");
       double amount = double.parse(res1[0]["totalamount"]);
       print("res1.length----${res1.length}");
@@ -1356,7 +1356,8 @@ class OrderAppDB {
   /////////////////////sales product sum ////////////////////
   getsaletotalSum(String os, String customerId) async {
     // double sum=0.0;
-    String sum;
+    String net_amount;
+    String gross;
     String count;
     String taxval;
     String discount;
@@ -1367,22 +1368,25 @@ class OrderAppDB {
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) s, COUNT(cartrowno) c, SUM(tax) t, SUM(discount) d, SUM(ces_per) ces FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(tax) t, SUM(discount) d, SUM(ces_per) ces FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale........$res");
-      sum = res[0]["s"].toStringAsFixed(2);
+      net_amount = res[0]["s"].toStringAsFixed(2);
+      gross = res[0]["gr"].toStringAsFixed(2);
       count = res[0]["c"].toString();
       taxval = res[0]["t"].toStringAsFixed(2);
       discount = res[0]["d"].toStringAsFixed(2);
       cesamount = res[0]["ces"].toStringAsFixed(2);
-      print("taxval ordersale .......$taxval..$discount..$cesamount");
+      print(
+          "gross..netamount..taxval..dis..ces ......$gross...$net_amt....$taxval..$discount..$cesamount");
     } else {
-      sum = "0.00";
+      net_amount = "0.00";
       count = "0.00";
       taxval = "0.00";
       discount = "0.00";
       cesamount = "0.00";
+      gross = "0.0";
     }
-    return [sum, count, taxval, discount, cesamount];
+    return [net_amount, count, taxval, discount, cesamount, gross];
   }
 
   ////////////// delete//////////////////////////////////////
@@ -1447,7 +1451,7 @@ class OrderAppDB {
     Database db = await instance.database;
     var res1;
     double rate1 = double.parse(rate);
-    int updatedQty = int.parse(qty);
+    double updatedQty = double.parse(qty);
     double amount = (rate1 * updatedQty);
     print("amoiunt---$cartrowno-$customerId---$rate--$amount");
     print("updatedqty----$updatedQty");

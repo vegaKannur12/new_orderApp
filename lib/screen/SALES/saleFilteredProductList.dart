@@ -168,7 +168,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       max,
                                       value.salefilteredProductList[index]
                                           ["code"],
-                                      int.parse(value.qty[index].text),
+                                      double.parse(value.qty[index].text),
                                       rate1,
                                       total.toString(),
                                       "0",

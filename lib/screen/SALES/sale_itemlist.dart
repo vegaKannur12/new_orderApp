@@ -530,7 +530,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                             index]
                                                                         [
                                                                         "code"],
-                                                                    int.parse(value
+                                                                    double.parse(value
                                                                         .qty[
                                                                             index]
                                                                         .text),
@@ -546,7 +546,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                               index]
                                                                           [
                                                                           "tax"],
-                                                                    ),value.tax,
+                                                                    ),
+                                                                    value.tax,
                                                                     100,
                                                                     0.0,
                                                                     0,
@@ -835,12 +836,29 @@ class _SalesItemState extends State<SalesItem> {
                                                               "result----$result");
                                                           if (result ==
                                                               "success") {
+                                                            // value
+                                                            //         .discount_prercent[
+                                                            //             index]
+                                                            //         .text =
+                                                            //     value.disc_per
+                                                            //         .toString();
+                                                            // value
+                                                            //         .discount_amount[
+                                                            //             index]
+                                                            //         .text =
+                                                            //     value.disc_amt
+                                                            //         .toString();
+                                                            // value
+                                                            //         .salesqty[index]
+                                                            //         .text =
+                                                            //     value.qty[index]
+                                                            //         .text
+                                                            //         .toString();
                                                             // value.discount_prercent[index].text = value.disc_per.toString();
                                                             var res = await OrderAppDB
                                                                 .instance
                                                                 .insertsalesBagTable(
-                                                                    products[
-                                                                            index]
+                                                                    products[index]
                                                                         [
                                                                         "item"],
                                                                     s[0],
@@ -855,7 +873,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                             index]
                                                                         [
                                                                         "code"],
-                                                                    int.parse(value
+                                                                    double.parse(value
                                                                         .qty[
                                                                             index]
                                                                         .text),
@@ -872,7 +890,6 @@ class _SalesItemState extends State<SalesItem> {
                                                                               index]
                                                                           [
                                                                           "tax"],
-                                                                          
                                                                     ),
                                                                     value.tax,
                                                                     100,

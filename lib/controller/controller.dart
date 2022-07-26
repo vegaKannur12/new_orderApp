@@ -34,7 +34,7 @@ class Controller extends ChangeNotifier {
   double sgst_per = 0.0;
   double igst_amt = 0.0;
   double igst_per = 0.0;
-  double disc_per =0.0;
+  double disc_per = 0.0;
   double cess = 0.0;
   bool isLoading = false;
   bool isUpload = false;
@@ -2607,12 +2607,13 @@ class Controller extends ChangeNotifier {
       double tax_per,
       double cess_per,
       String method,
-      int state_status,int index) {
-        print("qtymk---$qty");
+      int state_status,
+      int index) {
+    print("qtymk---$qty");
     if (disc_amount != 0) {
       disc_per = (disc_amount / rate) * 100;
     }
- 
+
     if (state_status == 0) {
       ///////state_status=0--loacal///////////state_status=1----inter-state
       cgst_per = tax_per / 2;
@@ -2637,8 +2638,8 @@ class Controller extends ChangeNotifier {
       double percnt = tax_per + cess_per;
       taxable_rate = rate * 1 - (percnt / (100 + percnt));
     }
-  //  discount_prercent[index].text = disc_per.toString();
-  //  print("index--discount_prercent---$index-${discount_prercent[index].text}");
+    //  discount_prercent[index].text = disc_per.toString();
+    //  print("index--discount_prercent---$index-${discount_prercent[index].text}");
     print("gross------$gross----$tax-----$net_amt--$disc_per");
     return "success";
     notifyListeners();
