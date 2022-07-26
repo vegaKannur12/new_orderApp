@@ -293,10 +293,11 @@ class SaleItemDetails {
                                   width: size.width * 0.4,
                                   child: ElevatedButton(
                                       onPressed: () async {
+                                        int indexCalc=index+1;
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
                                             "net_amt=${value.net_amt},discount=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax=${value.tax}",
-                                            "cartrowno=$index and customerid='$customerId'");
+                                            "cartrowno=$indexCalc and customerid='$customerId'");
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .getSaleBagDetails(

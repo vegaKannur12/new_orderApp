@@ -2609,10 +2609,16 @@ class Controller extends ChangeNotifier {
       double cess_per,
       String method,
       int state_status,int index) {
-        print("qtymk---$qty");
+        print("disc_per $disc_per--$disc_amount---$rate");
          flag=false;
     if (disc_amount != 0) {
       disc_per = (disc_amount / rate) * 100;
+    }
+    if(disc_per != 0){
+      print("yes hay---$disc_per");
+      disc_amt= (rate * disc_per)/100;
+
+      print("disc-amt----$disc_amt");
     }
 
     if (state_status == 0) {
