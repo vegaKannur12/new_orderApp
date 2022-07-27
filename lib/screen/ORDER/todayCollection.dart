@@ -132,20 +132,22 @@ class _TodayCollectionState extends State<TodayCollection> {
                                             // Divider(),
                                             Row(
                                               children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 38),
-                                                  child: Text(
-                                                    "${value.todayCollectionList[index]['rec_note'].toString()}",
-                                                    style: const TextStyle(
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 16,
-                                                      // color: P_Settings
-                                                      //     .dashbordcl2
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 38),
+                                                    child: RichText(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      text: TextSpan(
+                                                        text:
+                                                            '${value.todayCollectionList[index]['rec_note'].toString()}',
+                                                        style:
+                                                            DefaultTextStyle.of(
+                                                                    context)
+                                                                .style,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

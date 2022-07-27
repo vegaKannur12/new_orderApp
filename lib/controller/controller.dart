@@ -993,7 +993,7 @@ class Controller extends ChangeNotifier {
             double.parse(taxper),
             double.parse(cesamt),
             double.parse(cesper),
-            net_amt,
+            double.parse(netamt),
             total_price,
             1);
         rowNum = rowNum + 1;

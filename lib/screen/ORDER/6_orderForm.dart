@@ -309,9 +309,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                               // autofocus: true,
                                               controller: fieldText,
                                               focusNode: fieldFocusNode,
-                                              style: TextStyle(
-                                                  fontWeight:
-                                                      FontWeight.normal),
+                                              style: TextStyle(fontSize: 13),
                                             ),
                                           );
                                         },
@@ -465,8 +463,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                   0.34),
                                                   focusNode: fieldFocusNode,
                                                   style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.normal),
+                                                      fontSize: 13),
                                                 ),
                                               );
                                             },
