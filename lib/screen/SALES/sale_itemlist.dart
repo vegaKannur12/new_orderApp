@@ -509,7 +509,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                   0.0,
                                                                   "0",
                                                                   0,
-                                                                  index,false,"");
+                                                                  index,
+                                                                  false,
+                                                                  "");
 
                                                           if (result ==
                                                               "success") {
@@ -832,7 +834,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                   0.0,
                                                                   "0",
                                                                   0,
-                                                                  index,false,"");
+                                                                  index,
+                                                                  false,
+                                                                  "");
                                                           print(
                                                               "result----$result");
                                                           if (result ==
@@ -856,7 +860,7 @@ class _SalesItemState extends State<SalesItem> {
                                                             //         .text
                                                             //         .toString();
                                                             // value.discount_prercent[index].text = value.disc_per.toString();
-                                                            
+
                                                             var res = await OrderAppDB
                                                                 .instance
                                                                 .insertsalesBagTable(
@@ -893,7 +897,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                           [
                                                                           "tax"],
                                                                     ),
-                                                                    value.tax,0.0,
+                                                                    value.tax,
+                                                                    0.0,
                                                                     100,
                                                                     0.0,value.cess,
                                                                     0,

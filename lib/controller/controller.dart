@@ -106,7 +106,7 @@ class Controller extends ChangeNotifier {
   String? updateDate;
   String? orderTotal1;
   String? saleTot;
-  List<String> orderTotal2 = [];
+  List<String?> orderTotal2 = [];
   String? ordernumber;
   String? cid;
   String? cname;
@@ -910,6 +910,14 @@ class Controller extends ChangeNotifier {
     String staff_id,
     String aid,
     double total_price,
+    double grossamt,
+    String disamt,
+    String disper,
+    String taxamt,
+    String taxper,
+    String cesamt,
+    String cesper,
+    String netamt,
   ) async {
     print("hhjk----$date");
     List<Map<String, dynamic>> om = [];
@@ -976,14 +984,14 @@ class Controller extends ChangeNotifier {
             rowNum,
             "salesDetailTable",
             item["itemName"],
+            grossamt,
+            disc_amt,
+            0.0,
+            double.parse(taxamt),
             0.0,
             0.0,
             0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
+            net_amt,
             total_price,
             1);
         rowNum = rowNum + 1;
@@ -998,13 +1006,14 @@ class Controller extends ChangeNotifier {
 
   //////////////insert to order master and details///////////////////////
   insertToOrderbagAndMaster(
-      String os,
-      String date,
-      String time,
-      String customer_id,
-      String user_id,
-      String aid,
-      double total_price) async {
+    String os,
+    String date,
+    String time,
+    String customer_id,
+    String user_id,
+    String aid,
+    double total_price,
+  ) async {
     print("hhjk----$date");
     List<Map<String, dynamic>> om = [];
     int order_id = await OrderAppDB.instance
@@ -1630,7 +1639,7 @@ class Controller extends ChangeNotifier {
   /////////calculate total////////////////
   Future<dynamic> calculatesalesTotal(String os, String customerId) async {
     try {
-      print("nsgadnsaghda");
+      print("calculate sales updated tot....$os...$customerId");
       var res = await OrderAppDB.instance.getsaletotalSum(os, customerId);
       print("result sale...$res");
       orderTotal2.clear();
@@ -2200,7 +2209,7 @@ class Controller extends ChangeNotifier {
   ///////////////Return////////////////////////
   addToreturnList(Map<String, dynamic> value) {
     print("value---${value}");
-    bool flag = true;
+    bool flag = false;
     int i;
     if (returnList.length > 0) {
       print("return length----${returnList.length}");
@@ -2610,11 +2619,12 @@ class Controller extends ChangeNotifier {
       String method,
       int state_status,
       int index,
-      bool onSub,String? disCalc) {
+      bool onSub,
+      String? disCalc) {
     print(
         "attribute-- --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     flag = false;
-    if (disc_amount != 0 && disCalc=="disc_amt" ) {
+    if (disc_amount != 0 && disCalc == "disc_amt") {
       disc_per = (disc_amount / rate) * 100;
       print("discount_prercent------${discount_prercent.length}");
       if (onSub) {
@@ -2622,7 +2632,7 @@ class Controller extends ChangeNotifier {
       }
       print("disc_per----$disc_per");
     }
-    if (disc_per != 0 && disCalc=="disc_per") {
+    if (disc_per != 0 && disCalc == "disc_per") {
       print("yes hay---$disc_per");
       disc_amt = (rate * disc_per) / 100;
       if (onSub) {
@@ -2630,7 +2640,6 @@ class Controller extends ChangeNotifier {
       }
       print("disc-amt----$disc_amt");
     }
-
     if (state_status == 0) {
       ///////state_status=0--loacal///////////state_status=1----inter-state
       cgst_per = tax_per / 2;
@@ -2644,13 +2653,24 @@ class Controller extends ChangeNotifier {
     if (method == "0") {
       /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
       gross = rate * qty;
+      disc_per = (disc_amount / rate) * 100;
       disc_amt = (gross * disc_per) / 100;
+      print("disc_per calcu mod=0.... $disc_per..$disc_amt");
+
       tax = (gross - disc_amt) * (tax_per / 100);
+
       cgst_amt = (gross - disc_amt) * (cgst_per / 100);
       sgst_amt = (gross - disc_amt) * (sgst_per / 100);
       igst_amt = (gross - disc_amt) * (igst_per / 100);
       cess = (gross - disc_amt) * (cess_per / 100);
-      net_amt = (gross - disc_amt) + tax + cess;
+      print("netamount....$disc_amt");
+      if (rate < disc_amt) {
+        net_amt = 0;
+      } else {
+        net_amt = ((gross - disc_amt) + tax + cess);
+      }
+
+      print("netamount.cal...$net_amt");
     } else if (method == "1") {
       double percnt = tax_per + cess_per;
       taxable_rate = rate * 1 - (percnt / (100 + percnt));

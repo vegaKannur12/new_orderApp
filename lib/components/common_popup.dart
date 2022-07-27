@@ -18,6 +18,14 @@ class CommonPopup {
     String custmerId,
     String date,
     String time,
+    String? grossamt,
+    String? disamt,
+    String? disper,
+    String? taxamt,
+    String? taxper,
+    String? cesamt,
+    String? cesper,
+    String? netamt,
   ) {
     return AlertDialog(
       // title: const Text('Popup example'),
@@ -31,9 +39,9 @@ class CommonPopup {
       actions: <Widget>[
         Consumer<Controller>(
           builder: (context, value, child) {
+            print("grossamounty........$grossamt..$disamt..$netamt..$taxamt.");
             return ElevatedButton(
               onPressed: () async {
-                print("typeee...$type");
                 sid = await Provider.of<Controller>(context, listen: false)
                     .setStaffid(value.sname!);
                 print("Sid........${value.sname}$sid");
@@ -44,7 +52,7 @@ class CommonPopup {
                   final prefs = await SharedPreferences.getInstance();
                   String? sid = await prefs.getString('sid');
                   String? os = await prefs.getString('os');
-                  print("order total...${double.parse(value.orderTotal2[0])}");
+                  print("order total...${double.parse(value.orderTotal2[0]!)}");
                   String? gen_area =
                       Provider.of<Controller>(context, listen: false)
                           .areaidFrompopup;
@@ -55,16 +63,24 @@ class CommonPopup {
                   }
 
                   if (type == "sales") {
+                    print("sales......${grossamt}...${disamt}...${taxamt}");
                     Provider.of<Controller>(context, listen: false)
                         .insertToSalesbagAndMaster(
-                      os!,
-                      date,
-                      time,
-                      custmerId,
-                      sid!,
-                      areaid,
-                      double.parse(value.orderTotal2[0]),
-                    );
+                            os!,
+                            date,
+                            time,
+                            custmerId,
+                            sid!,
+                            areaid,
+                            double.parse(value.orderTotal2[0]!),
+                            double.parse(grossamt!),
+                            disamt.toString(),
+                            "",
+                            taxamt.toString(),
+                            "",
+                            "",
+                            "",
+                            netamt.toString());
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
                   } else if (type == "sale order") {

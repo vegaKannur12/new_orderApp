@@ -5,13 +5,13 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:provider/provider.dart';
 
 class SalesBottomSheet {
-  sheet(BuildContext context, String itemcount, String grosstot,
-      String discount, String tax, String cess, String netAmt) {
+  sheet(BuildContext context, String itemcount, String netAmt, String discount,
+      String tax, String cess, String grosstot) {
     Size size = MediaQuery.of(context).size;
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          print("order total.........$grosstot");
+          print("order total.........$grosstot..$netAmt");
           return SingleChildScrollView(
             child: Container(
               // height: size.height * 0.9,
@@ -132,7 +132,7 @@ class SalesBottomSheet {
                               ),
                               Spacer(),
                               Text(
-                                '\u{20B9}0.00',
+                                '\u{20B9}${netAmt}',
                                 style: TextStyle(color: P_Settings.extracolor),
                                 textAlign: TextAlign.end,
                               ),

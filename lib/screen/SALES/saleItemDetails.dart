@@ -37,13 +37,11 @@ class SaleItemDetails {
               // value.salesqty[index].text = qty.toString();
               return SingleChildScrollView(
                 child: Container(
-                  // height: size.height * 0.9,
+                  // height: size.height * 0.86,
                   child: Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      // mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -67,13 +65,14 @@ class SaleItemDetails {
                                   item,
                                   style: TextStyle(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green),
                                 ),
                                 Text("-"),
                                 Text(
-                                  "($code)",
+                                  "( $code)",
                                   style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 17,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey),
                                 ),
@@ -85,8 +84,11 @@ class SaleItemDetails {
                               child: Divider(
                                 thickness: 2,
                               ),
-                            )
+                            ),
                           ],
+                        ),
+                        Column(
+                          children: [],
                         ),
                         ListTile(
                           title: Row(
@@ -112,6 +114,7 @@ class SaleItemDetails {
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  keyboardType: TextInputType.number,
                                   onSubmitted: (values) {
                                     print("values----$values");
                                     double valueqty = 0.0;
@@ -182,6 +185,7 @@ class SaleItemDetails {
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  keyboardType: TextInputType.number,
                                   onSubmitted: (values) {
                                     double valuediscper = 0.0;
                                     print("values---$values");
@@ -227,6 +231,7 @@ class SaleItemDetails {
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  keyboardType: TextInputType.number,
                                   onSubmitted: (values) {
                                     double valuediscamt = 0.0;
                                     // value.discount_amount[index].text=;
@@ -256,9 +261,6 @@ class SaleItemDetails {
                                   },
                                   controller: value.discount_amount[index],
                                   textAlign: TextAlign.right,
-                                  // decoration: InputDecoration(
-                                  //   border: InputBorder.none,
-                                  // ),
                                 ),
                               ),
                             ],
@@ -282,7 +284,11 @@ class SaleItemDetails {
                                 "Tax amount",
                               ),
                               Spacer(),
-                              Text(tax_amt.toStringAsFixed(2))
+                              tax_amt < 0.00
+                                  ? Text(
+                                      "\u{20B9}0.00",
+                                    )
+                                  : Text(tax_amt.toStringAsFixed(2))
                             ],
                           ),
                         ),
@@ -311,18 +317,26 @@ class SaleItemDetails {
                         Divider(
                           thickness: 1,
                         ),
-                        ListTile(
-                          title: Row(children: [
-                            Text(
-                              "Net Amount",
-                              style: TextStyle(color: P_Settings.extracolor),
-                            ),
-                            Spacer(),
-                            Text(
-                              "\u{20B9}${net_amt.toStringAsFixed(2)}",
-                              style: TextStyle(color: P_Settings.extracolor),
-                            ),
-                          ]),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: ListTile(
+                            title: Row(children: [
+                              Text(
+                                "Net Amount",
+                                style: TextStyle(color: P_Settings.extracolor),
+                              ),
+                              Spacer(),
+                              rate < dis_amt
+                                  ? Text("\u{20B9}0.00",
+                                      style: TextStyle(
+                                          color: P_Settings.extracolor))
+                                  : Text(
+                                      "\u{20B9}${net_amt.toStringAsFixed(2)}",
+                                      style: TextStyle(
+                                          color: P_Settings.extracolor),
+                                    ),
+                            ]),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
@@ -338,9 +352,15 @@ class SaleItemDetails {
                                             "salesBagTable",
                                             "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax}",
                                             "cartrowno=$indexCalc and customerid='$customerId'");
+                                        print("calculate new total");
+                                        await Provider.of<Controller>(context,
+                                                listen: false)
+                                            .calculatesalesTotal(
+                                                os, customerId);
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .getSaleBagDetails(customerId, os);
+
                                         Navigator.pop(context);
                                       },
                                       child: Text("Apply")))

@@ -669,7 +669,8 @@ class OrderAppDB {
     String hsn,
     double tax_per,
     double tax,
-    double discount_per,double discount_amt,
+    double discount_per,
+    double discount_amt,
     double ces_per,double ces_amt,
     int cstatus,
     double net_amt,
@@ -698,7 +699,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn,tax_per, tax_amt, discount_per,discount_amt, ces_per,ces_amt, cstatus,net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${discount_per},${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt")';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn,tax_per, tax_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt")';
       var res = await db.rawInsert(query2);
     }
 
@@ -1348,7 +1349,7 @@ class OrderAppDB {
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
           "SELECT SUM(totalamount) s FROM orderBagTable WHERE os='$os' AND customerid='$customerId'");
-      sum = res[0]["s"].toString();
+      sum = res[0]["s"].toStringAsFixed(2);
       print("sum from db----$sum");
     } else {
       sum = "0.0";
@@ -1360,7 +1361,8 @@ class OrderAppDB {
   /////////////////////sales product sum ////////////////////
   getsaletotalSum(String os, String customerId) async {
     // double sum=0.0;
-    String sum;
+    String net_amount;
+    String gross;
     String count;
     String taxval;
     String discount;
@@ -1371,22 +1373,25 @@ class OrderAppDB {
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) s, COUNT(cartrowno) c, SUM(tax_amt) t, SUM(discount_amt) d, SUM(ces_per) ces FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
-      print("result sale........$res");
-      sum = res[0]["s"].toStringAsFixed(2);
+          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces,  SUM(tax_amt) t, SUM(discount_amt) d FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+      print("result sale db........$res");
+      net_amount = res[0]["s"].toStringAsFixed(2);
+      gross = res[0]["gr"].toStringAsFixed(2);
       count = res[0]["c"].toString();
       taxval = res[0]["t"].toStringAsFixed(2);
       discount = res[0]["d"].toStringAsFixed(2);
       cesamount = res[0]["ces"].toStringAsFixed(2);
-      print("taxval ordersale .......$taxval..$discount..$cesamount");
+      print(
+          "gross..netamount..taxval..dis..ces ......$gross...$net_amount....$taxval..$discount..$cesamount");
     } else {
-      sum = "0.00";
+      net_amount = "0.00";
       count = "0.00";
       taxval = "0.00";
       discount = "0.00";
       cesamount = "0.00";
+      gross = "0.0";
     }
-    return [sum, count, taxval, discount, cesamount];
+    return [net_amount, count, taxval, discount, cesamount, gross];
   }
 
   ////////////// delete//////////////////////////////////////

@@ -160,6 +160,14 @@ class _CartListState extends State<CartList> {
                                 widget.custmerId,
                                 s[0],
                                 s[1],
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
                               ),
                             );
 
@@ -352,6 +360,20 @@ class _CartListState extends State<CartList> {
                                                                   widget
                                                                       .custmerId,
                                                                   index);
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .getProductList(
+                                                                  widget
+                                                                      .custmerId);
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .countFromTable(
+                                                            "orderBagTable",
+                                                            widget.os,
+                                                            widget.custmerId,
+                                                          );
                                                           Navigator.of(ctx)
                                                               .pop();
                                                         },
