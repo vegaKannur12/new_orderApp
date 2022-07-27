@@ -104,8 +104,8 @@ class _SaleCartState extends State<SaleCart> {
                         //     ? value.editedRate
                         //     :
                         value.salebagList[index]["rate"].toString(),
-                        double.parse(value.salebagList[index]["discount_per"]),
-                        double.parse(value.salebagList[index]["discount_amt"]),
+                        value.salebagList[index]["discount_per"],
+                        value.salebagList[index]["discount_amt"],
                         value.salebagList[index]["net_amt"],
                         double.parse(value.salebagList[index]["totalamount"]),
 
@@ -370,7 +370,7 @@ class _SaleCartState extends State<SaleCart> {
                                             ),
                                             Container(
                                               child: Text(
-                                                " \u{20B9}${disc_amt.toString()}",
+                                                " \u{20B9}${disc_amt.toStringAsFixed(2)}",
                                                 style: TextStyle(fontSize: 13),
                                               ),
                                             ),
