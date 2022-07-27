@@ -1344,7 +1344,7 @@ class OrderAppDB {
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
           "SELECT SUM(totalamount) s FROM orderBagTable WHERE os='$os' AND customerid='$customerId'");
-      sum = res[0]["s"].toString();
+      sum = res[0]["s"].toStringAsFixed(2);
       print("sum from db----$sum");
     } else {
       sum = "0.0";

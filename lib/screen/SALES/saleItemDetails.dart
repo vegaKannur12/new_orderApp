@@ -245,13 +245,15 @@ class SaleItemDetails {
                         ListTile(
                           title: Row(
                             children: [
-                              value.tax < 0.00
-                                  ? Text("0.00")
-                                  : Text(
-                                      "Tax amount",
-                                    ),
+                              Text(
+                                "Tax amount",
+                              ),
                               Spacer(),
-                              Text(tax_amt.toStringAsFixed(2))
+                              tax_amt < 0.00
+                                  ? Text(
+                                      "\u{20B9}0.00",
+                                    )
+                                  : Text(tax_amt.toStringAsFixed(2))
                             ],
                           ),
                         ),
@@ -268,7 +270,9 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               value.net_amt < 0.00
-                                  ? Text("0.00")
+                                  ? Text("\u{20B9}0.00",
+                                      style: TextStyle(
+                                          color: P_Settings.extracolor))
                                   : Text(
                                       "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
                                       style: TextStyle(

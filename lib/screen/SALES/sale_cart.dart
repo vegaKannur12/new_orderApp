@@ -105,7 +105,7 @@ class _SaleCartState extends State<SaleCart> {
                         // value.rateEdit[index]
                         //     ? value.editedRate
                         //     :
-                        value.salebagList[index]["rate"].toString(),
+                        value.salebagList[index]["rate"],
                         0.0,
                         double.parse(value.salebagList[index]["discount"]),
                         value.salebagList[index]["net_amt"].toString(),
@@ -264,29 +264,9 @@ class _SaleCartState extends State<SaleCart> {
                       "discount per in bottom sheet....${value.discount_prercent[index].text}");
                   value.discount_amount[index].text = disc_amt.toString();
 
-                  Provider.of<Controller>(context, listen: false)
-                      .rawCalculation(
-                          double.parse(rate),
-                          qty.toDouble(),
-                          disc_per,
-                          disc_amt,
-                          double.parse(tax),
-                          0.0,
-                          "0",
-                          0,
-                          index);
-
                   // Provider.of<Controller>(context, listen: false)
-                  //     .rawCalculation(
-                  //         double.parse(rate),
-                  //         double.parse(qty.toString()),
-                  //         disc_per,
-                  //         disc_amt,
-                  //         double.parse(tax),
-                  //         0.0,
-                  //         "0",
-                  //         0,
-                  //         index);
+                  //     .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
+                  //         100, double.parse(tax), 0.0, "0", 0, index);
 
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
@@ -402,7 +382,6 @@ class _SaleCartState extends State<SaleCart> {
                                             Container(
                                               child: Text(
                                                 " \u{20B9}${disc_amt.toString()}",
-                                                textAlign: TextAlign.right,
                                                 style: TextStyle(fontSize: 13),
                                               ),
                                             ),
@@ -449,11 +428,16 @@ class _SaleCartState extends State<SaleCart> {
                                             width: size.width * 0.03,
                                           ),
                                           Container(
-                                            child: Text(
-                                              " \u{20B9}${tax_amt.toStringAsFixed(2)}",
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(fontSize: 13),
-                                            ),
+                                            child: tax_amt < 0.00
+                                                ? Text("\u{20B9}0.00",
+                                                    style:
+                                                        TextStyle(fontSize: 13))
+                                                : Text(
+                                                    " \u{20B9}${tax_amt.toStringAsFixed(2)}",
+                                                    textAlign: TextAlign.right,
+                                                    style:
+                                                        TextStyle(fontSize: 13),
+                                                  ),
                                           ),
                                         ],
                                       ),
@@ -495,7 +479,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              "\u{20B9}${gross.toString()}",
+                                              "\u{20B9}${gross.toStringAsFixed(2)}",
                                               textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),
@@ -629,7 +613,11 @@ class _SaleCartState extends State<SaleCart> {
                               style: TextStyle(fontSize: 13),
                             ),
                             value.net_amt < 0.00
-                                ? Text("0.00")
+                                ? Text(
+                                    "\u{20B9}0.00",
+                                    style:
+                                        TextStyle(color: P_Settings.extracolor),
+                                  )
                                 : Text(
                                     "\u{20B9}${net_amt}",
                                     style: TextStyle(
