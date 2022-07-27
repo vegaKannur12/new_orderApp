@@ -787,8 +787,8 @@ class Controller extends ChangeNotifier {
   }
 
   //////////////////ORDER SAVE AND SEND/////////////////////////
-  saveOrderDetails(
-      String cid, List<Map<String, dynamic>> om, BuildContext context) async {
+  saveOrderDetails(String cid, List<Map<String, dynamic>> om,
+      BuildContext context, int index) async {
     try {
       print("haiii");
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/order_save.php");
@@ -818,6 +818,7 @@ class Controller extends ChangeNotifier {
         }
       }
       isLoading = false;
+
       notifyListeners();
     } catch (e) {
       print(e);
@@ -2291,7 +2292,7 @@ class Controller extends ChangeNotifier {
       }
       if (om.length > 0) {
         print("entede");
-        saveOrderDetails(cid, om, context);
+        saveOrderDetails(cid, om, context, index);
       }
       isUpload = false;
       isUp[index] = true;
