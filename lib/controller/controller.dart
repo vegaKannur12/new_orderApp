@@ -986,11 +986,11 @@ class Controller extends ChangeNotifier {
             item["itemName"],
             grossamt,
             disc_amt,
-            0.0,
+            disc_per,
             double.parse(taxamt),
-            0.0,
-            0.0,
-            0.0,
+            double.parse(taxper),
+            double.parse(cesamt),
+            double.parse(cesper),
             net_amt,
             total_price,
             1);
@@ -2656,9 +2656,7 @@ class Controller extends ChangeNotifier {
       disc_per = (disc_amount / rate) * 100;
       disc_amt = (gross * disc_per) / 100;
       print("disc_per calcu mod=0.... $disc_per..$disc_amt");
-
       tax = (gross - disc_amt) * (tax_per / 100);
-
       cgst_amt = (gross - disc_amt) * (cgst_per / 100);
       sgst_amt = (gross - disc_amt) * (sgst_per / 100);
       igst_amt = (gross - disc_amt) * (igst_per / 100);

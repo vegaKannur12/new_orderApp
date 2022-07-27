@@ -75,11 +75,11 @@ class CommonPopup {
                             double.parse(value.orderTotal2[0]!),
                             double.parse(grossamt!),
                             disamt.toString(),
-                            "",
+                            disper.toString(),
                             taxamt.toString(),
-                            "",
-                            "",
-                            "",
+                            taxper.toString(),
+                            cesamt.toString(),
+                            cesper.toString(),
                             netamt.toString());
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);

@@ -671,7 +671,8 @@ class OrderAppDB {
     double tax,
     double discount_per,
     double discount_amt,
-    double ces_per,double ces_amt,
+    double ces_per,
+    double ces_amt,
     int cstatus,
     double net_amt,
   ) async {
@@ -1364,34 +1365,54 @@ class OrderAppDB {
     String net_amount;
     String gross;
     String count;
-    String taxval;
+    String cesamt;
+    String cesper;
+    String taxamt;
+    String taxper;
     String discount;
-    String cesamount;
+    String disper;
+
     Database db = await instance.database;
     var result = await db.rawQuery(
         "SELECT * FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces,  SUM(tax_amt) t, SUM(discount_amt) d FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
       gross = res[0]["gr"].toStringAsFixed(2);
       count = res[0]["c"].toString();
-      taxval = res[0]["t"].toStringAsFixed(2);
+      taxamt = res[0]["t"].toStringAsFixed(2);
       discount = res[0]["d"].toStringAsFixed(2);
-      cesamount = res[0]["ces"].toStringAsFixed(2);
+      disper = res[0]["dper"].toStringAsFixed(2);
+      cesamt = res[0]["camt"].toStringAsFixed(2);
+      cesper = res[0]["ces"].toStringAsFixed(2);
+      taxper = res[0]["tper"].toStringAsFixed(2);
       print(
-          "gross..netamount..taxval..dis..ces ......$gross...$net_amount....$taxval..$discount..$cesamount");
+          "gross..netamount..taxval..dis..ces ......$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
       net_amount = "0.00";
       count = "0.00";
-      taxval = "0.00";
+      taxamt = "0.00";
       discount = "0.00";
-      cesamount = "0.00";
+      cesamt = "0.00";
+      disper = "0.00";
       gross = "0.0";
+      cesper = "0.00";
+      taxper = "0.00";
     }
-    return [net_amount, count, taxval, discount, cesamount, gross];
+    return [
+      net_amount,
+      count,
+      taxamt,
+      discount,
+      cesamt,
+      gross,
+      disper,
+      cesper,
+      taxper
+    ];
   }
 
   ////////////// delete//////////////////////////////////////
@@ -1843,6 +1864,7 @@ class OrderAppDB {
   ///////////////////////////////////////////////////////
   upadteCommonQuery(String table, String fields, String condition) async {
     Database db = await instance.database;
+    print("condition for update.....$condition");
     var res = await db.rawUpdate('UPDATE $table SET $fields WHERE $condition ');
     print("UPDATE $table SET $fields WHERE $condition");
     print("response-------$res");

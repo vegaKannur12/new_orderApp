@@ -16,7 +16,8 @@ class SaleItemDetails {
       double dis_amt,
       double tax_per,
       double tax_amt,
-      double cess_per,double cess_amt,
+      double cess_per,
+      double cess_amt,
       double net_amt,
       double gross,
       BuildContext context,
@@ -37,7 +38,7 @@ class SaleItemDetails {
               // value.salesqty[index].text = qty.toString();
               return SingleChildScrollView(
                 child: Container(
-                  // height: size.height * 0.86,
+                  // height: size.height * 0.96,
                   child: Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -284,15 +285,16 @@ class SaleItemDetails {
                                 "Tax amount",
                               ),
                               Spacer(),
-                              tax_amt < 0.00
+                              net_amt < dis_amt
                                   ? Text(
                                       "\u{20B9}0.00",
                                     )
-                                  : Text(tax_amt.toStringAsFixed(2))
+                                  : Text(
+                                      "\u{20B9}${tax_amt.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
-                         ListTile(
+                        ListTile(
                           title: Row(
                             children: [
                               Text(
@@ -310,7 +312,12 @@ class SaleItemDetails {
                                 "Cess amount",
                               ),
                               Spacer(),
-                              Text(cess_amt.toStringAsFixed(2))
+                              cess_amt < 0.00
+                                  ? Text(
+                                      "\u{20B9}0.00",
+                                    )
+                                  : Text(
+                                      "\u{20B9}${cess_amt.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
