@@ -181,7 +181,9 @@ class OrderAppDB {
 
   //////////////////sales bag//////////////////
   static final method = 'method';
-  static final discount = 'discount';
+  static final discount_per = 'discount_per';
+  static final discount_amt = 'discount_amt';
+
   ///////////////// sales details /////////
   static final item_name = 'item_name';
   static final hsn_code = 'hsn_code';
@@ -494,8 +496,9 @@ class OrderAppDB {
             $method TEXT,
             $hsn TEXT,
             $tax_per REAL,
-            $tax REAl,
-            $discount TEXT,
+            $tax_amt REAl,
+            $discount_per TEXT,
+            $discount_amt TEXT,
             $ces_per TEXT,
             $cstatus INTEGER,
             $net_amt REAL
@@ -665,7 +668,7 @@ class OrderAppDB {
     String hsn,
     double tax_per,
     double tax,
-    double discount,
+    double discount_per,double discount_amt,
     double ces_per,
     int cstatus,
     double net_amt,
@@ -694,7 +697,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn,tax_per, tax, discount, ces_per, cstatus,net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${discount}, ${ces_per}, $cstatus,"$net_amt")';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn,tax_per, tax_amt, discount_per,discount_amt, ces_per, cstatus,net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${discount_per},${discount_amt}, ${ces_per}, $cstatus,"$net_amt")';
       var res = await db.rawInsert(query2);
     }
 
@@ -1367,7 +1370,7 @@ class OrderAppDB {
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) s, COUNT(cartrowno) c, SUM(tax) t, SUM(discount) d, SUM(ces_per) ces FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+          "SELECT SUM(totalamount) s, COUNT(cartrowno) c, SUM(tax_amt) t, SUM(discount_amt) d, SUM(ces_per) ces FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale........$res");
       sum = res[0]["s"].toStringAsFixed(2);
       count = res[0]["c"].toString();

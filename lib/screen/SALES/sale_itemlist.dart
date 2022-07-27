@@ -509,7 +509,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   0.0,
                                                                   "0",
                                                                   0,
-                                                                  index);
+                                                                  index,false,"");
 
                                                           if (result ==
                                                               "success") {
@@ -548,6 +548,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "tax"],
                                                                     ),
                                                                     value.tax,
+                                                                    0.0,
                                                                     100,
                                                                     0.0,
                                                                     0,
@@ -831,7 +832,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   0.0,
                                                                   "0",
                                                                   0,
-                                                                  index);
+                                                                  index,false,"");
                                                           print(
                                                               "result----$result");
                                                           if (result ==
@@ -892,7 +893,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           [
                                                                           "tax"],
                                                                     ),
-                                                                    value.tax,
+                                                                    value.tax,0.0,
                                                                     100,
                                                                     0.0,
                                                                     0,

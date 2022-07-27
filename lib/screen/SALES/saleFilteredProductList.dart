@@ -152,10 +152,10 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                         100,
                                         double.parse(
                                             value.salefilteredProductList[index]
-                                                ["tax"]),
+                                                ["tax_per"]),
                                         0.0,
                                         "0",
-                                        0,index);
+                                        0,index,false,"");
                             if (result == "success") {
                               var res = await OrderAppDB.instance
                                   .insertsalesBagTable(
@@ -175,7 +175,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       value.salefilteredProductList[index]
                                           ["hsn"],
                                       value.salefilteredProductList[index]["tax"],value.tax,
-                                      // 0.0,
+                                      0.0,
                                       0.0,
                                       0.0,
                                       0,

@@ -27,7 +27,7 @@ class SaleItemDetails {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          print("keryy---$qty");
+          print("param---$qty----$dis_per--$dis_amt----");
           // rawCalcResult = Provider.of<Controller>(context,listen: false).rawCalculation(rate,qty.toDouble(), 0.0, 100,tax_per, 0.0, "0", 0);
           return Consumer<Controller>(
             builder: (context, value, child) {
@@ -113,11 +113,29 @@ class SaleItemDetails {
                                 child: TextField(
                                   onSubmitted: (values) {
                                     print("values----$values");
-                                    double valueqty = double.parse(values);
+                                    double valueqty = 0.0;
+                                    // value.discount_amount[index].text=;
+                                    if (values.isNotEmpty) {
+                                      print("emtyyyy");
+                                      valueqty = double.parse(values);
+                                    } else {
+                                      valueqty = 0.00;
+                                    }
+
                                     Provider.of<Controller>(context,
                                             listen: false)
-                                        .rawCalculation(rate, valueqty, 0.0,
-                                            100, tax_per, 0.0, "0", 0, index);
+                                        .rawCalculation(
+                                            rate,
+                                            valueqty,
+                                            0.0,
+                                            100,
+                                            tax_per,
+                                            0.0,
+                                            "0",
+                                            0,
+                                            index,
+                                            true,
+                                            "");
                                   },
                                   textAlign: TextAlign.right,
                                   // decoration: InputDecoration(
@@ -136,7 +154,7 @@ class SaleItemDetails {
                                 "Rate",
                               ),
                               Spacer(),
-                              Text("\u{20B9}${rate.toString()}")
+                              Text("\u{20B9}${rate.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -148,7 +166,7 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                                "\u{20B9}${gross.toString()}",
+                                "\u{20B9}${gross.toStringAsFixed(2)}",
                               )
                             ],
                           ),
@@ -164,7 +182,14 @@ class SaleItemDetails {
                                 width: size.width * 0.2,
                                 child: TextField(
                                   onSubmitted: (values) {
-                                    double valuediscper = double.parse(values);
+                                    double valuediscper = 0.0;
+                                    print("values---$values");
+                                    if (values.isNotEmpty) {
+                                      print("emtyyyy");
+                                      valuediscper = double.parse(values);
+                                    } else {
+                                      valuediscper = 0.00;
+                                    }
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
@@ -177,7 +202,9 @@ class SaleItemDetails {
                                             0.0,
                                             "0",
                                             0,
-                                            index);
+                                            index,
+                                            true,
+                                            "disc_per");
                                   },
                                   controller: value.discount_prercent[index],
                                   textAlign: TextAlign.right,
@@ -200,8 +227,15 @@ class SaleItemDetails {
                                 width: size.width * 0.2,
                                 child: TextField(
                                   onSubmitted: (values) {
+                                    double valuediscamt = 0.0;
                                     // value.discount_amount[index].text=;
-                                    double valuediscamt = double.parse(values);
+                                    if (values.isNotEmpty) {
+                                      print("emtyyyy");
+                                      valuediscamt = double.parse(values);
+                                    } else {
+                                      valuediscamt = 0.00;
+                                    }
+
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
@@ -215,7 +249,9 @@ class SaleItemDetails {
                                             0.0,
                                             "0",
                                             0,
-                                            index);
+                                            index,
+                                            true,
+                                            "disc_amt");
                                   },
                                   controller: value.discount_amount[index],
                                   textAlign: TextAlign.right,
@@ -277,7 +313,7 @@ class SaleItemDetails {
                                         int indexCalc = index + 1;
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
-                                            "net_amt=${value.net_amt},discount=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax=${value.tax}",
+                                            "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax}",
                                             "cartrowno=$indexCalc and customerid='$customerId'");
                                         Provider.of<Controller>(context,
                                                 listen: false)
