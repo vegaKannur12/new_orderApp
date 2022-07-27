@@ -251,7 +251,7 @@ class _MainDashboardState extends State<MainDashboard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: customcard(size, "Collection",
-                                  "\u{20B9}${value.collectionAmount == "null" ? "0.0" : value.collectionAmount}"),
+                                  "\u{20B9}${value.collectionAmount == "null" ? "0.00" : value.collectionAmount}"),
                             ),
                           ],
                         ),
@@ -259,7 +259,8 @@ class _MainDashboardState extends State<MainDashboard> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: customcard(size, "Sales", "\u{20B9}${value.salesAmount == "null" ? "0.0" : value.salesAmount}"),
+                              child: customcard(size, "Sales",
+                                  "\u{20B9}${value.salesAmount == "null" ? "0.0" : value.salesAmount}"),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),

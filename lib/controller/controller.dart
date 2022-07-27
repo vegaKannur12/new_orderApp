@@ -132,10 +132,10 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportData = [];
   List<Map<String, dynamic>> sumPrice = [];
   List<Map<String, dynamic>> collectionsumPrice = [];
-  String collectionAmount = "0.0";
-  String returnAmount = "0.0";
-  String ordrAmount = "0.0";
-  String salesAmount = "0.0";
+  String collectionAmount = "0.00";
+  String returnAmount = "0.00";
+  String ordrAmount = "0.00";
+  String salesAmount = "0.00";
   String? remarkCount;
   String? orderCount;
   String? collectionCount;
@@ -2001,10 +2001,10 @@ class Controller extends ChangeNotifier {
     print("remarkCount...$remarkCount");
     ret_count = res[0]["retCnt"].toString();
 
-    collectionAmount = res[0]["colVal"].toString();
-    ordrAmount = res[0]["ordVal"].toString();
-    salesAmount = res[0]["saleVal"].toString();
-    returnAmount = res[0]["retVal"].toString();
+    collectionAmount = res[0]["colVal"].toStringAsFixed(2);
+    ordrAmount = res[0]["ordVal"].toStringAsFixed(2);
+    salesAmount = res[0]["saleVal"].toStringAsFixed(2);
+    returnAmount = res[0]["retVal"].toStringAsFixed(2);
 
     shopVisited = res[0]["cusCount"];
 
