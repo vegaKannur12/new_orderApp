@@ -108,7 +108,7 @@ class _SaleCartState extends State<SaleCart> {
                         value.salebagList[index]["rate"].toString(),
                         double.parse(value.salebagList[index]["discount_per"]),
                         double.parse(value.salebagList[index]["discount_amt"]),
-                        value.salebagList[index]["net_amt"].toString(),
+                        value.salebagList[index]["net_amt"],
                         double.parse(value.salebagList[index]["totalamount"]),
 
                         value.salebagList[index]["qty"],
@@ -120,7 +120,8 @@ class _SaleCartState extends State<SaleCart> {
                         value.salebagList[index]["tax_amt"],
 
                         // value.salebagList[index]["discount"].toString(),
-                        value.salebagList[index]["ces_per"].toString(),
+                        value.salebagList[index]["ces_amt"],
+                        // value.salebagList[index]["ces_a"].toString(),
                       );
                     },
                   ),
@@ -228,7 +229,7 @@ class _SaleCartState extends State<SaleCart> {
       String rate,
       double disc_per,
       double disc_amt,
-      String net_amt,
+      double net_amt,
       double gross,
       double qty,
       Size size,
@@ -238,7 +239,7 @@ class _SaleCartState extends State<SaleCart> {
       String tax,
       double tax_amt,
       // String discount,
-      String cesamount) {
+      double cesamount) {
     // print("qty-------$qty");
     _controller.text = qty.toString();
 
@@ -274,7 +275,7 @@ class _SaleCartState extends State<SaleCart> {
                       disc_amt,
                       double.parse(tax),
                       tax_amt,
-                      double.parse(net_amt),
+                      net_amt,
                       gross,
                       context,
                       size,
@@ -476,7 +477,6 @@ class _SaleCartState extends State<SaleCart> {
                                           Container(
                                             child: Text(
                                               "\u{20B9}${gross.toStringAsFixed(2)}",
-                                              textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
@@ -493,8 +493,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              "\u{20B9}${cesamount}",
-                                              textAlign: TextAlign.right,
+                                              "\u{20B9}${cesamount.toStringAsFixed(2)}",
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
@@ -612,19 +611,13 @@ class _SaleCartState extends State<SaleCart> {
                               "Total price : ",
                               style: TextStyle(fontSize: 13),
                             ),
-                            value.net_amt < 0.00
-                                ? Text(
-                                    "\u{20B9}0.00",
-                                    style:
-                                        TextStyle(color: P_Settings.extracolor),
-                                  )
-                                : Text(
-                                    "\u{20B9}${net_amt}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                        color: P_Settings.extracolor),
-                                  ),
+                            Text(
+                              "\u{20B9}${net_amt.toStringAsFixed(2)}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: P_Settings.extracolor),
+                            ),
                           ],
                         ),
                       ),
