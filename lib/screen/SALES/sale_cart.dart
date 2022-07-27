@@ -47,6 +47,8 @@ class _SaleCartState extends State<SaleCart> {
     s = date!.split(" ");
     Provider.of<Controller>(context, listen: false)
         .calculatesalesTotal(widget.os, widget.custmerId);
+//  Provider.of<Controller>(context, listen: false)
+//             .getSaleBagDetails(widget.custmerId, widget.os);
     // TODO: implement initState
     super.initState();
   }
@@ -115,7 +117,7 @@ class _SaleCartState extends State<SaleCart> {
                         index,
                         value.salebagList[index]["code"],
                         value.salebagList[index]["tax_per"].toString(),
-                        value.salebagList[index]["tax"].toString(),
+                        value.salebagList[index]["tax"],
 
                         // value.salebagList[index]["discount"].toString(),
                         value.salebagList[index]["ces_per"].toString(),
@@ -132,12 +134,12 @@ class _SaleCartState extends State<SaleCart> {
                         onTap: () {
                           sheet.sheet(
                               context,
-                              value.orderTotal2[1],
-                              value.orderTotal2[0],
-                              value.orderTotal2[3],
-                              value.orderTotal2[2],
-                              value.orderTotal2[4],
-                              value.orderTotal2[5]);
+                              value.orderTotal2[1]!,
+                              value.orderTotal2[0]!,
+                              value.orderTotal2[3]!,
+                              value.orderTotal2[2]!,
+                              value.orderTotal2[4]!,
+                              value.orderTotal2[5]!);
                         },
                         child: Container(
                           width: size.width * 0.5,
@@ -151,7 +153,7 @@ class _SaleCartState extends State<SaleCart> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
                               Flexible(
-                                child: Text("\u{20B9}${value.orderTotal2[0]}",
+                                child: Text("\u{20B9}${value.orderTotal2[0]!}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)),
@@ -175,6 +177,14 @@ class _SaleCartState extends State<SaleCart> {
                               widget.custmerId,
                               s[0],
                               s[1],
+                              value.orderTotal2[5]!,
+                              value.orderTotal2[3]!,
+                              " ",
+                              value.orderTotal2[2]!,
+                              " ",
+                              " ",
+                              " ",
+                              value.orderTotal2[0]!,
                             ),
                           );
 
@@ -226,7 +236,7 @@ class _SaleCartState extends State<SaleCart> {
       int index,
       String code,
       String tax,
-      String tax_amt,
+      double tax_amt,
       // String discount,
       String cesamount) {
     // print("qty-------$qty");
@@ -249,23 +259,34 @@ class _SaleCartState extends State<SaleCart> {
                 onTap: () {
                   value.salesqty[index].text = qty.toString();
                   value.discount_prercent[index].text = disc_per.toString();
-                  value.discount_amount[index].text = disc_amt.toString();
 
-                  Provider.of<Controller>(context, listen: false)
-                      .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
-                          100, double.parse(tax), 0.0, "0", 0, index);
+                  print(
+                      "discount per in bottom sheet....${value.discount_prercent[index].text}");
+                  value.discount_amount[index].text = disc_amt.toString();
 
                   Provider.of<Controller>(context, listen: false)
                       .rawCalculation(
                           double.parse(rate),
-                          double.parse(qty.toString()),
-                          0.0,
-                          100,
+                          qty.toDouble(),
+                          disc_per,
+                          disc_amt,
                           double.parse(tax),
                           0.0,
                           "0",
                           0,
                           index);
+
+                  // Provider.of<Controller>(context, listen: false)
+                  //     .rawCalculation(
+                  //         double.parse(rate),
+                  //         double.parse(qty.toString()),
+                  //         disc_per,
+                  //         disc_amt,
+                  //         double.parse(tax),
+                  //         0.0,
+                  //         "0",
+                  //         0,
+                  //         index);
 
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
@@ -276,14 +297,14 @@ class _SaleCartState extends State<SaleCart> {
                       disc_per,
                       disc_amt,
                       double.parse(tax),
-                      double.parse(tax_amt),
+                      tax_amt,
                       double.parse(net_amt),
                       gross,
                       context,
                       size,
-                      index);
-                  print(
-                      "gross new value in display------$rate..$qty...$tax_amt,$net_amt");
+                      index,
+                      widget.custmerId,
+                      widget.os);
                 },
                 // leading: CircleAvatar(backgroundColor: Colors.green),
                 title: Column(
@@ -346,21 +367,44 @@ class _SaleCartState extends State<SaleCart> {
                                     padding:
                                         const EdgeInsets.only(left: 4, top: 0),
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
                                             Text(
-                                              "Rate :",
+                                              "Rate   :",
                                               style: TextStyle(fontSize: 13),
+                                              textAlign: TextAlign.left,
                                             ),
                                             SizedBox(
                                               width: size.width * 0.02,
                                             ),
                                             Text(
                                               "\u{20B9}${rate}",
+                                              textAlign: TextAlign.right,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 13),
+                                            ),
+                                          ],
+                                        ), // Row(
+
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Discount:",
+                                              style: TextStyle(fontSize: 13),
+                                            ),
+                                            SizedBox(
+                                              width: size.width * 0.03,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                " \u{20B9}${disc_amt.toString()}",
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(fontSize: 13),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -380,7 +424,7 @@ class _SaleCartState extends State<SaleCart> {
                                         // MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Qty :",
+                                            "Qty     :",
                                             style: TextStyle(fontSize: 13),
                                           ),
                                           SizedBox(
@@ -389,6 +433,7 @@ class _SaleCartState extends State<SaleCart> {
                                           Container(
                                             child: Text(
                                               qty.toString(),
+                                              textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
@@ -397,7 +442,7 @@ class _SaleCartState extends State<SaleCart> {
                                       Row(
                                         children: [
                                           Text(
-                                            "Discount:",
+                                            "Tax  :",
                                             style: TextStyle(fontSize: 13),
                                           ),
                                           SizedBox(
@@ -405,12 +450,30 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              " \u{20B9}${disc_amt.toString()}",
+                                              " \u{20B9}${tax_amt.toStringAsFixed(2)}",
+                                              textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
                                         ],
                                       ),
+                                      // Row(
+                                      //   children: [
+                                      //     Text(
+                                      //       "Discount:",
+                                      //       style: TextStyle(fontSize: 13),
+                                      //     ),
+                                      //     SizedBox(
+                                      //       width: size.width * 0.03,
+                                      //     ),
+                                      //     Container(
+                                      //       child: Text(
+                                      //         " \u{20B9}${disc_amt.toString()}",
+                                      //         style: TextStyle(fontSize: 13),
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
                                     ],
                                   ),
                                 ),
@@ -424,7 +487,7 @@ class _SaleCartState extends State<SaleCart> {
                                       Row(
                                         children: [
                                           Text(
-                                            "Tax :",
+                                            "Gross:",
                                             style: TextStyle(fontSize: 13),
                                           ),
                                           SizedBox(
@@ -432,7 +495,8 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              "\u{20B9}${tax.toString()}",
+                                              "\u{20B9}${gross.toString()}",
+                                              textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
@@ -450,6 +514,7 @@ class _SaleCartState extends State<SaleCart> {
                                           Container(
                                             child: Text(
                                               "\u{20B9}${cesamount}",
+                                              textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
@@ -511,13 +576,35 @@ class _SaleCartState extends State<SaleCart> {
                                                     primary:
                                                         P_Settings.wavecolor),
                                                 onPressed: () async {
+                                                  await OrderAppDB.instance
+                                                      .deleteFromTableCommonQuery(
+                                                          "salesBagTable",
+                                                          "customerid='${widget.custmerId}' AND cartrowno=$cartrowno");
+                                                  await Provider.of<Controller>(
+                                                          context,
+                                                          listen: false)
+                                                      .calculatesalesTotal(
+                                                          widget.os,
+                                                          widget.custmerId);
                                                   Provider.of<Controller>(
                                                           context,
                                                           listen: false)
-                                                      .deleteFromSalesBagTable(
-                                                          cartrowno,
+                                                      .getSaleBagDetails(
                                                           widget.custmerId,
-                                                          index);
+                                                          widget.os);
+                                                  Provider.of<Controller>(
+                                                          context,
+                                                          listen: false)
+                                                      .getSaleProductList(
+                                                          widget.custmerId);
+                                                  Provider.of<Controller>(
+                                                          context,
+                                                          listen: false)
+                                                      .countFromTable(
+                                                    "salesBagTable",
+                                                    widget.os,
+                                                    widget.custmerId,
+                                                  );
                                                   Navigator.of(ctx).pop();
                                                 },
                                                 child: Text("ok"),
@@ -541,13 +628,15 @@ class _SaleCartState extends State<SaleCart> {
                               "Total price : ",
                               style: TextStyle(fontSize: 13),
                             ),
-                            Text(
-                              "\u{20B9}${net_amt}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: P_Settings.extracolor),
-                            ),
+                            value.net_amt < 0.00
+                                ? Text("0.00")
+                                : Text(
+                                    "\u{20B9}${net_amt}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: P_Settings.extracolor),
+                                  ),
                           ],
                         ),
                       ),
@@ -568,7 +657,7 @@ class _SaleCartState extends State<SaleCart> {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return  AlertDialog(
+          return AlertDialog(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

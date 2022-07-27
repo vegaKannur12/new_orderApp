@@ -741,7 +741,7 @@ class OrderAppDB {
   //////////// Insert into sales master and sales details table/////////////
   Future insertsalesMasterandDetailsTable(
     int sales_id,
-    int? qty,
+    double? qty,
     double rate,
     String? code,
     String salesdate,
@@ -1369,7 +1369,7 @@ class OrderAppDB {
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
           "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(tax) t, SUM(discount) d, SUM(ces_per) ces FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
-      print("result sale........$res");
+      print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
       gross = res[0]["gr"].toStringAsFixed(2);
       count = res[0]["c"].toString();

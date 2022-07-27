@@ -5,8 +5,8 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:provider/provider.dart';
 
 class SalesBottomSheet {
-  sheet(BuildContext context, String itemcount, String netAmt,
-      String discount, String tax, String cess, String grosstot) {
+  sheet(BuildContext context, String itemcount, String netAmt, String discount,
+      String tax, String cess, String grosstot) {
     Size size = MediaQuery.of(context).size;
     showModalBottomSheet(
         context: context,
