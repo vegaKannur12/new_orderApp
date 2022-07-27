@@ -550,7 +550,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                     value.tax,
                                                                     0.0,
                                                                     100,
-                                                                    0.0,0.0,
+                                                                    0.0,value.cess,
                                                                     0,
                                                                     value.net_amt);
                                                             snackbar.showSnackbar(
@@ -895,7 +895,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                     ),
                                                                     value.tax,0.0,
                                                                     100,
-                                                                    0.0,0.0,
+                                                                    0.0,value.cess,
                                                                     0,
                                                                     value
                                                                         .net_amt);

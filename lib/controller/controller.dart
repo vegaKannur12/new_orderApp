@@ -2659,7 +2659,7 @@ class Controller extends ChangeNotifier {
     notifyListeners();
     //  discount_prercent[index].text = disc_per.toString();
     //  print("index--discount_prercent---$index-${discount_prercent[index].text}");
-    print("gross------$gross----$tax-----$net_amt--$disc_per");
+    print("gross---$cess---$gross----$tax-----$net_amt--$disc_per");
     return "success";
   }
 

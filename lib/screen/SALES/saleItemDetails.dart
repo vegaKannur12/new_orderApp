@@ -16,6 +16,7 @@ class SaleItemDetails {
       double dis_amt,
       double tax_per,
       double tax_amt,
+      double cess_per,double cess_amt,
       double net_amt,
       double gross,
       BuildContext context,
@@ -282,6 +283,28 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(tax_amt.toStringAsFixed(2))
+                            ],
+                          ),
+                        ),
+                         ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                "Cess %",
+                              ),
+                              Spacer(),
+                              Text(cess_per.toStringAsFixed(2))
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                "Cess amount",
+                              ),
+                              Spacer(),
+                              Text(cess_amt.toStringAsFixed(2))
                             ],
                           ),
                         ),

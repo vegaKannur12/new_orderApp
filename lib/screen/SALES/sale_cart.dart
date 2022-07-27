@@ -106,6 +106,8 @@ class _SaleCartState extends State<SaleCart> {
                         value.salebagList[index]["rate"].toString(),
                         value.salebagList[index]["discount_per"],
                         value.salebagList[index]["discount_amt"],
+                        value.salebagList[index]["ces_per"],
+                        value.salebagList[index]["ces_amt"],
                         value.salebagList[index]["net_amt"],
                         double.parse(value.salebagList[index]["totalamount"]),
 
@@ -118,9 +120,8 @@ class _SaleCartState extends State<SaleCart> {
                         value.salebagList[index]["tax_amt"],
 
                         // value.salebagList[index]["discount"].toString(),
-                        value.salebagList[index]["ces_amt"],
+                        // value.salebagList[index]["ces_amt"],
                         // value.salebagList[index]["ces_a"].toString(),
-
                       );
                     },
                   ),
@@ -214,23 +215,25 @@ class _SaleCartState extends State<SaleCart> {
   }
 
   Widget listItemFunction(
-      int cartrowno,
-      String itemName,
-      String hsn,
-      String rate,
-      double disc_per,
-      double disc_amt,
-      double net_amt,
-      double gross,
-      double qty,
-      Size size,
-      TextEditingController _controller,
-      int index,
-      String code,
-      String tax,
-      double tax_amt,
-      // String discount,
-      double cesamount) {
+    int cartrowno,
+    String itemName,
+    String hsn,
+    String rate,
+    double disc_per,
+    double disc_amt,
+    double cess_per,
+    double cess_amt,
+    double net_amt,
+    double gross,
+    double qty,
+    Size size,
+    TextEditingController _controller,
+    int index,
+    String code,
+    String tax,
+    double tax_amt,
+    // String discount,
+  ) {
     // print("qty-------$qty");
     _controller.text = qty.toString();
 
@@ -267,6 +270,8 @@ class _SaleCartState extends State<SaleCart> {
                       double.parse(rate),
                       disc_per,
                       disc_amt,
+                      cess_per,
+                      cess_amt,
                       double.parse(tax),
                       tax_amt,
                       net_amt,
@@ -478,7 +483,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              "\u{20B9}${cesamount.toStringAsFixed(2)}",
+                                              "\u{20B9}${cess_amt.toStringAsFixed(2)}",
                                               style: TextStyle(fontSize: 13),
                                             ),
                                           ),
