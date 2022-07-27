@@ -377,21 +377,20 @@ class _RemarkPageState extends State<RemarkPage> {
                                                             showDialog(
                                                                 context:
                                                                     context,
-                                                                builder: (BuildContext
-                                                                        context) =>
-                                                                    popup.buildPopupDialog(
-                                                                        widget.cus_id,
-                                                                        context,
-                                                                        "Do you want to cancel the Remark?",
-                                                                        "remark",
-                                                                        value.remarkList[index]
-                                                                            [
-                                                                            "rem_row_num"],
-                                                                        widget
-                                                                            .sid,
-                                                                        s[0],
-                                                                        widget
-                                                                            .aid));
+                                                                builder: (BuildContext context) => popup.buildPopupDialog(
+                                                                    widget
+                                                                        .cus_id,
+                                                                    context,
+                                                                    "Do you want to cancel the Remark?",
+                                                                    "remark",
+                                                                    value.remarkList[
+                                                                            index]
+                                                                        [
+                                                                        "rem_row_num"],
+                                                                    widget.sid,
+                                                                    s[0],
+                                                                    widget
+                                                                        .aid));
                                                           },
                                               ),
                                             ],
@@ -417,5 +416,3 @@ class _RemarkPageState extends State<RemarkPage> {
     );
   }
 }
-
- 
