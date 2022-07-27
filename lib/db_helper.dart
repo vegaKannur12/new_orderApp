@@ -1788,7 +1788,7 @@ class OrderAppDB {
     print("hhs----$res");
     if (res.length > 0) {
       result = await db.rawQuery(
-          "SELECT orderMasterTable.id as id, orderMasterTable.os  || orderMasterTable.order_id as ser,orderMasterTable.order_id as oid,orderMasterTable.customerid cuid, orderMasterTable.orderdate  || ' '  ||orderMasterTable.ordertime odate, orderMasterTable.userid as sid,orderMasterTable.areaid as aid  FROM orderMasterTable");
+          "SELECT orderMasterTable.id as id, orderMasterTable.os  || orderMasterTable.order_id as ser,orderMasterTable.order_id as oid,orderMasterTable.customerid cuid, orderMasterTable.orderdate  || ' '  ||orderMasterTable.ordertime odate, orderMasterTable.userid as sid,orderMasterTable.areaid as aid  FROM orderMasterTable where orderMasterTable.status=0");
     }
     print("result upload----$result");
     return result;
@@ -1799,7 +1799,7 @@ class OrderAppDB {
     Database db = await instance.database;
 
     var result = await db.rawQuery(
-        "SELECT returnMasterTable.id as id, returnMasterTable.os  || returnMasterTable.return_id as ser,returnMasterTable.return_id as srid,returnMasterTable.customerid cuid,returnMasterTable.return_date  || ' '  ||returnMasterTable.return_time return_date, returnMasterTable.userid as sid,returnMasterTable.areaid as aid  FROM returnMasterTable");
+        "SELECT returnMasterTable.id as id, returnMasterTable.os  || returnMasterTable.return_id as ser,returnMasterTable.return_id as srid,returnMasterTable.customerid cuid,returnMasterTable.return_date  || ' '  ||returnMasterTable.return_time return_date, returnMasterTable.userid as sid,returnMasterTable.areaid as aid  FROM returnMasterTable where returnMasterTable.status=0");
     return result;
   }
 

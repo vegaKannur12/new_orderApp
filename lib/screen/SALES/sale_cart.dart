@@ -151,12 +151,12 @@ class _SaleCartState extends State<SaleCart> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
-                              Flexible(
-                                child: Text("\u{20B9}${value.orderTotal2[0]!}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16)),
-                              )
+                              // Flexible(
+                              //   child: Text("\u{20B9}${value.orderTotal2[0]!}",
+                              //       style: TextStyle(
+                              //           fontWeight: FontWeight.bold,
+                              //           fontSize: 16)),
+                              // )
                             ],
                           ),
                         ),

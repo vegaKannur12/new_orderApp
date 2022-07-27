@@ -14,9 +14,10 @@ class SaleItemDetails {
       double rate,
       double dis_per,
       double dis_amt,
+      double cess_per,
+      double cess_amt,
       double tax_per,
       double tax_amt,
-      double cess_per,double cess_amt,
       double net_amt,
       double gross,
       BuildContext context,
@@ -292,7 +293,7 @@ class SaleItemDetails {
                             ],
                           ),
                         ),
-                         ListTile(
+                        ListTile(
                           title: Row(
                             children: [
                               Text(
