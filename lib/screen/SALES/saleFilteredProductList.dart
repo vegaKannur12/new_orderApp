@@ -177,7 +177,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       value.salefilteredProductList[index]["tax"],value.tax,
                                       0.0,
                                       0.0,
-                                      0.0,
+                                      0.0,0.0,
                                       0,
                                       value.net_amt);
 
