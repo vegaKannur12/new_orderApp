@@ -63,7 +63,7 @@ class CommonPopup {
                   }
 
                   if (type == "sales") {
-                    print("sales......${grossamt}...${disamt}...${taxamt}");
+                    print("sales......${grossamt}...${disamt}...${disper}");
                     Provider.of<Controller>(context, listen: false)
                         .insertToSalesbagAndMaster(
                             os!,

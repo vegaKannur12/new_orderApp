@@ -793,8 +793,9 @@ class Controller extends ChangeNotifier {
       var mapBody = jsonEncode(om);
       print("mapBody--${mapBody}");
 
-      var jsonD = jsonDecode(mapBody);
-
+      // var jsonD = jsonDecode(mapBody);
+      var body = {'cid': cid, 'om': mapBody};
+      print("body----------$body");
       http.Response response = await http.post(
         url,
         body: {'cid': cid, 'om': mapBody},
@@ -924,6 +925,7 @@ class Controller extends ChangeNotifier {
     int sales_id = await OrderAppDB.instance
         .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
     int rowNum = 1;
+    print("hdsfghjfgf..$disper");
     print("salebagList length........${salebagList.length}");
     if (salebagList.length > 0) {
       await OrderAppDB.instance.insertsalesMasterandDetailsTable(
@@ -985,8 +987,8 @@ class Controller extends ChangeNotifier {
             "salesDetailTable",
             item["itemName"],
             grossamt,
-            disc_amt,
-            disc_per,
+            double.parse(disamt),
+            double.parse(disper),
             double.parse(taxamt),
             double.parse(taxper),
             double.parse(cesamt),
@@ -2624,6 +2626,7 @@ class Controller extends ChangeNotifier {
     print(
         "attribute-- --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     flag = false;
+    gross = rate * qty;
     if (disc_amount != 0 && disCalc == "disc_amt") {
       disc_per = (disc_amount / rate) * 100;
       print("discount_prercent------${discount_prercent.length}");
@@ -2632,14 +2635,16 @@ class Controller extends ChangeNotifier {
       }
       print("disc_per----$disc_per");
     }
+
     if (disc_per != 0 && disCalc == "disc_per") {
       print("yes hay---$disc_per");
-      disc_amt = (rate * disc_per) / 100;
+      disc_amt = (gross * disc_per) / 100;
       if (onSub) {
         discount_amount[index].text = disc_amt.toStringAsFixed(2);
       }
       print("disc-amt----$disc_amt");
     }
+
     if (state_status == 0) {
       ///////state_status=0--loacal///////////state_status=1----inter-state
       cgst_per = tax_per / 2;
@@ -2652,9 +2657,11 @@ class Controller extends ChangeNotifier {
     }
     if (method == "0") {
       /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
-      gross = rate * qty;
-      disc_per = (disc_amount / rate) * 100;
-      disc_amt = (gross * disc_per) / 100;
+      if (disCalc == "") {
+        disc_per = (disc_amount / rate) * 100;
+        disc_amt = (gross * disc_per) / 100;
+      }
+
       print("disc_per calcu mod=0.... $disc_per..$disc_amt");
       tax = (gross - disc_amt) * (tax_per / 100);
       cgst_amt = (gross - disc_amt) * (cgst_per / 100);
