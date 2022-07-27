@@ -45,6 +45,9 @@ class _DownloadedPageState extends State<DownloadedPage> {
     super.initState();
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
+    Provider.of<Controller>(context, listen: false).isDown =
+        List.generate(downloadItems.length, (index) => false);
+
     getCid();
   }
 
@@ -133,9 +136,9 @@ class _DownloadedPageState extends State<DownloadedPage> {
                             trailing: IconButton(
                               onPressed: value.versof == "0"
                                   ? null
-                                  : value.isAccount
+                                  : value.isDownloaded
                                       ? null
-                                      : () async {
+                                      :value.isDown[index]?null: () async {
                                           // SharedPreferences prefs =
                                           //     await SharedPreferences
                                           //         .getInstance();
@@ -150,31 +153,32 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getaccountHeadsDetails(
-                                                    context, s[0], cid!);
+                                                    context, s[0], cid!, index);
                                           }
                                           if (downloadItems[index] ==
                                               "Product category") {
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .getProductCategory(cid!);
+                                                .getProductCategory(
+                                                    cid!, index);
                                           }
                                           if (downloadItems[index] ==
                                               "Company") {
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .getProductCompany(cid!);
+                                                .getProductCompany(cid!, index);
                                           }
                                           if (downloadItems[index] ==
                                               "Product Details") {
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .getProductDetails(cid!);
+                                                .getProductDetails(cid!,index);
                                           }
                                           if (downloadItems[index] ==
                                               "Wallet") {
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .getWallet(context);
+                                                .getWallet(context, index);
                                           }
                                         },
                               icon: Icon(Icons.download),

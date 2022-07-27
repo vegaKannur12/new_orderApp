@@ -27,6 +27,8 @@ class _UploaddataState extends State<Uploaddata> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Provider.of<Controller>(context, listen: false).isUp =
+        List.generate(uploadItems.length, (index) => false);
   }
 
   // getCompaniId() async {
@@ -81,20 +83,20 @@ class _UploaddataState extends State<Uploaddata> {
                                   ? null
                                   : value.isUpload
                                       ? null
-                                      : () async {
+                                      : value.isUp[index]?null:() async {
                                           if (uploadItems[index] ==
                                               "Upload Orders") {
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .uploadOrdersData(
-                                                    widget.cid, context);
+                                                    widget.cid, context,index);
                                           }
                                           if (uploadItems[index] ==
                                               "Upload Stock Return") {
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .uploadReturnData(
-                                                    widget.cid, context);
+                                                    widget.cid, context,index);
                                           }
                                           if (uploadItems[index] ==
                                               "Upload Sales") {
@@ -105,21 +107,21 @@ class _UploaddataState extends State<Uploaddata> {
                                               "Upload Customer") {
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .uploadCustomers(context);
+                                                .uploadCustomers(context,index);
                                             //     .getProductCategory(cid!, "");
                                           }
                                           if (uploadItems[index] ==
                                               "Upload Collection") {
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .uploadCollectionData(context);
+                                                .uploadCollectionData(context,index);
                                             //     .getProductCategory(cid!, "");
                                           }
                                           if (uploadItems[index] ==
                                               "Upload Remarks") {
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .uploadRemarks(context);
+                                                .uploadRemarks(context,index);
                                             //     .getProductCategory(cid!, "");
                                           }
                                         },
