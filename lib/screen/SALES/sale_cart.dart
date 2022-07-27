@@ -109,7 +109,7 @@ class _SaleCartState extends State<SaleCart> {
                         value.salebagList[index]["net_amt"].toString(),
                         double.parse(value.salebagList[index]["totalamount"]),
 
-                       value.salebagList[index]["qty"],
+                        value.salebagList[index]["qty"],
                         size,
                         value.controller[index],
                         index,
@@ -225,7 +225,8 @@ class _SaleCartState extends State<SaleCart> {
       TextEditingController _controller,
       int index,
       String code,
-      String tax,double tax_amt,
+      String tax,
+      double tax_amt,
       // String discount,
       String cesamount) {
     // print("qty-------$qty");
@@ -250,9 +251,9 @@ class _SaleCartState extends State<SaleCart> {
                   value.discount_prercent[index].text = disc_per.toString();
                   value.discount_amount[index].text = disc_amt.toString();
 
-                  Provider.of<Controller>(context, listen: false)
-                      .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
-                          100, double.parse(tax), 0.0, "0", 0,index);
+                  // Provider.of<Controller>(context, listen: false)
+                  //     .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
+                  //         100, double.parse(tax), 0.0, "0", 0, index);
 
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
@@ -263,12 +264,14 @@ class _SaleCartState extends State<SaleCart> {
                       disc_per,
                       disc_amt,
                       double.parse(tax),
-                       tax_amt,
+                      tax_amt,
                       double.parse(net_amt),
                       gross,
                       context,
                       size,
-                      index,widget.custmerId,widget.os);
+                      index,
+                      widget.custmerId,
+                      widget.os);
                 },
                 // leading: CircleAvatar(backgroundColor: Colors.green),
                 title: Column(
@@ -332,7 +335,7 @@ class _SaleCartState extends State<SaleCart> {
                                         const EdgeInsets.only(left: 4, top: 0),
                                     child: Row(
                                       mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
@@ -350,25 +353,25 @@ class _SaleCartState extends State<SaleCart> {
                                                   fontSize: 13),
                                             ),
                                           ],
-                                        ),// Row(
+                                        ), // Row(
 
                                         Row(
-                                        children: [
-                                          Text(
-                                            "Discount:",
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.03,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              " \u{20B9}${disc_amt.toString()}",
+                                          children: [
+                                            Text(
+                                              "Discount:",
                                               style: TextStyle(fontSize: 13),
                                             ),
-                                          ),
-                                        ],
-                                      ),
+                                            SizedBox(
+                                              width: size.width * 0.03,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                " \u{20B9}${disc_amt.toString()}",
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),
