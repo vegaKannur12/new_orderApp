@@ -101,10 +101,6 @@ class _SaleCartState extends State<SaleCart> {
                         value.salebagList[index]["cartrowno"],
                         value.salebagList[index]["itemName"],
                         value.salebagList[index]["hsn"],
-
-                        // value.rateEdit[index]
-                        //     ? value.editedRate
-                        //     :
                         value.salebagList[index]["rate"].toString(),
                         value.salebagList[index]["discount_per"],
                         value.salebagList[index]["discount_amt"],
@@ -609,15 +605,25 @@ class _SaleCartState extends State<SaleCart> {
                             Spacer(),
                             Text(
                               "Total price : ",
-                              style: TextStyle(fontSize: 13),
-                            ),
-                            Text(
-                              "\u{20B9}${net_amt.toStringAsFixed(2)}",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: P_Settings.extracolor),
+                                fontSize: 13,
+                              ),
                             ),
+                            net_amt < disc_amt
+                                ? Text(
+                                    "0.00",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: P_Settings.extracolor),
+                                  )
+                                : Text(
+                                    "\u{20B9}${net_amt.toStringAsFixed(2)}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: P_Settings.extracolor),
+                                  ),
                           ],
                         ),
                       ),

@@ -303,7 +303,7 @@ class SaleItemDetails {
                                 style: TextStyle(color: P_Settings.extracolor),
                               ),
                               Spacer(),
-                              dis_amt < net_amt
+                              rate < dis_amt
                                   ? Text("\u{20B9}0.00",
                                       style: TextStyle(
                                           color: P_Settings.extracolor))

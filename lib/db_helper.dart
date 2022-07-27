@@ -669,7 +669,8 @@ class OrderAppDB {
     String hsn,
     double tax_per,
     double tax,
-    double discount_per,double discount_amt,
+    double discount_per,
+    double discount_amt,
     double ces_per,double ces_amt,
     int cstatus,
     double net_amt,
@@ -698,7 +699,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn,tax_per, tax_amt, discount_per,discount_amt, ces_per,ces_amt, cstatus,net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${discount_per},${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt")';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn,tax_per, tax_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt")';
       var res = await db.rawInsert(query2);
     }
 
@@ -1381,7 +1382,7 @@ class OrderAppDB {
       discount = res[0]["d"].toStringAsFixed(2);
       cesamount = res[0]["ces"].toStringAsFixed(2);
       print(
-          "gross..netamount..taxval..dis..ces ......$gross...$net_amt....$taxval..$discount..$cesamount");
+          "gross..netamount..taxval..dis..ces ......$gross...$net_amount....$taxval..$discount..$cesamount");
     } else {
       net_amount = "0.00";
       count = "0.00";
