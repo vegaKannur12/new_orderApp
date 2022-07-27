@@ -37,6 +37,8 @@ class Controller extends ChangeNotifier {
   double disc_per = 0.0;
   double cess = 0.0;
   bool isLoading = false;
+  bool isCompleted = false;
+
   bool isUpload = false;
   bool filterCompany = false;
   bool salefilterCompany = false;
@@ -65,6 +67,9 @@ class Controller extends ChangeNotifier {
   int? shopVisited;
   int? noshopVisited;
   List<bool> selected = [];
+  List<bool> isDown = [];
+  List<bool> isUp = [];
+
   List<bool> saleItemselected = [];
 
   List<bool> filterComselected = [];
@@ -89,7 +94,7 @@ class Controller extends ChangeNotifier {
 
   List<Map<String, dynamic>> returnList = [];
   bool filter = false;
-  bool isAccount = false;
+  bool isDownloaded = false;
   // String? custmerSelection;
   int? customerCount;
   List<String> tableColumn = [];
@@ -561,10 +566,7 @@ class Controller extends ChangeNotifier {
 
 //////////////////////////////////GET ACCOUNT HEADS//////////////////////////////////////
   Future<AccountHead?> getaccountHeadsDetails(
-    BuildContext context,
-    String s,
-    String cid,
-  ) async {
+      BuildContext context, String s, String cid, int index) async {
     print("cid...............${cid}");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userType = prefs.getString("userType");
@@ -577,7 +579,7 @@ class Controller extends ChangeNotifier {
       };
 
       isLoading = true;
-      isAccount = true;
+      isDownloaded = true;
       notifyListeners();
       print("compny----${cid}");
       http.Response response = await http.post(
@@ -604,8 +606,10 @@ class Controller extends ChangeNotifier {
         }
       }
 
-      isAccount = false;
+      isDownloaded = false;
+      isDown[index] = true;
       isLoading = false;
+
       notifyListeners();
 
       // return accountHead;
@@ -616,7 +620,7 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////// GET WALLET ///////////////////////////////////////
-  Future<WalletModal?> getWallet(BuildContext context) async {
+  Future<WalletModal?> getWallet(BuildContext context, int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? cid = prefs.getString("cid");
     NetConnection.networkConnection(context).then((value) async {
@@ -627,8 +631,8 @@ class Controller extends ChangeNotifier {
           Map body = {
             'cid': cid,
           };
-          isAccount = true;
-
+          isDownloaded = true;
+          isCompleted = true;
           isLoading = true;
           notifyListeners();
           http.Response response = await http.post(
@@ -646,8 +650,10 @@ class Controller extends ChangeNotifier {
             await OrderAppDB.instance.insertwalletTable(walletModal);
             // menuList.add(menuItem);
           }
-          isAccount = false;
+          isDownloaded = false;
+          isDown[index] = true;
           isLoading = false;
+
           notifyListeners();
         } catch (e) {
           print(e);
@@ -741,9 +747,7 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////////GET PRODUCT DETAILS//////////////////////////
-  Future<ProductDetails?> getProductDetails(
-    String cid,
-  ) async {
+  Future<ProductDetails?> getProductDetails(String cid, int index) async {
     print("cid...............${cid}");
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_prod.php");
@@ -751,7 +755,7 @@ class Controller extends ChangeNotifier {
         'cid': cid,
       };
       print("compny----${cid}");
-      isAccount = true;
+      isDownloaded = true;
 
       isLoading = true;
       notifyListeners();
@@ -770,7 +774,8 @@ class Controller extends ChangeNotifier {
         var product =
             await OrderAppDB.instance.insertProductDetails(proDetails);
       }
-      isAccount = false;
+      isDownloaded = false;
+      isDown[index] = true;
 
       isLoading = false;
       notifyListeners();
@@ -822,8 +827,7 @@ class Controller extends ChangeNotifier {
 
 /////////////////////////////GET PRODUCT CATEGORY//////////////////////////////
   Future<ProductsCategoryModel?> getProductCategory(
-    String cid,
-  ) async {
+      String cid, int index) async {
     print("cid...............${cid}");
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_cat.php");
@@ -831,7 +835,7 @@ class Controller extends ChangeNotifier {
         'cid': cid,
       };
       print("compny----${cid}");
-      isAccount = true;
+      isDownloaded = true;
       isLoading = true;
       notifyListeners();
 
@@ -848,7 +852,8 @@ class Controller extends ChangeNotifier {
       for (var cat in map) {
         category = ProductsCategoryModel.fromJson(cat);
         var product = await OrderAppDB.instance.insertProductCategory(category);
-        isAccount = false;
+        isDownloaded = false;
+        isDown[index] = true;
         isLoading = false;
         notifyListeners();
 
@@ -863,9 +868,7 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////////////GET COMPANY/////////////////////////////////
-  Future<ProductCompanymodel?> getProductCompany(
-    String cid,
-  ) async {
+  Future<ProductCompanymodel?> getProductCompany(String cid, int index) async {
     print("cid...............${cid}");
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_com.php");
@@ -873,7 +876,7 @@ class Controller extends ChangeNotifier {
         'cid': cid,
       };
       print("compny----${cid}");
-      isAccount = true;
+      isDownloaded = true;
       isLoading = true;
       notifyListeners();
 
@@ -891,7 +894,8 @@ class Controller extends ChangeNotifier {
         var product =
             await OrderAppDB.instance.insertProductCompany(productCompany);
       }
-      isAccount = false;
+      isDownloaded = false;
+      isDown[index] = true;
 
       isLoading = false;
       notifyListeners();
@@ -2269,7 +2273,7 @@ class Controller extends ChangeNotifier {
 
   ///////////////////////////////////////////////////////////////////////////
 
-  uploadOrdersData(String cid, BuildContext context) async {
+  uploadOrdersData(String cid, BuildContext context, int index) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
     isUpload = true;
@@ -2290,6 +2294,7 @@ class Controller extends ChangeNotifier {
         saveOrderDetails(cid, om, context);
       }
       isUpload = false;
+      isUp[index] = true;
       notifyListeners();
       print("om----$om");
     } else {
@@ -2300,7 +2305,7 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////////upload customer/////////////////////////////////////////
-  uploadCustomers(BuildContext context) async {
+  uploadCustomers(BuildContext context, int index) async {
     try {
       var result =
           await OrderAppDB.instance.selectAllcommon('customerTable', "");
@@ -2325,7 +2330,7 @@ class Controller extends ChangeNotifier {
           body: body,
         );
         isUpload = false;
-
+        isUp[index] = true;
         isLoading = false;
         notifyListeners();
         // print("response----$response");
@@ -2345,7 +2350,7 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////upload return data////////////////////////
-  uploadReturnData(String cid, BuildContext context) async {
+  uploadReturnData(String cid, BuildContext context, int index) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
     isUpload = true;
@@ -2365,6 +2370,7 @@ class Controller extends ChangeNotifier {
       print("entede");
       saveReturnDetails(cid, om, context);
       isUpload = false;
+      isUp[index] = true;
       notifyListeners();
     } else {
       snackbar.showSnackbar(context, "Nothing to upload!!!");
@@ -2374,7 +2380,7 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////////upload customer/////////////////////////////////////////
-  uploadRemarks(BuildContext context) async {
+  uploadRemarks(BuildContext context, int index) async {
     print("haicollection");
     try {
       var result = await OrderAppDB.instance.uploadRemark();
@@ -2408,9 +2414,10 @@ class Controller extends ChangeNotifier {
             print("update data1.......$map");
             await OrderAppDB.instance.upadteCommonQuery("remarksTable",
                 "rem_status='${item["rid"]}'", "rem_row_num='${item["phid"]}'");
-            isUpload = false;
           }
         }
+        isUpload = false;
+        isUp[index] = true;
       } else {
         snackbar.showSnackbar(context, "Nothing to upload!!!");
       }
@@ -2422,7 +2429,7 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////UPLOAD COLLECTION TABLE////////////////
-  uploadCollectionData(BuildContext context) async {
+  uploadCollectionData(BuildContext context, int index) async {
     print("haicollection");
     try {
       var result = await OrderAppDB.instance.uploadCollections();
@@ -2458,9 +2465,10 @@ class Controller extends ChangeNotifier {
                 "collectionTable",
                 "rec_status='${item["col_id"]}'",
                 "rec_row_num='${item["phid"]}'");
-            isUpload = false;
           }
         }
+        isUpload = false;
+        isUp[index] = true;
       } else {
         snackbar.showSnackbar(context, "Nothing to upload!!!");
       }
