@@ -53,6 +53,7 @@ class Controller extends ChangeNotifier {
   bool isSearch = false;
   bool isreportSearch = false;
   String? areaId;
+  bool flag = false;
   List<String> gridHeader = [];
   String? areaSelecton;
   int returnCount = 0;
@@ -60,7 +61,6 @@ class Controller extends ChangeNotifier {
   double returnTotal = 0.0;
   bool? noreportdata;
   bool? continueClicked;
-  bool flag = false;
   bool returnprice = false;
   int? shopVisited;
   int? noshopVisited;
@@ -2618,22 +2618,25 @@ class Controller extends ChangeNotifier {
       double cess_per,
       String method,
       int state_status,
-      int index) {
+      int index,
+      bool onSub,String? disCalc) {
     print(
-        "rate..qty...disc_per..discamount..taxper.. cessper..$rate..$qty...$disc_per--$disc_amount..$tax_per..$cess_per");
+        "attribute-- --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     flag = false;
-    if (disc_amount != 0) {
-      if (disc_per < 0.00) {
-        disc_per = 0.00 * disc_per;
-      } else {
-        disc_per = (disc_amount / rate) * 100;
+    if (disc_amount != 0 && disCalc=="disc_amt" ) {
+      disc_per = (disc_amount / rate) * 100;
+      print("discount_prercent------${discount_prercent.length}");
+      if (onSub) {
+        discount_prercent[index].text = disc_per.toStringAsFixed(2);
       }
-
-      print("disc_per calcu.... $disc_per..$disc_amt");
+      print("disc_per----$disc_per");
     }
-    if (disc_per != 0) {
-      print("discountper and rate..$disc_per...$rate");
-      disc_amt = (gross * disc_per) / 100;
+    if (disc_per != 0 && disCalc=="disc_per") {
+      print("yes hay---$disc_per");
+      disc_amt = (rate * disc_per) / 100;
+      if (onSub) {
+        discount_amount[index].text = disc_amt.toStringAsFixed(2);
+      }
       print("disc-amt----$disc_amt");
     }
     if (state_status == 0) {
@@ -2668,10 +2671,13 @@ class Controller extends ChangeNotifier {
       double percnt = tax_per + cess_per;
       taxable_rate = rate * 1 - (percnt / (100 + percnt));
     }
+    // salesqty[index].text=qty.toString();
+    notifyListeners();
     //  discount_prercent[index].text = disc_per.toString();
     //  print("index--discount_prercent---$index-${discount_prercent[index].text}");
     print("gross------$gross----$tax-----$net_amt--$disc_per");
     return "success";
-    notifyListeners();
   }
+
+  notifyListeners();
 }

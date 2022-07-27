@@ -362,7 +362,7 @@ class _SalesItemState extends State<SalesItem> {
                                                 subtitle: Row(
                                                   children: [
                                                     Text(
-                                                      '\u{20B9}${value.newList[index]["rate1"]}',
+                                                      '\u{20B9}${value.newList[index]["rate1"].toStringAsFixed(2)}',
                                                       style: TextStyle(
                                                         color: P_Settings
                                                             .ratecolor,
@@ -481,7 +481,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                 0.0,
                                                                 "0",
                                                                 0,
-                                                                index);
+                                                                index,
+                                                                false,
+                                                                "");
 
                                                         if (result ==
                                                             "success") {
@@ -518,6 +520,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         ["tax"],
                                                                   ),
                                                                   value.tax,
+                                                                  0.0,
                                                                   100,
                                                                   0.0,
                                                                   0,
@@ -801,7 +804,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                 0.0,
                                                                 "0",
                                                                 0,
-                                                                index);
+                                                                index,
+                                                                false,
+                                                                "");
                                                         print(
                                                             "result----$result");
                                                         if (result ==
@@ -839,6 +844,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         ["tax"],
                                                                   ),
                                                                   value.tax,
+                                                                  0.0,
                                                                   100,
                                                                   0.0,
                                                                   0,

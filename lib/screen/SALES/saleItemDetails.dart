@@ -27,7 +27,7 @@ class SaleItemDetails {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          print("keryy---$qty");
+          print("param---$qty----$dis_per--$dis_amt----");
           // rawCalcResult = Provider.of<Controller>(context,listen: false).rawCalculation(rate,qty.toDouble(), 0.0, 100,tax_per, 0.0, "0", 0);
           return Consumer<Controller>(
             builder: (context, value, child) {
@@ -116,11 +116,29 @@ class SaleItemDetails {
                                   keyboardType: TextInputType.number,
                                   onSubmitted: (values) {
                                     print("values----$values");
-                                    double valueqty = double.parse(values);
+                                    double valueqty = 0.0;
+                                    // value.discount_amount[index].text=;
+                                    if (values.isNotEmpty) {
+                                      print("emtyyyy");
+                                      valueqty = double.parse(values);
+                                    } else {
+                                      valueqty = 0.00;
+                                    }
+
                                     Provider.of<Controller>(context,
                                             listen: false)
-                                        .rawCalculation(rate, valueqty, 0.0,
-                                            100, tax_per, 0.0, "0", 0, index);
+                                        .rawCalculation(
+                                            rate,
+                                            valueqty,
+                                            0.0,
+                                            100,
+                                            tax_per,
+                                            0.0,
+                                            "0",
+                                            0,
+                                            index,
+                                            true,
+                                            "");
                                   },
                                   textAlign: TextAlign.right,
                                   // decoration: InputDecoration(
@@ -151,7 +169,7 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                                "\u{20B9}${value.gross.toStringAsFixed(2)}",
+                                "\u{20B9}${gross.toStringAsFixed(2)}",
                               )
                             ],
                           ),
@@ -167,11 +185,16 @@ class SaleItemDetails {
                                 width: size.width * 0.2,
                                 child: TextField(
                                   keyboardType: TextInputType.number,
-
-                                  onSubmitted: (values) async {
-                                    double valuediscper = double.parse(values);
-                                    print("value persentage.....$valuediscper");
-                                    await Provider.of<Controller>(context,
+                                  onSubmitted: (values) {
+                                    double valuediscper = 0.0;
+                                    print("values---$values");
+                                    if (values.isNotEmpty) {
+                                      print("emtyyyy");
+                                      valuediscper = double.parse(values);
+                                    } else {
+                                      valuediscper = 0.00;
+                                    }
+                                    Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
                                             rate,
@@ -183,7 +206,9 @@ class SaleItemDetails {
                                             0.0,
                                             "0",
                                             0,
-                                            index);
+                                            index,
+                                            true,
+                                            "disc_per");
                                   },
                                   controller: value.discount_prercent[index],
                                   textAlign: TextAlign.right,
@@ -206,10 +231,17 @@ class SaleItemDetails {
                                 width: size.width * 0.2,
                                 child: TextField(
                                   keyboardType: TextInputType.number,
-                                  onSubmitted: (values) async {
+                                  onSubmitted: (values) {
+                                    double valuediscamt = 0.0;
                                     // value.discount_amount[index].text=;
-                                    double valuediscamt = double.parse(values);
-                                    await Provider.of<Controller>(context,
+                                    if (values.isNotEmpty) {
+                                      print("emtyyyy");
+                                      valuediscamt = double.parse(values);
+                                    } else {
+                                      valuediscamt = 0.00;
+                                    }
+
+                                    Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
                                             rate,
@@ -222,7 +254,9 @@ class SaleItemDetails {
                                             0.0,
                                             "0",
                                             0,
-                                            index);
+                                            index,
+                                            true,
+                                            "disc_amt");
                                   },
                                   controller: value.discount_amount[index],
                                   textAlign: TextAlign.right,
@@ -269,12 +303,12 @@ class SaleItemDetails {
                                 style: TextStyle(color: P_Settings.extracolor),
                               ),
                               Spacer(),
-                              value.net_amt < 0.00
+                              net_amt < 0.00
                                   ? Text("\u{20B9}0.00",
                                       style: TextStyle(
                                           color: P_Settings.extracolor))
                                   : Text(
-                                      "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
+                                      "\u{20B9}${net_amt.toStringAsFixed(2)}",
                                       style: TextStyle(
                                           color: P_Settings.extracolor),
                                     ),
@@ -293,7 +327,7 @@ class SaleItemDetails {
                                         int indexCalc = index + 1;
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
-                                            "net_amt=${value.net_amt},discount=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax=${value.tax}",
+                                            "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax}",
                                             "cartrowno=$indexCalc and customerid='$customerId'");
                                         print("calculate new total");
                                         await Provider.of<Controller>(context,

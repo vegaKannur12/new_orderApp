@@ -105,9 +105,9 @@ class _SaleCartState extends State<SaleCart> {
                         // value.rateEdit[index]
                         //     ? value.editedRate
                         //     :
-                        value.salebagList[index]["rate"],
-                        0.0,
-                        double.parse(value.salebagList[index]["discount"]),
+                        value.salebagList[index]["rate"].toString(),
+                        double.parse(value.salebagList[index]["discount_per"]),
+                        double.parse(value.salebagList[index]["discount_amt"]),
                         value.salebagList[index]["net_amt"].toString(),
                         double.parse(value.salebagList[index]["totalamount"]),
 
@@ -117,7 +117,7 @@ class _SaleCartState extends State<SaleCart> {
                         index,
                         value.salebagList[index]["code"],
                         value.salebagList[index]["tax_per"].toString(),
-                        value.salebagList[index]["tax"],
+                        value.salebagList[index]["tax_amt"],
 
                         // value.salebagList[index]["discount"].toString(),
                         value.salebagList[index]["ces_per"].toString(),
@@ -244,6 +244,7 @@ class _SaleCartState extends State<SaleCart> {
 
     return Consumer<Controller>(
       builder: (context, value, child) {
+        print("net amount............$net_amt");
         return Container(
           height: size.height * 0.2,
           child: Padding(
@@ -257,16 +258,11 @@ class _SaleCartState extends State<SaleCart> {
               ),
               child: ListTile(
                 onTap: () {
-                  value.salesqty[index].text = qty.toString();
-                  value.discount_prercent[index].text = disc_per.toString();
-
-                  print(
-                      "discount per in bottom sheet....${value.discount_prercent[index].text}");
-                  value.discount_amount[index].text = disc_amt.toString();
-
-                  // Provider.of<Controller>(context, listen: false)
-                  //     .rawCalculation(double.parse(rate), qty.toDouble(), 0.0,
-                  //         100, double.parse(tax), 0.0, "0", 0, index);
+                  value.salesqty[index].text = qty.toStringAsFixed(2);
+                  value.discount_prercent[index].text =
+                      disc_per.toStringAsFixed(2);
+                  value.discount_amount[index].text =
+                      disc_amt.toStringAsFixed(2);
 
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
@@ -528,83 +524,87 @@ class _SaleCartState extends State<SaleCart> {
                           children: [
                             Row(
                               children: [
-                                Text(
-                                  "Remove ",
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) => AlertDialog(
-                                        content: Text("delete?"),
-                                        actions: <Widget>[
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    primary:
-                                                        P_Settings.wavecolor),
-                                                onPressed: () {
-                                                  Navigator.of(ctx).pop();
-                                                },
-                                                child: Text("cancel"),
-                                              ),
-                                              SizedBox(
-                                                width: size.width * 0.01,
-                                              ),
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    primary:
-                                                        P_Settings.wavecolor),
-                                                onPressed: () async {
-                                                  await OrderAppDB.instance
-                                                      .deleteFromTableCommonQuery(
-                                                          "salesBagTable",
-                                                          "customerid='${widget.custmerId}' AND cartrowno=$cartrowno");
-                                                  await Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .calculatesalesTotal(
-                                                          widget.os,
-                                                          widget.custmerId);
-                                                  Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .getSaleBagDetails(
-                                                          widget.custmerId,
-                                                          widget.os);
-                                                  Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .getSaleProductList(
-                                                          widget.custmerId);
-                                                  Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .countFromTable(
-                                                    "salesBagTable",
-                                                    widget.os,
-                                                    widget.custmerId,
-                                                  );
-                                                  Navigator.of(ctx).pop();
-                                                },
-                                                child: Text("ok"),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  icon: Icon(
-                                    Icons.close,
-                                    size: 17,
-                                  ),
-                                  color: P_Settings.extracolor,
-                                ),
+                                ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                        elevation: 0,
+                                        primary: Colors.grey[100]),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) => AlertDialog(
+                                          content: Text("delete?"),
+                                          actions: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: P_Settings
+                                                              .wavecolor),
+                                                  onPressed: () {
+                                                    Navigator.of(ctx).pop();
+                                                  },
+                                                  child: Text("cancel"),
+                                                ),
+                                                SizedBox(
+                                                  width: size.width * 0.01,
+                                                ),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: P_Settings
+                                                              .wavecolor),
+                                                  onPressed: () async {
+                                                    await OrderAppDB.instance
+                                                        .deleteFromTableCommonQuery(
+                                                            "salesBagTable",
+                                                            "customerid='${widget.custmerId}' AND cartrowno=$cartrowno");
+                                                    await Provider.of<
+                                                                Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .calculatesalesTotal(
+                                                            widget.os,
+                                                            widget.custmerId);
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .getSaleBagDetails(
+                                                            widget.custmerId,
+                                                            widget.os);
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .getSaleProductList(
+                                                            widget.custmerId);
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .countFromTable(
+                                                      "salesBagTable",
+                                                      widget.os,
+                                                      widget.custmerId,
+                                                    );
+                                                    Navigator.of(ctx).pop();
+                                                  },
+                                                  child: Text("ok"),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: P_Settings.extracolor,
+                                    ),
+                                    label: Text(
+                                      "Remove",
+                                      style: TextStyle(color: Colors.black),
+                                    ))
                               ],
                             ),
                             Spacer(),
