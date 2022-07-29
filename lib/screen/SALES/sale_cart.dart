@@ -243,7 +243,7 @@ class _SaleCartState extends State<SaleCart> {
     double tax_amt,
     // String discount,
   ) {
-    print("qty net-------$net_amt");
+    print("qty net-------$net_amt...$tax_amt");
     _controller.text = qty.toString();
 
     return Consumer<Controller>(
@@ -267,7 +267,22 @@ class _SaleCartState extends State<SaleCart> {
                       disc_per.toStringAsFixed(2);
                   value.discount_amount[index].text =
                       disc_amt.toStringAsFixed(2);
-
+                  Provider.of<Controller>(context, listen: false)
+                      .rawCalculation(
+                          double.parse(rate),
+                          double.parse(
+                            value.salesqty[index].text,
+                          ),
+                          0.0,
+                          0.0,
+                          double.parse(tax),
+                          0.0,
+                          "0",
+                          0,
+                          index,
+                          false,
+                          "");
+                  print("tax amount move........$tax_amt");
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
                       code,

@@ -1373,6 +1373,7 @@ class OrderAppDB {
     String disper;
 
     Database db = await instance.database;
+    print("calculate sales updated tot in db....$os...$customerId");
     var result = await db.rawQuery(
         "SELECT * FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
 
@@ -1872,7 +1873,7 @@ class OrderAppDB {
 
     var result = await db.rawQuery(
         "SELECT salesDetailTable.code as code,salesDetailTable.item_name as item, salesDetailTable.qty as qty, salesDetailTable.rate as rate,salesDetailTable.gross_amount as gross,salesDetailTable.dis_amt as disc_amt,salesDetailTable.dis_per as disc_per,salesDetailTable.tax_per as tax_per,salesDetailTable.tax_amt as tax_amt,salesDetailTable.ces_per as ces_per,salesDetailTable.ces_amt as ces_amt,salesDetailTable.net_amt as net_amt  from salesDetailTable  where  salesDetailTable.sales_id=${sales_id}");
-        print("sales detao;s------$result");
+    print("sales detao;s------$result");
     return result;
   }
 

@@ -29,7 +29,7 @@ class SaleItemDetails {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          print("param---$qty----$dis_per--$dis_amt--$net_amt--");
+          print("param---$qty----$dis_per--$dis_amt--$net_amt--$tax_amt");
           // rawCalcResult = Provider.of<Controller>(context,listen: false).rawCalculation(rate,qty.toDouble(), 0.0, 100,tax_per, 0.0, "0", 0);
           return Consumer<Controller>(
             builder: (context, value, child) {
@@ -41,7 +41,8 @@ class SaleItemDetails {
                   // height: size.height * 0.96,
                   child: Padding(
                     padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                    ),
                     child: Column(
                       children: <Widget>[
                         Row(
@@ -171,7 +172,7 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                                "\u{20B9}${gross.toStringAsFixed(2)}",
+                                "\u{20B9}${value.gross.toStringAsFixed(2)}",
                               )
                             ],
                           ),
@@ -291,7 +292,7 @@ class SaleItemDetails {
                                       "\u{20B9}0.00",
                                     )
                                   : Text(
-                                      "\u{20B9}${tax_amt.toStringAsFixed(2)}")
+                                      "\u{20B9}${value.tax.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -318,7 +319,7 @@ class SaleItemDetails {
                                       "\u{20B9}0.00",
                                     )
                                   : Text(
-                                      "\u{20B9}${cess_amt.toStringAsFixed(2)}")
+                                      "\u{20B9}${value.cess.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -339,7 +340,7 @@ class SaleItemDetails {
                                       style: TextStyle(
                                           color: P_Settings.extracolor))
                                   : Text(
-                                      "\u{20B9}${net_amt.toStringAsFixed(2)}",
+                                      "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
                                       style: TextStyle(
                                           color: P_Settings.extracolor),
                                     ),
@@ -360,7 +361,7 @@ class SaleItemDetails {
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
                                             "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax}",
-                                            " code='$code' and cartrowno=$indexCalc and customerid='$customerId'");
+                                            "code='$code' and cartrowno=$indexCalc and customerid='$customerId'");
                                         print("calculate new total");
                                         await Provider.of<Controller>(context,
                                                 listen: false)
