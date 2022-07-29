@@ -133,14 +133,14 @@ class SaleItemDetails {
                                             rate,
                                             valueqty,
                                             0.0,
-                                            100,
+                                            0.0,
                                             tax_per,
                                             0.0,
                                             "0",
                                             0,
                                             index,
                                             true,
-                                            "");
+                                            "qty");
                                   },
                                   textAlign: TextAlign.right,
                                   // decoration: InputDecoration(
@@ -286,7 +286,7 @@ class SaleItemDetails {
                                 "Tax amount",
                               ),
                               Spacer(),
-                              rate < dis_amt
+                              tax_amt < 0.00
                                   ? Text(
                                       "\u{20B9}0.00",
                                     )
@@ -334,7 +334,7 @@ class SaleItemDetails {
                                 style: TextStyle(color: P_Settings.extracolor),
                               ),
                               Spacer(),
-                              rate < dis_amt
+                              net_amt < 0.00
                                   ? Text("\u{20B9}0.00",
                                       style: TextStyle(
                                           color: P_Settings.extracolor))

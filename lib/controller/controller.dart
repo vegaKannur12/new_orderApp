@@ -2636,9 +2636,9 @@ class Controller extends ChangeNotifier {
         "attribute--$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     flag = false;
     gross = rate * qty;
-    if (disc_amount != 0 && disCalc == "disc_amt") {
+    if (disCalc == "disc_amt") {
       disc_per = (disc_amount / rate) * 100;
-      disc_amt=disc_amount;
+      disc_amt = disc_amount;
       print("discount_prercent---$disc_amount---${discount_prercent.length}");
       if (onSub) {
         discount_prercent[index].text = disc_per.toStringAsFixed(2);
@@ -2646,13 +2646,24 @@ class Controller extends ChangeNotifier {
       print("disc_per----$disc_per");
     }
 
-    if (disc_per != 0 && disCalc == "disc_per") {
+    if (disCalc == "disc_per") {
       print("yes hay---$disc_per");
       disc_amt = (gross * disc_per) / 100;
       if (onSub) {
         discount_amount[index].text = disc_amt.toStringAsFixed(2);
       }
       print("disc-amt----$disc_amt");
+    }
+
+    if (disCalc == "qty") {
+      disc_amt = double.parse(discount_amount[index].text);
+      disc_per = double.parse(discount_prercent[index].text);
+      // disc_per = (disc_amt / rate) * 100;
+
+      // // if (onSub) {
+      // //   discount_amount[index].text = disc_amt.toStringAsFixed(2);
+      // // }
+      print("disc-amt qty----$disc_amt...$disc_per");
     }
 
     if (state_status == 0) {
@@ -2668,20 +2679,29 @@ class Controller extends ChangeNotifier {
     if (method == "0") {
       /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
       if (disCalc == "") {
+        print("inside nothingg.....");
         disc_per = (disc_amount / rate) * 100;
         disc_amt = (gross * disc_per) / 100;
       }
 
-      print("disc_per calcu mod=0.... $disc_per..$disc_amount...$disc_amt");
+      print("disc_per calcu mod=0....$gross... $disc_amt...$tax_per");
+
       tax = (gross - disc_amt) * (tax_per / 100);
+      if (tax < 0) {
+        tax = 0.00;
+      }
+      print("tax amount..........$tax");
       cgst_amt = (gross - disc_amt) * (cgst_per / 100);
       sgst_amt = (gross - disc_amt) * (sgst_per / 100);
       igst_amt = (gross - disc_amt) * (igst_per / 100);
       cess = (gross - disc_amt) * (cess_per / 100);
       print("netamount....$disc_amt");
-      if (rate < disc_amt) {
-        net_amt = 0;
+      // && (disc_per <= 100.00 && disc_per >= 0.00)
+      if (net_amt < 0) {
+        net_amt = 0.00;
       } else {
+        print("neta,m  calcu mod=0....$gross... $disc_amt...$tax...$cess");
+
         net_amt = ((gross - disc_amt) + tax + cess);
       }
 
