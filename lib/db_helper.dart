@@ -1887,7 +1887,7 @@ class OrderAppDB {
   ///////////////////////////////////////////////////////
   upadteCommonQuery(String table, String fields, String condition) async {
     Database db = await instance.database;
-    print("condition for update.....$condition");
+    print("condition for update.....$fields.............$condition");
     var res = await db.rawUpdate('UPDATE $table SET $fields WHERE $condition ');
     print("UPDATE $table SET $fields WHERE $condition");
     print("response-------$res");

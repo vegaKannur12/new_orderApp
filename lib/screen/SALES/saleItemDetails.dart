@@ -372,7 +372,7 @@ class SaleItemDetails {
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
                                             "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax}",
-                                            "code='$code' and cartrowno=$indexCalc and customerid='$customerId'");
+                                            "code='$code' and customerid='$customerId'");
                                         print("calculate new total");
                                         await Provider.of<Controller>(context,
                                                 listen: false)
