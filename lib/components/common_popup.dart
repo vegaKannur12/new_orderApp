@@ -62,9 +62,11 @@ class CommonPopup {
                             .salebagList
                             .length >
                         0) {
+                          String? sOs= "S" + "$os" ;
+                          print("jdjf----$sOs");
                       Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
-                              os!,
+                              sOs,
                               date,
                               time,
                               custmerId,

@@ -2708,6 +2708,7 @@ class Controller extends ChangeNotifier {
         "attribute--$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     flag = false;
     gross = rate * qty;
+    
     if (disCalc == "disc_amt") {
       disc_per = (disc_amount / rate) * 100;
       disc_amt = disc_amount;
