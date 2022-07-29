@@ -126,14 +126,17 @@ class SaleItemDetails {
                                     } else {
                                       valueqty = 0.00;
                                     }
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .fromDb = false;
 
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
                                             rate,
                                             valueqty,
-                                            0.0,
-                                            0.0,
+                                            dis_per,
+                                            dis_amt,
                                             tax_per,
                                             0.0,
                                             "0",
@@ -171,7 +174,7 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                                "\u{20B9}${value.gross.toStringAsFixed(2)}",
+                               value.fromDb!?"\u{20B9}${gross.toStringAsFixed(2)}": "\u{20B9}${value.gross.toStringAsFixed(2)}",
                               )
                             ],
                           ),
@@ -196,6 +199,10 @@ class SaleItemDetails {
                                     } else {
                                       valuediscper = 0.00;
                                     }
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .fromDb = false;
+
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
@@ -243,6 +250,9 @@ class SaleItemDetails {
                                     } else {
                                       valuediscamt = 0.00;
                                     }
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .fromDb = false;
 
                                     Provider.of<Controller>(context,
                                             listen: false)
@@ -291,7 +301,7 @@ class SaleItemDetails {
                                       "\u{20B9}0.00",
                                     )
                                   : Text(
-                                      "\u{20B9}${value.tax.toStringAsFixed(2)}")
+                                     value.fromDb!?"\u{20B9}${tax_amt.toStringAsFixed(2)}": "\u{20B9}${value.tax.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -318,7 +328,7 @@ class SaleItemDetails {
                                       "\u{20B9}0.00",
                                     )
                                   : Text(
-                                      "\u{20B9}${value.cess.toStringAsFixed(2)}")
+                                     value.fromDb!?"\u{20B9}${cess_amt.toStringAsFixed(2)}": "\u{20B9}${value.cess.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -339,7 +349,9 @@ class SaleItemDetails {
                                       style: TextStyle(
                                           color: P_Settings.extracolor))
                                   : Text(
-                                      "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
+                                      value.fromDb!
+                                          ? "\u{20B9}${net_amt.toStringAsFixed(2)}"
+                                          : "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
                                       style: TextStyle(
                                           color: P_Settings.extracolor),
                                     ),

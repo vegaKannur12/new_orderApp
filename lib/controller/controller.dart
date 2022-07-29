@@ -23,6 +23,7 @@ import '../model/staffarea_model.dart';
 import '../model/staffdetails_model.dart';
 
 class Controller extends ChangeNotifier {
+  bool? fromDb;
   double gross = 0.0;
   double disc_amt = 0.0;
   double net_amt = 0.0;
@@ -595,12 +596,14 @@ class Controller extends ChangeNotifier {
       for (var ahead in map) {
         print("ahead------${ahead}");
         accountHead = AccountHead.fromJson(ahead);
-        var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
+        await OrderAppDB.instance.insertAccoundHeads(accountHead);
       }
+      print("areaidFrompopup----$areaidFrompopup");
 
       if (areaidFrompopup != null) {
         dashboardSummery(sid!, s, areaidFrompopup!, context);
       } else {
+        print("us----------$userType");
         if (userType == "staff") {
           dashboardSummery(sid!, s, "", context);
         }
@@ -825,8 +828,9 @@ class Controller extends ChangeNotifier {
       return null;
     }
   }
+
   ////////////////////////////////////////////////////////////////////////////
-    saveSalesDetails(String cid, List<Map<String, dynamic>> om,
+  saveSalesDetails(String cid, List<Map<String, dynamic>> om,
       BuildContext context, int index) async {
     try {
       print("haiii");
@@ -2026,9 +2030,11 @@ class Controller extends ChangeNotifier {
   }
 
 ///////////////// dashboard summery /////////////
-  Future<dynamic> dashboardSummery(
+  dashboardSummery(
       String sid, String date, String aid, BuildContext context) async {
-    print("stafff  iddd $sid");
+    print("ghdghidj");
+
+    print("stafff  iddd $sid----$aid");
     var res = await OrderAppDB.instance.dashboardSummery(sid, date, aid);
     var result = await OrderAppDB.instance.countCustomer(areaidFrompopup);
     print("resultresult-- $aid");
@@ -2358,7 +2364,8 @@ class Controller extends ChangeNotifier {
       print("jsonDe--${jsonDe}");
       for (var item in jsonDe) {
         print("item,hd----$item");
-        resultQuery = await OrderAppDB.instance.selectSalesDetailTable(item["s_id"]);
+        resultQuery =
+            await OrderAppDB.instance.selectSalesDetailTable(item["s_id"]);
         item["od"] = resultQuery;
         om.add(item);
       }
@@ -2708,7 +2715,7 @@ class Controller extends ChangeNotifier {
         "attribute--$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     flag = false;
     gross = rate * qty;
-    
+
     if (disCalc == "disc_amt") {
       disc_per = (disc_amount / rate) * 100;
       disc_amt = disc_amount;
@@ -2768,14 +2775,18 @@ class Controller extends ChangeNotifier {
       sgst_amt = (gross - disc_amt) * (sgst_per / 100);
       igst_amt = (gross - disc_amt) * (igst_per / 100);
       cess = (gross - disc_amt) * (cess_per / 100);
+      notifyListeners();
+
       print("netamount....$disc_amt");
       // && (disc_per <= 100.00 && disc_per >= 0.00)
       if (net_amt < 0) {
         net_amt = 0.00;
+        notifyListeners();
       } else {
         print("neta,m  calcu mod=0....$gross... $disc_amt...$tax...$cess");
 
         net_amt = ((gross - disc_amt) + tax + cess);
+        notifyListeners();
       }
 
       print("netamount.cal...$net_amt");
@@ -2790,6 +2801,4 @@ class Controller extends ChangeNotifier {
     print("gross---$cess---$gross----$tax-----$net_amt--$disc_per");
     return "success";
   }
-
-  notifyListeners();
 }

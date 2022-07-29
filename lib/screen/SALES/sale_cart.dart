@@ -261,26 +261,28 @@ class _SaleCartState extends State<SaleCart> {
               child: ListTile(
                 onTap: () {
                   print("net amount............$net_amt");
+                  Provider.of<Controller>(context, listen: false).fromDb=true;
                   value.salesqty[index].text = qty.toStringAsFixed(2);
                   value.discount_prercent[index].text =
                       disc_per.toStringAsFixed(2);
                   value.discount_amount[index].text =
                       disc_amt.toStringAsFixed(2);
-                  Provider.of<Controller>(context, listen: false)
-                      .rawCalculation(
-                          double.parse(rate),
-                          double.parse(
-                            value.salesqty[index].text,
-                          ),
-                          0.0,
-                          0.0,
-                          double.parse(tax),
-                          0.0,
-                          "0",
-                          0,
-                          index,
-                          false,
-                          "");
+                  // Provider.of<Controller>(context, listen: false)
+                  //     .rawCalculation(
+                  //         double.parse(rate),
+                  //         double.parse(
+                  //           value.salesqty[index].text,
+                  //         ),
+                  //         0.0,
+                  //         0.0,
+                  //         double.parse(tax),
+                  //         0.0,
+                  //         "0",
+                  //         0,
+                  //         index,
+                  //         false,
+                  //         "");
+                  
 
                   saleDetails.showsalesMoadlBottomsheet(
                       itemName,
@@ -300,7 +302,7 @@ class _SaleCartState extends State<SaleCart> {
                       size,
                       index,
                       widget.custmerId,
-                      widget.os);
+                      widget.os,);
                 },
                 // leading: CircleAvatar(backgroundColor: Colors.green),
                 title: Column(
