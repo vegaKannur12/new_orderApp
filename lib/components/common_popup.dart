@@ -28,7 +28,6 @@ class CommonPopup {
     String? netamt,
   ) {
     return AlertDialog(
-      // title: const Text('Popup example'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,23 +35,19 @@ class CommonPopup {
           Text("${content}"),
         ],
       ),
-      actions: <Widget>[
+      actions: [
         Consumer<Controller>(
           builder: (context, value, child) {
-            print("grossamounty........$grossamt..$disamt..$netamt..$taxamt.");
             return ElevatedButton(
-              onPressed: () async {
-                sid = await Provider.of<Controller>(context, listen: false)
-                    .setStaffid(value.sname!);
-                print("Sid........${value.sname}$sid");
-                if (Provider.of<Controller>(context, listen: false)
-                        .salebagList
-                        .length >
-                    0) {
+                onPressed: () async {
+                  sid = await Provider.of<Controller>(context, listen: false)
+                      .setStaffid(value.sname!);
                   final prefs = await SharedPreferences.getInstance();
-                  String? sid = await prefs.getString('sid');
+                  String? sid1 = await prefs.getString('sid');
+                  print("Sid........${value.sname}$sid1");
+
                   String? os = await prefs.getString('os');
-                  print("order total...${double.parse(value.orderTotal2[0]!)}");
+
                   String? gen_area =
                       Provider.of<Controller>(context, listen: false)
                           .areaidFrompopup;
@@ -64,43 +59,56 @@ class CommonPopup {
 
                   if (type == "sales") {
                     print("sales......${grossamt}...${disamt}...${disper}");
-                    Provider.of<Controller>(context, listen: false)
-                        .insertToSalesbagAndMaster(
-                            os!,
-                            date,
-                            time,
-                            custmerId,
-                            sid!,
-                            areaid,
-                            double.parse(value.orderTotal2[0]!),
-                            double.parse(grossamt!),
-                            disamt.toString(),
-                            disper.toString(),
-                            taxamt.toString(),
-                            taxper.toString(),
-                            cesamt.toString(),
-                            cesper.toString(),
-                            netamt.toString());
+                    if (Provider.of<Controller>(context, listen: false)
+                            .salebagList
+                            .length >
+                        0) {
+                      Provider.of<Controller>(context, listen: false)
+                          .insertToSalesbagAndMaster(
+                              os!,
+                              date,
+                              time,
+                              custmerId,
+                              sid1!,
+                              areaid,
+                              double.parse(value.orderTotal2[0]!),
+                              double.parse(grossamt!),
+                              disamt.toString(),
+                              disper.toString(),
+                              taxamt.toString(),
+                              taxper.toString(),
+                              cesamt.toString(),
+                              cesper.toString(),
+                              netamt.toString());
+                    }
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
                   } else if (type == "sale order") {
                     print("inside order.......");
-                    Provider.of<Controller>(context, listen: false)
-                        .insertToOrderbagAndMaster(
-                      os!,
-                      date,
-                      time,
-                      custmerId,
-                      sid!,
-                      areaid,
-                      double.parse(value.orderTotal1!),
-                    );
-
+                    if (Provider.of<Controller>(context, listen: false)
+                            .bagList
+                            .length >
+                        0) {
+                      Provider.of<Controller>(context, listen: false)
+                          .insertToOrderbagAndMaster(
+                        os!,
+                        date,
+                        time,
+                        custmerId,
+                        sid1!,
+                        areaid,
+                        double.parse(value.orderTotal1!),
+                      );
+                    }
                     Provider.of<Controller>(context, listen: false)
                         .todayOrder(date, gen_condition!);
                   }
+
                   Provider.of<Controller>(context, listen: false)
                       .clearList(value.areDetails);
+
+                  // return  showDialog(context: context, builder: builder)
+
                   return showDialog(
                       context: context,
                       builder: (context) {
@@ -110,8 +118,9 @@ class CommonPopup {
                           Navigator.of(context).push(
                             PageRouteBuilder(
                                 opaque: false, // set to false
-                                pageBuilder: (_, __, ___) =>
-                                    Dashboard(type: " ", areaName: areaname)
+                                pageBuilder: (_, __, ___) => Dashboard(
+                                    type: "return from cartList",
+                                    areaName: areaname)
                                 // OrderForm(widget.areaname,"return"),
                                 ),
                           );
@@ -130,17 +139,14 @@ class CommonPopup {
                           ],
                         ));
                       });
-                }
 
-                Provider.of<Controller>(context, listen: false).count = "0";
+                  // Provider.of<Controller>(context, listen: false).count = "0";
 
-                Navigator.of(context).pop();
-              },
-              // textColor: Theme.of(context).primaryColor,
-              child: Text('Ok'),
-            );
+                  // Navigator.of(context).pop();
+                },
+                child: Text("Ok"));
           },
-        ),
+        )
       ],
     );
   }
