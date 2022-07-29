@@ -29,7 +29,7 @@ class SaleItemDetails {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          print("param---$qty----$dis_per--$dis_amt----");
+          print("param---$qty----$dis_per--$dis_amt--$net_amt--");
           // rawCalcResult = Provider.of<Controller>(context,listen: false).rawCalculation(rate,qty.toDouble(), 0.0, 100,tax_per, 0.0, "0", 0);
           return Consumer<Controller>(
             builder: (context, value, child) {
@@ -203,7 +203,8 @@ class SaleItemDetails {
                                             double.parse(
                                                 value.salesqty[index].text),
                                             valuediscper,
-                                            100,
+                                            double.parse(value
+                                                .discount_amount[index].text),
                                             tax_per,
                                             0.0,
                                             "0",
@@ -285,7 +286,7 @@ class SaleItemDetails {
                                 "Tax amount",
                               ),
                               Spacer(),
-                              net_amt < dis_amt
+                              rate < dis_amt
                                   ? Text(
                                       "\u{20B9}0.00",
                                     )
@@ -355,10 +356,11 @@ class SaleItemDetails {
                                   child: ElevatedButton(
                                       onPressed: () async {
                                         int indexCalc = index + 1;
+                                        print("indexxxxxx.$index");
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
                                             "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax}",
-                                            "cartrowno=$indexCalc and customerid='$customerId'");
+                                            "code='$code' and customerid='$customerId'");
                                         print("calculate new total");
                                         await Provider.of<Controller>(context,
                                                 listen: false)

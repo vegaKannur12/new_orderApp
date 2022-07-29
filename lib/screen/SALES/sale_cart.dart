@@ -240,12 +240,11 @@ class _SaleCartState extends State<SaleCart> {
     double tax_amt,
     // String discount,
   ) {
-    // print("qty-------$qty");
+    print("qty net-------$net_amt");
     _controller.text = qty.toString();
 
     return Consumer<Controller>(
       builder: (context, value, child) {
-        print("net amount............$net_amt");
         return Container(
           height: size.height * 0.2,
           child: Padding(
@@ -259,6 +258,7 @@ class _SaleCartState extends State<SaleCart> {
               ),
               child: ListTile(
                 onTap: () {
+                  print("net amount............$net_amt");
                   value.salesqty[index].text = qty.toStringAsFixed(2);
                   value.discount_prercent[index].text =
                       disc_per.toStringAsFixed(2);
@@ -427,16 +427,17 @@ class _SaleCartState extends State<SaleCart> {
                                             width: size.width * 0.03,
                                           ),
                                           Container(
-                                            child: tax_amt < 0.00
-                                                ? Text("\u{20B9}0.00",
-                                                    style:
-                                                        TextStyle(fontSize: 13))
-                                                : Text(
-                                                    " \u{20B9}${tax_amt.toStringAsFixed(2)}",
-                                                    textAlign: TextAlign.right,
-                                                    style:
-                                                        TextStyle(fontSize: 13),
-                                                  ),
+                                            child:
+                                                // tax_amt < 0.00
+                                                // ? Text("\u{20B9}0.00",
+                                                //     style:
+                                                //         TextStyle(fontSize: 13))
+                                                // :
+                                                Text(
+                                              " \u{20B9}${tax_amt.toStringAsFixed(2)}",
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(fontSize: 13),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -615,7 +616,7 @@ class _SaleCartState extends State<SaleCart> {
                                 fontSize: 13,
                               ),
                             ),
-                            net_amt < disc_amt
+                            double.parse(rate) < disc_amt
                                 ? Text(
                                     "0.00",
                                     style: TextStyle(

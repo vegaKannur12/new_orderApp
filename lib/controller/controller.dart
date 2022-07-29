@@ -2633,12 +2633,13 @@ class Controller extends ChangeNotifier {
       bool onSub,
       String? disCalc) {
     print(
-        "attribute-- --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
+        "attribute--$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     flag = false;
     gross = rate * qty;
     if (disc_amount != 0 && disCalc == "disc_amt") {
       disc_per = (disc_amount / rate) * 100;
-      print("discount_prercent------${discount_prercent.length}");
+      disc_amt=disc_amount;
+      print("discount_prercent---$disc_amount---${discount_prercent.length}");
       if (onSub) {
         discount_prercent[index].text = disc_per.toStringAsFixed(2);
       }
@@ -2671,7 +2672,7 @@ class Controller extends ChangeNotifier {
         disc_amt = (gross * disc_per) / 100;
       }
 
-      print("disc_per calcu mod=0.... $disc_per..$disc_amt");
+      print("disc_per calcu mod=0.... $disc_per..$disc_amount...$disc_amt");
       tax = (gross - disc_amt) * (tax_per / 100);
       cgst_amt = (gross - disc_amt) * (cgst_per / 100);
       sgst_amt = (gross - disc_amt) * (sgst_per / 100);

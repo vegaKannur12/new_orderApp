@@ -404,7 +404,7 @@ class _SalesItemState extends State<SalesItem> {
                                                             size.width * 0.055,
                                                       ),
                                                       Text(
-                                                        'tax: \u{20B9}${value.newList[index]["tax"]}',
+                                                        '(tax: \u{20B9}${value.newList[index]["tax"]})',
                                                         style: TextStyle(
                                                           color: Colors.grey,
                                                           fontStyle:
@@ -552,7 +552,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                     value.tax,
                                                                     0.0,
                                                                     100,
-                                                                    0.0,value.cess,
+                                                                    0.0,
+                                                                    value.cess,
                                                                     0,
                                                                     value.net_amt);
                                                             snackbar.showSnackbar(
@@ -900,7 +901,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                     value.tax,
                                                                     0.0,
                                                                     100,
-                                                                    0.0,value.cess,
+                                                                    0.0,
+                                                                    value.cess,
                                                                     0,
                                                                     value
                                                                         .net_amt);
