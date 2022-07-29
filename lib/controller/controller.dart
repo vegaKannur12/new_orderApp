@@ -825,6 +825,45 @@ class Controller extends ChangeNotifier {
       return null;
     }
   }
+  ////////////////////////////////////////////////////////////////////////////
+    saveSalesDetails(String cid, List<Map<String, dynamic>> om,
+      BuildContext context, int index) async {
+    try {
+      print("haiii");
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/order_save.php");
+      isLoading = true;
+      notifyListeners();
+      // print("body--${body}");
+      var mapBody = jsonEncode(om);
+      print("mapBody--${mapBody}");
+
+      // var jsonD = jsonDecode(mapBody);
+      var body = {'cid': cid, 'om': mapBody};
+      print("body----------$body");
+      http.Response response = await http.post(
+        url,
+        body: {'cid': cid, 'om': mapBody},
+      );
+
+      print("after");
+
+      var map = jsonDecode(response.body);
+      print("response----${map}");
+
+      for (var item in map) {
+        if (item["order_id"] != null) {
+          await OrderAppDB.instance.upadteCommonQuery("orderMasterTable",
+              "status='${item["order_id"]}'", "order_id='${item["id"]}'");
+        }
+      }
+      isLoading = false;
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
 /////////////////////////////GET PRODUCT CATEGORY//////////////////////////////
   Future<ProductsCategoryModel?> getProductCategory(
@@ -964,7 +1003,7 @@ class Controller extends ChangeNotifier {
           0.0,
           0.0,
           total_price,
-          1);
+          0);
 
       for (var item in salebagList) {
         print("sales_id....$sales_id");
@@ -1000,7 +1039,7 @@ class Controller extends ChangeNotifier {
             double.parse(cesper),
             double.parse(netamt),
             total_price,
-            1);
+            0);
         rowNum = rowNum + 1;
       }
     }
@@ -2293,6 +2332,39 @@ class Controller extends ChangeNotifier {
       if (om.length > 0) {
         print("entede");
         saveOrderDetails(cid, om, context, index);
+      }
+      isUpload = false;
+      isUp[index] = true;
+      notifyListeners();
+      print("om----$om");
+    } else {
+      snackbar.showSnackbar(context, "Nothing to upload!!!");
+    }
+
+    notifyListeners();
+  }
+
+  ////////////////////////upload salesdata////////////////////////////////////////
+  uploadSalesData(String cid, BuildContext context, int index) async {
+    List<Map<String, dynamic>> resultQuery = [];
+    List<Map<String, dynamic>> om = [];
+    isUpload = true;
+    notifyListeners();
+    var result = await OrderAppDB.instance.selectSalesMasterTable();
+    print("output------$result");
+    if (result != null) {
+      String jsonE = jsonEncode(result);
+      var jsonDe = jsonDecode(jsonE);
+      print("jsonDe--${jsonDe}");
+      for (var item in jsonDe) {
+        print("item,hd----$item");
+        resultQuery = await OrderAppDB.instance.selectSalesDetailTable(item["s_id"]);
+        item["od"] = resultQuery;
+        om.add(item);
+      }
+      if (om.length > 0) {
+        print("entede");
+        saveSalesDetails(cid, om, context, index);
       }
       isUpload = false;
       isUp[index] = true;

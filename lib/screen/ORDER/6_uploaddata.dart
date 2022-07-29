@@ -100,8 +100,8 @@ class _UploaddataState extends State<Uploaddata> {
                                           }
                                           if (uploadItems[index] ==
                                               "Upload Sales") {
-                                            // Provider.of<Controller>(context, listen: false)
-                                            //     .getProductCategory(cid!, "");
+                                            Provider.of<Controller>(context, listen: false)
+                                                .uploadSalesData(widget.cid, context,index);
                                           }
                                           if (uploadItems[index] ==
                                               "Upload Customer") {

@@ -1815,6 +1815,20 @@ class OrderAppDB {
     return result;
   }
 
+  ///////////////////////////////////////////////////////
+  selectSalesMasterTable() async {
+    Database db = await instance.database;
+    var result;
+    var res = await db.rawQuery("SELECT  * FROM  salesMasterTable");
+    print("hhs----$res");
+    if (res.length > 0) {
+      result = await db.rawQuery(
+          "SELECT salesMasterTable.id as id, salesMasterTable.os  || salesMasterTable.sales_id as ser,salesMasterTable.sales_id as s_id,salesMasterTable.customer_id cuid, salesMasterTable.salesdate  || ' '  ||salesMasterTable.salestime sdate, salesMasterTable.staff_id as staff_id,salesMasterTable.areaid as aid , salesMasterTable.cus_type as cus_type,salesMasterTable.bill_no as billno,salesMasterTable.cgst as cgst,salesMasterTable.sgst as sgst, salesMasterTable.payment_mode as p_mode,salesMasterTable.credit_option as c_option FROM salesMasterTable where salesMasterTable.status=0");
+    }
+    print("result sales upload----$result");
+    return result;
+  }
+
   ////////////////////////////////////////////////////////
   selectReturnMasterTable() async {
     Database db = await instance.database;
@@ -1850,6 +1864,15 @@ class OrderAppDB {
 
     var result = await db.rawQuery(
         "SELECT orderDetailTable.code as code,orderDetailTable.item as item, orderDetailTable.qty as qty, orderDetailTable.rate as rate from orderDetailTable  where  orderDetailTable.order_id=${order_id}");
+    return result;
+  }
+
+  selectSalesDetailTable(int sales_id) async {
+    Database db = await instance.database;
+
+    var result = await db.rawQuery(
+        "SELECT salesDetailTable.code as code,salesDetailTable.item_name as item, salesDetailTable.qty as qty, salesDetailTable.rate as rate,salesDetailTable.gross_amount as gross,salesDetailTable.dis_amt as disc_amt,salesDetailTable.dis_per as disc_per,salesDetailTable.tax_per as tax_per,salesDetailTable.tax_amt as tax_amt,salesDetailTable.ces_per as ces_per,salesDetailTable.ces_amt as ces_amt,salesDetailTable.net_amt as net_amt  from salesDetailTable  where  salesDetailTable.sales_id=${sales_id}");
+        print("sales detao;s------$result");
     return result;
   }
 
