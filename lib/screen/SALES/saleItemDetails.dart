@@ -127,14 +127,17 @@ class SaleItemDetails {
                                     } else {
                                       valueqty = 0.00;
                                     }
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .fromDb = false;
 
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
                                             rate,
                                             valueqty,
-                                            0.0,
-                                            0.0,
+                                            dis_per,
+                                            dis_amt,
                                             tax_per,
                                             0.0,
                                             "0",
@@ -172,7 +175,7 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                                "\u{20B9}${value.gross.toStringAsFixed(2)}",
+                               value.fromDb!?"\u{20B9}${gross.toStringAsFixed(2)}": "\u{20B9}${value.gross.toStringAsFixed(2)}",
                               )
                             ],
                           ),
@@ -197,6 +200,10 @@ class SaleItemDetails {
                                     } else {
                                       valuediscper = 0.00;
                                     }
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .fromDb = false;
+
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
@@ -244,6 +251,9 @@ class SaleItemDetails {
                                     } else {
                                       valuediscamt = 0.00;
                                     }
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .fromDb = false;
 
                                     Provider.of<Controller>(context,
                                             listen: false)
@@ -292,7 +302,7 @@ class SaleItemDetails {
                                       "\u{20B9}0.00",
                                     )
                                   : Text(
-                                      "\u{20B9}${value.tax.toStringAsFixed(2)}")
+                                     value.fromDb!?"\u{20B9}${tax_amt.toStringAsFixed(2)}": "\u{20B9}${value.tax.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -319,7 +329,7 @@ class SaleItemDetails {
                                       "\u{20B9}0.00",
                                     )
                                   : Text(
-                                      "\u{20B9}${value.cess.toStringAsFixed(2)}")
+                                     value.fromDb!?"\u{20B9}${cess_amt.toStringAsFixed(2)}": "\u{20B9}${value.cess.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -340,7 +350,9 @@ class SaleItemDetails {
                                       style: TextStyle(
                                           color: P_Settings.extracolor))
                                   : Text(
-                                      "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
+                                      value.fromDb!
+                                          ? "\u{20B9}${net_amt.toStringAsFixed(2)}"
+                                          : "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
                                       style: TextStyle(
                                           color: P_Settings.extracolor),
                                     ),
@@ -361,7 +373,7 @@ class SaleItemDetails {
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
                                             "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax}",
-                                            "code='$code' and cartrowno=$indexCalc and customerid='$customerId'");
+                                            "code='$code' and customerid='$customerId'");
                                         print("calculate new total");
                                         await Provider.of<Controller>(context,
                                                 listen: false)

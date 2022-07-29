@@ -62,8 +62,8 @@ class CommonPopup {
                             .salebagList
                             .length >
                         0) {
-                          String? sOs= "S" + "$os" ;
-                          print("jdjf----$sOs");
+                      String? sOs = "S" + "$os";
+                      print("jdjf----$sOs");
                       Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
                               sOs,
@@ -73,6 +73,7 @@ class CommonPopup {
                               sid1!,
                               areaid,
                               double.parse(value.orderTotal2[0]!),
+                              double.parse(value.orderTotal2[1]!),
                               double.parse(grossamt!),
                               disamt.toString(),
                               disper.toString(),

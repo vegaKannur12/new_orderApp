@@ -23,6 +23,7 @@ import '../model/staffarea_model.dart';
 import '../model/staffdetails_model.dart';
 
 class Controller extends ChangeNotifier {
+  bool? fromDb;
   double gross = 0.0;
   double disc_amt = 0.0;
   double net_amt = 0.0;
@@ -38,7 +39,6 @@ class Controller extends ChangeNotifier {
   double cess = 0.0;
   bool isLoading = false;
   bool isCompleted = false;
-
   bool isUpload = false;
   bool filterCompany = false;
   bool salefilterCompany = false;
@@ -956,6 +956,7 @@ class Controller extends ChangeNotifier {
     String staff_id,
     String aid,
     double total_price,
+    double master_net_amt,
     double grossamt,
     String disamt,
     String disper,
@@ -973,6 +974,7 @@ class Controller extends ChangeNotifier {
     print("hdsfghjfgf..$disper");
     print("salebagList length........${salebagList.length}");
     if (salebagList.length > 0) {
+      String billNo = "${os}" + "${rowNum}";
       await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
           0,
@@ -983,10 +985,11 @@ class Controller extends ChangeNotifier {
           os,
           customer_id,
           "",
-          "",
+          billNo,
           staff_id,
           aid,
           0,
+          "",
           "",
           "",
           "",
@@ -1004,6 +1007,7 @@ class Controller extends ChangeNotifier {
           0.0,
           0.0,
           total_price,
+          master_net_amt,
           0);
 
       for (var item in salebagList) {
@@ -1019,10 +1023,11 @@ class Controller extends ChangeNotifier {
             os,
             customer_id,
             "",
-            "",
+            billNo,
             staff_id,
             aid,
             0,
+            "",
             "",
             "",
             "",
@@ -1040,6 +1045,7 @@ class Controller extends ChangeNotifier {
             double.parse(cesper),
             double.parse(netamt),
             total_price,
+            master_net_amt,
             0);
         rowNum = rowNum + 1;
       }
@@ -1690,6 +1696,8 @@ class Controller extends ChangeNotifier {
       var res = await OrderAppDB.instance.getsaletotalSum(os, customerId);
       print("result sale...$res");
       orderTotal2.clear();
+
+      // notifyListeners();
       if (res != null && res.length != 0) {
         for (var item in res) {
           orderTotal2.add(item);
@@ -2694,7 +2702,7 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////////////////////////////////////////////
- String rawCalculation(
+  String rawCalculation(
       double rate,
       double qty,
       double disc_per,
@@ -2784,6 +2792,8 @@ class Controller extends ChangeNotifier {
     } else if (method == "1") {
       double percnt = tax_per + cess_per;
       taxable_rate = rate * 1 - (percnt / (100 + percnt));
+
+      print("exclusive tax....$percnt...$taxable_rate");
     }
     // salesqty[index].text=qty.toString();
     notifyListeners();

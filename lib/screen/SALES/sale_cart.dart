@@ -262,46 +262,48 @@ class _SaleCartState extends State<SaleCart> {
               child: ListTile(
                 onTap: () {
                   print("net amount............$net_amt");
+                  Provider.of<Controller>(context, listen: false).fromDb = true;
                   value.salesqty[index].text = qty.toStringAsFixed(2);
                   value.discount_prercent[index].text =
                       disc_per.toStringAsFixed(2);
                   value.discount_amount[index].text =
                       disc_amt.toStringAsFixed(2);
-                  Provider.of<Controller>(context, listen: false)
-                      .rawCalculation(
-                          double.parse(rate),
-                          double.parse(
-                            value.salesqty[index].text,
-                          ),
-                          0.0,
-                          0.0,
-                          double.parse(tax),
-                          0.0,
-                          "0",
-                          0,
-                          index,
-                          false,
-                          "");
-                  print("tax amount move........$tax_amt");
+                  // Provider.of<Controller>(context, listen: false)
+                  //     .rawCalculation(
+                  //         double.parse(rate),
+                  //         double.parse(
+                  //           value.salesqty[index].text,
+                  //         ),
+                  //         0.0,
+                  //         0.0,
+                  //         double.parse(tax),
+                  //         0.0,
+                  //         "0",
+                  //         0,
+                  //         index,
+                  //         false,
+                  //         "");
+
                   saleDetails.showsalesMoadlBottomsheet(
-                      itemName,
-                      code,
-                      hsn,
-                      qty,
-                      double.parse(rate),
-                      disc_per,
-                      disc_amt,
-                      double.parse(tax),
-                      tax_amt,
-                      cess_per,
-                      cess_amt,
-                      net_amt,
-                      gross,
-                      context,
-                      size,
-                      index,
-                      widget.custmerId,
-                      widget.os);
+                    itemName,
+                    code,
+                    hsn,
+                    qty,
+                    double.parse(rate),
+                    disc_per,
+                    disc_amt,
+                    double.parse(tax),
+                    tax_amt,
+                    cess_per,
+                    cess_amt,
+                    net_amt,
+                    gross,
+                    context,
+                    size,
+                    index,
+                    widget.custmerId,
+                    widget.os,
+                  );
                 },
                 // leading: CircleAvatar(backgroundColor: Colors.green),
                 title: Column(

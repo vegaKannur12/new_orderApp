@@ -204,6 +204,7 @@ class OrderAppDB {
   static final staff_id = 'staff_id';
   static final cgst = 'cgst';
   static final sgst = 'sgst';
+  static final igst = 'igst';
   static final total_qty = 'total_qty';
   static final payment_mode = 'payment_mode';
   static final credit_option = 'credit_option';
@@ -407,6 +408,7 @@ class OrderAppDB {
           )
           ''');
     ///////////// sales master table //////////////////
+
     await db.execute('''
           CREATE TABLE salesMasterTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -422,10 +424,12 @@ class OrderAppDB {
             $total_qty INTEGER,
             $cgst TEXT,
             $sgst TEXT,
+            $igst TEXT,
             $payment_mode TEXT,
             $credit_option TEXT,
             $status INTEGER,
-            $total_price REAL
+            $total_price REAL,
+            $net_amt REAL
           )
           ''');
     await db.execute('''
@@ -761,6 +765,7 @@ class OrderAppDB {
     int total_qty,
     String cgst,
     String sgst,
+    String igst,
     String payment_mode,
     String credit_option,
     String unit,
@@ -776,6 +781,7 @@ class OrderAppDB {
     double ces_per,
     double net_amt,
     double total_price,
+    double master_net_amt,
     int status,
   ) async {
     final db = await database;
@@ -789,7 +795,7 @@ class OrderAppDB {
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, cgst, sgst, payment_mode, credit_option, status, total_price) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${cgst}", "${sgst}", "${payment_mode}", "${credit_option}", ${status}, ${total_price.toStringAsFixed(2)})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, cgst, sgst, igst, payment_mode, credit_option, status, total_price, net_amt) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${cgst}", "${sgst}","${igst}", "${payment_mode}", "${credit_option}", ${status}, ${total_price.toStringAsFixed(2)},${master_net_amt.toStringAsFixed(2)})';
       res2 = await db.rawInsert(query3);
       print("insertsalesmaster$query3");
     }
@@ -1824,7 +1830,7 @@ class OrderAppDB {
     print("hhs----$res");
     if (res.length > 0) {
       result = await db.rawQuery(
-          "SELECT salesMasterTable.id as id, salesMasterTable.os  || salesMasterTable.sales_id as ser,salesMasterTable.sales_id as s_id,salesMasterTable.customer_id cuid, salesMasterTable.salesdate  || ' '  ||salesMasterTable.salestime sdate, salesMasterTable.staff_id as staff_id,salesMasterTable.areaid as aid , salesMasterTable.cus_type as cus_type,salesMasterTable.bill_no as billno,salesMasterTable.cgst as cgst,salesMasterTable.sgst as sgst, salesMasterTable.payment_mode as p_mode,salesMasterTable.credit_option as c_option FROM salesMasterTable where salesMasterTable.status=0");
+          "SELECT salesMasterTable.id as id,salesMasterTable.sales_id as s_id,salesMasterTable.bill_no  || salesMasterTable.sales_id as billno,salesMasterTable.customer_id cuid, salesMasterTable.salesdate  || ' '  ||salesMasterTable.salestime sdate, salesMasterTable.staff_id as staff_id,salesMasterTable.areaid as aid , salesMasterTable.cus_type as cus_type,salesMasterTable.cgst as cgst,salesMasterTable.sgst as sgst,salesMasterTable.igst as igst, salesMasterTable.payment_mode as p_mode,salesMasterTable.credit_option as c_option ,salesMasterTable.net_amt as net_amt FROM salesMasterTable where salesMasterTable.status=0");
     }
     print("result sales upload----$result");
     return result;
@@ -1888,7 +1894,7 @@ class OrderAppDB {
   ///////////////////////////////////////////////////////
   upadteCommonQuery(String table, String fields, String condition) async {
     Database db = await instance.database;
-    print("condition for update.....$condition");
+    print("condition for update.....$fields.............$condition");
     var res = await db.rawUpdate('UPDATE $table SET $fields WHERE $condition ');
     print("UPDATE $table SET $fields WHERE $condition");
     print("response-------$res");
