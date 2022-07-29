@@ -502,7 +502,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .text,
                                                                   ),
                                                                   0.0,
-                                                                  100,
+                                                                  0.0,
                                                                   double.parse(
                                                                       value.newList[index]
                                                                           ["tax"]),
@@ -551,7 +551,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                     ),
                                                                     value.tax,
                                                                     0.0,
-                                                                    100,
+                                                                    0.0,
                                                                     0.0,
                                                                     value.cess,
                                                                     0,
@@ -828,7 +828,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .text,
                                                                   ),
                                                                   0.0,
-                                                                  100,
+                                                                  0.0,
                                                                   double.parse(
                                                                       value.productName[index]
                                                                           ["tax"]),
@@ -900,7 +900,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                     ),
                                                                     value.tax,
                                                                     0.0,
-                                                                    100,
+                                                                    0.0,
                                                                     0.0,
                                                                     value.cess,
                                                                     0,

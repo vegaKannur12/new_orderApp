@@ -171,7 +171,7 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                                "\u{20B9}${gross.toStringAsFixed(2)}",
+                                "\u{20B9}${value.gross.toStringAsFixed(2)}",
                               )
                             ],
                           ),
@@ -291,7 +291,7 @@ class SaleItemDetails {
                                       "\u{20B9}0.00",
                                     )
                                   : Text(
-                                      "\u{20B9}${tax_amt.toStringAsFixed(2)}")
+                                      "\u{20B9}${value.tax.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -318,7 +318,7 @@ class SaleItemDetails {
                                       "\u{20B9}0.00",
                                     )
                                   : Text(
-                                      "\u{20B9}${cess_amt.toStringAsFixed(2)}")
+                                      "\u{20B9}${value.cess.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -339,7 +339,7 @@ class SaleItemDetails {
                                       style: TextStyle(
                                           color: P_Settings.extracolor))
                                   : Text(
-                                      "\u{20B9}${net_amt.toStringAsFixed(2)}",
+                                      "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
                                       style: TextStyle(
                                           color: P_Settings.extracolor),
                                     ),
@@ -360,7 +360,7 @@ class SaleItemDetails {
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
                                             "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax}",
-                                            "and code='$code' and cartrowno=$indexCalc and customerid='$customerId'");
+                                            "code='$code' and cartrowno=$indexCalc and customerid='$customerId'");
                                         print("calculate new total");
                                         await Provider.of<Controller>(context,
                                                 listen: false)

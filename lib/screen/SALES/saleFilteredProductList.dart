@@ -149,7 +149,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                           value.qty[index].text,
                                         ),
                                         0.0,
-                                        100,
+                                        0.0,
                                         double.parse(
                                             value.salefilteredProductList[index]
                                                 ["tax_per"]),
