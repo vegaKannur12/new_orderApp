@@ -825,8 +825,9 @@ class Controller extends ChangeNotifier {
       return null;
     }
   }
+
   ////////////////////////////////////////////////////////////////////////////
-    saveSalesDetails(String cid, List<Map<String, dynamic>> om,
+  saveSalesDetails(String cid, List<Map<String, dynamic>> om,
       BuildContext context, int index) async {
     try {
       print("haiii");
@@ -2358,7 +2359,8 @@ class Controller extends ChangeNotifier {
       print("jsonDe--${jsonDe}");
       for (var item in jsonDe) {
         print("item,hd----$item");
-        resultQuery = await OrderAppDB.instance.selectSalesDetailTable(item["s_id"]);
+        resultQuery =
+            await OrderAppDB.instance.selectSalesDetailTable(item["s_id"]);
         item["od"] = resultQuery;
         om.add(item);
       }
