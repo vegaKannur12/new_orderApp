@@ -54,9 +54,7 @@ class CommonPopup {
                             .length >
                         0) {
                       String? sOs = "S" + "$os";
-                      print("jdjf----$sOs");
-                      Provider.of<Controller>(context, listen: false)
-                          .salesNetamt;
+                      
                       Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
                         sOs,

@@ -427,6 +427,7 @@ class OrderAppDB {
             $total_qty INTEGER,
             $payment_mode TEXT,
             $credit_option TEXT,
+<<<<<<< HEAD
             $gross_tot REAL,
             $dis_tot REAL,
             $tax_tot REAL,
@@ -434,6 +435,10 @@ class OrderAppDB {
             $net_amt REAL,
             $state_status INTEGER,
             $status INTEGER
+=======
+            $status INTEGER,
+            $net_amt REAL   
+>>>>>>> 9d95c0b6f296f8d3267b0665c016976cac8170f3
           )
           ''');
     await db.execute('''
@@ -1403,6 +1408,9 @@ class OrderAppDB {
     String taxper;
     String discount;
     String disper;
+    String cgst;
+    String sgst;
+    String igst;
 
     Database db = await instance.database;
     print("calculate sales updated tot in db....$os...$customerId");
@@ -1411,7 +1419,7 @@ class OrderAppDB {
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper,SUM(cgst_amt) cgst,SUM(sgst_amt) sgst,SUM(igst_amt) igst FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
       gross = res[0]["gr"].toStringAsFixed(2);
@@ -1422,6 +1430,10 @@ class OrderAppDB {
       cesamt = res[0]["camt"].toStringAsFixed(2);
       cesper = res[0]["ces"].toStringAsFixed(2);
       taxper = res[0]["tper"].toStringAsFixed(2);
+      cgst = res[0]["cgst"].toStringAsFixed(2);
+      sgst = res[0]["sgst"].toStringAsFixed(2);
+      igst = res[0]["igst"].toStringAsFixed(2);
+
       print(
           "gross..netamount..taxval..dis..ces ......$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
@@ -1434,6 +1446,10 @@ class OrderAppDB {
       gross = "0.0";
       cesper = "0.00";
       taxper = "0.00";
+      cgst = "0.00";
+      sgst = "0.00";
+      igst = "0.00";
+
     }
     return [
       net_amount,
@@ -1444,7 +1460,11 @@ class OrderAppDB {
       gross,
       disper,
       cesper,
-      taxper
+      taxper,
+      cgst,
+      sgst,
+      igst,
+
     ];
   }
 

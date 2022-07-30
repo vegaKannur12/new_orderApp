@@ -153,10 +153,7 @@ class _SaleCartState extends State<SaleCart> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
                               Flexible(
-                                child: Text(
-                                    value.orderTotal2[0] != null
-                                        ? "\u{20B9}${value.orderTotal2[0]!}"
-                                        : "",
+                                child: Text("\u{20B9}${value.salesTotal}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)),
@@ -167,9 +164,9 @@ class _SaleCartState extends State<SaleCart> {
                       ),
                       GestureDetector(
                         onTap: (() async {
-                          Provider.of<Controller>(context, listen: false)
-                                  .salesNetamt =
-                              double.parse(value.orderTotal2[1]!);
+                          // Provider.of<Controller>(context, listen: false)
+                          //         .salesNetamt =
+                          //     double.parse(value.orderTotal2[1]!);
 
                           print("order total.......${value.orderTotal2}");
                           showDialog(
