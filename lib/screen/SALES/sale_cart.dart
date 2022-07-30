@@ -181,14 +181,6 @@ class _SaleCartState extends State<SaleCart> {
                               widget.custmerId,
                               s[0],
                               s[1],
-                              value.orderTotal2[5]!,
-                              value.orderTotal2[3]!,
-                              value.orderTotal2[6]!,
-                              value.orderTotal2[2]!,
-                              value.orderTotal2[8]!,
-                              value.orderTotal2[4]!,
-                              value.orderTotal2[7]!,
-                              value.orderTotal2[0]!,
                             ),
                           );
 

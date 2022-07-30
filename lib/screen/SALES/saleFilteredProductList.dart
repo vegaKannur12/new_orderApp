@@ -156,7 +156,10 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                                 ["tax_per"]),
                                         0.0,
                                         "0",
-                                        0,index,false,"");
+                                        0,
+                                        index,
+                                        false,
+                                        "");
                             if (result == "success") {
                               var res = await OrderAppDB.instance
                                   .insertsalesBagTable(
@@ -175,11 +178,19 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       "0",
                                       value.salefilteredProductList[index]
                                           ["hsn"],
-                                      value.salefilteredProductList[index]["tax"],
+                                      value.salefilteredProductList[index]
+                                          ["tax"],
                                       value.tax,
+                                      value.cgst_per,
+                                      value.cgst_amt,
+                                      value.sgst_per,
+                                      value.sgst_amt,
+                                      value.igst_per,
+                                      value.igst_amt,
                                       0.0,
                                       0.0,
-                                      0.0,value.cess,
+                                      0.0,
+                                      value.cess,
                                       0,
                                       value.net_amt);
 
@@ -206,8 +217,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                 ? Provider.of<Controller>(context,
                                         listen: false)
                                     .calculateorderTotal(
-                                        widget.os!,
-                                        widget.customerId!)
+                                        widget.os!, widget.customerId!)
                                 : Text("No data");
                           },
                           color: Colors.black,
