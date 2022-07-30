@@ -427,7 +427,6 @@ class OrderAppDB {
             $total_qty INTEGER,
             $payment_mode TEXT,
             $credit_option TEXT,
-<<<<<<< HEAD
             $gross_tot REAL,
             $dis_tot REAL,
             $tax_tot REAL,
@@ -435,10 +434,6 @@ class OrderAppDB {
             $net_amt REAL,
             $state_status INTEGER,
             $status INTEGER
-=======
-            $status INTEGER,
-            $net_amt REAL   
->>>>>>> 583a8b950096938440e39176e91abc3eb6422117
           )
           ''');
     await db.execute('''
@@ -812,8 +807,13 @@ class OrderAppDB {
     double igst_amt,
     double ces_amt,
     double ces_per,
+    double gross_tot,
+    double dis_tot,
+    double tax_tot,
+    double ces_tot,
     double net_amt,
     double total_price,
+    int state_status,
     int status,
   ) async {
     final db = await database;
@@ -827,7 +827,7 @@ class OrderAppDB {
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, ces_tot, net_amt, state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", ${gross_tot}, ${dis_tot}, ${tax_tot}, ${ces_tot}, ${total_price.toStringAsFixed(2)}, $state_status, ${status})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, ces_tot, net_amt, state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", $gross_tot, $dis_tot, $tax_tot, ${ces_tot}, ${total_price.toStringAsFixed(2)}, $state_status, $status)';
       res2 = await db.rawInsert(query3);
       print("insertsalesmaster$query3");
     }
