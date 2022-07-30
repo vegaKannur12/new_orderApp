@@ -54,17 +54,20 @@ class CommonPopup {
                             .length >
                         0) {
                       String? sOs = "S" + "$os";
-                      
+
                       Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
-                        sOs,
-                        date,
-                        time,
-                        custmerId,
-                        sid1!,
-                        areaid,
-                        double.parse(value.orderTotal2[0]!),
-                      );
+                              sOs,
+                              date,
+                              time,
+                              custmerId,
+                              sid1!,
+                              areaid,
+                              double.parse(value.orderTotal2[0]!),
+                              double.parse(value.orderTotal2[9]!),
+                              double.parse(value.orderTotal2[10]!),
+                              double.parse(value.orderTotal2[11]!),
+                               double.parse(value.orderTotal2[5]!));
                     }
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);

@@ -959,6 +959,10 @@ class Controller extends ChangeNotifier {
     String staff_id,
     String aid,
     double total_price,
+    double cgst,
+    double sgst,
+    double igst,
+    double gross_tot,
   ) async {
     List<Map<String, dynamic>> om = [];
     int sales_id = await OrderAppDB.instance

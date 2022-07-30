@@ -1397,6 +1397,7 @@ class OrderAppDB {
   getsaletotalSum(String os, String customerId) async {
     // double sum=0.0;
     String net_amount;
+    double tax_tot;
     String gross;
     String count;
     String cesamt;
@@ -1416,7 +1417,7 @@ class OrderAppDB {
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper,SUM(cgst_amt) cgst,SUM(sgst_amt) sgst,SUM(igst_amt) igst FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
       gross = res[0]["gr"].toStringAsFixed(2);
@@ -1430,9 +1431,10 @@ class OrderAppDB {
       cgst = res[0]["cgst"].toStringAsFixed(2);
       sgst = res[0]["sgst"].toStringAsFixed(2);
       igst = res[0]["igst"].toStringAsFixed(2);
-
+      tax_tot = double.parse(cgst) + double.parse(sgst) + double.parse(igst);
+      print("tax_tot......$tax_tot");
       print(
-          "gross..netamount..taxval..dis..ces ......$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
+          "gross..netamount..taxval..dis..ces ...$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
       net_amount = "0.00";
       count = "0.00";
@@ -1446,6 +1448,7 @@ class OrderAppDB {
       cgst = "0.00";
       sgst = "0.00";
       igst = "0.00";
+      tax_tot = 0.00;
     }
     return [
       net_amount,
@@ -1460,6 +1463,7 @@ class OrderAppDB {
       cgst,
       sgst,
       igst,
+      tax_tot,
     ];
   }
 
