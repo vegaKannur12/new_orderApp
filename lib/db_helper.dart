@@ -215,7 +215,7 @@ class OrderAppDB {
   static final bill_no = 'bill_no';
   static final gross_tot = 'gross_tot';
   static final dis_tot = 'dis_tot';
-  static final state_status = 'static final';
+  static final state_status = 'state_status';
   static final tax_tot = 'tax_tot';
   static final ces_tot = 'ces_tot';
 
@@ -427,7 +427,6 @@ class OrderAppDB {
             $total_qty INTEGER,
             $payment_mode TEXT,
             $credit_option TEXT,
-<<<<<<< HEAD
             $gross_tot REAL,
             $dis_tot REAL,
             $tax_tot REAL,
@@ -435,10 +434,6 @@ class OrderAppDB {
             $net_amt REAL,
             $state_status INTEGER,
             $status INTEGER
-=======
-            $status INTEGER,
-            $net_amt REAL   
->>>>>>> 9d95c0b6f296f8d3267b0665c016976cac8170f3
           )
           ''');
     await db.execute('''
@@ -827,7 +822,7 @@ class OrderAppDB {
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, cess_tot, net_amt, state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", ${gross_tot}, ${dis_tot}, ${tax_tot}, ${ces_tot}, ${total_price.toStringAsFixed(2)}, $state_status, ${status})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, ces_tot, net_amt, state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", ${gross_tot}, ${dis_tot}, ${tax_tot}, ${ces_tot}, ${total_price.toStringAsFixed(2)}, $state_status, ${status})';
       res2 = await db.rawInsert(query3);
       print("insertsalesmaster$query3");
     }
@@ -1449,7 +1444,6 @@ class OrderAppDB {
       cgst = "0.00";
       sgst = "0.00";
       igst = "0.00";
-
     }
     return [
       net_amount,
@@ -1464,7 +1458,6 @@ class OrderAppDB {
       cgst,
       sgst,
       igst,
-
     ];
   }
 
