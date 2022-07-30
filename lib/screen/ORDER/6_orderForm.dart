@@ -1248,8 +1248,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                     onPressed: () async {
-                                                      
-
                                                       FocusScopeNode
                                                           currentFocus =
                                                           FocusScope.of(
@@ -1262,13 +1260,14 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
 
                                                       if (_formKey.currentState!
                                                           .validate()) {
+                                                        String os = "S" +
+                                                            "${values.ordernum[0]["os"]}";
                                                         Provider.of<Controller>(
                                                                 context,
                                                                 listen: false)
                                                             .countFromTable(
                                                           "salesBagTable",
-                                                          values.ordernum[0]
-                                                              ['os'],
+                                                          os,
                                                           custmerId.toString(),
                                                         );
                                                         Provider.of<Controller>(
@@ -1282,17 +1281,16 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                 .salefilterCompany =
                                                             false;
 
-                                                        String os = "S" +
-                                                          "${values.ordernum[0]["os"]}";
+                                                        //  os = "S" +
+                                                        //   "${values.ordernum[0]["os"]}";
                                                         Navigator.of(context)
                                                             .push(
                                                           PageRouteBuilder(
                                                             opaque:
                                                                 false, // set to false
                                                             pageBuilder: (_, __, ___) => SalesItem(
-                                                                customerId:
-                                                                    custmerId
-                                                                        .toString(),
+                                                                customerId: custmerId
+                                                                    .toString(),
                                                                 areaId: values.areaidFrompopup == null ||
                                                                         values
                                                                             .areaidFrompopup!
@@ -1301,10 +1299,13 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                         0]
                                                                     : Provider.of<Controller>(context, listen: false)
                                                                         .areaidFrompopup!,
-                                                                os:os,
+                                                                os: os,
                                                                 areaName: values.areaidFrompopup == null ||
-                                                                        values.areaidFrompopup!.isEmpty
-                                                                    ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
+                                                                        values
+                                                                            .areaidFrompopup!
+                                                                            .isEmpty
+                                                                    ? Provider.of<Controller>(context, listen: false)
+                                                                        .areaAutoComplete[1]
                                                                     : Provider.of<Controller>(context, listen: false).areaSelecton!,
                                                                 type: "sale"),
                                                           ),

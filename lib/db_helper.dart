@@ -428,8 +428,7 @@ class OrderAppDB {
             $payment_mode TEXT,
             $credit_option TEXT,
             $status INTEGER,
-            $net_amt REAL,
-           
+            $net_amt REAL   
           )
           ''');
     await db.execute('''
@@ -1375,6 +1374,9 @@ class OrderAppDB {
     String taxper;
     String discount;
     String disper;
+    String cgst;
+    String sgst;
+    String igst;
 
     Database db = await instance.database;
     print("calculate sales updated tot in db....$os...$customerId");
@@ -1383,7 +1385,7 @@ class OrderAppDB {
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
+          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper,SUM(cgst_amt) cgst,SUM(sgst_amt) sgst,SUM(igst_amt) igst FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
       gross = res[0]["gr"].toStringAsFixed(2);
@@ -1394,6 +1396,10 @@ class OrderAppDB {
       cesamt = res[0]["camt"].toStringAsFixed(2);
       cesper = res[0]["ces"].toStringAsFixed(2);
       taxper = res[0]["tper"].toStringAsFixed(2);
+      cgst = res[0]["cgst"].toStringAsFixed(2);
+      sgst = res[0]["sgst"].toStringAsFixed(2);
+      igst = res[0]["igst"].toStringAsFixed(2);
+
       print(
           "gross..netamount..taxval..dis..ces ......$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
@@ -1406,6 +1412,10 @@ class OrderAppDB {
       gross = "0.0";
       cesper = "0.00";
       taxper = "0.00";
+      cgst = "0.00";
+      sgst = "0.00";
+      igst = "0.00";
+
     }
     return [
       net_amount,
@@ -1416,7 +1426,11 @@ class OrderAppDB {
       gross,
       disper,
       cesper,
-      taxper
+      taxper,
+      cgst,
+      sgst,
+      igst,
+
     ];
   }
 
@@ -1724,7 +1738,7 @@ class OrderAppDB {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
     var query =
-        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate Date, count(salesDetailTable.row_num) count, salesMasterTable.total_price  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
+        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate Date, count(salesDetailTable.row_num) count, salesMasterTable.net_amt  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
     print("query---$query");
 
     result = await db.rawQuery(query);
@@ -2044,7 +2058,7 @@ class OrderAppDB {
         " From returnMasterTable RT   where RT.return_date='$date' and RT.userid='$userId'" +
         " group by RT.customerid" +
         " union all" +
-        " Select S.customer_id cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(S.id) saleCnt,Sum(S.total_price) saleVal,0 retCnt,0 retVal" +
+        " Select S.customer_id cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(S.id) saleCnt,Sum(S.net_amt) saleVal,0 retCnt,0 retVal" +
         " From salesMasterTable S   where S.salesdate='$date' and S.staff_id='$userId'" +
         " group by S.customer_id" +
         " ) X ON X.cid=A.ac_code" +
