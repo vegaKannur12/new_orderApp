@@ -542,19 +542,23 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "tax"],
                                                                     ),
                                                                     value.tax,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
+                                                                    value
+                                                                        .cgst_per,
+                                                                    value
+                                                                        .cgst_amt,
+                                                                    value
+                                                                        .sgst_per,
+                                                                    value
+                                                                        .sgst_amt,
+                                                                    value
+                                                                        .igst_per,
+                                                                    value.igst_amt,
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,
                                                                     value.cess,
                                                                     0,
-                                                                    value
-                                                                        .net_amt);
+                                                                    value.net_amt);
                                                             snackbar.showSnackbar(
                                                                 context,
                                                                 "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart");
@@ -900,12 +904,17 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "tax"],
                                                                     ),
                                                                     value.tax,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
+                                                                     value
+                                                                        .cgst_per,
+                                                                    value
+                                                                        .cgst_amt,
+                                                                    value
+                                                                        .sgst_per,
+                                                                    value
+                                                                        .sgst_amt,
+                                                                    value
+                                                                        .igst_per,
+                                                                    value.igst_amt,
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,

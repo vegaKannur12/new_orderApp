@@ -427,6 +427,7 @@ class OrderAppDB {
             $total_qty INTEGER,
             $payment_mode TEXT,
             $credit_option TEXT,
+<<<<<<< HEAD
             $gross_tot REAL,
             $dis_tot REAL,
             $tax_tot REAL,
@@ -434,6 +435,10 @@ class OrderAppDB {
             $net_amt REAL,
             $state_status INTEGER,
             $status INTEGER
+=======
+            $status INTEGER,
+            $net_amt REAL   
+>>>>>>> 583a8b950096938440e39176e91abc3eb6422117
           )
           ''');
     await db.execute('''

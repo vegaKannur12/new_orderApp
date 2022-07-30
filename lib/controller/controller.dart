@@ -1048,7 +1048,7 @@ class Controller extends ChangeNotifier {
             item["ces_amt"],
             item["ces_per"],
             item["net_amt"],
-            0.0,
+            0,
             0);
         rowNum = rowNum + 1;
       }
@@ -1699,7 +1699,7 @@ class Controller extends ChangeNotifier {
       List res = await OrderAppDB.instance.getsaletotalSum(os, customerId);
       print("result sale...${res[0]}");
       print("result sal--${res[0].runtimeType}");
-      salesTotal = double.parse(res[0]);
+      salesTotal =double.parse( res[0]);
       print("salesTotal---$salesTotal");
       notifyListeners();
       orderTotal2.clear();
