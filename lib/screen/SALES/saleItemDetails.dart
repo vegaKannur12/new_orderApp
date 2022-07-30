@@ -175,7 +175,9 @@ class SaleItemDetails {
                               ),
                               Spacer(),
                               Text(
-                               value.fromDb!?"\u{20B9}${gross.toStringAsFixed(2)}": "\u{20B9}${value.gross.toStringAsFixed(2)}",
+                                value.fromDb!
+                                    ? "\u{20B9}${gross.toStringAsFixed(2)}"
+                                    : "\u{20B9}${value.gross.toStringAsFixed(2)}",
                               )
                             ],
                           ),
@@ -301,8 +303,9 @@ class SaleItemDetails {
                                   ? Text(
                                       "\u{20B9}0.00",
                                     )
-                                  : Text(
-                                     value.fromDb!?"\u{20B9}${tax_amt.toStringAsFixed(2)}": "\u{20B9}${value.tax.toStringAsFixed(2)}")
+                                  : Text(value.fromDb!
+                                      ? "\u{20B9}${tax_amt.toStringAsFixed(2)}"
+                                      : "\u{20B9}${value.tax.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -328,8 +331,9 @@ class SaleItemDetails {
                                   ? Text(
                                       "\u{20B9}0.00",
                                     )
-                                  : Text(
-                                     value.fromDb!?"\u{20B9}${cess_amt.toStringAsFixed(2)}": "\u{20B9}${value.cess.toStringAsFixed(2)}")
+                                  : Text(value.fromDb!
+                                      ? "\u{20B9}${cess_amt.toStringAsFixed(2)}"
+                                      : "\u{20B9}${value.cess.toStringAsFixed(2)}")
                             ],
                           ),
                         ),
@@ -372,7 +376,7 @@ class SaleItemDetails {
                                         print("indexxxxxx.$index");
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
-                                            "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax}",
+                                            "net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax},cgst_amt=${value.cgst_amt},sgst_amt=${value.sgst_amt},igst_amt=${value.igst_amt}",
                                             "code='$code' and customerid='$customerId'");
                                         print("calculate new total");
                                         await Provider.of<Controller>(context,
