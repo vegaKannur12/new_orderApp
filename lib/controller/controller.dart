@@ -28,6 +28,7 @@ class Controller extends ChangeNotifier {
   double disc_amt = 0.0;
   double net_amt = 0.0;
   double taxable_rate = 0.0;
+  double salesNetamt = 0.0;
   double tax = 0.0;
   double cgst_amt = 0.0;
   double cgst_per = 0.0;
@@ -956,22 +957,12 @@ class Controller extends ChangeNotifier {
     String staff_id,
     String aid,
     double total_price,
-    double master_net_amt,
-    double grossamt,
-    String disamt,
-    String disper,
-    String taxamt,
-    String taxper,
-    String cesamt,
-    String cesper,
-    String netamt,
   ) async {
-    print("hhjk----$date");
     List<Map<String, dynamic>> om = [];
     int sales_id = await OrderAppDB.instance
         .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
     int rowNum = 1;
-    print("hdsfghjfgf..$disper");
+
     print("salebagList length........${salebagList.length}");
     if (salebagList.length > 0) {
       String billNo = "${os}" + "${rowNum}";
@@ -1007,11 +998,10 @@ class Controller extends ChangeNotifier {
           0.0,
           0.0,
           total_price,
-          master_net_amt,
           0);
 
       for (var item in salebagList) {
-        print("sales_id....$sales_id");
+        print("item....$item");
         double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertsalesMasterandDetailsTable(
             sales_id,
@@ -1036,16 +1026,15 @@ class Controller extends ChangeNotifier {
             rowNum,
             "salesDetailTable",
             item["itemName"],
-            grossamt,
-            double.parse(disamt),
-            double.parse(disper),
-            double.parse(taxamt),
-            double.parse(taxper),
-            double.parse(cesamt),
-            double.parse(cesper),
-            double.parse(netamt),
+            double.parse(item["totalamount"]),
+            item["discount_amt"],
+            item["discount_per"],
+            item["tax_amt"],
+            item["tax_per"],
+            item["ces_amt"],
+            item["ces_per"],
+            item["net_amt"],
             total_price,
-            master_net_amt,
             0);
         rowNum = rowNum + 1;
       }
@@ -1731,7 +1720,7 @@ class Controller extends ChangeNotifier {
   countFromTable(String table, String os, String customerId) async {
     isLoading = true;
     // notifyListeners();
-    print("table--customerId-$table-$customerId");
+    print("table--customerId-$table-$customerId--$os");
     count = await OrderAppDB.instance
         .countCommonQuery(table, "os='${os}' AND customerid='${customerId}'");
     isLoading = false;

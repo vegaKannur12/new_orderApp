@@ -47,6 +47,7 @@ class _SaleCartState extends State<SaleCart> {
     s = date!.split(" ");
     Provider.of<Controller>(context, listen: false)
         .calculatesalesTotal(widget.os, widget.custmerId);
+    print("jhdjs-----${widget.os}");
 //  Provider.of<Controller>(context, listen: false)
 //             .getSaleBagDetails(widget.custmerId, widget.os);
     // TODO: implement initState
@@ -151,22 +152,26 @@ class _SaleCartState extends State<SaleCart> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
-                              Flexible(
-                                child: Text(
-                                    value.orderTotal2[0] != null
-                                        ? "\u{20B9}${value.orderTotal2[0]!}"
-                                        : "",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16)),
-                              )
+                              // Flexible(
+                              //   child: Text(
+                              //       value.orderTotal2[0] != null
+                              //           ? "\u{20B9}${value.orderTotal2[0]!}"
+                              //           : "",
+                              //       style: TextStyle(
+                              //           fontWeight: FontWeight.bold,
+                              //           fontSize: 16)),
+                              // )
                             ],
                           ),
                         ),
                       ),
                       GestureDetector(
                         onTap: (() async {
-                          // print("order total.......${value.orderTotal2![0][]}");
+                          Provider.of<Controller>(context, listen: false)
+                                  .salesNetamt =
+                              double.parse(value.orderTotal2[1]!);
+
+                          print("order total.......${value.orderTotal2}");
                           showDialog(
                             context: context,
                             builder: (BuildContext context) =>

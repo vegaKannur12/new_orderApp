@@ -428,8 +428,8 @@ class OrderAppDB {
             $payment_mode TEXT,
             $credit_option TEXT,
             $status INTEGER,
-            $total_price REAL,
-            $net_amt REAL
+            $net_amt REAL,
+           
           )
           ''');
     await db.execute('''
@@ -781,7 +781,6 @@ class OrderAppDB {
     double ces_per,
     double net_amt,
     double total_price,
-    double master_net_amt,
     int status,
   ) async {
     final db = await database;
@@ -795,7 +794,7 @@ class OrderAppDB {
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, cgst, sgst, igst, payment_mode, credit_option, status, total_price, net_amt) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${cgst}", "${sgst}","${igst}", "${payment_mode}", "${credit_option}", ${status}, ${total_price.toStringAsFixed(2)},${master_net_amt.toStringAsFixed(2)})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, cgst, sgst, igst, payment_mode, credit_option, status, net_amt) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${cgst}", "${sgst}","${igst}", "${payment_mode}", "${credit_option}", ${status}, ${total_price.toStringAsFixed(2)})';
       res2 = await db.rawInsert(query3);
       print("insertsalesmaster$query3");
     }
@@ -1361,7 +1360,6 @@ class OrderAppDB {
     } else {
       sum = "0.0";
     }
-
     return sum;
   }
 
@@ -1420,6 +1418,13 @@ class OrderAppDB {
       cesper,
       taxper
     ];
+  }
+
+  saleDetailtotalSum() async {
+    Database db = await instance.database;
+    var query = "SELECT  SUM(net_amt) s from salesDetailTable";
+    // print("calculate sales updated tot in db....$os...$customerId");
+    var result = await db.rawQuery(query);
   }
 
   ////////////// delete//////////////////////////////////////

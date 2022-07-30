@@ -65,6 +65,8 @@ class CommonPopup {
                       String? sOs = "S" + "$os";
                       print("jdjf----$sOs");
                       Provider.of<Controller>(context, listen: false)
+                          .salesNetamt;
+                      Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
                               sOs,
                               date,
@@ -73,15 +75,8 @@ class CommonPopup {
                               sid1!,
                               areaid,
                               double.parse(value.orderTotal2[0]!),
-                              double.parse(value.orderTotal2[1]!),
-                              double.parse(grossamt!),
-                              disamt.toString(),
-                              disper.toString(),
-                              taxamt.toString(),
-                              taxper.toString(),
-                              cesamt.toString(),
-                              cesper.toString(),
-                              netamt.toString());
+                            
+                              );
                     }
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);

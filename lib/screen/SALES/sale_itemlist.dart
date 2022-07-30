@@ -68,7 +68,7 @@ class _SalesItemState extends State<SalesItem> {
     // TODO: implement initState
     super.initState();
 
-    print("customer id........${widget.customerId}");
+    print("customer id....os....${widget.customerId}--${widget.os}");
     products = Provider.of<Controller>(context, listen: false).productName;
     print("products---${products}");
 
@@ -442,6 +442,7 @@ class _SalesItemState extends State<SalesItem> {
                                                           Icons.add,
                                                         ),
                                                         onPressed: () async {
+                                                          // String os="S"+"${value.ordernum[0]["os"]}";
                                                           setState(() {
                                                             if (value.selected[
                                                                     index] ==
@@ -470,7 +471,7 @@ class _SalesItemState extends State<SalesItem> {
                                                               .getMaxCommonQuery(
                                                                   'salesBagTable',
                                                                   'cartrowno',
-                                                                  "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
+                                                                  "os='${widget.os}' AND customerid='${widget.customerId}'");
 
                                                           print(
                                                               "sales max----$max");
@@ -523,8 +524,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         "item"],
                                                                     s[0],
                                                                     s[1],
-                                                                    value.ordernum[0]
-                                                                        ["os"],
+                                                                   widget.os,
                                                                     widget
                                                                         .customerId,
                                                                     max,
@@ -584,9 +584,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                       listen:
                                                                           false)
                                                                   .calculatesalesTotal(
-                                                                      value.ordernum[0]
-                                                                          [
-                                                                          'os'],
+                                                                      widget.os,
                                                                       widget
                                                                           .customerId)
                                                               : Text("No data");
@@ -763,6 +761,7 @@ class _SalesItemState extends State<SalesItem> {
                                                           Icons.add,
                                                         ),
                                                         onPressed: () async {
+                                                          String os="S"+"${value.ordernum[0]["os"]}";
                                                           setState(() {
                                                             if (value.selected[
                                                                     index] ==
@@ -791,7 +790,7 @@ class _SalesItemState extends State<SalesItem> {
                                                               .getMaxCommonQuery(
                                                                   'salesBagTable',
                                                                   'cartrowno',
-                                                                  "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
+                                                                  "os='${os}' AND customerid='${widget.customerId}'");
 
                                                           print("max----$max");
                                                           // print("value.qty[index].text---${value.qty[index].text}");
@@ -870,9 +869,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         "item"],
                                                                     s[0],
                                                                     s[1],
-                                                                    value.ordernum[
-                                                                            0][
-                                                                        "os"],
+                                                                    widget.os,
                                                                     widget
                                                                         .customerId,
                                                                     max,
@@ -935,9 +932,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                       listen:
                                                                           false)
                                                                   .calculatesalesTotal(
-                                                                      value.ordernum[0]
-                                                                          [
-                                                                          'os'],
+                                                                      widget.os,
                                                                       widget
                                                                           .customerId)
                                                               : Text("No data");

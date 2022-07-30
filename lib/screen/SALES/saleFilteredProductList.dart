@@ -117,6 +117,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                             Icons.add,
                           ),
                           onPressed: () async {
+                            // String os="S"+"${value.ordernum[0]["os"]}";
                             setState(() {
                               if (value.filterComselected[index] == false) {
                                 value.filterComselected[index] =
@@ -132,7 +133,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                             int max = await OrderAppDB.instance.getMaxCommonQuery(
                                 'salesBagTable',
                                 'cartrowno',
-                                "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
+                                "os='${widget.os}' AND customerid='${widget.customerId}'");
                             print("max----$max");
                             rate1 =
                                 value.salefilteredProductList[index]["rate1"];
@@ -163,7 +164,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                           ["item"],
                                       widget.s![0],
                                       widget.s![1],
-                                      value.ordernum[0]["os"],
+                                      widget.os!,
                                       widget.customerId!,
                                       max,
                                       value.salefilteredProductList[index]
@@ -205,7 +206,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                 ? Provider.of<Controller>(context,
                                         listen: false)
                                     .calculateorderTotal(
-                                        value.ordernum[0]['os'],
+                                        widget.os!,
                                         widget.customerId!)
                                 : Text("No data");
                           },
