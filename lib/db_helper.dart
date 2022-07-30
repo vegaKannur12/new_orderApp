@@ -202,23 +202,26 @@ class OrderAppDB {
   static final cus_type = 'cus_type';
   static final customer_id = 'customer_id';
   static final staff_id = 'staff_id';
-  static final cgst = 'cgst';
-  static final sgst = 'sgst';
+  static final cgst_per = 'cgst_per';
+  static final sgst_per = 'sgst_per';
+  static final igst_per = 'igst_per';
+  static final cgst_amt = 'cgst_amt';
+  static final sgst_amt = 'sgst_amt';
+  static final igst_amt = 'igst_amt';
   static final igst = 'igst';
   static final total_qty = 'total_qty';
   static final payment_mode = 'payment_mode';
   static final credit_option = 'credit_option';
   static final bill_no = 'bill_no';
+  static final gross_tot = 'gross_tot';
+  static final dis_tot = 'dis_tot';
+  static final state_status = 'static final';
+  static final tax_tot = 'tax_tot';
+  static final ces_tot = 'ces_tot';
 
   Future<Database> get database async {
     print("bjhs");
     if (_database != null) return _database!;
-    // if (_database != null) {
-    //   print("fkdjshkj");
-    //   _upgradeDB(_database!, 4, 5);
-    //   return _database!;
-    // }
-
     _database = await _initDB("orderapp.db");
     return _database!;
   }
@@ -422,14 +425,15 @@ class OrderAppDB {
             $staff_id TEXT,
             $areaid TEXT,
             $total_qty INTEGER,
-            $cgst TEXT,
-            $sgst TEXT,
-            $igst TEXT,
             $payment_mode TEXT,
             $credit_option TEXT,
-            $status INTEGER,
+            $gross_tot REAL,
+            $dis_tot REAL,
+            $tax_tot REAL,
+            $ces_tot REAL,
             $net_amt REAL,
-           
+            $state_status INTEGER,
+            $status INTEGER
           )
           ''');
     await db.execute('''
@@ -461,6 +465,12 @@ class OrderAppDB {
             $dis_per REAL,
             $tax_amt REAL,
             $tax_per REAL,
+            $cgst_per REAL,
+            $cgst_amt REAL,
+            $sgst_per REAL,
+            $sgst_amt REAL,
+            $igst_per REAL,
+            $igst_amt REAL, 
             $ces_amt REAL,
             $ces_per REAL,
             $net_amt REAL,
@@ -500,7 +510,13 @@ class OrderAppDB {
             $method TEXT,
             $hsn TEXT,
             $tax_per REAL,
-            $tax_amt REAl,
+            $tax_amt REAL,
+            $cgst_per REAL,
+            $cgst_amt REAL,
+            $sgst_per REAL,
+            $sgst_amt REAL,
+            $igst_per REAL,
+            $igst_amt REAL,
             $discount_per REAL,
             $discount_amt REAL,
             $ces_per REAL,
@@ -673,6 +689,12 @@ class OrderAppDB {
     String hsn,
     double tax_per,
     double tax,
+    double cgst_per,
+    double cgst_amt,
+    double sgst_per,
+    double sgst_amt,
+    double igst_per,
+    double igst_amt,
     double discount_per,
     double discount_amt,
     double ces_per,
@@ -704,7 +726,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn,tax_per, tax_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt")';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn,tax_per, tax_amt, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt")';
       var res = await db.rawInsert(query2);
     }
 
@@ -777,6 +799,12 @@ class OrderAppDB {
     double dis_per,
     double tax_amt,
     double tax_per,
+    double cgst_per,
+    double cgst_amt,
+    double sgst_per,
+    double sgst_amt,
+    double igst_per,
+    double igst_amt,
     double ces_amt,
     double ces_per,
     double net_amt,
@@ -789,12 +817,12 @@ class OrderAppDB {
 
     if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(os, sales_id, row_num, item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, ces_amt, ces_per, net_amt, rate) VALUES("${os}", ${sales_id}, ${rowNum}, "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, $ces_amt, $ces_per, $net_amt, $rate)';
+          'INSERT INTO salesDetailTable(os, sales_id, row_num, item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate) VALUES("${os}", ${sales_id}, ${rowNum}, "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $net_amt, $rate)';
       print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, cgst, sgst, igst, payment_mode, credit_option, status, net_amt) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${cgst}", "${sgst}","${igst}", "${payment_mode}", "${credit_option}", ${status}, ${total_price.toStringAsFixed(2)})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, cess_tot, net_amt, state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", ${gross_tot}, ${dis_tot}, ${tax_tot}, ${ces_tot}, ${total_price.toStringAsFixed(2)}, $state_status, ${status})';
       res2 = await db.rawInsert(query3);
       print("insertsalesmaster$query3");
     }
@@ -1724,7 +1752,7 @@ class OrderAppDB {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
     var query =
-        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate Date, count(salesDetailTable.row_num) count, salesMasterTable.total_price  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
+        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate Date, count(salesDetailTable.row_num) count, salesMasterTable.net_amt  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
     print("query---$query");
 
     result = await db.rawQuery(query);
@@ -2044,7 +2072,7 @@ class OrderAppDB {
         " From returnMasterTable RT   where RT.return_date='$date' and RT.userid='$userId'" +
         " group by RT.customerid" +
         " union all" +
-        " Select S.customer_id cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(S.id) saleCnt,Sum(S.total_price) saleVal,0 retCnt,0 retVal" +
+        " Select S.customer_id cid , 0 ordCnt,0 ordVal,0 rmCnt,0 colCnt,0 colVal,Count(S.id) saleCnt,Sum(S.net_amt) saleVal,0 retCnt,0 retVal" +
         " From salesMasterTable S   where S.salesdate='$date' and S.staff_id='$userId'" +
         " group by S.customer_id" +
         " ) X ON X.cid=A.ac_code" +

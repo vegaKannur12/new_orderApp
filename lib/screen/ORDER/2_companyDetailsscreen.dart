@@ -1,7 +1,3 @@
-import 'dart:io';
-import 'dart:ui';
-import 'package:file/file.dart';
-import 'package:file/memory.dart';
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customSnackbar.dart';
@@ -11,8 +7,6 @@ import 'package:orderapp/screen/ADMIN_/adminController.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:external_path/external_path.dart';
-import 'package:path_provider/path_provider.dart';
 
 class CompanyDetails extends StatefulWidget {
   String? type;
@@ -351,9 +345,6 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                     ? Container()
                                     : ElevatedButton(
                                         onPressed: () async {
-                                          // Provider.of<Controller>(context,
-                                          //         listen: false)
-                                          //     .continueClicked = true;
                                           SharedPreferences prefs =
                                               await SharedPreferences
                                                   .getInstance();
@@ -361,10 +352,9 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                               "continueClicked", true);
                                           String? userType =
                                               prefs.getString("userType");
-                                          print("compny deatils userType----$userType");
-                                          // Provider.of<Controller>(context,
-                                          //         listen: false)
-                                          //     .fetchMenusFromMenuTable();
+                                          print(
+                                              "compny deatils userType----$userType");
+
                                           firstMenu =
                                               prefs.getString("firstMenu");
                                           print("first---------$firstMenu");
@@ -389,14 +379,6 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                                   listen: false)
                                               .cid = cid;
                                           print("cid-----${cid}");
-
-                                          // prefs.setString("cid", cid);
-                                          // prefs.setString(
-                                          //     "cname", value.cname!);
-                                          // Provider.of<Controller>(context,
-                                          //         listen: false)
-                                          //     .setCname();
-
                                           if (userType == "staff") {
                                             print("stffjknkdf");
 
@@ -427,8 +409,6 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                                       StaffLogin()),
                                             );
                                           }
-
-                                          // _snackbar.showSnackbar(context,"Staff Details Saved");
                                         },
                                         child: Text("Continue"),
                                       ),

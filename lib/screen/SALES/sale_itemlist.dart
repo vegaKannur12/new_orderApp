@@ -7,8 +7,6 @@ import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/components/showMoadal.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
-import 'package:orderapp/screen/ORDER/8_cartList.dart';
-import 'package:orderapp/screen/ORDER/filterProduct.dart';
 import 'package:orderapp/screen/SALES/saleFilteredProductList.dart';
 import 'package:orderapp/screen/SALES/sale_cart.dart';
 
@@ -40,15 +38,7 @@ class _SalesItemState extends State<SalesItem> {
   TextEditingController searchcontroll = TextEditingController();
   ShowModal showModal = ShowModal();
   List<Map<String, dynamic>> products = [];
-  // List<Map<String, dynamic>> p = [
-  //   {"a": "jdszn","id":"hj"},
-  //   {"a": "njxd","id":"ht"}
-  // ];
-
-  // int? selected;
   SearchTile search = SearchTile();
-  // RefreshController _refreshController =
-  //     RefreshController(initialRefresh: false);
   DateTime now = DateTime.now();
   // CustomSnackbar snackbar = CustomSnackbar();
   List<String> s = [];
@@ -519,12 +509,13 @@ class _SalesItemState extends State<SalesItem> {
                                                             var res = await OrderAppDB
                                                                 .instance
                                                                 .insertsalesBagTable(
-                                                                    value.newList[index]
+                                                                    value.newList[
+                                                                            index]
                                                                         [
                                                                         "item"],
                                                                     s[0],
                                                                     s[1],
-                                                                   widget.os,
+                                                                    widget.os,
                                                                     widget
                                                                         .customerId,
                                                                     max,
@@ -543,7 +534,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                     value.newList[
                                                                             index]
                                                                         ["hsn"],
-                                                                    double.parse(
+                                                                    double
+                                                                        .parse(
                                                                       value.newList[
                                                                               index]
                                                                           [
@@ -553,9 +545,16 @@ class _SalesItemState extends State<SalesItem> {
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
                                                                     value.cess,
                                                                     0,
-                                                                    value.net_amt);
+                                                                    value
+                                                                        .net_amt);
                                                             snackbar.showSnackbar(
                                                                 context,
                                                                 "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart");
@@ -575,9 +574,13 @@ class _SalesItemState extends State<SalesItem> {
                                                                           .isNotEmpty ||
                                                                       widget.customerId !=
                                                                           null) &&
-                                                                  (products[index]["code"]
+                                                                  (products[index]
+                                                                              [
+                                                                              "code"]
                                                                           .isNotEmpty ||
-                                                                      products[index]["code"] !=
+                                                                      products[index]
+                                                                              [
+                                                                              "code"] !=
                                                                           null)
                                                               ? Provider.of<Controller>(
                                                                       context,
@@ -761,7 +764,8 @@ class _SalesItemState extends State<SalesItem> {
                                                           Icons.add,
                                                         ),
                                                         onPressed: () async {
-                                                          String os="S"+"${value.ordernum[0]["os"]}";
+                                                          String os = "S" +
+                                                              "${value.ordernum[0]["os"]}";
                                                           setState(() {
                                                             if (value.selected[
                                                                     index] ==
@@ -899,6 +903,12 @@ class _SalesItemState extends State<SalesItem> {
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
                                                                     value.cess,
                                                                     0,
                                                                     value
@@ -923,9 +933,13 @@ class _SalesItemState extends State<SalesItem> {
                                                                           .isNotEmpty ||
                                                                       widget.customerId !=
                                                                           null) &&
-                                                                  (products[index]["code"]
+                                                                  (products[index]
+                                                                              [
+                                                                              "code"]
                                                                           .isNotEmpty ||
-                                                                      products[index]["code"] !=
+                                                                      products[index]
+                                                                              [
+                                                                              "code"] !=
                                                                           null)
                                                               ? Provider.of<Controller>(
                                                                       context,

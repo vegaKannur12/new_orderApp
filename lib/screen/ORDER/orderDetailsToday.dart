@@ -20,14 +20,16 @@ class _OrderDetailsTodayState extends State<OrderDetailsToday> {
         child: Consumer<Controller>(
           builder: (context, value, child) {
             return Container(
-              width: size.width*0.98,
+              width: size.width * 0.98,
               child: DataTable(
                 // horizontalMargin: 0,
                 headingRowHeight: 20,
                 dataRowHeight: 23,
-                    dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white),
+                dataRowColor:
+                    MaterialStateColor.resolveWith((states) => Colors.white),
                 columnSpacing: 0,
-                border: TableBorder.all(width: 1, color: Color.fromARGB(255, 226, 220, 220)),
+                border: TableBorder.all(
+                    width: 1, color: Color.fromARGB(255, 226, 220, 220)),
                 columns: getColumns(value.tableHistorydataColumn),
                 rows: getRowss(value.historydataList),
               ),

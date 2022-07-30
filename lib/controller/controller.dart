@@ -997,6 +997,12 @@ class Controller extends ChangeNotifier {
           0.0,
           0.0,
           0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
           total_price,
           0);
 
@@ -1031,10 +1037,16 @@ class Controller extends ChangeNotifier {
             item["discount_per"],
             item["tax_amt"],
             item["tax_per"],
+            item["cgst_per"],
+            item["cgst_amt"],
+            item["sgst_per"],
+            item["sgst_amt"],
+            item["igst_per"],
+            item["igst_amt"],
             item["ces_amt"],
             item["ces_per"],
             item["net_amt"],
-            total_price,
+            0.0,
             0);
         rowNum = rowNum + 1;
       }

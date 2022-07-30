@@ -160,14 +160,7 @@ class _CartListState extends State<CartList> {
                                 widget.custmerId,
                                 s[0],
                                 s[1],
-                                "",
-                                "",
-                                "",
-                                "",
-                                "",
-                                "",
-                                "",
-                                "",
+                               
                               ),
                             );
 

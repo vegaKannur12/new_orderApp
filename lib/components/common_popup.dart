@@ -18,14 +18,6 @@ class CommonPopup {
     String custmerId,
     String date,
     String time,
-    String? grossamt,
-    String? disamt,
-    String? disper,
-    String? taxamt,
-    String? taxper,
-    String? cesamt,
-    String? cesper,
-    String? netamt,
   ) {
     return AlertDialog(
       content: Column(
@@ -57,7 +49,6 @@ class CommonPopup {
                   }
 
                   if (type == "sales") {
-                    print("sales......${grossamt}...${disamt}...${disper}");
                     if (Provider.of<Controller>(context, listen: false)
                             .salebagList
                             .length >
@@ -68,15 +59,14 @@ class CommonPopup {
                           .salesNetamt;
                       Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
-                              sOs,
-                              date,
-                              time,
-                              custmerId,
-                              sid1!,
-                              areaid,
-                              double.parse(value.orderTotal2[0]!),
-                            
-                              );
+                        sOs,
+                        date,
+                        time,
+                        custmerId,
+                        sid1!,
+                        areaid,
+                        double.parse(value.orderTotal2[0]!),
+                      );
                     }
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
