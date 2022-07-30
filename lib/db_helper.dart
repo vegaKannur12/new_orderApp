@@ -1415,7 +1415,6 @@ class OrderAppDB {
       cgst = "0.00";
       sgst = "0.00";
       igst = "0.00";
-
     }
     return [
       net_amount,
@@ -1430,7 +1429,6 @@ class OrderAppDB {
       cgst,
       sgst,
       igst,
-
     ];
   }
 
