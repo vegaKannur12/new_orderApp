@@ -139,6 +139,17 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                 value.salefilteredProductList[index]["rate1"];
                             var total = int.parse(rate1) *
                                 int.parse(value.qty[index].text);
+                            double qtyNew = 0.0;
+                            List qtyNewList = await OrderAppDB.instance
+                                .selectAllcommon('salesBagTable',
+                                    "os='${widget.os}' AND customerid='${widget.customerId}' AND code='${value.salefilteredProductList[index]["code"]}'");
+                            if (qtyNewList.length > 0) {
+                              qtyNew = qtyNewList[0]["qty"];
+                            }
+
+                            double qtyww =
+                                qtyNew + double.parse(value.qty[index].text);
+                            print("qtynew----$qtyww");
                             print("total rate $total");
                             String result =
                                 Provider.of<Controller>(context, listen: false)
@@ -146,9 +157,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                         double.parse(
                                             value.salefilteredProductList[index]
                                                 ["rate1"]),
-                                        double.parse(
-                                          value.qty[index].text,
-                                        ),
+                                        qtyww,
                                         0.0,
                                         0.0,
                                         double.parse(
@@ -179,8 +188,9 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       "0",
                                       value.salefilteredProductList[index]
                                           ["hsn"],
-                                      double.parse( value.salefilteredProductList[index]
-                                          ["tax"]),
+                                      double.parse(
+                                          value.salefilteredProductList[index]
+                                              ["tax"]),
                                       value.tax,
                                       value.cgst_per,
                                       value.cgst_amt,
@@ -195,8 +205,10 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       0,
                                       value.net_amt);
 
-                              snackbar.showSnackbar(context,
-                                  "${value.salefilteredProductList[index]["code"] + value.salefilteredProductList[index]['item']} - Added to cart","sales");
+                              snackbar.showSnackbar(
+                                  context,
+                                  "${value.salefilteredProductList[index]["code"] + value.salefilteredProductList[index]['item']} - Added to cart",
+                                  "sales");
                               Provider.of<Controller>(context, listen: false)
                                   .countFromTable(
                                 "salesBagTable",

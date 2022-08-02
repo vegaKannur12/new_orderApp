@@ -729,7 +729,7 @@ class OrderAppDB {
       double amount1 = double.parse(totalamount);
       double updatedAmount = amount + amount1;
       var res = await db.rawUpdate(
-          'UPDATE salesBagTable SET qty=$updatedQty , totalamount="${updatedAmount}" WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
+          'UPDATE salesBagTable SET qty=$updatedQty , totalamount="${updatedAmount}" , net_amt=$net_amt ,tax_amt=$tax ,discount_per=$discount_per, discount_amt=$discount_amt,cgst_amt=$cgst_amt,sgst_amt=$sgst_amt,igst_amt=$igst_amt,unit_rate=$unit_rate  WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
       print("response-------$res");
     } else {
       query2 =
