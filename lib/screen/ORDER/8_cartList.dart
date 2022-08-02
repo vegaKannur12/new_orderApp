@@ -160,7 +160,6 @@ class _CartListState extends State<CartList> {
                                 widget.custmerId,
                                 s[0],
                                 s[1],
-                               
                               ),
                             );
 
@@ -359,9 +358,13 @@ class _CartListState extends State<CartList> {
                                                               .getProductList(
                                                                   widget
                                                                       .custmerId);
-                                                          Provider.of<Controller>(context, listen: false).calculateorderTotal(
-                                                                            widget.os,
-                                                                            widget.custmerId);
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .calculateorderTotal(
+                                                                  widget.os,
+                                                                  widget
+                                                                      .custmerId);
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
@@ -643,7 +646,7 @@ class _CartListState extends State<CartList> {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return new AlertDialog(
+          return AlertDialog(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

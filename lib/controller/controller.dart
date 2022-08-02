@@ -852,15 +852,14 @@ class Controller extends ChangeNotifier {
       var mapBody = jsonEncode(om);
       print("mapBody--${mapBody}");
 
-      var jsonD = jsonDecode(mapBody);
+      // var jsonD = jsonDecode(mapBody);
       var body = {'cid': cid, 'om': mapBody};
       print("body sales ---------$body");
       http.Response response = await http.post(
         url,
         body: {'cid': cid, 'om': mapBody},
       );
-      print("after-----$response");
-      
+      print("after");
       var map = jsonDecode(response.body);
       print("response sales----${map}");
       for (var item in map) {
@@ -979,7 +978,8 @@ class Controller extends ChangeNotifier {
     int rowNum = 1;
     print("salebagList length........${salebagList.length}");
     if (salebagList.length > 0) {
-      String billNo = "${os}" + "${sales_id}";
+      String billNo = "${os}" + "${rowNum}";
+      print("bill no........$billNo");
       var result = await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
           0,
@@ -999,7 +999,7 @@ class Controller extends ChangeNotifier {
           "",
           "",
           "",
-          0,
+          rowNum,
           "salesMasterTable",
           "",
           0.0,
@@ -1040,7 +1040,7 @@ class Controller extends ChangeNotifier {
           os,
           customer_id,
           "",
-          "",
+          billNo,
           staff_id,
           aid,
           0,
