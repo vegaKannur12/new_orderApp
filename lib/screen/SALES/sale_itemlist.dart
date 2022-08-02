@@ -527,7 +527,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .qty[
                                                                             index]
                                                                         .text),
-                                                                    rate1,value.taxable_rate,
+                                                                    rate1,
+                                                                    value
+                                                                        .taxable_rate,
                                                                     total
                                                                         .toString(),
                                                                     "0",
@@ -550,8 +552,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .sgst_per,
                                                                     value
                                                                         .sgst_amt,
-                                                                    value
-                                                                        .igst_per,
+                                                                    value.igst_per,
                                                                     value.igst_amt,
                                                                     0.0,
                                                                     0.0,
@@ -561,7 +562,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                     value.net_amt);
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart","sales");
+                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart",
+                                                                "sales");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:
@@ -889,7 +891,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .qty[
                                                                             index]
                                                                         .text),
-                                                                    rate1,value.taxable_rate,
+                                                                    rate1,
+                                                                    value
+                                                                        .taxable_rate,
                                                                     total
                                                                         .toString(),
                                                                     "0",
@@ -904,7 +908,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "tax"],
                                                                     ),
                                                                     value.tax,
-                                                                     value
+                                                                    value
                                                                         .cgst_per,
                                                                     value
                                                                         .cgst_amt,
@@ -914,7 +918,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .sgst_amt,
                                                                     value
                                                                         .igst_per,
-                                                                    value.igst_amt,
+                                                                    value
+                                                                        .igst_amt,
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,
@@ -925,7 +930,8 @@ class _SalesItemState extends State<SalesItem> {
 
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${products[index]["code"] + products[index]['item']} - Added to cart","sales");
+                                                                "${products[index]["code"] + products[index]['item']} - Added to cart",
+                                                                "sales");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:

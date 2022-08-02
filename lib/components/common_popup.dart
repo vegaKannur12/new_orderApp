@@ -54,7 +54,7 @@ class CommonPopup {
                             .length >
                         0) {
                       String? sOs = "S" + "$os";
-                     
+
                       Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
                         sOs,
@@ -72,9 +72,9 @@ class CommonPopup {
                     }
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
-                  } 
-                  
-         ////////////////////////////////////////////////////////////////////////////////         
+                  }
+
+                  ////////////////////////////////////////////////////////////////////////////////
                   else if (type == "sale order") {
                     print("inside order.......");
                     if (Provider.of<Controller>(context, listen: false)

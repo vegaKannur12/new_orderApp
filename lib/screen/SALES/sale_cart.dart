@@ -109,6 +109,7 @@ class _SaleCartState extends State<SaleCart> {
                         value.salebagList[index]["ces_amt"],
                         value.salebagList[index]["net_amt"],
                         double.parse(value.salebagList[index]["totalamount"]),
+
                         value.salebagList[index]["qty"],
                         size,
                         value.controller[index],
@@ -182,7 +183,6 @@ class _SaleCartState extends State<SaleCart> {
                               s[1],
                             ),
                           );
-
                           // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
                         }),
                         child: Container(

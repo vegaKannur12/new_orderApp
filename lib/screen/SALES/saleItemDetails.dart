@@ -251,12 +251,13 @@ class SaleItemDetails {
                                       print("emtyyyy");
                                       valuediscamt = double.parse(values);
                                     } else {
-                                      valuediscamt = 0.00;
+                                      valuediscamt = 0.0000;
                                     }
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .fromDb = false;
-
+                                    print(
+                                        "discount amount..........$valuediscamt");
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
@@ -265,7 +266,8 @@ class SaleItemDetails {
                                                 value.salesqty[index].text),
                                             double.parse(value
                                                 .discount_prercent[index].text),
-                                            valuediscamt,
+                                            double.parse(valuediscamt
+                                                .toStringAsFixed(4)),
                                             tax_per,
                                             0.0,
                                             "0",

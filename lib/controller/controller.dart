@@ -854,19 +854,19 @@ class Controller extends ChangeNotifier {
 
       // var jsonD = jsonDecode(mapBody);
       var body = {'cid': cid, 'om': mapBody};
-      print("body----------$body");
+      print("body sales ---------$body");
       http.Response response = await http.post(
         url,
         body: {'cid': cid, 'om': mapBody},
       );
       print("after");
       var map = jsonDecode(response.body);
-      print("response----${map}");
+      print("response sales----${map}");
       for (var item in map) {
         print("itemtt----$item");
         if (item["s_id"] != null) {
           await OrderAppDB.instance.upadteCommonQuery("salesMasterTable",
-              "status='${item["s_id"]}'", "sales_id='${item["id"]}'");
+              "status='${item["s_id"]}'", "sales_id='${item["s_id"]}'");
         }
       }
       isLoading = false;
@@ -1558,6 +1558,7 @@ class Controller extends ChangeNotifier {
 
     notifyListeners();
   }
+
 /////////////////////////////////////////////////////////////////
   getHistoryData(String table, String? condition) async {
     isLoading = true;
@@ -1582,6 +1583,7 @@ class Controller extends ChangeNotifier {
 
     notifyListeners();
   }
+
   /////////////////SELCT TOTAL ORDER FROM MASTER TABLE///////////
   getOrderMasterTotal(String table, String? condition) async {
     print("inside select data");
@@ -2777,7 +2779,7 @@ class Controller extends ChangeNotifier {
       bool onSub,
       String? disCalc) {
     print(
-        "attribute--$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
+        "attribute----$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     flag = false;
     gross = rate * qty;
 
@@ -2795,7 +2797,7 @@ class Controller extends ChangeNotifier {
       print("yes hay---$disc_per");
       disc_amt = (gross * disc_per) / 100;
       if (onSub) {
-        discount_amount[index].text = disc_amt.toStringAsFixed(2);
+        discount_amount[index].text = disc_amt.toStringAsFixed(4);
       }
       print("disc-amt----$disc_amt");
     }
