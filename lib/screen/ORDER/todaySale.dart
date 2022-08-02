@@ -33,6 +33,7 @@ class _TodaySaleState extends State<TodaySale> {
     sharedPref();
     // TODO: implement initState
     super.initState();
+    print("todaySalesList----${Provider.of<Controller>(context, listen: false).todaySalesList}");
   }
 
   @override
@@ -71,13 +72,13 @@ class _TodaySaleState extends State<TodaySale> {
                           child: GestureDetector(
                             onTap: () {
                               Provider.of<Controller>(context, listen: false)
-                                  .getHistoryData('salesDetailTable',
+                                  .getSaleHistoryData('salesDetailTable',
                                       "sales_id='${value.todaySalesList[index]["sales_id"]}'");
                               popup.buildPopupDialog(
                                   context,
                                   size,
                                   value.todaySalesList[index]["sale_Num"],
-                                  value.todaySalesList[index]["Cus_id"]);
+                                  value.todaySalesList[index]["Cus_id"],"sales");
                             },
                             child: Card(
                               color: Colors.grey[100],
@@ -156,7 +157,7 @@ class _TodaySaleState extends State<TodaySale> {
                                             style: TextStyle(fontSize: 15),
                                           ),
                                           Text(
-                                            "\u{20B9}${value.todaySalesList[index]["total_price"].toString()}",
+                                            "\u{20B9}${value.todaySalesList[index]["net_amt"].toString()}",
                                             style: TextStyle(
                                                 color: Colors.red,
                                                 fontWeight: FontWeight.bold,

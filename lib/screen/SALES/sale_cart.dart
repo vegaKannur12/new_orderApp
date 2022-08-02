@@ -109,7 +109,6 @@ class _SaleCartState extends State<SaleCart> {
                         value.salebagList[index]["ces_amt"],
                         value.salebagList[index]["net_amt"],
                         double.parse(value.salebagList[index]["totalamount"]),
-
                         value.salebagList[index]["qty"],
                         size,
                         value.controller[index],

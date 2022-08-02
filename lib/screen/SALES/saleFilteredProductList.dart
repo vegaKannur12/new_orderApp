@@ -153,7 +153,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                         0.0,
                                         double.parse(
                                             value.salefilteredProductList[index]
-                                                ["tax_per"]),
+                                                ["tax"]),
                                         0.0,
                                         "0",
                                         0,
@@ -174,12 +174,13 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                           ["code"],
                                       double.parse(value.qty[index].text),
                                       rate1,
+                                      value.taxable_rate,
                                       total.toString(),
                                       "0",
                                       value.salefilteredProductList[index]
                                           ["hsn"],
-                                      value.salefilteredProductList[index]
-                                          ["tax"],
+                                      double.parse( value.salefilteredProductList[index]
+                                          ["tax"]),
                                       value.tax,
                                       value.cgst_per,
                                       value.cgst_amt,
@@ -195,7 +196,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       value.net_amt);
 
                               snackbar.showSnackbar(context,
-                                  "${value.salefilteredProductList[index]["code"] + value.salefilteredProductList[index]['item']} - Added to cart");
+                                  "${value.salefilteredProductList[index]["code"] + value.salefilteredProductList[index]['item']} - Added to cart","sales");
                               Provider.of<Controller>(context, listen: false)
                                   .countFromTable(
                                 "salesBagTable",

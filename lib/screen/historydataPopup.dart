@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 class HistoryPopup {
   Future buildPopupDialog(
-      BuildContext context, Size size, String? orderNum, String? cusId) {
+      BuildContext context, Size size, String? orderNum, String? cusId,String type) {
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -18,15 +18,16 @@ class HistoryPopup {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left:8.0,right: 11),
+                      padding: const EdgeInsets.only(left: 8.0, right: 11),
                       child: Container(
                         height: size.height * 0.04,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Ord.No : ${orderNum}",
-                              style: TextStyle(color: Colors.grey[600],fontSize: 13),
+                              "Bill No : ${orderNum}",
+                              style: TextStyle(
+                                  color: Colors.grey[600], fontSize: 13),
                             ),
                             // Text(
                             //   cusId,
@@ -43,13 +44,13 @@ class HistoryPopup {
                           horizontalMargin: 0,
                           headingRowHeight: 25,
                           dataRowHeight: 30,
-                           headingRowColor:
-                    MaterialStateColor.resolveWith((states) => Color.fromARGB(255, 240, 235, 235)),
+                          headingRowColor: MaterialStateColor.resolveWith(
+                              (states) => Color.fromARGB(255, 240, 235, 235)),
                           columnSpacing: 0,
                           showCheckboxColumn: false,
-                          dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white),
-                          border:
-                              TableBorder.all(width: 1, color: Colors.grey),
+                          dataRowColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.white),
+                          border: TableBorder.all(width: 1, color: Colors.grey),
                           columns: getColumns(value.tableHistorydataColumn),
                           rows: getRowss(value.historydataList),
                         ),
@@ -70,7 +71,7 @@ class HistoryPopup {
   }
 
   List<DataColumn> getColumns(List<String> columns) {
-    // print("columns---${columns}");
+    print("columns---${columns}");
     String behv;
     String colsName;
     return columns.map((String column) {
@@ -115,7 +116,7 @@ class HistoryPopup {
       datacell.add(
         DataCell(
           Container(
-             width:70,
+            width: 70,
             // width: mainHeader[k][3] == "1" ? 70 : 30,
             alignment: Alignment.center,
             //     ? Alignment.centerLeft

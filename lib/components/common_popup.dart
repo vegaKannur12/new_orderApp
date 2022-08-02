@@ -47,31 +47,35 @@ class CommonPopup {
                   } else {
                     gen_condition = " ";
                   }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
                   if (type == "sales") {
                     if (Provider.of<Controller>(context, listen: false)
                             .salebagList
                             .length >
                         0) {
                       String? sOs = "S" + "$os";
-
+                     
                       Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
-                              sOs,
-                              date,
-                              time,
-                              custmerId,
-                              sid1!,
-                              areaid,
-                              double.parse(value.orderTotal2[0]!),
-                              double.parse(value.orderTotal2[9]!),
-                              double.parse(value.orderTotal2[10]!),
-                              double.parse(value.orderTotal2[11]!),
-                               double.parse(value.orderTotal2[5]!));
+                        sOs,
+                        date,
+                        time,
+                        custmerId,
+                        sid1!,
+                        areaid,
+                        value.salesTotal,
+                        value.gross_tot,
+                        value.tax_tot,
+                        value.dis_tot,
+                        value.cess_tot,
+                      );
                     }
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
-                  } else if (type == "sale order") {
+                  } 
+                  
+         ////////////////////////////////////////////////////////////////////////////////         
+                  else if (type == "sale order") {
                     print("inside order.......");
                     if (Provider.of<Controller>(context, listen: false)
                             .bagList

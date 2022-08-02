@@ -527,7 +527,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .qty[
                                                                             index]
                                                                         .text),
-                                                                    rate1,
+                                                                    rate1,value.taxable_rate,
                                                                     total
                                                                         .toString(),
                                                                     "0",
@@ -561,7 +561,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                     value.net_amt);
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart");
+                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart","sales");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:
@@ -889,7 +889,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .qty[
                                                                             index]
                                                                         .text),
-                                                                    rate1,
+                                                                    rate1,value.taxable_rate,
                                                                     total
                                                                         .toString(),
                                                                     "0",
@@ -925,7 +925,7 @@ class _SalesItemState extends State<SalesItem> {
 
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${products[index]["code"] + products[index]['item']} - Added to cart");
+                                                                "${products[index]["code"] + products[index]['item']} - Added to cart","sales");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:

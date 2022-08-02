@@ -37,7 +37,7 @@ class _HistoryState extends State<History> {
       Provider.of<Controller>(context, listen: false).getHistoryData(
           'orderDetailTable', "order_id='${history["order_id"]}'");
       popup.buildPopupDialog(
-          context, size!, history["Order_Num"], history["Cus_id"]);
+          context, size!, history["Order_Num"], history["Cus_id"],"sale order");
     }
   }
 

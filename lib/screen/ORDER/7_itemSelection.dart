@@ -523,7 +523,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 0);
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart");
+                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart","sale order");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:
@@ -863,7 +863,7 @@ class _ItemSelectionState extends State<ItemSelection> {
 
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${products[index]["code"] + products[index]['item']} - Added to cart");
+                                                                "${products[index]["code"] + products[index]['item']} - Added to cart","sale order");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:

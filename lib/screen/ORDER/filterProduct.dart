@@ -160,7 +160,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                       0);
 
                               snackbar.showSnackbar(context,
-                                  "${value.filteredProductList[index]["code"] + value.filteredProductList[index]['item']} - Added to cart");
+                                  "${value.filteredProductList[index]["code"] + value.filteredProductList[index]['item']} - Added to cart","sale order");
                               Provider.of<Controller>(context, listen: false)
                                   .countFromTable(
                                 "orderBagTable",

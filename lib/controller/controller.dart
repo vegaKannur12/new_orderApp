@@ -25,6 +25,11 @@ import '../model/staffdetails_model.dart';
 class Controller extends ChangeNotifier {
   bool? fromDb;
   double gross = 0.0;
+  double gross_tot = 0.0;
+  double dis_tot = 0.0;
+  double cess_tot = 0.0;
+  double tax_tot = 0.0;
+
   double disc_amt = 0.0;
   double net_amt = 0.0;
   double taxable_rate = 0.0;
@@ -295,7 +300,7 @@ class Controller extends ChangeNotifier {
 
           if (sof == "0") {
             CustomSnackbar snackbar = CustomSnackbar();
-            snackbar.showSnackbar(context, msg.toString());
+            snackbar.showSnackbar(context, msg.toString(), "");
           }
 
           notifyListeners();
@@ -601,14 +606,20 @@ class Controller extends ChangeNotifier {
         var account = await OrderAppDB.instance.insertAccoundHeads(accountHead);
       }
 
-      if (areaidFrompopup != null) {
-        dashboardSummery(sid!, s, areaidFrompopup!, context);
-      } else {
-        if (userType == "staff") {
-          dashboardSummery(sid!, s, "", context);
+      final prefs = await SharedPreferences.getInstance();
+
+      String? us = await prefs.getString('st_username');
+      String? pwd = await prefs.getString('st_pwd');
+      if (us != null && pwd != null) {
+        if (areaidFrompopup != null) {
+          dashboardSummery(sid!, s, areaidFrompopup!, context);
+        } else {
+          if (userType == "staff") {
+            print("satfff");
+            dashboardSummery(sid!, s, "", context);
+          }
         }
       }
-
       isDownloaded = false;
       isDown[index] = true;
       isLoading = false;
@@ -834,7 +845,7 @@ class Controller extends ChangeNotifier {
       BuildContext context, int index) async {
     try {
       print("haiii");
-      Uri url = Uri.parse("http://trafiqerp.in/order/fj/order_save.php");
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/sale_save.php");
       isLoading = true;
       notifyListeners();
       // print("body--${body}");
@@ -848,20 +859,17 @@ class Controller extends ChangeNotifier {
         url,
         body: {'cid': cid, 'om': mapBody},
       );
-
       print("after");
-
       var map = jsonDecode(response.body);
       print("response----${map}");
-
       for (var item in map) {
-        if (item["order_id"] != null) {
-          await OrderAppDB.instance.upadteCommonQuery("orderMasterTable",
-              "status='${item["order_id"]}'", "order_id='${item["id"]}'");
+        print("itemtt----$item");
+        if (item["s_id"] != null) {
+          await OrderAppDB.instance.upadteCommonQuery("salesMasterTable",
+              "status='${item["s_id"]}'", "sales_id='${item["id"]}'");
         }
       }
       isLoading = false;
-
       notifyListeners();
     } catch (e) {
       print(e);
@@ -959,23 +967,24 @@ class Controller extends ChangeNotifier {
     String staff_id,
     String aid,
     double total_price,
-    double cgst,
-    double sgst,
-    double igst,
     double gross_tot,
+    double tax_tot,
+    double dis_tot,
+    double cess_tot,
   ) async {
     List<Map<String, dynamic>> om = [];
     int sales_id = await OrderAppDB.instance
         .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
     int rowNum = 1;
-
     print("salebagList length........${salebagList.length}");
     if (salebagList.length > 0) {
       String billNo = "${os}" + "${rowNum}";
-      await OrderAppDB.instance.insertsalesMasterandDetailsTable(
+      var result = await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
           0,
           0.0,
+          0.0,
+          "",
           "",
           date,
           time,
@@ -1005,12 +1014,13 @@ class Controller extends ChangeNotifier {
           0.0,
           0.0,
           0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
+          gross_tot,
+          dis_tot,
+          tax_tot,
+          cess_tot,
           0.0,
           total_price,
+          0.0,
           0,
           0);
 
@@ -1021,7 +1031,9 @@ class Controller extends ChangeNotifier {
           sales_id,
           item["qty"],
           rate,
+          item["unit_rate"],
           item["code"],
+          item["hsn"],
           date,
           time,
           os,
@@ -1055,6 +1067,7 @@ class Controller extends ChangeNotifier {
           0.0,
           0.0,
           item["net_amt"],
+          0.0,
           0.0,
           0,
           0,
@@ -1522,6 +1535,30 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////GET HISTORY DATA/////////////////////////
+  getSaleHistoryData(String table, String? condition) async {
+    isLoading = true;
+    print("haiiii");
+    historydataList.clear();
+    tableHistorydataColumn.clear();
+    List<Map<String, dynamic>> result =
+        await OrderAppDB.instance.todaySaleHistory(table, condition);
+
+    for (var item in result) {
+      historydataList.add(item);
+    }
+    print("historydataList----$historydataList");
+    var list = historydataList[0].keys.toList();
+    print("**list----$list");
+    for (var item in list) {
+      print(item);
+      tableHistorydataColumn.add(item);
+    }
+    isLoading = false;
+    notifyListeners();
+
+    notifyListeners();
+  }
+/////////////////////////////////////////////////////////////////
   getHistoryData(String table, String? condition) async {
     isLoading = true;
     print("haiiii");
@@ -1545,7 +1582,6 @@ class Controller extends ChangeNotifier {
 
     notifyListeners();
   }
-
   /////////////////SELCT TOTAL ORDER FROM MASTER TABLE///////////
   getOrderMasterTotal(String table, String? condition) async {
     print("inside select data");
@@ -1706,9 +1742,20 @@ class Controller extends ChangeNotifier {
     try {
       print("calculate sales updated tot....$os...$customerId");
       List res = await OrderAppDB.instance.getsaletotalSum(os, customerId);
-      print("result sale...${res[0]}");
-      print("result sal--${res[0].runtimeType}");
       salesTotal = double.parse(res[0]);
+
+      gross_tot = double.parse(res[5]);
+
+      tax_tot = res[9];
+
+      cess_tot = double.parse(res[4]);
+      // print("result sale...${res[3].runtimeType}");
+      dis_tot = double.parse(res[3]);
+      // print("result sale.22..${dis_tot.runtimeType}");
+
+      print(
+          "result sal--${salesTotal}----${gross_tot}---${tax_tot}---${cess_tot}--${dis_tot}");
+
       print("salesTotal---$salesTotal");
       notifyListeners();
       orderTotal2.clear();
@@ -2077,7 +2124,7 @@ class Controller extends ChangeNotifier {
     shopVisited = res[0]["cusCount"];
 
     if (customerCount == null) {
-      snackbar.showSnackbar(context, "Please download Customers");
+      snackbar.showSnackbar(context, "Please download Customers", "");
     } else {
       noshopVisited = customerCount! - shopVisited!;
     }
@@ -2362,7 +2409,7 @@ class Controller extends ChangeNotifier {
       notifyListeners();
       print("om----$om");
     } else {
-      snackbar.showSnackbar(context, "Nothing to upload!!!");
+      snackbar.showSnackbar(context, "Nothing to upload!!!", "sale order");
     }
 
     notifyListeners();
@@ -2396,7 +2443,7 @@ class Controller extends ChangeNotifier {
       notifyListeners();
       print("om----$om");
     } else {
-      snackbar.showSnackbar(context, "Nothing to upload!!!");
+      snackbar.showSnackbar(context, "Nothing to upload!!!", "");
     }
 
     notifyListeners();
@@ -2439,7 +2486,7 @@ class Controller extends ChangeNotifier {
               .deleteFromTableCommonQuery("customerTable", "");
         }
       } else {
-        snackbar.showSnackbar(context, "Nothing to upload!!!");
+        snackbar.showSnackbar(context, "Nothing to upload!!!", "");
       }
       notifyListeners();
     } catch (e) {
@@ -2471,7 +2518,7 @@ class Controller extends ChangeNotifier {
       isUp[index] = true;
       notifyListeners();
     } else {
-      snackbar.showSnackbar(context, "Nothing to upload!!!");
+      snackbar.showSnackbar(context, "Nothing to upload!!!", "");
     }
     print("om----$om");
     notifyListeners();
@@ -2517,7 +2564,7 @@ class Controller extends ChangeNotifier {
         isUpload = false;
         isUp[index] = true;
       } else {
-        snackbar.showSnackbar(context, "Nothing to upload!!!");
+        snackbar.showSnackbar(context, "Nothing to upload!!!", "");
       }
 
       notifyListeners();
@@ -2568,7 +2615,7 @@ class Controller extends ChangeNotifier {
         isUpload = false;
         isUp[index] = true;
       } else {
-        snackbar.showSnackbar(context, "Nothing to upload!!!");
+        snackbar.showSnackbar(context, "Nothing to upload!!!", "");
       }
 
       notifyListeners();
@@ -2735,7 +2782,7 @@ class Controller extends ChangeNotifier {
     gross = rate * qty;
 
     if (disCalc == "disc_amt") {
-      disc_per = (disc_amount / rate) * 100;
+      disc_per = (disc_amount / gross) * 100;
       disc_amt = disc_amount;
       print("discount_prercent---$disc_amount---${discount_prercent.length}");
       if (onSub) {
@@ -2756,11 +2803,6 @@ class Controller extends ChangeNotifier {
     if (disCalc == "qty") {
       disc_amt = double.parse(discount_amount[index].text);
       disc_per = double.parse(discount_prercent[index].text);
-      // disc_per = (disc_amt / rate) * 100;
-
-      // // if (onSub) {
-      // //   discount_amount[index].text = disc_amt.toStringAsFixed(2);
-      // // }
       print("disc-amt qty----$disc_amt...$disc_per");
     }
 
@@ -2774,8 +2816,10 @@ class Controller extends ChangeNotifier {
       sgst_per = 0;
       igst_per = tax_per;
     }
+
     if (method == "0") {
       /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
+      taxable_rate = rate;
       if (disCalc == "") {
         print("inside nothingg.....");
         disc_per = (disc_amount / rate) * 100;
@@ -2802,11 +2846,7 @@ class Controller extends ChangeNotifier {
       taxable_rate = rate * 1 - (percnt / (100 + percnt));
       print("exclusive tax....$percnt...$taxable_rate");
     }
-    // salesqty[index].text=qty.toString();
     notifyListeners();
-    //  discount_prercent[index].text = disc_per.toString();
-    //  print("index--discount_prercent---$index-${discount_prercent[index].text}");
-    // print("gross---$cess---$gross----$tax-----$net_amt--$disc_per");
     return "success";
   }
 }

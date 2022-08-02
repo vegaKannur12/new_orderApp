@@ -196,6 +196,7 @@ class OrderAppDB {
   static final dis_per = 'dis_per';
   static final net_amt = 'net_amt';
   static final sales_id = 'sales_id';
+  static final unit_rate = 'unit_rate';
   ///////////// salesmastertable////////
   static final salestime = 'salestime';
   static final salesdate = 'salesdate';
@@ -218,6 +219,7 @@ class OrderAppDB {
   static final state_status = 'state_status';
   static final tax_tot = 'tax_tot';
   static final ces_tot = 'ces_tot';
+  static final rounding = 'rounding';
 
   Future<Database> get database async {
     print("bjhs");
@@ -431,6 +433,7 @@ class OrderAppDB {
             $dis_tot REAL,
             $tax_tot REAL,
             $ces_tot REAL,
+            $rounding REAL,
             $net_amt REAL,
             $state_status INTEGER,
             $status INTEGER
@@ -456,6 +459,7 @@ class OrderAppDB {
             $os TEXT NOT NULL,
             $sales_id INTEGER,
             $row_num INTEGER,
+            $hsn TEXT,
             $item_name TEXT,
             $code TEXT,
             $qty INTEGER,
@@ -474,7 +478,8 @@ class OrderAppDB {
             $ces_amt REAL,
             $ces_per REAL,
             $net_amt REAL,
-            $rate REAL  
+            $rate REAL,
+            $unit_rate REAL  
           )
           ''');
     await db.execute(''' 
@@ -506,6 +511,7 @@ class OrderAppDB {
             $code TEXT,
             $qty REAL,
             $rate TEXT,
+            $unit_rate REAL,
             $totalamount TEXT,
             $method TEXT,
             $hsn TEXT,
@@ -684,6 +690,7 @@ class OrderAppDB {
     String code,
     double qty,
     String rate,
+    double unit_rate,
     String totalamount,
     String method,
     String hsn,
@@ -726,7 +733,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, method, hsn,tax_per, tax_amt, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt")';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate,unit_rate, totalamount, method, hsn,tax_per, tax_amt, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}",$unit_rate, "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt")';
       var res = await db.rawInsert(query2);
     }
 
@@ -775,7 +782,9 @@ class OrderAppDB {
     int sales_id,
     double? qty,
     double rate,
+    double unit_rate,
     String? code,
+    String hsn,
     String salesdate,
     String salestime,
     String os,
@@ -810,6 +819,7 @@ class OrderAppDB {
     double ces_tot,
     double net_amt,
     double total_price,
+    double rounding,
     int state_status,
     int status,
   ) async {
@@ -819,12 +829,12 @@ class OrderAppDB {
 
     if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(os, sales_id, row_num, item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate) VALUES("${os}", ${sales_id}, ${rowNum}, "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $net_amt, $rate)';
+          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $net_amt, $rate,$unit_rate)';
       print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, ces_tot, net_amt, state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", $gross_tot, $dis_tot, $tax_tot, $ces_tot, ${total_price.toStringAsFixed(2)}, $state_status, ${status})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, ces_tot, net_amt, rounding, state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", $gross_tot, $dis_tot, $tax_tot, $ces_tot, ${total_price.toStringAsFixed(2)}, ${rounding}, $state_status, ${status})';
       res2 = await db.rawInsert(query3);
       print("insertsalesmaster$query3");
     }
@@ -1432,7 +1442,7 @@ class OrderAppDB {
       sgst = res[0]["sgst"].toStringAsFixed(2);
       igst = res[0]["igst"].toStringAsFixed(2);
       tax_tot = double.parse(cgst) + double.parse(sgst) + double.parse(igst);
-      print("tax_tot......$tax_tot");
+      print("tax_tot......$cgst---$sgst---$igst");
       print(
           "gross..netamount..taxval..dis..ces ...$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
@@ -1460,9 +1470,6 @@ class OrderAppDB {
       disper,
       cesper,
       taxper,
-      cgst,
-      sgst,
-      igst,
       tax_tot,
     ];
   }
@@ -1637,9 +1644,16 @@ class OrderAppDB {
   selectfromsalesbagandfilterList(String customerId, String comId) async {
     print("comid---$comId");
     List<Map<String, dynamic>> result;
+    var query = "";
+    query = query +
+        "SELECT productDetailsTable.* , salesBagTable.cartrowno " +
+        " FROM 'productDetailsTable' LEFT JOIN 'salesBagTable' " +
+        " ON productDetailsTable.code = salesBagTable.code AND " +
+        " salesBagTable.customerid='$customerId'" +
+        " where  productDetailsTable.companyId='${comId}' " +
+        " ORDER BY cartrowno DESC;";
     Database db = await instance.database;
-    result = await db.rawQuery(
-        "SELECT productDetailsTable.* , salesBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'salesBagTable' ON productDetailsTable.code = salesBagTable.code AND salesBagTable.customerid='$customerId' where  productDetailsTable.companyId='${comId}' ORDER BY cartrowno DESC");
+    result = await db.rawQuery(query);
     print("leftjoin result- company---$result");
     print("length---${result.length}");
     return result;
@@ -1798,6 +1812,22 @@ class OrderAppDB {
     return result;
   }
 
+  ///////////////////select maste today sale history///////////////////////
+  todaySaleHistory(String table, String? condition) async {
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    if (condition == null) {
+      result = await db.rawQuery("SELECT * FROM '$table'");
+    } else {
+      result = await db.rawQuery(
+          "SELECT code,item_name,qty,rate,dis_amt,tax_amt,net_amt FROM '$table' WHERE $condition");
+    }
+
+    print("naaknsdJK-----$result");
+    return result;
+  }
+
+////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
   selectAllcommon(String table, String? condition) async {
     print("haiiiii");
@@ -1878,11 +1908,31 @@ class OrderAppDB {
   selectSalesMasterTable() async {
     Database db = await instance.database;
     var result;
+
+    String query2 = "";
+    // String query1 = "";
+    query2 = query2 +
+        " SELECT " +
+        " salesMasterTable.sales_id as s_id," +
+        " salesMasterTable.bill_no as billno," +
+        " salesMasterTable.customer_id cuid," +
+        " salesMasterTable.salesdate  || ' '  ||salesMasterTable.salestime sdate, " +
+        " salesMasterTable.staff_id as staff_id," +
+        " salesMasterTable.areaid as aid ," +
+        " salesMasterTable.cus_type as cus_type," +
+        " salesMasterTable.gross_tot as gross_tot," +
+        " salesMasterTable.dis_tot as dis_tot," +
+        " salesMasterTable.ces_tot as ces_tot," +
+        " salesMasterTable.tax_tot as tax_tot," +
+        " salesMasterTable.payment_mode as p_mode," +
+        " salesMasterTable.credit_option as c_option," +
+        " salesMasterTable.rounding as rounding," +
+        " salesMasterTable.net_amt as net_amt" +
+        " FROM salesMasterTable where salesMasterTable.status=0 ;";
     var res = await db.rawQuery("SELECT  * FROM  salesMasterTable");
-    print("hhs----$res");
+    print("query2----$query2");
     if (res.length > 0) {
-      result = await db.rawQuery(
-          "SELECT salesMasterTable.id as id,salesMasterTable.sales_id as s_id,salesMasterTable.bill_no  || salesMasterTable.sales_id as billno,salesMasterTable.customer_id cuid, salesMasterTable.salesdate  || ' '  ||salesMasterTable.salestime sdate, salesMasterTable.staff_id as staff_id,salesMasterTable.areaid as aid , salesMasterTable.cus_type as cus_type,salesMasterTable.cgst as cgst,salesMasterTable.sgst as sgst,salesMasterTable.igst as igst, salesMasterTable.payment_mode as p_mode,salesMasterTable.credit_option as c_option ,salesMasterTable.net_amt as net_amt FROM salesMasterTable where salesMasterTable.status=0");
+      result = await db.rawQuery(query2);
     }
     print("result sales upload----$result");
     return result;
@@ -1928,9 +1978,23 @@ class OrderAppDB {
 
   selectSalesDetailTable(int sales_id) async {
     Database db = await instance.database;
+    var query2 = "";
+    query2 = query2 +
+        "SELECT salesDetailTable.code as code,salesDetailTable.hsn as hsn," +
+        " salesDetailTable.item_name as item, salesDetailTable.qty as qty," +
+        " salesDetailTable.rate as rate,salesDetailTable.unit as unit," +
+        " salesDetailTable.unit_rate as unit_rate,salesDetailTable.gross_amount as gross," +
+        " salesDetailTable.dis_per as disc_per,salesDetailTable.dis_amt as disc_amt," +
+        " salesDetailTable.cgst_per as cgst_per,salesDetailTable.cgst_amt as cgst_amt," +
+        " salesDetailTable.sgst_per as sgst_per,salesDetailTable.sgst_amt as sgst_amt," +
+        " salesDetailTable.igst_per as igst_per,salesDetailTable.igst_amt as igst_amt," +
+        " salesDetailTable.tax_per as tax_per,salesDetailTable.tax_amt as tax_amt," +
+        " salesDetailTable.ces_per as ces_per,salesDetailTable.ces_amt as ces_amt," +
+        " salesDetailTable.net_amt as net_amt" +
+        " from salesDetailTable  where  salesDetailTable.sales_id=${sales_id};";
 
-    var result = await db.rawQuery(
-        "SELECT salesDetailTable.code as code,salesDetailTable.item_name as item, salesDetailTable.qty as qty, salesDetailTable.rate as rate,salesDetailTable.gross_amount as gross,salesDetailTable.dis_amt as disc_amt,salesDetailTable.dis_per as disc_per,salesDetailTable.tax_per as tax_per,salesDetailTable.tax_amt as tax_amt,salesDetailTable.ces_per as ces_per,salesDetailTable.ces_amt as ces_amt,salesDetailTable.net_amt as net_amt  from salesDetailTable  where  salesDetailTable.sales_id=${sales_id}");
+    var result = await db.rawQuery(query2);
+    //     "SELECT salesDetailTable.code as code,salesDetailTable.item_name as item, salesDetailTable.qty as qty, salesDetailTable.rate as rate,salesDetailTable.gross_amount as gross,salesDetailTable.dis_per as disc_per,salesDetailTable.dis_amt as disc_amt,salesDetailTable.tax_per as tax_per,salesDetailTable.tax_amt as tax_amt,salesDetailTable.ces_per as ces_per,salesDetailTable.ces_amt as ces_amt,salesDetailTable.ces_amt as ces_amt,salesDetailTable.ces_amt as ces_amt,salesDetailTable.ces_amt as ces_amt,salesDetailTable.ces_amt as ces_amt,salesDetailTable.net_amt as net_amt  from salesDetailTable  where  salesDetailTable.sales_id=${sales_id}");
     print("sales detao;s------$result");
     return result;
   }

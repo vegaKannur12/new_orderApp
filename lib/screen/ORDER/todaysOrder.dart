@@ -74,7 +74,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                   context,
                                   size,
                                   value.todayOrderList[index]["Order_Num"],
-                                  value.todayOrderList[index]["Cus_id"]);
+                                  value.todayOrderList[index]["Cus_id"],"sale order");
                             },
                             child: Card(
                               color: Colors.grey[100],
