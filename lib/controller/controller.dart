@@ -860,7 +860,7 @@ class Controller extends ChangeNotifier {
         body: {'cid': cid, 'om': mapBody},
       );
       print("after-----$response");
-      
+
       var map = jsonDecode(response.body);
       print("response sales----${map}");
       for (var item in map) {
@@ -2119,12 +2119,14 @@ class Controller extends ChangeNotifier {
     remarkCount = res[0]["rmCnt"].toString();
     print("remarkCount...$remarkCount");
     ret_count = res[0]["retCnt"].toString();
-
-    collectionAmount = res[0]["colVal"].toString();
-    ordrAmount = res[0]["ordVal"].toString();
-    salesAmount = res[0]["saleVal"].toString();
+    double d1= res[0]["colVal"];
+    collectionAmount =d1.toStringAsFixed(2);
+    double d2= res[0]["ordVal"];
+    ordrAmount = d2.toStringAsFixed(2);
+    double d = res[0]["saleVal"];
+    salesAmount = d.toStringAsFixed(2);
+    print("salesAmount----${res[0]["saleVal"]}");
     returnAmount = res[0]["retVal"].toString();
-
     shopVisited = res[0]["cusCount"];
 
     if (customerCount == null) {
