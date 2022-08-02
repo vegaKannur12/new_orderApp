@@ -1242,6 +1242,7 @@ class Controller extends ChangeNotifier {
   ////////////////////////////////////////////////////////////////////
   salesupdateQty(
       String qty, int cartrowno, String customerId, String rate) async {
+    print("qtyuuu----$qty");
     List<Map<String, dynamic>> res = await OrderAppDB.instance
         .updateQtySalesBagTable(qty, cartrowno, customerId, rate);
     if (res.length >= 0) {
@@ -1558,6 +1559,7 @@ class Controller extends ChangeNotifier {
 
     notifyListeners();
   }
+
 /////////////////////////////////////////////////////////////////
   getHistoryData(String table, String? condition) async {
     isLoading = true;
@@ -1582,6 +1584,7 @@ class Controller extends ChangeNotifier {
 
     notifyListeners();
   }
+
   /////////////////SELCT TOTAL ORDER FROM MASTER TABLE///////////
   getOrderMasterTotal(String table, String? condition) async {
     print("inside select data");
@@ -2776,10 +2779,11 @@ class Controller extends ChangeNotifier {
       int index,
       bool onSub,
       String? disCalc) {
-    print(
-        "attribute--$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     flag = false;
     gross = rate * qty;
+
+    print(
+        "attribute--$gross-$qty-$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
 
     if (disCalc == "disc_amt") {
       disc_per = (disc_amount / gross) * 100;
@@ -2825,8 +2829,9 @@ class Controller extends ChangeNotifier {
         disc_per = (disc_amount / rate) * 100;
         disc_amt = (gross * disc_per) / 100;
       }
-      print("disc_per calcu mod=0....$gross... $disc_amt...$tax_per");
+
       tax = (gross - disc_amt) * (tax_per / 100);
+      print("tax....$tax....$gross... $disc_amt...$tax_per-----$net_amt");
       if (tax < 0) {
         tax = 0.00;
       }
@@ -2834,18 +2839,18 @@ class Controller extends ChangeNotifier {
       sgst_amt = (gross - disc_amt) * (sgst_per / 100);
       igst_amt = (gross - disc_amt) * (igst_per / 100);
       cess = (gross - disc_amt) * (cess_per / 100);
+      net_amt = ((gross - disc_amt) + tax + cess);
       if (net_amt < 0) {
         net_amt = 0.00;
-      } else {
-        print("neta,m  calcu mod=0....$gross... $disc_amt...$tax...$cess");
-        net_amt = ((gross - disc_amt) + tax + cess);
       }
-      // print("netamount.cal...$net_amt");
+      print("netamount.cal...$net_amt");
     } else if (method == "1") {
       double percnt = tax_per + cess_per;
       taxable_rate = rate * 1 - (percnt / (100 + percnt));
       print("exclusive tax....$percnt...$taxable_rate");
     }
+    print(
+        "disc_per calcu mod=0..$tax..$gross... $disc_amt...$tax_per-----$net_amt");
     notifyListeners();
     return "success";
   }

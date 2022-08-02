@@ -476,26 +476,41 @@ class _SalesItemState extends State<SalesItem> {
                                                                   .text);
                                                           print(
                                                               "total rate $total");
+                                                          double qtyNew = 0.0;
+                                                          List qtyNewList =
+                                                              await OrderAppDB
+                                                                  .instance
+                                                                  .selectAllcommon(
+                                                                      'salesBagTable',
+                                                                      "os='${widget.os}' AND customerid='${widget.customerId}' AND code='${value.newList[index]["code"]}'");
+                                                          if (qtyNewList
+                                                                  .length >
+                                                              0) {
+                                                            qtyNew =
+                                                                qtyNewList[0]
+                                                                    ["qty"];
+                                                          }
+
+                                                          double qtyww = qtyNew +
+                                                              double.parse(value
+                                                                  .qty[index]
+                                                                  .text);
+                                                          print(
+                                                              "qtynew----$qtyww");
                                                           String result = Provider.of<
                                                                       Controller>(
                                                                   context,
                                                                   listen: false)
                                                               .rawCalculation(
                                                                   double.parse(value
-                                                                              .newList[
-                                                                          index]
-                                                                      [
+                                                                          .newList[index][
                                                                       "rate1"]),
-                                                                  double.parse(
-                                                                    value
-                                                                        .qty[
-                                                                            index]
-                                                                        .text,
-                                                                  ),
+                                                                  qtyww,
                                                                   0.0,
                                                                   0.0,
                                                                   double.parse(
-                                                                      value.newList[index]
+                                                                      value.newList[
+                                                                              index]
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
@@ -527,7 +542,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .qty[
                                                                             index]
                                                                         .text),
-                                                                    rate1,value.taxable_rate,
+                                                                    rate1,
+                                                                    value
+                                                                        .taxable_rate,
                                                                     total
                                                                         .toString(),
                                                                     "0",
@@ -550,8 +567,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .sgst_per,
                                                                     value
                                                                         .sgst_amt,
-                                                                    value
-                                                                        .igst_per,
+                                                                    value.igst_per,
                                                                     value.igst_amt,
                                                                     0.0,
                                                                     0.0,
@@ -561,7 +577,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                     value.net_amt);
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart","sales");
+                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart",
+                                                                "sales");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:
@@ -813,31 +830,43 @@ class _SalesItemState extends State<SalesItem> {
                                                                   .text);
                                                           print(
                                                               "total rate $total");
+                                                          // int cartrow =
+                                                          //     index + 1;
+                                                          double qtyNew = 0.0;
+                                                          List qtyNewList =
+                                                              await OrderAppDB
+                                                                  .instance
+                                                                  .selectAllcommon(
+                                                                      'salesBagTable',
+                                                                      "os='${os}' AND customerid='${widget.customerId}' AND code='${value.productName[index]["code"]}'");
+                                                          if (qtyNewList
+                                                                  .length >
+                                                              0) {
+                                                            qtyNew =
+                                                                qtyNewList[0]
+                                                                    ["qty"];
+                                                          }
 
-                                                          //                                         value.salesqty[index].text = qty.toString();
-                                                          // value.discount_prercent[index].text = value.disc_per.toString();
-                                                          // value.discount_amount[index].text = disc_amt.toString();
-
+                                                          double qtyww = qtyNew +
+                                                              double.parse(value
+                                                                  .qty[index]
+                                                                  .text);
+                                                          print(
+                                                              "qtynew----$qtyww");
                                                           String result = Provider.of<
                                                                       Controller>(
                                                                   context,
                                                                   listen: false)
                                                               .rawCalculation(
                                                                   double.parse(value
-                                                                              .productName[
-                                                                          index]
-                                                                      [
+                                                                          .productName[index][
                                                                       "rate1"]),
-                                                                  double.parse(
-                                                                    value
-                                                                        .qty[
-                                                                            index]
-                                                                        .text,
-                                                                  ),
+                                                                  qtyww,
                                                                   0.0,
                                                                   0.0,
                                                                   double.parse(
-                                                                      value.productName[index]
+                                                                      value.productName[
+                                                                              index]
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
@@ -845,6 +874,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   index,
                                                                   false,
                                                                   "");
+
                                                           print(
                                                               "result----$result");
                                                           if (result ==
@@ -889,7 +919,9 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .qty[
                                                                             index]
                                                                         .text),
-                                                                    rate1,value.taxable_rate,
+                                                                    rate1,
+                                                                    value
+                                                                        .taxable_rate,
                                                                     total
                                                                         .toString(),
                                                                     "0",
@@ -904,7 +936,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "tax"],
                                                                     ),
                                                                     value.tax,
-                                                                     value
+                                                                    value
                                                                         .cgst_per,
                                                                     value
                                                                         .cgst_amt,
@@ -914,7 +946,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .sgst_amt,
                                                                     value
                                                                         .igst_per,
-                                                                    value.igst_amt,
+                                                                    value
+                                                                        .igst_amt,
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,
@@ -925,7 +958,8 @@ class _SalesItemState extends State<SalesItem> {
 
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${products[index]["code"] + products[index]['item']} - Added to cart","sales");
+                                                                "${products[index]["code"] + products[index]['item']} - Added to cart",
+                                                                "sales");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:
