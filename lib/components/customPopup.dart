@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
@@ -28,6 +30,9 @@ class CustomPopup {
          ElevatedButton(
           onPressed: () async {
             print("hfzsdhfu----$aid");
+            if(type=="exit"){
+              exit(0);
+            }
             if (type == "collection") {
               await OrderAppDB.instance.upadteCommonQuery(
                   "collectionTable", "rec_cancel='1'", "rec_row_num=$rowNum");
