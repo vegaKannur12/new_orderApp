@@ -2104,6 +2104,9 @@ class Controller extends ChangeNotifier {
   Future<dynamic> dashboardSummery(
       String sid, String date, String aid, BuildContext context) async {
     print("stafff  iddd $sid");
+    double d2 = 0.0;
+    double d4 = 0.0;
+
     var res = await OrderAppDB.instance.dashboardSummery(sid, date, aid);
     var result = await OrderAppDB.instance.countCustomer(areaidFrompopup);
     print("resultresult-- $aid");
@@ -2119,14 +2122,25 @@ class Controller extends ChangeNotifier {
     remarkCount = res[0]["rmCnt"].toString();
     print("remarkCount...$remarkCount");
     ret_count = res[0]["retCnt"].toString();
-    double d1= res[0]["colVal"];
-    collectionAmount =d1.toStringAsFixed(2);
-    double d2= res[0]["ordVal"];
+    double d1 = 0.0;
+    double d = 0.0;
+    if (res[0]["colVal"] != null) {
+      d1 = res[0]["colVal"];
+    }
+    collectionAmount = d1.toStringAsFixed(2);
+    if (res[0]["ordVal"] != null) {
+      d2 = res[0]["ordVal"];
+    }
     ordrAmount = d2.toStringAsFixed(2);
-    double d = res[0]["saleVal"];
+    if (res[0]["saleVal"] != null) {
+      d = res[0]["saleVal"];
+    }
     salesAmount = d.toStringAsFixed(2);
     print("salesAmount----${res[0]["saleVal"]}");
-    returnAmount = res[0]["retVal"].toString();
+    if (res[0]["retVal"] != null) {
+      d4 = res[0]["retVal"];
+    }
+    returnAmount = d4.toStringAsFixed(2);
     shopVisited = res[0]["cusCount"];
 
     if (customerCount == null) {
