@@ -358,7 +358,9 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                           style:
                                                               const TextStyle(
                                                                   color: Colors
-                                                                      .black)),
+                                                                      .black,
+                                                                  fontSize:
+                                                                      14)),
                                                     );
                                                   },
                                                 ),
@@ -434,7 +436,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                   maxLines: 1,
                                                   decoration: InputDecoration(
                                                     border: OutlineInputBorder(
-                                                      gapPadding: 1,
+                                                      gapPadding: 0.3,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20),
@@ -530,7 +532,9 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                   .toString(),
                                                               style: const TextStyle(
                                                                   color: Colors
-                                                                      .black)),
+                                                                      .black,
+                                                                  fontSize:
+                                                                      14)),
                                                         );
                                                       },
                                                     ),

@@ -103,45 +103,68 @@ class _MainDashboardState extends State<MainDashboard> {
                     child: Column(
                       children: [
                         ListTile(
-                          leading: CircleAvatar(
-                            radius: 15,
-                            child: Icon(
-                              Icons.person,
-                              color: P_Settings.wavecolor,
-                            ),
-                          ),
-                          title: Row(
+                          // leading: CircleAvatar(
+                          //   radius: 15,
+                          //   child: Icon(
+                          //     Icons.person,
+                          //     color: P_Settings.wavecolor,
+                          //   ),
+                          // ),
+                          title: Column(
                             children: [
-                              Text(
-                                "${value.cname}",
-                                style: GoogleFonts.alike(
-                                    textStyle:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                    fontSize: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 15,
+                                    child: Icon(
+                                      Icons.person,
+                                      color: P_Settings.wavecolor,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: size.width * 0.02,
+                                  ),
+                                  Text(
+                                    "${value.cname}",
+                                    style: GoogleFonts.alike(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                        fontSize: 16),
+                                  ),
+                                  Text(" - ${value.sname?.toUpperCase()}",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: P_Settings.collection1,
+                                          fontStyle: FontStyle.italic)),
+                                ],
                               ),
-                              Text(" - ${value.sname?.toUpperCase()}",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: P_Settings.collection1,
-                                      fontStyle: FontStyle.italic)),
-                              IconButton(
-                                  onPressed: () {
-                                    buildPopupDialog(context, size);
-                                  },
-                                  icon: Icon(
-                                    Icons.place,
-                                    color: Colors.red,
-                                  )),
-                              Expanded(
-                                // scrollDirection: Axis.horizontal,
-                                child: Text(
-                                  value.areaSelecton == null
-                                      ? ""
-                                      : value.areaSelecton!,
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            buildPopupDialog(context, size);
+                                          },
+                                          icon: Icon(
+                                            Icons.place,
+                                            color: Colors.red,
+                                          )),
+                                      Text(
+                                        value.areaSelecton == null
+                                            ? ""
+                                            : value.areaSelecton!,
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -315,7 +338,10 @@ class _MainDashboardState extends State<MainDashboard> {
                                     width: size.width * 0.5,
                                     child: Padding(
                                         padding: EdgeInsets.all(8.0),
-                                        child: Text(item["aname"].toString())),
+                                        child: Text(
+                                          item["aname"].toString(),
+                                          style: TextStyle(fontSize: 13),
+                                        )),
                                   )))
                               .toList(),
                           onChanged: (item) {

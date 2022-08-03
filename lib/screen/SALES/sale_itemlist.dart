@@ -192,6 +192,7 @@ class _SalesItemState extends State<SalesItem> {
               children: [
                 GestureDetector(
                   onTap: () {
+                    print("type sale.........${widget.type}");
                     Provider.of<Controller>(context, listen: false)
                         .getSaleBagDetails(widget.customerId, widget.os);
                     Navigator.of(context).push(
