@@ -326,6 +326,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .getProductList(widget.customerId);
+                                        print(
+                                            "rtsyt----${Provider.of<Controller>(context, listen: false).returnirtemExists}");
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .setIssearch(false);
@@ -523,7 +525,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 0);
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart","sale order");
+                                                                "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart",
+                                                                "sale order");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:
@@ -738,16 +741,30 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                     : Colors.grey[
                                                                         700]
                                                                 : Colors.green
-                                                            : value.selected[
-                                                                    index]
-                                                                ? Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        224,
-                                                                        61,
-                                                                        11)
+                                                            : widget.type ==
+                                                                    "return"
+                                                                ? value.returnirtemExists[
+                                                                        index]
+                                                                    ? Colors.red
+                                                                    : Colors.grey[
+                                                                        700]
+                                                                //         true
+                                                                //     ? Colors.red
+                                                                //     : Colors.grey[
+                                                                //         700]
                                                                 : Colors
-                                                                    .grey[700],
+                                                                    .green[700]
+                                                        // value.selected[
+                                                        //         index]
+                                                        //     ? Color
+                                                        //         .fromARGB(
+                                                        //             255,
+                                                        //             224,
+                                                        //             61,
+                                                        //             11)
+                                                        //     : Colors
+                                                        //         .grey[700],
+                                                        ,
                                                         fontSize: 16),
                                                   ),
                                                   subtitle: Text(
@@ -863,7 +880,8 @@ class _ItemSelectionState extends State<ItemSelection> {
 
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${products[index]["code"] + products[index]['item']} - Added to cart","sale order");
+                                                                "${products[index]["code"] + products[index]['item']} - Added to cart",
+                                                                "sale order");
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:
@@ -914,6 +932,19 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                   .toString(),
                                                               "status": 0
                                                             });
+
+                                                            Provider.of<Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .keyContainsListcheck(
+                                                                    products[
+                                                                            index]
+                                                                        [
+                                                                        "code"],
+                                                                    index);
+
+                                                            // print("exist----$exist");
                                                           }
 
                                                           /////////////////////////

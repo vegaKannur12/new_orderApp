@@ -514,7 +514,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                               index]
                                                                           ["tax"]),
                                                                   0.0,
-                                                                  "0",
+                                                                  "1",
                                                                   0,
                                                                   index,
                                                                   false,
