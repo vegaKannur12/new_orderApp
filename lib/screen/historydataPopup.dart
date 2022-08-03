@@ -24,7 +24,11 @@ class HistoryPopup {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                           type=="sale order"?Text(
+                              "Ord No : ${orderNum}",
+                              style: TextStyle(
+                                  color: Colors.grey[600], fontSize: 13),
+                            ): Text(
                               "Bill No : ${orderNum}",
                               style: TextStyle(
                                   color: Colors.grey[600], fontSize: 13),
