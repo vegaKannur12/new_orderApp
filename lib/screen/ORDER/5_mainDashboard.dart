@@ -102,48 +102,54 @@ class _MainDashboardState extends State<MainDashboard> {
                     scrollDirection: Axis.vertical,
                     child: Column(
                       children: [
-                        ListTile(
-                          leading: CircleAvatar(
-                            radius: 15,
-                            child: Icon(
-                              Icons.person,
-                              color: P_Settings.wavecolor,
-                            ),
-                          ),
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 11.0, left: 11),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                "${value.cname}",
-                                style: GoogleFonts.alike(
-                                    textStyle:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                    fontSize: 16),
+                              CircleAvatar(
+                                radius: 15,
+                                child: Icon(
+                                  Icons.person,
+                                  color: P_Settings.wavecolor,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 11),
+                                child: Text(
+                                  "${value.cname}",
+                                  style: GoogleFonts.alike(
+                                      textStyle:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                      fontSize: 15),
+                                ),
                               ),
                               Text(" - ${value.sname?.toUpperCase()}",
                                   style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: P_Settings.collection1,
                                       fontStyle: FontStyle.italic)),
-                              IconButton(
-                                  onPressed: () {
-                                    buildPopupDialog(context, size);
-                                  },
-                                  icon: Icon(
-                                    Icons.place,
-                                    color: Colors.red,
-                                  )),
-                              Expanded(
-                                // scrollDirection: Axis.horizontal,
-                                child: Text(
-                                  value.areaSelecton == null
-                                      ? ""
-                                      : value.areaSelecton!,
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
                             ],
                           ),
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  buildPopupDialog(context, size);
+                                },
+                                icon: Icon(
+                                  Icons.place,
+                                  color: Colors.red,
+                                )),
+                            Text(
+                              value.areaSelecton == null
+                                  ? "Choose Area"
+                                  : value.areaSelecton!,
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ],
                         ),
 
                         Padding(
@@ -303,8 +309,9 @@ class _MainDashboardState extends State<MainDashboard> {
                         height: size.height * 0.04,
                         child: DropdownButton<String>(
                           value: selected,
+                          // isDense: true,
                           hint: Text("Select"),
-                          isExpanded: true,
+                          // isExpanded: true,
                           autofocus: false,
                           underline: SizedBox(),
                           elevation: 0,
@@ -313,9 +320,10 @@ class _MainDashboardState extends State<MainDashboard> {
                                   value: item["aid"].toString(),
                                   child: Container(
                                     width: size.width * 0.5,
-                                    child: Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(item["aname"].toString())),
+                                    child: Text(
+                                      item["aname"].toString(),
+                                      style: TextStyle(fontSize: 14),
+                                    ),
                                   )))
                               .toList(),
                           onChanged: (item) {
