@@ -17,11 +17,13 @@ class SaleCart extends StatefulWidget {
   String os;
   String areaId;
   String areaname;
+  String type;
   SaleCart({
     required this.areaId,
     required this.custmerId,
     required this.os,
     required this.areaname,
+    required this.type,
   });
 
   @override
@@ -81,64 +83,68 @@ class _SaleCartState extends State<SaleCart> {
           ),
         ],
       ),
-      body: Provider.of<Controller>(context, listen: false)
-                      .salebagList
-                      .length ==
-                  0 &&
-              Provider.of<Controller>(context, listen: false)
-                  .salebagList
-                  .isEmpty
-          ? Container(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Image.asset(
-                    //   'assets/images/geeksforgeeks.jpg',
-                    //   height: 400,
-                    //   width: 400,
-                    // ), //
-                    Text("Your cart is empty "),
-                    SizedBox(
-                      height: size.height * 0.02,
+      body: GestureDetector(onTap: (() {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      }), child: Center(
+        child: Consumer<Controller>(builder: (context, value, child) {
+          if (value.isLoading) {
+            return CircularProgressIndicator();
+          } else {
+            print("value.rateEdit----${value.rateEdit}");
+            print("baglist length...........${value.salebagList.length}");
+
+            return Provider.of<Controller>(context, listen: false)
+                        .salebagList
+                        .length ==
+                    0
+                ? Container(
+                    height: size.height * 0.9,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "asset/cart.png",
+                            height: 100,
+                            color: Colors.grey[300],
+                            width: 100,
+                          ),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                          Text("Your cart is empty "),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.green,
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    opaque: false, // set to false
+                                    pageBuilder: (_, __, ___) => SalesItem(
+                                      areaId: widget.areaId,
+                                      customerId: widget.custmerId,
+                                      os: widget.os,
+                                      areaName: widget.areaname,
+                                      type: widget.type,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text("View products"))
+                        ],
+                      ),
                     ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
-                            textStyle: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold)),
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false, // set to false
-                              pageBuilder: (_, __, ___) => SalesItem(
-                                areaId: widget.areaId,
-                                customerId: widget.custmerId,
-                                os: widget.os,
-                                areaName: widget.areaname,
-                                type: '',
-                              ),
-                            ),
-                          );
-                        },
-                        child: Text("View products"))
-                  ],
-                ),
-              ),
-            )
-          : GestureDetector(onTap: (() {
-              FocusScopeNode currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus) {
-                currentFocus.unfocus();
-              }
-            }), child: Center(
-              child: Consumer<Controller>(builder: (context, value, child) {
-                if (value.isLoading) {
-                  return CircularProgressIndicator();
-                } else {
-                  print("value.rateEdit----${value.rateEdit}");
-                  print("baglist length...........${value.salebagList.length}");
-                  return Column(
+                  )
+                : Column(
                     children: [
                       Expanded(
                         child: ListView.builder(
@@ -258,9 +264,9 @@ class _SaleCartState extends State<SaleCart> {
                       )
                     ],
                   );
-                }
-              }),
-            )),
+          }
+        }),
+      )),
     );
   }
 
@@ -309,21 +315,6 @@ class _SaleCartState extends State<SaleCart> {
                       disc_per.toStringAsFixed(2);
                   value.discount_amount[index].text =
                       disc_amt.toStringAsFixed(2);
-                  // Provider.of<Controller>(context, listen: false)
-                  //     .rawCalculation(
-                  //         double.parse(rate),
-                  //         double.parse(
-                  //           value.salesqty[index].text,
-                  //         ),
-                  //         0.0,
-                  //         0.0,
-                  //         double.parse(tax),
-                  //         0.0,
-                  //         "0",
-                  //         0,
-                  //         index,
-                  //         false,
-                  //         "");
 
                   saleDetails.showsalesMoadlBottomsheet(
                     itemName,

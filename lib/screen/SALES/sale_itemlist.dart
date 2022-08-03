@@ -120,6 +120,7 @@ class _SalesItemState extends State<SalesItem> {
                         custmerId: widget.customerId,
                         os: widget.os,
                         areaname: widget.areaName,
+                        type: widget.type,
                       ),
                     ),
                   );
@@ -203,6 +204,7 @@ class _SalesItemState extends State<SalesItem> {
                           custmerId: widget.customerId,
                           os: widget.os,
                           areaname: widget.areaName,
+                          type: widget.type,
                         ),
                       ),
                     );
@@ -514,7 +516,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                               index]
                                                                           ["tax"]),
                                                                   0.0,
-                                                                  "1",
+                                                                  "0",
                                                                   0,
                                                                   index,
                                                                   false,

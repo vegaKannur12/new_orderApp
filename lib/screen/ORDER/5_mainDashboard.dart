@@ -103,25 +103,18 @@ class _MainDashboardState extends State<MainDashboard> {
                     child: Column(
                       children: [
                         ListTile(
-                          // leading: CircleAvatar(
-                          //   radius: 15,
-                          //   child: Icon(
-                          //     Icons.person,
-                          //     color: P_Settings.wavecolor,
-                          //   ),
-                          // ),
+                          leading: CircleAvatar(
+                            radius: 15,
+                            child: Icon(
+                              Icons.person,
+                              color: P_Settings.wavecolor,
+                            ),
+                          ),
                           title: Column(
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  CircleAvatar(
-                                    radius: 15,
-                                    child: Icon(
-                                      Icons.person,
-                                      color: P_Settings.wavecolor,
-                                    ),
-                                  ),
                                   SizedBox(
                                     width: size.width * 0.02,
                                   ),
@@ -139,32 +132,22 @@ class _MainDashboardState extends State<MainDashboard> {
                                           fontWeight: FontWeight.bold,
                                           color: P_Settings.collection1,
                                           fontStyle: FontStyle.italic)),
+                                  IconButton(
+                                      onPressed: () {
+                                        buildPopupDialog(context, size);
+                                      },
+                                      icon: Icon(
+                                        Icons.place,
+                                        color: Colors.red,
+                                      )),
+                                  Text(
+                                    value.areaSelecton == null
+                                        ? ""
+                                        : value.areaSelecton!,
+                                    style: TextStyle(fontSize: 12),
+                                  ),
                                 ],
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            buildPopupDialog(context, size);
-                                          },
-                                          icon: Icon(
-                                            Icons.place,
-                                            color: Colors.red,
-                                          )),
-                                      Text(
-                                        value.areaSelecton == null
-                                            ? ""
-                                            : value.areaSelecton!,
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              )
                             ],
                           ),
                         ),
