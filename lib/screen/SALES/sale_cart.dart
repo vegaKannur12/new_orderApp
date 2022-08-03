@@ -206,7 +206,8 @@ class _SaleCartState extends State<SaleCart> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15)),
                                     Flexible(
-                                      child: Text("\u{20B9}${value.salesTotal}",
+                                      child: Text(
+                                          "\u{20B9}${value.salesTotal.toStringAsFixed(2)}",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16)),
