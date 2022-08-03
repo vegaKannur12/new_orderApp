@@ -82,6 +82,8 @@ class Controller extends ChangeNotifier {
 
   List<bool> filterComselected = [];
   List<bool> returnselected = [];
+  List<bool> returnirtemExists = [];
+
   bool isautodownload = false;
 
   // List<bool> returnSelected = [];
@@ -1431,7 +1433,7 @@ class Controller extends ChangeNotifier {
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
       returnselected = List.generate(length, (index) => false);
-
+      returnirtemExists = List.generate(length, (index) => false);
       isLoading = false;
       notifyListeners();
       print("product name----${productName}");
@@ -1464,7 +1466,7 @@ class Controller extends ChangeNotifier {
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
-      returnselected = List.generate(length, (index) => false);
+      // returnselected = List.generate(length, (index) => false);
 
       isLoading = false;
       notifyListeners();
@@ -1503,6 +1505,8 @@ class Controller extends ChangeNotifier {
       bagList.add(item);
     }
     rateEdit = List.generate(bagList.length, (index) => false);
+    // filterComselected = List.generate(length, (index) => false);
+
     generateTextEditingController("sale order");
     print("bagList vxdvxd----$bagList");
 
@@ -2105,6 +2109,8 @@ class Controller extends ChangeNotifier {
   Future<dynamic> dashboardSummery(
       String sid, String date, String aid, BuildContext context) async {
     print("stafff  iddd $sid");
+    double d1 = 0.0;
+    double d = 0.0;
     double d2 = 0.0;
     double d4 = 0.0;
 
@@ -2123,23 +2129,39 @@ class Controller extends ChangeNotifier {
     remarkCount = res[0]["rmCnt"].toString();
     print("remarkCount...$remarkCount");
     ret_count = res[0]["retCnt"].toString();
-    double d1 = 0.0;
-    double d = 0.0;
+
+    print("jhfjsd-----${res[0]["colVal"]}--${res[0]["ordVal"]}");
     if (res[0]["colVal"] != null) {
-      d1 = res[0]["colVal"];
+      if (res[0]["colVal"] == 0) {
+        d1 = 0.0;
+      } else {
+        d1 = res[0]["colVal"];
+      }
     }
     collectionAmount = d1.toStringAsFixed(2);
     if (res[0]["ordVal"] != null) {
-      d2 = res[0]["ordVal"];
+      if (res[0]["ordVal"] == 0) {
+        d2 = 0.0;
+      } else {
+        d2 = res[0]["ordVal"];
+      }
     }
     ordrAmount = d2.toStringAsFixed(2);
     if (res[0]["saleVal"] != null) {
-      d = res[0]["saleVal"];
+      if (res[0]["saleVal"] == 0) {
+        d = 0.0;
+      } else {
+        d = res[0]["saleVal"];
+      }
     }
     salesAmount = d.toStringAsFixed(2);
     print("salesAmount----${res[0]["saleVal"]}");
     if (res[0]["retVal"] != null) {
-      d4 = res[0]["retVal"];
+      if (res[0]["retVal"] == 0) {
+        d4 = 0.0;
+      } else {
+        d4 = res[0]["retVal"];
+      }
     }
     returnAmount = d4.toStringAsFixed(2);
     shopVisited = res[0]["cusCount"];
@@ -2798,10 +2820,18 @@ class Controller extends ChangeNotifier {
       bool onSub,
       String? disCalc) {
     flag = false;
-    gross = rate * qty;
 
     print(
         "attribute--$gross-$qty-$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
+    if (method == "0") {
+      /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
+      taxable_rate = rate;
+    } else if (method == "1") {
+      double percnt = tax_per + cess_per;
+      taxable_rate = rate * (1 - (percnt / (100 + percnt)));
+      print("exclusive tax....$percnt...$taxable_rate");
+    }
+    gross = taxable_rate * qty;
 
     if (disCalc == "disc_amt") {
       disc_per = (disc_amount / gross) * 100;
@@ -2838,38 +2868,37 @@ class Controller extends ChangeNotifier {
       sgst_per = 0;
       igst_per = tax_per;
     }
-
-    if (method == "0") {
-      /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
-      taxable_rate = rate;
-      if (disCalc == "") {
-        print("inside nothingg.....");
-        disc_per = (disc_amount / rate) * 100;
-        disc_amt = (gross * disc_per) / 100;
-      }
-
-      tax = (gross - disc_amt) * (tax_per / 100);
-      print("tax....$tax....$gross... $disc_amt...$tax_per-----$net_amt");
-      if (tax < 0) {
-        tax = 0.00;
-      }
-      cgst_amt = (gross - disc_amt) * (cgst_per / 100);
-      sgst_amt = (gross - disc_amt) * (sgst_per / 100);
-      igst_amt = (gross - disc_amt) * (igst_per / 100);
-      cess = (gross - disc_amt) * (cess_per / 100);
-      net_amt = ((gross - disc_amt) + tax + cess);
-      if (net_amt < 0) {
-        net_amt = 0.00;
-      }
-      print("netamount.cal...$net_amt");
-    } else if (method == "1") {
-      double percnt = tax_per + cess_per;
-      taxable_rate = rate * 1 - (percnt / (100 + percnt));
-      print("exclusive tax....$percnt...$taxable_rate");
+    if (disCalc == "") {
+      print("inside nothingg.....");
+      disc_per = (disc_amount / taxable_rate) * 100;
+      disc_amt = (gross * disc_per) / 100;
     }
+
+    tax = (gross - disc_amt) * (tax_per / 100);
+    print("tax....$tax....$gross... $disc_amt...$tax_per-----$net_amt");
+    if (tax < 0) {
+      tax = 0.00;
+    }
+    cgst_amt = (gross - disc_amt) * (cgst_per / 100);
+    sgst_amt = (gross - disc_amt) * (sgst_per / 100);
+    igst_amt = (gross - disc_amt) * (igst_per / 100);
+    cess = (gross - disc_amt) * (cess_per / 100);
+    net_amt = ((gross - disc_amt) + tax + cess);
+    if (net_amt < 0) {
+      net_amt = 0.00;
+    }
+    print("netamount.cal...$net_amt");
+
     print(
         "disc_per calcu mod=0..$tax..$gross... $disc_amt...$tax_per-----$net_amt");
     notifyListeners();
     return "success";
+  }
+
+  ///////////////////////////////////////////////////////
+  keyContainsListcheck(String key, int index) {
+    print("rhdhsz---$key-$returnList");
+    bool exist = returnList.any((element) => element.values.contains(key));
+    returnirtemExists[index] = exist;
   }
 }
