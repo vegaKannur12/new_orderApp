@@ -1867,8 +1867,8 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///////////////////////
-  ///
+  ///////////////////////////////////
+
   setAmt(
     String price,
   ) {

@@ -270,7 +270,8 @@ class _ReturnCartState extends State<ReturnCart> {
                                 width: size.width * 0.01,
                               ),
                               Flexible(
-                                child: Text("(\u{20B9}${value.returnTotal})",
+                                child: Text(
+                                    "(\u{20B9}${value.returnTotal.toStringAsFixed(2)})",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 10)),
@@ -382,7 +383,7 @@ class _ReturnCartState extends State<ReturnCart> {
                                         width: size.width * 0.02,
                                       ),
                                       Text(
-                                        "\u{20B9}${rate}",
+                                        "\u{20B9}${double.parse(rate).toStringAsFixed(2)}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15),
@@ -573,7 +574,7 @@ class _ReturnCartState extends State<ReturnCart> {
                                                             ),
                                                             Flexible(
                                                               child: Text(
-                                                                "\u{20B9}${value.returntotalPrice.toString()}",
+                                                                "\u{20B9}${value.returntotalPrice}",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         17),
@@ -610,7 +611,8 @@ class _ReturnCartState extends State<ReturnCart> {
                                                                             index,
                                                                             value.returnqtyinc!,
                                                                             value.returntotalPrice!);
-                                                                            print("vlue.retuyrnList----${value.returnList}");
+                                                                        print(
+                                                                            "vlue.retuyrnList----${value.returnList}");
                                                                         Provider.of<Controller>(context,
                                                                                 listen: false)
                                                                             .calculatereturnTotal();
