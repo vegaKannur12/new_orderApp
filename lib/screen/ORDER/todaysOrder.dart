@@ -63,110 +63,111 @@ class _TodaysOrderState extends State<TodaysOrder> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Container(
-                          height: size.height * 0.13,
-                          child: GestureDetector(
-                            onTap: () {
-                              Provider.of<Controller>(context, listen: false)
-                                  .getHistoryData('orderDetailTable',
-                                      "order_id='${value.todayOrderList[index]["order_id"]}'");
-                              popup.buildPopupDialog(
-                                  context,
-                                  size,
-                                  value.todayOrderList[index]["Order_Num"],
-                                  value.todayOrderList[index]["Cus_id"],"sale order");
-                            },
-                            child: Card(
-                              color: Colors.grey[100],
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
+                        GestureDetector(
+                          onTap: () {
+                            Provider.of<Controller>(context, listen: false)
+                                .getHistoryData('orderDetailTable',
+                                    "order_id='${value.todayOrderList[index]["order_id"]}'");
+                            popup.buildPopupDialog(
+                                context,
+                                size,
+                                value.todayOrderList[index]["Order_Num"],
+                                value.todayOrderList[index]["Cus_id"],
+                                "sale order");
+                          },
+                          child: Card(
+                              child: ListTile(
+                            tileColor: Colors.grey[100],
+                            title: Column(
+                              children: [
+                                SizedBox(
+                                  height: size.height * 0.01,
+                                ),
+                                Row(
                                   children: [
-                                    Row(
-                                      children: [
-                                        // Icon(Icons),
-                                        SizedBox(
-                                          width: size.width * 0.02,
-                                        ),
-                                        Flexible(
-                                          child: Text(
-                                              value.todayOrderList[index]
-                                                  ["Order_Num"],
-                                              style: TextStyle(
-                                                  color: Colors.grey[700],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17)),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.person,
-                                          color: Colors.green,
-                                        ),
-                                        SizedBox(
-                                          width: size.width * 0.02,
-                                        ),
-                                        RichText(
-                                          overflow: TextOverflow.clip,
-                                          maxLines: 2,
-                                          text: TextSpan(
-                                            text:
-                                                '${value.todayOrderList[index]["cus_name"]}',
-                                            style: TextStyle(
-                                                color: Colors.grey[700],
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15),
-                                          ),
-                                        ),
-                                        Text(" - "),
-                                        Text(
-                                          value.todayOrderList[index]["Cus_id"],
+                                    // Icon(Icons),
+                                    // SizedBox(
+                                    //   width: size.width * 0.02,
+                                    // ),
+                                    Text("Ord No : "),
+                                    Flexible(
+                                      child: Text(
+                                          value.todayOrderList[index]
+                                              ["Order_Num"],
                                           style: TextStyle(
                                               color: Colors.grey[700],
                                               fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic,
-                                              fontSize: 14),
-                                        ),
-                                        Spacer(),
-                                      ],
-                                    ),
-                                    Divider(),
-                                    Flexible(
-                                      child: Row(
-                                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "No: of Items  :",
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                          Text(
-                                              "${value.todayOrderList[index]["count"].toString()}",
-                                              style: TextStyle(
-                                                  color: Colors.grey[700],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17)),
-                                          Spacer(),
-                                          Text(
-                                            "Total  :",
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                          Text(
-                                            "\u{20B9}${value.todayOrderList[index]["total_price"].toString()}",
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 17),
-                                          ),
-                                        ],
-                                      ),
+                                              fontSize: 17)),
                                     ),
                                   ],
                                 ),
-                              ),
+                                SizedBox(
+                                  height: size.height * 0.01,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.person,
+                                      color: Colors.green,
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.02,
+                                    ),
+                                    RichText(
+                                      overflow: TextOverflow.clip,
+                                      maxLines: 2,
+                                      text: TextSpan(
+                                        text:
+                                            '${value.todayOrderList[index]["cus_name"]}',
+                                        style: TextStyle(
+                                            color: Colors.grey[700],
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14),
+                                      ),
+                                    ),
+                                    Text(" - "),
+                                    Text(
+                                      value.todayOrderList[index]["Cus_id"],
+                                      style: TextStyle(
+                                          color: Colors.grey[700],
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 14),
+                                    ),
+                                    Spacer(),
+                                  ],
+                                ),
+                                Divider(),
+                                Row(
+                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "No: of Items  :",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                        "${value.todayOrderList[index]["count"].toString()}",
+                                        style: TextStyle(
+                                            color: Colors.grey[700],
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17)),
+                                    Spacer(),
+                                    Text(
+                                      "Total  :",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      "\u{20B9}${value.todayOrderList[index]["total_price"].toStringAsFixed(2)}",
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ),
+                          )),
                         ),
                       ],
                     ),

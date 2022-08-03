@@ -159,7 +159,7 @@ class _TodaySaleState extends State<TodaySale> {
                                             style: TextStyle(fontSize: 15),
                                           ),
                                           Text(
-                                            "\u{20B9}${value.todaySalesList[index]["net_amt"].toString()}",
+                                            "\u{20B9}${value.todaySalesList[index]["net_amt"].toStringAsFixed(2)}",
                                             style: TextStyle(
                                                 color: Colors.red,
                                                 fontWeight: FontWeight.bold,
