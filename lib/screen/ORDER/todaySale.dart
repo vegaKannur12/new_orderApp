@@ -33,7 +33,8 @@ class _TodaySaleState extends State<TodaySale> {
     sharedPref();
     // TODO: implement initState
     super.initState();
-    print("todaySalesList----${Provider.of<Controller>(context, listen: false).todaySalesList}");
+    print(
+        "todaySalesList----${Provider.of<Controller>(context, listen: false).todaySalesList}");
   }
 
   @override
@@ -68,7 +69,7 @@ class _TodaySaleState extends State<TodaySale> {
                     child: Column(
                       children: [
                         Container(
-                          height: size.height * 0.13,
+                          height: size.height * 0.16,
                           child: GestureDetector(
                             onTap: () {
                               Provider.of<Controller>(context, listen: false)
@@ -78,7 +79,8 @@ class _TodaySaleState extends State<TodaySale> {
                                   context,
                                   size,
                                   value.todaySalesList[index]["sale_Num"],
-                                  value.todaySalesList[index]["Cus_id"],"sales");
+                                  value.todaySalesList[index]["Cus_id"],
+                                  "sales");
                             },
                             child: Card(
                               color: Colors.grey[100],

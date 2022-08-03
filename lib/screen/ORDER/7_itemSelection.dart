@@ -129,6 +129,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                           custmerId: widget.customerId,
                           os: widget.os,
                           areaname: widget.areaName,
+                          type: widget.type,
                         ),
                       ),
                     );
@@ -205,6 +206,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                             custmerId: widget.customerId,
                             os: widget.os,
                             areaname: widget.areaName,
+                            type: widget.type,
                           ),
                         ),
                       );

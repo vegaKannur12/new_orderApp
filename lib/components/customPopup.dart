@@ -17,9 +17,9 @@ class CustomPopup {
     } else {
       gen_condition = " ";
     }
-    return new AlertDialog(
+    return AlertDialog(
       // title: const Text('Popup example'),
-      content:  Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -27,10 +27,10 @@ class CustomPopup {
         ],
       ),
       actions: <Widget>[
-         ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             print("hfzsdhfu----$aid");
-            if(type=="exit"){
+            if (type == "exit") {
               exit(0);
             }
             if (type == "collection") {

@@ -7,6 +7,7 @@ import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
 import 'package:orderapp/screen/SALES/ordertotal_bottomsheet.dart';
 import 'package:orderapp/screen/SALES/saleItemDetails.dart';
+import 'package:orderapp/screen/SALES/sale_itemlist.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,11 +17,13 @@ class SaleCart extends StatefulWidget {
   String os;
   String areaId;
   String areaname;
+  String type;
   SaleCart({
     required this.areaId,
     required this.custmerId,
     required this.os,
     required this.areaname,
+    required this.type,
   });
 
   @override
@@ -92,124 +95,175 @@ class _SaleCartState extends State<SaleCart> {
           } else {
             print("value.rateEdit----${value.rateEdit}");
             print("baglist length...........${value.salebagList.length}");
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: value.salebagList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return listItemFunction(
-                        value.salebagList[index]["cartrowno"],
-                        value.salebagList[index]["itemName"],
-                        value.salebagList[index]["hsn"],
-                        value.salebagList[index]["rate"].toString(),
-                        value.salebagList[index]["discount_per"],
-                        value.salebagList[index]["discount_amt"],
-                        value.salebagList[index]["ces_per"],
-                        value.salebagList[index]["ces_amt"],
-                        value.salebagList[index]["net_amt"],
-                        double.parse(value.salebagList[index]["totalamount"]),
 
-                        value.salebagList[index]["qty"],
-                        size,
-                        value.controller[index],
-                        index,
-                        value.salebagList[index]["code"],
-                        value.salebagList[index]["tax_per"].toString(),
-                        value.salebagList[index]["tax_amt"],
-
-                        // value.salebagList[index]["discount"].toString(),
-                        // value.salebagList[index]["ces_amt"],
-                        // value.salebagList[index]["ces_a"].toString(),
-                      );
-                    },
-                  ),
-                ),
-                Container(
-                  height: size.height * 0.07,
-                  color: Colors.yellow,
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          sheet.sheet(
-                              context,
-                              value.orderTotal2[1]!,
-                              value.orderTotal2[0]!,
-                              value.orderTotal2[3]!,
-                              value.orderTotal2[2]!,
-                              value.orderTotal2[4]!,
-                              value.orderTotal2[5]!);
-                        },
-                        child: Container(
-                          width: size.width * 0.5,
-                          height: size.height * 0.07,
-                          color: Colors.yellow,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(" Order Total  : ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15)),
-                              Flexible(
-                                child: Text("\u{20B9}${value.salesTotal}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16)),
-                              )
-                            ],
+            return Provider.of<Controller>(context, listen: false)
+                        .salebagList
+                        .length ==
+                    0
+                ? Container(
+                    height: size.height * 0.9,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "asset/cart.png",
+                            height: 100,
+                            color: Colors.grey[300],
+                            width: 100,
                           ),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                          Text("Your cart is empty "),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.green,
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    opaque: false, // set to false
+                                    pageBuilder: (_, __, ___) => SalesItem(
+                                      areaId: widget.areaId,
+                                      customerId: widget.custmerId,
+                                      os: widget.os,
+                                      areaName: widget.areaname,
+                                      type: widget.type,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text("View products"))
+                        ],
+                      ),
+                    ),
+                  )
+                : Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: value.salebagList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return listItemFunction(
+                              value.salebagList[index]["cartrowno"],
+                              value.salebagList[index]["itemName"],
+                              value.salebagList[index]["hsn"],
+                              value.salebagList[index]["rate"].toString(),
+                              value.salebagList[index]["discount_per"],
+                              value.salebagList[index]["discount_amt"],
+                              value.salebagList[index]["ces_per"],
+                              value.salebagList[index]["ces_amt"],
+                              value.salebagList[index]["net_amt"],
+                              double.parse(
+                                  value.salebagList[index]["totalamount"]),
+
+                              value.salebagList[index]["qty"],
+                              size,
+                              value.controller[index],
+                              index,
+                              value.salebagList[index]["code"],
+                              value.salebagList[index]["tax_per"].toString(),
+                              value.salebagList[index]["tax_amt"],
+
+                              // value.salebagList[index]["discount"].toString(),
+                              // value.salebagList[index]["ces_amt"],
+                              // value.salebagList[index]["ces_a"].toString(),
+                            );
+                          },
                         ),
                       ),
-                      GestureDetector(
-                        onTap: (() async {
-                          // Provider.of<Controller>(context, listen: false)
-                          //         .salesNetamt =
-                          //     double.parse(value.orderTotal2[1]!);
-
-                          print("order total.......${value.orderTotal2}");
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                salepopup.buildPopupDialog(
-                              "sales",
-                              context,
-                              "Confirm your sale?",
-                              widget.areaId,
-                              widget.areaname,
-                              widget.custmerId,
-                              s[0],
-                              s[1],
+                      Container(
+                        height: size.height * 0.07,
+                        color: Colors.yellow,
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                sheet.sheet(
+                                    context,
+                                    value.orderTotal2[1]!,
+                                    value.orderTotal2[0]!,
+                                    value.orderTotal2[3]!,
+                                    value.orderTotal2[2]!,
+                                    value.orderTotal2[4]!,
+                                    value.orderTotal2[5]!);
+                              },
+                              child: Container(
+                                width: size.width * 0.5,
+                                height: size.height * 0.07,
+                                color: Colors.yellow,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(" Order Total  : ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15)),
+                                    Flexible(
+                                      child: Text("\u{20B9}${value.salesTotal}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16)),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
-                          );
-                          // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
-                        }),
-                        child: Container(
-                          width: size.width * 0.5,
-                          height: size.height * 0.07,
-                          color: P_Settings.roundedButtonColor,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Sale",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
+                            GestureDetector(
+                              onTap: (() async {
+                                // Provider.of<Controller>(context, listen: false)
+                                //         .salesNetamt =
+                                //     double.parse(value.orderTotal2[1]!);
+
+                                print("order total.......${value.orderTotal2}");
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      salepopup.buildPopupDialog(
+                                    "sales",
+                                    context,
+                                    "Confirm your sale?",
+                                    widget.areaId,
+                                    widget.areaname,
+                                    widget.custmerId,
+                                    s[0],
+                                    s[1],
+                                  ),
+                                );
+                                // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
+                              }),
+                              child: Container(
+                                width: size.width * 0.5,
+                                height: size.height * 0.07,
+                                color: P_Settings.roundedButtonColor,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Sale",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.01,
+                                    ),
+                                    Icon(Icons.shopping_basket)
+                                  ],
+                                ),
                               ),
-                              SizedBox(
-                                width: size.width * 0.01,
-                              ),
-                              Icon(Icons.shopping_basket)
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       )
                     ],
-                  ),
-                )
-              ],
-            );
+                  );
           }
         }),
       )),
@@ -261,21 +315,6 @@ class _SaleCartState extends State<SaleCart> {
                       disc_per.toStringAsFixed(2);
                   value.discount_amount[index].text =
                       disc_amt.toStringAsFixed(2);
-                  // Provider.of<Controller>(context, listen: false)
-                  //     .rawCalculation(
-                  //         double.parse(rate),
-                  //         double.parse(
-                  //           value.salesqty[index].text,
-                  //         ),
-                  //         0.0,
-                  //         0.0,
-                  //         double.parse(tax),
-                  //         0.0,
-                  //         "0",
-                  //         0,
-                  //         index,
-                  //         false,
-                  //         "");
 
                   saleDetails.showsalesMoadlBottomsheet(
                     itemName,

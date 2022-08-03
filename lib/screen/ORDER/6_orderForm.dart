@@ -440,7 +440,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                   maxLines: 1,
                                                   decoration: InputDecoration(
                                                     border: OutlineInputBorder(
-                                                      gapPadding: 1,
+                                                      gapPadding: 0.3,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20),
