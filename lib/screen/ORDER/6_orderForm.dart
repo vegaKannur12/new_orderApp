@@ -1159,7 +1159,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 //   width: size.width * 0.05,
                                                 // ),
                                                 //////////////////// balance button ///////////////////
-                                                ElevatedButton(
+                                                ElevatedButton.icon(
+                                                  icon: Icon(
+                                                    Icons.currency_rupee,
+                                                    color: Colors.white,
+                                                    size: 15.0,
+                                                  ),
                                                     style: ElevatedButton
                                                         .styleFrom(
                                                       primary: P_Settings
@@ -1212,7 +1217,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                         currentFocus.unfocus();
                                                       }
                                                     },
-                                                    child: Text("Balance")),
+                                                    label: Text("Balance")),
                                                 // SizedBox(
                                                 //   width: size.width * 0.05,
                                                 // ),
