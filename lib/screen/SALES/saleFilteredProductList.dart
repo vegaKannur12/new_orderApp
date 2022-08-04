@@ -140,11 +140,18 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                             var total = int.parse(rate1) *
                                 int.parse(value.qty[index].text);
                             double qtyNew = 0.0;
+                            double discounamttNew = 0.0;
+                            double discounpertNew = 0.0;
+                            double cesspertNew = 0.0;
+
                             List qtyNewList = await OrderAppDB.instance
                                 .selectAllcommon('salesBagTable',
                                     "os='${widget.os}' AND customerid='${widget.customerId}' AND code='${value.salefilteredProductList[index]["code"]}'");
                             if (qtyNewList.length > 0) {
                               qtyNew = qtyNewList[0]["qty"];
+                              discounamttNew = qtyNewList[0]["discount_amt"];
+                              discounpertNew = qtyNewList[0]["discount_per"];
+                              cesspertNew = qtyNewList[0]["ces_per"];
                             }
 
                             double qtyww =
@@ -158,8 +165,8 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                             value.salefilteredProductList[index]
                                                 ["rate1"]),
                                         qtyww,
-                                        0.0,
-                                        0.0,
+                                        discounpertNew,
+                                        discounamttNew,
                                         double.parse(
                                             value.salefilteredProductList[index]
                                                 ["tax"]),
@@ -198,8 +205,8 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       value.sgst_amt,
                                       value.igst_per,
                                       value.igst_amt,
-                                      0.0,
-                                      0.0,
+                                      discounpertNew,
+                                      discounamttNew,
                                       0.0,
                                       value.cess,
                                       0,

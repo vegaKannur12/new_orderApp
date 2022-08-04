@@ -98,16 +98,16 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     print(
         "_selectedAreaId----${Provider.of<Controller>(context, listen: false).selectedAreaId}");
 
-    if (Provider.of<Controller>(context, listen: false).selectedAreaId !=
-        null) {
-      Provider.of<Controller>(context, listen: false).getCustomer(
-          "${Provider.of<Controller>(context, listen: false).selectedAreaId}");
-    }
-    if (Provider.of<Controller>(context, listen: false).areaidFrompopup !=
-        null) {
-      Provider.of<Controller>(context, listen: false).getCustomer(
-          "${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
-    }
+    // if (Provider.of<Controller>(context, listen: false).selectedAreaId !=
+    //     null) {
+    //   Provider.of<Controller>(context, listen: false).getCustomer(
+    //       "${Provider.of<Controller>(context, listen: false).selectedAreaId}");
+    // }
+    // if (Provider.of<Controller>(context, listen: false).areaidFrompopup !=
+    //     null) {
+    //   Provider.of<Controller>(context, listen: false).getCustomer(
+    //       "${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
+    // }
     // Provider.of<Controller>(context, listen: false).custmerSelection = "";
     print("wudiget.areaNmae----${widget.areaname}");
 
@@ -1046,7 +1046,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: size.height * 0.05,
+                                    height: size.height * 0.01,
                                   ),
                                   widget.type == "return"
                                       ? Container()

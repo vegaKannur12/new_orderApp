@@ -359,6 +359,9 @@ class _MainDashboardState extends State<MainDashboard> {
                                 gen_condition = " ";
                               }
                               Provider.of<Controller>(context, listen: false)
+                                  .getCustomer(
+                                     gen_area! );
+                              Provider.of<Controller>(context, listen: false)
                                   .todayOrder(s[0], gen_condition!);
                               Provider.of<Controller>(context, listen: false)
                                   .todayCollection(s[0], gen_condition!);
