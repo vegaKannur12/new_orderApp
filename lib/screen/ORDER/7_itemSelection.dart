@@ -102,7 +102,7 @@ class _ItemSelectionState extends State<ItemSelection> {
         elevation: 0,
         backgroundColor: widget.type == "sale order"
             ? P_Settings.wavecolor
-            : P_Settings.collection1,
+            : P_Settings.returnbuttnColor,
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -413,7 +413,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                       fontSize: 16),
                                                 ),
                                                 subtitle: Text(
-                                                  '\u{20B9}${value.newList[index]["rate1"]}',
+                                                  '\u{20B9}${value.newList[index]["rate1"].toStringAsFixed(2)}',
                                                   style: TextStyle(
                                                     color: P_Settings.ratecolor,
                                                     fontStyle: FontStyle.italic,

@@ -142,6 +142,7 @@ class Controller extends ChangeNotifier {
   double? totalPrice;
   double? returntotalPrice;
   String? totrate;
+  String? priceval;
   List<String> areaAutoComplete = [];
   List<Map<String, dynamic>> menuList = [];
   List<Map<String, dynamic>> reportData = [];
@@ -452,7 +453,7 @@ class Controller extends ChangeNotifier {
           balanceModel = Balance.fromJson(getbal);
         }
       }
-      print("inserted staff ${balanceModel}");
+      print("inserted staff ${balanceModel.ba}");
       return balanceModel;
     } catch (e) {
       print(e);
@@ -1881,7 +1882,8 @@ class Controller extends ChangeNotifier {
     String price,
   ) {
     returntotalPrice = double.parse(price);
-
+    priceval = double.parse(price).toStringAsFixed(2);
+    print("priceval........$returntotalPrice...$priceval");
     // notifyListeners();
   }
 
@@ -1894,7 +1896,8 @@ class Controller extends ChangeNotifier {
   returntotalCalculation(String rate) {
     returnprice = true;
     returntotalPrice = double.parse(rate) * returnqtyinc!;
-    print("total pri-----$returntotalPrice");
+    priceval = returntotalPrice!.toStringAsFixed(2);
+    print("total pri-----$returntotalPrice.....$priceval");
     notifyListeners();
   }
 
@@ -2418,7 +2421,7 @@ class Controller extends ChangeNotifier {
     for (int i = 0; i < returnList.length; i++) {
       if (i == index) {
         returnList[i]["qty"] = updteretrnQty;
-        returnList[i]["total"] = rate.toString();
+        returnList[i]["total"] = rate.toStringAsFixed(2);
         notifyListeners();
       }
     }
@@ -2873,7 +2876,7 @@ class Controller extends ChangeNotifier {
       print("inside nothingg.....");
       disc_per = (disc_amount / taxable_rate) * 100;
       disc_amt = disc_amount;
-       print("rsr....$disc_per....$disc_amt..");
+      print("rsr....$disc_per....$disc_amt..");
     }
 
     tax = (gross - disc_amt) * (tax_per / 100);

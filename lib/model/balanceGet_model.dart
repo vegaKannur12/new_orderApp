@@ -1,12 +1,12 @@
 class Balance {
   String? code;
-  String? ba;
+  double? ba;
 
   Balance({this.code, this.ba});
 
   Balance.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    ba = json['ba'];
+    ba = double.parse(json['ba']);
   }
 
   Map<String, dynamic> toJson() {
