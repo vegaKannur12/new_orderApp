@@ -315,7 +315,7 @@ class _SaleCartState extends State<SaleCart> {
                   value.discount_prercent[index].text =
                       disc_per.toStringAsFixed(2);
                   value.discount_amount[index].text =
-                      disc_amt.toStringAsFixed(2);
+                      disc_amt.toStringAsFixed(4);
 
                   saleDetails.showsalesMoadlBottomsheet(
                     itemName,
@@ -433,7 +433,7 @@ class _SaleCartState extends State<SaleCart> {
                                             ),
                                             Container(
                                               child: Text(
-                                                " \u{20B9}${disc_amt.toStringAsFixed(2)}",
+                                                " \u{20B9}${disc_amt.toStringAsFixed(4)}",
                                                 style: TextStyle(fontSize: 13),
                                               ),
                                             ),
@@ -480,13 +480,7 @@ class _SaleCartState extends State<SaleCart> {
                                             width: size.width * 0.03,
                                           ),
                                           Container(
-                                            child:
-                                                // tax_amt < 0.00
-                                                // ? Text("\u{20B9}0.00",
-                                                //     style:
-                                                //         TextStyle(fontSize: 13))
-                                                // :
-                                                Text(
+                                            child: Text(
                                               " \u{20B9}${tax_amt.toStringAsFixed(2)}",
                                               textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
@@ -494,23 +488,6 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                         ],
                                       ),
-                                      // Row(
-                                      //   children: [
-                                      //     Text(
-                                      //       "Discount:",
-                                      //       style: TextStyle(fontSize: 13),
-                                      //     ),
-                                      //     SizedBox(
-                                      //       width: size.width * 0.03,
-                                      //     ),
-                                      //     Container(
-                                      //       child: Text(
-                                      //         " \u{20B9}${disc_amt.toString()}",
-                                      //         style: TextStyle(fontSize: 13),
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
                                     ],
                                   ),
                                 ),

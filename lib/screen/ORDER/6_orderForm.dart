@@ -1185,7 +1185,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                 listen: false)
                                                             .getBalance(
                                                                 cid, custmerId);
-                                                                print("balance value.......${values.balanceModel.ba}...${values.balanceModel.ba.runtimeType}.");
+                                                        print(
+                                                            "balance value.......${values.balanceModel.ba}...${values.balanceModel.ba.runtimeType}.");
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext
