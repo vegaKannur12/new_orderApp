@@ -2822,7 +2822,7 @@ class Controller extends ChangeNotifier {
     flag = false;
 
     print(
-        "attribute--$gross-$qty-$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
+        "attribute---$qty-$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     if (method == "0") {
       /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
       taxable_rate = rate;
@@ -2832,7 +2832,7 @@ class Controller extends ChangeNotifier {
       print("exclusive tax....$percnt...$taxable_rate");
     }
     gross = taxable_rate * qty;
-
+    print("gros----$gross");
     if (disCalc == "disc_amt") {
       disc_per = (disc_amount / gross) * 100;
       disc_amt = disc_amount;
@@ -2847,7 +2847,7 @@ class Controller extends ChangeNotifier {
       print("yes hay---$disc_per");
       disc_amt = (gross * disc_per) / 100;
       if (onSub) {
-        discount_amount[index].text = disc_amt.toStringAsFixed(2);
+        discount_amount[index].text = disc_amt.toStringAsFixed(4);
       }
       print("disc-amt----$disc_amt");
     }
@@ -2868,14 +2868,16 @@ class Controller extends ChangeNotifier {
       sgst_per = 0;
       igst_per = tax_per;
     }
+
     if (disCalc == "") {
       print("inside nothingg.....");
       disc_per = (disc_amount / taxable_rate) * 100;
-      disc_amt = (gross * disc_per) / 100;
+      disc_amt = disc_amount;
+       print("rsr....$disc_per....$disc_amt..");
     }
 
     tax = (gross - disc_amt) * (tax_per / 100);
-    print("tax....$tax....$gross... $disc_amt...$tax_per-----$net_amt");
+    print("tax....$tax....$gross... $disc_amt...$tax_per");
     if (tax < 0) {
       tax = 0.00;
     }

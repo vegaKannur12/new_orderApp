@@ -717,7 +717,7 @@ class OrderAppDB {
     var query2;
     List<Map<String, dynamic>> res1 = await db.rawQuery(
         'SELECT  * FROM salesBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
-    print("SELECT from ---$res1");
+    print("SELECT from ---$discount_amt");
     if (res1.length == 1) {
       double qty1 = res1[0]["qty"];
       double updatedQty = qty1 + qty;
@@ -1834,7 +1834,7 @@ class OrderAppDB {
 ///////////////////////////////////////////////////////////
   selectAllcommon(String table, String? condition) async {
     print("haiiiii");
-    List<Map<String, dynamic>> result;
+    List<Map<String, dynamic>> result=[];
     Database db = await instance.database;
     var query = "SELECT * FROM '$table' WHERE $condition";
     print("company query----$query");

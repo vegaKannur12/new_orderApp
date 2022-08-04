@@ -1046,7 +1046,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: size.height * 0.05,
+                                    height: size.height * 0.01,
                                   ),
                                   widget.type == "return"
                                       ? Container()

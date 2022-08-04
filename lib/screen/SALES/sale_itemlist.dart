@@ -480,6 +480,15 @@ class _SalesItemState extends State<SalesItem> {
                                                           print(
                                                               "total rate $total");
                                                           double qtyNew = 0.0;
+                                                          double
+                                                              discounamttNew =
+                                                              0.0;
+                                                          double
+                                                              discounpertNew =
+                                                              0.0;
+                                                          double cesspertNew =
+                                                              0.0;
+
                                                           List qtyNewList =
                                                               await OrderAppDB
                                                                   .instance
@@ -492,6 +501,15 @@ class _SalesItemState extends State<SalesItem> {
                                                             qtyNew =
                                                                 qtyNewList[0]
                                                                     ["qty"];
+                                                            discounamttNew =
+                                                                qtyNewList[0][
+                                                                    "discount_amt"];
+                                                            discounpertNew =
+                                                                qtyNewList[0][
+                                                                    "discount_per"];
+                                                            cesspertNew =
+                                                                qtyNewList[0]
+                                                                    ["ces_per"];
                                                           }
 
                                                           double qtyww = qtyNew +
@@ -506,14 +524,14 @@ class _SalesItemState extends State<SalesItem> {
                                                                   listen: false)
                                                               .rawCalculation(
                                                                   double.parse(value
-                                                                          .newList[index][
+                                                                          .newList[index]
+                                                                      [
                                                                       "rate1"]),
                                                                   qtyww,
-                                                                  0.0,
-                                                                  0.0,
+                                                                  discounpertNew,
+                                                                  discounamttNew,
                                                                   double.parse(
-                                                                      value.newList[
-                                                                              index]
+                                                                      value.newList[index]
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
@@ -572,8 +590,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .sgst_amt,
                                                                     value.igst_per,
                                                                     value.igst_amt,
-                                                                    0.0,
-                                                                    0.0,
+                                                                    discounpertNew,
+                                                                    discounamttNew,
                                                                     0.0,
                                                                     value.cess,
                                                                     0,
@@ -836,6 +854,15 @@ class _SalesItemState extends State<SalesItem> {
                                                           // int cartrow =
                                                           //     index + 1;
                                                           double qtyNew = 0.0;
+                                                          double
+                                                              discounamttNew =
+                                                              0.0;
+                                                          double
+                                                              discounpertNew =
+                                                              0.0;
+                                                          double cesspertNew =
+                                                              0.0;
+
                                                           List qtyNewList =
                                                               await OrderAppDB
                                                                   .instance
@@ -848,6 +875,16 @@ class _SalesItemState extends State<SalesItem> {
                                                             qtyNew =
                                                                 qtyNewList[0]
                                                                     ["qty"];
+
+                                                            discounamttNew =
+                                                                qtyNewList[0][
+                                                                    "discount_amt"];
+                                                            discounpertNew =
+                                                                qtyNewList[0][
+                                                                    "discount_per"];
+                                                            cesspertNew =
+                                                                qtyNewList[0]
+                                                                    ["ces_per"];
                                                           }
 
                                                           double qtyww = qtyNew +
@@ -862,16 +899,16 @@ class _SalesItemState extends State<SalesItem> {
                                                                   listen: false)
                                                               .rawCalculation(
                                                                   double.parse(value
-                                                                          .productName[index][
+                                                                          .productName[index]
+                                                                      [
                                                                       "rate1"]),
                                                                   qtyww,
-                                                                  0.0,
-                                                                  0.0,
+                                                                  discounpertNew,
+                                                                  discounamttNew,
                                                                   double.parse(
-                                                                      value.productName[
-                                                                              index]
+                                                                      value.productName[index]
                                                                           ["tax"]),
-                                                                  0.0,
+                                                                  cesspertNew,
                                                                   "0",
                                                                   0,
                                                                   index,
@@ -951,8 +988,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .igst_per,
                                                                     value
                                                                         .igst_amt,
-                                                                    0.0,
-                                                                    0.0,
+                                                                    discounpertNew,
+                                                                    discounamttNew,
                                                                     0.0,
                                                                     value.cess,
                                                                     0,
