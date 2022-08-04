@@ -70,91 +70,70 @@ class _TodayCollectionState extends State<TodayCollection> {
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: size.height * 0.13,
-                                child: Card(
-                                  color: Colors.grey[100],
-                                  child: Padding(
+                              child: Card(
+                                color: Colors.grey[100],
+                                child: ListTile(
+                                  title: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(
-                                              Icons.collections,
-                                              size: 25,
-                                              color: Colors.green,
-                                            ),
-                                            SizedBox(width: size.width * 0.03),
-                                            Flexible(
-                                              child: Text(
-                                                "${value.todayCollectionList[index]['cus_name'].toString()} ",
-                                                style: TextStyle(
-                                                    color: Colors.grey[700],
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15),
-                                              ),
-                                            ),
-                                            Text(
-                                              " - ${value.todayCollectionList[index]['rec_cusid'].toString()}",
-                                              style: TextStyle(
-                                                  color: Colors.grey[700],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle: FontStyle.italic,
-                                                  fontSize: 14),
+                                            Image.asset(
+                                              "asset/filledcoll.png",
+                                              height: 30,
+                                              color: P_Settings.wavecolor,
+                                              width: 30,
                                             ),
                                           ],
                                         ),
-                                        Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 38, top: 5),
-                                                  child: Text(
-                                                    "\u{20B9}${value.todayCollectionList[index]['rec_amount'].toStringAsFixed(2)}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.red,
-                                                        fontSize: 16),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: size.height * 0.01,
-                                            ),
-                                            // Divider(),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 38),
-                                                    child: RichText(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      text: TextSpan(
-                                                        text:
-                                                            '${value.todayCollectionList[index]['rec_note'].toString()}',
-                                                        style:
-                                                            DefaultTextStyle.of(
-                                                                    context)
-                                                                .style,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                        
+                                        // Column(
+                                        //   children: [
+                                        //     Padding(
+                                        //       padding:
+                                        //           const EdgeInsets.only(
+                                        //               left: 38, top: 5),
+                                        //       child: Text(
+                                        //         "\u{20B9}${value.todayCollectionList[index]['rec_amount'].toStringAsFixed(2)}",
+                                        //         style: TextStyle(
+                                        //             fontWeight:
+                                        //                 FontWeight.bold,
+                                        //             color: Colors.red,
+                                        //             fontSize: 16),
+                                        //       ),
+                                        //     ),
+                                        //     SizedBox(
+                                        //       height: size.height * 0.01,
+                                        //     ),
+                                        //     Row(
+                                        //       children: [
+                                        //         Expanded(
+                                        //           child: Padding(
+                                        //             padding:
+                                        //                 const EdgeInsets
+                                        //                     .only(left: 38),
+                                        //             child: RichText(
+                                        //               overflow: TextOverflow
+                                        //                   .ellipsis,
+                                        //               text: TextSpan(
+                                        //                 text:
+                                        //                     '${value.todayCollectionList[index]['rec_note'].toString()}',
+                                        //                 style: DefaultTextStyle
+                                        //                         .of(context)
+                                        //                     .style,
+                                        //               ),
+                                        //             ),
+                                        //           ),
+                                        //         ),
+                                        //       ],
+                                        //     ),
+                                        //   ],
+                                        // ),
+
+                                        // Divider(),
                                       ],
                                     ),
                                   ),

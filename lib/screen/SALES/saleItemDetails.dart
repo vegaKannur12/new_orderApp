@@ -372,6 +372,9 @@ class SaleItemDetails {
                               Container(
                                   width: size.width * 0.4,
                                   child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: P_Settings.salewaveColor,
+                                    ),
                                       onPressed: () async {
                                         int indexCalc = index + 1;
                                         print("indexxxxxx.${value.discount_amount[index].text}");

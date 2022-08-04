@@ -983,6 +983,14 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                     context,
                                                                     listen:
                                                                         false)
+                                                                .getProductList(
+                                                                    custmerId.toString()  
+                                                                            
+                                                                        );
+                                                            Provider.of<Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
                                                                 .fetchProductCompanyList();
 
                                                             Provider.of<Controller>(
@@ -1160,11 +1168,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 // ),
                                                 //////////////////// balance button ///////////////////
                                                 ElevatedButton.icon(
-                                                  icon: Icon(
-                                                    Icons.currency_rupee,
-                                                    color: Colors.white,
-                                                    size: 15.0,
-                                                  ),
+                                                    icon: Icon(
+                                                      Icons.currency_rupee,
+                                                      color: Colors.white,
+                                                      size: 15.0,
+                                                    ),
                                                     style: ElevatedButton
                                                         .styleFrom(
                                                       primary: P_Settings

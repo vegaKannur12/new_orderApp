@@ -68,111 +68,111 @@ class _TodaySaleState extends State<TodaySale> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Container(
-                          height: size.height * 0.16,
-                          child: GestureDetector(
-                            onTap: () {
-                              Provider.of<Controller>(context, listen: false)
-                                  .getSaleHistoryData('salesDetailTable',
-                                      "sales_id='${value.todaySalesList[index]["sales_id"]}'");
-                              popup.buildPopupDialog(
-                                  context,
-                                  size,
-                                  value.todaySalesList[index]["sale_Num"],
-                                  value.todaySalesList[index]["Cus_id"],
-                                  "sales");
-                            },
-                            child: Card(
-                              color: Colors.grey[100],
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
+                        GestureDetector(
+                          onTap: () {
+                            Provider.of<Controller>(context, listen: false)
+                                .getSaleHistoryData('salesDetailTable',
+                                    "sales_id='${value.todaySalesList[index]["sales_id"]}'");
+                            popup.buildPopupDialog(
+                                context,
+                                size,
+                                value.todaySalesList[index]["sale_Num"],
+                                value.todaySalesList[index]["Cus_id"],
+                                "sales");
+                          },
+                          child: Card(
+                              child: ListTile(
+                            tileColor: Colors.grey[100],
+                            title: Column(
+                              children: [
+                                SizedBox(
+                                  height: size.height * 0.01,
+                                ),
+                                Row(
                                   children: [
-                                    Row(
-                                      children: [
-                                        // Icon(Icons),
-                                        SizedBox(
-                                          width: size.width * 0.02,
-                                        ),
-                                        Flexible(
-                                          child: Text(
-                                              value.todaySalesList[index]
-                                                  ["sale_Num"],
-                                              style: TextStyle(
-                                                  color: Colors.grey[700],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17)),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.person,
-                                          color: Colors.green,
-                                        ),
-                                        SizedBox(
-                                          width: size.width * 0.02,
-                                        ),
-                                        RichText(
-                                          overflow: TextOverflow.clip,
-                                          maxLines: 2,
-                                          text: TextSpan(
-                                            text:
-                                                '${value.todaySalesList[index]["cus_name"]}',
-                                            style: TextStyle(
-                                                color: Colors.grey[700],
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15),
-                                          ),
-                                        ),
-                                        Text(" - "),
-                                        Text(
-                                          value.todaySalesList[index]["Cus_id"],
+                                    // Icon(Icons),
+                                    // SizedBox(
+                                    //   width: size.width * 0.02,
+                                    // ),
+                                    Text("Ord No : "),
+                                    Flexible(
+                                      child: Text(
+                                          value.todaySalesList[index]
+                                              ["sale_Num"],
                                           style: TextStyle(
                                               color: Colors.grey[700],
                                               fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic,
-                                              fontSize: 14),
-                                        ),
-                                        Spacer(),
-                                      ],
-                                    ),
-                                    Divider(),
-                                    Flexible(
-                                      child: Row(
-                                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "No: of Items  :",
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                          Text(
-                                              "${value.todaySalesList[index]["count"].toString()}",
-                                              style: TextStyle(
-                                                  color: Colors.grey[700],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17)),
-                                          Spacer(),
-                                          Text(
-                                            "Total  :",
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                          Text(
-                                            "\u{20B9}${value.todaySalesList[index]["net_amt"].toStringAsFixed(2)}",
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15),
-                                          ),
-                                        ],
-                                      ),
+                                              fontSize: 17)),
                                     ),
                                   ],
                                 ),
-                              ),
+                                SizedBox(
+                                  height: size.height * 0.01,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.person,
+                                      color: Colors.green,
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.02,
+                                    ),
+                                    RichText(
+                                      overflow: TextOverflow.clip,
+                                      maxLines: 2,
+                                      text: TextSpan(
+                                        text:
+                                            '${value.todaySalesList[index]["cus_name"]}',
+                                        style: TextStyle(
+                                            color: Colors.grey[700],
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14),
+                                      ),
+                                    ),
+                                    Text(" - "),
+                                    Text(
+                                      value.todaySalesList[index]["Cus_id"],
+                                      style: TextStyle(
+                                          color: Colors.grey[700],
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 14),
+                                    ),
+                                    Spacer(),
+                                  ],
+                                ),
+                                Divider(),
+                                Row(
+                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "No: of Items  :",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                        "${value.todaySalesList[index]["count"].toString()}",
+                                        style: TextStyle(
+                                            color: Colors.grey[700],
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17)),
+                                    Spacer(),
+                                    Text(
+                                      "Total  :",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Text(
+                                      "\u{20B9}${value.todaySalesList[index]["net_amt"].toStringAsFixed(2)}",
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ),
+                          )),
                         ),
                       ],
                     ),

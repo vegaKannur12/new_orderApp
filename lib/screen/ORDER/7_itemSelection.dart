@@ -72,8 +72,8 @@ class _ItemSelectionState extends State<ItemSelection> {
     Provider.of<Controller>(context, listen: false).getOrderno();
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     s = date!.split(" ");
-    Provider.of<Controller>(context, listen: false)
-        .getProductList(widget.customerId);
+    // Provider.of<Controller>(context, listen: false)
+    //     .getProductList(widget.customerId);
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
         _isLoading = false;
