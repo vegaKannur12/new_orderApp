@@ -116,7 +116,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                       const EdgeInsets.only(
                                                           left: 38, top: 5),
                                                   child: Text(
-                                                    "\u{20B9}${value.todayCollectionList[index]['rec_amount'].toString()}",
+                                                    "\u{20B9}${value.todayCollectionList[index]['rec_amount'].toStringAsFixed(2)}",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,

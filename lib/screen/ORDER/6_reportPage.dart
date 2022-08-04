@@ -219,7 +219,7 @@ class _ReportPageState extends State<ReportPage> {
                                           ),
                                           Text(
                                               value.filterList[index]["bln"]
-                                                  .toString(),
+                                                  .toStringAsFixed(2),
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
@@ -248,7 +248,7 @@ class _ReportPageState extends State<ReportPage> {
                                                 Text(
                                                     value.filterList[index]
                                                             ["order_value"]
-                                                        .toString(),
+                                                        .toStringAsFixed(2),
                                                     style: TextStyle(
                                                         fontSize: 14,
                                                         fontWeight:
