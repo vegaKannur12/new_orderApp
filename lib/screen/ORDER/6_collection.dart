@@ -412,7 +412,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                                   ],
                                                 ),
                                                 subtitle: Text(
-                                                    "\u{20B9}${value.fetchcollectionList[index]['rec_amount'].toString()}"),
+                                                    "\u{20B9}${value.fetchcollectionList[index]['rec_amount'].toStringAsFixed(2)}"),
                                                 trailing: IconButton(
                                                   icon: Icon(Icons.delete,
                                                       color: value.fetchcollectionList[

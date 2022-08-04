@@ -413,7 +413,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                       fontSize: 16),
                                                 ),
                                                 subtitle: Text(
-                                                  '\u{20B9}${value.newList[index]["rate1"]}',
+                                                  '\u{20B9}${value.newList[index]["rate1"].toStringAsFixed(2)}',
                                                   style: TextStyle(
                                                     color: P_Settings.ratecolor,
                                                     fontStyle: FontStyle.italic,

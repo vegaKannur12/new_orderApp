@@ -642,7 +642,7 @@ class _ReturnCartState extends State<ReturnCart> {
                                                             ),
                                                             Flexible(
                                                               child: Text(
-                                                                "\u{20B9}${value.returntotalPrice}",
+                                                                "\u{20B9}${value.priceval}",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         17),
