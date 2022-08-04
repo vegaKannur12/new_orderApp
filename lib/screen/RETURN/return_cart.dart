@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
+import 'package:orderapp/screen/ORDER/7_itemSelection.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,13 +12,13 @@ class ReturnCart extends StatefulWidget {
   String os;
   String areaId;
   String areaname;
-
-  ReturnCart({
-    required this.areaId,
-    required this.custmerId,
-    required this.os,
-    required this.areaname,
-  });
+  String type;
+  ReturnCart(
+      {required this.areaId,
+      required this.custmerId,
+      required this.os,
+      required this.areaname,
+      required this.type});
 
   @override
   State<ReturnCart> createState() => _ReturnCartState();
@@ -40,6 +41,7 @@ class _ReturnCartState extends State<ReturnCart> {
 
   @override
   void initState() {
+    print("type===${widget.type}");
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     s = date!.split(" ");
     print("widget.hjzjhzjk----${widget.areaname}");
@@ -65,226 +67,292 @@ class _ReturnCartState extends State<ReturnCart> {
             return CircularProgressIndicator();
           } else {
             print("value.rateEdit----${value.rateEdit}");
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: value.returnList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      // return Container();
-                      return listItemFunction(
-                          value.returnList[index]["item"],
-                          value.returnList[index]["rate"],
-                          value.returnList[index]["total"].toString(),
-                          value.returnList[index]["qty"],
-                          size,
-                          index,
-                          value.returnList[index]["code"]);
-                    },
-                  ),
-                ),
-                Container(
-                  height: size.height * 0.07,
-                  color: Colors.yellow,
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet<void>(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (BuildContext context) {
-                                return SingleChildScrollView(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    child: Container(
-                                      height: size.height * 0.3,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              IconButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  icon: Icon(Icons.close))
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Ref. No:",
-                                                style: TextStyle(fontSize: 15),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                    width: size.width * 0.5,
-                                                    child: TextField(
-                                                      controller: refController,
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Reason:",
-                                                style: TextStyle(fontSize: 15),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                    width: size.width * 0.5,
-                                                    child: TextField(
-                                                      controller:
-                                                          reasonController,
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: size.height * 0.02,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              ElevatedButton(
-                                                  onPressed: () {
-                                                    reason =
-                                                        reasonController.text;
-                                                    ref = refController.text;
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text("Return...."))
-                                            ],
-                                          )
-                                        ],
-                                      ),
+            return Provider.of<Controller>(context, listen: false)
+                        .returnList
+                        .length ==
+                    0
+                ? Container(
+                    height: size.height * 0.9,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "asset/cart.png",
+                            height: 100,
+                            color: Colors.grey[300],
+                            width: 100,
+                          ),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                          Text("Your cart is empty "),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: P_Settings.extracolor,
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    opaque: false, // set to false
+                                    pageBuilder: (_, __, ___) => ItemSelection(
+                                      areaId: widget.areaId,
+                                      customerId: widget.custmerId,
+                                      os: widget.os,
+                                      areaName: widget.areaname,
+                                      type: widget.type,
                                     ),
                                   ),
                                 );
-                              });
-                        },
-                        child: Container(
-                            width: size.width * 0.5,
-                            height: size.height * 0.07,
-                            color: Colors.yellow,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Reason",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15))
-                              ],
-                            )
-                            // child: Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Text(" Order Total  : ",
-                            //         style: TextStyle(
-                            //             fontWeight: FontWeight.bold, fontSize: 15)),
-                            //     Flexible(
-                            //       child: Text("\u{20B9}${value.returnTotal}",
-                            //           style: TextStyle(
-                            //               fontWeight: FontWeight.bold,
-                            //               fontSize: 16)),
-                            //     )
-                            //   ],
-                            // ),
-                            ),
+                              },
+                              child: Text("View products"))
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: (() async {
-                          final prefs = await SharedPreferences.getInstance();
-                          String? sid = await prefs.getString('sid');
-                          Provider.of<Controller>(context, listen: false)
-                              .insertreturnMasterandDetailsTable(
-                                  widget.os,
-                                  s[0],
-                                  s[1],
-                                  widget.custmerId,
-                                  sid!,
-                                  widget.areaId,
-                                  value.returnTotal,
-                                  ref,
-                                  reason);
-                          Provider.of<Controller>(context, listen: false)
-                              .returnCount = 0;
-                          return showDialog(
-                              context: context,
-                              builder: (context) {
-                                Future.delayed(Duration(milliseconds: 500), () {
-                                  Navigator.of(context).pop(true);
+                    ),
+                  )
+                : Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: value.returnList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            // return Container();
+                            return listItemFunction(
+                                value.returnList[index]["item"],
+                                value.returnList[index]["rate"],
+                                value.returnList[index]["total"].toString(),
+                                value.returnList[index]["qty"],
+                                size,
+                                index,
+                                value.returnList[index]["code"]);
+                          },
+                        ),
+                      ),
+                      Container(
+                        height: size.height * 0.07,
+                        color: Colors.yellow,
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet<void>(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return SingleChildScrollView(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom),
+                                          child: Container(
+                                            height: size.height * 0.3,
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    IconButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        icon: Icon(Icons.close))
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "Ref. No:",
+                                                      style: TextStyle(
+                                                          fontSize: 15),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Container(
+                                                          width:
+                                                              size.width * 0.5,
+                                                          child: TextField(
+                                                            controller:
+                                                                refController,
+                                                          )),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "Reason:",
+                                                      style: TextStyle(
+                                                          fontSize: 15),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Container(
+                                                          width:
+                                                              size.width * 0.5,
+                                                          child: TextField(
+                                                            controller:
+                                                                reasonController,
+                                                          )),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: size.height * 0.02,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          reason =
+                                                              reasonController
+                                                                  .text;
+                                                          ref = refController
+                                                              .text;
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child:
+                                                            Text("Return...."))
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: Container(
+                                  width: size.width * 0.5,
+                                  height: size.height * 0.07,
+                                  color: Colors.yellow,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("Reason",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15))
+                                    ],
+                                  )
+                                  // child: Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.center,
+                                  //   children: [
+                                  //     Text(" Order Total  : ",
+                                  //         style: TextStyle(
+                                  //             fontWeight: FontWeight.bold, fontSize: 15)),
+                                  //     Flexible(
+                                  //       child: Text("\u{20B9}${value.returnTotal}",
+                                  //           style: TextStyle(
+                                  //               fontWeight: FontWeight.bold,
+                                  //               fontSize: 16)),
+                                  //     )
+                                  //   ],
+                                  // ),
+                                  ),
+                            ),
+                            GestureDetector(
+                              onTap: (() async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                String? sid = await prefs.getString('sid');
+                                Provider.of<Controller>(context, listen: false)
+                                    .insertreturnMasterandDetailsTable(
+                                        widget.os,
+                                        s[0],
+                                        s[1],
+                                        widget.custmerId,
+                                        sid!,
+                                        widget.areaId,
+                                        value.returnTotal,
+                                        ref,
+                                        reason);
+                                Provider.of<Controller>(context, listen: false)
+                                    .returnCount = 0;
+                                return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      Future.delayed(
+                                          Duration(milliseconds: 500), () {
+                                        Navigator.of(context).pop(true);
 
-                                  Navigator.of(context).push(
-                                    PageRouteBuilder(
-                                        opaque: false, // set to false
-                                        pageBuilder: (_, __, ___) => Dashboard(
-                                            type: "Product return confirmed",
-                                            areaName: widget.areaname)),
-                                  );
-                                });
-                                return AlertDialog(
-                                    content: Row(
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                              opaque: false, // set to false
+                                              pageBuilder: (_, __, ___) =>
+                                                  Dashboard(
+                                                      type:
+                                                          "Product return confirmed",
+                                                      areaName:
+                                                          widget.areaname)),
+                                        );
+                                      });
+                                      return AlertDialog(
+                                          content: Row(
+                                        children: [
+                                          Text(
+                                            'Product return confirmed!!!!',
+                                            style: TextStyle(
+                                                color: P_Settings.extracolor),
+                                          ),
+                                          Icon(
+                                            Icons.done,
+                                            color: Colors.green,
+                                          )
+                                        ],
+                                      ));
+                                    });
+                              }),
+                              child: Container(
+                                width: size.width * 0.5,
+                                height: size.height * 0.07,
+                                color: P_Settings.roundedButtonColor,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Product return confirmed!!!!',
+                                      "Return",
                                       style: TextStyle(
-                                          color: P_Settings.extracolor),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
                                     ),
-                                    Icon(
-                                      Icons.done,
-                                      color: Colors.green,
+                                    SizedBox(
+                                      width: size.width * 0.01,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                          "(\u{20B9}${value.returnTotal.toStringAsFixed(2)})",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 10)),
                                     )
                                   ],
-                                ));
-                              });
-                        }),
-                        child: Container(
-                          width: size.width * 0.5,
-                          height: size.height * 0.07,
-                          color: P_Settings.roundedButtonColor,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Return",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
+                                ),
                               ),
-                              SizedBox(
-                                width: size.width * 0.01,
-                              ),
-                              Flexible(
-                                child: Text(
-                                    "(\u{20B9}${value.returnTotal.toStringAsFixed(2)})",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 10)),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       )
                     ],
-                  ),
-                )
-              ],
-            );
+                  );
           }
         }),
       )),
@@ -469,7 +537,7 @@ class _ReturnCartState extends State<ReturnCart> {
                                         return Consumer<Controller>(
                                           builder: (context, value, child) {
                                             return Container(
-                                              height: size.height * 0.3,
+                                              height: size.height * 0.4,
                                               color: Colors.white,
                                               child: Center(
                                                 child: Padding(
