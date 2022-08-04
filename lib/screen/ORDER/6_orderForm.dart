@@ -1160,11 +1160,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 // ),
                                                 //////////////////// balance button ///////////////////
                                                 ElevatedButton.icon(
-                                                  icon: Icon(
-                                                    Icons.currency_rupee,
-                                                    color: Colors.white,
-                                                    size: 15.0,
-                                                  ),
+                                                    icon: Icon(
+                                                      Icons.currency_rupee,
+                                                      color: Colors.white,
+                                                      size: 15.0,
+                                                    ),
                                                     style: ElevatedButton
                                                         .styleFrom(
                                                       primary: P_Settings
@@ -1185,6 +1185,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                 listen: false)
                                                             .getBalance(
                                                                 cid, custmerId);
+                                                                print("balance value.......${values.balanceModel.ba}...${values.balanceModel.ba.runtimeType}.");
                                                         showDialog(
                                                           context: context,
                                                           builder: (BuildContext
@@ -1192,7 +1193,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               popup.buildPopupDialog(
                                                                   "",
                                                                   context,
-                                                                  '\u{20B9}${values.balanceModel.ba}',
+                                                                  '\u{20B9}${values.balanceModel.ba!.toStringAsFixed(2)}',
                                                                   "balance",
                                                                   0,
                                                                   "",

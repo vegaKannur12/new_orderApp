@@ -453,7 +453,7 @@ class Controller extends ChangeNotifier {
           balanceModel = Balance.fromJson(getbal);
         }
       }
-      print("inserted staff ${balanceModel}");
+      print("inserted staff ${balanceModel.ba}");
       return balanceModel;
     } catch (e) {
       print(e);
@@ -2876,7 +2876,7 @@ class Controller extends ChangeNotifier {
       print("inside nothingg.....");
       disc_per = (disc_amount / taxable_rate) * 100;
       disc_amt = disc_amount;
-       print("rsr....$disc_per....$disc_amt..");
+      print("rsr....$disc_per....$disc_amt..");
     }
 
     tax = (gross - disc_amt) * (tax_per / 100);

@@ -12,6 +12,7 @@ class CustomPopup {
       String type, int rowNum, String userId, String date, String aid) {
     String? gen_area =
         Provider.of<Controller>(context, listen: false).areaidFrompopup;
+        print("content type........${content.runtimeType}");
     if (gen_area != null) {
       gen_condition = " and accountHeadsTable.area_id=$gen_area";
     } else {

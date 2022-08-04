@@ -102,7 +102,7 @@ class _ItemSelectionState extends State<ItemSelection> {
         elevation: 0,
         backgroundColor: widget.type == "sale order"
             ? P_Settings.wavecolor
-            : P_Settings.collection1,
+            : P_Settings.returnbuttnColor,
         actions: <Widget>[
           IconButton(
             icon: Icon(
