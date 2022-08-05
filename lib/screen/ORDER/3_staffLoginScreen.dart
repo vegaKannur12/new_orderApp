@@ -239,11 +239,14 @@ class StaffLogin extends StatelessWidget {
                                                   }
                                                 } else if (userType ==
                                                     "staff") {
+                                                      String user=controller1.text.trim();
+                                                      String pwd=controller2.text.trim();
+
                                                   result = await OrderAppDB
                                                       .instance
                                                       .selectStaff(
-                                                          controller1.text,
-                                                          controller2.text);
+                                                          user,
+                                                          pwd);
                                                   print("selection----$result");
                                                   if (result.length == 0) {
                                                     visible.value = true;
@@ -268,10 +271,10 @@ class StaffLogin extends StatelessWidget {
                                                         'sid', result[1]);
                                                     await prefs.setString(
                                                         'st_username',
-                                                        controller1.text);
+                                                        user);
                                                     await prefs.setString(
                                                         'st_pwd',
-                                                        controller2.text);
+                                                        pwd);
                                                     print(
                                                         "visible===${visible.value}");
                                                     Provider.of<Controller>(

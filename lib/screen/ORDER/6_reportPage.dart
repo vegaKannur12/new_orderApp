@@ -195,7 +195,7 @@ class _ReportPageState extends State<ReportPage> {
                                         children: [
                                           Icon(
                                             Icons.phone,
-                                            size: 15,
+                                            size: 15,  
                                           ),
                                           SizedBox(
                                             width: size.width * 0.01,

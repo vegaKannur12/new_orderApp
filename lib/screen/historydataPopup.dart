@@ -87,7 +87,7 @@ class HistoryPopup {
           width: 70,
           child: Text(
             column,
-            style: TextStyle(fontSize: 15),
+            style: TextStyle(fontSize: 14),
             textAlign: TextAlign.center,
             // textAlign: behv[1] == "L" ? TextAlign.left : TextAlign.right,
           ),
