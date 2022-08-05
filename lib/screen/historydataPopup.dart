@@ -42,7 +42,8 @@ class HistoryPopup {
                       ),
                     ),
                     SingleChildScrollView(
-                      child: Container(
+                      scrollDirection: Axis.vertical,
+                      child: FittedBox(
                         // height: size.height*0.2,
                         child: DataTable(
                           horizontalMargin: 0,
@@ -86,7 +87,7 @@ class HistoryPopup {
           width: 70,
           child: Text(
             column,
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(fontSize: 15),
             textAlign: TextAlign.center,
             // textAlign: behv[1] == "L" ? TextAlign.left : TextAlign.right,
           ),
@@ -130,7 +131,7 @@ class HistoryPopup {
               // textAlign:
               //     mainHeader[k][1] == "L" ? TextAlign.left : TextAlign.right,
               style: TextStyle(
-                fontSize: 10,
+                fontSize: 14,
               ),
             ),
           ),

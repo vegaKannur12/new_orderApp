@@ -319,6 +319,7 @@ class _SalesItemState extends State<SalesItem> {
                                             .clear();
 
                                         searchcontroll.clear();
+
                                       }),
                                 ],
                               )

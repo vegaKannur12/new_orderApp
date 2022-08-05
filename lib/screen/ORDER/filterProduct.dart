@@ -79,7 +79,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                       : Colors.grey[700]
                                   : Colors.green
                               : value.filterComselected[index]
-                                  ? Color.fromARGB(255, 224, 61, 11)
+                                  ? Colors.grey[700]
                                   : Colors.grey[700],
                           fontSize: 16),
                     ),
