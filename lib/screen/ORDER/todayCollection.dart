@@ -116,7 +116,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                         color: Colors.grey[700],
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 15),
+                                                        fontSize: 14),
                                                   ),
                                                   Text(
                                                     " - ${value.todayCollectionList[index]['rec_cusid'].toString()}",

@@ -136,19 +136,6 @@ class _CartListState extends State<CartList> {
                                         fontWeight: FontWeight.bold)),
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  // Navigator.of(context).push(
-                                  //   PageRouteBuilder(
-                                  //     opaque: false, // set to false
-                                  //     pageBuilder: (_, __, ___) =>
-                                  //         ItemSelection(
-                                  //       areaId: widget.areaId,
-                                  //       customerId: widget.custmerId,
-                                  //       os: widget.os,
-                                  //       areaName: widget.areaname,
-                                  //       type: widget.type,
-                                  //     ),
-                                  //   ),
-                                  // );
                                 },
                                 child: Text("View products"))
                           ],
