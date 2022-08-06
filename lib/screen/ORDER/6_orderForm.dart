@@ -972,6 +972,13 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                     context,
                                                                     listen:
                                                                         false)
+                                                                .getProductList(
+                                                                    custmerId
+                                                                        .toString());
+                                                            Provider.of<Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
                                                                 .countFromTable(
                                                               "orderBagTable",
                                                               values.ordernum[0]
@@ -979,6 +986,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               custmerId
                                                                   .toString(),
                                                             );
+
                                                             Provider.of<Controller>(
                                                                     context,
                                                                     listen:
@@ -1089,6 +1097,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               listen: false)
                                                           .clearList(values
                                                               .returnList);
+                                                      Provider.of<Controller>(
+                                                              context,
+                                                              listen: false)
+                                                          .getProductList(
+                                                              custmerId
+                                                                  .toString());
                                                       Navigator.of(context)
                                                           .push(
                                                         PageRouteBuilder(

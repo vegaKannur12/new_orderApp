@@ -2905,5 +2905,7 @@ class Controller extends ChangeNotifier {
     print("rhdhsz---$key-$returnList");
     bool exist = returnList.any((element) => element.values.contains(key));
     returnirtemExists[index] = exist;
+    print("existss--$returnirtemExists");
+    notifyListeners();
   }
 }

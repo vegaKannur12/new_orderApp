@@ -7,6 +7,7 @@ import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/components/showMoadal.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
+import 'package:orderapp/screen/ORDER/6_orderForm.dart';
 import 'package:orderapp/screen/ORDER/8_cartList.dart';
 import 'package:orderapp/screen/ORDER/filterProduct.dart';
 import 'package:orderapp/screen/RETURN/return_cart.dart';
@@ -72,8 +73,8 @@ class _ItemSelectionState extends State<ItemSelection> {
     Provider.of<Controller>(context, listen: false).getOrderno();
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     s = date!.split(" ");
-    Provider.of<Controller>(context, listen: false)
-        .getProductList(widget.customerId);
+    // Provider.of<Controller>(context, listen: false)
+    //     .getProductList(widget.customerId);
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
         _isLoading = false;
@@ -96,7 +97,17 @@ class _ItemSelectionState extends State<ItemSelection> {
                 .clear();
             Provider.of<Controller>(context, listen: false).searchkey = "";
             Provider.of<Controller>(context, listen: false).newList = products;
-            Navigator.of(context).pop();
+            Navigator.pop(context);
+            // Navigator.popUntil(context, (route) => route.isCurrent);
+            // Navigator.of(context).push(
+            //   PageRouteBuilder(
+            //     opaque: false, // set to false
+            //     pageBuilder: (_, __, ___) => OrderForm(
+            //      widget.areaName,
+            //      widget.type,
+            //     ),
+            //   ),
+            // );
           },
         ),
         elevation: 0,
@@ -189,6 +200,9 @@ class _ItemSelectionState extends State<ItemSelection> {
       ),
       body: Consumer<Controller>(
         builder: (context, value, child) {
+          // Provider.of<Controller>(context, listen: false)
+          //     .getProductList(widget.customerId);
+          print("value.returnirtemExists------${value.returnirtemExists}");
           return Column(
             children: [
               GestureDetector(
@@ -286,10 +300,10 @@ class _ItemSelectionState extends State<ItemSelection> {
                                       size: 20,
                                     ),
                                     onPressed: () async {
-                                      Provider.of<Controller>(context,
-                                              listen: false)
-                                          .getBagDetails(
-                                              widget.customerId, widget.os);
+                                      // Provider.of<Controller>(context,
+                                      //         listen: false)
+                                      //     .getBagDetails(
+                                      //         widget.customerId, widget.os);
                                       Provider.of<Controller>(context,
                                               listen: false)
                                           .searchkey = searchcontroll.text;
@@ -323,8 +337,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                       Provider.of<Controller>(context,
                                               listen: false)
                                           .getProductList(widget.customerId);
-                                      print(
-                                          "rtsyt----${Provider.of<Controller>(context, listen: false).returnirtemExists}");
+
                                       Provider.of<Controller>(context,
                                               listen: false)
                                           .setIssearch(false);
@@ -334,8 +347,9 @@ class _ItemSelectionState extends State<ItemSelection> {
                                               listen: false)
                                           .newList
                                           .clear();
-
                                       searchcontroll.clear();
+                                      print(
+                                          "rtsyt----${Provider.of<Controller>(context, listen: false).returnirtemExists}");
                                     }),
                               ],
                             )
@@ -401,19 +415,11 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                   index]
                                                               ? Colors.green
                                                               : Colors.grey[700]
-                                                          : value.selected[
-                                                                  index]
-                                                              ? Color.fromARGB(
-                                                                  255,
-                                                                  224,
-                                                                  61,
-                                                                  11)
-                                                              : Colors
-                                                                  .grey[700],
+                                                          : Colors.grey[700],
                                                       fontSize: 16),
                                                 ),
                                                 subtitle: Text(
-                                                  '\u{20B9}${value.newList[index]["rate1"].toStringAsFixed(2)}',
+                                                  '\u{20B9}${value.newList[index]["rate1"]}',
                                                   style: TextStyle(
                                                     color: P_Settings.ratecolor,
                                                     fontStyle: FontStyle.italic,
@@ -518,7 +524,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                   0);
                                                           snackbar.showSnackbar(
                                                               context,
-                                                              "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart",
+                                                              "${value.newList[index]["code"] + "-" + (value.newList[index]['item'])} - Added to cart",
                                                               "sale order");
                                                           Provider.of<Controller>(
                                                                   context,
@@ -564,6 +570,10 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 .toString(),
                                                             "status": 0
                                                           });
+                                                          snackbar.showSnackbar(
+                                                              context,
+                                                              "${value.newList[index]["code"] + "-" + (value.newList[index]['item'])} - Added to cart",
+                                                              "return");
                                                         }
 
                                                         /////////////////////////
@@ -737,12 +747,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       .grey[700]
                                                                   : Colors
                                                                       .grey[700]
-                                                              //         true
-                                                              //     ? Colors.red
-                                                              //     : Colors.grey[
-                                                              //         700]
                                                               : Colors
-                                                                  .green[700]
+                                                                  .green[700],
                                                       // value.selected[
                                                       //         index]
                                                       //     ? Color
@@ -753,7 +759,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                       //             11)
                                                       //     : Colors
                                                       //         .grey[700],
-                                                      ,
+
                                                       fontSize: 16),
                                                 ),
                                                 subtitle: Text(
@@ -864,7 +870,7 @@ class _ItemSelectionState extends State<ItemSelection> {
 
                                                           snackbar.showSnackbar(
                                                               context,
-                                                              "${products[index]["code"] + products[index]['item']} - Added to cart",
+                                                              "${products[index]["code"] + "-" + (products[index]['item'])} - Added to cart",
                                                               "sale order");
                                                           Provider.of<Controller>(
                                                                   context,
@@ -911,6 +917,10 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 .toString(),
                                                             "status": 0
                                                           });
+                                                          snackbar.showSnackbar(
+                                                              context,
+                                                              "${products[index]["code"] + "-" + (products[index]['item'])} - Added to cart",
+                                                              "return");
 
                                                           Provider.of<Controller>(
                                                                   context,

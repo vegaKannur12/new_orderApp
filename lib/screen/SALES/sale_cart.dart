@@ -107,15 +107,18 @@ class _SaleCartState extends State<SaleCart> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            "asset/cart.png",
-                            height: 100,
-                            color: Colors.grey[300],
+                            "asset/empty.png",
+                            height: 80,
+                            color: P_Settings.salewaveColor,
                             width: 100,
                           ),
                           SizedBox(
                             height: size.height * 0.02,
                           ),
-                          Text("Your cart is empty "),
+                          Text(
+                            "Your cart is empty !!!",
+                            style: TextStyle(fontSize: 17),
+                          ),
                           SizedBox(
                             height: size.height * 0.02,
                           ),
@@ -126,18 +129,7 @@ class _SaleCartState extends State<SaleCart> {
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold)),
                               onPressed: () {
-                                Navigator.of(context).push(
-                                  PageRouteBuilder(
-                                    opaque: false, // set to false
-                                    pageBuilder: (_, __, ___) => SalesItem(
-                                      areaId: widget.areaId,
-                                      customerId: widget.custmerId,
-                                      os: widget.os,
-                                      areaName: widget.areaname,
-                                      type: widget.type,
-                                    ),
-                                  ),
-                                );
+                                Navigator.pop(context);
                               },
                               child: Text("View products"))
                         ],

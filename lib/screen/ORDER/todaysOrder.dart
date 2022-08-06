@@ -75,7 +75,8 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                 value.todayOrderList[index]["Cus_id"],
                                 "sale order");
                           },
-                          child: Card(
+                          child: 
+                          Card(
                               child: ListTile(
                             tileColor: Colors.grey[100],
                             title: Column(
@@ -108,7 +109,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                   children: [
                                     Icon(
                                       Icons.person,
-                                      color: Colors.green,
+                                      color: P_Settings.wavecolor,
                                     ),
                                     SizedBox(
                                       width: size.width * 0.02,

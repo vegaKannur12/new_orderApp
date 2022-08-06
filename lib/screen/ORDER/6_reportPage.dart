@@ -159,7 +159,7 @@ class _ReportPageState extends State<ReportPage> {
                                               text:
                                                   '${value.filterList[index]["name"]}',
                                               style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.bold,
                                                   color: P_Settings.wavecolor),
                                             ),
@@ -172,7 +172,7 @@ class _ReportPageState extends State<ReportPage> {
                                       Row(
                                         children: [
                                           Icon(
-                                            Icons.gps_fixed,
+                                            Icons.place,
                                             size: 15,
                                           ),
                                           SizedBox(
@@ -195,7 +195,7 @@ class _ReportPageState extends State<ReportPage> {
                                         children: [
                                           Icon(
                                             Icons.phone,
-                                            size: 15,
+                                            size: 15,  
                                           ),
                                           SizedBox(
                                             width: size.width * 0.01,
@@ -381,7 +381,7 @@ class _ReportPageState extends State<ReportPage> {
                                       Row(
                                         children: [
                                           Icon(
-                                            Icons.gps_fixed,
+                                            Icons.place,
                                             size: 15,
                                           ),
                                           SizedBox(

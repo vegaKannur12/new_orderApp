@@ -1820,8 +1820,8 @@ class OrderAppDB {
       result = await db.rawQuery("SELECT * FROM '$table'");
     } else {
       result = await db.rawQuery(
-          // "SELECT code,item_name,qty,rate,dis_amt,tax_amt,net_amt FROM '$table' WHERE $condition"
-          "SELECT code,item_name,qty,rate FROM '$table' WHERE $condition"
+          "SELECT code ,item_name as item,qty,rate,dis_amt,tax_amt,net_amt FROM '$table' WHERE $condition"
+          // "SELECT code,item_name,qty,rate FROM '$table' WHERE $condition"
 
       );
     }
