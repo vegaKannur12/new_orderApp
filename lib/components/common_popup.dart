@@ -10,15 +10,16 @@ class CommonPopup {
   String? gen_condition;
   String? sid;
   Widget buildPopupDialog(
-    String type,
-    BuildContext context,
-    String content,
-    String areaid,
-    String areaname,
-    String custmerId,
-    String date,
-    String time,
-  ) {
+      String type,
+      BuildContext context,
+      String content,
+      String areaid,
+      String areaname,
+      String custmerId,
+      String date,
+      String time,
+      String ref,
+      String reason) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -28,9 +29,11 @@ class CommonPopup {
         ],
       ),
       actions: [
-        ElevatedButton(onPressed: (){
-          Navigator.pop(context);
-        }, child: Text("cancel")),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("cancel")),
         Consumer<Controller>(
           builder: (context, value, child) {
             return ElevatedButton(
@@ -97,6 +100,25 @@ class CommonPopup {
                     }
                     Provider.of<Controller>(context, listen: false)
                         .todayOrder(date, gen_condition!);
+                  } else if (type == "return") {
+                    if (Provider.of<Controller>(context, listen: false)
+                            .returnList
+                            .length >
+                        0) {
+                      Provider.of<Controller>(context, listen: false)
+                          .insertreturnMasterandDetailsTable(
+                              os!,
+                              date,
+                              time,
+                              custmerId,
+                              sid1!,
+                              areaid,
+                              value.returnTotal,
+                              ref,
+                              reason);
+                      Provider.of<Controller>(context, listen: false)
+                          .returnCount = 0;
+                    }
                   }
 
                   Provider.of<Controller>(context, listen: false)

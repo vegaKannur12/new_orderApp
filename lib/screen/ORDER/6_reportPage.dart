@@ -159,7 +159,7 @@ class _ReportPageState extends State<ReportPage> {
                                               text:
                                                   '${value.filterList[index]["name"]}',
                                               style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: 16,
                                                   fontWeight: FontWeight.bold,
                                                   color: P_Settings.wavecolor),
                                             ),
@@ -353,7 +353,7 @@ class _ReportPageState extends State<ReportPage> {
                                           text:
                                               '${value.isreportSearch && value.newreportList.length > 0 ? value.newreportList[index]["name"] : value.reportData[index]["name"]}',
                                           style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               color: P_Settings.wavecolor),
                                         ),
