@@ -1166,7 +1166,8 @@ class Controller extends ChangeNotifier {
         "values--------$date--$time$customer_id-$user_id--$aid--$total_price--$refNo--$reason");
     // List<Map<String, dynamic>> om = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? os1 = prefs.getString("os");
+    String? os = prefs.getString("os");
+    String os1 = "R" + "${os}";
     int return_id = await OrderAppDB.instance
         .getMaxCommonQuery('returnMasterTable', 'return_id', "os='${os1}'");
     print("return_id----$return_id");
@@ -1180,7 +1181,7 @@ class Controller extends ChangeNotifier {
           " ",
           date,
           time,
-          os1!,
+          os1,
           customer_id,
           user_id,
           aid,

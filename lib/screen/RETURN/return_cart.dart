@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:orderapp/components/common_popup.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
@@ -38,7 +39,7 @@ class _ReturnCartState extends State<ReturnCart> {
   int counter = 0;
   bool isAdded = false;
   String? sname;
-
+CommonPopup returnPop= CommonPopup();
   @override
   void initState() {
     print("type===${widget.type}");
@@ -272,55 +273,60 @@ class _ReturnCartState extends State<ReturnCart> {
                             ),
                             GestureDetector(
                               onTap: (() async {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        returnPop.buildPopupDialog(
+                                      "return",
+                                      context,
+                                      "Confirm your order?",
+                                      widget.areaId,
+                                      widget.areaname,
+                                      widget.custmerId,
+                                      s[0],
+                                      s[1],
+                                      refController.text,
+                                      reasonController.text
+                                    ),
+                                  );
+
                                 final prefs =
                                     await SharedPreferences.getInstance();
                                 String? sid = await prefs.getString('sid');
-                                Provider.of<Controller>(context, listen: false)
-                                    .insertreturnMasterandDetailsTable(
-                                        widget.os,
-                                        s[0],
-                                        s[1],
-                                        widget.custmerId,
-                                        sid!,
-                                        widget.areaId,
-                                        value.returnTotal,
-                                        ref,
-                                        reason);
-                                Provider.of<Controller>(context, listen: false)
-                                    .returnCount = 0;
-                                return showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      Future.delayed(
-                                          Duration(milliseconds: 500), () {
-                                        Navigator.of(context).pop(true);
+                                
+                                // return showDialog(
+                                //     context: context,
+                                //     builder: (context) {
+                                //       Future.delayed(
+                                //           Duration(milliseconds: 500), () {
+                                //         Navigator.of(context).pop(true);
 
-                                        Navigator.of(context).push(
-                                          PageRouteBuilder(
-                                              opaque: false, // set to false
-                                              pageBuilder: (_, __, ___) =>
-                                                  Dashboard(
-                                                      type:
-                                                          "Product return confirmed",
-                                                      areaName:
-                                                          widget.areaname)),
-                                        );
-                                      });
-                                      return AlertDialog(
-                                          content: Row(
-                                        children: [
-                                          Text(
-                                            'Product return confirmed!!!!',
-                                            style: TextStyle(
-                                                color: P_Settings.extracolor),
-                                          ),
-                                          Icon(
-                                            Icons.done,
-                                            color: Colors.green,
-                                          )
-                                        ],
-                                      ));
-                                    });
+                                //         Navigator.of(context).push(
+                                //           PageRouteBuilder(
+                                //               opaque: false, // set to false
+                                //               pageBuilder: (_, __, ___) =>
+                                //                   Dashboard(
+                                //                       type:
+                                //                           "Product return confirmed",
+                                //                       areaName:
+                                //                           widget.areaname)),
+                                //         );
+                                //       });
+                                //       return AlertDialog(
+                                //           content: Row(
+                                //         children: [
+                                //           Text(
+                                //             'Product return confirmed!!!!',
+                                //             style: TextStyle(
+                                //                 color: P_Settings.extracolor),
+                                //           ),
+                                //           Icon(
+                                //             Icons.done,
+                                //             color: Colors.green,
+                                //           )
+                                //         ],
+                                //       ));
+                                //     });
                               }),
                               child: Container(
                                 width: size.width * 0.5,

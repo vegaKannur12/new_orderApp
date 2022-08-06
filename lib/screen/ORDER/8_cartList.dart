@@ -121,7 +121,10 @@ class _CartListState extends State<CartList> {
                             SizedBox(
                               height: size.height * 0.02,
                             ),
-                            Text("Your cart is empty !!!",style: TextStyle(fontSize: 17),),
+                            Text(
+                              "Your cart is empty !!!",
+                              style: TextStyle(fontSize: 17),
+                            ),
                             SizedBox(
                               height: size.height * 0.02,
                             ),
@@ -206,15 +209,16 @@ class _CartListState extends State<CartList> {
                                     context: context,
                                     builder: (BuildContext context) =>
                                         orderpopup.buildPopupDialog(
-                                      "sale order",
-                                      context,
-                                      "Confirm your order?",
-                                      widget.areaId,
-                                      widget.areaname,
-                                      widget.custmerId,
-                                      s[0],
-                                      s[1],
-                                    ),
+                                            "sale order",
+                                            context,
+                                            "Confirm your order?",
+                                            widget.areaId,
+                                            widget.areaname,
+                                            widget.custmerId,
+                                            s[0],
+                                            s[1],
+                                            "",
+                                            ""),
                                   );
 
                                   Provider.of<Controller>(context,
