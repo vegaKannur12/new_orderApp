@@ -20,6 +20,7 @@ class SalesItem extends StatefulWidget {
   String areaName;
   String type;
   bool _isLoading = false;
+  String gtype;
 
   SalesItem({
     required this.customerId,
@@ -27,6 +28,7 @@ class SalesItem extends StatefulWidget {
     required this.os,
     required this.areaName,
     required this.type,
+    required this.gtype
   });
 
   @override
@@ -536,7 +538,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
-                                                                  0,
+                                                                 int.parse( widget.gtype),
                                                                   index,
                                                                   false,
                                                                   "");
@@ -723,7 +725,7 @@ class _SalesItemState extends State<SalesItem> {
                                         s: s,
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
-                                            .salefilteredeValue,
+                                            .salefilteredeValue,gtype: widget.gtype,
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
@@ -911,7 +913,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   cesspertNew,
                                                                   "0",
-                                                                  0,
+                                                                  int.parse( widget.gtype),
                                                                   index,
                                                                   false,
                                                                   "");

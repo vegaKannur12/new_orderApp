@@ -6,6 +6,7 @@ import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/customPopup.dart';
 import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/6.1_remarks.dart';
 import 'package:orderapp/screen/ORDER/6_collection.dart';
 import 'package:orderapp/screen/ORDER/7_itemSelection.dart';
@@ -1271,6 +1272,13 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
 
                                                     if (_formKey.currentState!
                                                         .validate()) {
+                                                          List customerDet =
+                                                              await OrderAppDB
+                                                                  .instance
+                                                                  .selectAllcommon(
+                                                                      'accountHeadsTable',
+                                                                      "ac_code='${custmerId}'");
+                                                          print("customerDet------$customerDet");
                                                       String os = "S" +
                                                           "${values.ordernum[0]["os"]}";
                                                       Provider.of<Controller>(
@@ -1318,7 +1326,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                           .isEmpty
                                                                   ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
                                                                   : Provider.of<Controller>(context, listen: false).areaSelecton!,
-                                                              type: "sale"),
+                                                              type: "sale",gtype: customerDet[0]["gtype"]),
                                                         ),
                                                       );
                                                     }

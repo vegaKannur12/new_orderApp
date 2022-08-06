@@ -2826,7 +2826,7 @@ class Controller extends ChangeNotifier {
     flag = false;
 
     print(
-        "attribute---$qty-$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
+        "attribute---$state_status-$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     if (method == "0") {
       /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
       taxable_rate = rate;

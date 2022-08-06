@@ -14,14 +14,15 @@ class SaleFilteredProduct extends StatefulWidget {
   List<String>? s;
   String? customerId;
   String? value;
+  String? gtype;
 
-  SaleFilteredProduct({
-    required this.type,
-    this.customerId,
-    this.os,
-    this.s,
-    this.value,
-  });
+  SaleFilteredProduct(
+      {required this.type,
+      this.customerId,
+      this.os,
+      this.s,
+      this.value,
+      this.gtype});
 
   @override
   State<SaleFilteredProduct> createState() => _SaleFilteredProductState();
@@ -172,7 +173,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                                 ["tax"]),
                                         0.0,
                                         "0",
-                                        0,
+                                        int.parse(widget.gtype!),
                                         index,
                                         false,
                                         "");
