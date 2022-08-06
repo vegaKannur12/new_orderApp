@@ -28,7 +28,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController codeController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  ExternalDir externalDirtext = ExternalDir();
+
   String? manufacturer;
   String? model;
   String? fp;

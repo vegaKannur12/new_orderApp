@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:orderapp/model/accounthead_model.dart';
 import 'package:orderapp/model/productdetails_model.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
+import 'package:orderapp/model/settings_model.dart';
 import 'package:orderapp/model/userType_model.dart';
 import 'package:orderapp/model/wallet_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -149,8 +150,11 @@ class OrderAppDB {
   static final user = 'user';
 
   ////////////settings//////////////////////
-  static final options = 'options';
-  static final value = 'value';
+  static final set_id = 'set_id';
+  static final set_code = 'set_code';
+  static final set_value = 'set_value';
+  static final set_type = 'set_type';
+
 /////////wallet table//////////////////
   static final waid = 'waid';
   static final wname = 'wname';
@@ -540,10 +544,12 @@ class OrderAppDB {
           )
           ''');
     await db.execute('''
-          CREATE TABLE settings (
+          CREATE TABLE settingsTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
-            $options TEXT NOT NULL,
-            $value INTEGER
+            $set_id INTEGER NOT NULL,
+            $set_code TEXT,
+            $set_value TEXT,
+            $set_type INTEGER
           )
           ''');
     await db.execute('''
@@ -915,11 +921,11 @@ class OrderAppDB {
   }
 
   ////////////////////////settings insertion///////////////////////////////////
-  Future insertsettingsTable(String options, int value) async {
+  Future insertsettingsTable(SettingsModel model) async {
     final db = await database;
     // deleteFromTableCommonQuery('menuTable', "");
     var query1 =
-        'INSERT INTO settings(options,value) VALUES("${options}", ${value})';
+        'INSERT INTO settingsTable(set_id,set_code,set_value,set_type) VALUES(${model.setId},"${model.setCode}","${model.setValue}",${model.setType})';
     var res = await db.rawInsert(query1);
     // print("menu----${query1}");
     print("settingzz---${query1}");
@@ -1823,7 +1829,7 @@ class OrderAppDB {
           "SELECT code ,item_name as item,qty,rate,dis_amt,tax_amt,net_amt FROM '$table' WHERE $condition"
           // "SELECT code,item_name,qty,rate FROM '$table' WHERE $condition"
 
-      );
+          );
     }
 
     print("naaknsdJK-----$result");
@@ -1834,7 +1840,7 @@ class OrderAppDB {
 ///////////////////////////////////////////////////////////
   selectAllcommon(String table, String? condition) async {
     print("haiiiii");
-    List<Map<String, dynamic>> result=[];
+    List<Map<String, dynamic>> result = [];
     Database db = await instance.database;
     var query = "SELECT * FROM '$table' WHERE $condition";
     print("company query----$query");

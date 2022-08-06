@@ -152,10 +152,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     );
   }
 
-  insertSettings() async {
-    await OrderAppDB.instance.deleteFromTableCommonQuery("settings", "");
-    await OrderAppDB.instance.insertsettingsTable("rate Edit", 0);
-  }
+  // insertSettings() async {
+  //   await OrderAppDB.instance.deleteFromTableCommonQuery("settings", "");
+  //   await OrderAppDB.instance.insertsettingsTable("rate Edit", 0);
+  // }
 
   getCompaniId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -352,9 +352,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       //       .selectReportFromOrder(context);
       //   return ReportPage();
 
-      case "ST":
-        // title = "Download data";
-        return Settings();
+      // case "ST":
+      //   // title = "Download data";
+      //   return Settings();
       // case "TO":
       //   // title = "Upload data";
       //   return TodaysOrder();
@@ -597,8 +597,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             .deleteFromTableCommonQuery("orderBagTable", "");
                         await OrderAppDB.instance
                             .deleteFromTableCommonQuery("menuTable", "");
-                        await OrderAppDB.instance
-                            .deleteFromTableCommonQuery("settings", "");
+                        // await OrderAppDB.instance
+                        //     .deleteFromTableCommonQuery("settings", "");
                         await OrderAppDB.instance
                             .deleteFromTableCommonQuery("walletTable", "");
                         await OrderAppDB.instance
@@ -707,16 +707,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 17),
                         ),
                       ),
-                      ListTile(
-                        trailing: Icon(Icons.settings),
-                        onTap: () async {
-                          _onSelectItem(0, "ST");
-                        },
-                        title: Text(
-                          "settings",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
+                      // ListTile(
+                      //   trailing: Icon(Icons.settings),
+                      //   onTap: () async {
+                      //     _onSelectItem(0, "ST");
+                      //   },
+                      //   title: Text(
+                      //     "settings",
+                      //     style: TextStyle(fontSize: 17),
+                      //   ),
+                      // ),
                       ListTile(
                         trailing: Icon(Icons.web),
                         onTap: () async {

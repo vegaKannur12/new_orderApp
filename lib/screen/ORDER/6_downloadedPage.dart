@@ -35,7 +35,7 @@ class _DownloadedPageState extends State<DownloadedPage> {
     "Product Details",
     "Product category",
     "Company",
-    "Wallet",
+    "Wallet"
     // "Images"
   ];
 
@@ -138,49 +138,62 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                   ? null
                                   : value.isDownloaded
                                       ? null
-                                      :value.isDown[index]?null: () async {
-                                          // SharedPreferences prefs =
-                                          //     await SharedPreferences
-                                          //         .getInstance();
-                                          // prefs.setBool("isautodownload", true);
-                                          // Provider.of<Controller>(context,
-                                          //         listen: false)
-                                          //     .isautodownload = true;
-                                          print("time delay inside");
+                                      : value.isDown[index]
+                                          ? null
+                                          : () async {
+                                              // SharedPreferences prefs =
+                                              //     await SharedPreferences
+                                              //         .getInstance();
+                                              // prefs.setBool("isautodownload", true);
+                                              // Provider.of<Controller>(context,
+                                              //         listen: false)
+                                              //     .isautodownload = true;
+                                              print("time delay inside");
 
-                                          if (downloadItems[index] ==
-                                              "Account Heads") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .getaccountHeadsDetails(
-                                                    context, s[0], cid!, index);
-                                          }
-                                          if (downloadItems[index] ==
-                                              "Product category") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .getProductCategory(
-                                                    cid!, index);
-                                          }
-                                          if (downloadItems[index] ==
-                                              "Company") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .getProductCompany(cid!, index);
-                                          }
-                                          if (downloadItems[index] ==
-                                              "Product Details") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .getProductDetails(cid!,index);
-                                          }
-                                          if (downloadItems[index] ==
-                                              "Wallet") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .getWallet(context, index);
-                                          }
-                                        },
+                                              if (downloadItems[index] ==
+                                                  "Account Heads") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .getaccountHeadsDetails(
+                                                        context,
+                                                        s[0],
+                                                        cid!,
+                                                        index);
+                                              }
+                                              if (downloadItems[index] ==
+                                                  "Product category") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .getProductCategory(
+                                                        cid!, index);
+                                              }
+                                              if (downloadItems[index] ==
+                                                  "Company") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .getProductCompany(
+                                                        cid!, index);
+                                              }
+                                              if (downloadItems[index] ==
+                                                  "Product Details") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .getProductDetails(
+                                                        cid!, index);
+                                              }
+                                              if (downloadItems[index] ==
+                                                  "Wallet") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .getWallet(context, index);
+                                              }
+                                              // if (downloadItems[index] ==
+                                              //     "Settings") {
+                                              //   Provider.of<Controller>(context,
+                                              //           listen: false)
+                                              //       .getSettings(context, index);
+                                              // }
+                                            },
                               icon: Icon(Icons.download),
                               color: Colors.white,
                             ),

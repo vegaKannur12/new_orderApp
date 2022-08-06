@@ -7,6 +7,7 @@ import 'package:orderapp/model/accounthead_model.dart';
 import 'package:orderapp/model/productCompany_model.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
 import 'package:orderapp/model/registration_model.dart';
+import 'package:orderapp/model/settings_model.dart';
 import 'package:orderapp/model/sideMenu_model.dart';
 import 'package:orderapp/model/userType_model.dart';
 import 'package:orderapp/model/verify_registrationModel.dart';
@@ -669,6 +670,48 @@ class Controller extends ChangeNotifier {
           }
           isDownloaded = false;
           isDown[index] = true;
+          isLoading = false;
+
+          notifyListeners();
+        } catch (e) {
+          print(e);
+          return null;
+        }
+      }
+    });
+  }
+  ////////////////////////get settings///////////////////////////////////////
+    Future<WalletModal?> getSettings(BuildContext context,String cid) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // String? cid = prefs.getString("cid");
+    NetConnection.networkConnection(context).then((value) async {
+      // await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
+      if (value == true) {
+        try {
+          Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_settings.php");
+          Map body = {
+            'cid': cid,
+          };
+          // isDownloaded = true;
+          // isCompleted = true;
+          isLoading = true;
+          notifyListeners();
+          http.Response response = await http.post(
+            url,
+            body: body,
+          );
+
+          var map = jsonDecode(response.body);
+          print("map ${map}");
+          SettingsModel settingsModal;
+          // walletModal.
+          for (var item in map) {
+            settingsModal = SettingsModel.fromJson(item);
+            await OrderAppDB.instance.insertsettingsTable(settingsModal);
+            // menuList.add(menuItem);
+          }
+          // isDownloaded = false;
+          // isDown[index] = true;
           isLoading = false;
 
           notifyListeners();
