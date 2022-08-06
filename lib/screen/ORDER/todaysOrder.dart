@@ -162,7 +162,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                       style: TextStyle(
                                           color: Colors.red,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                          fontSize: 14),
                                     ),
                                   ],
                                 ),

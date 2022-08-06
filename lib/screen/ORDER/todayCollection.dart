@@ -153,7 +153,7 @@ class _TodayCollectionState extends State<TodayCollection> {
                                                 child: Row(
                                                   children: [
                                                     RichText(
-                                                       overflow:
+                                                      overflow:
                                                           TextOverflow.ellipsis,
                                                       text: TextSpan(
                                                         text:
