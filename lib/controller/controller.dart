@@ -982,7 +982,7 @@ class Controller extends ChangeNotifier {
     int rowNum = 1;
     print("salebagList length........${salebagList.length}");
     if (salebagList.length > 0) {
-      String billNo = "${os}" + "${rowNum}";
+      String billNo = "${os}" + "${sales_id}";
       print("bill no........$billNo");
       var result = await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
