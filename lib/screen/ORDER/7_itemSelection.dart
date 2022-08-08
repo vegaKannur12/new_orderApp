@@ -127,10 +127,10 @@ class _ItemSelectionState extends State<ItemSelection> {
                 FocusManager.instance.primaryFocus?.unfocus();
                 if (widget.type == "sale order") {
                   Provider.of<Controller>(context, listen: false)
-                      .selectFromSettings('SO_RATE_EDIT');
+                      .selectSettings();
                   Provider.of<Controller>(context, listen: false)
                       .getBagDetails(widget.customerId, widget.os);
-                  
+
                   // List<Map<String, dynamic>> result = await OrderAppDB.instance
                   //     .selectAllcommon(
                   //         'settingsTable', "set_code='SO_RATE_EDIT'");
@@ -928,14 +928,14 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                               "${products[index]["code"] + "-" + (products[index]['item'])} - Added to cart",
                                                               "return");
 
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .keyContainsListcheck(
-                                                                  products[
-                                                                          index]
-                                                                      ["code"],
-                                                                  index);
+                                                          // Provider.of<Controller>(
+                                                          //         context,
+                                                          //         listen: false)
+                                                          //     .keyContainsListcheck(
+                                                          //         products[
+                                                          //                 index]
+                                                          //             ["code"],
+                                                          //         index);
 
                                                           // print("exist----$exist");
                                                         }

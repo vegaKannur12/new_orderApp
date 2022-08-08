@@ -133,6 +133,7 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> historyList = [];
   List<Map<String, dynamic>> reportOriginalList = [];
   List<Map<String, dynamic>> settingsList = [];
+  List<Map<String, dynamic>> settingsList1 = [];
   List<Map<String, dynamic>> walletList = [];
   List<Map<String, dynamic>> historydataList = [];
   List<Map<String, dynamic>> staffOrderTotal = [];
@@ -1970,7 +1971,10 @@ class Controller extends ChangeNotifier {
     // notifyListeners();
   }
 
-  selectFromSettings(String s_code) async {
+  selectFromSettings(
+    String s_code,
+  ) async {
+    print("s_code..........$s_code");
     settingsList.clear();
     var res = await OrderAppDB.instance
         .selectAllcommon('settingsTable', "set_code='${s_code}'");
@@ -1978,6 +1982,17 @@ class Controller extends ChangeNotifier {
       settingsList.add(item);
     }
     print("settingsList--$settingsList");
+    notifyListeners();
+  }
+
+  ///////////////////////////
+  selectSettings() async {
+    settingsList1.clear();
+    var res = await OrderAppDB.instance.selectAllcommon('settingsTable', "");
+    for (var item in res) {
+      settingsList1.add(item);
+    }
+    print("settingsList1--$settingsList1");
     notifyListeners();
   }
 
@@ -2854,7 +2869,7 @@ class Controller extends ChangeNotifier {
 
       print("selected[item]-----${selected}");
 
-      // notifyListeners();
+      // notifyListeners();rawCalculation
     }
 
     print("nw list---$newList");
@@ -2953,11 +2968,11 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////////////////////////////////////////
-  keyContainsListcheck(String key, int index) {
-    print("rhdhsz---$key-$returnList");
-    bool exist = returnList.any((element) => element.values.contains(key));
-    returnirtemExists[index] = exist;
-    print("existss--$returnirtemExists");
-    notifyListeners();
-  }
+  // keyContainsListcheck(String key, int index) {
+  //   print("rhdhsz---$key-$returnList");
+  //   bool exist = returnList.any((element) => element.values.contains(key));
+  //   returnirtemExists[index] = exist;
+  //   print("existss--$returnirtemExists");
+  //   notifyListeners();
+  // }
 }
