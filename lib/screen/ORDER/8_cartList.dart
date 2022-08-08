@@ -325,7 +325,8 @@ class _CartListState extends State<CartList> {
                                         onPressed: () {
                                           if (value.qtyinc! > 1) {
                                             value.qtyDecrement();
-                                            value.totalCalculation(value.rateController[index].text);
+                                            value.totalCalculation(value
+                                                .rateController[index].text);
                                           }
                                         }),
                                     Padding(
@@ -341,7 +342,8 @@ class _CartListState extends State<CartList> {
                                         child: Icon(Icons.add),
                                         onPressed: () {
                                           value.qtyIncrement();
-                                          value.totalCalculation(value.rateController[index].text);
+                                          value.totalCalculation(
+                                              value.rateController[index].text);
                                         }),
                                   ],
                                 ),
@@ -365,8 +367,9 @@ class _CartListState extends State<CartList> {
                                             Container(
                                               width: size.width * 0.2,
                                               child: TextField(
-                                                onSubmitted: (values){
-                                                  value.totalCalculation(values);
+                                                onSubmitted: (values) {
+                                                  value
+                                                      .totalCalculation(values);
                                                 },
                                                 textAlign: TextAlign.right,
                                                 controller:
@@ -388,7 +391,7 @@ class _CartListState extends State<CartList> {
                                               style: TextStyle(fontSize: 17),
                                             ),
                                             Flexible(
-                                              child: Text( 
+                                              child: Text(
                                                 "\u{20B9}${rate}",
                                                 style: TextStyle(fontSize: 17),
                                               ),
