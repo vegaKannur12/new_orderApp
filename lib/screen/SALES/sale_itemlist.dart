@@ -470,7 +470,6 @@ class _SalesItemState extends State<SalesItem> {
 
                                                           print(
                                                               "sales max----$max");
-                                                          // print("value.qty[index].text---${value.qty[index].text}");
 
                                                           rate1 = value.newList[
                                                               index]["rate1"];
@@ -854,8 +853,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   .text);
                                                           print(
                                                               "total rate $total");
-                                                          // int cartrow =
-                                                          //     index + 1;
+
                                                           double qtyNew = 0.0;
                                                           double
                                                               discounamttNew =

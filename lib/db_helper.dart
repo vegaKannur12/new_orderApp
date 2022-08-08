@@ -224,6 +224,7 @@ class OrderAppDB {
   static final tax_tot = 'tax_tot';
   static final ces_tot = 'ces_tot';
   static final rounding = 'rounding';
+  static final set_method = 'set_method';
 
   Future<Database> get database async {
     print("bjhs");
@@ -549,7 +550,7 @@ class OrderAppDB {
             $set_id INTEGER NOT NULL,
             $set_code TEXT,
             $set_value TEXT,
-            $set_type INTEGER
+            $set_type INTEGER   
           )
           ''');
     await db.execute('''

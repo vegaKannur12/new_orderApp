@@ -44,10 +44,6 @@ class _CartListState extends State<CartList> {
   void initState() {
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     s = date!.split(" ");
-    // print("date----${s[1]}");
-
-// String date = s[0];
-// String time = s[1];
     Provider.of<Controller>(context, listen: false).getOrderno();
     super.initState();
     Provider.of<Controller>(context, listen: false)
