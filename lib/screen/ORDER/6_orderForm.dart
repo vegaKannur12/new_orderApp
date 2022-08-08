@@ -174,7 +174,9 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                           ? "RETURN"
                                           : widget.type == "collection"
                                               ? "COLLECTION"
-                                              : "SALES ORDER",
+                                              : widget.type == "sales"
+                                                  ? "SALE FORM"
+                                                  : "SALES ORDER",
                                       style: GoogleFonts.alike(
                                           textStyle: Theme.of(context)
                                               .textTheme
@@ -682,26 +684,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                           onPressed: () async {
                                                             print(
                                                                 "prov area-xx----${Provider.of<Controller>(context, listen: false).areaId}");
-                                                            // if (Provider.of<Controller>(
-                                                            //             context,
-                                                            //             listen:
-                                                            //                 false)
-                                                            //         .areaId ==
-                                                            //     null) {
-                                                            //   areaId = Provider.of<
-                                                            //               Controller>(
-                                                            //           context,
-                                                            //           listen:
-                                                            //               false)
-                                                            //       .selectedAreaId!;
-                                                            // } else {
-                                                            //   areaId = Provider.of<
-                                                            //               Controller>(
-                                                            //           context,
-                                                            //           listen:
-                                                            //               false)
-                                                            //       .areaId!;
-                                                            // }
+
                                                             FocusScopeNode
                                                                 currentFocus =
                                                                 FocusScope.of(
@@ -778,279 +761,393 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                       ),
                                                     ],
                                                   )
-                                                : Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      ElevatedButton.icon(
-                                                        onPressed: () {
-                                                          String areaId;
-                                                          FocusScopeNode
-                                                              currentFocus =
-                                                              FocusScope.of(
-                                                                  context);
-
-                                                          if (!currentFocus
-                                                              .hasPrimaryFocus) {
-                                                            currentFocus
-                                                                .unfocus();
-                                                          }
-
-                                                          if (_formKey
-                                                              .currentState!
-                                                              .validate()) {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(
-                                                                    PageRouteBuilder(
-                                                              opaque:
-                                                                  false, // set to false
-                                                              pageBuilder: (_, __, ___) => RemarkPage(
-                                                                  cus_id: custmerId
-                                                                      .toString(),
-                                                                  ser: values
-                                                                          .ordernum[
-                                                                      0]['os'],
-                                                                  sid: sid!,
-                                                                  aid: Provider.of<
-                                                                              Controller>(
-                                                                          context,
-                                                                          listen:
-                                                                              false)
-                                                                      .areaId!),
-                                                            ));
-                                                          }
-                                                        },
-                                                        label: Text(
-                                                          'Remarks',
-                                                          style: TextStyle(
-                                                              fontSize: 12),
-                                                        ),
-                                                        icon: Icon(
-                                                          Icons.comment,
-                                                          size: 14,
-                                                        ),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          primary:
-                                                              Color.fromARGB(
-                                                                  255,
-                                                                  3,
-                                                                  169,
-                                                                  244),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
+                                                : widget.type == "sales"
+                                                    ? Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          ElevatedButton.icon(
+                                                            icon: Icon(
+                                                              Icons.sell,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 15.0,
+                                                            ),
+                                                            label: Text(
+                                                              "Sales ",
+                                                              style: TextStyle(
+                                                                  fontSize: 12),
+                                                            ),
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              primary: P_Settings
+                                                                  .wavecolor,
+                                                              shape:
+                                                                  new RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    new BorderRadius
+                                                                            .circular(
                                                                         10.0),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      // Spacer(),
-                                                      ElevatedButton.icon(
-                                                        onPressed: () async {
-                                                          String areaId;
-
-                                                          print(
-                                                              "widget.areajhabs-----${Provider.of<Controller>(context, listen: false).areaId}");
-
-                                                          // Provider.of<Controller>(
-                                                          //         context,
-                                                          //         listen:
-                                                          //             false)
-                                                          //     .areaSelection(Provider.of<
-                                                          //                 Controller>(
-                                                          //             context,
-                                                          //             listen:
-                                                          //                 false)
-                                                          //         .areaSelecton!);
-
-                                                          print(
-                                                              "prov area--xx---${Provider.of<Controller>(context, listen: false).areaId}");
-
-                                                          FocusScopeNode
-                                                              currentFocus =
-                                                              FocusScope.of(
-                                                                  context);
-
-                                                          if (!currentFocus
-                                                              .hasPrimaryFocus) {
-                                                            currentFocus
-                                                                .unfocus();
-                                                          }
-
-                                                          if (_formKey
-                                                              .currentState!
-                                                              .validate()) {
-                                                            Provider.of<Controller>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .fetchwallet();
-                                                            final prefs =
-                                                                await SharedPreferences
-                                                                    .getInstance();
-                                                            String? cuid =
-                                                                prefs.getString(
-                                                                    'cus_id');
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(
-                                                              PageRouteBuilder(
-                                                                opaque:
-                                                                    false, // set to false
-                                                                pageBuilder: (_,
-                                                                        __,
-                                                                        ___) =>
-                                                                    CollectionPage(
-                                                                  os: os,
-                                                                  sid: sid,
-                                                                  cuid: cuid,
-                                                                  aid: Provider.of<
-                                                                              Controller>(
-                                                                          context,
-                                                                          listen:
-                                                                              false)
-                                                                      .areaId,
-                                                                ),
                                                               ),
-                                                            );
-                                                          }
-                                                        },
-                                                        label: Text(
-                                                          'Collection',
-                                                          style: TextStyle(
-                                                              fontSize: 12),
-                                                        ),
-                                                        icon: Icon(
-                                                          Icons.comment,
-                                                          size: 15,
-                                                        ),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          primary: P_Settings
-                                                              .collectionbuttnColor,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.0),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      // Spacer(),
-                                                      ElevatedButton.icon(
-                                                        icon: Icon(
-                                                          Icons
-                                                              .library_add_check,
-                                                          color: Colors.white,
-                                                          size: 15.0,
-                                                        ),
-                                                        label: Text(
-                                                          "Add Items",
-                                                          style: TextStyle(
-                                                              fontSize: 12),
-                                                        ),
-                                                        onPressed: () async {
-                                                          FocusScopeNode
-                                                              currentFocus =
-                                                              FocusScope.of(
-                                                                  context);
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              FocusScopeNode
+                                                                  currentFocus =
+                                                                  FocusScope.of(
+                                                                      context);
 
-                                                          if (!currentFocus
-                                                              .hasPrimaryFocus) {
-                                                            currentFocus
-                                                                .unfocus();
-                                                          }
+                                                              if (!currentFocus
+                                                                  .hasPrimaryFocus) {
+                                                                currentFocus
+                                                                    .unfocus();
+                                                              }
 
-                                                          if (_formKey
-                                                              .currentState!
-                                                              .validate()) {
-                                                            Provider.of<Controller>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .getProductList(
-                                                                    custmerId
-                                                                        .toString());
-                                                            Provider.of<Controller>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .countFromTable(
-                                                              "orderBagTable",
-                                                              values.ordernum[0]
-                                                                  ['os'],
-                                                              custmerId
-                                                                  .toString(),
-                                                            );
-
-                                                            Provider.of<Controller>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .fetchProductCompanyList();
-
-                                                            Provider.of<Controller>(
+                                                              if (_formKey
+                                                                  .currentState!
+                                                                  .validate()) {
+                                                                List
+                                                                    customerDet =
+                                                                    await OrderAppDB
+                                                                        .instance
+                                                                        .selectAllcommon(
+                                                                            'accountHeadsTable',
+                                                                            "ac_code='${custmerId}'");
+                                                                print(
+                                                                    "customerDet------$customerDet");
+                                                                String os = "S" +
+                                                                    "${values.ordernum[0]["os"]}";
+                                                                Provider.of<Controller>(
                                                                         context,
                                                                         listen:
                                                                             false)
-                                                                    .filterCompany =
-                                                                false;
+                                                                    .countFromTable(
+                                                                  "salesBagTable",
+                                                                  os,
+                                                                  custmerId
+                                                                      .toString(),
+                                                                );
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .fetchProductCompanyList();
 
-                                                            // Provider.of<Controller>(
-                                                            //         context,
-                                                            //         listen:
-                                                            //             false)
-                                                            //     .getProductList(
-                                                            //         custmerId
-                                                            //             .toString());
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(
-                                                              PageRouteBuilder(
-                                                                opaque:
-                                                                    false, // set to false
-                                                                pageBuilder: (_, __, ___) => ItemSelection(
-                                                                    customerId:
-                                                                        custmerId
-                                                                            .toString(),
-                                                                    areaId: values.areaidFrompopup == null ||
-                                                                            values
-                                                                                .areaidFrompopup!.isEmpty
-                                                                        ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
-                                                                            0]
-                                                                        : Provider.of<Controller>(context, listen: false)
-                                                                            .areaidFrompopup!,
-                                                                    os: values.ordernum[0]
-                                                                        ['os'],
-                                                                    areaName: values.areaidFrompopup == null ||
-                                                                            values.areaidFrompopup!.isEmpty
-                                                                        ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
-                                                                        : Provider.of<Controller>(context, listen: false).areaSelecton!,
-                                                                    type: "sale order"),
-                                                              ),
-                                                            );
-                                                          }
-                                                        },
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          primary: P_Settings
-                                                              .wavecolor,
-                                                          shape:
-                                                              new RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                new BorderRadius
-                                                                        .circular(
-                                                                    10.0),
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .salefilterCompany = false;
+
+                                                                //  os = "S" +
+                                                                //   "${values.ordernum[0]["os"]}";
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                                  PageRouteBuilder(
+                                                                    opaque:
+                                                                        false, // set to false
+                                                                    pageBuilder: (_, __, ___) => SalesItem(
+                                                                        customerId:
+                                                                            custmerId
+                                                                                .toString(),
+                                                                        areaId: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
+                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                                0]
+                                                                            : Provider.of<Controller>(context, listen: false)
+                                                                                .areaidFrompopup!,
+                                                                        os: os,
+                                                                        areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
+                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                                1]
+                                                                            : Provider.of<Controller>(context, listen: false)
+                                                                                .areaSelecton!,
+                                                                        type:
+                                                                            "sale",
+                                                                        gtype: customerDet[0]["gtype"]),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
                                                           ),
-                                                        ),
+                                                        ],
+                                                      )
+                                                    : Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          ElevatedButton.icon(
+                                                            onPressed: () {
+                                                              String areaId;
+                                                              FocusScopeNode
+                                                                  currentFocus =
+                                                                  FocusScope.of(
+                                                                      context);
+
+                                                              if (!currentFocus
+                                                                  .hasPrimaryFocus) {
+                                                                currentFocus
+                                                                    .unfocus();
+                                                              }
+
+                                                              if (_formKey
+                                                                  .currentState!
+                                                                  .validate()) {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                                        PageRouteBuilder(
+                                                                  opaque:
+                                                                      false, // set to false
+                                                                  pageBuilder: (_, __, ___) => RemarkPage(
+                                                                      cus_id: custmerId
+                                                                          .toString(),
+                                                                      ser: values
+                                                                              .ordernum[0]
+                                                                          [
+                                                                          'os'],
+                                                                      sid: sid!,
+                                                                      aid: Provider.of<Controller>(
+                                                                              context,
+                                                                              listen: false)
+                                                                          .areaId!),
+                                                                ));
+                                                              }
+                                                            },
+                                                            label: Text(
+                                                              'Remarks',
+                                                              style: TextStyle(
+                                                                  fontSize: 12),
+                                                            ),
+                                                            icon: Icon(
+                                                              Icons.comment,
+                                                              size: 14,
+                                                            ),
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              primary: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      3,
+                                                                      169,
+                                                                      244),
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          // Spacer(),
+                                                          ElevatedButton.icon(
+                                                            onPressed:
+                                                                () async {
+                                                              String areaId;
+
+                                                              print(
+                                                                  "widget.areajhabs-----${Provider.of<Controller>(context, listen: false).areaId}");
+
+                                                              // Provider.of<Controller>(
+                                                              //         context,
+                                                              //         listen:
+                                                              //             false)
+                                                              //     .areaSelection(Provider.of<
+                                                              //                 Controller>(
+                                                              //             context,
+                                                              //             listen:
+                                                              //                 false)
+                                                              //         .areaSelecton!);
+
+                                                              print(
+                                                                  "prov area--xx---${Provider.of<Controller>(context, listen: false).areaId}");
+
+                                                              FocusScopeNode
+                                                                  currentFocus =
+                                                                  FocusScope.of(
+                                                                      context);
+
+                                                              if (!currentFocus
+                                                                  .hasPrimaryFocus) {
+                                                                currentFocus
+                                                                    .unfocus();
+                                                              }
+
+                                                              if (_formKey
+                                                                  .currentState!
+                                                                  .validate()) {
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .fetchwallet();
+                                                                final prefs =
+                                                                    await SharedPreferences
+                                                                        .getInstance();
+                                                                String? cuid =
+                                                                    prefs.getString(
+                                                                        'cus_id');
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                                  PageRouteBuilder(
+                                                                    opaque:
+                                                                        false, // set to false
+                                                                    pageBuilder: (_,
+                                                                            __,
+                                                                            ___) =>
+                                                                        CollectionPage(
+                                                                      os: os,
+                                                                      sid: sid,
+                                                                      cuid:
+                                                                          cuid,
+                                                                      aid: Provider.of<Controller>(
+                                                                              context,
+                                                                              listen: false)
+                                                                          .areaId,
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
+                                                            label: Text(
+                                                              'Collection',
+                                                              style: TextStyle(
+                                                                  fontSize: 12),
+                                                            ),
+                                                            icon: Icon(
+                                                              Icons.comment,
+                                                              size: 15,
+                                                            ),
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              primary: P_Settings
+                                                                  .collectionbuttnColor,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          // Spacer(),
+                                                          ElevatedButton.icon(
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .library_add_check,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 15.0,
+                                                            ),
+                                                            label: Text(
+                                                              "Add Items",
+                                                              style: TextStyle(
+                                                                  fontSize: 12),
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              FocusScopeNode
+                                                                  currentFocus =
+                                                                  FocusScope.of(
+                                                                      context);
+
+                                                              if (!currentFocus
+                                                                  .hasPrimaryFocus) {
+                                                                currentFocus
+                                                                    .unfocus();
+                                                              }
+
+                                                              if (_formKey
+                                                                  .currentState!
+                                                                  .validate()) {
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .getProductList(
+                                                                        custmerId
+                                                                            .toString());
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .countFromTable(
+                                                                  "orderBagTable",
+                                                                  values.ordernum[
+                                                                      0]['os'],
+                                                                  custmerId
+                                                                      .toString(),
+                                                                );
+
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .fetchProductCompanyList();
+
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .filterCompany = false;
+
+                                                                // Provider.of<Controller>(
+                                                                //         context,
+                                                                //         listen:
+                                                                //             false)
+                                                                //     .getProductList(
+                                                                //         custmerId
+                                                                //             .toString());
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                                  PageRouteBuilder(
+                                                                    opaque:
+                                                                        false, // set to false
+                                                                    pageBuilder: (_, __, ___) => ItemSelection(
+                                                                        customerId:
+                                                                            custmerId
+                                                                                .toString(),
+                                                                        areaId: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
+                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                                0]
+                                                                            : Provider.of<Controller>(context, listen: false)
+                                                                                .areaidFrompopup!,
+                                                                        os: values.ordernum[0]
+                                                                            [
+                                                                            'os'],
+                                                                        areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
+                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
+                                                                            : Provider.of<Controller>(context, listen: false).areaSelecton!,
+                                                                        type: "sale order"),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              primary: P_Settings
+                                                                  .wavecolor,
+                                                              shape:
+                                                                  new RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    new BorderRadius
+                                                                            .circular(
+                                                                        10.0),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
                                       ],
                                     ),
                                   ),
@@ -1061,368 +1158,387 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                       ? Container()
                                       : widget.type == "collection"
                                           ? Container()
-                                          : Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                ///////////////////// return buttton //////////////////
-                                                ElevatedButton.icon(
-                                                  icon: Icon(
-                                                    Icons.library_add_check,
-                                                    color: Colors.white,
-                                                    size: 15.0,
-                                                  ),
-                                                  label: Text(
-                                                    "Return",
-                                                    style:
-                                                        TextStyle(fontSize: 12),
-                                                  ),
-                                                  onPressed: () async {
-                                                    FocusScopeNode
-                                                        currentFocus =
-                                                        FocusScope.of(context);
-
-                                                    if (!currentFocus
-                                                        .hasPrimaryFocus) {
-                                                      currentFocus.unfocus();
-                                                    }
-
-                                                    if (_formKey.currentState!
-                                                        .validate()) {
-                                                      Provider.of<Controller>(
-                                                              context,
-                                                              listen: false)
-                                                          .returnCount = 0;
-                                                      Provider.of<Controller>(
-                                                              context,
-                                                              listen: false)
-                                                          .clearList(values
-                                                              .returnList);
-                                                      Provider.of<Controller>(
-                                                              context,
-                                                              listen: false)
-                                                          .getProductList(
-                                                              custmerId
-                                                                  .toString());
-                                                      Navigator.of(context)
-                                                          .push(
-                                                        PageRouteBuilder(
-                                                          opaque:
-                                                              false, // set to false
-                                                          pageBuilder:
-                                                              (_, __, ___) =>
-                                                                  ItemSelection(
-                                                            customerId:
-                                                                custmerId
-                                                                    .toString(),
-                                                            areaId: values.areaidFrompopup ==
-                                                                        null ||
-                                                                    values
-                                                                        .areaidFrompopup!
-                                                                        .isEmpty
-                                                                ? Provider.of<Controller>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .areaAutoComplete[
-                                                                    0]
-                                                                : Provider.of<
-                                                                            Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .areaidFrompopup!,
-                                                            os: values
-                                                                    .ordernum[0]
-                                                                ['os'],
-                                                            areaName: values.areaidFrompopup ==
-                                                                        null ||
-                                                                    values
-                                                                        .areaidFrompopup!
-                                                                        .isEmpty
-                                                                ? Provider.of<Controller>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .areaAutoComplete[
-                                                                    1]
-                                                                : Provider.of<
-                                                                            Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .areaSelecton!,
-                                                            type: "return",
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }
-                                                  },
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    primary: P_Settings
-                                                        .returnbuttnColor,
-                                                    shape:
-                                                        new RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          new BorderRadius
-                                                              .circular(10.0),
-                                                    ),
-                                                  ),
-                                                ),
-                                                // SizedBox(
-                                                //   width: size.width * 0.05,
-                                                // ),
-                                                //////////////////// balance button ///////////////////
-                                                ElevatedButton.icon(
-                                                    icon: Icon(
-                                                      Icons.currency_rupee,
-                                                      color: Colors.white,
-                                                      size: 15.0,
-                                                    ),
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      primary: P_Settings
-                                                          .dashbordcl2,
-                                                      shape:
-                                                          new RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            new BorderRadius
-                                                                .circular(10.0),
+                                          : widget.type == "sales"
+                                              ? Container()
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    ///////////////////// return buttton //////////////////
+                                                    ElevatedButton.icon(
+                                                      icon: Icon(
+                                                        Icons.library_add_check,
+                                                        color: Colors.white,
+                                                        size: 15.0,
                                                       ),
-                                                    ),
-                                                    onPressed: () async {
-                                                      if (_formKey.currentState!
-                                                          .validate()) {
-                                                        await Provider.of<
-                                                                    Controller>(
-                                                                context,
-                                                                listen: false)
-                                                            .getBalance(
-                                                                cid, custmerId);
-                                                        print(
-                                                            "balance value.......${values.balanceModel.ba}...${values.balanceModel.ba.runtimeType}.");
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              popup.buildPopupDialog(
-                                                                  "",
-                                                                  context,
-                                                                  '\u{20B9}${values.balanceModel.ba!.toStringAsFixed(2)}',
-                                                                  "balance",
-                                                                  0,
-                                                                  "",
-                                                                  "",
-                                                                  ""),
-                                                        );
-                                                      }
-                                                      setState(() {
-                                                        balVisible =
-                                                            !balVisible;
-                                                      });
+                                                      label: Text(
+                                                        "Return",
+                                                        style: TextStyle(
+                                                            fontSize: 12),
+                                                      ),
+                                                      onPressed: () async {
+                                                        FocusScopeNode
+                                                            currentFocus =
+                                                            FocusScope.of(
+                                                                context);
 
-                                                      print(
-                                                          "cid.........$cid,$custmerId");
-                                                      FocusScopeNode
-                                                          currentFocus =
-                                                          FocusScope.of(
-                                                              context);
+                                                        if (!currentFocus
+                                                            .hasPrimaryFocus) {
+                                                          currentFocus
+                                                              .unfocus();
+                                                        }
 
-                                                      if (!currentFocus
-                                                          .hasPrimaryFocus) {
-                                                        currentFocus.unfocus();
-                                                      }
-                                                    },
-                                                    label: Text("Balance")),
-                                                // SizedBox(
-                                                //   width: size.width * 0.05,
-                                                // ),
-                                                ElevatedButton.icon(
-                                                  icon: Icon(
-                                                    Icons.sell,
-                                                    color: Colors.white,
-                                                    size: 15.0,
-                                                  ),
-                                                  label: Text(
-                                                    "Sales",
-                                                    style:
-                                                        TextStyle(fontSize: 12),
-                                                  ),
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    primary:
-                                                        P_Settings.dashbordcl5,
-                                                    shape:
-                                                        new RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          new BorderRadius
-                                                              .circular(10.0),
-                                                    ),
-                                                  ),
-                                                  onPressed: () async {
-                                                    FocusScopeNode
-                                                        currentFocus =
-                                                        FocusScope.of(context);
-
-                                                    if (!currentFocus
-                                                        .hasPrimaryFocus) {
-                                                      currentFocus.unfocus();
-                                                    }
-
-                                                    if (_formKey.currentState!
-                                                        .validate()) {
-                                                          List customerDet =
-                                                              await OrderAppDB
-                                                                  .instance
-                                                                  .selectAllcommon(
-                                                                      'accountHeadsTable',
-                                                                      "ac_code='${custmerId}'");
-                                                          print("customerDet------$customerDet");
-                                                      String os = "S" +
-                                                          "${values.ordernum[0]["os"]}";
-                                                      Provider.of<Controller>(
-                                                              context,
-                                                              listen: false)
-                                                          .countFromTable(
-                                                        "salesBagTable",
-                                                        os,
-                                                        custmerId.toString(),
-                                                      );
-                                                      Provider.of<Controller>(
-                                                              context,
-                                                              listen: false)
-                                                          .fetchProductCompanyList();
-
-                                                      Provider.of<Controller>(
+                                                        if (_formKey
+                                                            .currentState!
+                                                            .validate()) {
+                                                          Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
-                                                              .salefilterCompany =
-                                                          false;
+                                                              .returnCount = 0;
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .clearList(values
+                                                                  .returnList);
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .getProductList(
+                                                                  custmerId
+                                                                      .toString());
+                                                          Navigator.of(context)
+                                                              .push(
+                                                            PageRouteBuilder(
+                                                              opaque:
+                                                                  false, // set to false
+                                                              pageBuilder: (_,
+                                                                      __,
+                                                                      ___) =>
+                                                                  ItemSelection(
+                                                                customerId:
+                                                                    custmerId
+                                                                        .toString(),
+                                                                areaId: values.areaidFrompopup ==
+                                                                            null ||
+                                                                        values
+                                                                            .areaidFrompopup!
+                                                                            .isEmpty
+                                                                    ? Provider.of<Controller>(context, listen: false)
+                                                                            .areaAutoComplete[
+                                                                        0]
+                                                                    : Provider.of<Controller>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .areaidFrompopup!,
+                                                                os: values
+                                                                        .ordernum[
+                                                                    0]['os'],
+                                                                areaName: values.areaidFrompopup ==
+                                                                            null ||
+                                                                        values
+                                                                            .areaidFrompopup!
+                                                                            .isEmpty
+                                                                    ? Provider.of<Controller>(context, listen: false)
+                                                                            .areaAutoComplete[
+                                                                        1]
+                                                                    : Provider.of<Controller>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .areaSelecton!,
+                                                                type: "return",
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        primary: P_Settings
+                                                            .returnbuttnColor,
+                                                        shape:
+                                                            new RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              new BorderRadius
+                                                                      .circular(
+                                                                  10.0),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    // SizedBox(
+                                                    //   width: size.width * 0.05,
+                                                    // ),
+                                                    //////////////////// balance button ///////////////////
+                                                    SizedBox(
+                                                      width: size.width * 0.02,
+                                                    ),
+                                                    ElevatedButton.icon(
+                                                        icon: Icon(
+                                                          Icons.currency_rupee,
+                                                          color: Colors.white,
+                                                          size: 15.0,
+                                                        ),
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          primary: P_Settings
+                                                              .dashbordcl2,
+                                                          shape:
+                                                              new RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                new BorderRadius
+                                                                        .circular(
+                                                                    10.0),
+                                                          ),
+                                                        ),
+                                                        onPressed: () async {
+                                                          if (_formKey
+                                                              .currentState!
+                                                              .validate()) {
+                                                            await Provider.of<
+                                                                        Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .getBalance(cid,
+                                                                    custmerId);
+                                                            print(
+                                                                "balance value.......${values.balanceModel.ba}...${values.balanceModel.ba.runtimeType}.");
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  popup.buildPopupDialog(
+                                                                      "",
+                                                                      context,
+                                                                      '\u{20B9}${values.balanceModel.ba!.toStringAsFixed(2)}',
+                                                                      "balance",
+                                                                      0,
+                                                                      "",
+                                                                      "",
+                                                                      ""),
+                                                            );
+                                                          }
+                                                          setState(() {
+                                                            balVisible =
+                                                                !balVisible;
+                                                          });
 
-                                                      //  os = "S" +
-                                                      //   "${values.ordernum[0]["os"]}";
-                                                      Navigator.of(context)
-                                                          .push(
-                                                        PageRouteBuilder(
-                                                          opaque:
-                                                              false, // set to false
-                                                          pageBuilder: (_, __, ___) => SalesItem(
-                                                              customerId:
+                                                          print(
+                                                              "cid.........$cid,$custmerId");
+                                                          FocusScopeNode
+                                                              currentFocus =
+                                                              FocusScope.of(
+                                                                  context);
+
+                                                          if (!currentFocus
+                                                              .hasPrimaryFocus) {
+                                                            currentFocus
+                                                                .unfocus();
+                                                          }
+                                                        },
+                                                        label: Text("Balance")),
+                                                    // SizedBox(
+                                                    //   width: size.width * 0.05,
+                                                    // ),
+                                                    widget.type == "sales"
+                                                        ? ElevatedButton.icon(
+                                                            icon: Icon(
+                                                              Icons.sell,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 15.0,
+                                                            ),
+                                                            label: Text(
+                                                              "Sales",
+                                                              style: TextStyle(
+                                                                  fontSize: 12),
+                                                            ),
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              primary: P_Settings
+                                                                  .dashbordcl5,
+                                                              shape:
+                                                                  new RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    new BorderRadius
+                                                                            .circular(
+                                                                        10.0),
+                                                              ),
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              FocusScopeNode
+                                                                  currentFocus =
+                                                                  FocusScope.of(
+                                                                      context);
+
+                                                              if (!currentFocus
+                                                                  .hasPrimaryFocus) {
+                                                                currentFocus
+                                                                    .unfocus();
+                                                              }
+
+                                                              if (_formKey
+                                                                  .currentState!
+                                                                  .validate()) {
+                                                                List
+                                                                    customerDet =
+                                                                    await OrderAppDB
+                                                                        .instance
+                                                                        .selectAllcommon(
+                                                                            'accountHeadsTable',
+                                                                            "ac_code='${custmerId}'");
+                                                                print(
+                                                                    "customerDet------$customerDet");
+                                                                String os = "S" +
+                                                                    "${values.ordernum[0]["os"]}";
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .countFromTable(
+                                                                  "salesBagTable",
+                                                                  os,
                                                                   custmerId
                                                                       .toString(),
-                                                              areaId: values.areaidFrompopup == null ||
-                                                                      values
-                                                                          .areaidFrompopup!
-                                                                          .isEmpty
-                                                                  ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
-                                                                      0]
-                                                                  : Provider.of<Controller>(context, listen: false)
-                                                                      .areaidFrompopup!,
-                                                              os: os,
-                                                              areaName: values.areaidFrompopup == null ||
-                                                                      values
-                                                                          .areaidFrompopup!
-                                                                          .isEmpty
-                                                                  ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
-                                                                  : Provider.of<Controller>(context, listen: false).areaSelecton!,
-                                                              type: "sale",gtype: customerDet[0]["gtype"]),
-                                                        ),
-                                                      );
-                                                    }
-                                                  },
+                                                                );
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .fetchProductCompanyList();
+
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .salefilterCompany = false;
+
+                                                                //  os = "S" +
+                                                                //   "${values.ordernum[0]["os"]}";
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                                  PageRouteBuilder(
+                                                                    opaque:
+                                                                        false, // set to false
+                                                                    pageBuilder: (_, __, ___) => SalesItem(
+                                                                        customerId:
+                                                                            custmerId
+                                                                                .toString(),
+                                                                        areaId: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
+                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                                0]
+                                                                            : Provider.of<Controller>(context, listen: false)
+                                                                                .areaidFrompopup!,
+                                                                        os: os,
+                                                                        areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
+                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                                1]
+                                                                            : Provider.of<Controller>(context, listen: false)
+                                                                                .areaSelecton!,
+                                                                        type:
+                                                                            "sale",
+                                                                        gtype: customerDet[0]["gtype"]),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
+                                                          )
+                                                        : Container(),
+
+                                                    // Container(
+                                                    //   alignment: Alignment.center,
+                                                    //   width: size.width * 0.27,
+                                                    //   height: size.height * 0.03,
+                                                    //   child: ElevatedButton(
+                                                    //       style: ElevatedButton
+                                                    //           .styleFrom(
+                                                    //         primary: P_Settings
+                                                    //             .dashbordcl1,
+                                                    //         shape:
+                                                    //             new RoundedRectangleBorder(
+                                                    //           borderRadius:
+                                                    //               new BorderRadius
+                                                    //                       .circular(
+                                                    //                   10.0),
+                                                    //         ),
+                                                    //       ),
+                                                    //       onPressed: () async {
+                                                    //         FocusScopeNode
+                                                    //             currentFocus =
+                                                    //             FocusScope.of(
+                                                    //                 context);
+
+                                                    //         if (!currentFocus
+                                                    //             .hasPrimaryFocus) {
+                                                    //           currentFocus
+                                                    //               .unfocus();
+                                                    //         }
+
+                                                    //         if (_formKey
+                                                    //             .currentState!
+                                                    //             .validate()) {
+                                                    //           Provider.of<Controller>(
+                                                    //                   context,
+                                                    //                   listen: false)
+                                                    //               .countFromTable(
+                                                    //             "orderBagTable",
+                                                    //             values.ordernum[0]
+                                                    //                 ['os'],
+                                                    //             custmerId
+                                                    //                 .toString(),
+                                                    //           );
+                                                    //           Provider.of<Controller>(
+                                                    //                   context,
+                                                    //                   listen: false)
+                                                    //               .fetchProductCompanyList();
+
+                                                    //           Provider.of<Controller>(
+                                                    //                   context,
+                                                    //                   listen: false)
+                                                    //               .filterCompany = false;
+
+                                                    //           // Provider.of<Controller>(
+                                                    //           //         context,
+                                                    //           //         listen:
+                                                    //           //             false)
+                                                    //           //     .getProductList(
+                                                    //           //         custmerId
+                                                    //           //             .toString());
+                                                    //           Navigator.of(context)
+                                                    //               .push(
+                                                    //             PageRouteBuilder(
+                                                    //               opaque:
+                                                    //                   false, // set to false
+                                                    //               pageBuilder: (_, __, ___) => SalesItem(
+                                                    //                   customerId: custmerId
+                                                    //                       .toString(),
+                                                    //                   areaId: values.areaidFrompopup == null ||
+                                                    //                           values
+                                                    //                               .areaidFrompopup!
+                                                    //                               .isEmpty
+                                                    //                       ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                    //                           0]
+                                                    //                       : Provider.of<Controller>(context, listen: false)
+                                                    //                           .areaidFrompopup!,
+                                                    //                   os: values.ordernum[0]
+                                                    //                       ['os'],
+                                                    //                   areaName: values.areaidFrompopup == null ||
+                                                    //                           values.areaidFrompopup!.isEmpty
+                                                    //                       ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
+                                                    //                       : Provider.of<Controller>(context, listen: false).areaSelecton!,
+                                                    //                   type: "sale"),
+                                                    //             ),
+                                                    //           );
+                                                    //         }
+                                                    //       },
+                                                    //       child: Text("Sales")),
+                                                    // ),
+                                                  ],
                                                 ),
-
-                                                // Container(
-                                                //   alignment: Alignment.center,
-                                                //   width: size.width * 0.27,
-                                                //   height: size.height * 0.03,
-                                                //   child: ElevatedButton(
-                                                //       style: ElevatedButton
-                                                //           .styleFrom(
-                                                //         primary: P_Settings
-                                                //             .dashbordcl1,
-                                                //         shape:
-                                                //             new RoundedRectangleBorder(
-                                                //           borderRadius:
-                                                //               new BorderRadius
-                                                //                       .circular(
-                                                //                   10.0),
-                                                //         ),
-                                                //       ),
-                                                //       onPressed: () async {
-                                                //         FocusScopeNode
-                                                //             currentFocus =
-                                                //             FocusScope.of(
-                                                //                 context);
-
-                                                //         if (!currentFocus
-                                                //             .hasPrimaryFocus) {
-                                                //           currentFocus
-                                                //               .unfocus();
-                                                //         }
-
-                                                //         if (_formKey
-                                                //             .currentState!
-                                                //             .validate()) {
-                                                //           Provider.of<Controller>(
-                                                //                   context,
-                                                //                   listen: false)
-                                                //               .countFromTable(
-                                                //             "orderBagTable",
-                                                //             values.ordernum[0]
-                                                //                 ['os'],
-                                                //             custmerId
-                                                //                 .toString(),
-                                                //           );
-                                                //           Provider.of<Controller>(
-                                                //                   context,
-                                                //                   listen: false)
-                                                //               .fetchProductCompanyList();
-
-                                                //           Provider.of<Controller>(
-                                                //                   context,
-                                                //                   listen: false)
-                                                //               .filterCompany = false;
-
-                                                //           // Provider.of<Controller>(
-                                                //           //         context,
-                                                //           //         listen:
-                                                //           //             false)
-                                                //           //     .getProductList(
-                                                //           //         custmerId
-                                                //           //             .toString());
-                                                //           Navigator.of(context)
-                                                //               .push(
-                                                //             PageRouteBuilder(
-                                                //               opaque:
-                                                //                   false, // set to false
-                                                //               pageBuilder: (_, __, ___) => SalesItem(
-                                                //                   customerId: custmerId
-                                                //                       .toString(),
-                                                //                   areaId: values.areaidFrompopup == null ||
-                                                //                           values
-                                                //                               .areaidFrompopup!
-                                                //                               .isEmpty
-                                                //                       ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
-                                                //                           0]
-                                                //                       : Provider.of<Controller>(context, listen: false)
-                                                //                           .areaidFrompopup!,
-                                                //                   os: values.ordernum[0]
-                                                //                       ['os'],
-                                                //                   areaName: values.areaidFrompopup == null ||
-                                                //                           values.areaidFrompopup!.isEmpty
-                                                //                       ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
-                                                //                       : Provider.of<Controller>(context, listen: false).areaSelecton!,
-                                                //                   type: "sale"),
-                                                //             ),
-                                                //           );
-                                                //         }
-                                                //       },
-                                                //       child: Text("Sales")),
-                                                // ),
-                                              ],
-                                            ),
                                 ],
                               ),
                             ),

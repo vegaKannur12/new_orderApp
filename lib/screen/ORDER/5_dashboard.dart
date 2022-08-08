@@ -289,6 +289,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         // print("yy-- ${Provider.of<Controller>(context, listen: false).areaSelecton!}");
         return OrderForm("", "collection");
 
+      case "SL1":
+        return OrderForm("", "sales");
+
       case "UL":
         {
           Provider.of<Controller>(context, listen: false)

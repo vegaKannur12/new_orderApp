@@ -395,36 +395,24 @@ class _SaleCartState extends State<SaleCart> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            String item =
-                                                "${itemName} (${code})";
-                                            Provider.of<Controller>(context,
-                                                        listen: false)
-                                                    .settingsRateOption
-                                                ? popup(item, rate, size, index,
-                                                    qty.toInt())
-                                                : null;
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "Rate   :",
-                                                style: TextStyle(fontSize: 13),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                              SizedBox(
-                                                width: size.width * 0.02,
-                                              ),
-                                              Text(
-                                                "\u{20B9}${rate}",
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 13),
-                                              ),
-                                            ],
-                                          ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Rate   :",
+                                              style: TextStyle(fontSize: 13),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            SizedBox(
+                                              width: size.width * 0.02,
+                                            ),
+                                            Text(
+                                              "\u{20B9}${rate}",
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 13),
+                                            ),
+                                          ],
                                         ), // Row(
 
                                         Row(
