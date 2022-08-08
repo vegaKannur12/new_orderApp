@@ -296,171 +296,165 @@ class _CartListState extends State<CartList> {
                   return Consumer<Controller>(
                     builder: (context, value, child) {
                       return SingleChildScrollView(
-                        child: Center(
+                        child: Padding(
+                          padding: MediaQuery.of(context).viewInsets,
                           child: Padding(
-                            padding: MediaQuery.of(context).viewInsets,
-                            child: Wrap(
-                              // mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.close),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FloatingActionButton.small(
-                                        backgroundColor: Colors.grey,
-                                        child: Icon(Icons.remove),
-                                        onPressed: () {
-                                          if (value.qtyinc! > 1) {
-                                            value.qtyDecrement();
-                                            value.totalCalculation(value
-                                                .rateController[index].text);
-                                          }
-                                        }),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15),
-                                      child: Text(
-                                        value.qtyinc.toString(),
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ),
-                                    FloatingActionButton.small(
-                                        backgroundColor: Colors.grey,
-                                        child: Icon(Icons.add),
-                                        onPressed: () {
-                                          value.qtyIncrement();
-                                          value.totalCalculation(
-                                              value.rateController[index].text);
-                                        }),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.02,
-                                ),
-                                Provider.of<Controller>(context, listen: false)
-                                            .settingsList[0]["set_value"] ==
-                                        "YES"
-                                    ? Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, bottom: 8),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Rate :",
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                            Container(
-                                              width: size.width * 0.2,
-                                              child: TextField(
-                                                onSubmitted: (values) {
-                                                  value
-                                                      .totalCalculation(values);
-                                                },
-                                                textAlign: TextAlign.right,
-                                                controller:
-                                                    value.rateController[index],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    : Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, bottom: 8),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Rate :",
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                            Flexible(
-                                              child: Text(
-                                                "\u{20B9}${rate}",
-                                                style: TextStyle(fontSize: 17),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                Divider(
-                                  thickness: 1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8.0, bottom: 8),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              child: Wrap(
+                                children: [
+                                  SizedBox(
+                                    height: size.height * 0.01,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text(
-                                        "Total Price :",
-                                        style: TextStyle(fontSize: 17),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          "\u{20B9}${value.priceval}",
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.close),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
                                     ],
                                   ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.02,
-                                ),
-                                Expanded(
-                                  child: Row(
+                                  Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Container(
-                                        height: size.height * 0.05,
-                                        width: size.width * 0.6,
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              Provider.of<Controller>(context,
-                                                      listen: false)
-                                                  .updateQty(
-                                                      value.qtyinc.toString(),
-                                                      cartrowno,
-                                                      widget.custmerId,
-                                                      value
-                                                          .rateController[index]
-                                                          .text);
-                                              Provider.of<Controller>(context,
-                                                      listen: false)
-                                                  .calculateorderTotal(
-                                                      widget.os,
-                                                      widget.custmerId);
-                                              // Provider.of<Controller>(context,
-                                              //         listen: false)
-                                              //     .getBagDetails(
-                                              //         widget.custmerId,
-                                              //         widget.os);
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text("continue..")),
-                                      )
+                                      FloatingActionButton.small(
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(Icons.remove),
+                                          onPressed: () {
+                                            if (value.qtyinc! > 1) {
+                                              value.qtyDecrement();
+                                              value.totalCalculation(value
+                                                  .rateController[index].text);
+                                            }
+                                          }),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15),
+                                        child: Text(
+                                          value.qtyinc.toString(),
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ),
+                                      FloatingActionButton.small(
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(Icons.add),
+                                          onPressed: () {
+                                            value.qtyIncrement();
+                                            value.totalCalculation(
+                                                value.rateController[index].text);
+                                          }),
                                     ],
                                   ),
-                                )
-                              ],
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  Provider.of<Controller>(context, listen: false)
+                                              .settingsList[0]["set_value"] ==
+                                          "YES"
+                                      ? Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, bottom: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Rate :",
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                              Container(
+                                                width: size.width * 0.2,
+                                                child: TextField(
+                                                  onSubmitted: (values) {
+                                                    value
+                                                        .totalCalculation(values);
+                                                  },
+                                                  textAlign: TextAlign.right,
+                                                  controller:
+                                                      value.rateController[index],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, bottom: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Rate :",
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                              Flexible(
+                                                child: Text(
+                                                  "\u{20B9}${rate}",
+                                                  style: TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                  Divider(
+                                    thickness: 1,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, bottom: 8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Total Price :",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            "\u{20B9}${value.priceval}",
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .updateQty(
+                                                    value.qtyinc.toString(),
+                                                    cartrowno,
+                                                    widget.custmerId,
+                                                    value.rateController[index]
+                                                        .text);
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .calculateorderTotal(
+                                                    widget.os, widget.custmerId);
+                                            // Provider.of<Controller>(context,
+                                            //         listen: false)
+                                            //     .getBagDetails(
+                                            //         widget.custmerId,
+                                            //         widget.os);
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("continue"))
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
