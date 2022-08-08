@@ -852,8 +852,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   .text);
                                                           print(
                                                               "total rate $total");
-                                                          // int cartrow =
-                                                          //     index + 1;
+
                                                           double qtyNew = 0.0;
                                                           double
                                                               discounamttNew =

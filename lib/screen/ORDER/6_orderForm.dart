@@ -767,110 +767,113 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          ElevatedButton.icon(
-                                                            icon: Icon(
-                                                              Icons.sell,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 15.0,
-                                                            ),
-                                                            label: Text(
-                                                              "Sales ",
-                                                              style: TextStyle(
-                                                                  fontSize: 12),
-                                                            ),
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              primary: P_Settings
-                                                                  .wavecolor,
-                                                              shape:
-                                                                  new RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    new BorderRadius
-                                                                            .circular(
-                                                                        10.0),
+                                                          Container(
+                                                            width: size.width*0.3,
+                                                            child: ElevatedButton.icon(
+                                                              icon: Icon(
+                                                                Icons.sell,
+                                                                color:
+                                                                    Colors.white,
+                                                                size: 15.0,
                                                               ),
+                                                              label: Text(
+                                                                "Sales ",
+                                                                style: TextStyle(
+                                                                    fontSize: 12),
+                                                              ),
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                primary: P_Settings
+                                                                    .wavecolor,
+                                                                shape:
+                                                                    new RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      new BorderRadius
+                                                                              .circular(
+                                                                          10.0),
+                                                                ),
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                FocusScopeNode
+                                                                    currentFocus =
+                                                                    FocusScope.of(
+                                                                        context);
+
+                                                                if (!currentFocus
+                                                                    .hasPrimaryFocus) {
+                                                                  currentFocus
+                                                                      .unfocus();
+                                                                }
+
+                                                                if (_formKey
+                                                                    .currentState!
+                                                                    .validate()) {
+                                                                  List
+                                                                      customerDet =
+                                                                      await OrderAppDB
+                                                                          .instance
+                                                                          .selectAllcommon(
+                                                                              'accountHeadsTable',
+                                                                              "ac_code='${custmerId}'");
+                                                                  print(
+                                                                      "customerDet------$customerDet");
+                                                                  String os = "S" +
+                                                                      "${values.ordernum[0]["os"]}";
+                                                                  Provider.of<Controller>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .countFromTable(
+                                                                    "salesBagTable",
+                                                                    os,
+                                                                    custmerId
+                                                                        .toString(),
+                                                                  );
+                                                                  Provider.of<Controller>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .fetchProductCompanyList();
+
+                                                                  Provider.of<Controller>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .salefilterCompany = false;
+
+                                                                  //  os = "S" +
+                                                                  //   "${values.ordernum[0]["os"]}";
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(
+                                                                    PageRouteBuilder(
+                                                                      opaque:
+                                                                          false, // set to false
+                                                                      pageBuilder: (_, __, ___) => SalesItem(
+                                                                          customerId:
+                                                                              custmerId
+                                                                                  .toString(),
+                                                                          areaId: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
+                                                                              ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                                  0]
+                                                                              : Provider.of<Controller>(context, listen: false)
+                                                                                  .areaidFrompopup!,
+                                                                          os: os,
+                                                                          areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
+                                                                              ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                                  1]
+                                                                              : Provider.of<Controller>(context, listen: false)
+                                                                                  .areaSelecton!,
+                                                                          type:
+                                                                              "sale",
+                                                                          gtype: customerDet[0]["gtype"]),
+                                                                    ),
+                                                                  );
+                                                                }
+                                                              },
                                                             ),
-                                                            onPressed:
-                                                                () async {
-                                                              FocusScopeNode
-                                                                  currentFocus =
-                                                                  FocusScope.of(
-                                                                      context);
-
-                                                              if (!currentFocus
-                                                                  .hasPrimaryFocus) {
-                                                                currentFocus
-                                                                    .unfocus();
-                                                              }
-
-                                                              if (_formKey
-                                                                  .currentState!
-                                                                  .validate()) {
-                                                                List
-                                                                    customerDet =
-                                                                    await OrderAppDB
-                                                                        .instance
-                                                                        .selectAllcommon(
-                                                                            'accountHeadsTable',
-                                                                            "ac_code='${custmerId}'");
-                                                                print(
-                                                                    "customerDet------$customerDet");
-                                                                String os = "S" +
-                                                                    "${values.ordernum[0]["os"]}";
-                                                                Provider.of<Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .countFromTable(
-                                                                  "salesBagTable",
-                                                                  os,
-                                                                  custmerId
-                                                                      .toString(),
-                                                                );
-                                                                Provider.of<Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .fetchProductCompanyList();
-
-                                                                Provider.of<Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .salefilterCompany = false;
-
-                                                                //  os = "S" +
-                                                                //   "${values.ordernum[0]["os"]}";
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .push(
-                                                                  PageRouteBuilder(
-                                                                    opaque:
-                                                                        false, // set to false
-                                                                    pageBuilder: (_, __, ___) => SalesItem(
-                                                                        customerId:
-                                                                            custmerId
-                                                                                .toString(),
-                                                                        areaId: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
-                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
-                                                                                0]
-                                                                            : Provider.of<Controller>(context, listen: false)
-                                                                                .areaidFrompopup!,
-                                                                        os: os,
-                                                                        areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
-                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
-                                                                                1]
-                                                                            : Provider.of<Controller>(context, listen: false)
-                                                                                .areaSelecton!,
-                                                                        type:
-                                                                            "sale",
-                                                                        gtype: customerDet[0]["gtype"]),
-                                                                  ),
-                                                                );
-                                                              }
-                                                            },
                                                           ),
                                                         ],
                                                       )
