@@ -110,7 +110,8 @@ class _SalesItemState extends State<SalesItem> {
                 } else {
                   FocusManager.instance.primaryFocus?.unfocus();
                   Provider.of<Controller>(context, listen: false)
-                      .selectFromSettings('SL_RATE_EDIT');
+                      .selectSettings();
+
                   Provider.of<Controller>(context, listen: false)
                       .getSaleBagDetails(widget.customerId, widget.os);
 
@@ -198,6 +199,8 @@ class _SalesItemState extends State<SalesItem> {
                     print("type sale.........${widget.type}");
                     Provider.of<Controller>(context, listen: false)
                         .getSaleBagDetails(widget.customerId, widget.os);
+                    // Provider.of<Controller>(context, listen: false)
+                    //     .selectSettings();
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         opaque: false, // set to false
@@ -437,6 +440,10 @@ class _SalesItemState extends State<SalesItem> {
                                                           Icons.add,
                                                         ),
                                                         onPressed: () async {
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .selectSettings();
                                                           // String os="S"+"${value.ordernum[0]["os"]}";
                                                           setState(() {
                                                             if (value.selected[
@@ -519,23 +526,27 @@ class _SalesItemState extends State<SalesItem> {
                                                                   .text);
                                                           print(
                                                               "qtynew----$qtyww");
+
                                                           String result = Provider.of<
                                                                       Controller>(
                                                                   context,
                                                                   listen: false)
                                                               .rawCalculation(
                                                                   double.parse(value
-                                                                          .newList[index]
-                                                                      [
+                                                                          .newList[index][
                                                                       "rate1"]),
                                                                   qtyww,
                                                                   discounpertNew,
                                                                   discounamttNew,
-                                                                  double.parse(
-                                                                      value.newList[index]
-                                                                          ["tax"]),
+                                                                  double.parse(value
+                                                                          .newList[index]
+                                                                      ["tax"]),
                                                                   0.0,
-                                                                  "0",
+                                                                  // value.settingsList[0]
+                                                                  //     ['set_value'],
+                                                                  value.settingsList1[10]
+                                                                          ['set_value']
+                                                                      .toString(),
                                                                   int.parse(widget.gtype),
                                                                   index,
                                                                   false,
@@ -808,6 +819,10 @@ class _SalesItemState extends State<SalesItem> {
                                                           Icons.add,
                                                         ),
                                                         onPressed: () async {
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .selectSettings();
                                                           String os = "S" +
                                                               "${value.ordernum[0]["os"]}";
                                                           setState(() {
@@ -842,6 +857,14 @@ class _SalesItemState extends State<SalesItem> {
 
                                                           print("max----$max");
                                                           // print("value.qty[index].text---${value.qty[index].text}");
+                                                          // Provider.of<Controller>(
+                                                          //         context,
+                                                          //         listen: false)
+                                                          //     .keyContainsListcheck(
+                                                          //         products[
+                                                          //                 index]
+                                                          //             ["code"],
+                                                          //         index);
 
                                                           rate1 = value
                                                                   .productName[
@@ -894,6 +917,11 @@ class _SalesItemState extends State<SalesItem> {
                                                                   .text);
                                                           print(
                                                               "qtynew----$qtyww");
+                                                          // Provider.of<Controller>(
+                                                          //         context,
+                                                          //         listen: false)
+                                                          //     .selectFromSettings(
+                                                          //         'SL_TAX_CALC');
                                                           String result = Provider.of<
                                                                       Controller>(
                                                                   context,
@@ -910,7 +938,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                       value.productName[index]
                                                                           ["tax"]),
                                                                   cesspertNew,
-                                                                  "0",
+                                                                  value.settingsList1[10]['set_value'].toString(),
                                                                   int.parse(widget.gtype),
                                                                   index,
                                                                   false,

@@ -7,24 +7,25 @@ import 'package:provider/provider.dart';
 class SaleItemDetails {
   List rawCalcResult = [];
   showsalesMoadlBottomsheet(
-      String item,
-      String code,
-      String hsn,
-      double qty,
-      double rate,
-      double dis_per,
-      double dis_amt,
-      double tax_per,
-      double tax_amt,
-      double cess_per,
-      double cess_amt,
-      double net_amt,
-      double gross,
-      BuildContext context,
-      Size size,
-      int index,
-      String customerId,
-      String os) {
+    String item,
+    String code,
+    String hsn,
+    double qty,
+    double rate,
+    double dis_per,
+    double dis_amt,
+    double tax_per,
+    double tax_amt,
+    double cess_per,
+    double cess_amt,
+    double net_amt,
+    double gross,
+    BuildContext context,
+    Size size,
+    int index,
+    String customerId,
+    String os,
+  ) {
     return showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -130,7 +131,9 @@ class SaleItemDetails {
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .fromDb = false;
-
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .selectSettings();
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
@@ -140,7 +143,8 @@ class SaleItemDetails {
                                             dis_amt,
                                             tax_per,
                                             0.0,
-                                            "0",
+                                            value.settingsList1[10]['set_value']
+                                                .toString(),
                                             0,
                                             index,
                                             true,
@@ -157,7 +161,7 @@ class SaleItemDetails {
                           ),
                         ),
                         Provider.of<Controller>(context, listen: false)
-                                    .settingsList[0]["set_value"] ==
+                                    .settingsList1[0]["set_value"] ==
                                 "YES"
                             ? ListTile(
                                 title: Row(
@@ -194,7 +198,9 @@ class SaleItemDetails {
                                                   dis_amt,
                                                   tax_per,
                                                   0.0,
-                                                  "0",
+                                                  value.settingsList1[10]
+                                                          ['set_value']
+                                                      .toString(),
                                                   0,
                                                   index,
                                                   true,
@@ -271,7 +277,8 @@ class SaleItemDetails {
                                                 .discount_amount[index].text),
                                             tax_per,
                                             0.0,
-                                            "0",
+                                            value.settingsList1[10]['set_value']
+                                                .toString(),
                                             0,
                                             index,
                                             true,
@@ -323,7 +330,8 @@ class SaleItemDetails {
                                             valuediscamt,
                                             tax_per,
                                             0.0,
-                                            "0",
+                                            value.settingsList1[10]['set_value']
+                                                .toString(),
                                             0,
                                             index,
                                             true,

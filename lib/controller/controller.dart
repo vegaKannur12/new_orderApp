@@ -133,6 +133,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> historyList = [];
   List<Map<String, dynamic>> reportOriginalList = [];
   List<Map<String, dynamic>> settingsList = [];
+  List<Map<String, dynamic>> settingsList1 = [];
+
   List<Map<String, dynamic>> walletList = [];
   List<Map<String, dynamic>> historydataList = [];
   List<Map<String, dynamic>> staffOrderTotal = [];
@@ -2227,7 +2229,7 @@ class Controller extends ChangeNotifier {
 
 ///////////////////////////////////////////////////////////////////
 //   Future<dynamic> mainDashAmounts(String sid, String date) async {
-//     collectionAmount = await OrderAppDB.instance.sumCommonQuery("rec_amount",
+//     collectionAmount = await OrderAppDB.instance.sumCommonQuery("rec_amoun,t",
 //         'collectionTable', "rec_staffid='$sid' AND rec_date='$date'");
 //     ordrAmount = await OrderAppDB.instance.sumCommonQuery(
 //         "total_price",
@@ -2953,6 +2955,15 @@ class Controller extends ChangeNotifier {
     bool exist = returnList.any((element) => element.values.contains(key));
     returnirtemExists[index] = exist;
     print("existss--$returnirtemExists");
+    notifyListeners();
+  }
+  selectSettings() async {
+    settingsList1.clear();
+    var res = await OrderAppDB.instance.selectAllcommon('settingsTable', "");
+    for (var item in res) {
+      settingsList1.add(item);
+    }
+    print("settingsList1--$settingsList1");
     notifyListeners();
   }
 }
