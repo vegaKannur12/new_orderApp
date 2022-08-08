@@ -709,6 +709,8 @@ class Controller extends ChangeNotifier {
           print("map. settings..... ${map}");
           SettingsModel settingsModal;
           // walletModal.
+          await OrderAppDB.instance
+              .deleteFromTableCommonQuery("settingsTable", "");
           for (var item in map) {
             settingsModal = SettingsModel.fromJson(item);
             await OrderAppDB.instance.insertsettingsTable(settingsModal);
@@ -1170,7 +1172,7 @@ class Controller extends ChangeNotifier {
 
       for (var item in bagList) {
         print("orderid---$order_id");
-        double rate = double.parse(item["rate"]);
+        double rate = item["rate"];
         await OrderAppDB.instance.insertorderMasterandDetailsTable(
             item["itemName"],
             order_id,
@@ -1247,7 +1249,7 @@ class Controller extends ChangeNotifier {
             item["item"],
             return_id,
             item["qty"],
-            double.parse(item["rate"]),
+            item["rate"],
             item["code"],
             date,
             time,
@@ -1555,7 +1557,7 @@ class Controller extends ChangeNotifier {
     }
     rateEdit = List.generate(bagList.length, (index) => false);
     rateController =
-        List.generate(salebagList.length, (index) => TextEditingController());
+        List.generate(bagList.length, (index) => TextEditingController());
     // filterComselected = List.generate(length, (index) => false);
 
     generateTextEditingController("sale order");
@@ -1926,6 +1928,7 @@ class Controller extends ChangeNotifier {
     String price,
   ) {
     totalPrice = double.parse(price);
+    priceval = double.parse(price).toStringAsFixed(2);
 
     // notifyListeners();
   }
@@ -1941,6 +1944,7 @@ class Controller extends ChangeNotifier {
 
   totalCalculation(String rate) {
     totalPrice = double.parse(rate) * qtyinc!;
+    priceval = totalPrice!.toStringAsFixed(2);
     print("total pri-----$totalPrice");
     notifyListeners();
   }
@@ -1971,19 +1975,19 @@ class Controller extends ChangeNotifier {
     // notifyListeners();
   }
 
-  selectFromSettings(
-    String s_code,
-  ) async {
-    print("s_code..........$s_code");
-    settingsList.clear();
-    var res = await OrderAppDB.instance
-        .selectAllcommon('settingsTable', "set_code='${s_code}'");
-    for (var item in res) {
-      settingsList.add(item);
-    }
-    print("settingsList--$settingsList");
-    notifyListeners();
-  }
+  // selectFromSettings(
+  //   String s_code,
+  // ) async {
+  //   print("s_code..........$s_code");
+  //   settingsList.clear();
+  //   var res = await OrderAppDB.instance
+  //       .selectAllcommon('settingsTable', "set_code='${s_code}'");
+  //   for (var item in res) {
+  //     settingsList.add(item);
+  //   }
+  //   print("settingsList--$settingsList");
+  //   notifyListeners();
+  // }
 
   ///////////////////////////
   selectSettings() async {

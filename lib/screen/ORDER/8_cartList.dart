@@ -33,7 +33,7 @@ class _CartListState extends State<CartList> {
   List<String> s = [];
   String? gen_condition;
   CommonPopup orderpopup = CommonPopup();
-  TextEditingController rateController = TextEditingController();
+
   DateTime now = DateTime.now();
   String? date;
   String? sid;
@@ -44,6 +44,10 @@ class _CartListState extends State<CartList> {
   void initState() {
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     s = date!.split(" ");
+    // print("date----${s[1]}");
+
+// String date = s[0];
+// String time = s[1];
     Provider.of<Controller>(context, listen: false).getOrderno();
     super.initState();
     Provider.of<Controller>(context, listen: false)
@@ -132,6 +136,19 @@ class _CartListState extends State<CartList> {
                                         fontWeight: FontWeight.bold)),
                                 onPressed: () {
                                   Navigator.pop(context);
+                                  // Navigator.of(context).push(
+                                  //   PageRouteBuilder(
+                                  //     opaque: false, // set to false
+                                  //     pageBuilder: (_, __, ___) =>
+                                  //         ItemSelection(
+                                  //       areaId: widget.areaId,
+                                  //       customerId: widget.custmerId,
+                                  //       os: widget.os,
+                                  //       areaName: widget.areaname,
+                                  //       type: widget.type,
+                                  //     ),
+                                  //   ),
+                                  // );
                                 },
                                 child: Text("View products"))
                           ],
@@ -147,9 +164,7 @@ class _CartListState extends State<CartList> {
                               return listItemFunction(
                                   value.bagList[index]["cartrowno"],
                                   value.bagList[index]["itemName"],
-                                  value.rateEdit[index]
-                                      ? value.editedRate
-                                      : value.bagList[index]["rate"],
+                                  value.bagList[index]["rate"],
                                   value.bagList[index]["totalamount"],
                                   value.bagList[index]["qty"],
                                   size,
@@ -268,165 +283,193 @@ class _CartListState extends State<CartList> {
           ),
           child: ListTile(
             onTap: () {
+              Provider.of<Controller>(context, listen: false)
+                  .rateController[index]
+                  .text = rate;
               Provider.of<Controller>(context, listen: false).setQty(qty);
               Provider.of<Controller>(context, listen: false)
                   .setAmt(totalamount);
-              showModalBottomSheet<void>(
+              showModalBottomSheet(
                 isScrollControlled: true,
                 context: context,
                 builder: (BuildContext context) {
                   return Consumer<Controller>(
                     builder: (context, value, child) {
-                      return Container(
-                        height: size.height * 0.4,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.close),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FloatingActionButton.small(
-                                        backgroundColor: Colors.grey,
-                                        child: Icon(Icons.remove),
-                                        onPressed: () {
-                                          if (value.qtyinc! > 1) {
-                                            value.qtyDecrement();
-                                            value.totalCalculation(rate);
-                                          }
-                                        }),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15),
-                                      child: Text(
-                                        value.qtyinc.toString(),
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ),
-                                    FloatingActionButton.small(
-                                        backgroundColor: Colors.grey,
-                                        child: Icon(Icons.add),
-                                        onPressed: () {
-                                          value.qtyIncrement();
-                                          value.totalCalculation(rate);
-                                        }),
-                                  ],
-                                ),
-                                Provider.of<Controller>(context, listen: false)
-                                            .settingsList1[0]["set_value"] ==
-                                        "YES"
-                                    ? Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, bottom: 8),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Rate :",
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                            Container(
-                                              width: size.width * 0.2,
-                                              child: TextField(
-                                                controller: rateController,
-                                              ),
-                                            )
-                                            // Flexible(
-                                            //   child: Text(
-                                            //     "\u{20B9}${double.parse(totalamount).toStringAsFixed(2)}",
-                                            //     style: TextStyle(
-                                            //         fontSize:
-                                            //             17),
-                                            //   ),
-                                            // ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container(),
-                                SizedBox(
-                                  height: size.height * 0.02,
-                                ),
-                                Divider(
-                                  thickness: 1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8.0, bottom: 8),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Padding(
+                              padding: MediaQuery.of(context).viewInsets,
+                              child: Wrap(
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: size.height * 0.01,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text(
-                                        "Total Price :",
-                                        style: TextStyle(fontSize: 17),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          "\u{20B9}${double.parse(totalamount).toStringAsFixed(2)}",
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.close),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
                                     ],
                                   ),
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.02,
-                                ),
-                                Expanded(
-                                  child: Row(
+                                  Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Container(
-                                        height: size.height * 0.05,
-                                        width: size.width * 0.6,
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              Provider.of<Controller>(context,
-                                                      listen: false)
-                                                  .editRate(rateController.text,
-                                                      index);
-                                              Provider.of<Controller>(context,
-                                                      listen: false)
-                                                  .updateQty(
-                                                      value.qtyinc.toString(),
-                                                      cartrowno,
-                                                      widget.custmerId,
-                                                      rateController.text);
-
-                                              // Provider.of<Controller>(context, listen: false).updateQty(
-                                              //     value.qtyinc.toString(),
-                                              //     cartrowno,
-                                              //     widget.custmerId,
-                                              //     rate);
-                                              Provider.of<Controller>(context,
-                                                      listen: false)
-                                                  .calculateorderTotal(
-                                                      widget.os,
-                                                      widget.custmerId);
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text("continue..")),
-                                      )
+                                      FloatingActionButton.small(
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(Icons.remove),
+                                          onPressed: () {
+                                            if (value.qtyinc! > 1) {
+                                              value.qtyDecrement();
+                                              value.totalCalculation(value
+                                                  .rateController[index].text);
+                                            }
+                                          }),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15),
+                                        child: Text(
+                                          value.qtyinc.toString(),
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ),
+                                      FloatingActionButton.small(
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(Icons.add),
+                                          onPressed: () {
+                                            value.qtyIncrement();
+                                            value.totalCalculation(value
+                                                .rateController[index].text);
+                                          }),
                                     ],
                                   ),
-                                )
-                              ],
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .settingsList1[0]["set_value"] ==
+                                          "YES"
+                                      ? Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, bottom: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Rate :",
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                              Container(
+                                                width: size.width * 0.2,
+                                                child: TextField(
+                                                  onSubmitted: (values) {
+                                                    value.totalCalculation(
+                                                        values);
+                                                  },
+                                                  textAlign: TextAlign.right,
+                                                  controller: value
+                                                      .rateController[index],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, bottom: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Rate :",
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                              Flexible(
+                                                child: Text(
+                                                  "\u{20B9}${rate}",
+                                                  style:
+                                                      TextStyle(fontSize: 17),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                  Divider(
+                                    thickness: 1,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, bottom: 8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Total Price :",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            "\u{20B9}${value.priceval}",
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.04,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            height: size.height * 0.05,
+                                            width: size.width * 0.4,
+                                            child: ElevatedButton(
+                                                onPressed: () {
+                                                  Provider.of<Controller>(context,
+                                                          listen: false)
+                                                      .updateQty(
+                                                          value.qtyinc.toString(),
+                                                          cartrowno,
+                                                          widget.custmerId,
+                                                          value
+                                                              .rateController[
+                                                                  index]
+                                                              .text);
+                                                  Provider.of<Controller>(context,
+                                                          listen: false)
+                                                      .calculateorderTotal(
+                                                          widget.os,
+                                                          widget.custmerId);
+                                                  // Provider.of<Controller>(context,
+                                                  //         listen: false)
+                                                  //     .getBagDetails(
+                                                  //         widget.custmerId,
+                                                  //         widget.os);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("continue..")),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -647,77 +690,5 @@ class _CartListState extends State<CartList> {
         ),
       ),
     );
-  }
-
-  popup(String item, String rate, Size size, int index, int qty) {
-    return showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  item,
-                  style: TextStyle(fontSize: 15),
-                )
-              ],
-            ),
-            // title: const Text('Popup example'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                Row(
-                  children: [
-                    Text("Old rate    :"),
-                    Text("   \u{20B9}${rate}"),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                Row(
-                  children: [
-                    Text("New rate  :"),
-                    Container(
-                        width: size.width * 0.2,
-                        child: TextField(
-                          controller: rateController,
-                        ))
-                  ],
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Provider.of<Controller>(context, listen: false)
-                          .editRate(rateController.text, index);
-                      Provider.of<Controller>(context, listen: false).updateQty(
-                          qty.toString(),
-                          index + 1,
-                          widget.custmerId,
-                          rateController.text);
-                      Provider.of<Controller>(context, listen: false)
-                          .calculateorderTotal(widget.os, widget.custmerId);
-                      rateController.clear();
-                      Navigator.of(context).pop();
-                    },
-                    // textColor: Theme.of(context).primaryColor,
-                    child: Text('Save'),
-                  ),
-                ],
-              )
-            ],
-          );
-        });
   }
 }
