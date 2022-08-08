@@ -131,9 +131,9 @@ class _ItemSelectionState extends State<ItemSelection> {
                   Provider.of<Controller>(context, listen: false)
                       .getBagDetails(widget.customerId, widget.os);
                   
-                  // List<Map<String, dynamic>> result = await OrderAppDB.instance
-                  //     .selectAllcommon(
-                  //         'settingsTable', "set_code='SO_RATE_EDIT'");
+                  List<Map<String, dynamic>> result = await OrderAppDB.instance
+                      .selectAllcommon(
+                          'settingsTable', "set_code='SO_RATE_EDIT'");
                   // print("hfjdh------$result");
                   Navigator.of(context).push(
                     PageRouteBuilder(

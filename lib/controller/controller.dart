@@ -303,7 +303,6 @@ class Controller extends ChangeNotifier {
             );
           }
           /////////////////////////////////////////////////////
-
           if (sof == "0") {
             CustomSnackbar snackbar = CustomSnackbar();
             snackbar.showSnackbar(context, msg.toString(), "");
@@ -1281,6 +1280,7 @@ class Controller extends ChangeNotifier {
   updateQty(String qty, int cartrowno, String customerId, String rate) async {
     List<Map<String, dynamic>> res = await OrderAppDB.instance
         .updateQtyOrderBagTable(qty, cartrowno, customerId, rate);
+    print("res-----$res");
     if (res.length >= 0) {
       bagList.clear();
       for (var item in res) {
@@ -1554,7 +1554,7 @@ class Controller extends ChangeNotifier {
     }
     rateEdit = List.generate(bagList.length, (index) => false);
     rateController =
-        List.generate(salebagList.length, (index) => TextEditingController());
+        List.generate(bagList.length, (index) => TextEditingController());
     // filterComselected = List.generate(length, (index) => false);
 
     generateTextEditingController("sale order");
@@ -1729,7 +1729,6 @@ class Controller extends ChangeNotifier {
   }
 
 /////////////////////////////////////////////////////////////
-
   Future<dynamic> setStaffid(String sname) async {
     print("Sname.............$sname");
     try {
@@ -1833,7 +1832,6 @@ class Controller extends ChangeNotifier {
     // return res[0];
   }
 /////////////////////////////////////////////////
-
   calculateAmt(String rate, String _controller) {
     amt = double.parse(rate) * double.parse(_controller);
     // notifyListeners();
@@ -1920,12 +1918,11 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////////////////////
-
   setAmt(
     String price,
   ) {
     totalPrice = double.parse(price);
-
+    priceval = double.parse(price).toStringAsFixed(2);
     // notifyListeners();
   }
 
@@ -1940,6 +1937,7 @@ class Controller extends ChangeNotifier {
 
   totalCalculation(String rate) {
     totalPrice = double.parse(rate) * qtyinc!;
+    priceval = totalPrice!.toStringAsFixed(2);
     print("total pri-----$totalPrice");
     notifyListeners();
   }
@@ -2009,7 +2007,6 @@ class Controller extends ChangeNotifier {
   // }
 
   //////////////////////TODAY COLLECTION AND ORDER//////////////////////////////////////////
-
   Future<dynamic> todayOrder(String date, String? condition) async {
     todayOrderList.clear();
     isLoading = true;
@@ -2103,7 +2100,6 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////////////////////////////
-
   ////////////////// remark from filter //////////////
   //  setRemarkfilterReports(String remark, String  remarked) {
   //   isLoading = true;
@@ -2481,7 +2477,6 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////////////////////////////////////////////////////////////
-
   uploadOrdersData(String cid, BuildContext context, int index) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];

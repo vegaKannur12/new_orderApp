@@ -1539,7 +1539,7 @@ class OrderAppDB {
           "SELECT * FROM orderBagTable WHERE customerid='$customerId'");
       print(res1);
     }
-
+    print("res1------$res1");
     return res1;
   }
 
