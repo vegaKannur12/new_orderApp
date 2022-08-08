@@ -22,14 +22,13 @@ class SalesItem extends StatefulWidget {
   bool _isLoading = false;
   String gtype;
 
-  SalesItem({
-    required this.customerId,
-    required this.areaId,
-    required this.os,
-    required this.areaName,
-    required this.type,
-    required this.gtype
-  });
+  SalesItem(
+      {required this.customerId,
+      required this.areaId,
+      required this.os,
+      required this.areaName,
+      required this.type,
+      required this.gtype});
 
   @override
   State<SalesItem> createState() => _SalesItemState();
@@ -110,7 +109,8 @@ class _SalesItemState extends State<SalesItem> {
                 if (widget.customerId == null || widget.customerId.isEmpty) {
                 } else {
                   FocusManager.instance.primaryFocus?.unfocus();
-
+                  Provider.of<Controller>(context, listen: false)
+                      .selectFromSettings('SL_RATE_EDIT');
                   Provider.of<Controller>(context, listen: false)
                       .getSaleBagDetails(widget.customerId, widget.os);
 
@@ -321,7 +321,6 @@ class _SalesItemState extends State<SalesItem> {
                                             .clear();
 
                                         searchcontroll.clear();
-
                                       }),
                                 ],
                               )
@@ -538,7 +537,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
-                                                                 int.parse( widget.gtype),
+                                                                  int.parse(widget.gtype),
                                                                   index,
                                                                   false,
                                                                   "");
@@ -725,7 +724,8 @@ class _SalesItemState extends State<SalesItem> {
                                         s: s,
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
-                                            .salefilteredeValue,gtype: widget.gtype,
+                                            .salefilteredeValue,
+                                        gtype: widget.gtype,
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
@@ -913,7 +913,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   cesspertNew,
                                                                   "0",
-                                                                  int.parse( widget.gtype),
+                                                                  int.parse(widget.gtype),
                                                                   index,
                                                                   false,
                                                                   "");
