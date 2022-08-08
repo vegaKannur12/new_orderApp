@@ -127,8 +127,14 @@ class _ItemSelectionState extends State<ItemSelection> {
                 FocusManager.instance.primaryFocus?.unfocus();
                 if (widget.type == "sale order") {
                   Provider.of<Controller>(context, listen: false)
+                      .selectFromSettings('SO_RATE_EDIT');
+                  Provider.of<Controller>(context, listen: false)
                       .getBagDetails(widget.customerId, widget.os);
-
+                  
+                  // List<Map<String, dynamic>> result = await OrderAppDB.instance
+                  //     .selectAllcommon(
+                  //         'settingsTable', "set_code='SO_RATE_EDIT'");
+                  // print("hfjdh------$result");
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       opaque: false, // set to false

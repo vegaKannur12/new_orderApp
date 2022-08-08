@@ -146,7 +146,7 @@ class _SaleCartState extends State<SaleCart> {
                               value.salebagList[index]["cartrowno"],
                               value.salebagList[index]["itemName"],
                               value.salebagList[index]["hsn"],
-                              value.salebagList[index]["rate"].toString(),
+                              double.parse(value.salebagList[index]["rate"]),
                               value.salebagList[index]["discount_per"],
                               value.salebagList[index]["discount_amt"],
                               value.salebagList[index]["ces_per"],
@@ -268,7 +268,7 @@ class _SaleCartState extends State<SaleCart> {
     int cartrowno,
     String itemName,
     String hsn,
-    String rate,
+    double rate,
     double disc_per,
     double disc_amt,
     double cess_per,
@@ -305,6 +305,7 @@ class _SaleCartState extends State<SaleCart> {
                   print("net amount............$net_amt");
                   Provider.of<Controller>(context, listen: false).fromDb = true;
                   value.salesqty[index].text = qty.toStringAsFixed(2);
+                  value.salesrate[index].text = rate.toStringAsFixed(2);
                   value.discount_prercent[index].text =
                       disc_per.toStringAsFixed(2);
                   value.discount_amount[index].text =
@@ -315,7 +316,7 @@ class _SaleCartState extends State<SaleCart> {
                     code,
                     hsn,
                     qty,
-                    double.parse(rate),
+                    rate,
                     disc_per,
                     disc_amt,
                     double.parse(tax),
@@ -639,7 +640,7 @@ class _SaleCartState extends State<SaleCart> {
                                 fontSize: 13,
                               ),
                             ),
-                            double.parse(rate) < disc_amt
+                            rate < disc_amt
                                 ? Text(
                                     "0.00",
                                     style: TextStyle(

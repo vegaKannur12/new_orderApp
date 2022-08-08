@@ -164,7 +164,9 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> listWidget = [];
   List<TextEditingController> controller = [];
   List<TextEditingController> qty = [];
+  List<TextEditingController> rateController = [];
   List<TextEditingController> salesqty = [];
+  List<TextEditingController> salesrate = [];
   List<TextEditingController> discount_prercent = [];
   List<TextEditingController> discount_amount = [];
 
@@ -680,8 +682,9 @@ class Controller extends ChangeNotifier {
       }
     });
   }
+
   ////////////////////////get settings///////////////////////////////////////
-    Future<WalletModal?> getSettings(BuildContext context,String cid) async {
+  Future<WalletModal?> getSettings(BuildContext context, String cid) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // String? cid = prefs.getString("cid");
     NetConnection.networkConnection(context).then((value) async {
@@ -1550,6 +1553,8 @@ class Controller extends ChangeNotifier {
       bagList.add(item);
     }
     rateEdit = List.generate(bagList.length, (index) => false);
+    rateController =
+        List.generate(salebagList.length, (index) => TextEditingController());
     // filterComselected = List.generate(length, (index) => false);
 
     generateTextEditingController("sale order");
@@ -1573,6 +1578,8 @@ class Controller extends ChangeNotifier {
     }
     rateEdit = List.generate(salebagList.length, (index) => false);
     salesqty =
+        List.generate(salebagList.length, (index) => TextEditingController());
+    salesrate =
         List.generate(salebagList.length, (index) => TextEditingController());
     discount_prercent =
         List.generate(salebagList.length, (index) => TextEditingController());
@@ -1963,9 +1970,10 @@ class Controller extends ChangeNotifier {
     // notifyListeners();
   }
 
-  selectFromSettings() async {
+  selectFromSettings(String s_code) async {
     settingsList.clear();
-    var res = await OrderAppDB.instance.selectAllcommon('settings', "");
+    var res = await OrderAppDB.instance
+        .selectAllcommon('settingsTable', "set_code='${s_code}'");
     for (var item in res) {
       settingsList.add(item);
     }

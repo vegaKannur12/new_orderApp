@@ -109,7 +109,8 @@ class _SalesItemState extends State<SalesItem> {
                 if (widget.customerId == null || widget.customerId.isEmpty) {
                 } else {
                   FocusManager.instance.primaryFocus?.unfocus();
-
+                  Provider.of<Controller>(context, listen: false)
+                      .selectFromSettings('SL_RATE_EDIT');
                   Provider.of<Controller>(context, listen: false)
                       .getSaleBagDetails(widget.customerId, widget.os);
 
