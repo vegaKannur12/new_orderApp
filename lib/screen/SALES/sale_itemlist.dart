@@ -841,6 +841,14 @@ class _SalesItemState extends State<SalesItem> {
 
                                                           print("max----$max");
                                                           // print("value.qty[index].text---${value.qty[index].text}");
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .keyContainsListcheck(
+                                                                  products[
+                                                                          index]
+                                                                      ["code"],
+                                                                  index);
 
                                                           rate1 = value
                                                                   .productName[

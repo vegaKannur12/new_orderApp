@@ -702,7 +702,7 @@ class Controller extends ChangeNotifier {
           );
 
           var map = jsonDecode(response.body);
-          print("map ${map}");
+          print("map. settings..... ${map}");
           SettingsModel settingsModal;
           // walletModal.
           for (var item in map) {
