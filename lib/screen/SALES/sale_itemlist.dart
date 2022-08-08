@@ -22,14 +22,13 @@ class SalesItem extends StatefulWidget {
   bool _isLoading = false;
   String gtype;
 
-  SalesItem({
-    required this.customerId,
-    required this.areaId,
-    required this.os,
-    required this.areaName,
-    required this.type,
-    required this.gtype
-  });
+  SalesItem(
+      {required this.customerId,
+      required this.areaId,
+      required this.os,
+      required this.areaName,
+      required this.type,
+      required this.gtype});
 
   @override
   State<SalesItem> createState() => _SalesItemState();
@@ -321,7 +320,6 @@ class _SalesItemState extends State<SalesItem> {
                                             .clear();
 
                                         searchcontroll.clear();
-
                                       }),
                                 ],
                               )
@@ -471,7 +469,14 @@ class _SalesItemState extends State<SalesItem> {
 
                                                           print(
                                                               "sales max----$max");
-                                                          // print("value.qty[index].text---${value.qty[index].text}");
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .keyContainsListcheck(
+                                                                  products[
+                                                                          index]
+                                                                      ["code"],
+                                                                  index);
 
                                                           rate1 = value.newList[
                                                               index]["rate1"];
@@ -538,7 +543,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   0.0,
                                                                   "0",
-                                                                 int.parse( widget.gtype),
+                                                                  int.parse(widget.gtype),
                                                                   index,
                                                                   false,
                                                                   "");
@@ -725,7 +730,8 @@ class _SalesItemState extends State<SalesItem> {
                                         s: s,
                                         value: Provider.of<Controller>(context,
                                                 listen: false)
-                                            .salefilteredeValue,gtype: widget.gtype,
+                                            .salefilteredeValue,
+                                        gtype: widget.gtype,
                                       )
                                     : value.isLoading
                                         ? CircularProgressIndicator()
@@ -843,7 +849,14 @@ class _SalesItemState extends State<SalesItem> {
 
                                                           print("max----$max");
                                                           // print("value.qty[index].text---${value.qty[index].text}");
-
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .keyContainsListcheck(
+                                                                  products[
+                                                                          index]
+                                                                      ["code"],
+                                                                  index);
                                                           rate1 = value
                                                                   .productName[
                                                               index]["rate1"];
@@ -913,7 +926,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           ["tax"]),
                                                                   cesspertNew,
                                                                   "0",
-                                                                  int.parse( widget.gtype),
+                                                                  int.parse(widget.gtype),
                                                                   index,
                                                                   false,
                                                                   "");

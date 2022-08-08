@@ -219,15 +219,16 @@ class _SaleCartState extends State<SaleCart> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       salepopup.buildPopupDialog(
-                                    "sales",
-                                    context,
-                                    "Confirm your sale?",
-                                    widget.areaId,
-                                    widget.areaname,
-                                    widget.custmerId,
-                                    s[0],
-                                    s[1],"",""
-                                  ),
+                                          "sales",
+                                          context,
+                                          "Confirm your sale?",
+                                          widget.areaId,
+                                          widget.areaname,
+                                          widget.custmerId,
+                                          s[0],
+                                          s[1],
+                                          "",
+                                          ""),
                                 );
                                 // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
                               }),
@@ -394,24 +395,36 @@ class _SaleCartState extends State<SaleCart> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Rate   :",
-                                              style: TextStyle(fontSize: 13),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            SizedBox(
-                                              width: size.width * 0.02,
-                                            ),
-                                            Text(
-                                              "\u{20B9}${rate}",
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 13),
-                                            ),
-                                          ],
+                                        GestureDetector(
+                                          onTap: () {
+                                            String item =
+                                                "${itemName} (${code})";
+                                            Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .settingsRateOption
+                                                ? popup(item, rate, size, index,
+                                                    qty.toInt())
+                                                : null;
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Rate   :",
+                                                style: TextStyle(fontSize: 13),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                              SizedBox(
+                                                width: size.width * 0.02,
+                                              ),
+                                              Text(
+                                                "\u{20B9}${rate}",
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 13),
+                                              ),
+                                            ],
+                                          ),
                                         ), // Row(
 
                                         Row(
@@ -727,6 +740,78 @@ class _SaleCartState extends State<SaleCart> {
                           rateController.text);
                       Provider.of<Controller>(context, listen: false)
                           .calculatesalesTotal(widget.os, widget.custmerId);
+                      rateController.clear();
+                      Navigator.of(context).pop();
+                    },
+                    // textColor: Theme.of(context).primaryColor,
+                    child: Text('Save'),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
+  popups(String item, String rate, Size size, int index, int qty) {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  item,
+                  style: TextStyle(fontSize: 15),
+                )
+              ],
+            ),
+            // title: const Text('Popup example'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
+                Row(
+                  children: [
+                    Text("Old rate    :"),
+                    Text("   \u{20B9}${rate}"),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
+                Row(
+                  children: [
+                    Text("New rate  :"),
+                    Container(
+                        width: size.width * 0.2,
+                        child: TextField(
+                          controller: rateController,
+                        ))
+                  ],
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Provider.of<Controller>(context, listen: false)
+                          .editRate(rateController.text, index);
+                      Provider.of<Controller>(context, listen: false).updateQty(
+                          qty.toString(),
+                          index + 1,
+                          widget.custmerId,
+                          rateController.text);
+                      Provider.of<Controller>(context, listen: false)
+                          .calculateorderTotal(widget.os, widget.custmerId);
                       rateController.clear();
                       Navigator.of(context).pop();
                     },
