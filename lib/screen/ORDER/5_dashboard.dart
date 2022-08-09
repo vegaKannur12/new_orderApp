@@ -112,7 +112,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
-    Provider.of<Controller>(context, listen: false).verifyRegistration(context);
+    Provider.of<Controller>(context, listen: false).verifyRegistration(context,"");
     String? gen_area = Provider.of<Controller>(context, listen: false).areaId;
     print("gen area----$gen_area");
     if (gen_area != null) {
@@ -295,7 +295,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "UL":
         {
           Provider.of<Controller>(context, listen: false)
-              .verifyRegistration(context);
+              .verifyRegistration(context,"");
           return Uploaddata(
             title: "Upload data",
             cid: cid!,
@@ -306,7 +306,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "DP":
         {
           Provider.of<Controller>(context, listen: false)
-              .verifyRegistration(context);
+              .verifyRegistration(context,"");
           return DownloadedPage(
             title: "Download Page",
             type: "drawer call",
@@ -334,18 +334,23 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "1":
         {
           Provider.of<Controller>(context, listen: false).setDate(s[0], "");
-
+          Provider.of<Controller>(context, listen: false)
+              .todayOrder(s[0], gen_condition!);
           return new TodaysOrder();
         }
       case "2":
         {
           Provider.of<Controller>(context, listen: false).setDate(s[0], "");
+          Provider.of<Controller>(context, listen: false)
+              .todayCollection(s[0], gen_condition!);
           return TodayCollection();
         }
 
       case "3":
         {
           Provider.of<Controller>(context, listen: false).setDate(s[0], "");
+          Provider.of<Controller>(context, listen: false)
+              .todaySales(s[0], gen_condition!);
           return new TodaySale();
         }
       case "4":
