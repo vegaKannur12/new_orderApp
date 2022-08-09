@@ -326,6 +326,7 @@ class Controller extends ChangeNotifier {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       compny_code = prefs.getString("company_id");
       String? fp = prefs.getString("fp");
+      String? cid = prefs.getString("cid");
       ///////////////// find app version/////////////////////////
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String version = packageInfo.version;
@@ -343,8 +344,7 @@ class Controller extends ChangeNotifier {
       print("listrrr----$list");
       if (value == true) {
         try {
-          Uri url =
-              Uri.parse("http://trafiqerp.in/order/fj/verify_registration.php");
+          Uri url = Uri.parse(" ");
           Map body = {
             'json_result': jsonen,
           };
@@ -354,6 +354,7 @@ class Controller extends ChangeNotifier {
             body: body,
           );
           var map = jsonDecode(response.body);
+
           print("verify--$map");
           VerifyRegistration verRegModel = VerifyRegistration.fromJson(map);
           versof = verRegModel.sof;
@@ -377,6 +378,8 @@ class Controller extends ChangeNotifier {
                           msg: vermsg,
                         )),
               );
+            } else {
+              getSettings(context, cid!);
             }
           }
 
@@ -707,6 +710,8 @@ class Controller extends ChangeNotifier {
 
           var map = jsonDecode(response.body);
           print("map ${map}");
+          await OrderAppDB.instance
+              .deleteFromTableCommonQuery("settingsTable", "");
           SettingsModel settingsModal;
           // walletModal.
           for (var item in map) {
@@ -1833,6 +1838,7 @@ class Controller extends ChangeNotifier {
     }
     // return res[0];
   }
+
 /////////////////////////////////////////////////
   calculateAmt(String rate, String _controller) {
     amt = double.parse(rate) * double.parse(_controller);
@@ -2957,6 +2963,7 @@ class Controller extends ChangeNotifier {
     print("existss--$returnirtemExists");
     notifyListeners();
   }
+
   selectSettings() async {
     settingsList1.clear();
     var res = await OrderAppDB.instance.selectAllcommon('settingsTable', "");

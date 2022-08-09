@@ -927,18 +927,18 @@ class _SalesItemState extends State<SalesItem> {
                                                                   context,
                                                                   listen: false)
                                                               .rawCalculation(
-                                                                  double.parse(value
-                                                                          .productName[index]
-                                                                      [
-                                                                      "rate1"]),
+                                                                  double.parse(
+                                                                      value.productName[index][
+                                                                          "rate1"]),
                                                                   qtyww,
                                                                   discounpertNew,
                                                                   discounamttNew,
-                                                                  double.parse(
-                                                                      value.productName[index]
-                                                                          ["tax"]),
+                                                                  double.parse(value.productName[index]
+                                                                      ["tax"]),
                                                                   cesspertNew,
-                                                                  value.settingsList1[5]['set_value'].toString(),
+                                                                  value.settingsList1[5]
+                                                                          ['set_value']
+                                                                      .toString(),
                                                                   int.parse(widget.gtype),
                                                                   index,
                                                                   false,
