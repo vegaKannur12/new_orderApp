@@ -427,7 +427,7 @@ class _SaleCartState extends State<SaleCart> {
                                             ),
                                             Container(
                                               child: Text(
-                                                " \u{20B9}${disc_amt.toStringAsFixed(4)}",
+                                                " \u{20B9}${disc_amt.toStringAsFixed(2)}",
                                                 style: TextStyle(fontSize: 13),
                                               ),
                                             ),
