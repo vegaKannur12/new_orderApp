@@ -143,7 +143,7 @@ class SaleItemDetails {
                                             dis_amt,
                                             tax_per,
                                             0.0,
-                                            value.settingsList1[10]['set_value']
+                                            value.settingsList1[5]['set_value']
                                                 .toString(),
                                             0,
                                             index,
@@ -198,7 +198,7 @@ class SaleItemDetails {
                                                   dis_amt,
                                                   tax_per,
                                                   0.0,
-                                                  value.settingsList1[10]
+                                                  value.settingsList1[5]
                                                           ['set_value']
                                                       .toString(),
                                                   0,
@@ -277,7 +277,7 @@ class SaleItemDetails {
                                                 .discount_amount[index].text),
                                             tax_per,
                                             0.0,
-                                            value.settingsList1[10]['set_value']
+                                            value.settingsList1[5]['set_value']
                                                 .toString(),
                                             0,
                                             index,
@@ -330,7 +330,7 @@ class SaleItemDetails {
                                             valuediscamt,
                                             tax_per,
                                             0.0,
-                                            value.settingsList1[10]['set_value']
+                                            value.settingsList1[5]['set_value']
                                                 .toString(),
                                             0,
                                             index,

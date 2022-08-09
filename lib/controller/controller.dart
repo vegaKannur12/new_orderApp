@@ -276,7 +276,7 @@ class Controller extends ChangeNotifier {
               print("ciddddddddd......$item");
               c_d.add(item);
             }
-            verifyRegistration(context);
+            verifyRegistration(context,"");
 
             await OrderAppDB.instance
                 .deleteFromTableCommonQuery('registrationTable', "");
@@ -322,7 +322,7 @@ class Controller extends ChangeNotifier {
   }
 
 //////////////////////VERIFY REGISTRATION/////////////////////////////
-  Future<RegistrationData?> verifyRegistration(BuildContext context) async {
+  Future<RegistrationData?> verifyRegistration(BuildContext context,String type) async {
     NetConnection.networkConnection(context).then((value) async {
       String? compny_code;
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -381,8 +381,12 @@ class Controller extends ChangeNotifier {
                           msg: vermsg,
                         )),
               );
-            } else {
+            } 
+            else {
+              if(type=="splash"){
               getSettings(context, cid!);
+
+              }
             }
           }
 
@@ -2018,11 +2022,12 @@ class Controller extends ChangeNotifier {
 
   //////////////////////TODAY COLLECTION AND ORDER//////////////////////////////////////////
   Future<dynamic> todayOrder(String date, String? condition) async {
-    todayOrderList.clear();
     isLoading = true;
     print("haiiii");
     var result = await OrderAppDB.instance.todayOrder(date, condition!);
     print("aftr cut----$result");
+    todayOrderList.clear();
+
     if (result != null) {
       for (var item in result) {
         todayOrderList.add(item);
@@ -2038,13 +2043,14 @@ class Controller extends ChangeNotifier {
 
   ///////////////////////////////////////////////
   Future<dynamic> todayCollection(String date, String condition) async {
-    todayCollectionList.clear();
+    
     isLoading = true;
     print("haiiii");
     print("contrler date----$date");
     var result = await OrderAppDB.instance.todayCollection(date, condition);
 
     print("aftr cut----$result");
+    todayCollectionList.clear();
     if (result != null) {
       for (var item in result) {
         todayCollectionList.add(item);
@@ -2061,13 +2067,14 @@ class Controller extends ChangeNotifier {
 
 ///////////////////////// today sales ///////////////////
   Future<dynamic> todaySales(String date, String condition) async {
-    todaySalesList.clear();
     isLoading = true;
     print("haiiii");
     print("contrler date----$date");
     var result = await OrderAppDB.instance.todaySales(date, condition);
 
     print("aftr cut----$result");
+    todaySalesList.clear();
+
     if (result != null) {
       for (var item in result) {
         todaySalesList.add(item);
