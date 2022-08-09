@@ -33,7 +33,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
     // TODO: implement initState
     super.initState();
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
-    todaydate = DateFormat('dd-MM-yyyy').format(now);
+    todaydate = DateFormat('yyyy-MM-dd').format(now);
     s = date!.split(" ");
   }
 
@@ -61,12 +61,24 @@ class _TodaysOrderState extends State<TodaysOrder> {
                       children: [
                         IconButton(
                             onPressed: () {
-                              dateFind.selectDateFind(context, "from date");
+                              dateFind.selectDateFind(
+                                  context, "from date", "sale order");
                             },
-                            icon: Icon(Icons.calendar_month)),
+                            icon: Icon(
+                              Icons.calendar_month,
+                              color: P_Settings.wavecolor,
+                            )),
                         Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Text(value.fromDate==null?todaydate.toString():value.fromDate.toString()),
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: Text(
+                            value.fromDate == null
+                                ? todaydate.toString()
+                                : value.fromDate.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[700],
+                            ),
+                          ),
                         ),
                         // IconButton(
                         //     onPressed: () {
@@ -97,123 +109,163 @@ class _TodaysOrderState extends State<TodaysOrder> {
                 ),
               );
             } else {
-              return ListView.builder(
-                itemCount: value.todayOrderList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Provider.of<Controller>(context, listen: false)
-                                .getHistoryData('orderDetailTable',
-                                    "order_id='${value.todayOrderList[index]["order_id"]}'");
-                            popup.buildPopupDialog(
-                                context,
-                                size,
-                                value.todayOrderList[index]["Order_Num"],
-                                value.todayOrderList[index]["Cus_id"],
-                                "sale order");
+              return Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            dateFind.selectDateFind(
+                                context, "from date", "sale order");
                           },
-                          child: Card(
-                              child: ListTile(
-                            tileColor: Colors.grey[100],
-                            title: Column(
-                              children: [
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Row(
-                                  children: [
-                                    // Icon(Icons),
-                                    // SizedBox(
-                                    //   width: size.width * 0.02,
-                                    // ),
-                                    Text("Ord No : "),
-                                    Flexible(
-                                      child: Text(
-                                          value.todayOrderList[index]
-                                              ["Order_Num"],
-                                          style: TextStyle(
-                                              color: Colors.grey[700],
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17)),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.person,
-                                      color: P_Settings.wavecolor,
-                                    ),
-                                    SizedBox(
-                                      width: size.width * 0.02,
-                                    ),
-                                    RichText(
-                                      overflow: TextOverflow.clip,
-                                      maxLines: 2,
-                                      text: TextSpan(
-                                        text:
-                                            '${value.todayOrderList[index]["cus_name"]}',
-                                        style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14),
-                                      ),
-                                    ),
-                                    Text(" - "),
-                                    Text(
-                                      value.todayOrderList[index]["Cus_id"],
-                                      style: TextStyle(
-                                          color: Colors.grey[700],
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 14),
-                                    ),
-                                    Spacer(),
-                                  ],
-                                ),
-                                Divider(),
-                                Row(
-                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "No: of Items  :",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Text(
-                                        "${value.todayOrderList[index]["count"].toString()}",
-                                        style: TextStyle(
-                                            color: Colors.grey[700],
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17)),
-                                    Spacer(),
-                                    Text(
-                                      "Total  :",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Text(
-                                      "\u{20B9}${value.todayOrderList[index]["total_price"].toStringAsFixed(2)}",
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          icon: Icon(
+                            Icons.calendar_month,
+                            color: P_Settings.wavecolor,
                           )),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: Text(
+                          value.fromDate == null
+                              ? todaydate.toString()
+                              : value.fromDate.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[700],
+                          ),
                         ),
-                      ],
+                      ),
+                      // IconButton(
+                      //     onPressed: () {
+                      //       dateFind.selectDateFind(context, "to date");
+                      //     },
+                      //     icon: Icon(Icons.calendar_month)),
+                      // Text(dateFind.toDate.toString()),
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: value.todayOrderList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Provider.of<Controller>(context,
+                                          listen: false)
+                                      .getHistoryData('orderDetailTable',
+                                          "order_id='${value.todayOrderList[index]["order_id"]}'");
+                                  popup.buildPopupDialog(
+                                      context,
+                                      size,
+                                      value.todayOrderList[index]["Order_Num"],
+                                      value.todayOrderList[index]["Cus_id"],
+                                      "sale order");
+                                },
+                                child: Card(
+                                    child: ListTile(
+                                  tileColor: Colors.grey[100],
+                                  title: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: size.height * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          // Icon(Icons),
+                                          // SizedBox(
+                                          //   width: size.width * 0.02,
+                                          // ),
+                                          Text("Ord No : "),
+                                          Flexible(
+                                            child: Text(
+                                                value.todayOrderList[index]
+                                                    ["Order_Num"],
+                                                style: TextStyle(
+                                                    color: Colors.grey[700],
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17)),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.person,
+                                            color: P_Settings.wavecolor,
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.02,
+                                          ),
+                                          RichText(
+                                            overflow: TextOverflow.clip,
+                                            maxLines: 2,
+                                            text: TextSpan(
+                                              text:
+                                                  '${value.todayOrderList[index]["cus_name"]}',
+                                              style: TextStyle(
+                                                  color: Colors.grey[700],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                          Text(" - "),
+                                          Text(
+                                            value.todayOrderList[index]
+                                                ["Cus_id"],
+                                            style: TextStyle(
+                                                color: Colors.grey[700],
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 14),
+                                          ),
+                                          Spacer(),
+                                        ],
+                                      ),
+                                      Divider(),
+                                      Row(
+                                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "No: of Items  :",
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                          Text(
+                                              "${value.todayOrderList[index]["count"].toString()}",
+                                              style: TextStyle(
+                                                  color: Colors.grey[700],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17)),
+                                          Spacer(),
+                                          Text(
+                                            "Total  :",
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                          Text(
+                                            "\u{20B9}${value.todayOrderList[index]["total_price"].toStringAsFixed(2)}",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ],
               );
             }
           }

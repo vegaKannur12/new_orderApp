@@ -2980,6 +2980,6 @@ class Controller extends ChangeNotifier {
    fromDate=date1;
    todate=date2;
    print("gtyy----$fromDate");
-   notifyListeners();
+  //  notifyListeners();    
   }
 }

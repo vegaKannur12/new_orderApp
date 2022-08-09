@@ -14,7 +14,8 @@ class DateFind {
   String? specialField;
   String? gen_condition;
 
-  Future selectDateFind(BuildContext context, String dateType) async {
+  Future selectDateFind(
+      BuildContext context, String dateType, String ordType) async {
     String? gen_area = Provider.of<Controller>(context, listen: false).areaId;
     print("gen area----$gen_area");
     if (gen_area != null) {
@@ -43,10 +44,10 @@ class DateFind {
       print("please select date");
     }
     if (dateType == "from date") {
-      fromDate = DateFormat('dd-MM-yyyy').format(currentDate);
+      fromDate = DateFormat('yyyy-MM-dd').format(currentDate);
     }
     if (dateType == "to date") {
-      toDate = DateFormat('dd-MM-yyyy').format(currentDate);
+      toDate = DateFormat('yyyy-MM-dd').format(currentDate);
     }
     print("fromdate-----$fromDate---$toDate");
     // Provider.of<Controller>(context, listen: false).fromDate=fromDate;
@@ -56,7 +57,15 @@ class DateFind {
     toDate = toDate == null
         ? Provider.of<Controller>(context, listen: false).todate.toString()
         : toDate.toString();
-    Provider.of<Controller>(context, listen: false)
-        .todayOrder(fromDate!, gen_condition!);
+    if (ordType == "sale order") {
+      Provider.of<Controller>(context, listen: false)
+          .todayOrder(fromDate!, gen_condition!);
+    }if (ordType == "sales") {
+      Provider.of<Controller>(context, listen: false)
+          .todaySales(fromDate!, gen_condition!);
+    }if (ordType == "collection") {
+      Provider.of<Controller>(context, listen: false)
+          .todayCollection(fromDate!, gen_condition!);
+    }
   }
 }

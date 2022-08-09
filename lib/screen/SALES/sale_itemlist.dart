@@ -544,7 +544,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   0.0,
                                                                   // value.settingsList[0]
                                                                   //     ['set_value'],
-                                                                  value.settingsList1[10]
+                                                                  value.settingsList1[5]
                                                                           ['set_value']
                                                                       .toString(),
                                                                   int.parse(widget.gtype),
@@ -938,7 +938,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                       value.productName[index]
                                                                           ["tax"]),
                                                                   cesspertNew,
-                                                                  value.settingsList1[10]['set_value'].toString(),
+                                                                  value.settingsList1[5]['set_value'].toString(),
                                                                   int.parse(widget.gtype),
                                                                   index,
                                                                   false,
