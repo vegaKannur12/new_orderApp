@@ -768,18 +768,22 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                 .center,
                                                         children: [
                                                           Container(
-                                                            width: size.width*0.3,
-                                                            child: ElevatedButton.icon(
+                                                            width: size.width *
+                                                                0.3,
+                                                            child:
+                                                                ElevatedButton
+                                                                    .icon(
                                                               icon: Icon(
                                                                 Icons.sell,
-                                                                color:
-                                                                    Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                                 size: 15.0,
                                                               ),
                                                               label: Text(
                                                                 "Sales ",
                                                                 style: TextStyle(
-                                                                    fontSize: 12),
+                                                                    fontSize:
+                                                                        12),
                                                               ),
                                                               style:
                                                                   ElevatedButton
@@ -810,13 +814,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                 if (_formKey
                                                                     .currentState!
                                                                     .validate()) {
-                                                                  List
-                                                                      customerDet =
-                                                                      await OrderAppDB
-                                                                          .instance
-                                                                          .selectAllcommon(
-                                                                              'accountHeadsTable',
-                                                                              "ac_code='${custmerId}'");
+                                                                  List customerDet = await OrderAppDB
+                                                                      .instance
+                                                                      .selectAllcommon(
+                                                                          'accountHeadsTable',
+                                                                          "ac_code='${custmerId}'");
                                                                   print(
                                                                       "customerDet------$customerDet");
                                                                   String os = "S" +
@@ -852,22 +854,19 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                       opaque:
                                                                           false, // set to false
                                                                       pageBuilder: (_, __, ___) => SalesItem(
-                                                                          customerId:
-                                                                              custmerId
-                                                                                  .toString(),
+                                                                          customerId: custmerId
+                                                                              .toString(),
                                                                           areaId: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
                                                                               ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
                                                                                   0]
                                                                               : Provider.of<Controller>(context, listen: false)
                                                                                   .areaidFrompopup!,
-                                                                          os: os,
+                                                                          os:
+                                                                              os,
                                                                           areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
-                                                                              ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
-                                                                                  1]
-                                                                              : Provider.of<Controller>(context, listen: false)
-                                                                                  .areaSelecton!,
-                                                                          type:
-                                                                              "sale",
+                                                                              ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
+                                                                              : Provider.of<Controller>(context, listen: false).areaSelecton!,
+                                                                          type: "sale",
                                                                           gtype: customerDet[0]["gtype"]),
                                                                     ),
                                                                   );

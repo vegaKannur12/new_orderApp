@@ -222,7 +222,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   Container(
                                     height: size.height * 0.05,
                                     width: size.width * 0.11,
-                                    child: Image.asset(
+                                    child:Image.asset (
                                       'asset/3.png',
                                       height: 20.0,
                                       fit: BoxFit.cover,

@@ -333,13 +333,21 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
       case "1":
         {
+          Provider.of<Controller>(context, listen: false).setDate(s[0], "");
+
           return new TodaysOrder();
         }
       case "2":
-        return TodayCollection();
+        {
+          Provider.of<Controller>(context, listen: false).setDate(s[0], "");
+          return TodayCollection();
+        }
 
       case "3":
-        return new TodaySale();
+        {
+          Provider.of<Controller>(context, listen: false).setDate(s[0], "");
+          return new TodaySale();
+        }
       case "4":
         {
           Provider.of<Controller>(context, listen: false)

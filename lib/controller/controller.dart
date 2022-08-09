@@ -59,6 +59,8 @@ class Controller extends ChangeNotifier {
   bool isListLoading = false;
   int? selectedTabIndex;
   String? userName;
+  String? fromDate;
+  String? todate;
   String? selectedAreaId;
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
@@ -325,8 +327,9 @@ class Controller extends ChangeNotifier {
       String? compny_code;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       compny_code = prefs.getString("company_id");
-      String? fp = prefs.getString("fp");
       String? cid = prefs.getString("cid");
+      String? fp = prefs.getString("fp");
+
       ///////////////// find app version/////////////////////////
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String version = packageInfo.version;
@@ -358,15 +361,15 @@ class Controller extends ChangeNotifier {
           print("verify--$map");
           VerifyRegistration verRegModel = VerifyRegistration.fromJson(map);
           versof = verRegModel.sof;
-          vermsg = verRegModel.msg;
+          vermsg = verRegModel.error;
           print("vermsg----$vermsg");
 
           // /////////////////////////////////////////////////////
           print("cid----fp-----$compny_code---$fp");
           if (fp != null && compny_code != null) {
             print("entereddddsd");
-            prefs.setString("versof", versof!);
-            prefs.setString("vermsg", vermsg!);
+            // prefs.setString("versof", versof!);
+            // prefs.setString("vermsg", vermsg!);
             print("versofbhg----${vermsg}");
             getCompanyData();
             if (versof == "0") {
@@ -688,7 +691,7 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////get settings///////////////////////////////////////
-  Future<WalletModal?> getSettings(BuildContext context, String cid) async {
+  getSettings(BuildContext context, String cid) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // String? cid = prefs.getString("cid");
     NetConnection.networkConnection(context).then((value) async {
@@ -707,8 +710,9 @@ class Controller extends ChangeNotifier {
             url,
             body: body,
           );
-
           var map = jsonDecode(response.body);
+          await OrderAppDB.instance
+              .deleteFromTableCommonQuery("settingsTable", "");
           print("map ${map}");
           await OrderAppDB.instance
               .deleteFromTableCommonQuery("settingsTable", "");
@@ -2896,7 +2900,7 @@ class Controller extends ChangeNotifier {
       disc_amt = disc_amount;
       print("discount_prercent---$disc_amount---${discount_prercent.length}");
       if (onSub) {
-        discount_prercent[index].text = disc_per.toStringAsFixed(2);
+        discount_prercent[index].text = disc_per.toStringAsFixed(4);
       }
       print("disc_per----$disc_per");
     }
@@ -2905,7 +2909,7 @@ class Controller extends ChangeNotifier {
       print("yes hay---$disc_per");
       disc_amt = (gross * disc_per) / 100;
       if (onSub) {
-        discount_amount[index].text = disc_amt.toStringAsFixed(4);
+        discount_amount[index].text = disc_amt.toStringAsFixed(2);
       }
       print("disc-amt----$disc_amt");
     }
@@ -2972,5 +2976,12 @@ class Controller extends ChangeNotifier {
     }
     print("settingsList1--$settingsList1");
     notifyListeners();
+  }
+
+  setDate(String date1, String date2) {
+    fromDate = date1;
+    todate = date2;
+    print("gtyy----$fromDate");
+    //  notifyListeners();
   }
 }

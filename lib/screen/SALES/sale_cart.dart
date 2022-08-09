@@ -307,9 +307,9 @@ class _SaleCartState extends State<SaleCart> {
                   value.salesqty[index].text = qty.toStringAsFixed(2);
                   value.salesrate[index].text = rate.toStringAsFixed(2);
                   value.discount_prercent[index].text =
-                      disc_per.toStringAsFixed(2);
+                      disc_per.toStringAsFixed(4);
                   value.discount_amount[index].text =
-                      disc_amt.toStringAsFixed(4);
+                      disc_amt.toStringAsFixed(2);
 
                   saleDetails.showsalesMoadlBottomsheet(
                     itemName,

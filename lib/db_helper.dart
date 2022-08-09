@@ -1762,10 +1762,10 @@ class OrderAppDB {
     var query =
         'select accountHeadsTable.hname as cus_name,orderMasterTable.order_id, orderMasterTable.os  || orderMasterTable.order_id as Order_Num,orderMasterTable.customerid Cus_id,orderMasterTable.orderdate Date, count(orderDetailTable.row_num) count, orderMasterTable.total_price  from orderMasterTable inner join orderDetailTable on orderMasterTable.order_id=orderDetailTable.order_id inner join accountHeadsTable on accountHeadsTable.ac_code= orderMasterTable.customerid where orderMasterTable.orderdate="${date}"  $condition group by orderMasterTable.order_id';
     print("query---$query");
-
     result = await db.rawQuery(query);
-    if (result.length > 0) {
       print("inner result------$result");
+
+    if (result.length > 0) {
       return result;
     } else {
       return null;
