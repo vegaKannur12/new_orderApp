@@ -59,6 +59,8 @@ class Controller extends ChangeNotifier {
   bool isListLoading = false;
   int? selectedTabIndex;
   String? userName;
+  String? fromDate;
+  String? todate;
   String? selectedAreaId;
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
@@ -325,6 +327,8 @@ class Controller extends ChangeNotifier {
       String? compny_code;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       compny_code = prefs.getString("company_id");
+      String? cid = prefs.getString("cid");
+
       String? fp = prefs.getString("fp");
       ///////////////// find app version/////////////////////////
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -357,15 +361,15 @@ class Controller extends ChangeNotifier {
           print("verify--$map");
           VerifyRegistration verRegModel = VerifyRegistration.fromJson(map);
           versof = verRegModel.sof;
-          vermsg = verRegModel.msg;
+          vermsg = verRegModel.error;
           print("vermsg----$vermsg");
 
           // /////////////////////////////////////////////////////
           print("cid----fp-----$compny_code---$fp");
           if (fp != null && compny_code != null) {
             print("entereddddsd");
-            prefs.setString("versof", versof!);
-            prefs.setString("vermsg", vermsg!);
+            // prefs.setString("versof", versof!);
+            // prefs.setString("vermsg", vermsg!);
             print("versofbhg----${vermsg}");
             getCompanyData();
             if (versof == "0") {
@@ -377,6 +381,8 @@ class Controller extends ChangeNotifier {
                           msg: vermsg,
                         )),
               );
+            } else {
+              getSettings(context, cid!);
             }
           }
 
@@ -685,7 +691,7 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////get settings///////////////////////////////////////
-  Future<WalletModal?> getSettings(BuildContext context, String cid) async {
+  getSettings(BuildContext context, String cid) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // String? cid = prefs.getString("cid");
     NetConnection.networkConnection(context).then((value) async {
@@ -704,8 +710,9 @@ class Controller extends ChangeNotifier {
             url,
             body: body,
           );
-
           var map = jsonDecode(response.body);
+          await OrderAppDB.instance
+              .deleteFromTableCommonQuery("settingsTable", "");
           print("map ${map}");
           SettingsModel settingsModal;
           // walletModal.
@@ -1833,6 +1840,7 @@ class Controller extends ChangeNotifier {
     }
     // return res[0];
   }
+
 /////////////////////////////////////////////////
   calculateAmt(String rate, String _controller) {
     amt = double.parse(rate) * double.parse(_controller);
@@ -2957,6 +2965,7 @@ class Controller extends ChangeNotifier {
     print("existss--$returnirtemExists");
     notifyListeners();
   }
+
   selectSettings() async {
     settingsList1.clear();
     var res = await OrderAppDB.instance.selectAllcommon('settingsTable', "");
@@ -2965,5 +2974,12 @@ class Controller extends ChangeNotifier {
     }
     print("settingsList1--$settingsList1");
     notifyListeners();
+  }
+
+  setDate(String date1,String date2){
+   fromDate=date1;
+   todate=date2;
+   print("gtyy----$fromDate");
+   notifyListeners();
   }
 }

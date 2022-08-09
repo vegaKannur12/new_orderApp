@@ -21,7 +21,6 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   String? cid;
   String? firstMenu;
   String? versof;
-  String? vermsg;
   String? data;
   String? fingerprint;
 
@@ -38,7 +37,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
     versof = prefs.getString("versof");
-    vermsg = prefs.getString("vermsg");
+
     fingerprint = prefs.getString("fp");
     print("fingerprint-----$fingerprint");
     if (cid != null) {
@@ -390,7 +389,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                                 .getStaffDetails(cid);
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .getSettings(context,cid);
+                                                .getSettings(context, cid);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(

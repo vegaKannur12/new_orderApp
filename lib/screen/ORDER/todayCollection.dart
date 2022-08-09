@@ -48,13 +48,24 @@ class _TodayCollectionState extends State<TodayCollection> {
               return Container(
                 height: size.height * 0.7,
                 width: double.infinity,
-                child: Center(
-                    child: Text(
-                  "No Collections!!!",
-                  style: TextStyle(
-                    fontSize: 19,
-                  ),
-                )),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'asset/smiley.png',
+                      height: size.height*0.09,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(height: size.height*0.01,),
+                    Text(
+                      "No Collections!!!",
+                      style: TextStyle(
+                        fontSize: 19,
+                      ),
+                    )
+                  ],
+                ),
               );
             } else {
               return Container(

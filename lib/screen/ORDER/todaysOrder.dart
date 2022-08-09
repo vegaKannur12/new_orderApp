@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/5_mainDashboard.dart';
+import 'package:orderapp/screen/ORDER/DateFinder.dart';
 import 'package:orderapp/screen/historydataPopup.dart';
 import 'package:provider/provider.dart';
 
@@ -20,15 +21,19 @@ class TodaysOrder extends StatefulWidget {
 class _TodaysOrderState extends State<TodaysOrder> {
   // MainDashboard dash = MainDashboard();
   DateTime now = DateTime.now();
+  DateFind dateFind = DateFind();
   HistoryPopup popup = HistoryPopup();
   List<String> s = [];
   String? result;
   String? date;
+  String? todaydate;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    todaydate = DateFormat('dd-MM-yyyy').format(now);
     s = date!.split(" ");
   }
 
@@ -47,13 +52,49 @@ class _TodaysOrderState extends State<TodaysOrder> {
               return Container(
                 height: size.height * 0.7,
                 width: double.infinity,
-                child: Center(
-                    child: Text(
-                  "No Orders!!!",
-                  style: TextStyle(
-                    fontSize: 19,
-                  ),
-                )),
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              dateFind.selectDateFind(context, "from date");
+                            },
+                            icon: Icon(Icons.calendar_month)),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Text(value.fromDate==null?todaydate.toString():value.fromDate.toString()),
+                        ),
+                        // IconButton(
+                        //     onPressed: () {
+                        //       dateFind.selectDateFind(context, "to date");
+                        //     },
+                        //     icon: Icon(Icons.calendar_month)),
+                        // Text(dateFind.toDate.toString()),
+                      ],
+                    ),
+                    SizedBox(
+                      height: size.height * 0.2,
+                    ),
+                    Image.asset(
+                      'asset/smiley.png',
+                      height: size.height * 0.09,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.01,
+                    ),
+                    Text(
+                      "No Orders!!!",
+                      style: TextStyle(
+                        fontSize: 19,
+                      ),
+                    )
+                  ],
+                ),
               );
             } else {
               return ListView.builder(
@@ -75,8 +116,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                 value.todayOrderList[index]["Cus_id"],
                                 "sale order");
                           },
-                          child: 
-                          Card(
+                          child: Card(
                               child: ListTile(
                             tileColor: Colors.grey[100],
                             title: Column(
