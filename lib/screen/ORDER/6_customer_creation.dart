@@ -88,15 +88,12 @@ class _CustomerCreationState extends State<CustomerCreation> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          "Customer Creation",
-                             style: GoogleFonts.alike(
-                                          textStyle: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
-                                          fontSize: 22,
-                                          color: P_Settings.wavecolor)
-                        ),
+                        Text("Customer Creation",
+                            style: GoogleFonts.alike(
+                                textStyle:
+                                    Theme.of(context).textTheme.bodyText2,
+                                fontSize: 22,
+                                color: P_Settings.wavecolor)),
                         Divider(
                           thickness: 2,
                         ),
@@ -141,7 +138,7 @@ class _CustomerCreationState extends State<CustomerCreation> {
                               ),
                               Container(
                                 color: Colors.grey[200],
-                                height: size.height * 0.04,
+                                height: size.height * 0.048,
                                 child: DropdownButton<String>(
                                   value: selected,
                                   hint: Text("Select"),
@@ -155,9 +152,12 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                           child: Container(
                                             width: size.width * 0.5,
                                             child: Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                    item["aname"].toString())),
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(
+                                                item["aname"].toString(),
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                            ),
                                           )))
                                       .toList(),
                                   onChanged: (item) {
@@ -186,7 +186,7 @@ class _CustomerCreationState extends State<CustomerCreation> {
                               ),
                               Container(
                                 color: Colors.grey[200],
-                                height: size.height * 0.04,
+                                height: size.height * 0.048,
                                 child: DropdownButton<String>(
                                   value: gtype,
                                   hint: Text("Select"),
@@ -200,9 +200,12 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                           child: Container(
                                             width: size.width * 0.5,
                                             child: Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                    item["gtp"].toString())),
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(
+                                                item["gtp"].toString(),
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                            ),
                                           )))
                                       .toList(),
                                   onChanged: (item) {
@@ -212,7 +215,7 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                       setState(() {
                                         gtype = item;
                                       });
-                                      print("se;ected---$item");
+                                      print("selected---$item");
                                     }
                                   },
 
