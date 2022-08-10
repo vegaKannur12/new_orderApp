@@ -196,7 +196,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(height: size.height * 0.01),
-                                  Padding(
+                                  const Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
                                       "Area/Route",
