@@ -276,7 +276,7 @@ class Controller extends ChangeNotifier {
               print("ciddddddddd......$item");
               c_d.add(item);
             }
-            verifyRegistration(context,"");
+            verifyRegistration(context, "");
 
             await OrderAppDB.instance
                 .deleteFromTableCommonQuery('registrationTable', "");
@@ -322,7 +322,8 @@ class Controller extends ChangeNotifier {
   }
 
 //////////////////////VERIFY REGISTRATION/////////////////////////////
-  Future<RegistrationData?> verifyRegistration(BuildContext context,String type) async {
+  Future<RegistrationData?> verifyRegistration(
+      BuildContext context, String type) async {
     NetConnection.networkConnection(context).then((value) async {
       String? compny_code;
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -381,11 +382,9 @@ class Controller extends ChangeNotifier {
                           msg: vermsg,
                         )),
               );
-            } 
-            else {
-              if(type=="splash"){
-              getSettings(context, cid!);
-
+            } else {
+              if (type == "splash") {
+                getSettings(context, cid!);
               }
             }
           }
@@ -708,8 +707,8 @@ class Controller extends ChangeNotifier {
           };
           // isDownloaded = true;
           // isCompleted = true;
-          isLoading = true;
-          notifyListeners();
+          // isLoading = true;
+          // notifyListeners();
           http.Response response = await http.post(
             url,
             body: body,
@@ -729,7 +728,7 @@ class Controller extends ChangeNotifier {
           }
           // isDownloaded = false;
           // isDown[index] = true;
-          isLoading = false;
+          // isLoading = false;
 
           notifyListeners();
         } catch (e) {
@@ -2045,7 +2044,6 @@ class Controller extends ChangeNotifier {
 
   ///////////////////////////////////////////////
   Future<dynamic> todayCollection(String date, String condition) async {
-    
     isLoading = true;
     print("haiiii");
     print("contrler date----$date");
@@ -2891,7 +2889,7 @@ class Controller extends ChangeNotifier {
     flag = false;
 
     print(
-        "attribute---$state_status-$disCalc --$rate--$disc_per--$disc_amount--$tax_per--$cess_per--$method");
+        "attribute---$state_status---$disCalc --$disc_per----$rate---$disc_amount--$tax_per--$cess_per--$method");
     if (method == "0") {
       /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
       taxable_rate = rate;
@@ -2902,6 +2900,7 @@ class Controller extends ChangeNotifier {
     }
     gross = taxable_rate * qty;
     print("gros----$gross");
+
     if (disCalc == "disc_amt") {
       disc_per = (disc_amount / gross) * 100;
       disc_amt = disc_amount;
@@ -2926,6 +2925,13 @@ class Controller extends ChangeNotifier {
       disc_per = double.parse(discount_prercent[index].text);
       print("disc-amt qty----$disc_amt...$disc_per");
     }
+
+    // if (disCalc == "rate") {
+    //   rateController[index].text = taxable_rate.toStringAsFixed(2);
+    //   // disc_amt = double.parse(discount_amount[index].text);
+    //   // disc_per = double.parse(discount_prercent[index].text);
+    //   print("disc-amt qty----$disc_amt...$disc_per");
+    // }
 
     if (state_status == 0) {
       ///////state_status=0--loacal///////////state_status=1----inter-state
