@@ -39,7 +39,7 @@ class _ReturnCartState extends State<ReturnCart> {
   int counter = 0;
   bool isAdded = false;
   String? sname;
-CommonPopup returnPop= CommonPopup();
+  CommonPopup returnPop = CommonPopup();
   @override
   void initState() {
     print("type===${widget.type}");
@@ -87,7 +87,10 @@ CommonPopup returnPop= CommonPopup();
                           SizedBox(
                             height: size.height * 0.02,
                           ),
-                          Text("Your cart is empty !!!",style: TextStyle(fontSize: 17),),
+                          Text(
+                            "Your cart is empty !!!",
+                            style: TextStyle(fontSize: 17),
+                          ),
                           SizedBox(
                             height: size.height * 0.02,
                           ),
@@ -274,26 +277,25 @@ CommonPopup returnPop= CommonPopup();
                             GestureDetector(
                               onTap: (() async {
                                 showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        returnPop.buildPopupDialog(
-                                      "return",
-                                      context,
-                                      "Confirm your order?",
-                                      widget.areaId,
-                                      widget.areaname,
-                                      widget.custmerId,
-                                      s[0],
-                                      s[1],
-                                      refController.text,
-                                      reasonController.text
-                                    ),
-                                  );
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      returnPop.buildPopupDialog(
+                                          "return",
+                                          context,
+                                          "Confirm your order?",
+                                          widget.areaId,
+                                          widget.areaname,
+                                          widget.custmerId,
+                                          s[0],
+                                          s[1],
+                                          refController.text,
+                                          reasonController.text),
+                                );
 
                                 final prefs =
                                     await SharedPreferences.getInstance();
                                 String? sid = await prefs.getString('sid');
-                                
+
                                 // return showDialog(
                                 //     context: context,
                                 //     builder: (context) {
