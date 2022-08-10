@@ -2973,13 +2973,13 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////////////////////////////////////////
-  keyContainsListcheck(String key, int index) {
-    print("rhdhsz---$key-$returnList");
-    bool exist = returnList.any((element) => element.values.contains(key));
-    returnirtemExists[index] = exist;
-    print("existss--$returnirtemExists");
-    notifyListeners();
-  }
+  // keyContainsListcheck(String key, int index) {
+  //   print("rhdhsz---$key-$returnList");
+  //   bool exist = returnList.any((element) => element.values.contains(key));
+  //   returnirtemExists[index] = exist;
+  //   print("existss--$returnirtemExists");
+  //   notifyListeners();
+  // }
 
   selectSettings() async {
     settingsList1.clear();

@@ -399,7 +399,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                           child: Text("No data Found!!!!"),
                                         )
                                       : ListView.builder(
-                                          itemExtent: 55.0,
+                                        itemExtent: 55,
                                           shrinkWrap: true,
                                           itemCount: value.newList.length,
                                           itemBuilder:
@@ -721,7 +721,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                   : value.isLoading
                                       ? CircularProgressIndicator()
                                       : ListView.builder(
-                                          itemExtent: 55.0,
+                                        itemExtent: 55,
                                           shrinkWrap: true,
                                           itemCount: value.productName.length,
                                           itemBuilder:
@@ -735,13 +735,10 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                       '-' +
                                                       '${value.productName[index]["item"]}',
                                                   style: TextStyle(
-                                                      color:
-                                                          //  widget.type ==
-                                                          //         "sale order"
-                                                          //     ?
-                                                          value.productName[
-                                                                          index]
-                                                                      [
+                                                      color: widget.type ==
+                                                              "sale order"
+                                                          ? value.productName[
+                                                                          index][
                                                                       "cartrowno"] ==
                                                                   null
                                                               ? value.selected[
@@ -749,18 +746,17 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                   ? Colors.green
                                                                   : Colors
                                                                       .grey[700]
-                                                              : Colors.green,
-
-                                                      // widget.type ==
-                                                      //         "return"
-                                                      //     ? value.returnirtemExists[
-                                                      //             index]
-                                                      //         ? Colors
-                                                      //             .grey[700]
-                                                      //         : Colors
-                                                      //             .grey[700]
-                                                      //     : Colors
-                                                      //         .green[700],
+                                                              : Colors.green
+                                                          : widget.type ==
+                                                                  "return"
+                                                              ? value.returnirtemExists[
+                                                                      index]
+                                                                  ? Colors
+                                                                      .grey[700]
+                                                                  : Colors
+                                                                      .grey[700]
+                                                              : Colors
+                                                                  .green[700],
                                                       // value.selected[
                                                       //         index]
                                                       //     ? Color
@@ -934,14 +930,14 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                               "${products[index]["code"] + "-" + (products[index]['item'])} - Added to cart",
                                                               "return");
 
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .keyContainsListcheck(
-                                                                  products[
-                                                                          index]
-                                                                      ["code"],
-                                                                  index);
+                                                          // Provider.of<Controller>(
+                                                          //         context,
+                                                          //         listen: false)
+                                                          //     .keyContainsListcheck(
+                                                          //         products[
+                                                          //                 index]
+                                                          //             ["code"],
+                                                          //         index);
 
                                                           // print("exist----$exist");
                                                         }

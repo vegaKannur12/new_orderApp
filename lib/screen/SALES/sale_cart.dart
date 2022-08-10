@@ -193,7 +193,7 @@ class _SaleCartState extends State<SaleCart> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(" Order Total  : ",
+                                    Text(" Sales Total  : ",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15)),
@@ -558,22 +558,13 @@ class _SaleCartState extends State<SaleCart> {
                                       showDialog(
                                         context: context,
                                         builder: (ctx) => AlertDialog(
-                                          content: Text("delete?"),
+                                          content: Text(
+                                              "Do you want to delete ($code) ???"),
                                           actions: <Widget>[
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                               children: [
-                                                ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          primary: P_Settings
-                                                              .wavecolor),
-                                                  onPressed: () {
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                  child: Text("cancel"),
-                                                ),
                                                 SizedBox(
                                                   width: size.width * 0.01,
                                                 ),
@@ -615,7 +606,19 @@ class _SaleCartState extends State<SaleCart> {
                                                     );
                                                     Navigator.of(ctx).pop();
                                                   },
-                                                  child: Text("ok"),
+                                                  child: Text("Ok"),
+                                                ),
+                                                SizedBox(
+                                                    width: size.width * 0.03),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: P_Settings
+                                                              .wavecolor),
+                                                  onPressed: () {
+                                                    Navigator.of(ctx).pop();
+                                                  },
+                                                  child: Text("Cancel"),
                                                 ),
                                               ],
                                             ),

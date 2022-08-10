@@ -29,11 +29,6 @@ class CommonPopup {
         ],
       ),
       actions: [
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("cancel")),
         Consumer<Controller>(
           builder: (context, value, child) {
             return ElevatedButton(
@@ -163,7 +158,12 @@ class CommonPopup {
                 },
                 child: Text("Ok"));
           },
-        )
+        ),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("Cancel")),
       ],
     );
   }

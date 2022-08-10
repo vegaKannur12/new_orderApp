@@ -602,6 +602,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                   listen: false)
                                                               .clearList(values
                                                                   .returnList);
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .getProductList(
+                                                                  custmerId
+                                                                      .toString());
                                                           Navigator.of(context)
                                                               .push(
                                                             PageRouteBuilder(
