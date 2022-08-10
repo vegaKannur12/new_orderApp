@@ -414,12 +414,17 @@ class _CartListState extends State<CartList> {
                                       children: [
                                         Text(
                                           "Total Price :",
-                                          style: TextStyle(fontSize: 17),
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              color: P_Settings.extracolor),
                                         ),
                                         Flexible(
                                           child: Text(
                                             "\u{20B9}${value.priceval}",
-                                            style: TextStyle(fontSize: 17),
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                color: P_Settings.extracolor,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ],

@@ -133,7 +133,7 @@ class SalesBottomSheet {
                               Spacer(),
                               Text(
                                 '\u{20B9}${netAmt}',
-                                style: TextStyle(color: P_Settings.extracolor),
+                                style: TextStyle(color: P_Settings.extracolor,fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.end,
                               ),
                             ],
