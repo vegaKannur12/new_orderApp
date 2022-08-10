@@ -193,7 +193,7 @@ class _SaleCartState extends State<SaleCart> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(" Order Total  : ",
+                                    Text(" Sale Total  : ",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15)),

@@ -97,12 +97,14 @@ class SaleItemDetails {
                           child: Row(
                             children: [
                               Text(
-                                "Hsn", style: TextStyle(fontSize: 18),
+                                "Hsn",
+                                style: TextStyle(fontSize: 15),
                               ),
                               Spacer(),
                               Text(
                                 hsn,
-                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
                               ),
                             ],
                           ),
@@ -112,12 +114,16 @@ class SaleItemDetails {
                           child: Row(
                             children: [
                               Text(
-                                "Qty", style: TextStyle(fontSize: 18),
+                                "Qty",
+                                style: TextStyle(fontSize: 15),
                               ),
                               Spacer(),
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                  ),
                                   decoration: InputDecoration(
                                     //labelText: "Phone number",
                                     // hintText: "Phone number",
@@ -179,12 +185,16 @@ class SaleItemDetails {
                                 child: Row(
                                   children: [
                                     Text(
-                                      "Rate", style: TextStyle(fontSize: 18),
+                                      "Rate",
+                                      style: TextStyle(fontSize: 15),
                                     ),
                                     Spacer(),
                                     Container(
                                       width: size.width * 0.2,
                                       child: TextField(
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                        ),
                                         decoration: InputDecoration(
                                           //labelText: "Phone number",
                                           // hintText: "Phone number",
@@ -242,7 +252,8 @@ class SaleItemDetails {
                                 child: Row(
                                   children: [
                                     Text(
-                                      "Rate", style: TextStyle(fontSize: 18),
+                                      "Rate",
+                                      style: TextStyle(fontSize: 15),
                                     ),
                                     Spacer(),
                                     Text("\u{20B9}${rate.toStringAsFixed(2)}")
@@ -254,13 +265,15 @@ class SaleItemDetails {
                           child: Row(
                             children: [
                               Text(
-                                "Gross value", style: TextStyle(fontSize: 18),
+                                "Gross value",
+                                style: TextStyle(fontSize: 15),
                               ),
                               Spacer(),
                               Text(
                                 value.fromDb!
                                     ? "\u{20B9}${gross.toStringAsFixed(2)}"
-                                    : "\u{20B9}${value.gross.toStringAsFixed(2)}",style: TextStyle(fontSize: 18),
+                                    : "\u{20B9}${value.gross.toStringAsFixed(2)}",
+                                style: TextStyle(fontSize: 15),
                               )
                             ],
                           ),
@@ -270,12 +283,16 @@ class SaleItemDetails {
                           child: Row(
                             children: [
                               Text(
-                                "Discount %", style: TextStyle(fontSize: 18),
+                                "Discount %",
+                                style: TextStyle(fontSize: 15),
                               ),
                               Spacer(),
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                  ),
                                   decoration: InputDecoration(
                                     //labelText: "Phone number",
                                     // hintText: "Phone number",
@@ -333,12 +350,16 @@ class SaleItemDetails {
                           child: Row(
                             children: [
                               Text(
-                                "Discount Amount", style: TextStyle(fontSize: 18),
+                                "Discount Amount",
+                                style: TextStyle(fontSize: 15),
                               ),
                               Spacer(),
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                  ),
                                   decoration: InputDecoration(
                                     //labelText: "Phone number",
                                     // hintText: "Phone number",
@@ -394,10 +415,14 @@ class SaleItemDetails {
                           child: Row(
                             children: [
                               Text(
-                                "Tax %", style: TextStyle(fontSize: 18),
+                                "Tax %",
+                                style: TextStyle(fontSize: 15),
                               ),
                               Spacer(),
-                              Text(tax_per.toStringAsFixed(2),style: TextStyle(fontSize: 18),)
+                              Text(
+                                tax_per.toStringAsFixed(2),
+                                style: TextStyle(fontSize: 15),
+                              )
                             ],
                           ),
                         ),
@@ -406,16 +431,20 @@ class SaleItemDetails {
                           child: Row(
                             children: [
                               Text(
-                                "Tax amount", style: TextStyle(fontSize: 18),
+                                "Tax amount",
+                                style: TextStyle(fontSize: 15),
                               ),
                               Spacer(),
                               tax_amt < 0.00
                                   ? Text(
                                       "\u{20B9}0.00",
                                     )
-                                  : Text(value.fromDb!
-                                      ? "\u{20B9}${tax_amt.toStringAsFixed(2)}"
-                                      : "\u{20B9}${value.tax.toStringAsFixed(2)}",style: TextStyle(fontSize: 18),)
+                                  : Text(
+                                      value.fromDb!
+                                          ? "\u{20B9}${tax_amt.toStringAsFixed(2)}"
+                                          : "\u{20B9}${value.tax.toStringAsFixed(2)}",
+                                      style: TextStyle(fontSize: 15),
+                                    )
                             ],
                           ),
                         ),
@@ -424,10 +453,14 @@ class SaleItemDetails {
                           child: Row(
                             children: [
                               Text(
-                                "Cess %", style: TextStyle(fontSize: 18),
+                                "Cess %",
+                                style: TextStyle(fontSize: 15),
                               ),
                               Spacer(),
-                              Text(cess_per.toStringAsFixed(2),style: TextStyle(fontSize: 18),)
+                              Text(
+                                cess_per.toStringAsFixed(2),
+                                style: TextStyle(fontSize: 15),
+                              )
                             ],
                           ),
                         ),
@@ -436,16 +469,20 @@ class SaleItemDetails {
                           child: Row(
                             children: [
                               Text(
-                                "Cess amount", style: TextStyle(fontSize: 18),
+                                "Cess amount",
+                                style: TextStyle(fontSize: 15),
                               ),
                               Spacer(),
                               cess_amt < 0.00
                                   ? Text(
                                       "\u{20B9}0.00",
                                     )
-                                  : Text(value.fromDb!
-                                      ? "\u{20B9}${cess_amt.toStringAsFixed(2)}"
-                                      : "\u{20B9}${value.cess.toStringAsFixed(2)}",style: TextStyle(fontSize: 18),)
+                                  : Text(
+                                      value.fromDb!
+                                          ? "\u{20B9}${cess_amt.toStringAsFixed(2)}"
+                                          : "\u{20B9}${value.cess.toStringAsFixed(2)}",
+                                      style: TextStyle(fontSize: 15),
+                                    )
                             ],
                           ),
                         ),
@@ -457,21 +494,24 @@ class SaleItemDetails {
                           child: Row(children: [
                             Text(
                               "Net Amount",
-                              style: TextStyle(color: P_Settings.extracolor,fontSize: 18),
+                              style: TextStyle(
+                                  color: P_Settings.extracolor, fontSize: 15),
                             ),
                             Spacer(),
                             net_amt < 0.00
                                 ? Text("\u{20B9}0.00",
                                     style: TextStyle(
                                         color: P_Settings.extracolor,
-                                        fontWeight: FontWeight.bold,fontSize: 18))
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15))
                                 : Text(
                                     value.fromDb!
                                         ? "\u{20B9}${net_amt.toStringAsFixed(2)}"
                                         : "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
                                     style: TextStyle(
                                         color: P_Settings.extracolor,
-                                        fontWeight: FontWeight.bold,fontSize: 18),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
                                   ),
                           ]),
                         ),
