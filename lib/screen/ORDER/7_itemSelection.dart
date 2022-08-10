@@ -130,7 +130,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                       .selectFromSettings('SO_RATE_EDIT');
                   Provider.of<Controller>(context, listen: false)
                       .getBagDetails(widget.customerId, widget.os);
-                  
+
                   List<Map<String, dynamic>> result = await OrderAppDB.instance
                       .selectAllcommon(
                           'settingsTable', "set_code='SO_RATE_EDIT'");
@@ -399,6 +399,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                           child: Text("No data Found!!!!"),
                                         )
                                       : ListView.builder(
+                                          itemExtent: 55.0,
                                           shrinkWrap: true,
                                           itemCount: value.newList.length,
                                           itemBuilder:
@@ -720,6 +721,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                   : value.isLoading
                                       ? CircularProgressIndicator()
                                       : ListView.builder(
+                                          itemExtent: 55.0,
                                           shrinkWrap: true,
                                           itemCount: value.productName.length,
                                           itemBuilder:
@@ -733,10 +735,13 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                       '-' +
                                                       '${value.productName[index]["item"]}',
                                                   style: TextStyle(
-                                                      color: widget.type ==
-                                                              "sale order"
-                                                          ? value.productName[
-                                                                          index][
+                                                      color:
+                                                          //  widget.type ==
+                                                          //         "sale order"
+                                                          //     ?
+                                                          value.productName[
+                                                                          index]
+                                                                      [
                                                                       "cartrowno"] ==
                                                                   null
                                                               ? value.selected[
@@ -744,17 +749,18 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                   ? Colors.green
                                                                   : Colors
                                                                       .grey[700]
-                                                              : Colors.green
-                                                          : widget.type ==
-                                                                  "return"
-                                                              ? value.returnirtemExists[
-                                                                      index]
-                                                                  ? Colors
-                                                                      .grey[700]
-                                                                  : Colors
-                                                                      .grey[700]
-                                                              : Colors
-                                                                  .green[700],
+                                                              : Colors.green,
+
+                                                      // widget.type ==
+                                                      //         "return"
+                                                      //     ? value.returnirtemExists[
+                                                      //             index]
+                                                      //         ? Colors
+                                                      //             .grey[700]
+                                                      //         : Colors
+                                                      //             .grey[700]
+                                                      //     : Colors
+                                                      //         .green[700],
                                                       // value.selected[
                                                       //         index]
                                                       //     ? Color
