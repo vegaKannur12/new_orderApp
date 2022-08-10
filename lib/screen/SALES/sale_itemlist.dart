@@ -364,6 +364,8 @@ class _SalesItemState extends State<SalesItem> {
                                             child: Text("No data Found!!!!"),
                                           )
                                         : ListView.builder(
+                                            itemExtent: 55.0,
+
                                             shrinkWrap: true,
                                             itemCount: value.newList.length,
                                             itemBuilder:
@@ -740,6 +742,7 @@ class _SalesItemState extends State<SalesItem> {
                                     : value.isLoading
                                         ? CircularProgressIndicator()
                                         : ListView.builder(
+                                            itemExtent: 55.0,
                                             shrinkWrap: true,
                                             itemCount: value.productName.length,
                                             itemBuilder:
@@ -748,6 +751,7 @@ class _SalesItemState extends State<SalesItem> {
                                                 padding: const EdgeInsets.only(
                                                     left: 0.4, right: 0.4),
                                                 child: ListTile(
+                                                  dense: true,
                                                   title: Text(
                                                     '${value.productName[index]["code"]}' +
                                                         '-' +

@@ -56,6 +56,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
       body: Consumer<Controller>(
         builder: (context, value, child) {
           return ListView.builder(
+            itemExtent: 55.0,
             shrinkWrap: true,
             itemCount: value.salefilteredProductList.length,
             itemBuilder: (BuildContext context, index) {
@@ -172,7 +173,8 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                             value.salefilteredProductList[index]
                                                 ["tax"]),
                                         0.0,
-                                        value.settingsList1[5]['set_value'].toString(),
+                                        value.settingsList1[5]['set_value']
+                                            .toString(),
                                         int.parse(widget.gtype!),
                                         index,
                                         false,
