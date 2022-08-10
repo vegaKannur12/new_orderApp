@@ -934,14 +934,14 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                               "${products[index]["code"] + "-" + (products[index]['item'])} - Added to cart",
                                                               "return");
 
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .keyContainsListcheck(
-                                                                  products[
-                                                                          index]
-                                                                      ["code"],
-                                                                  index);
+                                                          // Provider.of<Controller>(
+                                                          //         context,
+                                                          //         listen: false)
+                                                          //     .keyContainsListcheck(
+                                                          //         products[
+                                                          //                 index]
+                                                          //             ["code"],
+                                                          //         index);
 
                                                           // print("exist----$exist");
                                                         }

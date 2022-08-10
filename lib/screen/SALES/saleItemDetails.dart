@@ -45,6 +45,8 @@ class SaleItemDetails {
                       bottom: MediaQuery.of(context).viewInsets.bottom,
                     ),
                     child: Column(
+                      // mainAxisSize:MainAxisSize.min ,
+                      // spacing: 5,
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -90,33 +92,44 @@ class SaleItemDetails {
                             ),
                           ],
                         ),
-                        Column(
-                          children: [],
-                        ),
-                        ListTile(
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Text(
-                                "Hsn",
+                                "Hsn", style: TextStyle(fontSize: 18),
                               ),
                               Spacer(),
                               Text(
                                 hsn,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                               ),
                             ],
                           ),
                         ),
-                        ListTile(
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Text(
-                                "Qty",
+                                "Qty", style: TextStyle(fontSize: 18),
                               ),
                               Spacer(),
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  decoration: InputDecoration(
+                                    //labelText: "Phone number",
+                                    // hintText: "Phone number",
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.all(
+                                        0), //  <- you can it to 0.0 for no space
+
+                                    //border: InputBorder.none
+                                  ),
+
+                                  // maxLines: 1,
+                                  // minLines: 1,
                                   keyboardType: TextInputType.number,
                                   onSubmitted: (values) {
                                     print("values----$values");
@@ -161,16 +174,26 @@ class SaleItemDetails {
                         Provider.of<Controller>(context, listen: false)
                                     .settingsList1[0]["set_value"] ==
                                 "YES"
-                            ? ListTile(
-                                title: Row(
+                            ? Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Row(
                                   children: [
                                     Text(
-                                      "Rate",
+                                      "Rate", style: TextStyle(fontSize: 18),
                                     ),
                                     Spacer(),
                                     Container(
                                       width: size.width * 0.2,
                                       child: TextField(
+                                        decoration: InputDecoration(
+                                          //labelText: "Phone number",
+                                          // hintText: "Phone number",
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(
+                                              0), //  <- you can it to 0.0 for no space
+
+                                          //border: InputBorder.none
+                                        ),
                                         keyboardType: TextInputType.number,
                                         onSubmitted: (values) {
                                           print("values----$values");
@@ -214,42 +237,54 @@ class SaleItemDetails {
                                   ],
                                 ),
                               )
-                            : ListTile(
-                                title: Row(
+                            : Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Row(
                                   children: [
                                     Text(
-                                      "Rate",
+                                      "Rate", style: TextStyle(fontSize: 18),
                                     ),
                                     Spacer(),
                                     Text("\u{20B9}${rate.toStringAsFixed(2)}")
                                   ],
                                 ),
                               ),
-                        ListTile(
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Text(
-                                "Gross value",
+                                "Gross value", style: TextStyle(fontSize: 18),
                               ),
                               Spacer(),
                               Text(
                                 value.fromDb!
                                     ? "\u{20B9}${gross.toStringAsFixed(2)}"
-                                    : "\u{20B9}${value.gross.toStringAsFixed(2)}",
+                                    : "\u{20B9}${value.gross.toStringAsFixed(2)}",style: TextStyle(fontSize: 18),
                               )
                             ],
                           ),
                         ),
-                        ListTile(
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Text(
-                                "Discount %",
+                                "Discount %", style: TextStyle(fontSize: 18),
                               ),
                               Spacer(),
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  decoration: InputDecoration(
+                                    //labelText: "Phone number",
+                                    // hintText: "Phone number",
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.all(
+                                        0), //  <- you can it to 0.0 for no space
+
+                                    //border: InputBorder.none
+                                  ),
                                   keyboardType: TextInputType.number,
                                   onSubmitted: (values) {
                                     double valuediscper = 0.0;
@@ -293,16 +328,26 @@ class SaleItemDetails {
                             ],
                           ),
                         ),
-                        ListTile(
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Text(
-                                "Discount Amount",
+                                "Discount Amount", style: TextStyle(fontSize: 18),
                               ),
                               Spacer(),
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  decoration: InputDecoration(
+                                    //labelText: "Phone number",
+                                    // hintText: "Phone number",
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.all(
+                                        0), //  <- you can it to 0.0 for no space
+
+                                    //border: InputBorder.none
+                                  ),
                                   keyboardType: TextInputType.number,
                                   onSubmitted: (values) {
                                     double valuediscamt = 0.0;
@@ -344,22 +389,24 @@ class SaleItemDetails {
                             ],
                           ),
                         ),
-                        ListTile(
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Text(
-                                "Tax %",
+                                "Tax %", style: TextStyle(fontSize: 18),
                               ),
                               Spacer(),
-                              Text(tax_per.toStringAsFixed(2))
+                              Text(tax_per.toStringAsFixed(2),style: TextStyle(fontSize: 18),)
                             ],
                           ),
                         ),
-                        ListTile(
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Text(
-                                "Tax amount",
+                                "Tax amount", style: TextStyle(fontSize: 18),
                               ),
                               Spacer(),
                               tax_amt < 0.00
@@ -368,26 +415,28 @@ class SaleItemDetails {
                                     )
                                   : Text(value.fromDb!
                                       ? "\u{20B9}${tax_amt.toStringAsFixed(2)}"
-                                      : "\u{20B9}${value.tax.toStringAsFixed(2)}")
+                                      : "\u{20B9}${value.tax.toStringAsFixed(2)}",style: TextStyle(fontSize: 18),)
                             ],
                           ),
                         ),
-                        ListTile(
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Text(
-                                "Cess %",
+                                "Cess %", style: TextStyle(fontSize: 18),
                               ),
                               Spacer(),
-                              Text(cess_per.toStringAsFixed(2))
+                              Text(cess_per.toStringAsFixed(2),style: TextStyle(fontSize: 18),)
                             ],
                           ),
                         ),
-                        ListTile(
-                          title: Row(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
                             children: [
                               Text(
-                                "Cess amount",
+                                "Cess amount", style: TextStyle(fontSize: 18),
                               ),
                               Spacer(),
                               cess_amt < 0.00
@@ -396,7 +445,7 @@ class SaleItemDetails {
                                     )
                                   : Text(value.fromDb!
                                       ? "\u{20B9}${cess_amt.toStringAsFixed(2)}"
-                                      : "\u{20B9}${value.cess.toStringAsFixed(2)}")
+                                      : "\u{20B9}${value.cess.toStringAsFixed(2)}",style: TextStyle(fontSize: 18),)
                             ],
                           ),
                         ),
@@ -404,27 +453,27 @@ class SaleItemDetails {
                           thickness: 1,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: ListTile(
-                            title: Row(children: [
-                              Text(
-                                "Net Amount",
-                                style: TextStyle(color: P_Settings.extracolor),
-                              ),
-                              Spacer(),
-                              net_amt < 0.00
-                                  ? Text("\u{20B9}0.00",
-                                      style: TextStyle(
-                                          color: P_Settings.extracolor))
-                                  : Text(
-                                      value.fromDb!
-                                          ? "\u{20B9}${net_amt.toStringAsFixed(2)}"
-                                          : "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
-                                      style: TextStyle(
-                                          color: P_Settings.extracolor),
-                                    ),
-                            ]),
-                          ),
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(children: [
+                            Text(
+                              "Net Amount",
+                              style: TextStyle(color: P_Settings.extracolor,fontSize: 18),
+                            ),
+                            Spacer(),
+                            net_amt < 0.00
+                                ? Text("\u{20B9}0.00",
+                                    style: TextStyle(
+                                        color: P_Settings.extracolor,
+                                        fontWeight: FontWeight.bold,fontSize: 18))
+                                : Text(
+                                    value.fromDb!
+                                        ? "\u{20B9}${net_amt.toStringAsFixed(2)}"
+                                        : "\u{20B9}${value.net_amt.toStringAsFixed(2)}",
+                                    style: TextStyle(
+                                        color: P_Settings.extracolor,
+                                        fontWeight: FontWeight.bold,fontSize: 18),
+                                  ),
+                          ]),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
