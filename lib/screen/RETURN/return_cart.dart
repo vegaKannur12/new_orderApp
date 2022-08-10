@@ -156,7 +156,7 @@ class _ReturnCartState extends State<ReturnCart> {
                                                   .viewInsets
                                                   .bottom),
                                           child: Container(
-                                            height: size.height * 0.3,
+                                            height: size.height * 0.4,
                                             child: Column(
                                               children: [
                                                 Row(
