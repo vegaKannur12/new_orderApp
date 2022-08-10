@@ -134,7 +134,8 @@ class SaleItemDetails {
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
-                                            rate,
+                                            double.parse(
+                                                value.salesrate[index].text),
                                             valueqty,
                                             dis_per,
                                             dis_amt,
@@ -266,7 +267,8 @@ class SaleItemDetails {
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
-                                            rate,
+                                            double.parse(
+                                                value.salesrate[index].text),
                                             double.parse(
                                                 value.salesqty[index].text),
                                             valuediscper,
@@ -319,7 +321,8 @@ class SaleItemDetails {
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .rawCalculation(
-                                            rate,
+                                            double.parse(
+                                                value.salesrate[index].text),
                                             double.parse(
                                                 value.salesqty[index].text),
                                             double.parse(value
