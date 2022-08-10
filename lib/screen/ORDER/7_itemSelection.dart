@@ -399,7 +399,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                           child: Text("No data Found!!!!"),
                                         )
                                       : ListView.builder(
-                                        itemExtent: 55,
+                                          itemExtent: 55,
                                           shrinkWrap: true,
                                           itemCount: value.newList.length,
                                           itemBuilder:
@@ -721,7 +721,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                   : value.isLoading
                                       ? CircularProgressIndicator()
                                       : ListView.builder(
-                                        itemExtent: 55,
+                                          itemExtent: 55,
                                           shrinkWrap: true,
                                           itemCount: value.productName.length,
                                           itemBuilder:

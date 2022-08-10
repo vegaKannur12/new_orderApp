@@ -149,9 +149,12 @@ class _CollectionPageState extends State<CollectionPage> {
                                           child: Container(
                                             width: size.width * 0.5,
                                             child: Padding(
-                                                padding: EdgeInsets.all(8.0),
+                                                padding: EdgeInsets.all(5.0),
                                                 child: Text(
-                                                    item["wname"].toString())),
+                                                  item["wname"].toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 13),
+                                                )),
                                           )))
                                       .toList(),
                                   onChanged: (item) {
@@ -182,6 +185,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: TextFormField(
+                                        style: TextStyle(fontSize: 14),
                                         controller: amtController,
                                         keyboardType: TextInputType.number,
                                         decoration: new InputDecoration(
@@ -203,6 +207,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                   child: Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: TextFormField(
+                                        style: TextStyle(fontSize: 14),
                                         controller: dscController,
                                         keyboardType: TextInputType.number,
                                         decoration: new InputDecoration(
@@ -220,6 +225,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                 child: SizedBox(
                                   width: size.width * 0.9,
                                   child: TextField(
+                                    style: TextStyle(fontSize: 14),
                                     controller: noteController,
                                     minLines:
                                         2, // any number you need (It works as the rows for the textarea)
