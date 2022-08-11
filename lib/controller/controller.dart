@@ -227,6 +227,9 @@ class Controller extends ChangeNotifier {
       await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
       print("Text fp...$fingerprints");
       print("company_code.........$company_code");
+      // String dsd="helloo";
+      String appType = company_code.substring(10, 12);
+      print("apptytpe----$appType");
       if (value == true) {
         try {
           Uri url =
@@ -257,54 +260,59 @@ class Controller extends ChangeNotifier {
           print("fp----- $fp");
           print("sof----${sof}");
           if (sof == "1") {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString("company_id", company_code);
-            /////////////// insert into local db /////////////////////
-            late CD dataDetails;
-            String? fp1 = regModel.fp;
-            print("fingerprint......$fp1");
-            prefs.setString("fp", fp!);
-            String? os = regModel.os;
-            regModel.c_d![0].cid;
-            cid = regModel.cid;
-            cname = regModel.c_d![0].cnme;
-            notifyListeners();
+            if (appType == 'VO') {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString("company_id", company_code);
+              /////////////// insert into local db /////////////////////
+              late CD dataDetails;
+              String? fp1 = regModel.fp;
+              print("fingerprint......$fp1");
+              prefs.setString("fp", fp!);
+              String? os = regModel.os;
+              regModel.c_d![0].cid;
+              cid = regModel.cid;
+              cname = regModel.c_d![0].cnme;
+              notifyListeners();
 
-            await externalDir.fileWrite(fp1!);
+              await externalDir.fileWrite(fp1!);
 
-            for (var item in regModel.c_d!) {
-              print("ciddddddddd......$item");
-              c_d.add(item);
+              for (var item in regModel.c_d!) {
+                print("ciddddddddd......$item");
+                c_d.add(item);
+              }
+              verifyRegistration(context, "");
+
+              await OrderAppDB.instance
+                  .deleteFromTableCommonQuery('registrationTable', "");
+              var res =
+                  await OrderAppDB.instance.insertRegistrationDetails(regModel);
+              print("inserted ${res}");
+              isLoading = false;
+              notifyListeners();
+              prefs.setString("userType", userType!);
+              prefs.setString("cid", cid!);
+              prefs.setString("os", os!);
+
+              prefs.setString("cname", cname!);
+
+              String? user = prefs.getString("userType");
+
+              print("fnjdxf----$user");
+              getCompanyData();
+              // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
+              getMenuAPi(cid!, fp1, company_code, context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CompanyDetails(
+                          type: "",
+                          msg: "",
+                        )),
+              );
+            } else {
+              CustomSnackbar snackbar = CustomSnackbar();
+              snackbar.showSnackbar(context, "Invalid Apk Key", "");
             }
-            verifyRegistration(context, "");
-
-            await OrderAppDB.instance
-                .deleteFromTableCommonQuery('registrationTable', "");
-            var res =
-                await OrderAppDB.instance.insertRegistrationDetails(regModel);
-            print("inserted ${res}");
-            isLoading = false;
-            notifyListeners();
-            prefs.setString("userType", userType!);
-            prefs.setString("cid", cid!);
-            prefs.setString("os", os!);
-
-            prefs.setString("cname", cname!);
-
-            String? user = prefs.getString("userType");
-
-            print("fnjdxf----$user");
-            getCompanyData();
-            // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
-            getMenuAPi(cid!, fp1, company_code, context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CompanyDetails(
-                        type: "",
-                        msg: "",
-                      )),
-            );
           }
           /////////////////////////////////////////////////////
           if (sof == "0") {
