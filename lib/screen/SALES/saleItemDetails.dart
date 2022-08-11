@@ -207,7 +207,7 @@ class SaleItemDetails {
                                           fontSize: 15.0,
                                         ),
                                         decoration: InputDecoration(
-                                          filled: true,
+                                          // filled: true,
                                           //labelText: "Phone number",
                                           // hintText: "Phone number",
                                           isDense: true,
