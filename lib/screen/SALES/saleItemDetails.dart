@@ -121,6 +121,14 @@ class SaleItemDetails {
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  onTap: () {
+                                    value.salesqty[index].selection =
+                                        TextSelection(
+                                            baseOffset: 0,
+                                            extentOffset: value.salesqty[index]
+                                                .value.text.length);
+                                  },
+                                  // autofocus: true,
                                   style: TextStyle(
                                     fontSize: 15.0,
                                   ),
@@ -192,6 +200,16 @@ class SaleItemDetails {
                                     Container(
                                       width: size.width * 0.2,
                                       child: TextField(
+                                        onTap: () {
+                                          value.salesrate[index].selection =
+                                              TextSelection(
+                                                  baseOffset: 0,
+                                                  extentOffset: value
+                                                      .salesrate[index]
+                                                      .value
+                                                      .text
+                                                      .length);
+                                        },
                                         style: TextStyle(
                                           fontSize: 15.0,
                                         ),
@@ -290,6 +308,16 @@ class SaleItemDetails {
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  onTap: () {
+                                    value.discount_prercent[index].selection =
+                                        TextSelection(
+                                            baseOffset: 0,
+                                            extentOffset: value
+                                                .discount_prercent[index]
+                                                .value
+                                                .text
+                                                .length);
+                                  },
                                   style: TextStyle(
                                     fontSize: 15.0,
                                   ),
@@ -357,6 +385,16 @@ class SaleItemDetails {
                               Container(
                                 width: size.width * 0.2,
                                 child: TextField(
+                                  onTap: () {
+                                    value.discount_amount[index].selection =
+                                        TextSelection(
+                                            baseOffset: 0,
+                                            extentOffset: value
+                                                .discount_amount[index]
+                                                .value
+                                                .text
+                                                .length);
+                                  },
                                   style: TextStyle(
                                     fontSize: 15.0,
                                   ),
