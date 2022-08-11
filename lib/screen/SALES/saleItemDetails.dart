@@ -133,12 +133,8 @@ class SaleItemDetails {
                                     fontSize: 15.0,
                                   ),
                                   decoration: InputDecoration(
-                                    //labelText: "Phone number",
-                                    // hintText: "Phone number",
                                     isDense: true,
-                                    contentPadding: EdgeInsets.all(
-                                        0), //  <- you can it to 0.0 for no space
-
+                                    contentPadding: EdgeInsets.all(0),
                                     //border: InputBorder.none
                                   ),
 
@@ -176,9 +172,6 @@ class SaleItemDetails {
                                             "qty");
                                   },
                                   textAlign: TextAlign.right,
-                                  // decoration: InputDecoration(
-                                  //   border: InputBorder.none,
-                                  // ),
                                   controller: value.salesqty[index],
                                 ),
                               ),
@@ -214,6 +207,7 @@ class SaleItemDetails {
                                           fontSize: 15.0,
                                         ),
                                         decoration: InputDecoration(
+                                          filled: true,
                                           //labelText: "Phone number",
                                           // hintText: "Phone number",
                                           isDense: true,
