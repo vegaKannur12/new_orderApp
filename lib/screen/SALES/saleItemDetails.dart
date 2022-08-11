@@ -189,9 +189,6 @@ class SaleItemDetails {
                                           fontSize: 15.0,
                                         ),
                                         decoration: InputDecoration(
-                                          filled: true,
-                                          //labelText: "Phone number",
-                                          // hintText: "Phone number",
                                           isDense: true,
                                           contentPadding: EdgeInsets.all(
                                               0), //  <- you can it to 0.0 for no space
