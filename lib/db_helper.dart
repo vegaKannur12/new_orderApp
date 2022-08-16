@@ -131,6 +131,9 @@ class OrderAppDB {
   static final return_time = 'return_time';
   static final reason = 'reason';
   static final reference_no = 'reference_no';
+///////////////////////////////////////////
+  static final tableName = 'tableName';
+  static final series = 'series';
 
 /////////////////// cart table/////////////
   static final cartdate = 'cartdate';
@@ -320,6 +323,14 @@ class OrderAppDB {
         $status INTEGER
          )
          ''');
+
+    await db.execute('''
+          CREATE TABLE seriesTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $tableName TEXT NOT NULL,
+            $series TEXT
+            )
+            ''');
     await db.execute('''
           CREATE TABLE staffLoginDetailsTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -1170,6 +1181,17 @@ class OrderAppDB {
     return res;
   }
 
+  //////////////////////////////////////////////////////////////////
+  Future insertSeriesTable(String table, String series) async {
+    final db = await database;
+    var query =
+        'INSERT INTO seriesTable(table, series) VALUES("${table}", "${series}")';
+    var res = await db.rawInsert(query);
+    print(query);
+    // print(res);
+    return res;
+  }
+
 /////////////////////////collectionTable/////////////////////////////
   Future insertCollectionTable(
       String rec_date,
@@ -1763,7 +1785,7 @@ class OrderAppDB {
         'select accountHeadsTable.hname as cus_name,orderMasterTable.order_id, orderMasterTable.os  || orderMasterTable.order_id as Order_Num,orderMasterTable.customerid Cus_id,orderMasterTable.orderdate Date, count(orderDetailTable.row_num) count, orderMasterTable.total_price  from orderMasterTable inner join orderDetailTable on orderMasterTable.order_id=orderDetailTable.order_id inner join accountHeadsTable on accountHeadsTable.ac_code= orderMasterTable.customerid where orderMasterTable.orderdate="${date}"  $condition group by orderMasterTable.order_id';
     print("query---$query");
     result = await db.rawQuery(query);
-      print("inner result------$result");
+    print("inner result------$result");
 
     if (result.length > 0) {
       return result;
