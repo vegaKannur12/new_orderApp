@@ -369,6 +369,20 @@ class _CartListState extends State<CartList> {
                                               Container(
                                                 width: size.width * 0.2,
                                                 child: TextField(
+                                                  onTap: () {
+                                                    value.rateController[index]
+                                                            .selection =
+                                                        TextSelection(
+                                                            baseOffset: 0,
+                                                            extentOffset: value
+                                                                .rateController[
+                                                                    index]
+                                                                .value
+                                                                .text
+                                                                .length);
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
                                                   onSubmitted: (values) {
                                                     value.totalCalculation(
                                                         values);

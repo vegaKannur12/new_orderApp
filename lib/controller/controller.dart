@@ -295,6 +295,7 @@ class Controller extends ChangeNotifier {
 
             print("fnjdxf----$user");
             getCompanyData();
+            getMaxSerialNumber(os);
             // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
             getMenuAPi(cid!, fp1, company_code, context);
             Navigator.push(
@@ -2996,5 +2997,74 @@ class Controller extends ChangeNotifier {
     todate = date2;
     print("gtyy----$fromDate");
     //  notifyListeners();
+  }
+
+///////////////////////// get max /////////////////////////////////////
+  getMaxSerialNumber(String os) async {
+    print("series............$os");
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_max_sl.php");
+      String salesOs = "S" + "$os";
+      String collOs = "C" + "$os";
+      String retOs = "R" + "$os";
+      String remOs = "RM" + "$os";
+
+      List<Map<String, dynamic>> tabledel = [
+        {"table_name": "order_master", "field": "order_no", "series": "$os"},
+        {"table_name": "sale_master", "field": "bill_no", "series": "$salesOs"},
+        {
+          "table_name": "collection",
+          "field": "collection_series",
+          "series": "$collOs"
+        },
+        {
+          "table_name": "stock_return_master",
+          "field": "stock_r_no",
+          "series": "$retOs"
+        },
+      ];
+
+      print("table..............$tabledel");
+      // var table = {"table": tabledel};
+      // print("table new..............$table");
+
+      Map body = {
+        'cid': cid,
+        'table': tabledel,
+      };
+      var varJsonEncode = jsonEncode(body);
+
+      http.Response response = await http.post(
+        url,
+        body: varJsonEncode,
+      );
+      print("body user:......... ${varJsonEncode}");
+      var map = jsonDecode(response.body);
+      print("mapuser ${map}");
+      // var m = {
+      //   "order_master": "RP9",
+      //   "sale_master": "SRP3",
+      //   "collection": "AN8"
+      // };
+      map.forEach(
+        (key, value) async {
+          print("key--value--${key}---$value");
+          await OrderAppDB.instance.insertSeriesTable(key, value);
+        },
+      );
+      // for (var user in map) {
+      //   print("user----${user}");
+      //   userTypemodel = UserTypeModel.fromJson(user);
+      //   resuser = await OrderAppDB.instance.insertUserType(userTypemodel);
+      //   // print("inserted ${restaff}");
+      // }
+      // print("inserted user ${resuser}");
+
+      /////////////// insert into local db /////////////////////
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

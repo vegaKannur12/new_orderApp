@@ -225,6 +225,9 @@ class OrderAppDB {
   static final ces_tot = 'ces_tot';
   static final rounding = 'rounding';
   static final set_method = 'set_method';
+  static final prefix = 'prefix';
+  static final value = 'value';
+  static final tabname = 'tabname';
 
   Future<Database> get database async {
     print("bjhs");
@@ -536,6 +539,14 @@ class OrderAppDB {
             $net_amt REAL
           )
           ''');
+    await db.execute('''
+          CREATE TABLE maxSeriesTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $tabname TEXT,
+            $prefix TEXT,
+            $value TEXT     
+          )
+          ''');
     /////////////////////////////////////////
     await db.execute('''
           CREATE TABLE menuTable (
@@ -551,6 +562,15 @@ class OrderAppDB {
             $set_code TEXT,
             $set_value TEXT,
             $set_type INTEGER   
+          )
+          ''');
+
+    await db.execute('''
+          CREATE TABLE maxTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $tabname TEXT NOT NULL,
+            $prefix TEXT,
+            $value TEXT
           )
           ''');
     await db.execute('''
@@ -1153,6 +1173,17 @@ class OrderAppDB {
     final db = await database;
     var query =
         'INSERT INTO productsCategory(cat_id, cat_name) VALUES("${productsCategoryModel.cid}", "${productsCategoryModel.canme}")';
+    var res = await db.rawInsert(query);
+    print(query);
+    // print(res);
+    return res;
+  }
+
+  ///////////////////////maxSeriesTable insertion/////////////////////////////
+  Future insertSeriesTable(String table, String series) async {
+    final db = await database;
+    var query =
+        'INSERT INTO maxSeriesTable(table, series) VALUES("${table}", "${series}")';
     var res = await db.rawInsert(query);
     print(query);
     // print(res);
@@ -1763,7 +1794,7 @@ class OrderAppDB {
         'select accountHeadsTable.hname as cus_name,orderMasterTable.order_id, orderMasterTable.os  || orderMasterTable.order_id as Order_Num,orderMasterTable.customerid Cus_id,orderMasterTable.orderdate Date, count(orderDetailTable.row_num) count, orderMasterTable.total_price  from orderMasterTable inner join orderDetailTable on orderMasterTable.order_id=orderDetailTable.order_id inner join accountHeadsTable on accountHeadsTable.ac_code= orderMasterTable.customerid where orderMasterTable.orderdate="${date}"  $condition group by orderMasterTable.order_id';
     print("query---$query");
     result = await db.rawQuery(query);
-      print("inner result------$result");
+    print("inner result------$result");
 
     if (result.length > 0) {
       return result;

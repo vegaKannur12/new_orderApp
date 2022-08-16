@@ -384,6 +384,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                             await OrderAppDB.instance
                                                 .deleteFromTableCommonQuery(
                                                     "staffDetailsTable", "");
+
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getStaffDetails(cid);

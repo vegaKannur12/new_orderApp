@@ -112,7 +112,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
-    Provider.of<Controller>(context, listen: false).verifyRegistration(context,"");
+    Provider.of<Controller>(context, listen: false)
+        .verifyRegistration(context, "");
     String? gen_area = Provider.of<Controller>(context, listen: false).areaId;
     print("gen area----$gen_area");
     if (gen_area != null) {
@@ -295,7 +296,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "UL":
         {
           Provider.of<Controller>(context, listen: false)
-              .verifyRegistration(context,"");
+              .verifyRegistration(context, "");
           return Uploaddata(
             title: "Upload data",
             cid: cid!,
@@ -306,7 +307,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "DP":
         {
           Provider.of<Controller>(context, listen: false)
-              .verifyRegistration(context,"");
+              .verifyRegistration(context, "");
           return DownloadedPage(
             title: "Download Page",
             type: "drawer call",
@@ -646,153 +647,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   ],
                 ),
 
-          drawer: Drawer(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.045,
-                      ),
-                      Container(
-                        height: size.height * 0.1,
-                        width: size.width * 1,
-                        color: P_Settings.wavecolor,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: size.height * 0.07,
-                              width: size.width * 0.03,
-                            ),
-                            Icon(
-                              Icons.list_outlined,
-                              color: Colors.white,
-                            ),
-                            SizedBox(width: size.width * 0.04),
-                            Text(
-                              "Menus",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Column(children: drawerOpts),
-                      Divider(
-                        color: Colors.black,
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                      ListTile(
-                        onTap: () async {
-                          _onSelectItem(0, "CD");
-                        },
-                        title: Text(
-                          "company Details",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      // ListTile(
-                      //   onTap: () async {
-                      //     _onSelectItem(0, "SO");
-                      //   },
-                      //   title: Text(
-                      //     "Sales",
-                      //     style: TextStyle(fontSize: 17),
-                      //   ),
-                      // ),
-                      ListTile(
-                        trailing: Icon(Icons.arrow_downward),
-                        onTap: () async {
-                          _onSelectItem(0, "DP");
-                        },
-                        title: Text(
-                          "download page",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      ListTile(
-                        trailing: Icon(Icons.arrow_upward),
-                        onTap: () async {
-                          _onSelectItem(0, "UL");
-                        },
-                        title: Text(
-                          "upload data",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      // ListTile(
-                      //   trailing: Icon(Icons.settings),
-                      //   onTap: () async {
-                      //     _onSelectItem(0, "ST");
-                      //   },
-                      //   title: Text(
-                      //     "settings",
-                      //     style: TextStyle(fontSize: 17),
-                      //   ),
-                      // ),
-                      ListTile(
-                        trailing: Icon(Icons.web),
-                        onTap: () async {
-                          NetConnection.networkConnection(context)
-                              .then((value) async {
-                            if (value == true) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WebViewTest()),
-                              );
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NoNetwork()),
-                              );
-                            }
-                          });
-                        },
-                        title: Text(
-                          "webview",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      ListTile(
-                        trailing: Icon(Icons.settings),
-                        onTap: () async {
-                          final prefs = await SharedPreferences.getInstance();
-                          await prefs.remove('company_id');
-                          popup.showAlertDialog(context);
-                        },
-                        title: Text(
-                          "un-register",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                      ListTile(
-                        trailing: Icon(Icons.logout),
-                        onTap: () async {
-                          final prefs = await SharedPreferences.getInstance();
-                          await prefs.remove('st_username');
-                          await prefs.remove('st_pwd');
-                          String? userType = prefs.getString("user_type");
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => StaffLogin()));
-                        },
-                        title: Text(
-                          "logout",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             controller: _tabController,

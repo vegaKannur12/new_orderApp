@@ -108,7 +108,8 @@ class _SplashScreenState extends State<SplashScreen>
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
-    Provider.of<Controller>(context, listen: false).verifyRegistration(context,"splash");
+    Provider.of<Controller>(context, listen: false)
+        .verifyRegistration(context, "splash");
     shared();
     navigate();
   }
