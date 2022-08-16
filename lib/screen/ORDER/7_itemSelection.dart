@@ -122,6 +122,8 @@ class _ItemSelectionState extends State<ItemSelection> {
               size: 25,
             ),
             onPressed: () async {
+              String oos = "O" + "${widget.os}";
+
               if (widget.customerId == null || widget.customerId.isEmpty) {
               } else {
                 FocusManager.instance.primaryFocus?.unfocus();
@@ -129,7 +131,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                   Provider.of<Controller>(context, listen: false)
                       .selectFromSettings('SO_RATE_EDIT');
                   Provider.of<Controller>(context, listen: false)
-                      .getBagDetails(widget.customerId, widget.os);
+                      .getBagDetails(widget.customerId, oos);
 
                   List<Map<String, dynamic>> result = await OrderAppDB.instance
                       .selectAllcommon(
@@ -141,7 +143,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                       pageBuilder: (_, __, ___) => CartList(
                         areaId: widget.areaId,
                         custmerId: widget.customerId,
-                        os: widget.os,
+                        os: oos,
                         areaname: widget.areaName,
                         type: widget.type,
                       ),
@@ -213,16 +215,18 @@ class _ItemSelectionState extends State<ItemSelection> {
             children: [
               GestureDetector(
                 onTap: () {
+                  String oos = "O" + "${widget.os}";
+
                   if (widget.type == "sale order") {
                     Provider.of<Controller>(context, listen: false)
-                        .getBagDetails(widget.customerId, widget.os);
+                        .getBagDetails(widget.customerId, oos);
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         opaque: false, // set to false
                         pageBuilder: (_, __, ___) => CartList(
                           areaId: widget.areaId,
                           custmerId: widget.customerId,
-                          os: widget.os,
+                          os: oos,
                           areaname: widget.areaName,
                           type: widget.type,
                         ),
@@ -461,6 +465,9 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         Icons.add,
                                                       ),
                                                       onPressed: () async {
+                                                        String oos = "O" +
+                                                            "${value.ordernum[0]["os"]}";
+
                                                         setState(() {
                                                           if (value.selected[
                                                                   index] ==
@@ -490,7 +497,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                               .getMaxCommonQuery(
                                                                   'orderBagTable',
                                                                   'cartrowno',
-                                                                  "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
+                                                                  "os='${oos}' AND customerid='${widget.customerId}'");
 
                                                           print("max----$max");
                                                           // print("value.qty[index].text---${value.qty[index].text}");
@@ -513,8 +520,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       ["item"],
                                                                   s[0],
                                                                   s[1],
-                                                                  value.ordernum[
-                                                                      0]["os"],
+                                                                  oos,
                                                                   widget
                                                                       .customerId,
                                                                   max,
@@ -538,7 +544,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                   listen: false)
                                                               .countFromTable(
                                                             "orderBagTable",
-                                                            widget.os,
+                                                            oos,
                                                             widget.customerId,
                                                           );
                                                         }
@@ -584,10 +590,13 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         }
 
                                                         /////////////////////////
-                                                        (widget.customerId.isNotEmpty ||
+                                                        (widget.customerId
+                                                                        .isNotEmpty ||
                                                                     widget.customerId !=
                                                                         null) &&
-                                                                (products[index]["code"]
+                                                                (products[index]
+                                                                            [
+                                                                            "code"]
                                                                         .isNotEmpty ||
                                                                     products[index]
                                                                             [
@@ -598,8 +607,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                     listen:
                                                                         false)
                                                                 .calculateorderTotal(
-                                                                    value.ordernum[0]
-                                                                        ['os'],
+                                                                    oos,
                                                                     widget
                                                                         .customerId)
                                                             : Text("No data");
@@ -628,12 +636,17 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                         index]
                                                                     ? () async {
                                                                         String
+                                                                            oos =
+                                                                            "O" +
+                                                                                "${value.ordernum[0]["os"]}";
+
+                                                                        String
                                                                             item =
                                                                             value.newList[index]["code"] +
                                                                                 value.newList[index]["item"];
 
                                                                         showModal.showMoadlBottomsheet(
-                                                                            widget.os,
+                                                                            oos,
                                                                             widget.customerId,
                                                                             item,
                                                                             size,
@@ -648,6 +661,10 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       }
                                                                     : null
                                                                 : () async {
+                                                                    String oos =
+                                                                        "O" +
+                                                                            "${value.ordernum[0]["os"]}";
+
                                                                     String item = value.newList[index]
                                                                             [
                                                                             "code"] +
@@ -656,8 +673,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                             "item"];
 
                                                                     showModal.showMoadlBottomsheet(
-                                                                        widget
-                                                                            .os,
+                                                                        oos,
                                                                         widget
                                                                             .customerId,
                                                                         item,
@@ -677,6 +693,10 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                             : value.selected[
                                                                     index]
                                                                 ? () async {
+                                                                    String oos =
+                                                                        "O" +
+                                                                            "${value.ordernum[0]["os"]}";
+
                                                                     String item = value.newList[index]
                                                                             [
                                                                             "code"] +
@@ -685,8 +705,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                             "item"];
 
                                                                     showModal.showMoadlBottomsheet(
-                                                                        widget
-                                                                            .os,
+                                                                        oos,
                                                                         widget
                                                                             .customerId,
                                                                         item,
@@ -806,6 +825,9 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         Icons.add,
                                                       ),
                                                       onPressed: () async {
+                                                        String oos = "O" +
+                                                            "${value.ordernum[0]["os"]}";
+
                                                         setState(() {
                                                           if (value.selected[
                                                                   index] ==
@@ -835,7 +857,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                               .getMaxCommonQuery(
                                                                   'orderBagTable',
                                                                   'cartrowno',
-                                                                  "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
+                                                                  "os='${oos}' AND customerid='${widget.customerId}'");
 
                                                           print("max----$max");
                                                           // print("value.qty[index].text---${value.qty[index].text}");
@@ -859,8 +881,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       ["item"],
                                                                   s[0],
                                                                   s[1],
-                                                                  value.ordernum[
-                                                                      0]["os"],
+                                                                  oos,
                                                                   widget
                                                                       .customerId,
                                                                   max,
@@ -885,7 +906,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                   listen: false)
                                                               .countFromTable(
                                                             "orderBagTable",
-                                                            widget.os,
+                                                            oos,
                                                             widget.customerId,
                                                           );
                                                         }
@@ -943,10 +964,13 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         }
 
                                                         /////////////////////////
-                                                        (widget.customerId.isNotEmpty ||
+                                                        (widget.customerId
+                                                                        .isNotEmpty ||
                                                                     widget.customerId !=
                                                                         null) &&
-                                                                (products[index]["code"]
+                                                                (products[index]
+                                                                            [
+                                                                            "code"]
                                                                         .isNotEmpty ||
                                                                     products[index]
                                                                             [
@@ -957,8 +981,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                     listen:
                                                                         false)
                                                                 .calculateorderTotal(
-                                                                    value.ordernum[0]
-                                                                        ['os'],
+                                                                    oos,
                                                                     widget
                                                                         .customerId)
                                                             : Text("No data");
@@ -982,12 +1005,13 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 ? value.selected[
                                                                         index]
                                                                     ? () async {
+                                                                      String oos="O"+"${widget.os}";
                                                                         String
                                                                             item =
                                                                             products[index]["code"] +
                                                                                 products[index]["item"];
                                                                         showModal.showMoadlBottomsheet(
-                                                                            widget.os,
+                                                                            oos,
                                                                             widget.customerId,
                                                                             item,
                                                                             size,
@@ -1002,6 +1026,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       }
                                                                     : null
                                                                 : () async {
+                                                                  String oos="O"+"${widget.os}";
                                                                     String item = products[index]
                                                                             [
                                                                             "code"] +
@@ -1009,8 +1034,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                             [
                                                                             "item"];
                                                                     showModal.showMoadlBottomsheet(
-                                                                        widget
-                                                                            .os,
+                                                                        oos,
                                                                         widget
                                                                             .customerId,
                                                                         item,
@@ -1030,6 +1054,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                             : value.selected[
                                                                     index]
                                                                 ? () async {
+                                                                  String oos="O"+"${widget.os}";
                                                                     String item = products[index]
                                                                             [
                                                                             "code"] +
@@ -1037,8 +1062,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                             [
                                                                             "item"];
                                                                     showModal.showMoadlBottomsheet(
-                                                                        widget
-                                                                            .os,
+                                                                        oos,
                                                                         widget
                                                                             .customerId,
                                                                         item,

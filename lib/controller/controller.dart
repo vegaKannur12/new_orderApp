@@ -901,7 +901,7 @@ class Controller extends ChangeNotifier {
       for (var item in map) {
         if (item["order_id"] != null) {
           await OrderAppDB.instance.upadteCommonQuery("orderMasterTable",
-              "status='${item["order_id"]}'", "order_id='${item["id"]}'");
+              "status='${item["order_id"]}'", "id='${item["id"]}'");
         }
       }
       isLoading = false;
@@ -939,7 +939,7 @@ class Controller extends ChangeNotifier {
         print("itemtt----$item");
         if (item["s_id"] != null) {
           await OrderAppDB.instance.upadteCommonQuery("salesMasterTable",
-              "status='${item["s_id"]}'", "sales_id='${item["s_id"]}'");
+              "status='${item["s_id"]}'", "id='${item["s_id"]}'");
         }
       }
       isLoading = false;
@@ -1168,6 +1168,7 @@ class Controller extends ChangeNotifier {
   ) async {
     print("hhjk----$date");
     List<Map<String, dynamic>> om = [];
+    // String oos="O"+"$os";
     int order_id = await OrderAppDB.instance
         .getMaxCommonQuery('orderDetailTable', 'order_id', "os='${os}'");
     int rowNum = 1;
@@ -1571,6 +1572,8 @@ class Controller extends ChangeNotifier {
     bagList.clear();
     isLoading = true;
     notifyListeners();
+    // String oos="O"+"$os";
+
     List<Map<String, dynamic>> res =
         await OrderAppDB.instance.getOrderBagTable(customerId, os);
     for (var item in res) {

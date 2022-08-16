@@ -77,6 +77,7 @@ class CommonPopup {
 
                   ////////////////////////////////////////////////////////////////////////////////
                   else if (type == "sale order") {
+                    String? sOs = "O" + "$os";
                     print("inside order.......");
                     if (Provider.of<Controller>(context, listen: false)
                             .bagList
@@ -84,7 +85,7 @@ class CommonPopup {
                         0) {
                       Provider.of<Controller>(context, listen: false)
                           .insertToOrderbagAndMaster(
-                        os!,
+                        sOs,
                         date,
                         time,
                         custmerId,
@@ -100,9 +101,10 @@ class CommonPopup {
                             .returnList
                             .length >
                         0) {
+                      String? sOs = "R" + "$os";
                       Provider.of<Controller>(context, listen: false)
                           .insertreturnMasterandDetailsTable(
-                              os!,
+                              sOs,
                               date,
                               time,
                               custmerId,
