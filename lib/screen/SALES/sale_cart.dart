@@ -219,17 +219,17 @@ class _SaleCartState extends State<SaleCart> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       salepopup.buildPopupDialog(
-                                          "sales",
-                                          context,
-                                          "Confirm your sale?",
-                                          widget.areaId,
-                                          widget.areaname,
-                                          widget.custmerId,
-                                          s[0],
-                                          s[1],
-                                          "",
-                                          "",
-                                          ),
+                                    "sales",
+                                    context,
+                                    "Confirm your sale?",
+                                    widget.areaId,
+                                    widget.areaname,
+                                    widget.custmerId,
+                                    s[0],
+                                    s[1],
+                                    "",
+                                    "",
+                                  ),
                                 );
                                 // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
                               }),
