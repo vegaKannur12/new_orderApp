@@ -382,6 +382,135 @@ class _ReturnCartState extends State<ReturnCart> {
             // borderRadius: BorderRadius.circular(20),
           ),
           child: ListTile(
+            onTap: () {
+              Provider.of<Controller>(context, listen: false).setreturnQty(qty);
+              Provider.of<Controller>(context, listen: false)
+                  .setreturnAmt(totalamount);
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Consumer<Controller>(
+                    builder: (context, value, child) {
+                      return Container(
+                        height: size.height * 0.4,
+                        color: Colors.white,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: size.height * 0.01,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    FloatingActionButton.small(
+                                        backgroundColor: Colors.grey,
+                                        child: Icon(Icons.remove),
+                                        onPressed: () {
+                                          if (value.returnqtyinc! > 1) {
+                                            value.returnqtyDecrement();
+                                            value.returntotalCalculation(rate);
+                                          }
+                                        }),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15),
+                                      child: Text(
+                                        value.returnqtyinc.toString(),
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                    FloatingActionButton.small(
+                                        backgroundColor: Colors.grey,
+                                        child: Icon(Icons.add),
+                                        onPressed: () {
+                                          value.returnqtyIncrement();
+                                          value.returntotalCalculation(rate);
+                                        }),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.02,
+                                ),
+                                Divider(
+                                  thickness: 1,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, bottom: 8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Total Price :",
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          "\u{20B9}${value.priceval}",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  thickness: 1,
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.02,
+                                ),
+                                Flexible(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: size.height * 0.035,
+                                        width: size.width * 0.6,
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              Provider.of<Controller>(context,
+                                                      listen: false)
+                                                  .updatereturnQty(
+                                                      index,
+                                                      value.returnqtyinc!,
+                                                      value.returntotalPrice!);
+                                              print(
+                                                  "vlue.retuyrnList----${value.returnList}");
+                                              Provider.of<Controller>(context,
+                                                      listen: false)
+                                                  .calculatereturnTotal();
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("continue..")),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
             // leading: CircleAvatar(backgroundColor: Colors.green),
             title: Column(
               children: [
@@ -533,198 +662,17 @@ class _ReturnCartState extends State<ReturnCart> {
                             Flexible(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 5, top: 0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Provider.of<Controller>(context,
-                                            listen: false)
-                                        .setreturnQty(qty);
-                                    Provider.of<Controller>(context,
-                                            listen: false)
-                                        .setreturnAmt(totalamount);
-                                    showModalBottomSheet<void>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Consumer<Controller>(
-                                          builder: (context, value, child) {
-                                            return Container(
-                                              height: size.height * 0.4,
-                                              color: Colors.white,
-                                              child: Center(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.01,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          IconButton(
-                                                            icon: Icon(
-                                                                Icons.close),
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          FloatingActionButton
-                                                              .small(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .grey,
-                                                                  child: Icon(Icons
-                                                                      .remove),
-                                                                  onPressed:
-                                                                      () {
-                                                                    if (value
-                                                                            .returnqtyinc! >
-                                                                        1) {
-                                                                      value
-                                                                          .returnqtyDecrement();
-                                                                      value.returntotalCalculation(
-                                                                          rate);
-                                                                    }
-                                                                  }),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 15.0,
-                                                                    right: 15),
-                                                            child: Text(
-                                                              value.returnqtyinc
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  fontSize: 20),
-                                                            ),
-                                                          ),
-                                                          FloatingActionButton
-                                                              .small(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .grey,
-                                                                  child: Icon(
-                                                                      Icons
-                                                                          .add),
-                                                                  onPressed:
-                                                                      () {
-                                                                    value
-                                                                        .returnqtyIncrement();
-                                                                    value.returntotalCalculation(
-                                                                        rate);
-                                                                  }),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.02,
-                                                      ),
-                                                      Divider(
-                                                        thickness: 1,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                top: 8.0,
-                                                                bottom: 8),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              "Total Price :",
-                                                              style: TextStyle(
-                                                                  fontSize: 17),
-                                                            ),
-                                                            Flexible(
-                                                              child: Text(
-                                                                "\u{20B9}${value.priceval}",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Divider(
-                                                        thickness: 1,
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.02,
-                                                      ),
-                                                      Flexible(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Container(
-                                                              height:
-                                                                  size.height *
-                                                                      0.035,
-                                                              width:
-                                                                  size.width *
-                                                                      0.6,
-                                                              child:
-                                                                  ElevatedButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        Provider.of<Controller>(context, listen: false).updatereturnQty(
-                                                                            index,
-                                                                            value.returnqtyinc!,
-                                                                            value.returntotalPrice!);
-                                                                        print(
-                                                                            "vlue.retuyrnList----${value.returnList}");
-                                                                        Provider.of<Controller>(context,
-                                                                                listen: false)
-                                                                            .calculatereturnTotal();
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child: Text(
-                                                                          "continue..")),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Qty :",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Container(child: Text(qty.toString())),
-                                    ],
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Qty :",
+                                      style: TextStyle(fontSize: 13),
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.02,
+                                    ),
+                                    Container(child: Text(qty.toString())),
+                                  ],
                                 ),
                               ),
                             ),

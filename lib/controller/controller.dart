@@ -136,7 +136,7 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportOriginalList = [];
   List<Map<String, dynamic>> settingsList = [];
   List<Map<String, dynamic>> settingsList1 = [];
-
+  List<Map<String, dynamic>> maxseriesList = [];
   List<Map<String, dynamic>> walletList = [];
   List<Map<String, dynamic>> historydataList = [];
   List<Map<String, dynamic>> staffOrderTotal = [];
@@ -227,6 +227,9 @@ class Controller extends ChangeNotifier {
       await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
       print("Text fp...$fingerprints");
       print("company_code.........$company_code");
+      // String dsd="helloo";
+      String appType = company_code.substring(10, 12);
+      print("apptytpe----$appType");
       if (value == true) {
         try {
           Uri url =
@@ -257,55 +260,62 @@ class Controller extends ChangeNotifier {
           print("fp----- $fp");
           print("sof----${sof}");
           if (sof == "1") {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString("company_id", company_code);
-            /////////////// insert into local db /////////////////////
-            late CD dataDetails;
-            String? fp1 = regModel.fp;
-            print("fingerprint......$fp1");
-            prefs.setString("fp", fp!);
-            String? os = regModel.os;
-            regModel.c_d![0].cid;
-            cid = regModel.cid;
-            cname = regModel.c_d![0].cnme;
-            notifyListeners();
+            if (appType == 'VO') {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString("company_id", company_code);
+              /////////////// insert into local db /////////////////////
+              late CD dataDetails;
+              String? fp1 = regModel.fp;
+              print("fingerprint......$fp1");
+              prefs.setString("fp", fp!);
+              String? os = regModel.os;
+              regModel.c_d![0].cid;
+              cid = regModel.cid;
+              cname = regModel.c_d![0].cnme;
+              notifyListeners();
 
-            await externalDir.fileWrite(fp1!);
+              await externalDir.fileWrite(fp1!);
 
-            for (var item in regModel.c_d!) {
-              print("ciddddddddd......$item");
-              c_d.add(item);
+              for (var item in regModel.c_d!) {
+                print("ciddddddddd......$item");
+                c_d.add(item);
+              }
+              verifyRegistration(context, "");
+
+              await OrderAppDB.instance
+                  .deleteFromTableCommonQuery('registrationTable', "");
+              var res =
+                  await OrderAppDB.instance.insertRegistrationDetails(regModel);
+              print("inserted ${res}");
+              isLoading = false;
+              notifyListeners();
+              prefs.setString("userType", userType!);
+              prefs.setString("cid", cid!);
+              prefs.setString("os", os!);
+
+              prefs.setString("cname", cname!);
+
+              String? user = prefs.getString("userType");
+
+              print("fnjdxf----$user");
+              await OrderAppDB.instance
+                  .deleteFromTableCommonQuery('maxSeriesTable', "");
+              getCompanyData();
+              // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
+              getMaxSerialNumber(os);
+              getMenuAPi(cid!, fp1, company_code, context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CompanyDetails(
+                          type: "",
+                          msg: "",
+                        )),
+              );
+            } else {
+              CustomSnackbar snackbar = CustomSnackbar();
+              snackbar.showSnackbar(context, "Invalid Apk Key", "");
             }
-            verifyRegistration(context, "");
-
-            await OrderAppDB.instance
-                .deleteFromTableCommonQuery('registrationTable', "");
-            var res =
-                await OrderAppDB.instance.insertRegistrationDetails(regModel);
-            print("inserted ${res}");
-            isLoading = false;
-            notifyListeners();
-            prefs.setString("userType", userType!);
-            prefs.setString("cid", cid!);
-            prefs.setString("os", os!);
-
-            prefs.setString("cname", cname!);
-
-            String? user = prefs.getString("userType");
-
-            print("fnjdxf----$user");
-            getCompanyData();
-            getMaxSerialNumber(os);
-            // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
-            getMenuAPi(cid!, fp1, company_code, context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CompanyDetails(
-                        type: "",
-                        msg: "",
-                      )),
-            );
           }
           /////////////////////////////////////////////////////
           if (sof == "0") {
@@ -883,7 +893,7 @@ class Controller extends ChangeNotifier {
         body: {'cid': cid, 'om': mapBody},
       );
 
-      print("after");
+      print("order response.........$response");
 
       var map = jsonDecode(response.body);
       print("response----${map}");
@@ -923,7 +933,6 @@ class Controller extends ChangeNotifier {
         body: {'cid': cid, 'om': mapBody},
       );
       print("after-----$response");
-
       var map = jsonDecode(response.body);
       print("response sales----${map}");
       for (var item in map) {
@@ -3010,20 +3019,19 @@ class Controller extends ChangeNotifier {
       String remOs = "RM" + "$os";
 
       List<Map<String, dynamic>> tabledel = [
-        {"table_name": "order_master", "field": "order_no", "series": "$os"},
-        {"table_name": "sale_master", "field": "bill_no", "series": "$salesOs"},
+        {"table_name": "order_master", "field": "order_no", "series": "RP"},
+        {"table_name": "sale_master", "field": "bill_no", "series": "SRP"},
         {
           "table_name": "collection",
           "field": "collection_series",
-          "series": "$collOs"
+          "series": "CRP"
         },
         {
           "table_name": "stock_return_master",
           "field": "stock_r_no",
-          "series": "$retOs"
-        },
+          "series": "RRP"
+        }
       ];
-
       print("table..............$tabledel");
       // var table = {"table": tabledel};
       // print("table new..............$table");
@@ -3032,33 +3040,24 @@ class Controller extends ChangeNotifier {
         'cid': cid,
         'table': tabledel,
       };
+
       var varJsonEncode = jsonEncode(body);
+      print("body user:......... ${varJsonEncode}");
 
       http.Response response = await http.post(
         url,
-        body: varJsonEncode,
+        body: {'cid': cid, 'table': varJsonEncode},
       );
-      print("body user:......... ${varJsonEncode}");
       var map = jsonDecode(response.body);
       print("mapuser ${map}");
-      // var m = {
-      //   "order_master": "RP9",
-      //   "sale_master": "SRP3",
-      //   "collection": "AN8"
-      // };
-      map.forEach(
-        (key, value) async {
-          print("key--value--${key}---$value");
-          await OrderAppDB.instance.insertSeriesTable(key, value);
-        },
-      );
-      // for (var user in map) {
-      //   print("user----${user}");
-      //   userTypemodel = UserTypeModel.fromJson(user);
-      //   resuser = await OrderAppDB.instance.insertUserType(userTypemodel);
-      //   // print("inserted ${restaff}");
-      // }
-      // print("inserted user ${resuser}");
+      for (var item in map) {
+        print("tablename........${item['table_name']}....${item['series']}");
+        String sval = item['series'].replaceAll(new RegExp(r'[^0-9]'), '');
+        String series = item['series'].replaceAll(new RegExp(r'(\d+)'), '');
+        print("value series............$sval....$series");
+        await OrderAppDB.instance
+            .insertSeriesTable(item['table_name'], series, sval);
+      }
 
       /////////////// insert into local db /////////////////////
       notifyListeners();

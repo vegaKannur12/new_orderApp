@@ -131,6 +131,9 @@ class OrderAppDB {
   static final return_time = 'return_time';
   static final reason = 'reason';
   static final reference_no = 'reference_no';
+///////////////////////////////////////////
+  static final tableName = 'tableName';
+  static final series = 'series';
 
 /////////////////// cart table/////////////
   static final cartdate = 'cartdate';
@@ -323,6 +326,7 @@ class OrderAppDB {
         $status INTEGER
          )
          ''');
+
     await db.execute('''
           CREATE TABLE staffLoginDetailsTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -1180,11 +1184,15 @@ class OrderAppDB {
   }
 
   ///////////////////////maxSeriesTable insertion/////////////////////////////
-  Future insertSeriesTable(String table, String series) async {
+  Future insertSeriesTable(String tablenm, String prefix, String? val) async {
+    print("fields............$tablenm......$prefix....$val.");
     final db = await database;
+
     var query =
-        'INSERT INTO maxSeriesTable(table, series) VALUES("${table}", "${series}")';
+        'INSERT INTO maxSeriesTable(tabname, prefix, value) VALUES("${tablenm}", "${prefix}", "${val}")';
+    // var serval = "UPDATE maxSeriesTable SET value = REPLACE(prefix,'sval','')";
     var res = await db.rawInsert(query);
+    print("responce...............$res");
     print(query);
     // print(res);
     return res;
