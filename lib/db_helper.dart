@@ -1182,15 +1182,15 @@ class OrderAppDB {
   }
 
   //////////////////////////////////////////////////////////////////
-  Future insertSeriesTable(String table, String series) async {
-    final db = await database;
-    var query =
-        'INSERT INTO seriesTable(table, series) VALUES("${table}", "${series}")';
-    var res = await db.rawInsert(query);
-    print(query);
-    // print(res);
-    return res;
-  }
+  // Future insertSeriesTable(String table, String series) async {
+  //   final db = await database;
+  //   var query =
+  //       'INSERT INTO seriesTable(table, series) VALUES("${table}", "${series}")';
+  //   var res = await db.rawInsert(query);
+  //   print(query);
+  //   // print(res);
+  //   return res;
+  // }
 
 /////////////////////////collectionTable/////////////////////////////
   Future insertCollectionTable(

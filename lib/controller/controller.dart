@@ -535,7 +535,7 @@ class Controller extends ChangeNotifier {
       String retOs = "R" + "$os";
       String remOs = "RM" + "$os";
 
-      List<Map<String, dynamic>> table = [
+      List<Map<String, dynamic>> tableDet = [
         {"table_name": "order_master", "field": "order_no", "series": "$os"},
         {"table_name": "sale_master", "field": "bill_no", "series": "$salesOs"},
         {
@@ -550,18 +550,19 @@ class Controller extends ChangeNotifier {
         },
       ];
 
-      // var table = {"table": tableDet};
+      var table = {"table": tableDet};
+      var varJsonEncode = jsonEncode(table);
+
       Map body = {
         'cid': cid,
-        'table': table,
+        'table': varJsonEncode,
       };
-      var varJsonEncode = jsonEncode(body);
 
       http.Response response = await http.post(
         url,
-        body: varJsonEncode,
+        body: body,
       );
-      print("body user ${varJsonEncode}");
+      print("body user ${body}");
       var map = jsonDecode(response.body);
       print("mapuser ${map}");
       // var m = {
@@ -572,7 +573,8 @@ class Controller extends ChangeNotifier {
       map.forEach(
         (key, value) async {
           print("key--value--${key}---$value");
-          await OrderAppDB.instance.insertSeriesTable(key, value);
+          // value.splitByLength(5);
+          // await OrderAppDB.instance.insertSeriesTable(key, value);
         },
       );
       // for (var user in map) {
