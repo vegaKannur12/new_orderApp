@@ -3045,9 +3045,6 @@ class Controller extends ChangeNotifier {
         }
       ];
       print("table..............$tabledel");
-      // var table = {"table": tabledel};
-      // print("table new..............$table");
-
       Map body = {
         'cid': cid,
         'table': tabledel,
