@@ -863,7 +863,7 @@ class OrderAppDB {
     final db = await database;
     var res2;
     var res3;
-
+    print("total quantity...................$total_qty");
     if (table == "salesDetailTable") {
       var query2 =
           'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $net_amt, $rate,$unit_rate)';
@@ -2068,7 +2068,7 @@ class OrderAppDB {
   upadteCommonQuery(String table, String fields, String condition) async {
     Database db = await instance.database;
     print("condition for update...$table....$fields.............$condition");
-    var query='UPDATE $table SET $fields WHERE $condition ';
+    var query = 'UPDATE $table SET $fields WHERE $condition ';
     print("qyery-----$query");
     var res = await db.rawUpdate(query);
     print("response-------$res");

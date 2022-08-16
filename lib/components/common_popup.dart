@@ -19,7 +19,8 @@ class CommonPopup {
       String date,
       String time,
       String ref,
-      String reason) {
+      String reason,
+      ) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -69,6 +70,7 @@ class CommonPopup {
                         value.tax_tot,
                         value.dis_tot,
                         value.cess_tot,
+                        
                       );
                     }
                     Provider.of<Controller>(context, listen: false)

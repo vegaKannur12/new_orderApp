@@ -298,7 +298,7 @@ class Controller extends ChangeNotifier {
               String? user = prefs.getString("userType");
 
               print("fnjdxf----$user");
-             
+
               getCompanyData();
               // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
               getMaxSerialNumber(os);
@@ -1043,6 +1043,7 @@ class Controller extends ChangeNotifier {
     double tax_tot,
     double dis_tot,
     double cess_tot,
+    
   ) async {
     List<Map<String, dynamic>> om = [];
     int sales_id = await OrderAppDB.instance
@@ -3016,7 +3017,6 @@ class Controller extends ChangeNotifier {
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_max_sl.php");
       String ordOs = "O" + "$os";
-
       String salesOs = "S" + "$os";
       String collOs = "C" + "$os";
       String retOs = "R" + "$os";
