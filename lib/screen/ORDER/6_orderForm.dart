@@ -1062,6 +1062,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             ),
                                                             onPressed:
                                                                 () async {
+                                                                  String oos="O"+"${values.ordernum[
+                                                                      0]['os']}";
                                                               FocusScopeNode
                                                                   currentFocus =
                                                                   FocusScope.of(
@@ -1089,8 +1091,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                             false)
                                                                     .countFromTable(
                                                                   "orderBagTable",
-                                                                  values.ordernum[
-                                                                      0]['os'],
+                                                                  oos,
                                                                   custmerId
                                                                       .toString(),
                                                                 );

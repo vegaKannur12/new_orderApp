@@ -16,14 +16,14 @@ class FilteredProduct extends StatefulWidget {
   List<String>? s;
   String? customerId;
   String? value;
- 
-  FilteredProduct(
-      {required this.type,
-      this.customerId,
-      this.os,
-      this.s,
-      this.value,
-      });
+
+  FilteredProduct({
+    required this.type,
+    this.customerId,
+    this.os,
+    this.s,
+    this.value,
+  });
 
   @override
   State<FilteredProduct> createState() => _FilteredProductState();
@@ -48,7 +48,7 @@ class _FilteredProductState extends State<FilteredProduct> {
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false)
-        .filterwithCompany(widget.customerId!, widget.value!,"sale order");
+        .filterwithCompany(widget.customerId!, widget.value!, "sale order");
   }
 
   @override
@@ -123,6 +123,8 @@ class _FilteredProductState extends State<FilteredProduct> {
                             Icons.add,
                           ),
                           onPressed: () async {
+                            String oos = "O" + "${widget.os}";
+
                             setState(() {
                               if (value.filterComselected[index] == false) {
                                 value.filterComselected[index] =
@@ -138,7 +140,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                               int max = await OrderAppDB.instance.getMaxCommonQuery(
                                   'orderBagTable',
                                   'cartrowno',
-                                  "os='${value.ordernum[0]["os"]}' AND customerid='${widget.customerId}'");
+                                  "os='${oos}' AND customerid='${widget.customerId}'");
                               print("max----$max");
                               rate1 = value.filteredProductList[index]["rate1"];
                               var total = int.parse(rate1) *
@@ -150,7 +152,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                       value.filteredProductList[index]["item"],
                                       widget.s![0],
                                       widget.s![1],
-                                      value.ordernum[0]["os"],
+                                      oos,
                                       widget.customerId!,
                                       max,
                                       value.filteredProductList[index]["code"],
@@ -159,12 +161,14 @@ class _FilteredProductState extends State<FilteredProduct> {
                                       total.toString(),
                                       0);
 
-                              snackbar.showSnackbar(context,
-                                  "${value.filteredProductList[index]["code"] + value.filteredProductList[index]['item']} - Added to cart","sale order");
+                              snackbar.showSnackbar(
+                                  context,
+                                  "${value.filteredProductList[index]["code"] + value.filteredProductList[index]['item']} - Added to cart",
+                                  "sale order");
                               Provider.of<Controller>(context, listen: false)
                                   .countFromTable(
                                 "orderBagTable",
-                                widget.os!,
+                                oos,
                                 widget.customerId!,
                               );
                             }
@@ -198,8 +202,8 @@ class _FilteredProductState extends State<FilteredProduct> {
                                             null)
                                 ? Provider.of<Controller>(context,
                                         listen: false)
-                                    .calculateorderTotal(value.ordernum[0]['os'],
-                                        widget.customerId!)
+                                    .calculateorderTotal(
+                                        oos, widget.customerId!)
                                 : Text("No data");
                           },
                           color: Colors.black,
@@ -216,13 +220,15 @@ class _FilteredProductState extends State<FilteredProduct> {
                                         null
                                     ? value.filterComselected[index]
                                         ? () async {
+                                            String oos = "O" + "${widget.os}";
+
                                             String item =
                                                 value.filteredProductList[index]
                                                         ["code"] +
                                                     value.filteredProductList[
                                                         index]["item"];
                                             showModal.showMoadlBottomsheet(
-                                                widget.os!,
+                                                oos,
                                                 widget.customerId!,
                                                 item,
                                                 size,
@@ -235,18 +241,20 @@ class _FilteredProductState extends State<FilteredProduct> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .filteredeValue!,
-                                                value.qty[index],"sale order"
-                                                );
+                                                value.qty[index],
+                                                "sale order");
                                           }
                                         : null
                                     : () async {
+                                        String oos = "O" + "${widget.os}";
+
                                         String item =
                                             value.filteredProductList[index]
                                                     ["code"] +
                                                 value.filteredProductList[index]
                                                     ["item"];
                                         showModal.showMoadlBottomsheet(
-                                            widget.os!,
+                                            oos,
                                             widget.customerId!,
                                             item,
                                             size,
@@ -264,13 +272,15 @@ class _FilteredProductState extends State<FilteredProduct> {
                                       }
                                 : value.filterComselected[index]
                                     ? () async {
+                                        String oos = "O" + "${widget.os}";
+
                                         String item =
                                             value.filteredProductList[index]
                                                     ["code"] +
                                                 value.filteredProductList[index]
                                                     ["item"];
                                         showModal.showMoadlBottomsheet(
-                                            widget.os!,
+                                            oos,
                                             widget.customerId!,
                                             item,
                                             size,

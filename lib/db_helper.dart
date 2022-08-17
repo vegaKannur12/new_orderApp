@@ -132,8 +132,9 @@ class OrderAppDB {
   static final reason = 'reason';
   static final reference_no = 'reference_no';
 ///////////////////////////////////////////
-  static final tableName = 'tableName';
-  static final series = 'series';
+  static final prefix = 'prefix';
+  static final value = 'value';
+  static final tabname = 'tabname';
 
 /////////////////// cart table/////////////
   static final cartdate = 'cartdate';
@@ -324,13 +325,6 @@ class OrderAppDB {
          )
          ''');
 
-    await db.execute('''
-          CREATE TABLE seriesTable (
-            $id INTEGER PRIMARY KEY AUTOINCREMENT,
-            $tableName TEXT NOT NULL,
-            $series TEXT
-            )
-            ''');
     await db.execute('''
           CREATE TABLE staffLoginDetailsTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -629,6 +623,14 @@ class OrderAppDB {
             $qty INTEGER,
             $unit TEXT,
             $rate REAL  
+          )
+          ''');
+    await db.execute('''
+          CREATE TABLE maxSeriesTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $tabname TEXT,
+            $prefix TEXT,
+            $value TEXT     
           )
           ''');
   }
@@ -967,7 +969,7 @@ class OrderAppDB {
         'SELECT  * FROM orderBagTable WHERE customerid="${customerId}" AND os = "${os}"');
     print(
         'SELECT  * FROM orderBagTable WHERE customerid="${customerId}" AND os = "${os}"');
-    print(res);
+    print("res---$res");
     return res;
   }
 
@@ -1182,15 +1184,16 @@ class OrderAppDB {
   }
 
   //////////////////////////////////////////////////////////////////
-  // Future insertSeriesTable(String table, String series) async {
-  //   final db = await database;
-  //   var query =
-  //       'INSERT INTO seriesTable(table, series) VALUES("${table}", "${series}")';
-  //   var res = await db.rawInsert(query);
-  //   print(query);
-  //   // print(res);
-  //   return res;
-  // }
+  Future insertSeriesTable(String table, String series, String? val) async {
+    final db = await database;
+    var query =
+        'INSERT INTO maxSeriesTable(table, series) VALUES("${table}", "${series}" , "${val}")';
+    var res = await db.rawInsert(query);
+    print("responce...............$res");
+    print(query);
+    // print(res);
+    return res;
+  }
 
 /////////////////////////collectionTable/////////////////////////////
   Future insertCollectionTable(
@@ -1780,6 +1783,7 @@ class OrderAppDB {
 
   Future<dynamic> todayOrder(String date, String condition) async {
     List<Map<String, dynamic>> result;
+    print("conditon----$condition");
     Database db = await instance.database;
     var query =
         'select accountHeadsTable.hname as cus_name,orderMasterTable.order_id, orderMasterTable.os  || orderMasterTable.order_id as Order_Num,orderMasterTable.customerid Cus_id,orderMasterTable.orderdate Date, count(orderDetailTable.row_num) count, orderMasterTable.total_price  from orderMasterTable inner join orderDetailTable on orderMasterTable.order_id=orderDetailTable.order_id inner join accountHeadsTable on accountHeadsTable.ac_code= orderMasterTable.customerid where orderMasterTable.orderdate="${date}"  $condition group by orderMasterTable.order_id';
@@ -2043,8 +2047,9 @@ class OrderAppDB {
   upadteCommonQuery(String table, String fields, String condition) async {
     Database db = await instance.database;
     print("condition for update...$table....$fields.............$condition");
-    var res = await db.rawUpdate('UPDATE $table SET $fields WHERE $condition ');
-    print("UPDATE $table SET $fields WHERE $condition");
+    var query='UPDATE $table SET $fields WHERE $condition ';
+    print("qyery-----$query");
+    var res = await db.rawUpdate(query);
     print("response-------$res");
     return res;
   }
