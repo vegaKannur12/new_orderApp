@@ -3087,7 +3087,7 @@ class Controller extends ChangeNotifier {
   calculateMaxSeries(String prefix) {}
 
   queryExecuteResult(String query) async {
-    queryResult.clear();
+    // queryResult.clear();
     queryResult = await OrderAppDB.instance.executeQuery(query);
     print("queryResult---$queryResult");
     notifyListeners();

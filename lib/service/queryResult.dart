@@ -32,6 +32,8 @@ class _QueryResultScreenState extends State<QueryResultScreen> {
               height: size.height * 0.04,
               child: ElevatedButton(
                   onPressed: () {
+                    // controller.text="select convert(integer,value) con from maxSeriesTable";
+                    controller.text="SELECT MAX(x) maxVal from ( SELECT value as x FROM maxSeriesTable WHERE prefix = 'ORP' UNION ALL SELECT MAX(order_id)+1 as x FROM orderMasterTable )";
                     Provider.of<Controller>(context, listen: false)
                         .queryExecuteResult(controller.text);
                   },
