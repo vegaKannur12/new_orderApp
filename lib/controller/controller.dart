@@ -566,25 +566,14 @@ class Controller extends ChangeNotifier {
       print("body user ${body}");
       var map = jsonDecode(response.body);
       print("mapuser ${map}");
-      // var m = {
-      //   "order_master": "RP9",
-      //   "sale_master": "SRP3",
-      //   "collection": "AN8"
-      // };
-      map.forEach(
-        (key, value) async {
-          print("key--value--${key}---$value");
-          // value.splitByLength(5);
-          // await OrderAppDB.instance.insertSeriesTable(key, value);
-        },
-      );
-      // for (var user in map) {
-      //   print("user----${user}");
-      //   userTypemodel = UserTypeModel.fromJson(user);
-      //   resuser = await OrderAppDB.instance.insertUserType(userTypemodel);
-      //   // print("inserted ${restaff}");
-      // }
-      // print("inserted user ${resuser}");
+      String replacd;
+      for (var item in map) {
+        print("item----${item}");
+        replacd = item["series"].toString().replaceAll(RegExp(r'A-Z'), '');
+        print("replacd----$replacd");
+        // await OrderAppDB.instance.insertUserType(userTypemodel);
+        // print("inserted ${restaff}");
+      }
 
       /////////////// insert into local db /////////////////////
       notifyListeners();
