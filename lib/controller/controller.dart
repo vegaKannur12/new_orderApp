@@ -97,6 +97,8 @@ class Controller extends ChangeNotifier {
   bool returnqty = false;
   List<bool> isVisibleTable = [];
   List<Map<String, dynamic>> collectionList = [];
+  List<Map<String, dynamic>> queryResult = [];
+
   List<Map<String, dynamic>> productcompanyList = [];
   List<Map<String, dynamic>> fetchcollectionList = [];
   List<bool> settingOption = [];
@@ -3068,13 +3070,13 @@ class Controller extends ChangeNotifier {
       var map = jsonDecode(response.body);
       var selectReslt =
           await OrderAppDB.instance.selectAllcommon('maxSeriesTable', '');
-
       print("mapuser ${map}");
       for (var item in map) {
         print("tablename........${item['table_name']}....${item['series']}");
         String sval = item['series'].replaceAll(new RegExp(r'[^0-9]'), '');
         String series = item['series'].replaceAll(new RegExp(r'(\d+)'), '');
         print("value series............$sval....$series");
+
         if (selectReslt.length == 0) {
           await OrderAppDB.instance
               .insertSeriesTable(item['table_name'], series, sval);

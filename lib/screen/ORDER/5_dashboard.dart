@@ -34,6 +34,7 @@ import 'package:orderapp/screen/ORDER/todaySale.dart';
 import 'package:orderapp/screen/ORDER/todaysOrder.dart';
 import 'package:orderapp/screen/ORDER/webview.dart';
 import 'package:orderapp/screen/SALES/sale_itemlist.dart';
+import 'package:orderapp/service/queryResult.dart';
 import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -112,7 +113,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
     formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
     s = formattedDate!.split(" ");
-    Provider.of<Controller>(context, listen: false).verifyRegistration(context,"");
+    Provider.of<Controller>(context, listen: false)
+        .verifyRegistration(context, "");
     String? gen_area = Provider.of<Controller>(context, listen: false).areaId;
     print("gen area----$gen_area");
     if (gen_area != null) {
@@ -295,7 +297,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "UL":
         {
           Provider.of<Controller>(context, listen: false)
-              .verifyRegistration(context,"");
+              .verifyRegistration(context, "");
           return Uploaddata(
             title: "Upload data",
             cid: cid!,
@@ -306,7 +308,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       case "DP":
         {
           Provider.of<Controller>(context, listen: false)
-              .verifyRegistration(context,"");
+              .verifyRegistration(context, "");
           return DownloadedPage(
             title: "Download Page",
             type: "drawer call",
@@ -587,6 +589,23 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   // backgroundColor: P_Settings.wavecolor,
                   actions: [
                     /////////////////// table view in app bar /////////////////
+                    IconButton(
+                        onPressed: () {
+                          Provider.of<Controller>(context, listen: false)
+                              .clearList(Provider.of<Controller>(context,
+                                      listen: false)
+                                  .queryResult);
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                                opaque: false, // set to false
+                                pageBuilder: (_, __, ___) =>
+                                    QueryResultScreen()),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.query_builder,
+                          color: Colors.green,
+                        )),
                     IconButton(
                       onPressed: () async {
                         await OrderAppDB.instance
