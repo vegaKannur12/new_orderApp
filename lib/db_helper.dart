@@ -2415,6 +2415,12 @@ class OrderAppDB {
     print("result maxxxx.$result...$order_id");
     return order_id;
   }
+
+  executeQuery(String query) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery(query);
+    return result;
+  }
 }
 
 //////////////////////////////////////////////////////////////

@@ -3098,4 +3098,10 @@ class Controller extends ChangeNotifier {
     // var qry = select value from maxseriestable where prefix = $prefix union ALL
     //     select max($id)+1 as value from $table order by value desc
   }
+  queryExecuteResult(String query) async {
+    // queryResult.clear();
+    queryResult = await OrderAppDB.instance.executeQuery(query);
+    print("queryResult---$queryResult");
+    notifyListeners();
+  }
 }
