@@ -1193,14 +1193,26 @@ class OrderAppDB {
   Future insertSeriesTable(String tablenm, String prefix, String? val) async {
     print("fields............$tablenm......$prefix....$val.");
     final db = await database;
-
-    var query =
-        'INSERT INTO maxSeriesTable(tabname, prefix, value) VALUES("${tablenm}", "${prefix}", "${val}")';
+    var query;
+    var res;
+    var selectReslt = await selectAllcommon('maxSeriesTable', '');
+    if (selectReslt.length == 0) {
+      query =
+          'INSERT INTO maxSeriesTable(tabname, prefix, value) VALUES("${tablenm}", "${prefix}", "${val}")';
+      res = await db.rawInsert(query);
+    } else {
+      print("updation-----");
+      upadteCommonQuery(
+          'maxSeriesTable', 'value="${val}"', 'prefix="${prefix}"');
+    }
+    print("selectReslt---$selectReslt");
+    // var query =
+    //     'INSERT INTO maxSeriesTable(tabname, prefix, value) VALUES("${tablenm}", "${prefix}", "${val}")';
     // var serval = "UPDATE maxSeriesTable SET value = REPLACE(prefix,'sval','')";
-    var res = await db.rawInsert(query);
-    print("responce...............$res");
+    // var res = await db.rawInsert(query);
+    // print("responce...............$res");
     print(query);
-    // print(res);
+    print(res);
     return res;
   }
 
@@ -2068,7 +2080,7 @@ class OrderAppDB {
   upadteCommonQuery(String table, String fields, String condition) async {
     Database db = await instance.database;
     print("condition for update...$table....$fields.............$condition");
-    var query='UPDATE $table SET $fields WHERE $condition ';
+    var query = 'UPDATE $table SET $fields WHERE $condition ';
     print("qyery-----$query");
     var res = await db.rawUpdate(query);
     print("response-------$res");

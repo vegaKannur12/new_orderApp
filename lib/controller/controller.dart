@@ -298,7 +298,7 @@ class Controller extends ChangeNotifier {
               String? user = prefs.getString("userType");
 
               print("fnjdxf----$user");
-             
+
               getCompanyData();
               // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
               getMaxSerialNumber(os);
@@ -3016,7 +3016,6 @@ class Controller extends ChangeNotifier {
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_max_sl.php");
       String ordOs = "O" + "$os";
-
       String salesOs = "S" + "$os";
       String collOs = "C" + "$os";
       String retOs = "R" + "$os";
@@ -3045,9 +3044,6 @@ class Controller extends ChangeNotifier {
         }
       ];
       print("table..............$tabledel");
-      // var table = {"table": tabledel};
-      // print("table new..............$table");
-
       Map body = {
         'cid': cid,
         'table': tabledel,
