@@ -546,7 +546,7 @@ class OrderAppDB {
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $tabname TEXT,
             $prefix TEXT,
-            $value TEXT     
+            $value INTEGER     
           )
           ''');
     /////////////////////////////////////////
@@ -1187,18 +1187,12 @@ class OrderAppDB {
     final db = await database;
     var query;
     var res;
-    var selectReslt = await selectAllcommon('maxSeriesTable', '');
-    print("select result.....$selectReslt");
-    if (selectReslt.length == 0) {
-      query =
-          'INSERT INTO maxSeriesTable(tabname, prefix, value) VALUES("${tablenm}", "${prefix}", "${val}")';
-      res = await db.rawInsert(query);
-    } else {
-      print("updation-----");
-      upadteCommonQuery(
-          'maxSeriesTable', 'value="${val}"', 'prefix="${prefix}"');
-    }
-    print("selectReslt---$selectReslt");
+    // print("selectReslt---$selectReslt");
+
+    query =
+        'INSERT INTO maxSeriesTable(tabname, prefix, value) VALUES("${tablenm}", "${prefix}", "${val}")';
+    res = await db.rawInsert(query);
+
     // var query =
     //     'INSERT INTO maxSeriesTable(tabname, prefix, value) VALUES("${tablenm}", "${prefix}", "${val}")';
     // var serval = "UPDATE maxSeriesTable SET value = REPLACE(prefix,'sval','')";
@@ -2076,7 +2070,7 @@ class OrderAppDB {
     var query = 'UPDATE $table SET $fields WHERE $condition ';
     print("qyery-----$query");
     var res = await db.rawUpdate(query);
-    print("response-------$res");
+    print("response-update------$res");
     return res;
   }
 
@@ -2398,6 +2392,28 @@ class OrderAppDB {
     } else {
       return null;
     }
+  }
+
+  /////////////////////////////////////
+  calculateMaxSeries(
+    String prefix,
+    String table,
+    String maxfield,
+  ) async {
+    print("max series..............$maxfield....,$table...,$prefix");
+    var result;
+    int order_id;
+    Database db = await instance.database;
+    var qry =
+        "SELECT MAX(value) maxval FROM (SELECT value FROM maxSeriesTable WHERE prefix = '$prefix' UNION ALL SELECT MAX($maxfield)+1  as value FROM $table)";
+    print("maxseries......$qry");
+    result = await db.rawQuery(qry);
+    // int maxtabid = int.parse(result[0]["value"]);
+    // int ordertabid = int.parse(result[1]["value"]);
+    // print("idddddddd.$maxtabid...$ordertabid");
+    order_id = int.parse(result[0]["maxval"]);
+    print("result maxxxx.$result...$order_id");
+    return order_id;
   }
 }
 

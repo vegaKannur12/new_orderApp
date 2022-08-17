@@ -882,7 +882,7 @@ class Controller extends ChangeNotifier {
       notifyListeners();
       // print("body--${body}");
       var mapBody = jsonEncode(om);
-      print("mapBody--${mapBody}");
+      print("mapBody order--${mapBody}");
 
       // var jsonD = jsonDecode(mapBody);
       var body = {'cid': cid, 'om': mapBody};
@@ -1043,7 +1043,6 @@ class Controller extends ChangeNotifier {
     double tax_tot,
     double dis_tot,
     double cess_tot,
-    
   ) async {
     List<Map<String, dynamic>> om = [];
     int sales_id = await OrderAppDB.instance
@@ -1168,9 +1167,18 @@ class Controller extends ChangeNotifier {
   ) async {
     print("hhjk----$date");
     List<Map<String, dynamic>> om = [];
+    String ordOs = "O" + "$os";
+    print("order os............$ordOs");
+    String salesOs = "S" + "$os";
+    String collOs = "C" + "$os";
+    String retOs = "R" + "$os";
+    String remOs = "RM" + "$os";
     // String oos="O"+"$os";
+    // int order_id = await OrderAppDB.instance
+    //     .getMaxCommonQuery('orderDetailTable', 'order_id', "os='${os}'");
     int order_id = await OrderAppDB.instance
-        .getMaxCommonQuery('orderDetailTable', 'order_id', "os='${os}'");
+        .calculateMaxSeries('${ordOs}', 'orderMasterTable', 'order_id');
+    print("order max........$order_id");
     int rowNum = 1;
     if (bagList.length > 0) {
       await OrderAppDB.instance.insertorderMasterandDetailsTable(
@@ -1181,7 +1189,7 @@ class Controller extends ChangeNotifier {
           " ",
           date,
           time,
-          os,
+          ordOs,
           customer_id,
           user_id,
           aid,
@@ -1202,7 +1210,7 @@ class Controller extends ChangeNotifier {
             item["code"],
             date,
             time,
-            os,
+            ordOs,
             customer_id,
             user_id,
             aid,
@@ -3058,21 +3066,34 @@ class Controller extends ChangeNotifier {
         body: {'cid': cid, 'table': varJsonEncode},
       );
       var map = jsonDecode(response.body);
+      var selectReslt =
+          await OrderAppDB.instance.selectAllcommon('maxSeriesTable', '');
+
       print("mapuser ${map}");
       for (var item in map) {
         print("tablename........${item['table_name']}....${item['series']}");
         String sval = item['series'].replaceAll(new RegExp(r'[^0-9]'), '');
         String series = item['series'].replaceAll(new RegExp(r'(\d+)'), '');
         print("value series............$sval....$series");
-        await OrderAppDB.instance
-            .insertSeriesTable(item['table_name'], series, sval);
+        if (selectReslt.length == 0) {
+          await OrderAppDB.instance
+              .insertSeriesTable(item['table_name'], series, sval);
+        } else {
+          OrderAppDB.instance.upadteCommonQuery(
+              'maxSeriesTable', 'value="${sval}"', 'prefix="${series}"');
+        }
       }
-
-      /////////////// insert into local db /////////////////////
+      ///////////////// insert into local db ///////////////////////
       notifyListeners();
     } catch (e) {
       print(e);
       return null;
     }
+  }
+
+  //////////////////////////////////
+  calculateMaxSeries(String prefix, String table, int id) {
+    // var qry = select value from maxseriestable where prefix = $prefix union ALL
+    //     select max($id)+1 as value from $table order by value desc
   }
 }
