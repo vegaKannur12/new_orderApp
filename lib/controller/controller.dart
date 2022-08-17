@@ -937,10 +937,11 @@ class Controller extends ChangeNotifier {
       var map = jsonDecode(response.body);
       print("response sales----${map}");
       for (var item in map) {
-        print("itemtt----$item");
-        if (item["s_id"] != null) {
-          await OrderAppDB.instance.upadteCommonQuery("salesMasterTable",
-              "status='${item["s_id"]}'", "id='${item["s_id"]}'");
+        if (item["s_id"] != null && item["s_id"].isNotEmpty) {
+          print("itemtt----${item["s_id"]}");
+
+          // await OrderAppDB.instance.upadteCommonQuery("salesMasterTable",
+          //     "status='${item["s_id"]}'", "sales_id='${item["s_id"]}'");
         }
       }
       isLoading = false;
@@ -1047,8 +1048,11 @@ class Controller extends ChangeNotifier {
     double cess_tot,
   ) async {
     List<Map<String, dynamic>> om = [];
+    // String salesOs = "S" + "$os";
+    // int sales_id = await OrderAppDB.instance
+    //     .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
     int sales_id = await OrderAppDB.instance
-        .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
+        .calculateMaxSeries('${os}', 'salesMasterTable', 'sales_id');
     int rowNum = 1;
     print("salebagList length........${salebagList.length}");
     if (salebagList.length > 0) {
@@ -1170,15 +1174,7 @@ class Controller extends ChangeNotifier {
     print("hhjk----$date");
     List<Map<String, dynamic>> om = [];
     String ordOs = "O" + "$os";
-    print("order os............$ordOs");
-    String salesOs = "S" + "$os";
-    String collOs = "C" + "$os";
-    String retOs = "R" + "$os";
-    String remOs = "RM" + "$os";
-    // String oos="O"+"$os";
-    // int order_id = await OrderAppDB.instance
-    //     .getMaxCommonQuery('orderDetailTable', 'order_id', "os='${os}'");
-   int order_id=await OrderAppDB.instance
+    int order_id = await OrderAppDB.instance
         .calculateMaxSeries('${ordOs}', 'orderMasterTable', 'order_id');
     print("order max........$order_id");
     int rowNum = 1;
@@ -1225,7 +1221,7 @@ class Controller extends ChangeNotifier {
       }
     }
     await OrderAppDB.instance.deleteFromTableCommonQuery(
-        "orderBagTable", "os='${os}' AND customerid='${customer_id}'");
+        "orderBagTable", "os='${ordOs}' AND customerid='${customer_id}'");
 
     bagList.clear();
     notifyListeners();
@@ -1249,7 +1245,7 @@ class Controller extends ChangeNotifier {
     String? os = prefs.getString("os");
     String os1 = "R" + "${os}";
     int return_id = await OrderAppDB.instance
-        .getMaxCommonQuery('returnMasterTable', 'return_id', "os='${os1}'");
+        .calculateMaxSeries('$os1', 'returnMasterTable', 'return_id');
     print("return_id----$return_id");
     int rowNum = 1;
     if (returnList.length > 0) {
@@ -3030,7 +3026,7 @@ class Controller extends ChangeNotifier {
       String salesOs = "S" + "$os";
       String collOs = "C" + "$os";
       String retOs = "R" + "$os";
-      String remOs = "RM" + "$os";
+      String remOs = "M" + "$os";
 
       List<Map<String, dynamic>> tabledel = [
         {
@@ -3047,6 +3043,11 @@ class Controller extends ChangeNotifier {
           "table_name": "collection",
           "field": "collection_series",
           "series": "${collOs}"
+        },
+        {
+          "table_name": "stock_return_master",
+          "field": "stock_r_no",
+          "series": "${retOs}"
         },
         {
           "table_name": "stock_return_master",
