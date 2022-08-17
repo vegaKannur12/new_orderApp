@@ -541,6 +541,14 @@ class OrderAppDB {
             $net_amt REAL
           )
           ''');
+    await db.execute('''
+          CREATE TABLE maxSeriesTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $tabname TEXT,
+            $prefix TEXT,
+            $value TEXT     
+          )
+          ''');
     /////////////////////////////////////////
     await db.execute('''
           CREATE TABLE menuTable (
@@ -556,6 +564,15 @@ class OrderAppDB {
             $set_code TEXT,
             $set_value TEXT,
             $set_type INTEGER   
+          )
+          ''');
+
+    await db.execute('''
+          CREATE TABLE maxTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $tabname TEXT NOT NULL,
+            $prefix TEXT,
+            $value TEXT
           )
           ''');
     await db.execute('''
@@ -1172,22 +1189,26 @@ class OrderAppDB {
     return res;
   }
 
-////////////////////////////////// product company ///////////////////////
-  Future insertProductCompany(ProductCompanymodel productsCompanyModel) async {
+  ///////////////////////maxSeriesTable insertion/////////////////////////////
+  Future insertSeriesTable(String tablenm, String prefix, String? val) async {
+    print("fields............$tablenm......$prefix....$val.");
     final db = await database;
+
     var query =
-        'INSERT INTO companyTable(comid, comanme) VALUES("${productsCompanyModel.comid}", "${productsCompanyModel.comanme}")';
+        'INSERT INTO maxSeriesTable(tabname, prefix, value) VALUES("${tablenm}", "${prefix}", "${val}")';
+    // var serval = "UPDATE maxSeriesTable SET value = REPLACE(prefix,'sval','')";
     var res = await db.rawInsert(query);
+    print("responce...............$res");
     print(query);
     // print(res);
     return res;
   }
 
-  //////////////////////////////////////////////////////////////////
-  Future insertSeriesTable(String table, String series, String? val) async {
+////////////////////////////////// product company ///////////////////////
+  Future insertProductCompany(ProductCompanymodel productsCompanyModel) async {
     final db = await database;
     var query =
-        'INSERT INTO maxSeriesTable(table, series) VALUES("${table}", "${series}" , "${val}")';
+        'INSERT INTO companyTable(comid, comanme) VALUES("${productsCompanyModel.comid}", "${productsCompanyModel.comanme}")';
     var res = await db.rawInsert(query);
     print("responce...............$res");
     print(query);

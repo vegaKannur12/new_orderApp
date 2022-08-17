@@ -298,6 +298,7 @@ class Controller extends ChangeNotifier {
               String? user = prefs.getString("userType");
 
               print("fnjdxf----$user");
+             
               getCompanyData();
               // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
               getMaxSerialNumber(os);
@@ -524,63 +525,6 @@ class Controller extends ChangeNotifier {
     print("menuList----${menuList}");
 
     notifyListeners();
-  }
-//////////////////////get serial number/////////////////////////////
-
-  getMaxSerialNumber(String os) async {
-    try {
-      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_max_sl.php");
-      String ordOs = "O" + "$os";
-      String salesOs = "S" + "$os";
-      String collOs = "C" + "$os";
-      String retOs = "R" + "$os";
-      String remOs = "RM" + "$os";
-
-      List<Map<String, dynamic>> tableDet = [
-        {"table_name": "order_master", "field": "order_no", "series": "$os"},
-        {"table_name": "sale_master", "field": "bill_no", "series": "$salesOs"},
-        {
-          "table_name": "collection",
-          "field": "collection_series",
-          "series": "$collOs"
-        },
-        {
-          "table_name": "stock_return_master",
-          "field": "stock_r_no",
-          "series": "$retOs"
-        },
-      ];
-
-      var table = {"table": tableDet};
-      var varJsonEncode = jsonEncode(table);
-
-      Map body = {
-        'cid': cid,
-        'table': varJsonEncode,
-      };
-
-      http.Response response = await http.post(
-        url,
-        body: body,
-      );
-      print("body user ${body}");
-      var map = jsonDecode(response.body);
-      print("mapuser ${map}");
-      String replacd;
-      for (var item in map) {
-        print("item----${item}");
-        replacd = item["series"].toString().replaceAll(RegExp(r'A-Z'), '');
-        print("replacd----$replacd");
-        // await OrderAppDB.instance.insertUserType(userTypemodel);
-        // print("inserted ${restaff}");
-      }
-
-      /////////////// insert into local db /////////////////////
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
   }
 
 /////////////////GET USER TYPE//////////////////////////////////////
@@ -948,7 +892,7 @@ class Controller extends ChangeNotifier {
         body: {'cid': cid, 'om': mapBody},
       );
 
-      print("after");
+      print("order response.........$response");
 
       var map = jsonDecode(response.body);
       print("response----${map}");
@@ -3064,5 +3008,74 @@ class Controller extends ChangeNotifier {
     todate = date2;
     print("gtyy----$fromDate");
     //  notifyListeners();
+  }
+
+///////////////////////// get max /////////////////////////////////////
+  getMaxSerialNumber(String os) async {
+    print("series............$os");
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_max_sl.php");
+      String ordOs = "O" + "$os";
+
+      String salesOs = "S" + "$os";
+      String collOs = "C" + "$os";
+      String retOs = "R" + "$os";
+      String remOs = "RM" + "$os";
+
+      List<Map<String, dynamic>> tabledel = [
+        {
+          "table_name": "order_master",
+          "field": "order_no",
+          "series": "${ordOs}"
+        },
+        {
+          "table_name": "sale_master",
+          "field": "bill_no",
+          "series": "${salesOs}"
+        },
+        {
+          "table_name": "collection",
+          "field": "collection_series",
+          "series": "${collOs}"
+        },
+        {
+          "table_name": "stock_return_master",
+          "field": "stock_r_no",
+          "series": "${retOs}"
+        }
+      ];
+      print("table..............$tabledel");
+      // var table = {"table": tabledel};
+      // print("table new..............$table");
+
+      Map body = {
+        'cid': cid,
+        'table': tabledel,
+      };
+
+      var varJsonEncode = jsonEncode(body);
+      print("body user:......... ${varJsonEncode}");
+
+      http.Response response = await http.post(
+        url,
+        body: {'cid': cid, 'table': varJsonEncode},
+      );
+      var map = jsonDecode(response.body);
+      print("mapuser ${map}");
+      for (var item in map) {
+        print("tablename........${item['table_name']}....${item['series']}");
+        String sval = item['series'].replaceAll(new RegExp(r'[^0-9]'), '');
+        String series = item['series'].replaceAll(new RegExp(r'(\d+)'), '');
+        print("value series............$sval....$series");
+        await OrderAppDB.instance
+            .insertSeriesTable(item['table_name'], series, sval);
+      }
+
+      /////////////// insert into local db /////////////////////
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }
