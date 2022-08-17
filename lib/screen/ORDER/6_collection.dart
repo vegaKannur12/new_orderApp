@@ -31,7 +31,7 @@ class _CollectionPageState extends State<CollectionPage> {
   CustomPopup popup = CustomPopup();
   // List<String> items = ["Cash receipt", "Google pay"];
   String? selected;
-  String? os;
+  // String? os;
   List s = [];
 
   TextEditingController amtController = TextEditingController();
@@ -249,9 +249,11 @@ class _CollectionPageState extends State<CollectionPage> {
                                   height: size.height * 0.05,
                                   child: ElevatedButton(
                                     onPressed: () async {
+                                      String os1 = "C" + "${widget.os}";
                                       int max = await OrderAppDB.instance
-                                          .getMaxCommonQuery('collectionTable',
-                                              'rec_row_num', " ");
+                                          .calculateMaxSeries('$os1',
+                                              'collectionTable', 'rec_row_num');
+                                      ;
                                       print("max value in collection....$max");
                                       final prefs =
                                           await SharedPreferences.getInstance();
