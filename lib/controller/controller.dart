@@ -937,11 +937,11 @@ class Controller extends ChangeNotifier {
       var map = jsonDecode(response.body);
       print("response sales----${map}");
       for (var item in map) {
-        if (item["s_id"] != null && item["s_id"].isNotEmpty) {
+        if (item["s_id"] != null ) {
           print("itemtt----${item["s_id"]}");
 
-          // await OrderAppDB.instance.upadteCommonQuery("salesMasterTable",
-          //     "status='${item["s_id"]}'", "sales_id='${item["s_id"]}'");
+          await OrderAppDB.instance.upadteCommonQuery("salesMasterTable",
+              "status='${item["s_id"]}'", "sales_id='${item["s_id"]}'");
         }
       }
       isLoading = false;
