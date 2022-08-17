@@ -3030,7 +3030,7 @@ class Controller extends ChangeNotifier {
       String salesOs = "S" + "$os";
       String collOs = "C" + "$os";
       String retOs = "R" + "$os";
-      String remOs = "RM" + "$os";
+      String remOs = "M" + "$os";
 
       List<Map<String, dynamic>> tabledel = [
         {
