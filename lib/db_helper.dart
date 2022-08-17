@@ -642,14 +642,6 @@ class OrderAppDB {
             $rate REAL  
           )
           ''');
-    await db.execute('''
-          CREATE TABLE maxSeriesTable (
-            $id INTEGER PRIMARY KEY AUTOINCREMENT,
-            $tabname TEXT,
-            $prefix TEXT,
-            $value TEXT     
-          )
-          ''');
   }
 
   ////////////////////////company details select///////////////////////////////////
@@ -1196,6 +1188,7 @@ class OrderAppDB {
     var query;
     var res;
     var selectReslt = await selectAllcommon('maxSeriesTable', '');
+    print("select result.....$selectReslt");
     if (selectReslt.length == 0) {
       query =
           'INSERT INTO maxSeriesTable(tabname, prefix, value) VALUES("${tablenm}", "${prefix}", "${val}")';
