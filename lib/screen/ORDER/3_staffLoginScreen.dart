@@ -61,6 +61,8 @@ class StaffLogin extends StatelessWidget {
                 onPressed: () async {
                   await OrderAppDB.instance
                       .deleteFromTableCommonQuery("userTable", "");
+                  await OrderAppDB.instance
+                      .deleteFromTableCommonQuery("maxSeriesTable", "");
                 },
                 icon: Icon(Icons.delete)),
             IconButton(
@@ -239,14 +241,14 @@ class StaffLogin extends StatelessWidget {
                                                   }
                                                 } else if (userType ==
                                                     "staff") {
-                                                      String user=controller1.text.trim();
-                                                      String pwd=controller2.text.trim();
+                                                  String user =
+                                                      controller1.text.trim();
+                                                  String pwd =
+                                                      controller2.text.trim();
 
                                                   result = await OrderAppDB
                                                       .instance
-                                                      .selectStaff(
-                                                          user,
-                                                          pwd);
+                                                      .selectStaff(user, pwd);
                                                   print("selection----$result");
                                                   if (result.length == 0) {
                                                     visible.value = true;
@@ -270,11 +272,9 @@ class StaffLogin extends StatelessWidget {
                                                     await prefs.setString(
                                                         'sid', result[1]);
                                                     await prefs.setString(
-                                                        'st_username',
-                                                        user);
+                                                        'st_username', user);
                                                     await prefs.setString(
-                                                        'st_pwd',
-                                                        pwd);
+                                                        'st_pwd', pwd);
                                                     print(
                                                         "visible===${visible.value}");
                                                     Provider.of<Controller>(
@@ -345,7 +345,7 @@ class StaffLogin extends StatelessWidget {
                                                           context,
                                                           listen: false)
                                                       .verifyRegistration(
-                                                          context,"");
+                                                          context, "");
 
                                                   Navigator.push(
                                                     context,

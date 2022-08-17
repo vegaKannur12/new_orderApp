@@ -2393,6 +2393,12 @@ class OrderAppDB {
       return null;
     }
   }
+
+  executeQuery(String query) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery(query);
+    return result;
+  }
 }
 
 //////////////////////////////////////////////////////////////
