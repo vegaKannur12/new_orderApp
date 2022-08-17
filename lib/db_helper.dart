@@ -2412,7 +2412,7 @@ class OrderAppDB {
     // int ordertabid = int.parse(result[1]["value"]);
     // print("idddddddd.$maxtabid...$ordertabid");
     order_id = int.parse(result[0]["maxval"]);
-    print("result maxxxx.$result...$order_id");
+    print("result maxxxx.$result....$order_id.");
     return order_id;
   }
 

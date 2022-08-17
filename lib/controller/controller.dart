@@ -1178,7 +1178,7 @@ class Controller extends ChangeNotifier {
     // String oos="O"+"$os";
     // int order_id = await OrderAppDB.instance
     //     .getMaxCommonQuery('orderDetailTable', 'order_id', "os='${os}'");
-    int order_id = await OrderAppDB.instance
+   int order_id=await OrderAppDB.instance
         .calculateMaxSeries('${ordOs}', 'orderMasterTable', 'order_id');
     print("order max........$order_id");
     int rowNum = 1;
