@@ -1043,7 +1043,6 @@ class Controller extends ChangeNotifier {
     double tax_tot,
     double dis_tot,
     double cess_tot,
-    
   ) async {
     List<Map<String, dynamic>> om = [];
     int sales_id = await OrderAppDB.instance
@@ -3058,14 +3057,22 @@ class Controller extends ChangeNotifier {
         body: {'cid': cid, 'table': varJsonEncode},
       );
       var map = jsonDecode(response.body);
+      var selectReslt =
+          await OrderAppDB.instance.selectAllcommon('maxSeriesTable', '');
+
       print("mapuser ${map}");
       for (var item in map) {
         print("tablename........${item['table_name']}....${item['series']}");
         String sval = item['series'].replaceAll(new RegExp(r'[^0-9]'), '');
         String series = item['series'].replaceAll(new RegExp(r'(\d+)'), '');
         print("value series............$sval....$series");
-        await OrderAppDB.instance
-            .insertSeriesTable(item['table_name'], series, sval);
+        if (selectReslt.length == 0) {
+          await OrderAppDB.instance
+              .insertSeriesTable(item['table_name'], series, sval);
+        } else {
+          OrderAppDB.instance.upadteCommonQuery(
+              'maxSeriesTable', 'value="${sval}"', 'prefix="${series}"');
+        }
       }
 
       /////////////// insert into local db /////////////////////
