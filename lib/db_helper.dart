@@ -1249,9 +1249,12 @@ class OrderAppDB {
     print("jhjkdxj----$balance");
     print('bal---${balance[0]["ba"]}');
     // double bal=double.parse(balance[0]["ba"]);
-    double update_bal = balance[0]["ba"] - amt;
-    upadteCommonQuery(
-        'accountHeadsTable', "ba=${update_bal}", "ac_code='${rec_cusid}'");
+    if (balance[0]["ba"] != null) {
+      double update_bal = balance[0]["ba"] - amt;
+      upadteCommonQuery(
+          'accountHeadsTable', "ba=${update_bal}", "ac_code='${rec_cusid}'");
+    }
+
     // print(res);
     return res;
   }
@@ -2149,7 +2152,7 @@ class OrderAppDB {
     print("query2----$query2");
     result = await db.rawQuery(query2);
 
-    print("result.length-${result.length}");
+    print("result.length-${result}");
     return result;
     // if (result.length > 0) {
     //   print("result-order-----$result");
@@ -2411,7 +2414,9 @@ class OrderAppDB {
     // int maxtabid = int.parse(result[0]["value"]);
     // int ordertabid = int.parse(result[1]["value"]);
     // print("idddddddd.$maxtabid...$ordertabid");
-    print("ds---${result[0]["maxval"].runtimeType}");
+    print("ds---${result}");
+
+    print("dsdd---${result[0]["maxval"].runtimeType}");
     order_id = result[0]["maxval"];
     // print("result maxxxx.$result...$order_id");
     return order_id;
