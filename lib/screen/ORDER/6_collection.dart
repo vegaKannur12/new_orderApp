@@ -277,7 +277,7 @@ class _CollectionPageState extends State<CollectionPage> {
                                                 s[1],
                                                 widget.cuid!,
                                                 max,
-                                                widget.os!,
+                                                os1,
                                                 selected!,
                                                 amtController.text,
                                                 dscController.text,
