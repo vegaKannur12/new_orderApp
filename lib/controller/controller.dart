@@ -769,9 +769,7 @@ class Controller extends ChangeNotifier {
         url,
         body: {'cid': cid, 'om': mapBody},
       );
-
       print("after");
-
       var map = jsonDecode(response.body);
       print("response return----${map}");
 
@@ -2611,7 +2609,7 @@ class Controller extends ChangeNotifier {
         notifyListeners();
         // print("response----$response");
         var map = jsonDecode(response.body);
-        print("map ${map}");
+        print("map customer......... ${map}");
         if (map.length > 0) {
           await OrderAppDB.instance
               .deleteFromTableCommonQuery("customerTable", "");

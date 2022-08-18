@@ -101,6 +101,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     print("returned---");
     super.initState();
     Provider.of<Controller>(context, listen: false).fetchMenusFromMenuTable();
+    
     drawerOpts.clear();
 
     // print(Provider.of<Controller>(context, listen: false).firstMenu);

@@ -213,7 +213,12 @@ class _SaleCartState extends State<SaleCart> {
                                 // Provider.of<Controller>(context, listen: false)
                                 //         .salesNetamt =
                                 //     double.parse(value.orderTotal2[1]!);
-
+                                // await OrderAppDB.instance
+                                //     .deleteFromTableCommonQuery(
+                                //         'salesMasterTable', "");
+                                //         await OrderAppDB.instance
+                                //     .deleteFromTableCommonQuery(
+                                //         'salesDetailTable', "");
                                 print("order total.......${value.orderTotal2}");
                                 showDialog(
                                   context: context,
