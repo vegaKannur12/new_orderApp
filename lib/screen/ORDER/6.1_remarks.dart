@@ -156,8 +156,11 @@ class _RemarkPageState extends State<RemarkPage> {
                                         remarkController.text.isNotEmpty) {
                                       String os1 = "M" + "${widget.ser}";
                                       int max = await OrderAppDB.instance
-                                          .calculateMaxSeries('$os1',
-                                              'remarksTable', 'rem_row_num');
+                                          .getMaxCommonQuery('remarksTable',
+                                              'rem_row_num', " ");
+                                      // int max = await OrderAppDB.instance
+                                      //     .calculateMaxSeries('$os1',
+                                      //         'remarksTable', 'rem_row_num');
                                       print("jhjdfmax---$max");
 
                                       await OrderAppDB.instance

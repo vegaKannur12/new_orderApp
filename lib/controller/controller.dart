@@ -769,16 +769,14 @@ class Controller extends ChangeNotifier {
         url,
         body: {'cid': cid, 'om': mapBody},
       );
-
       print("after");
-
       var map = jsonDecode(response.body);
       print("response return----${map}");
 
       for (var item in map) {
         if (item["stock_r_id"] != null) {
           await OrderAppDB.instance.upadteCommonQuery("returnMasterTable",
-              "status='${item["stock_r_id"]}'", "return_id='${item["id"]}'");
+              "status='${item["stock_r_id"]}'", "id='${item["id"]}'");
         }
       }
       isLoading = false;
@@ -938,7 +936,7 @@ class Controller extends ChangeNotifier {
       print("response sales----${map}");
       for (var item in map) {
         if (item["s_id"] != null) {
-          // print("itemtt----${item["s_id"]}");
+          print("itemtt----${item["s_id"]}");
 
           await OrderAppDB.instance.upadteCommonQuery("salesMasterTable",
               "status='${item["s_id"]}'", "sales_id='${item["s_id"]}'");
@@ -2609,7 +2607,7 @@ class Controller extends ChangeNotifier {
         notifyListeners();
         // print("response----$response");
         var map = jsonDecode(response.body);
-        print("map ${map}");
+        print("map customer......... ${map}");
         if (map.length > 0) {
           await OrderAppDB.instance
               .deleteFromTableCommonQuery("customerTable", "");
