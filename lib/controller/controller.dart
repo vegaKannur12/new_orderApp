@@ -2180,13 +2180,15 @@ class Controller extends ChangeNotifier {
       // newreportList.clear();
       newreportList = await OrderAppDB.instance.getReportDataFromOrderDetails(
           userId, date, context, " A.hname LIKE '$reportSearchkey%' ");
+      print("newreportList-----$newreportList");
+
       // newreportList = reportData
       //     .where((element) => element["name"]
       //         .toLowerCase()
       //         .contains(reportSearchkey!.toLowerCase()))
       //     .toList();
+
       notifyListeners();
-      print("new---$newreportList");
     }
   }
 
@@ -3047,11 +3049,11 @@ class Controller extends ChangeNotifier {
           "field": "stock_r_no",
           "series": "${retOs}"
         },
-        {
-          "table_name": "stock_return_master",
-          "field": "stock_r_no",
-          "series": "${retOs}"
-        }
+        // {
+        //   "table_name": "stock_return_master",
+        //   "field": "stock_r_no",
+        //   "series": "${retOs}"
+        // }
       ];
       print("table..............$tabledel");
       Map body = {

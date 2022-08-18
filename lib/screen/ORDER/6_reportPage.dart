@@ -139,188 +139,188 @@ class _ReportPageState extends State<ReportPage> {
                       //   }
                       // }
 
-                      if (value.filter) {
-                        return ListView.builder(
-                          itemCount: value.filterList.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          RichText(
-                                            overflow: TextOverflow.clip,
-                                            maxLines: 2,
-                                            text: TextSpan(
-                                              text:
-                                                  '${value.filterList[index]["name"]}',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: P_Settings.wavecolor),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.place,
-                                            size: 15,
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text(
-                                            value.filterList[index]["ad1"],
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey[500],
-                                                fontStyle: FontStyle.italic),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.phone,
-                                            size: 15,  
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text(value.filterList[index]["mob"],
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey[700],
-                                                fontWeight: FontWeight.bold,
-                                              ))
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.currency_rupee, size: 15),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text(
-                                              value.filterList[index]["bln"]
-                                                  .toStringAsFixed(2),
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.grey[700])),
-                                          SizedBox(
-                                            width: size.width * 0.01,
-                                          ),
-                                          Text("(balance)"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      value.filterList[index]["order_value"] !=
-                                                  null &&
-                                              value.filterList[index]
-                                                      ["order_value"] !=
-                                                  0
-                                          ? Row(
-                                              children: [
-                                                Icon(Icons.currency_rupee,
-                                                    size: 15),
-                                                SizedBox(
-                                                  width: size.width * 0.01,
-                                                ),
-                                                Text(
-                                                    value.filterList[index]
-                                                            ["order_value"]
-                                                        .toStringAsFixed(2),
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color:
-                                                            Colors.grey[700])),
-                                                SizedBox(
-                                                  width: size.width * 0.01,
-                                                ),
-                                                Text("(order)")
-                                              ],
-                                            )
-                                          : Container(),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      Row(children: [
-                                        Container(
-                                            color: Colors.green,
-                                            width: size.width * 0.08,
-                                            height: size.height * 0.03,
-                                            child: value.filterList[index]
-                                                            ["order_value"] !=
-                                                        0 &&
-                                                    value.filterList[index]
-                                                            ["order_value"] !=
-                                                        null
-                                                ? Icon(
-                                                    Icons.done,
-                                                    color: Colors.white,
-                                                  )
-                                                : null),
-                                        Container(
-                                            color: P_Settings.wavecolor,
-                                            width: size.width * 0.08,
-                                            height: size.height * 0.03,
-                                            child: value.filterList[index][
-                                                            "collection_sum"] !=
-                                                        0 &&
-                                                    value.filterList[index][
-                                                            "collection_sum"] !=
-                                                        null
-                                                ? Icon(
-                                                    Icons.done,
-                                                    color: Colors.white,
-                                                  )
-                                                : null),
-                                        Container(
-                                            color:
-                                                P_Settings.roundedButtonColor,
-                                            width: size.width * 0.08,
-                                            height: size.height * 0.03,
-                                            child: value.filterList[index]
-                                                            ["remark_count"] !=
-                                                        0 &&
-                                                    value.filterList[index]
-                                                            ["remark_count"] !=
-                                                        null
-                                                ? Icon(
-                                                    Icons.done,
-                                                    color: Colors.white,
-                                                  )
-                                                : null),
-                                      ])
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }
+                      // if (value.filter) {
+                      //   return ListView.builder(
+                      //     itemCount: value.filterList.length,
+                      //     itemBuilder: (context, index) {
+                      //       return Padding(
+                      //         padding: const EdgeInsets.all(3.0),
+                      //         child: Card(
+                      //           child: Padding(
+                      //             padding: const EdgeInsets.all(8.0),
+                      //             child: Column(
+                      //               children: [
+                      //                 Row(
+                      //                   children: [
+                      //                     RichText(
+                      //                       overflow: TextOverflow.clip,
+                      //                       maxLines: 2,
+                      //                       text: TextSpan(
+                      //                         text:
+                      //                             '${value.filterList[index]["name"]}',
+                      //                         style: TextStyle(
+                      //                             fontSize: 16,
+                      //                             fontWeight: FontWeight.bold,
+                      //                             color: P_Settings.wavecolor),
+                      //                       ),
+                      //                     ),
+                      //                   ],
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: size.height * 0.01,
+                      //                 ),
+                      //                 Row(
+                      //                   children: [
+                      //                     Icon(
+                      //                       Icons.place,
+                      //                       size: 15,
+                      //                     ),
+                      //                     SizedBox(
+                      //                       width: size.width * 0.01,
+                      //                     ),
+                      //                     Text(
+                      //                       value.filterList[index]["ad1"],
+                      //                       style: TextStyle(
+                      //                           fontSize: 17,
+                      //                           fontWeight: FontWeight.bold,
+                      //                           color: Colors.grey[500],
+                      //                           fontStyle: FontStyle.italic),
+                      //                     )
+                      //                   ],
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: size.height * 0.01,
+                      //                 ),
+                      //                 Row(
+                      //                   children: [
+                      //                     Icon(
+                      //                       Icons.phone,
+                      //                       size: 15,
+                      //                     ),
+                      //                     SizedBox(
+                      //                       width: size.width * 0.01,
+                      //                     ),
+                      //                     Text(value.filterList[index]["mob"],
+                      //                         style: TextStyle(
+                      //                           fontSize: 14,
+                      //                           color: Colors.grey[700],
+                      //                           fontWeight: FontWeight.bold,
+                      //                         ))
+                      //                   ],
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: size.height * 0.01,
+                      //                 ),
+                      //                 Row(
+                      //                   children: [
+                      //                     Icon(Icons.currency_rupee, size: 15),
+                      //                     SizedBox(
+                      //                       width: size.width * 0.01,
+                      //                     ),
+                      //                     Text(
+                      //                         value.filterList[index]["bln"]
+                      //                             .toStringAsFixed(2),
+                      //                         style: TextStyle(
+                      //                             fontSize: 14,
+                      //                             fontWeight: FontWeight.bold,
+                      //                             color: Colors.grey[700])),
+                      //                     SizedBox(
+                      //                       width: size.width * 0.01,
+                      //                     ),
+                      //                     Text("(balance)"),
+                      //                   ],
+                      //                 ),
+                      //                 SizedBox(
+                      //                   height: size.height * 0.01,
+                      //                 ),
+                      //                 value.filterList[index]["order_value"] !=
+                      //                             null &&
+                      //                         value.filterList[index]
+                      //                                 ["order_value"] !=
+                      //                             0
+                      //                     ? Row(
+                      //                         children: [
+                      //                           Icon(Icons.currency_rupee,
+                      //                               size: 15),
+                      //                           SizedBox(
+                      //                             width: size.width * 0.01,
+                      //                           ),
+                      //                           Text(
+                      //                               value.filterList[index]
+                      //                                       ["order_value"]
+                      //                                   .toStringAsFixed(2),
+                      //                               style: TextStyle(
+                      //                                   fontSize: 14,
+                      //                                   fontWeight:
+                      //                                       FontWeight.bold,
+                      //                                   color:
+                      //                                       Colors.grey[700])),
+                      //                           SizedBox(
+                      //                             width: size.width * 0.01,
+                      //                           ),
+                      //                           Text("(order)")
+                      //                         ],
+                      //                       )
+                      //                     : Container(),
+                      //                 SizedBox(
+                      //                   height: size.height * 0.01,
+                      //                 ),
+                      //                 Row(children: [
+                      //                   Container(
+                      //                       color: Colors.green,
+                      //                       width: size.width * 0.08,
+                      //                       height: size.height * 0.03,
+                      //                       child: value.filterList[index]
+                      //                                       ["order_value"] !=
+                      //                                   0 &&
+                      //                               value.filterList[index]
+                      //                                       ["order_value"] !=
+                      //                                   null
+                      //                           ? Icon(
+                      //                               Icons.done,
+                      //                               color: Colors.white,
+                      //                             )
+                      //                           : null),
+                      //                   Container(
+                      //                       color: P_Settings.wavecolor,
+                      //                       width: size.width * 0.08,
+                      //                       height: size.height * 0.03,
+                      //                       child: value.filterList[index][
+                      //                                       "collection_sum"] !=
+                      //                                   0 &&
+                      //                               value.filterList[index][
+                      //                                       "collection_sum"] !=
+                      //                                   null
+                      //                           ? Icon(
+                      //                               Icons.done,
+                      //                               color: Colors.white,
+                      //                             )
+                      //                           : null),
+                      //                   Container(
+                      //                       color:
+                      //                           P_Settings.roundedButtonColor,
+                      //                       width: size.width * 0.08,
+                      //                       height: size.height * 0.03,
+                      //                       child: value.filterList[index]
+                      //                                       ["remark_count"] !=
+                      //                                   0 &&
+                      //                               value.filterList[index]
+                      //                                       ["remark_count"] !=
+                      //                                   null
+                      //                           ? Icon(
+                      //                               Icons.done,
+                      //                               color: Colors.white,
+                      //                             )
+                      //                           : null),
+                      //                 ])
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //   );
+                      // }
                       print(
                           "value.newreportList.length-----${value.newreportList.length}");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -472,8 +472,15 @@ class _ReportPageState extends State<ReportPage> {
                                             width: size.width * 0.01,
                                           ),
                                           Text(
-                                              value.reportData[index]["bln"]
-                                                  .toString(),
+                                              value.isreportSearch &&
+                                                      value.newreportList
+                                                              .length >
+                                                          0
+                                                  ? value.newreportList[index]
+                                                      ["bln"].toString()
+                                                  : value.reportData[index]
+                                                          ["bln"]
+                                                      .toString(),
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
