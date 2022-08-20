@@ -3,8 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:orderapp/components/common_popup.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
 import 'package:orderapp/screen/ORDER/7_itemSelection.dart';
+import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,7 +29,6 @@ class ReturnCart extends StatefulWidget {
 
 class _ReturnCartState extends State<ReturnCart> {
   List<String> s = [];
-  TextEditingController rateController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
   TextEditingController refController = TextEditingController();
   String reason = "";
@@ -47,7 +48,8 @@ class _ReturnCartState extends State<ReturnCart> {
     s = date!.split(" ");
     print("widget.hjzjhzjk----${widget.areaname}");
     super.initState();
-    Provider.of<Controller>(context, listen: false).calculatereturnTotal();
+    Provider.of<Controller>(context, listen: false)
+        .calculatereturnTotal(widget.os, widget.custmerId);
   }
 
   @override
@@ -55,6 +57,19 @@ class _ReturnCartState extends State<ReturnCart> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () async {
+              List<Map<String, dynamic>> list =
+                  await OrderAppDB.instance.getListOfTables();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TableList(list: list)),
+              );
+            },
+            icon: Icon(Icons.table_bar),
+          ),
+        ],
         backgroundColor: P_Settings.returnbuttnColor,
       ),
       body: GestureDetector(onTap: (() {
@@ -69,7 +84,7 @@ class _ReturnCartState extends State<ReturnCart> {
           } else {
             print("value.rateEdit----${value.rateEdit}");
             return Provider.of<Controller>(context, listen: false)
-                        .returnList
+                        .returnbagList
                         .length ==
                     0
                 ? Container(
@@ -124,17 +139,18 @@ class _ReturnCartState extends State<ReturnCart> {
                     children: [
                       Expanded(
                         child: ListView.builder(
-                          itemCount: value.returnList.length,
+                          itemCount: value.returnbagList.length,
                           itemBuilder: (BuildContext context, int index) {
-                            // return Container();
                             return listItemFunction(
-                                value.returnList[index]["item"],
-                                value.returnList[index]["rate"],
-                                value.returnList[index]["total"].toString(),
-                                value.returnList[index]["qty"],
+                                value.returnbagList[index]["cartrowno"],
+                                value.returnbagList[index]["itemName"],
+                                value.returnbagList[index]["rate"],
+                                value.returnbagList[index]["totalamount"],
+                                value.returnbagList[index]["qty"],
                                 size,
+                                value.controller[index],
                                 index,
-                                value.returnList[index]["code"]);
+                                value.returnbagList[index]["code"]);
                           },
                         ),
                       ),
@@ -295,40 +311,6 @@ class _ReturnCartState extends State<ReturnCart> {
                                 final prefs =
                                     await SharedPreferences.getInstance();
                                 String? sid = await prefs.getString('sid');
-
-                                // return showDialog(
-                                //     context: context,
-                                //     builder: (context) {
-                                //       Future.delayed(
-                                //           Duration(milliseconds: 500), () {
-                                //         Navigator.of(context).pop(true);
-
-                                //         Navigator.of(context).push(
-                                //           PageRouteBuilder(
-                                //               opaque: false, // set to false
-                                //               pageBuilder: (_, __, ___) =>
-                                //                   Dashboard(
-                                //                       type:
-                                //                           "Product return confirmed",
-                                //                       areaName:
-                                //                           widget.areaname)),
-                                //         );
-                                //       });
-                                //       return AlertDialog(
-                                //           content: Row(
-                                //         children: [
-                                //           Text(
-                                //             'Product return confirmed!!!!',
-                                //             style: TextStyle(
-                                //                 color: P_Settings.extracolor),
-                                //           ),
-                                //           Icon(
-                                //             Icons.done,
-                                //             color: Colors.green,
-                                //           )
-                                //         ],
-                                //       ));
-                                //     });
                               }),
                               child: Container(
                                 width: size.width * 0.5,
@@ -368,9 +350,19 @@ class _ReturnCartState extends State<ReturnCart> {
     );
   }
 
-  Widget listItemFunction(String itemName, String rate, String totalamount,
-      int qty, Size size, int index, String code) {
-    print("qty---$qty");
+  Widget listItemFunction(
+      int cartrowno,
+      String itemName,
+      String rate,
+      String totalamount,
+      int qty,
+      Size size,
+      TextEditingController _controller,
+      int index,
+      String code) {
+    // print("qty-------$qty");
+    _controller.text = qty.toString();
+
     return Container(
       height: size.height * 0.17,
       child: Padding(
@@ -387,121 +379,126 @@ class _ReturnCartState extends State<ReturnCart> {
               Provider.of<Controller>(context, listen: false)
                   .setreturnAmt(totalamount);
               showModalBottomSheet<void>(
+                isScrollControlled: true,
                 context: context,
                 builder: (BuildContext context) {
                   return Consumer<Controller>(
                     builder: (context, value, child) {
-                      return Container(
-                        height: size.height * 0.4,
-                        color: Colors.white,
-                        child: Center(
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: MediaQuery.of(context).viewInsets,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.close),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FloatingActionButton.small(
-                                        backgroundColor: Colors.grey,
-                                        child: Icon(Icons.remove),
-                                        onPressed: () {
-                                          if (value.returnqtyinc! > 1) {
-                                            value.returnqtyDecrement();
-                                            value.returntotalCalculation(rate);
-                                          }
-                                        }),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15),
-                                      child: Text(
-                                        value.returnqtyinc.toString(),
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ),
-                                    FloatingActionButton.small(
-                                        backgroundColor: Colors.grey,
-                                        child: Icon(Icons.add),
-                                        onPressed: () {
-                                          value.returnqtyIncrement();
-                                          value.returntotalCalculation(rate);
-                                        }),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.02,
-                                ),
-                                Divider(
-                                  thickness: 1,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8.0, bottom: 8),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Total Price :",
-                                        style: TextStyle(fontSize: 17),
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          "\u{20B9}${value.priceval}",
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                      ),
-                                    ],
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              child: Wrap(
+                                children: [
+                                  SizedBox(
+                                    height: size.height * 0.01,
                                   ),
-                                ),
-                                Divider(
-                                  thickness: 1,
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.02,
-                                ),
-                                Flexible(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Container(
-                                        height: size.height * 0.035,
-                                        width: size.width * 0.6,
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              Provider.of<Controller>(context,
-                                                      listen: false)
-                                                  .updatereturnQty(
-                                                      index,
-                                                      value.returnqtyinc!,
-                                                      value.returntotalPrice!);
-                                              print(
-                                                  "vlue.retuyrnList----${value.returnList}");
-                                              Provider.of<Controller>(context,
-                                                      listen: false)
-                                                  .calculatereturnTotal();
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text("continue..")),
+                                      IconButton(
+                                        icon: Icon(Icons.close),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
                                       )
                                     ],
                                   ),
-                                )
-                              ],
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      FloatingActionButton.small(
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(Icons.remove),
+                                          onPressed: () {
+                                            if (value.returnqtyinc! > 1) {
+                                              value.returnqtyDecrement();
+                                              value
+                                                  .returntotalCalculation(rate);
+                                            }
+                                          }),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15),
+                                        child: Text(
+                                          value.returnqtyinc.toString(),
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ),
+                                      FloatingActionButton.small(
+                                          backgroundColor: Colors.grey,
+                                          child: Icon(Icons.add),
+                                          onPressed: () {
+                                            value.returnqtyIncrement();
+                                            value.returntotalCalculation(rate);
+                                          }),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  Divider(
+                                    thickness: 1,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, bottom: 8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Total Price :",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              color: P_Settings.extracolor),
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            "\u{20B9}${value.priceval}",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                color: P_Settings.extracolor,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .returnupdateQty(
+                                                    value.returnqtyinc
+                                                        .toString(),
+                                                    cartrowno,
+                                                    widget.custmerId,
+                                                    rate);
+                                            Provider.of<Controller>(context,
+                                                    listen: false)
+                                                .calculatereturnTotal(widget.os,
+                                                    widget.custmerId);
+                                            // Provider.of<Controller>(context,
+                                            //         listen: false)
+                                            //     .getreturnBagDetails(
+                                            //         widget.custmerId,
+                                            //         widget.os);
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("continue"))
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -511,7 +508,6 @@ class _ReturnCartState extends State<ReturnCart> {
                 },
               );
             },
-            // leading: CircleAvatar(backgroundColor: Colors.green),
             title: Column(
               children: [
                 Flexible(
@@ -570,92 +566,104 @@ class _ReturnCartState extends State<ReturnCart> {
                             Flexible(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 5, top: 0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    String item = "${itemName} (${code})";
-                                    // Provider.of<Controller>(context,
-                                    //             listen: false)
-                                    //         .settingsRateOption
-                                    //     ? popup(item, rate, size, index, qty)
-                                    //     : null;
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Rate :",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.02,
-                                      ),
-                                      Text(
-                                        "\u{20B9}${double.parse(rate).toStringAsFixed(2)}",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.3,
-                                      ),
-                                      Flexible(
-                                        child: IconButton(
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (ctx) => AlertDialog(
-                                                content: Text(
-                                                    "Do you want to delete ($code) ???"),
-                                                actions: <Widget>[
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                primary: P_Settings
-                                                                    .wavecolor),
-                                                        onPressed: () async {
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .deleteFromreturnList(
-                                                                  index);
-                                                          Navigator.of(ctx)
-                                                              .pop();
-                                                        },
-                                                        child: Text("Ok"),
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            size.width * 0.01,
-                                                      ),
-                                                      ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                primary: P_Settings
-                                                                    .wavecolor),
-                                                        onPressed: () {
-                                                          Navigator.of(ctx)
-                                                              .pop();
-                                                        },
-                                                        child: Text("Cancel"),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          icon: Icon(
-                                            Icons.delete,
-                                            size: 17,
-                                          ),
-                                          color: P_Settings.extracolor,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Rate :",
+                                      style: TextStyle(fontSize: 13),
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.02,
+                                    ),
+                                    Text(
+                                      "\u{20B9}${double.parse(rate).toStringAsFixed(2)}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.3,
+                                    ),
+                                    Flexible(
+                                      child: IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (ctx) => AlertDialog(
+                                              content: Text(
+                                                  "Do you want to delete ($code) ???"),
+                                              actions: <Widget>[
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                              primary: P_Settings
+                                                                  .wavecolor),
+                                                      onPressed: () async {
+                                                        Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .deleteFromreturnBagTable(
+                                                                cartrowno,
+                                                                widget
+                                                                    .custmerId,
+                                                                index);
+                                                        Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .getreturnList(
+                                                                widget
+                                                                    .custmerId,
+                                                                "");
+                                                        Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .calculatereturnTotal(
+                                                                widget.os,
+                                                                widget
+                                                                    .custmerId);
+                                                        Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .countFromTable(
+                                                          "returnBagTable",
+                                                          widget.os,
+                                                          widget.custmerId,
+                                                        );
+                                                        Navigator.of(ctx).pop();
+                                                      },
+                                                      child: Text("Ok"),
+                                                    ),
+                                                    SizedBox(
+                                                      width: size.width * 0.01,
+                                                    ),
+                                                    ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                              primary: P_Settings
+                                                                  .wavecolor),
+                                                      onPressed: () {
+                                                        Navigator.of(ctx).pop();
+                                                      },
+                                                      child: Text("Cancel"),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
+                                          size: 17,
                                         ),
+                                        color: P_Settings.extracolor,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -697,7 +705,7 @@ class _ReturnCartState extends State<ReturnCart> {
                       ),
                       Flexible(
                         child: Text(
-                          "\u{20B9}${totalamount}",
+                          "\u{20B9}${double.parse(totalamount).toStringAsFixed(2)}",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,

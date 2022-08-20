@@ -51,7 +51,11 @@ class Controller extends ChangeNotifier {
   bool isUpload = false;
   bool filterCompany = false;
   bool salefilterCompany = false;
+  bool returnfilterCompany = false;
+
   String? salefilteredeValue;
+  String? returnfilteredeValue;
+
   String? filteredeValue;
   bool isAdminLoading = false;
   String? menu_index;
@@ -106,8 +110,9 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> sortList = [];
   List<Map<String, dynamic>> filteredProductList = [];
   List<Map<String, dynamic>> salefilteredProductList = [];
+  List<Map<String, dynamic>> returnfilteredProductList = [];
 
-  List<Map<String, dynamic>> returnList = [];
+  // List<Map<String, dynamic>> returnList = [];
   bool filter = false;
   bool isDownloaded = false;
   // String? custmerSelection;
@@ -172,6 +177,8 @@ class Controller extends ChangeNotifier {
   List<TextEditingController> qty = [];
   List<TextEditingController> rateController = [];
   List<TextEditingController> salesqty = [];
+  List<TextEditingController> returnsqty = [];
+
   List<TextEditingController> salesrate = [];
   List<TextEditingController> discount_prercent = [];
   List<TextEditingController> discount_amount = [];
@@ -185,6 +192,7 @@ class Controller extends ChangeNotifier {
   String? fp;
   List<Map<String, dynamic>> bagList = [];
   List<Map<String, dynamic>> salebagList = [];
+  List<Map<String, dynamic>> returnbagList = [];
 
   List<Map<String, dynamic>> newList = [];
   List<Map<String, dynamic>> newreportList = [];
@@ -1237,16 +1245,13 @@ class Controller extends ChangeNotifier {
       String? refNo,
       String? reason) async {
     print(
-        "values--------$date--$time$customer_id-$user_id--$aid--$total_price--$refNo--$reason");
-    // List<Map<String, dynamic>> om = [];
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? os = prefs.getString("os");
-    String os1 = "R" + "${os}";
+        "values--------$date--$time$customer_id-$user_id--$aid--$total_price--$refNo--$reason--$os");
+
     int return_id = await OrderAppDB.instance
-        .calculateMaxSeries('$os1', 'returnMasterTable', 'return_id');
+        .calculateMaxSeries('$os', 'returnMasterTable', 'return_id');
     print("return_id----$return_id");
     int rowNum = 1;
-    if (returnList.length > 0) {
+    if (returnbagList.length > 0) {
       await OrderAppDB.instance.insertreturnMasterandDetailsTable(
           "",
           return_id,
@@ -1255,7 +1260,7 @@ class Controller extends ChangeNotifier {
           " ",
           date,
           time,
-          os1,
+          os,
           customer_id,
           user_id,
           aid,
@@ -1267,18 +1272,18 @@ class Controller extends ChangeNotifier {
           reason!,
           refNo!);
 
-      for (var item in returnList) {
-        print("return_id---$return_id");
+      for (var item in returnbagList) {
+        print("item---${item["rate"].runtimeType}");
         // double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertreturnMasterandDetailsTable(
-            item["item"],
+            item["itemName"],
             return_id,
             item["qty"],
             double.parse(item["rate"]),
             item["code"],
             date,
             time,
-            os1,
+            os,
             customer_id,
             user_id,
             aid,
@@ -1293,7 +1298,9 @@ class Controller extends ChangeNotifier {
       }
     }
 
-    returnList.clear();
+    returnbagList.clear();
+    await OrderAppDB.instance.deleteFromTableCommonQuery(
+        "returnBagTable", "os='${os}' AND customerid='${customer_id}'");
     notifyListeners();
   }
 
@@ -1311,9 +1318,24 @@ class Controller extends ChangeNotifier {
         .updateQtyOrderBagTable(qty, cartrowno, customerId, rate);
     print("res-----$res");
     if (res.length >= 0) {
-      bagList.clear();
+      returnbagList.clear();
       for (var item in res) {
-        bagList.add(item);
+        returnbagList.add(item);
+      }
+      print("re from controller----$res");
+      notifyListeners();
+    }
+  }
+
+  returnupdateQty(
+      String qty, int cartrowno, String customerId, String rate) async {
+    List<Map<String, dynamic>> res = await OrderAppDB.instance
+        .updateQtyreturnBagTable(qty, cartrowno, customerId, rate);
+    print("res-----$res");
+    if (res.length >= 0) {
+      returnbagList.clear();
+      for (var item in res) {
+        returnbagList.add(item);
       }
       print("re from controller----$res");
       notifyListeners();
@@ -1417,6 +1439,20 @@ class Controller extends ChangeNotifier {
       filterComselected = List.generate(length, (index) => false);
       print("filteredProductList--$salefilteredProductList");
     }
+    if (type == "return") {
+      returnfilterCompany = true;
+
+      result = await OrderAppDB.instance
+          .selectfromreturnbagandfilterList(cusId, comId);
+      returnfilteredProductList.clear();
+      for (var item in result) {
+        returnfilteredProductList.add(item);
+      }
+      var length = returnfilteredProductList.length;
+      print("filter list length.........$length");
+      filterComselected = List.generate(length, (index) => false);
+      print("filteredProductList--$returnfilteredProductList");
+    }
 
     print("products filter-----$result");
 
@@ -1511,6 +1547,45 @@ class Controller extends ChangeNotifier {
       selected = List.generate(length, (index) => false);
       returnselected = List.generate(length, (index) => false);
       returnirtemExists = List.generate(length, (index) => false);
+      isLoading = false;
+      notifyListeners();
+      print("product name----${productName}");
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    notifyListeners();
+  }
+
+//////////////////////////////////////////////////////////
+  getreturnList(String customerId, String postiion) async {
+    print("haii---");
+    int flag = 0;
+    productName.clear();
+    try {
+      isLoading = true;
+      notifyListeners();
+      if (postiion == "orderform") {
+        prodctItems = await OrderAppDB.instance
+            .selectAllcommon("productDetailsTable", '');
+      } else {
+        prodctItems =
+            await OrderAppDB.instance.selectfromreturnbagTable(customerId);
+      }
+
+      print("prodctItems----${prodctItems.length}");
+
+      for (var item in prodctItems) {
+        productName.add(item);
+      }
+      var length = productName.length;
+      print("text length----$length");
+      qty = List.generate(length, (index) => TextEditingController());
+      selected = List.generate(length, (index) => false);
+      // returnselected = List.generate(length, (index) => false);
+      // returnirtemExists = List.generate(length, (index) => false);
       isLoading = false;
       notifyListeners();
       print("product name----${productName}");
@@ -1619,6 +1694,29 @@ class Controller extends ChangeNotifier {
 
     generateTextEditingController("sales");
     print("salebagList vxdvxd----$salebagList");
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+////////////////////////////////////////////////////////////////////
+  getreturnBagDetails(String customerId, String os) async {
+    print("customer id sale .................$customerId...$os");
+    returnbagList.clear();
+
+    isLoading = true;
+    notifyListeners();
+    List<Map<String, dynamic>> res =
+        await OrderAppDB.instance.getreturnBagTable(customerId, os);
+    for (var item in res) {
+      returnbagList.add(item);
+    }
+    // rateEdit = List.generate(salebagList.length, (index) => false);
+    returnsqty =
+        List.generate(returnbagList.length, (index) => TextEditingController());
+
+    generateTextEditingController("return");
+    print("returnbagList vxdvxd----$returnbagList");
 
     isLoading = false;
     notifyListeners();
@@ -1753,6 +1851,9 @@ class Controller extends ChangeNotifier {
     if (type == "sales") {
       length = salebagList.length;
     }
+    if (type == "return") {
+      length = returnbagList.length;
+    }
     print("text length----$length");
     controller = List.generate(length, (index) => TextEditingController());
     print("length----$length");
@@ -1774,7 +1875,8 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///////////////////////////////////
+  ////////////////////////////////////////////////////////////
+
   deleteFromOrderBagTable(int cartrowno, String customerId, int index) async {
     print("cartrowno--$cartrowno--index----$index");
     List<Map<String, dynamic>> res = await OrderAppDB.instance
@@ -1788,6 +1890,23 @@ class Controller extends ChangeNotifier {
     controller.removeAt(index);
     print("controllers----$controller");
     generateTextEditingController("sale order");
+    notifyListeners();
+  }
+
+  /////////////////////////////////////////////////////////////
+  deleteFromreturnBagTable(int cartrowno, String customerId, int index) async {
+    print("cartrowno--$cartrowno--index----$index");
+    List<Map<String, dynamic>> res = await OrderAppDB.instance
+        .deleteFromreturnbagTable(cartrowno, customerId);
+
+    returnbagList.clear();
+    for (var item in res) {
+      returnbagList.add(item);
+    }
+    print("after delete------$res");
+    controller.removeAt(index);
+    print("controllers----$controller");
+    generateTextEditingController("return");
     notifyListeners();
   }
 
@@ -1825,6 +1944,13 @@ class Controller extends ChangeNotifier {
   calculateorderTotal(String os, String customerId) async {
     orderTotal1 = await OrderAppDB.instance.gettotalSum(os, customerId);
     print("orderTotal1---$orderTotal1");
+    notifyListeners();
+  }
+
+  calculatereturnTotal(String os, String customerId) async {
+    String s = await OrderAppDB.instance.getreturntotalSum(os, customerId);
+    returnTotal = double.parse(s);
+    print("returnTotal---$returnTotal");
     notifyListeners();
   }
 
@@ -1869,16 +1995,16 @@ class Controller extends ChangeNotifier {
     // notifyListeners();
   }
 
-  calculatereturnTotal() async {
-    returnTotal = 0;
-    for (int i = 0; i < returnList.length; i++) {
-      print(" returnList[i]-${returnList[i]["total"]}");
-      returnTotal = returnTotal + double.parse(returnList[i]["total"]);
-    }
+  // calculatereturnTotal() async {
+  //   returnTotal = 0;
+  //   for (int i = 0; i < returnList.length; i++) {
+  //     print(" returnList[i]-${returnList[i]["total"]}");
+  //     returnTotal = returnTotal + double.parse(returnList[i]["total"]);
+  //   }
 
-    print("orderTotal---$returnTotal");
-    // notifyListeners();
-  }
+  //   print("orderTotal---$returnTotal");
+  //   // notifyListeners();
+  // }
 
   ////////////////count from table///////
   countFromTable(String table, String os, String customerId) async {
@@ -1892,6 +2018,7 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+///////////////////////////////////////////////////////////////////////////
   qtyIncrement() {
     qtyinc = 1 + qtyinc!;
     print("qty-----$qtyinc");
@@ -2454,58 +2581,58 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////Return////////////////////////
-  addToreturnList(Map<String, dynamic> value) {
-    print("value---${value}");
-    bool flag = false;
-    int i;
-    if (returnList.length > 0) {
-      print("return length----${returnList.length}");
-      for (i = 0; i < returnList.length; i++) {
-        print("hyyyyy----${returnList[i]["code"]}");
-        if (returnList[i]["code"] == value["code"]) {
-          flag = true;
-          break;
-        } else {
-          flag = false;
-        }
-      }
-      if (flag == true) {
-        print(
-            "returnList[i]------------------${returnList[i]["total"].runtimeType}");
-        print("value[i]------------------${value["total"].runtimeType}");
+  // addToreturnList(Map<String, dynamic> value) {
+  //   print("value---${value}");
+  //   bool flag = false;
+  //   int i;
+  //   if (returnList.length > 0) {
+  //     print("return length----${returnList.length}");
+  //     for (i = 0; i < returnList.length; i++) {
+  //       print("hyyyyy----${returnList[i]["code"]}");
+  //       if (returnList[i]["code"] == value["code"]) {
+  //         flag = true;
+  //         break;
+  //       } else {
+  //         flag = false;
+  //       }
+  //     }
+  //     if (flag == true) {
+  //       print(
+  //           "returnList[i]------------------${returnList[i]["total"].runtimeType}");
+  //       print("value[i]------------------${value["total"].runtimeType}");
 
-        returnList[i]["qty"] = returnList[i]["qty"] + value["qty"];
-        double d =
-            double.parse(returnList[i]["total"]) + double.parse(value["total"]);
-        returnList[i]["total"] = d.toString();
-        print("qty--${returnList[i]["qty"]}");
-      } else {
-        returnList.add(value);
-      }
-    } else {
-      returnList.add(value);
-    }
-    returnCount = returnList.length;
-    print("return List----$returnList");
-    notifyListeners();
-  }
-
-  // selectfromreturnList(){
-  //   returnList.
+  //       returnList[i]["qty"] = returnList[i]["qty"] + value["qty"];
+  //       double d =
+  //           double.parse(returnList[i]["total"]) + double.parse(value["total"]);
+  //       returnList[i]["total"] = d.toString();
+  //       print("qty--${returnList[i]["qty"]}");
+  //     } else {
+  //       returnList.add(value);
+  //     }
+  //   } else {
+  //     returnList.add(value);
+  //   }
+  //   returnCount = returnList.length;
+  //   print("return List----$returnList");
+  //   notifyListeners();
   // }
 
-  deleteFromreturnList(index) {
-    returnList.removeAt(index);
-    returnCount = returnCount - 1;
-    notifyListeners();
-  }
+  // // selectfromreturnList(){
+  // //   returnList.
+  // // }
+
+  // deleteFromreturnList(index) {
+  //   returnList.removeAt(index);
+  //   returnCount = returnCount - 1;
+  //   notifyListeners();
+  // }
 
   updatereturnQty(int index, int updteretrnQty, double rate) {
     print("index---updteretrnQty-$index--$updteretrnQty---$rate");
-    for (int i = 0; i < returnList.length; i++) {
+    for (int i = 0; i < returnbagList.length; i++) {
       if (i == index) {
-        returnList[i]["qty"] = updteretrnQty;
-        returnList[i]["total"] = rate.toStringAsFixed(2);
+        returnbagList[i]["qty"] = updteretrnQty;
+        returnbagList[i]["total"] = rate.toStringAsFixed(2);
         notifyListeners();
       }
     }
@@ -2851,6 +2978,24 @@ class Controller extends ChangeNotifier {
               print("bagList[item]----${bagList[i]}");
 
               if (bagList[i]["code"] == newList[item]["code"]) {
+                print("ifff");
+                selected[item] = true;
+                break;
+              } else {
+                print("else----");
+                selected[item] = false;
+              }
+            }
+          }
+        }
+        if (type == "return") {
+          for (var item = 0; item < newList.length; item++) {
+            print("newList[item]----${newList[item]}");
+
+            for (var i = 0; i < bagList.length; i++) {
+              print("bagList[item]----${returnbagList[i]}");
+
+              if (returnbagList[i]["code"] == newList[item]["code"]) {
                 print("ifff");
                 selected[item] = true;
                 break;

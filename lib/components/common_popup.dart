@@ -10,17 +10,17 @@ class CommonPopup {
   String? gen_condition;
   String? sid;
   Widget buildPopupDialog(
-      String type,
-      BuildContext context,
-      String content,
-      String areaid,
-      String areaname,
-      String custmerId,
-      String date,
-      String time,
-      String ref,
-      String reason,
-      ) {
+    String type,
+    BuildContext context,
+    String content,
+    String areaid,
+    String areaname,
+    String custmerId,
+    String date,
+    String time,
+    String ref,
+    String reason,
+  ) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -70,7 +70,6 @@ class CommonPopup {
                         value.tax_tot,
                         value.dis_tot,
                         value.cess_tot,
-                        
                       );
                     }
                     Provider.of<Controller>(context, listen: false)
@@ -100,7 +99,7 @@ class CommonPopup {
                         .todayOrder(date, gen_condition!);
                   } else if (type == "return") {
                     if (Provider.of<Controller>(context, listen: false)
-                            .returnList
+                            .returnbagList
                             .length >
                         0) {
                       String? sOs = "R" + "$os";

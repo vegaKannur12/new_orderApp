@@ -83,13 +83,33 @@ class ShowModal {
                                     } else if (filter == "with company") {
                                       Provider.of<Controller>(context,
                                               listen: false)
-                                          .filterwithCompany(
-                                              customerId, filterValue,"sale order");
+                                          .filterwithCompany(customerId,
+                                              filterValue, "sale order");
                                     }
                                     Provider.of<Controller>(context,
                                             listen: false)
                                         .countFromTable(
                                             "orderBagTable", os, customerId);
+                                  }
+                                  if (appType == "return") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "returnbagTable",
+                                            "code='${code}' AND customerid='${customerId}'");
+                                    if (filter == "no filter") {
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .getreturnList(customerId, "");
+                                    } else if (filter == "with company") {
+                                      Provider.of<Controller>(context,
+                                              listen: false)
+                                          .filterwithCompany(customerId,
+                                              filterValue, "return");
+                                    }
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                            "returnBagTable", os, customerId);
                                   }
                                   if (appType == "sales") {
                                     await OrderAppDB.instance
@@ -105,7 +125,7 @@ class ShowModal {
                                       Provider.of<Controller>(context,
                                               listen: false)
                                           .filterwithCompany(
-                                              customerId, filterValue,"sales");
+                                              customerId, filterValue, "sales");
                                     }
                                     Provider.of<Controller>(context,
                                             listen: false)
@@ -150,6 +170,20 @@ class ShowModal {
                                       customerId,
                                     );
                                   }
+                                  if (appType == "return") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "returnBagTable",
+                                            "code='${code}' AND customerid='${customerId}'");
+
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                      "returnBagTable",
+                                      os,
+                                      customerId,
+                                    );
+                                  }
                                   if (appType == "sales") {
                                     await OrderAppDB.instance
                                         .deleteFromTableCommonQuery(
@@ -183,6 +217,20 @@ class ShowModal {
                                             listen: false)
                                         .countFromTable(
                                       "orderBagTable",
+                                      os,
+                                      customerId,
+                                    );
+                                  }
+                                  if (appType == "return") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "returnBagTable",
+                                            "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
+
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                      "salesBagTable",
                                       os,
                                       customerId,
                                     );
@@ -225,6 +273,20 @@ class ShowModal {
                                       customerId,
                                     );
                                   }
+                                  if (appType == "return") {
+                                    await OrderAppDB.instance
+                                        .deleteFromTableCommonQuery(
+                                            "returnBagTable",
+                                            "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
+
+                                    Provider.of<Controller>(context,
+                                            listen: false)
+                                        .countFromTable(
+                                      "returnBagTable",
+                                      os,
+                                      customerId,
+                                    );
+                                  }
                                   if (appType == "sales") {
                                     await OrderAppDB.instance
                                         .deleteFromTableCommonQuery(
@@ -242,19 +304,6 @@ class ShowModal {
                                   // Provider.of<Controller>(context,
                                   //       listen: false)
                                   //   .searchProcess();
-                                  Navigator.of(context).pop();
-                                }
-                                if (type == "return") {
-                                  if (value.selected[selected_index]) {
-                                    value.selected[selected_index] =
-                                        !value.selected[selected_index];
-                                  }
-
-                                  value.qty[selected_index].clear();
-                                  Provider.of<Controller>(context,
-                                          listen: false)
-                                      .deleteFromreturnList(selected_index);
-
                                   Navigator.of(context).pop();
                                 }
                               }),

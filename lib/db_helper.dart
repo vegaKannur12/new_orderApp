@@ -508,6 +508,23 @@ class OrderAppDB {
             $cstatus INTEGER
           )
           ''');
+
+    await db.execute(''' 
+          CREATE TABLE returnBagTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $itemName TEXT NOT NULL,
+            $cartdate TEXT,
+            $carttime TEXT,
+            $os TEXT NOT NULL,
+            $customerid TEXT,
+            $cartrowno INTEGER,
+            $code TEXT,
+            $qty INTEGER,
+            $rate TEXT,
+            $totalamount TEXT,
+            $cstatus INTEGER
+          )
+          ''');
     ////////////////////////////////////////
     await db.execute(''' 
           CREATE TABLE salesBagTable (
@@ -700,6 +717,52 @@ class OrderAppDB {
     } else {
       query2 =
           'INSERT INTO orderBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", $cstatus)';
+      var res = await db.rawInsert(query2);
+    }
+
+    print("insert query result $res");
+    print("insert-----$query2");
+    return res;
+  }
+
+//////////////////////////////////////////////////////////////////////
+  Future insertreturnBagTable(
+    String itemName,
+    String cartdate,
+    String carttime,
+    String os,
+    String customerid,
+    int cartrowno,
+    String code,
+    int qty,
+    String rate,
+    String totalamount,
+    int cstatus,
+  ) async {
+    print("qty--$qty");
+    print("code...........$code");
+    final db = await database;
+    var res;
+    var query3;
+    var query2;
+    List<Map<String, dynamic>> res1 = await db.rawQuery(
+        'SELECT  * FROM returnBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
+    print("SELECT from ---$res1");
+    if (res1.length == 1) {
+      int qty1 = res1[0]["qty"];
+      int updatedQty = qty1 + qty;
+      double amount = double.parse(res1[0]["totalamount"]);
+      print("res1.length----${res1.length}");
+
+      print("upadted qty-----$updatedQty");
+      double amount1 = double.parse(totalamount);
+      double updatedAmount = amount + amount1;
+      var res = await db.rawUpdate(
+          'UPDATE returnBagTable SET qty=$updatedQty , totalamount="${updatedAmount}" WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
+      print("response-------$res");
+    } else {
+      query2 =
+          'INSERT INTO returnBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
@@ -992,6 +1055,20 @@ class OrderAppDB {
     print(
         'SELECT  * FROM salesBagTable WHERE customerid="${customerId}" AND os = "${os}"');
     print("result sale cart...$res");
+    return res;
+  }
+
+  //////////////////////////////////////////
+  Future<List<Map<String, dynamic>>> getreturnBagTable(
+      String customerId, String os) async {
+    print("enteredcustomerId---${customerId}");
+    // .of<Controller>(context, listen: false).customerList.clear();
+    Database db = await instance.database;
+    var res = await db.rawQuery(
+        'SELECT  * FROM returnBagTable WHERE customerid="${customerId}" AND os = "${os}"');
+    print(
+        'SELECT  * FROM returnBagTable WHERE customerid="${customerId}" AND os = "${os}"');
+    print("result return cart...$res");
     return res;
   }
 
@@ -1458,6 +1535,24 @@ class OrderAppDB {
     return sum;
   }
 
+  getreturntotalSum(String os, String customerId) async {
+    // double sum=0.0;
+    String sum;
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        "SELECT * FROM returnBagTable WHERE os='$os' AND customerid='$customerId'");
+
+    if (result != null && result.isNotEmpty) {
+      List<Map<String, dynamic>> res = await db.rawQuery(
+          "SELECT SUM(totalamount) s FROM returnBagTable WHERE os='$os' AND customerid='$customerId'");
+      sum = res[0]["s"].toStringAsFixed(2);
+      print("sum from db----$sum");
+    } else {
+      sum = "0.0";
+    }
+    return sum;
+  }
+
   /////////////////////sales product sum ////////////////////
   getsaletotalSum(String os, String customerId) async {
     // double sum=0.0;
@@ -1566,6 +1661,20 @@ class OrderAppDB {
     }
     return res1;
   }
+//////////////////////////////////////////////////////////////
+  deleteFromreturnbagTable(int cartrowno, String customerId) async {
+    var res1;
+    Database db = await instance.database;
+    print("DELETE FROM 'returnBagTable' WHERE cartrowno = $cartrowno");
+    var res = await db.rawDelete(
+        "DELETE FROM 'returnBagTable' WHERE cartrowno = $cartrowno AND customerid='$customerId'");
+    if (res == 1) {
+      res1 = await db.rawQuery(
+          "SELECT * FROM returnBagTable WHERE customerid='$customerId'");
+      print(res1);
+    }
+    return res1;
+  }
 
   /////////////////////////update qty///////////////////////////////////
   updateQtyOrderBagTable(
@@ -1585,6 +1694,30 @@ class OrderAppDB {
     if (res == 1) {
       res1 = await db.rawQuery(
           "SELECT * FROM orderBagTable WHERE customerid='$customerId'");
+      print(res1);
+    }
+    print("res1------$res1");
+    return res1;
+  }
+
+////////////////////////////////////////////////////
+  updateQtyreturnBagTable(
+      String qty, int cartrowno, String customerId, String rate) async {
+    Database db = await instance.database;
+    var res1;
+    double rate1 = double.parse(rate);
+    int updatedQty = int.parse(qty);
+    double amount = (rate1 * updatedQty);
+    print("amoiunt---$cartrowno-$customerId---$rate--$amount");
+    print("updatedqty----$updatedQty");
+    // gettotalSum(String os, String customerId);
+    var res = await db.rawUpdate(
+        'UPDATE returnBagTable SET qty=$updatedQty , totalamount="${amount}" , rate="${rate}" WHERE cartrowno=$cartrowno AND customerid="$customerId"');
+    print("response-------$res");
+
+    if (res == 1) {
+      res1 = await db.rawQuery(
+          "SELECT * FROM returnBagTable WHERE customerid='$customerId'");
       print(res1);
     }
     print("res1------$res1");
@@ -1674,6 +1807,16 @@ class OrderAppDB {
     return result;
   }
 
+  selectfromreturnbagTable(String customerId) async {
+    List<Map<String, dynamic>> result;
+    Database db = await instance.database;
+    result = await db.rawQuery(
+        "SELECT productDetailsTable.* , returnBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'returnBagTable' ON productDetailsTable.code = returnBagTable.code AND returnBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
+    print("leftjoin result----$result");
+    print("length---${result.length}");
+    return result;
+  }
+
   selectfromsalebagTable(String customerId) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
@@ -1705,6 +1848,25 @@ class OrderAppDB {
         " FROM 'productDetailsTable' LEFT JOIN 'salesBagTable' " +
         " ON productDetailsTable.code = salesBagTable.code AND " +
         " salesBagTable.customerid='$customerId'" +
+        " where  productDetailsTable.companyId='${comId}' " +
+        " ORDER BY cartrowno DESC;";
+    Database db = await instance.database;
+    result = await db.rawQuery(query);
+    print("leftjoin result- company---$result");
+    print("length---${result.length}");
+    return result;
+  }
+
+//////////////////////////////////////////////////////////////////////
+  selectfromreturnbagandfilterList(String customerId, String comId) async {
+    print("comid---$comId");
+    List<Map<String, dynamic>> result;
+    var query = "";
+    query = query +
+        "SELECT productDetailsTable.* , returnBagTable.cartrowno " +
+        " FROM 'productDetailsTable' LEFT JOIN 'returnBagTable' " +
+        " ON productDetailsTable.code = returnBagTable.code AND " +
+        " returnBagTable.customerid='$customerId'" +
         " where  productDetailsTable.companyId='${comId}' " +
         " ORDER BY cartrowno DESC;";
     Database db = await instance.database;
