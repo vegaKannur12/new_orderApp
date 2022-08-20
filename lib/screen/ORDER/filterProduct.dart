@@ -172,26 +172,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                 widget.customerId!,
                               );
                             }
-                            if (widget.type == "return") {
-                              rate1 = value.filteredProductList[index]["rate1"];
-                              var total = int.parse(rate1) *
-                                  int.parse(value.qty[index].text);
-                              Provider.of<Controller>(context, listen: false)
-                                  .addToreturnList({
-                                "item": value.filteredProductList[index]
-                                    ["item"],
-                                "date": widget.s![0],
-                                "time": widget.s![1],
-                                "os": value.ordernum[0]["os"],
-                                "customer_id": widget.customerId,
-                                "code": value.filteredProductList[index]
-                                    ["code"],
-                                "qty": int.parse(value.qty[index].text),
-                                "rate": rate1,
-                                "total": total.toString(),
-                                "status": 0
-                              });
-                            }
+                      
                             /////////////////////////////////////////////////////////////
                             (widget.customerId!.isNotEmpty ||
                                         widget.customerId != null) &&

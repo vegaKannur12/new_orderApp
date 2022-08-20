@@ -10,6 +10,7 @@ import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/6.1_remarks.dart';
 import 'package:orderapp/screen/ORDER/6_collection.dart';
 import 'package:orderapp/screen/ORDER/7_itemSelection.dart';
+import 'package:orderapp/screen/RETURN/returnItemList.dart';
 import 'package:orderapp/screen/SALES/sale_itemlist.dart';
 // import 'package:orderapp/screen/SALES/sale_itemlist.dart';
 import 'package:provider/provider.dart';
@@ -579,6 +580,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             fontSize: 12),
                                                       ),
                                                       onPressed: () async {
+                                                        await OrderAppDB.instance.deleteFromTableCommonQuery("returnBagTable", "");
                                                         FocusScopeNode
                                                             currentFocus =
                                                             FocusScope.of(
@@ -596,18 +598,27 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
-                                                              .returnCount = 0;
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .clearList(values
-                                                                  .returnList);
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .getProductList(
+                                                              .getreturnList(
                                                                   custmerId
-                                                                      .toString());
+                                                                      .toString(),
+                                                                  "orderform");
+
+                                                          String os = "R" +
+                                                              "${values.ordernum[0]["os"]}";
+
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .fetchProductCompanyList();
+                                                          
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .count = "0";
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .returnfilterCompany = false;
                                                           Navigator.of(context)
                                                               .push(
                                                             PageRouteBuilder(
@@ -616,7 +627,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               pageBuilder: (_,
                                                                       __,
                                                                       ___) =>
-                                                                  ItemSelection(
+                                                                  ReturnItem(
                                                                 customerId:
                                                                     custmerId
                                                                         .toString(),
@@ -633,9 +644,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                             listen:
                                                                                 false)
                                                                         .areaidFrompopup!,
-                                                                os: values
-                                                                        .ordernum[
-                                                                    0]['os'],
+                                                                os: os,
                                                                 areaName: values.areaidFrompopup ==
                                                                             null ||
                                                                         values
@@ -1062,8 +1071,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             ),
                                                             onPressed:
                                                                 () async {
-                                                                  String oos="O"+"${values.ordernum[
-                                                                      0]['os']}";
+                                                              String oos = "O" +
+                                                                  "${values.ordernum[0]['os']}";
                                                               FocusScopeNode
                                                                   currentFocus =
                                                                   FocusScope.of(
@@ -1186,6 +1195,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             fontSize: 12),
                                                       ),
                                                       onPressed: () async {
+                                                        await OrderAppDB.instance.deleteFromTableCommonQuery("returnBagTable", "");
                                                         FocusScopeNode
                                                             currentFocus =
                                                             FocusScope.of(
@@ -1203,18 +1213,27 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
-                                                              .returnCount = 0;
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .clearList(values
-                                                                  .returnList);
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .getProductList(
+                                                              .getreturnList(
                                                                   custmerId
-                                                                      .toString());
+                                                                      .toString(),
+                                                                  "orderform");
+                                                          String os = "R" +
+                                                              "${values.ordernum[0]["os"]}";
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .count = "0";
+
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .fetchProductCompanyList();
+
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .returnfilterCompany = false;
+
                                                           Navigator.of(context)
                                                               .push(
                                                             PageRouteBuilder(
@@ -1223,7 +1242,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               pageBuilder: (_,
                                                                       __,
                                                                       ___) =>
-                                                                  ItemSelection(
+                                                                  ReturnItem(
                                                                 customerId:
                                                                     custmerId
                                                                         .toString(),
@@ -1240,9 +1259,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                             listen:
                                                                                 false)
                                                                         .areaidFrompopup!,
-                                                                os: values
-                                                                        .ordernum[
-                                                                    0]['os'],
+                                                                os: os,
                                                                 areaName: values.areaidFrompopup ==
                                                                             null ||
                                                                         values
