@@ -1162,7 +1162,7 @@ class OrderAppDB {
       String cag) async {
     final db = await database;
     var query =
-        'INSERT INTO accountHeadsTable(ac_code, hname, gtype, ac_ad1, ac_ad2, ac_ad3, area_id, phn, ba, ri, rc, ht, mo, ac_gst, ac, cag) VALUES("${ac_code}", "${hname}", "${gtype}", "${ac_ad1}", "${ac_ad2}", "${ac_ad3}", "${area_id}", "${ph}", ${ba}, "${ri}", "${rc}", "${ht}", "${mo}", "${gst}", "${ac}", "${cag}")';
+        'INSERT INTO accountHeadsTable(ac_code, hname, gtype, ac_ad1, ac_ad2, ac_ad3, area_id, phn, ba, ri, rc, ht, mo, ac_gst, ac, cag) VALUES("${ac_code}", "${hname.toUpperCase()}", "${gtype}", "${ac_ad1}", "${ac_ad2}", "${ac_ad3}", "${area_id}", "${ph}", ${ba}, "${ri}", "${rc}", "${ht}", "${mo}", "${gst}", "${ac}", "${cag}")';
     var res = await db.rawInsert(query);
     print(query);
     // print(res);

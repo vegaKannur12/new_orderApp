@@ -2730,7 +2730,7 @@ class Controller extends ChangeNotifier {
         notifyListeners();
         // print("response----$response");
         var map = jsonDecode(response.body);
-        print("response collection----${map}");
+        print("response collection----${map}");  
         for (var item in map) {
           print("update data.......$map");
           if (item["col_id"] != null) {

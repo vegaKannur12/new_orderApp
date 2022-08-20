@@ -65,196 +65,217 @@ class _CartListState extends State<CartList> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Opacity(
-      opacity: 1.0,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: P_Settings.wavecolor,
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  await OrderAppDB.instance
-                      .deleteFromTableCommonQuery("orderBagTable", "");
-                },
-                icon: Icon(Icons.delete)),
-            IconButton(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: P_Settings.wavecolor,
+        actions: [
+          IconButton(
               onPressed: () async {
-                List<Map<String, dynamic>> list =
-                    await OrderAppDB.instance.getListOfTables();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TableList(list: list)),
-                );
+                await OrderAppDB.instance
+                    .deleteFromTableCommonQuery("orderBagTable", "");
               },
-              icon: Icon(Icons.table_bar),
-            ),
-          ],
-        ),
-        body: GestureDetector(onTap: (() {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        }), child: Center(
-          child: Consumer<Controller>(builder: (context, value, child) {
-            if (value.isLoading) {
-              return CircularProgressIndicator();
-            } else {
-              print("value.rateEdit----${value.rateEdit}");
-              return Provider.of<Controller>(context, listen: false)
-                          .bagList
-                          .length ==
-                      0
-                  ? Container(
-                      height: size.height * 0.9,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+              icon: Icon(Icons.delete)),
+          IconButton(
+            onPressed: () async {
+              List<Map<String, dynamic>> list =
+                  await OrderAppDB.instance.getListOfTables();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TableList(list: list)),
+              );
+            },
+            icon: Icon(Icons.table_bar),
+          ),
+        ],
+      ),
+      body: GestureDetector(onTap: (() {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      }), child: Center(
+        child: Consumer<Controller>(builder: (context, value, child) {
+          if (value.isLoading) {
+            return CircularProgressIndicator();
+          } else {
+            print("value.rateEdit----${value.rateEdit}");
+            return Provider.of<Controller>(context, listen: false)
+                        .bagList
+                        .length ==
+                    0
+                ? Container(
+                    height: size.height * 0.9,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "asset/empty.png",
+                            height: 80,
+                            color: P_Settings.wavecolor,
+                            width: 100,
+                          ),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                          Text(
+                            "Your cart is empty !!!",
+                            style: TextStyle(fontSize: 17),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: P_Settings.wavecolor,
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("View products"))
+                        ],
+                      ),
+                    ),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Row(
                           children: [
-                            Image.asset(
-                              "asset/empty.png",
-                              height: 80,
-                              color: P_Settings.wavecolor,
-                              width: 100,
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                    width: 1.0, color: Colors.transparent),
+                              ),
+                              onPressed: () {},
+                              child: Text(
+                                widget.type == "sale order"
+                                    ? "${value.count} Items"
+                                    : "${value.returnCount} Items",
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              ),
                             ),
-                            SizedBox(
-                              height: size.height * 0.02,
-                            ),
-                            Text(
-                              "Your cart is empty !!!",
-                              style: TextStyle(fontSize: 17),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.02,
-                            ),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    primary: P_Settings.wavecolor,
-                                    textStyle: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold)),
+                            Spacer(),
+                            OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(
+                                      width: 1.0, color: P_Settings.wavecolor),
+                                ),
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  // Navigator.of(context).push(
-                                  //   PageRouteBuilder(
-                                  //     opaque: false, // set to false
-                                  //     pageBuilder: (_, __, ___) =>
-                                  //         ItemSelection(
-                                  //       areaId: widget.areaId,
-                                  //       customerId: widget.custmerId,
-                                  //       os: widget.os,
-                                  //       areaName: widget.areaname,
-                                  //       type: widget.type,
-                                  //     ),
-                                  //   ),
-                                  // );
                                 },
-                                child: Text("View products"))
+                                child: Text("Add Items",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold))),
                           ],
                         ),
                       ),
-                    )
-                  : Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: value.bagList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return listItemFunction(
-                                  value.bagList[index]["cartrowno"],
-                                  value.bagList[index]["itemName"],
-                                  value.bagList[index]["rate"],
-                                  value.bagList[index]["totalamount"],
-                                  value.bagList[index]["qty"],
-                                  size,
-                                  value.controller[index],
-                                  index,
-                                  value.bagList[index]["code"]);
-                            },
-                          ),
+                      // Divider(
+                      //   thickness: 2,
+                      // ),
+
+                      //////////////////////////////////////////////
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: value.bagList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return listItemFunction(
+                                value.bagList[index]["cartrowno"],
+                                value.bagList[index]["itemName"],
+                                value.bagList[index]["rate"],
+                                value.bagList[index]["totalamount"],
+                                value.bagList[index]["qty"],
+                                size,
+                                value.controller[index],
+                                index,
+                                value.bagList[index]["code"]);
+                          },
                         ),
-                        Container(
-                          height: size.height * 0.07,
-                          color: Colors.yellow,
-                          child: Row(
-                            children: [
-                              Container(
+                      ),
+                      Container(
+                        height: size.height * 0.07,
+                        color: Colors.yellow,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: size.width * 0.5,
+                              height: size.height * 0.07,
+                              color: Colors.yellow,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(" Order Total  : ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15)),
+                                  Flexible(
+                                    child: Text("\u{20B9}${value.orderTotal1}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16)),
+                                  )
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: (() async {
+                                // value.areDetails.clear();
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      orderpopup.buildPopupDialog(
+                                          "sale order",
+                                          context,
+                                          "Confirm your order?",
+                                          widget.areaId,
+                                          widget.areaname,
+                                          widget.custmerId,
+                                          s[0],
+                                          s[1],
+                                          "",
+                                          ""),
+                                );
+
+                                Provider.of<Controller>(context, listen: false)
+                                    .count = "0";
+                                print("area name ${widget.areaname}");
+                                // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
+                              }),
+                              child: Container(
                                 width: size.width * 0.5,
                                 height: size.height * 0.07,
-                                color: Colors.yellow,
+                                color: P_Settings.roundedButtonColor,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(" Order Total  : ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15)),
-                                    Flexible(
-                                      child: Text(
-                                          "\u{20B9}${value.orderTotal1}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16)),
-                                    )
+                                    Text(
+                                      "Place Order",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.01,
+                                    ),
+                                    Icon(Icons.shopping_basket)
                                   ],
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: (() async {
-                                  // value.areDetails.clear();
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        orderpopup.buildPopupDialog(
-                                            "sale order",
-                                            context,
-                                            "Confirm your order?",
-                                            widget.areaId,
-                                            widget.areaname,
-                                            widget.custmerId,
-                                            s[0],
-                                            s[1],
-                                            "",
-                                            ""),
-                                  );
-
-                                  Provider.of<Controller>(context,
-                                          listen: false)
-                                      .count = "0";
-                                  print("area name ${widget.areaname}");
-                                  // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
-                                }),
-                                child: Container(
-                                  width: size.width * 0.5,
-                                  height: size.height * 0.07,
-                                  color: P_Settings.roundedButtonColor,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Place Order",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.01,
-                                      ),
-                                      Icon(Icons.shopping_basket)
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-            }
-          }),
-        )),
-      ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  );
+          }
+        }),
+      )),
     );
   }
 

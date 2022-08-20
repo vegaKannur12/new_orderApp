@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' as io;
 import 'package:intl/intl.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:orderapp/components/commoncolor.dart';
@@ -7,7 +8,7 @@ import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/components/showMoadal.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
-import 'package:orderapp/screen/ORDER/6_orderForm.dart';
+import 'package:badges/badges.dart';
 import 'package:orderapp/screen/ORDER/8_cartList.dart';
 import 'package:orderapp/screen/ORDER/filterProduct.dart';
 import 'package:orderapp/screen/RETURN/return_cart.dart';
@@ -38,17 +39,8 @@ class _ItemSelectionState extends State<ItemSelection> {
   TextEditingController searchcontroll = TextEditingController();
   ShowModal showModal = ShowModal();
   List<Map<String, dynamic>> products = [];
-  // List<Map<String, dynamic>> p = [
-  //   {"a": "jdszn","id":"hj"},
-  //   {"a": "njxd","id":"ht"}
-  // ];
-
-  // int? selected;
   SearchTile search = SearchTile();
-  // RefreshController _refreshController =
-  //     RefreshController(initialRefresh: false);
   DateTime now = DateTime.now();
-  // CustomSnackbar snackbar = CustomSnackbar();
   List<String> s = [];
   String? date;
   bool loading = true;
@@ -87,84 +79,76 @@ class _ItemSelectionState extends State<ItemSelection> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Provider.of<Controller>(context, listen: false).filterCompany =
-                false;
-            Provider.of<Controller>(context, listen: false)
-                .filteredProductList
-                .clear();
-            Provider.of<Controller>(context, listen: false).searchkey = "";
-            Provider.of<Controller>(context, listen: false).newList = products;
-            Navigator.pop(context);
-            // Navigator.popUntil(context, (route) => route.isCurrent);
-            // Navigator.of(context).push(
-            //   PageRouteBuilder(
-            //     opaque: false, // set to false
-            //     pageBuilder: (_, __, ___) => OrderForm(
-            //      widget.areaName,
-            //      widget.type,
-            //     ),
-            //   ),
-            // );
-          },
-        ),
-        elevation: 0,
         backgroundColor: widget.type == "sale order"
             ? P_Settings.wavecolor
             : P_Settings.returnbuttnColor,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.shopping_cart,
-              color: Colors.white,
-              size: 25,
+        actions: [
+          Badge(
+            animationType: BadgeAnimationType.scale,
+            toAnimate: true,
+            badgeColor: Colors.white,
+            badgeContent: Consumer<Controller>(
+              builder: (context, value, child) {
+                return Text(
+                  widget.type == "sale order"
+                      ? "${value.count}"
+                      : "${value.returnCount}",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                );
+              },
             ),
-            onPressed: () async {
-              String oos = "O" + "${widget.os}";
+            position: const BadgePosition(start: 33, bottom: 25),
+            child: IconButton(
+              onPressed: () async {
+                String oos = "O" + "${widget.os}";
 
-              if (widget.customerId == null || widget.customerId.isEmpty) {
-              } else {
-                FocusManager.instance.primaryFocus?.unfocus();
-                if (widget.type == "sale order") {
-                  Provider.of<Controller>(context, listen: false)
-                      .selectFromSettings('SO_RATE_EDIT');
-                  Provider.of<Controller>(context, listen: false)
-                      .getBagDetails(widget.customerId, oos);
+                if (widget.customerId == null || widget.customerId.isEmpty) {
+                } else {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (widget.type == "sale order") {
+                    Provider.of<Controller>(context, listen: false)
+                        .selectFromSettings('SO_RATE_EDIT');
+                    Provider.of<Controller>(context, listen: false)
+                        .getBagDetails(widget.customerId, oos);
 
-                  List<Map<String, dynamic>> result = await OrderAppDB.instance
-                      .selectAllcommon(
-                          'settingsTable', "set_code='SO_RATE_EDIT'");
-                  // print("hfjdh------$result");
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      opaque: false, // set to false
-                      pageBuilder: (_, __, ___) => CartList(
-                        areaId: widget.areaId,
-                        custmerId: widget.customerId,
-                        os: oos,
-                        areaname: widget.areaName,
-                        type: widget.type,
+                    List<Map<String, dynamic>> result =
+                        await OrderAppDB.instance.selectAllcommon(
+                            'settingsTable', "set_code='SO_RATE_EDIT'");
+                    // print("hfjdh------$result");
+
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        opaque: false, // set to false
+                        pageBuilder: (_, __, ___) => CartList(
+                          areaId: widget.areaId,
+                          custmerId: widget.customerId,
+                          os: oos,
+                          areaname: widget.areaName,
+                          type: widget.type,
+                        ),
                       ),
-                    ),
-                  );
-                } else if (widget.type == "return") {
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      opaque: false, // set to false
-                      pageBuilder: (_, __, ___) => ReturnCart(
-                        areaId: widget.areaId,
-                        custmerId: widget.customerId,
-                        os: widget.os,
-                        areaname: widget.areaName,
-                        type: widget.type,
+                    );
+                  } else if (widget.type == "return") {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        opaque: false, // set to false
+                        pageBuilder: (_, __, ___) => ReturnCart(
+                          areaId: widget.areaId,
+                          custmerId: widget.customerId,
+                          os: widget.os,
+                          areaname: widget.areaName,
+                          type: widget.type,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 }
-              }
-            },
+              },
+              icon: const Icon(Icons.shopping_cart),
+            ),
+          ),
+          const SizedBox(
+            width: 3.0,
           ),
           Consumer<Controller>(
             builder: (context, _value, child) {
@@ -182,8 +166,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                     Provider.of<Controller>(context, listen: false)
                         .filteredProductList
                         .clear();
-                    Provider.of<Controller>(context, listen: false)
-                        .getProductList(widget.customerId);
+                    // Provider.of<Controller>(context, listen: false)
+                    //     .getProductList(widget.customerId);
                   } else {
                     print("value---$value");
                     Provider.of<Controller>(context, listen: false)
@@ -213,69 +197,6 @@ class _ItemSelectionState extends State<ItemSelection> {
           print("value.returnirtemExists------${value.returnirtemExists}");
           return Column(
             children: [
-              GestureDetector(
-                onTap: () {
-                  String oos = "O" + "${widget.os}";
-
-                  if (widget.type == "sale order") {
-                    Provider.of<Controller>(context, listen: false)
-                        .getBagDetails(widget.customerId, oos);
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        opaque: false, // set to false
-                        pageBuilder: (_, __, ___) => CartList(
-                          areaId: widget.areaId,
-                          custmerId: widget.customerId,
-                          os: oos,
-                          areaname: widget.areaName,
-                          type: widget.type,
-                        ),
-                      ),
-                    );
-                  } else if (widget.type == "return") {
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        opaque: false, // set to false
-                        pageBuilder: (_, __, ___) => ReturnCart(
-                          areaId: widget.areaId,
-                          custmerId: widget.customerId,
-                          os: widget.os,
-                          areaname: widget.areaName,
-                          type: widget.type,
-                        ),
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                    alignment: Alignment.center,
-                    height: size.height * 0.045,
-                    width: size.width * 0.2,
-                    child: value.isLoading
-                        ? Center(
-                            child: SpinKitThreeBounce(
-                            color: widget.type == "sale order"
-                                ? P_Settings.wavecolor
-                                : P_Settings.returnbuttnColor,
-                            size: 15,
-                          ))
-                        : Text(
-                            widget.type == "sale order"
-                                ? "${value.count}"
-                                : "${value.returnCount}",
-                            style: TextStyle(
-                                fontSize: 19, fontWeight: FontWeight.bold),
-                          ),
-                    decoration: BoxDecoration(
-                      color: widget.type == "sale order"
-                          ? P_Settings.roundedButtonColor
-                          : P_Settings.returncountColor,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50),
-                      ),
-                    )),
-              ),
               SizedBox(
                 height: size.height * 0.01,
               ),
@@ -289,13 +210,6 @@ class _ItemSelectionState extends State<ItemSelection> {
                     onChanged: (value) {
                       Provider.of<Controller>(context, listen: false)
                           .setisVisible(true);
-                      // Provider.of<Controller>(context, listen: false).isSearch=true;
-
-                      // Provider.of<Controller>(context, listen: false)
-                      //     .searchkey = value;
-
-                      // Provider.of<Controller>(context, listen: false)
-                      //     .searchProcess(widget.customerId, widget.os);
                       value = searchcontroll.text;
                     },
                     decoration: InputDecoration(
@@ -1005,7 +919,10 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 ? value.selected[
                                                                         index]
                                                                     ? () async {
-                                                                      String oos="O"+"${widget.os}";
+                                                                        String
+                                                                            oos =
+                                                                            "O" +
+                                                                                "${widget.os}";
                                                                         String
                                                                             item =
                                                                             products[index]["code"] +
@@ -1026,7 +943,9 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       }
                                                                     : null
                                                                 : () async {
-                                                                  String oos="O"+"${widget.os}";
+                                                                    String oos =
+                                                                        "O" +
+                                                                            "${widget.os}";
                                                                     String item = products[index]
                                                                             [
                                                                             "code"] +
@@ -1054,7 +973,9 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                             : value.selected[
                                                                     index]
                                                                 ? () async {
-                                                                  String oos="O"+"${widget.os}";
+                                                                    String oos =
+                                                                        "O" +
+                                                                            "${widget.os}";
                                                                     String item = products[index]
                                                                             [
                                                                             "code"] +

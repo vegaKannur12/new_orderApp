@@ -122,6 +122,43 @@ class _ReturnCartState extends State<ReturnCart> {
                   )
                 : Column(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Row(
+                          children: [
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                    width: 1.0, color: Colors.transparent),
+                              ),
+                              onPressed: () {},
+                              child: Text(
+                                widget.type == "sale order"
+                                    ? "${value.count} Items"
+                                    : "${value.returnCount} Items",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: P_Settings.extracolor),
+                              ),
+                            ),
+                            Spacer(),
+                            OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(
+                                      width: 1.0, color: P_Settings.extracolor),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Add Items",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: P_Settings.extracolor))),
+                          ],
+                        ),
+                      ),
                       Expanded(
                         child: ListView.builder(
                           itemCount: value.returnList.length,

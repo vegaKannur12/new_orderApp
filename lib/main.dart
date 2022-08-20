@@ -46,8 +46,7 @@ Future<void> main() async {
   var status = await Permission.storage.status;
 
   requestPermission();
-  runApp(
-    MultiProvider(
+  runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => Controller()),
       ChangeNotifierProvider(

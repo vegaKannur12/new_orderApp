@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -96,36 +97,46 @@ class _SalesItemState extends State<SalesItem> {
         elevation: 0,
         backgroundColor: P_Settings.salewaveColor,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.shopping_cart,
-              color: Colors.white,
-              size: 25,
-            ),
-            onPressed: () async {
-              if (widget.customerId == null || widget.customerId.isEmpty) {
-              } else {
-                FocusManager.instance.primaryFocus?.unfocus();
-                Provider.of<Controller>(context, listen: false)
-                    .selectSettings();
-
-                Provider.of<Controller>(context, listen: false)
-                    .getSaleBagDetails(widget.customerId, widget.os);
-
-                Navigator.of(context).push(
-                  PageRouteBuilder(
-                    opaque: false, // set to false
-                    pageBuilder: (_, __, ___) => SaleCart(
-                      areaId: widget.areaId,
-                      custmerId: widget.customerId,
-                      os: widget.os,
-                      areaname: widget.areaName,
-                      type: widget.type,
-                    ),
-                  ),
+          Badge(
+            animationType: BadgeAnimationType.scale,
+            toAnimate: true,
+            badgeColor: Colors.white,
+            badgeContent: Consumer<Controller>(
+              builder: (context, value, child) {
+                return Text(
+                  "${value.count}",
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 );
-              }
-            },
+              },
+            ),
+            position: const BadgePosition(start: 33, bottom: 25),
+            child: IconButton(
+              onPressed: () async {
+                if (widget.customerId == null || widget.customerId.isEmpty) {
+                } else {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  Provider.of<Controller>(context, listen: false)
+                      .selectSettings();
+
+                  Provider.of<Controller>(context, listen: false)
+                      .getSaleBagDetails(widget.customerId, widget.os);
+
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      opaque: false, // set to false
+                      pageBuilder: (_, __, ___) => SaleCart(
+                        areaId: widget.areaId,
+                        custmerId: widget.customerId,
+                        os: widget.os,
+                        areaname: widget.areaName,
+                        type: widget.type,
+                      ),
+                    ),
+                  );
+                }
+              },
+              icon: const Icon(Icons.shopping_cart),
+            ),
           ),
           Consumer<Controller>(
             builder: (context, _value, child) {
@@ -191,49 +202,6 @@ class _SalesItemState extends State<SalesItem> {
         builder: (context, value, child) {
           return Column(
             children: [
-              GestureDetector(
-                onTap: () {
-                  print("type sale.........${widget.type}");
-                  Provider.of<Controller>(context, listen: false)
-                      .getSaleBagDetails(widget.customerId, widget.os);
-                  // Provider.of<Controller>(context, listen: false)
-                  //     .selectSettings();
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      opaque: false, // set to false
-                      pageBuilder: (_, __, ___) => SaleCart(
-                        areaId: widget.areaId,
-                        custmerId: widget.customerId,
-                        os: widget.os,
-                        areaname: widget.areaName,
-                        type: widget.type,
-                      ),
-                    ),
-                  );
-                },
-                child: Container(
-                    alignment: Alignment.center,
-                    height: size.height * 0.045,
-                    width: size.width * 0.2,
-                    child: value.isLoading
-                        ? Center(
-                            child: SpinKitThreeBounce(
-                            color: P_Settings.salewaveColor,
-                            size: 15,
-                          ))
-                        : Text(
-                            "${value.count}",
-                            style: TextStyle(
-                                fontSize: 19, fontWeight: FontWeight.bold),
-                          ),
-                    decoration: BoxDecoration(
-                      color: P_Settings.saleroundedButtonColor,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50),
-                      ),
-                    )),
-              ),
               SizedBox(
                 height: size.height * 0.01,
               ),

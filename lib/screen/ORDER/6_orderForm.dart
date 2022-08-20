@@ -420,13 +420,13 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             },
                                             displayStringForOption:
                                                 (Map<String, dynamic> option) =>
-                                                    option["hname"],
+                                                    option["hname"].toUpperCase(),
                                             onSelected: (value) {
                                               setState(() {
                                                 print("value----${value}");
                                                 _selectedItemcus =
                                                     value["hname"];
-                                                customerName = value["hname"];
+                                                customerName = value["hname"].toUpperCase();
                                                 custmerId = value["ac_code"];
                                                 print(
                                                     "Code .........---${custmerId}");

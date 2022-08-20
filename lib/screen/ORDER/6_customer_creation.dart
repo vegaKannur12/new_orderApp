@@ -378,7 +378,7 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                         var account = await OrderAppDB.instance
                                             .createCustomer(
                                                 ac_code,
-                                                cusname.text,
+                                                cusname.text.toUpperCase(),
                                                 gtype!,
                                                 addr1.text,
                                                 addr2.text,

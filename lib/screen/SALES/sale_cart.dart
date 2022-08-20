@@ -138,6 +138,47 @@ class _SaleCartState extends State<SaleCart> {
                   )
                 : Column(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Row(
+                          children: [
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                    width: 1.0,
+                                  color: Colors.transparent),
+                              ),
+                              onPressed: () {},
+                              child: Text(
+                                "${value.count} Items",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: P_Settings.collectionbuttnColor),
+                              ),
+                            ),
+                            Spacer(),
+                            OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(
+                                      width: 1.0,
+                                      color: P_Settings.collectionbuttnColor),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Add Items",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            P_Settings.collectionbuttnColor))),
+
+                          
+                          ],
+                        ),
+                      ),
+                      // Divider(thickness: 2,),
                       Expanded(
                         child: ListView.builder(
                           itemCount: value.salebagList.length,
