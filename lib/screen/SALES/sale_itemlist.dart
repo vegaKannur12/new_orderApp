@@ -103,10 +103,15 @@ class _SalesItemState extends State<SalesItem> {
             badgeColor: Colors.white,
             badgeContent: Consumer<Controller>(
               builder: (context, value, child) {
-                return Text(
-                  "${value.count}",
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                );
+                if (value.count == null) {
+                  return SpinKitChasingDots(
+                      color: P_Settings.wavecolor, size: 9);
+                } else {
+                  return Text(
+                    "${value.count}",
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  );
+                }
               },
             ),
             position: const BadgePosition(start: 33, bottom: 25),

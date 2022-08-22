@@ -153,9 +153,7 @@ class _CartListState extends State<CartList> {
                               ),
                               onPressed: () {},
                               child: Text(
-                                widget.type == "sale order"
-                                    ? "${value.count} Items"
-                                    : "${value.returnCount} Items",
+                                "${value.count} Items",
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                               ),

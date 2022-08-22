@@ -102,10 +102,15 @@ class _ReturnItemState extends State<ReturnItem> {
             badgeColor: Colors.white,
             badgeContent: Consumer<Controller>(
               builder: (context, value, child) {
-                return Text(
-                  "${value.count}",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                );
+                if (value.count == null) {
+                  return SpinKitChasingDots(
+                      color: P_Settings.wavecolor, size: 9);
+                } else {
+                  return Text(
+                    "${value.count}",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                  );
+                }
               },
             ),
             position: const BadgePosition(start: 33, bottom: 25),
@@ -466,7 +471,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                 context,
                                                                 listen: false)
                                                             .selectSettings();
-                                                        // String os="S"+"${value.ordernum[0]["os"]}";
+
                                                         setState(() {
                                                           if (value.selected[
                                                                   index] ==
@@ -730,10 +735,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                         Icons.add,
                                                       ),
                                                       onPressed: () async {
-                                                        // Provider.of<Controller>(
-                                                        //         context,
-                                                        //         listen: false)
-                                                        //     .selectSettings();
+                                                        print("clicked--");
 
                                                         setState(() {
                                                           if (value.selected[
@@ -745,7 +747,8 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                     index];
                                                             // selected = index;
                                                           }
-
+                                                          print(
+                                                              "sdjszn-----${value.selected[index]}");
                                                           if (value.qty[index]
                                                                       .text ==
                                                                   null ||

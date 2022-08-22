@@ -1318,15 +1318,16 @@ class Controller extends ChangeNotifier {
         .updateQtyOrderBagTable(qty, cartrowno, customerId, rate);
     print("res-----$res");
     if (res.length >= 0) {
-      returnbagList.clear();
+      bagList.clear();
       for (var item in res) {
-        returnbagList.add(item);
+        bagList.add(item);
       }
       print("re from controller----$res");
       notifyListeners();
     }
   }
 
+///////////////////////////////////////////////////////////////
   returnupdateQty(
       String qty, int cartrowno, String customerId, String rate) async {
     List<Map<String, dynamic>> res = await OrderAppDB.instance
@@ -1563,7 +1564,6 @@ class Controller extends ChangeNotifier {
   getreturnList(String customerId, String postiion) async {
     print("haii---");
     int flag = 0;
-    productName.clear();
     try {
       isLoading = true;
       notifyListeners();
@@ -1576,14 +1576,16 @@ class Controller extends ChangeNotifier {
       }
 
       print("prodctItems----${prodctItems.length}");
+      productName.clear();
 
       for (var item in prodctItems) {
         productName.add(item);
       }
       var length = productName.length;
-      print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
+      print("selected---$selected");
+
       // returnselected = List.generate(length, (index) => false);
       // returnirtemExists = List.generate(length, (index) => false);
       isLoading = false;
@@ -1655,9 +1657,12 @@ class Controller extends ChangeNotifier {
 
     List<Map<String, dynamic>> res =
         await OrderAppDB.instance.getOrderBagTable(customerId, os);
+
     for (var item in res) {
       bagList.add(item);
     }
+    notifyListeners();
+
     rateEdit = List.generate(bagList.length, (index) => false);
     rateController =
         List.generate(bagList.length, (index) => TextEditingController());
@@ -1668,6 +1673,7 @@ class Controller extends ChangeNotifier {
 
     isLoading = false;
     notifyListeners();
+    return bagList;
   }
 
 //////////////////////////////////////////////////////
@@ -1697,6 +1703,7 @@ class Controller extends ChangeNotifier {
 
     isLoading = false;
     notifyListeners();
+    return salebagList;
   }
 
 ////////////////////////////////////////////////////////////////////
@@ -1720,6 +1727,7 @@ class Controller extends ChangeNotifier {
 
     isLoading = false;
     notifyListeners();
+    return returnbagList;
   }
 
   ////////////////////GET HISTORY DATA/////////////////////////
@@ -2125,17 +2133,6 @@ class Controller extends ChangeNotifier {
     var length = bagList.length;
     List.generate(length, (index) => false);
     // notifyListeners();
-  }
-
-  selectFromSettings(String s_code) async {
-    settingsList.clear();
-    var res = await OrderAppDB.instance
-        .selectAllcommon('settingsTable', "set_code='${s_code}'");
-    for (var item in res) {
-      settingsList.add(item);
-    }
-    print("settingsList--$settingsList");
-    notifyListeners();
   }
 
   ///////////////////////////////////////////////////////
@@ -2910,7 +2907,7 @@ class Controller extends ChangeNotifier {
   ////////////////////////SEARCH PROCESS ////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////
   searchProcess(String customerId, String os, String comid, String type) async {
-    print("searchkey--comid--$searchkey---$comid");
+    print("searchkey--comid--$searchkey---$comid----$os");
     List<Map<String, dynamic>> result = [];
     newList.clear();
 
@@ -2962,15 +2959,18 @@ class Controller extends ChangeNotifier {
       for (var item in result) {
         newList.add(item);
       }
+
       isListLoading = false;
       notifyListeners();
       var length = newList.length;
       selected = List.generate(length, (index) => false);
       qty = List.generate(length, (index) => TextEditingController());
 
+      print("baglis length----${bagList}");
       if (newList.length > 0) {
         print("enterde");
         if (type == "sale order") {
+          List lis = await getBagDetails(customerId, os);
           for (var item = 0; item < newList.length; item++) {
             print("newList[item]----${newList[item]}");
 
@@ -2989,10 +2989,12 @@ class Controller extends ChangeNotifier {
           }
         }
         if (type == "return") {
+          List lis = await getreturnBagDetails(customerId, os);
+
           for (var item = 0; item < newList.length; item++) {
             print("newList[item]----${newList[item]}");
 
-            for (var i = 0; i < bagList.length; i++) {
+            for (var i = 0; i < returnbagList.length; i++) {
               print("bagList[item]----${returnbagList[i]}");
 
               if (returnbagList[i]["code"] == newList[item]["code"]) {
@@ -3007,6 +3009,8 @@ class Controller extends ChangeNotifier {
           }
         }
         if (type == "sales") {
+          List lis = await getSaleBagDetails(customerId, os);
+
           for (var item = 0; item < newList.length; item++) {
             print("newList[item]----${newList[item]}");
 
