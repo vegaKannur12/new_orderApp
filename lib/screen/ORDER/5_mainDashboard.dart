@@ -158,7 +158,7 @@ class _MainDashboardState extends State<MainDashboard> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Todays  ",
+                                "Todays Count",
                                 style: GoogleFonts.alike(
                                   textStyle:
                                       Theme.of(context).textTheme.headline1,
@@ -170,7 +170,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                       textStyle:
                                           Theme.of(context).textTheme.bodyText2,
                                       fontSize: 16,
-                                      color: Colors.green))
+                                      color: P_Settings.wavecolor))
                             ],
                           ),
                         ),
@@ -241,7 +241,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               .textTheme
                                               .bodyText2,
                                           fontSize: 16,
-                                          color: Colors.green))
+                                          color: P_Settings.wavecolor))
                                 ],
                               ),
                             )
