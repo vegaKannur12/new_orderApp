@@ -121,7 +121,7 @@ class _SalesItemState extends State<SalesItem> {
                 } else {
                   FocusManager.instance.primaryFocus?.unfocus();
                   Provider.of<Controller>(context, listen: false)
-                      .selectSettings();
+                      .selectSettings("set_code in ('SL_RATE_EDIT','SL_TAX_CALC') ");
 
                   Provider.of<Controller>(context, listen: false)
                       .getSaleBagDetails(widget.customerId, widget.os);
@@ -409,7 +409,8 @@ class _SalesItemState extends State<SalesItem> {
                                                         Provider.of<Controller>(
                                                                 context,
                                                                 listen: false)
-                                                            .selectSettings();
+                                                            .selectSettings(
+                                                               "set_code in ('SL_RATE_EDIT','SL_TAX_CALC') ");
                                                         // String os="S"+"${value.ordernum[0]["os"]}";
                                                         setState(() {
                                                           if (value.selected[
@@ -509,7 +510,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                 // value.settingsList[0]
                                                                 //     ['set_value'],
                                                                 value
-                                                                    .settingsList1[5]
+                                                                    .settingsList1[1]
                                                                         ['set_value']
                                                                     .toString(),
                                                                 int.parse(widget.gtype),
@@ -785,7 +786,8 @@ class _SalesItemState extends State<SalesItem> {
                                                         Provider.of<Controller>(
                                                                 context,
                                                                 listen: false)
-                                                            .selectSettings();
+                                                            .selectSettings(
+                                                                "set_code in ('SL_RATE_EDIT','SL_TAX_CALC') ");
                                                         String os = "S" +
                                                             "${value.ordernum[0]["os"]}";
                                                         setState(() {
@@ -896,7 +898,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .productName[index]
                                                                     ["tax"]),
                                                                 cesspertNew,
-                                                                value.settingsList1[5]
+                                                                value.settingsList1[1]
                                                                         ['set_value']
                                                                     .toString(),
                                                                 int.parse(widget.gtype),

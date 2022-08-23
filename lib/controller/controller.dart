@@ -3150,9 +3150,9 @@ class Controller extends ChangeNotifier {
   // }
 
 
-  selectSettings() async {
+  selectSettings( String condition ) async {
     settingsList1.clear();
-    var res = await OrderAppDB.instance.selectAllcommon('settingsTable', "");
+    var res = await OrderAppDB.instance.selectAllcommon('settingsTable', "$condition");
     for (var item in res) {
       settingsList1.add(item);
     }
