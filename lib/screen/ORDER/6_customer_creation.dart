@@ -56,6 +56,8 @@ class _CustomerCreationState extends State<CustomerCreation> {
     shared();
     print("widget----${widget.sid}");
     print("user-----$userType");
+    Provider.of<Controller>(context, listen: false)
+        .selectSettings("set_code in('CU_UPLOAD_DIRECT')");
     if (userType == "admin") {
       Provider.of<Controller>(context, listen: false).getArea(" ");
     } else if (userType == "staff") {
@@ -398,6 +400,17 @@ class _CustomerCreationState extends State<CustomerCreation> {
                                         addr2.clear();
                                         addr3.clear();
                                         phoneNo.clear();
+                                        if (Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .settingsList1[0]
+                                                ["set_value"] ==
+                                            "YES") {
+                                          print("upload----");
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .uploadCustomers(
+                                                  context, 0, "comomn popup");
+                                        }
                                         tst.toast("Customer created!!");
                                       }
                                     },

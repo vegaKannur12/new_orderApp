@@ -372,7 +372,7 @@ class _CartListState extends State<CartList> {
                                   ),
                                   Provider.of<Controller>(context,
                                                   listen: false)
-                                              .settingsList[0]["set_value"] ==
+                                              .settingsList1[0]["set_value"] ==
                                           "YES"
                                       ? Padding(
                                           padding: const EdgeInsets.only(

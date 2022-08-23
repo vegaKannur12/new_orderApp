@@ -2724,7 +2724,7 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////////upload customer/////////////////////////////////////////
-  uploadCustomers(BuildContext context, int index) async {
+  uploadCustomers(BuildContext context, int? index, String page) async {
     NetConnection.networkConnection(context).then((value) async {
       if (value == true) {
         try {
@@ -2751,7 +2751,9 @@ class Controller extends ChangeNotifier {
               body: body,
             );
             isUpload = false;
-            isUp[index] = true;
+            if (page == "upload page") {
+              isUp[index!] = true;
+            }
             isLoading = false;
             notifyListeners();
             // print("response----$response");
@@ -2806,7 +2808,7 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////////upload customer/////////////////////////////////////////
-  uploadRemarks(BuildContext context, int index) async {
+  uploadRemarks(BuildContext context, int index,String page) async {
     NetConnection.networkConnection(context).then((value) async {
       if (value == true) {
         try {
@@ -2846,7 +2848,10 @@ class Controller extends ChangeNotifier {
               }
             }
             isUpload = false;
+            if(page=="upload page"){
             isUp[index] = true;
+
+            }
           } else {
             snackbar.showSnackbar(context, "Nothing to upload!!!", "");
           }
@@ -2861,7 +2866,7 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////UPLOAD COLLECTION TABLE////////////////
-  uploadCollectionData(BuildContext context, int index) async {
+  uploadCollectionData(BuildContext context, int? index, String page) async {
     NetConnection.networkConnection(context).then((value) async {
       if (value == true) {
         try {
@@ -2901,7 +2906,9 @@ class Controller extends ChangeNotifier {
               }
             }
             isUpload = false;
-            isUp[index] = true;
+            if (page == "upload page") {
+              isUp[index!] = true;
+            }
           } else {
             snackbar.showSnackbar(context, "Nothing to upload!!!", "");
           }

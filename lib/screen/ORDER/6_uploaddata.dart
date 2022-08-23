@@ -120,7 +120,7 @@ class _UploaddataState extends State<Uploaddata> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .uploadCustomers(
-                                                        context, index);
+                                                        context, index, "upload page");
                                                 //     .getProductCategory(cid!, "");
                                               }
                                               if (uploadItems[index] ==
@@ -128,7 +128,7 @@ class _UploaddataState extends State<Uploaddata> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .uploadCollectionData(
-                                                        context, index);
+                                                        context, index, "upload page");
                                                 //     .getProductCategory(cid!, "");
                                               }
                                               if (uploadItems[index] ==
@@ -136,7 +136,7 @@ class _UploaddataState extends State<Uploaddata> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .uploadRemarks(
-                                                        context, index);
+                                                        context, index, "upload page");
                                                 //     .getProductCategory(cid!, "");
                                               }
                                             },
