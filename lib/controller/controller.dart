@@ -225,7 +225,7 @@ class Controller extends ChangeNotifier {
   ProductDetails proDetails = ProductDetails();
   String? path;
   String? textFile;
-//////////////////////////////// API CONNECTION //////////////////////
+
 //////////////////////////////REGISTRATION ///////////////////////////
   Future<RegistrationData?> postRegistration(
       String company_code,
@@ -3148,6 +3148,7 @@ class Controller extends ChangeNotifier {
   //   print("existss--$returnirtemExists");
   //   notifyListeners();
   // }
+
 
   selectSettings() async {
     settingsList1.clear();

@@ -77,11 +77,6 @@ class _SplashScreenState extends State<SplashScreen>
                         msg: "",
                       );
                     }
-                    // if (st_uname != null && st_pwd != null) {
-                    //   return Dashboard();
-                    // } else {
-                    //   return StaffLogin();
-                    // }
                   } else {
                     return RegistrationScreen();
                   }

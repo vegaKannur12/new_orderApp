@@ -163,6 +163,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                   textStyle:
                                       Theme.of(context).textTheme.headline1,
                                   fontSize: 20,
+                                  color: Colors.grey[700]
                                 ),
                               ),
                               Text(" -  ${s[0]}",
@@ -234,6 +235,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                             .textTheme
                                             .headline1,
                                         fontSize: 20,
+                                         color: Colors.grey[700]
                                       )),
                                   Text("-  ${s[0]}",
                                       style: GoogleFonts.alike(
@@ -417,20 +419,20 @@ class _MainDashboardState extends State<MainDashboard> {
           child: Column(
             children: [
               Container(
-                height: size.height * 0.1,
-                width: size.width * 0.12,
+                // height: size.height * 0.1,
+                // width: size.width * 0.12,
                 child: title == "Orders"
-                    ? Image.asset("asset/3.png")
+                    ? Image.asset("asset/3.png",height: size.height * 0.1, width: size.width * 0.12,)
                     : title == "Collection"
-                        ? Image.asset("asset/4.png")
+                        ? Image.asset("asset/4.png",height: size.height * 0.1, width: size.width * 0.12,)
                         : title == "Sales"
-                            ? Image.asset("asset/2.png")
+                            ? Image.asset("asset/2.png",height: size.height * 0.1, width: size.width * 0.12,)
                             : title == "Shops visited"
-                                ? Image.asset("asset/5.png")
+                                ? Image.asset("asset/5.png",height: size.height * 0.1, width: size.width * 0.12,)
                                 : title == "Shops Not Visited"
-                                    ? Image.asset("asset/6.png")
+                                    ? Image.asset("asset/6.png",height: size.height * 0.1, width: size.width * 0.12,)
                                     : title == "Return"
-                                        ? Image.asset("asset/7.png")
+                                        ? Image.asset("asset/7.png",height: size.height * 0.1, width: size.width * 0.12,)
                                         : null,
               ),
               Text(title.toString(),
