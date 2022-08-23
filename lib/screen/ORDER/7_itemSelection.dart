@@ -108,7 +108,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                   FocusManager.instance.primaryFocus?.unfocus();
 
                   Provider.of<Controller>(context, listen: false)
-                      .selectSettings("set_code='SO_RATE_EDIT'");
+                      .selectSettings("set_code in('SO_RATE_EDIT','SO_UPLOAD_DIRECT')");
                   Provider.of<Controller>(context, listen: false)
                       .getBagDetails(widget.customerId, widget.os);
 
@@ -425,7 +425,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         Provider.of<Controller>(
                                                                 context,
                                                                 listen: false)
-                                                            .selectSettings("set_code='SO_RATE_EDIT'");
+                                                            .selectSettings("set_code in('SO_RATE_EDIT','SO_UPLOAD_DIRECT')");
                                                         String oos = "O" +
                                                             "${value.ordernum[0]["os"]}";
 
@@ -696,7 +696,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         Provider.of<Controller>(
                                                                 context,
                                                                 listen: false)
-                                                            .selectSettings("set_code='SO_RATE_EDIT'");
+                                                            .selectSettings("set_code in('SO_RATE_EDIT','SO_UPLOAD_DIRECT')");
                                                         String oos = "O" +
                                                             "${value.ordernum[0]["os"]}";
 

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CommonPopup {
+  String? cid;
   String? gen_condition;
   String? sid;
   Widget buildPopupDialog(
@@ -38,6 +39,7 @@ class CommonPopup {
                       .setStaffid(value.sname!);
                   final prefs = await SharedPreferences.getInstance();
                   String? sid1 = await prefs.getString('sid');
+                  cid = await prefs.getString('cid');
                   print("Sid........${value.sname}$sid1");
 
                   String? os = await prefs.getString('os');
@@ -72,6 +74,15 @@ class CommonPopup {
                         value.cess_tot,
                       );
                     }
+
+                    if (Provider.of<Controller>(context, listen: false)
+                            .settingsList1[2]["set_value"] ==
+                        "YES") {
+                      print("upload----");
+                      Provider.of<Controller>(context, listen: false)
+                          .uploadSalesData(cid!, context, 0, "comomn popup");
+                    }
+
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
                   }
@@ -95,6 +106,15 @@ class CommonPopup {
                         double.parse(value.orderTotal1!),
                       );
                     }
+
+                    if (Provider.of<Controller>(context, listen: false)
+                            .settingsList1[1]["set_value"] ==
+                        "YES") {
+                      print("upload----");
+                      Provider.of<Controller>(context, listen: false)
+                          .uploadOrdersData(cid!, context, 0, "comomn popup");
+                    }
+
                     Provider.of<Controller>(context, listen: false)
                         .todayOrder(date, gen_condition!);
                   } else if (type == "return") {
@@ -116,6 +136,14 @@ class CommonPopup {
                               reason);
                       Provider.of<Controller>(context, listen: false)
                           .returnCount = 0;
+
+                      if (Provider.of<Controller>(context, listen: false)
+                              .settingsList1[0]["set_value"] ==
+                          "YES") {
+                        print("upload----");
+                        Provider.of<Controller>(context, listen: false)
+                            .uploadReturnData(cid!, context, 0, "comomn popup");
+                      }
                     }
                   }
 

@@ -120,8 +120,8 @@ class _SalesItemState extends State<SalesItem> {
                 if (widget.customerId == null || widget.customerId.isEmpty) {
                 } else {
                   FocusManager.instance.primaryFocus?.unfocus();
-                  Provider.of<Controller>(context, listen: false)
-                      .selectSettings("set_code in ('SL_RATE_EDIT','SL_TAX_CALC') ");
+                  Provider.of<Controller>(context, listen: false).selectSettings(
+                      "set_code in ('SL_RATE_EDIT','SL_TAX_CALC','SL_UPLOAD_DIRECT') ");
 
                   Provider.of<Controller>(context, listen: false)
                       .getSaleBagDetails(widget.customerId, widget.os);
@@ -410,7 +410,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                 context,
                                                                 listen: false)
                                                             .selectSettings(
-                                                               "set_code in ('SL_RATE_EDIT','SL_TAX_CALC') ");
+                                                                "set_code in ('SL_RATE_EDIT','SL_TAX_CALC','SL_UPLOAD_DIRECT') ");
                                                         // String os="S"+"${value.ordernum[0]["os"]}";
                                                         setState(() {
                                                           if (value.selected[
@@ -787,7 +787,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                 context,
                                                                 listen: false)
                                                             .selectSettings(
-                                                                "set_code in ('SL_RATE_EDIT','SL_TAX_CALC') ");
+                                                                "set_code in ('SL_RATE_EDIT','SL_TAX_CALC','SL_UPLOAD_DIRECT') ");
                                                         String os = "S" +
                                                             "${value.ordernum[0]["os"]}";
                                                         setState(() {

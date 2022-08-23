@@ -119,8 +119,8 @@ class _ReturnItemState extends State<ReturnItem> {
                 if (widget.customerId == null || widget.customerId.isEmpty) {
                 } else {
                   FocusManager.instance.primaryFocus?.unfocus();
-                  // Provider.of<Controller>(context, listen: false)
-                  //     .selectSettings();
+                  Provider.of<Controller>(context, listen: false)
+                      .selectSettings("set_code in ('RT_UPLOAD_DIRECT')");
 
                   Provider.of<Controller>(context, listen: false)
                       .getreturnBagDetails(widget.customerId, widget.os);
@@ -467,10 +467,10 @@ class _ReturnItemState extends State<ReturnItem> {
                                                         Icons.add,
                                                       ),
                                                       onPressed: () async {
-                                                        // Provider.of<Controller>(
-                                                        //         context,
-                                                        //         listen: false)
-                                                        //     .selectSettings();
+                                                        Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .selectSettings("set_code in ('RT_UPLOAD_DIRECT')");
 
                                                         setState(() {
                                                           if (value.selected[
@@ -735,6 +735,10 @@ class _ReturnItemState extends State<ReturnItem> {
                                                         Icons.add,
                                                       ),
                                                       onPressed: () async {
+                                                        Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .selectSettings("set_code in ('RT_UPLOAD_DIRECT')");
                                                         print("clicked--");
 
                                                         setState(() {

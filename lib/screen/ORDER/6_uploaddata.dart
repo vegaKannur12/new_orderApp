@@ -83,48 +83,63 @@ class _UploaddataState extends State<Uploaddata> {
                                   ? null
                                   : value.isUpload
                                       ? null
-                                      : value.isUp[index]?null:() async {
-                                          if (uploadItems[index] ==
-                                              "Upload Orders") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .uploadOrdersData(
-                                                    widget.cid, context,index);
-                                          }
-                                          if (uploadItems[index] ==
-                                              "Upload Stock Return") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .uploadReturnData(
-                                                    widget.cid, context,index);
-                                          }
-                                          if (uploadItems[index] ==
-                                              "Upload Sales") {
-                                            Provider.of<Controller>(context, listen: false)
-                                                .uploadSalesData(widget.cid, context,index);
-                                          }
-                                          if (uploadItems[index] ==
-                                              "Upload Customer") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .uploadCustomers(context,index);
-                                            //     .getProductCategory(cid!, "");
-                                          }
-                                          if (uploadItems[index] ==
-                                              "Upload Collection") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .uploadCollectionData(context,index);
-                                            //     .getProductCategory(cid!, "");
-                                          }
-                                          if (uploadItems[index] ==
-                                              "Upload Remarks") {
-                                            Provider.of<Controller>(context,
-                                                    listen: false)
-                                                .uploadRemarks(context,index);
-                                            //     .getProductCategory(cid!, "");
-                                          }
-                                        },
+                                      : value.isUp[index]
+                                          ? null
+                                          : () async {
+                                              if (uploadItems[index] ==
+                                                  "Upload Orders") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .uploadOrdersData(
+                                                        widget.cid,
+                                                        context,
+                                                        index,
+                                                        "upload page");
+                                              }
+                                              if (uploadItems[index] ==
+                                                  "Upload Stock Return") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .uploadReturnData(
+                                                        widget.cid,
+                                                        context,
+                                                        index,"upload page");
+                                              }
+                                              if (uploadItems[index] ==
+                                                  "Upload Sales") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .uploadSalesData(
+                                                        widget.cid,
+                                                        context,
+                                                        index,
+                                                        "upload page");
+                                              }
+                                              if (uploadItems[index] ==
+                                                  "Upload Customer") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .uploadCustomers(
+                                                        context, index);
+                                                //     .getProductCategory(cid!, "");
+                                              }
+                                              if (uploadItems[index] ==
+                                                  "Upload Collection") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .uploadCollectionData(
+                                                        context, index);
+                                                //     .getProductCategory(cid!, "");
+                                              }
+                                              if (uploadItems[index] ==
+                                                  "Upload Remarks") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .uploadRemarks(
+                                                        context, index);
+                                                //     .getProductCategory(cid!, "");
+                                              }
+                                            },
                               icon: Icon(Icons.upload),
                               color: Colors.white,
                             ),
