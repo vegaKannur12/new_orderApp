@@ -92,17 +92,19 @@ class _TodaysOrderState extends State<TodaysOrder> {
                       height: size.height * 0.2,
                     ),
                     Image.asset(
-                      'asset/smiley.png',
+                      'asset/noData1.png',
                       height: size.height * 0.09,
                       fit: BoxFit.cover,
+                      color: P_Settings.collection1,
                     ),
                     SizedBox(
-                      height: size.height * 0.01,
+                      height: size.height * 0.015,
                     ),
                     Text(
                       "No Orders!!!",
                       style: TextStyle(
-                        fontSize: 19,
+                        fontSize: 17,
+                        color: P_Settings.collection1
                       ),
                     )
                   ],

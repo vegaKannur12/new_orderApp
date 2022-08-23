@@ -1,24 +1,17 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
-import 'package:orderapp/components/customPopup.dart';
 import 'package:orderapp/components/customToast.dart';
 import 'package:orderapp/components/network_connectivity.dart';
 import 'package:orderapp/components/noNetwork.dart';
 import 'package:orderapp/components/unregister_popup.dart';
 import 'package:orderapp/controller/controller.dart';
-import 'package:orderapp/db_helper.dart';
-
 import 'package:orderapp/screen/ADMIN_/admin_dashboard.dart';
 import 'package:orderapp/screen/ADMIN_/homePage.dart';
-
-import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
 import 'package:orderapp/screen/ORDER/5_mainDashboard.dart';
@@ -27,15 +20,10 @@ import 'package:orderapp/screen/ORDER/6_downloadedPage.dart';
 import 'package:orderapp/screen/ORDER/6_historypage.dart';
 import 'package:orderapp/screen/ORDER/6_reportPage.dart';
 import 'package:orderapp/screen/ORDER/6_uploaddata.dart';
-import 'package:orderapp/screen/ORDER/6_settings.dart';
-import 'package:orderapp/screen/ORDER/background_download.dart';
 import 'package:orderapp/screen/ORDER/todayCollection.dart';
 import 'package:orderapp/screen/ORDER/todaySale.dart';
 import 'package:orderapp/screen/ORDER/todaysOrder.dart';
 import 'package:orderapp/screen/ORDER/webview.dart';
-import 'package:orderapp/screen/SALES/sale_itemlist.dart';
-import 'package:orderapp/service/queryResult.dart';
-import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../components/commoncolor.dart';
@@ -414,7 +402,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                               .menu_index ==
                           "DP"
                   ? AppBar(
-                    backgroundColor: P_Settings.wavecolor,
                       flexibleSpace: Container(
                         decoration: BoxDecoration(),
                       ),
@@ -500,10 +487,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                   EdgeInsets.symmetric(horizontal: 9.0),
                               // indicatorSize: TabBarIndicatorSize.label,
                               labelColor: Color.fromARGB(255, 58, 54, 54),
-                              labelStyle: GoogleFonts.lato(
+                              labelStyle: GoogleFonts.aBeeZee(
                                 textStyle:
                                     Theme.of(context).textTheme.bodyText2,
-                                fontSize: 14,
+                                fontSize: 15,
                               ),
                               unselectedLabelColor: P_Settings.wavecolor,
                               tabs: myTabs,
@@ -565,7 +552,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                       title: Text(
                                         value.menuList[i]["menu_name"]
                                             .toLowerCase(),
-                                        style: GoogleFonts.lato(
+                                        style: GoogleFonts.aBeeZee(
                                           textStyle: Theme.of(context)
                                               .textTheme
                                               .bodyText2,
@@ -711,18 +698,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         },
                         title: Text(
                           "company Details",
-                          style: TextStyle(fontSize: 17),
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: Theme.of(context).textTheme.bodyText2,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
-                      // ListTile(
-                      //   onTap: () async {
-                      //     _onSelectItem(0, "SO");
-                      //   },
-                      //   title: Text(
-                      //     "Sales",
-                      //     style: TextStyle(fontSize: 17),
-                      //   ),
-                      // ),
+
                       ListTile(
                         trailing: Icon(Icons.arrow_downward),
                         onTap: () async {
@@ -730,7 +712,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         },
                         title: Text(
                           "download page",
-                          style: TextStyle(fontSize: 17),
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: Theme.of(context).textTheme.bodyText2,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                       ListTile(
@@ -740,7 +725,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         },
                         title: Text(
                           "upload data",
-                          style: TextStyle(fontSize: 17),
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: Theme.of(context).textTheme.bodyText2,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                       // ListTile(
@@ -775,7 +763,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         },
                         title: Text(
                           "webview",
-                          style: TextStyle(fontSize: 17),
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: Theme.of(context).textTheme.bodyText2,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                       ListTile(
@@ -787,7 +778,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         },
                         title: Text(
                           "un-register",
-                          style: TextStyle(fontSize: 17),
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: Theme.of(context).textTheme.bodyText2,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                       ListTile(
@@ -804,7 +798,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         },
                         title: Text(
                           "logout",
-                          style: TextStyle(fontSize: 17),
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: Theme.of(context).textTheme.bodyText2,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                     ],

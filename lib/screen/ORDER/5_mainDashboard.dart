@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
@@ -114,36 +113,49 @@ class _MainDashboardState extends State<MainDashboard> {
                                 padding: const EdgeInsets.only(left: 11),
                                 child: Text(
                                   "${value.cname}",
-                                  style: GoogleFonts.alike(
+                                  style: GoogleFonts.oswald(
                                       textStyle:
                                           Theme.of(context).textTheme.bodyLarge,
                                       fontSize: 15),
                                 ),
                               ),
-                              Text(" - ${value.sname?.toUpperCase()}",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: P_Settings.collection1,
-                                      fontStyle: FontStyle.italic)),
+                              Text(
+                                " - ${value.sname?.toUpperCase()}",
+                                style: GoogleFonts.oswald(
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    color: P_Settings.collection1,
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 14),
+                                // style: TextStyle(
+                                //     fontSize: 14,
+                                //     fontWeight: FontWeight.bold,
+                                //     color: P_Settings.collection1,
+                                //     fontStyle: FontStyle.italic),
+                              ),
                             ],
                           ),
                         ),
                         Row(
                           children: [
                             IconButton(
-                                onPressed: () {
-                                  buildPopupDialog(context, size);
-                                },
-                                icon: Icon(
-                                  Icons.place,
-                                  color: Colors.red,
-                                )),
+                              onPressed: () {
+                                buildPopupDialog(context, size);
+                              },
+                              icon: Icon(
+                                Icons.place,
+                                color: Colors.red,
+                              ),
+                            ),
                             Text(
                               value.areaSelecton == null
                                   ? "Choose Area"
                                   : value.areaSelecton!,
-                              style: TextStyle(fontSize: 15),
+                              style: GoogleFonts.oswald(
+                                  textStyle:
+                                      Theme.of(context).textTheme.bodyLarge,
+                                  color: P_Settings.collection1,
+                                  fontSize: 14),
                             ),
                           ],
                         ),
@@ -154,15 +166,15 @@ class _MainDashboardState extends State<MainDashboard> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Todays  ",
-                                style: GoogleFonts.alike(
+                                "Todays Count ",
+                                style: GoogleFonts.oswald(
                                   textStyle:
                                       Theme.of(context).textTheme.headline1,
                                   fontSize: 20,
                                 ),
                               ),
                               Text(" -  ${s[0]}",
-                                  style: GoogleFonts.alike(
+                                  style: GoogleFonts.oswald(
                                       textStyle:
                                           Theme.of(context).textTheme.bodyText2,
                                       fontSize: 16,
@@ -225,14 +237,14 @@ class _MainDashboardState extends State<MainDashboard> {
                               child: Row(
                                 children: [
                                   Text("Todays Collection ",
-                                      style: GoogleFonts.alike(
+                                      style: GoogleFonts.oswald(
                                         textStyle: Theme.of(context)
                                             .textTheme
                                             .headline1,
                                         fontSize: 20,
                                       )),
                                   Text("-  ${s[0]}",
-                                      style: GoogleFonts.alike(
+                                      style: GoogleFonts.oswald(
                                           textStyle: Theme.of(context)
                                               .textTheme
                                               .bodyText2,
@@ -355,8 +367,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                 gen_condition = " ";
                               }
                               Provider.of<Controller>(context, listen: false)
-                                  .getCustomer(
-                                     gen_area! );
+                                  .getCustomer(gen_area!);
                               Provider.of<Controller>(context, listen: false)
                                   .todayOrder(s[0], gen_condition!);
                               Provider.of<Controller>(context, listen: false)
@@ -429,17 +440,26 @@ class _MainDashboardState extends State<MainDashboard> {
                                         ? Image.asset("asset/7.png")
                                         : null,
               ),
-              Text(title.toString(),
-                  style: GoogleFonts.alike(
-                    textStyle: Theme.of(context).textTheme.bodyText1,
-                    fontSize: 16,
-                    color: Colors.white,
-                  )),
-              Text(value == "null" ? "0" : value.toString(),
-                  style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+              Text(
+                title.toString(),
+                style: GoogleFonts.oswald(
+                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                value == "null" ? "0" : value.toString(),
+                style: GoogleFonts.oswald(
+                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+                // style: TextStyle(
+                //     fontSize: 23,
+                //     fontWeight: FontWeight.bold,
+                //     color: Colors.white),
+              ),
             ],
           ),
         ),
