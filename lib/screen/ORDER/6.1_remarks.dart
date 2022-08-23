@@ -48,14 +48,14 @@ class _RemarkPageState extends State<RemarkPage> {
 
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await OrderAppDB.instance
-                    .deleteFromTableCommonQuery("remarksTable", "");
-              },
-              icon: Icon(Icons.delete))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () async {
+        //         await OrderAppDB.instance
+        //             .deleteFromTableCommonQuery("remarksTable", "");
+        //       },
+        //       icon: Icon(Icons.delete))
+        // ],
       ),
       body: InkWell(
         onTap: () {

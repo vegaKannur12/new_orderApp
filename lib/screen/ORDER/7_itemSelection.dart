@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:io' as io;
 import 'package:intl/intl.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:orderapp/components/commoncolor.dart';
@@ -91,8 +90,8 @@ class _ItemSelectionState extends State<ItemSelection> {
               builder: (context, value, child) {
                 return Text(
                   widget.type == "sale order"
-                      ? "${value.count}"
-                      : "${value.returnCount}",
+                      ? "${value.count == null ? '0' : value.count}"
+                      : "${value.returnCount == null ? '0' : value.returnCount}",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 );
               },
@@ -114,7 +113,6 @@ class _ItemSelectionState extends State<ItemSelection> {
                     List<Map<String, dynamic>> result =
                         await OrderAppDB.instance.selectAllcommon(
                             'settingsTable', "set_code='SO_RATE_EDIT'");
-                    // print("hfjdh------$result");
 
                     Navigator.of(context).push(
                       PageRouteBuilder(

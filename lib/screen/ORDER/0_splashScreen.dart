@@ -1,9 +1,9 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ADMIN_/adminController.dart';
+import 'package:orderapp/screen/ORDER/0_dashnew.dart';
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/2_companyDetailsscreen.dart';
 import 'package:orderapp/screen/ORDER/3_staffLoginScreen.dart';
@@ -77,11 +77,6 @@ class _SplashScreenState extends State<SplashScreen>
                         msg: "",
                       );
                     }
-                    // if (st_uname != null && st_pwd != null) {
-                    //   return Dashboard();
-                    // } else {
-                    //   return StaffLogin();
-                    // }
                   } else {
                     return RegistrationScreen();
                   }

@@ -1,14 +1,8 @@
-import 'dart:async';
-import 'dart:io';
-import 'dart:ui';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:background_mode_new/background_mode_new.dart';
-
 import '../../controller/controller.dart';
 
 class DownloadedPage extends StatefulWidget {
