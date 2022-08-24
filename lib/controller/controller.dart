@@ -2655,11 +2655,12 @@ class Controller extends ChangeNotifier {
       String cid, BuildContext context, int? index, String page) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
-    isUpload = true;
-    notifyListeners();
+
     var result = await OrderAppDB.instance.selectMasterTable();
     print("output------$result");
-    if (result != null) {
+    if (result.length > 0) {
+      isUpload = true;
+      notifyListeners();
       String jsonE = jsonEncode(result);
       var jsonDe = jsonDecode(jsonE);
       print("jsonDe--${jsonDe}");
@@ -2680,7 +2681,9 @@ class Controller extends ChangeNotifier {
       notifyListeners();
       print("om----$om");
     } else {
-      snackbar.showSnackbar(context, "Nothing to upload!!!", "sale order");
+      isUp[index!] = false;
+      notifyListeners();
+      snackbar.showSnackbar(context, "Nothing to upload!!!", "");
     }
 
     notifyListeners();
@@ -2691,11 +2694,12 @@ class Controller extends ChangeNotifier {
       String cid, BuildContext context, int? index, String page) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
-    isUpload = true;
+
     notifyListeners();
     var result = await OrderAppDB.instance.selectSalesMasterTable();
     print("output------$result");
-    if (result != null) {
+    if (result.length > 0) {
+      isUpload = true;
       String jsonE = jsonEncode(result);
       var jsonDe = jsonDecode(jsonE);
       print("jsonDe--${jsonDe}");
@@ -2717,6 +2721,8 @@ class Controller extends ChangeNotifier {
       notifyListeners();
       print("om----$om");
     } else {
+      isUp[index!] = false;
+      notifyListeners();
       snackbar.showSnackbar(context, "Nothing to upload!!!", "");
     }
 
@@ -2764,6 +2770,8 @@ class Controller extends ChangeNotifier {
                   .deleteFromTableCommonQuery("customerTable", "");
             }
           } else {
+            isUp[index!] = false;
+            notifyListeners();
             snackbar.showSnackbar(context, "Nothing to upload!!!", "");
           }
           notifyListeners();
@@ -2779,28 +2787,35 @@ class Controller extends ChangeNotifier {
       String cid, BuildContext context, int? index, String page) async {
     List<Map<String, dynamic>> resultQuery = [];
     List<Map<String, dynamic>> om = [];
-    isUpload = true;
-    notifyListeners();
+
     var result = await OrderAppDB.instance.selectReturnMasterTable();
     print("output------$result");
-    String jsonE = jsonEncode(result);
-    var jsonDe = jsonDecode(jsonE);
-    print("jsonDe--${jsonDe}");
-    for (var item in jsonDe) {
-      resultQuery =
-          await OrderAppDB.instance.selectReturnDetailTable(item["srid"]);
-      item["od"] = resultQuery;
-      om.add(item);
-    }
-    if (om.length > 0) {
-      print("entede");
-      saveReturnDetails(cid, om, context);
-      isUpload = false;
-      if (page == "upload page") {
-        isUp[index!] = true;
-      }
+    if (result.length > 0) {
+      isUpload = true;
       notifyListeners();
+
+      String jsonE = jsonEncode(result);
+      var jsonDe = jsonDecode(jsonE);
+      print("jsonDe--${jsonDe}");
+      for (var item in jsonDe) {
+        resultQuery =
+            await OrderAppDB.instance.selectReturnDetailTable(item["srid"]);
+        item["od"] = resultQuery;
+        om.add(item);
+      }
+      if (om.length > 0) {
+        print("entede");
+        saveReturnDetails(cid, om, context);
+        isUpload = false;
+        if (page == "upload page") {
+          isUp[index!] = true;
+        }
+        notifyListeners();
+      }
     } else {
+      isUp[index!] = false;
+      notifyListeners();
+
       snackbar.showSnackbar(context, "Nothing to upload!!!", "");
     }
     print("om----$om");
@@ -2808,7 +2823,7 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////////upload customer/////////////////////////////////////////
-  uploadRemarks(BuildContext context, int index,String page) async {
+  uploadRemarks(BuildContext context, int index, String page) async {
     NetConnection.networkConnection(context).then((value) async {
       if (value == true) {
         try {
@@ -2848,11 +2863,12 @@ class Controller extends ChangeNotifier {
               }
             }
             isUpload = false;
-            if(page=="upload page"){
-            isUp[index] = true;
-
+            if (page == "upload page") {
+              isUp[index] = true;
             }
           } else {
+            isUp[index] = false;
+            notifyListeners();
             snackbar.showSnackbar(context, "Nothing to upload!!!", "");
           }
 
@@ -2910,6 +2926,8 @@ class Controller extends ChangeNotifier {
               isUp[index!] = true;
             }
           } else {
+            isUp[index!] = false;
+            notifyListeners();
             snackbar.showSnackbar(context, "Nothing to upload!!!", "");
           }
 

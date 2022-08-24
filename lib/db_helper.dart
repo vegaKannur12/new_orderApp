@@ -2172,7 +2172,7 @@ class OrderAppDB {
   uploadRemark() async {
     Database db = await instance.database;
     var result = await db.rawQuery(
-        "SELECT remarksTable.id as rid, remarksTable.rem_row_num as phid, remarksTable.rem_cusid as cid,remarksTable.rem_date as rdate,remarksTable.rem_text as rtext,remarksTable.rem_staffid as sid,remarksTable.rem_cancel as cflag,remarksTable.rem_status as dflag,remarksTable.rem_date || ' '  || remarksTable.rem_time as edate FROM remarksTable");
+        "SELECT remarksTable.id as rid, remarksTable.rem_row_num as phid, remarksTable.rem_cusid as cid,remarksTable.rem_date as rdate,remarksTable.rem_text as rtext,remarksTable.rem_staffid as sid,remarksTable.rem_cancel as cflag,remarksTable.rem_status as dflag,remarksTable.rem_date || ' '  || remarksTable.rem_time as edate FROM remarksTable where rem_status=0");
     print("remark select result.........$result");
     return result;
   }
@@ -2183,7 +2183,7 @@ class OrderAppDB {
     Database db = await instance.database;
     var result = await db.rawQuery(
         // "SELECT * FROM collectionTable");
-        "SELECT collectionTable.id as colid, collectionTable.rec_row_num as phid, collectionTable.rec_cusid as cid,collectionTable.rec_date as cdate,collectionTable.rec_series || collectionTable.rec_row_num as cseries,collectionTable.rec_mode as cmode,collectionTable.rec_amount as camt,collectionTable.rec_disc as cdisc,collectionTable.rec_note as cremark, collectionTable.rec_staffid as sid,collectionTable.rec_cancel as cflag,collectionTable.rec_cancel as dflag,collectionTable.rec_date || ' ' || collectionTable.rec_time as edate FROM collectionTable");
+        "SELECT collectionTable.id as colid, collectionTable.rec_row_num as phid, collectionTable.rec_cusid as cid,collectionTable.rec_date as cdate,collectionTable.rec_series || collectionTable.rec_row_num as cseries,collectionTable.rec_mode as cmode,collectionTable.rec_amount as camt,collectionTable.rec_disc as cdisc,collectionTable.rec_note as cremark, collectionTable.rec_staffid as sid,collectionTable.rec_cancel as cflag,collectionTable.rec_cancel as dflag,collectionTable.rec_date || ' ' || collectionTable.rec_time as edate FROM collectionTable where rec_status=0");
     print("collectionTable select result.........$result");
     return result;
   }
