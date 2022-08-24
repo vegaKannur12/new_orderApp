@@ -134,17 +134,17 @@ class CommonPopup {
                               areaid,
                               value.returnTotal,
                               ref,
-                              reason);
+                              reason,context);
                       Provider.of<Controller>(context, listen: false)
                           .returnCount = 0;
 
-                      if (Provider.of<Controller>(context, listen: false)
-                              .settingsList1[0]["set_value"] ==
-                          "YES") {
-                        print("upload----");
-                        Provider.of<Controller>(context, listen: false)
-                            .uploadReturnData(cid!, context, 0, "comomn popup");
-                      }
+                      // if (Provider.of<Controller>(context, listen: false)
+                      //         .settingsList1[0]["set_value"] ==
+                      //     "YES") {
+                      //   print("upload----");
+                      //   Provider.of<Controller>(context, listen: false)
+                      //       .uploadReturnData(cid!, context, 0, "comomn popup");
+                      // }
                     }
                   }
 

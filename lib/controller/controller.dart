@@ -1257,7 +1257,7 @@ class Controller extends ChangeNotifier {
       String aid,
       double total_price,
       String? refNo,
-      String? reason) async {
+      String? reason,BuildContext context) async {
     print(
         "values--------$date--$time$customer_id-$user_id--$aid--$total_price--$refNo--$reason--$os");
 
@@ -1312,6 +1312,12 @@ class Controller extends ChangeNotifier {
       }
     }
 
+    print("set------$settingsList1");
+
+
+    if (settingsList1[0]["set_value"] == "YES") {
+     uploadReturnData(cid!, context, 0, "comomn popup");
+    }
     returnbagList.clear();
     await OrderAppDB.instance.deleteFromTableCommonQuery(
         "returnBagTable", "os='${os}' AND customerid='${customer_id}'");

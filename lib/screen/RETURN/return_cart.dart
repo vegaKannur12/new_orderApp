@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:orderapp/components/common_popup.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/db_helper.dart';
+import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,17 +56,25 @@ class _ReturnCartState extends State<ReturnCart> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          // IconButton(
-          //   onPressed: () async {
-          //     List<Map<String, dynamic>> list =
-          //         await OrderAppDB.instance.getListOfTables();
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => TableList(list: list)),
-          //     );
-          //   },
-          //   icon: Icon(Icons.table_bar),
-          // ),
+          IconButton(
+            onPressed: () async {
+              
+              await OrderAppDB.instance.deleteFromTableCommonQuery("returnMasterTable", "");
+              await OrderAppDB.instance.deleteFromTableCommonQuery("returnDetailTable", "");
+            },
+            icon: Icon(Icons.delete),
+          ),
+          IconButton(
+            onPressed: () async {
+              List<Map<String, dynamic>> list =
+                  await OrderAppDB.instance.getListOfTables();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TableList(list: list)),
+              );
+            },
+            icon: Icon(Icons.table_bar),
+          ),
         ],
         backgroundColor: P_Settings.returnbuttnColor,
       ),
