@@ -1054,18 +1054,18 @@ class Controller extends ChangeNotifier {
 
 // /////////////////////////////INSERT into SALES bag and master table///////////////////////////////////////////////
   insertToSalesbagAndMaster(
-    String os,
-    String date,
-    String time,
-    String customer_id,
-    String staff_id,
-    String aid,
-    double total_price,
-    double gross_tot,
-    double tax_tot,
-    double dis_tot,
-    double cess_tot,
-  ) async {
+      String os,
+      String date,
+      String time,
+      String customer_id,
+      String staff_id,
+      String aid,
+      double total_price,
+      double gross_tot,
+      double tax_tot,
+      double dis_tot,
+      double cess_tot,
+      BuildContext context) async {
     List<Map<String, dynamic>> om = [];
     // String salesOs = "S" + "$os";
     // int sales_id = await OrderAppDB.instance
@@ -1173,6 +1173,11 @@ class Controller extends ChangeNotifier {
         rowNum = rowNum + 1;
       }
     }
+
+    print("set----$settingsList1");
+    if (settingsList1[2]["set_value"] == "YES") {
+      uploadSalesData(cid!, context, 0, "comomn popup");
+    }
     await OrderAppDB.instance.deleteFromTableCommonQuery(
         "salesBagTable", "os='${os}' AND customerid='${customer_id}'");
 
@@ -1182,14 +1187,14 @@ class Controller extends ChangeNotifier {
 
   //////////////insert to order master and details///////////////////////
   insertToOrderbagAndMaster(
-    String os,
-    String date,
-    String time,
-    String customer_id,
-    String user_id,
-    String aid,
-    double total_price,
-  ) async {
+      String os,
+      String date,
+      String time,
+      String customer_id,
+      String user_id,
+      String aid,
+      double total_price,
+      BuildContext context) async {
     print("hhjk----$date");
     List<Map<String, dynamic>> om = [];
     String ordOs = "O" + "$os";
@@ -1239,6 +1244,10 @@ class Controller extends ChangeNotifier {
         rowNum = rowNum + 1;
       }
     }
+    print("set----$settingsList1");
+    if (settingsList1[1]["set_value"] == "YES") {
+      uploadOrdersData(cid!, context, 0, "comomn popup");
+    }
 
     await OrderAppDB.instance.deleteFromTableCommonQuery(
         "orderBagTable", "os='${ordOs}' AND customerid='${customer_id}'");
@@ -1257,7 +1266,8 @@ class Controller extends ChangeNotifier {
       String aid,
       double total_price,
       String? refNo,
-      String? reason,BuildContext context) async {
+      String? reason,
+      BuildContext context) async {
     print(
         "values--------$date--$time$customer_id-$user_id--$aid--$total_price--$refNo--$reason--$os");
 
@@ -1314,9 +1324,8 @@ class Controller extends ChangeNotifier {
 
     print("set------$settingsList1");
 
-
     if (settingsList1[0]["set_value"] == "YES") {
-     uploadReturnData(cid!, context, 0, "comomn popup");
+      uploadReturnData(cid!, context, 0, "comomn popup");
     }
     returnbagList.clear();
     await OrderAppDB.instance.deleteFromTableCommonQuery(
@@ -2887,7 +2896,8 @@ class Controller extends ChangeNotifier {
     print("haicollection");
   }
 
-  /////////////////UPLOAD COLLECTION TABLE////////////////
+  /////////////////UPLOAD COLLECTION TABLE//////////////////
+  
   uploadCollectionData(BuildContext context, int? index, String page) async {
     NetConnection.networkConnection(context).then((value) async {
       if (value == true) {

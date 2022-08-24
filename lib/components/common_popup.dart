@@ -72,17 +72,17 @@ class CommonPopup {
                         value.gross_tot,
                         value.tax_tot,
                         value.dis_tot,
-                        value.cess_tot,
+                        value.cess_tot,context
                       );
                     }
 
-                    if (Provider.of<Controller>(context, listen: false)
-                            .settingsList1[2]["set_value"] ==
-                        "YES") {
-                      print("upload----");
-                      Provider.of<Controller>(context, listen: false)
-                          .uploadSalesData(cid!, context, 0, "comomn popup");
-                    }
+                    // if (Provider.of<Controller>(context, listen: false)
+                    //         .settingsList1[2]["set_value"] ==
+                    //     "YES") {
+                    //   print("upload----");
+                    //   Provider.of<Controller>(context, listen: false)
+                    //       .uploadSalesData(cid!, context, 0, "comomn popup");
+                    // }
 
                     Provider.of<Controller>(context, listen: false)
                         .todaySales(date, gen_condition!);
@@ -104,17 +104,17 @@ class CommonPopup {
                         custmerId,
                         sid1!,
                         areaid,
-                        double.parse(value.orderTotal1!),
+                        double.parse(value.orderTotal1!),context
                       );
                     }
 
-                    if (Provider.of<Controller>(context, listen: false)
-                            .settingsList1[1]["set_value"] ==
-                        "YES") {
-                      print("upload----");
-                      Provider.of<Controller>(context, listen: false)
-                          .uploadOrdersData(cid!, context, 0, "comomn popup");
-                    }
+                    // if (Provider.of<Controller>(context, listen: false)
+                    //         .settingsList1[1]["set_value"] ==
+                    //     "YES") {
+                    //   print("upload----");
+                    //   Provider.of<Controller>(context, listen: false)
+                    //       .uploadOrdersData(cid!, context, 0, "comomn popup");
+                    // }
 
                     Provider.of<Controller>(context, listen: false)
                         .todayOrder(date, gen_condition!);
