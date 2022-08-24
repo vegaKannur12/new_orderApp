@@ -3,7 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:orderapp/components/common_popup.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
+import 'package:orderapp/db_helper.dart';
+import 'package:orderapp/screen/ORDER/5_dashboard.dart';
+import 'package:orderapp/screen/ORDER/6_orderForm.dart';
+import 'package:orderapp/screen/ORDER/7_itemSelection.dart';
+import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartList extends StatefulWidget {
   String custmerId;
@@ -63,23 +69,23 @@ class _CartListState extends State<CartList> {
       appBar: AppBar(
         backgroundColor: P_Settings.wavecolor,
         actions: [
-          // IconButton(
-          //     onPressed: () async {
-          //       await OrderAppDB.instance
-          //           .deleteFromTableCommonQuery("orderBagTable", "");
-          //     },
-          //     icon: Icon(Icons.delete)),
-          // IconButton(
-          //   onPressed: () async {
-          //     List<Map<String, dynamic>> list =
-          //         await OrderAppDB.instance.getListOfTables();
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => TableList(list: list)),
-          //     );
-          //   },
-          //   icon: Icon(Icons.table_bar),
-          // ),
+          IconButton(
+              onPressed: () async {
+                await OrderAppDB.instance
+                    .deleteFromTableCommonQuery("orderBagTable", "");
+              },
+              icon: Icon(Icons.delete)),
+          IconButton(
+            onPressed: () async {
+              List<Map<String, dynamic>> list =
+                  await OrderAppDB.instance.getListOfTables();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TableList(list: list)),
+              );
+            },
+            icon: Icon(Icons.table_bar),
+          ),
         ],
       ),
       body: GestureDetector(onTap: (() {
@@ -147,9 +153,7 @@ class _CartListState extends State<CartList> {
                               ),
                               onPressed: () {},
                               child: Text(
-                                widget.type == "sale order"
-                                    ? "${value.count} Items"
-                                    : "${value.returnCount} Items",
+                                "${value.count} Items",
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),
                               ),

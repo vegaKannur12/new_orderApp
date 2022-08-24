@@ -103,9 +103,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
                     Text(
                       "No Orders!!!",
                       style: TextStyle(
-                        fontSize: 17,
-                        color: P_Settings.collection1
-                      ),
+                          fontSize: 17, color: P_Settings.collection1),
                     )
                   ],
                 ),
@@ -185,7 +183,7 @@ class _TodaysOrderState extends State<TodaysOrder> {
                                             child: Text(
                                                 value.todayOrderList[index]
                                                     ["Order_Num"],
-                                                style: TextStyle(
+                                                 style: TextStyle(
                                                     color: Colors.grey[700],
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 17)),

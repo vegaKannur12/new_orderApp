@@ -1034,7 +1034,7 @@ class OrderAppDB {
 
   Future<List<Map<String, dynamic>>> getOrderBagTable(
       String customerId, String os) async {
-    print("enteredcustomerId---${customerId}");
+    print("enteredcustomerId---${customerId}----$os");
     // .of<Controller>(context, listen: false).customerList.clear();
     Database db = await instance.database;
     var res = await db.rawQuery(
@@ -1691,7 +1691,7 @@ class OrderAppDB {
         'UPDATE orderBagTable SET qty=$updatedQty , totalamount="${amount}" , rate="${rate}" WHERE cartrowno=$cartrowno AND customerid="$customerId"');
     print("response-------$res");
 
-    if (res == 1) {
+    if (res > 0) {
       res1 = await db.rawQuery(
           "SELECT * FROM orderBagTable WHERE customerid='$customerId'");
       print(res1);

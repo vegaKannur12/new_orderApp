@@ -1139,9 +1139,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                                 0]
                                                                             : Provider.of<Controller>(context, listen: false)
                                                                                 .areaidFrompopup!,
-                                                                        os: values.ordernum[0]
-                                                                            [
-                                                                            'os'],
+                                                                        os: oos,
                                                                         areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
                                                                             ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
                                                                             : Provider.of<Controller>(context, listen: false).areaSelecton!,

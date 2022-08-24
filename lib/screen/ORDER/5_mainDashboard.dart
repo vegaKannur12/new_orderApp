@@ -113,7 +113,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                 padding: const EdgeInsets.only(left: 11),
                                 child: Text(
                                   "${value.cname}",
-                                  style: GoogleFonts.oswald(
+                                  style: GoogleFonts.aBeeZee(
                                       textStyle:
                                           Theme.of(context).textTheme.bodyLarge,
                                       fontSize: 15),
@@ -121,7 +121,7 @@ class _MainDashboardState extends State<MainDashboard> {
                               ),
                               Text(
                                 " - ${value.sname?.toUpperCase()}",
-                                style: GoogleFonts.oswald(
+                                style: GoogleFonts.aBeeZee(
                                     textStyle:
                                         Theme.of(context).textTheme.bodyLarge,
                                     color: P_Settings.collection1,
@@ -166,19 +166,19 @@ class _MainDashboardState extends State<MainDashboard> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Todays Count ",
-                                style: GoogleFonts.oswald(
-                                  textStyle:
-                                      Theme.of(context).textTheme.headline1,
-                                  fontSize: 20,
-                                ),
+                                "Todays Count",
+                                style: GoogleFonts.alike(
+                                    textStyle:
+                                        Theme.of(context).textTheme.headline1,
+                                    fontSize: 20,
+                                    color: Colors.grey[700]),
                               ),
                               Text(" -  ${s[0]}",
                                   style: GoogleFonts.oswald(
                                       textStyle:
                                           Theme.of(context).textTheme.bodyText2,
                                       fontSize: 16,
-                                      color: Colors.green))
+                                      color: P_Settings.wavecolor))
                             ],
                           ),
                         ),
@@ -238,18 +238,18 @@ class _MainDashboardState extends State<MainDashboard> {
                                 children: [
                                   Text("Todays Collection ",
                                       style: GoogleFonts.oswald(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .headline1,
-                                        fontSize: 20,
-                                      )),
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .headline1,
+                                          fontSize: 20,
+                                          color: Colors.grey[700])),
                                   Text("-  ${s[0]}",
                                       style: GoogleFonts.oswald(
                                           textStyle: Theme.of(context)
                                               .textTheme
                                               .bodyText2,
                                           fontSize: 16,
-                                          color: Colors.green))
+                                          color: P_Settings.wavecolor))
                                 ],
                               ),
                             )
@@ -424,20 +424,44 @@ class _MainDashboardState extends State<MainDashboard> {
           child: Column(
             children: [
               Container(
-                height: size.height * 0.1,
-                width: size.width * 0.12,
+                // height: size.height * 0.1,
+                // width: size.width * 0.12,
                 child: title == "Orders"
-                    ? Image.asset("asset/3.png")
+                    ? Image.asset(
+                        "asset/3.png",
+                        height: size.height * 0.1,
+                        width: size.width * 0.12,
+                      )
                     : title == "Collection"
-                        ? Image.asset("asset/4.png")
+                        ? Image.asset(
+                            "asset/4.png",
+                            height: size.height * 0.1,
+                            width: size.width * 0.12,
+                          )
                         : title == "Sales"
-                            ? Image.asset("asset/2.png")
+                            ? Image.asset(
+                                "asset/2.png",
+                                height: size.height * 0.1,
+                                width: size.width * 0.12,
+                              )
                             : title == "Shops visited"
-                                ? Image.asset("asset/5.png")
+                                ? Image.asset(
+                                    "asset/5.png",
+                                    height: size.height * 0.1,
+                                    width: size.width * 0.12,
+                                  )
                                 : title == "Shops Not Visited"
-                                    ? Image.asset("asset/6.png")
+                                    ? Image.asset(
+                                        "asset/6.png",
+                                        height: size.height * 0.1,
+                                        width: size.width * 0.12,
+                                      )
                                     : title == "Return"
-                                        ? Image.asset("asset/7.png")
+                                        ? Image.asset(
+                                            "asset/7.png",
+                                            height: size.height * 0.1,
+                                            width: size.width * 0.12,
+                                          )
                                         : null,
               ),
               Text(

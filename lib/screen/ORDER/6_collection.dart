@@ -50,6 +50,8 @@ class _CollectionPageState extends State<CollectionPage> {
     print("jhsjahjs----${widget.aid}");
     Provider.of<Controller>(context, listen: false)
         .fetchtotalcollectionFromTable(widget.cuid!);
+    Provider.of<Controller>(context, listen: false)
+        .selectSettings("set_code in('CL_UPLOAD_DIRECT')");
   }
 
   @override
@@ -289,10 +291,23 @@ class _CollectionPageState extends State<CollectionPage> {
                                         amtController.clear();
                                         dscController.clear();
                                         noteController.clear();
+
                                         Provider.of<Controller>(context,
                                                 listen: false)
                                             .fetchtotalcollectionFromTable(
                                                 widget.cuid!);
+
+                                        if (Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .settingsList1[0]
+                                                ["set_value"] ==
+                                            "YES") {
+                                          print("upload----");
+                                          Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .uploadCollectionData(
+                                                  context, 0, "comomn popup");
+                                        }
                                         print(
                                             "value.areaidFrompopup----${value.areaidFrompopup}");
                                         if (value.areaidFrompopup != null) {

@@ -35,6 +35,8 @@ class _RemarkPageState extends State<RemarkPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Provider.of<Controller>(context, listen: false)
+        .selectSettings("set_code in('RM_UPLOAD_DIRECT')");
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     s = date!.split(" ");
     Provider.of<Controller>(context, listen: false)
@@ -192,9 +194,16 @@ class _RemarkPageState extends State<RemarkPage> {
                                             .dashboardSummery(
                                                 widget.sid, s[0], "", context);
                                       }
-                                      // Provider.of<Controller>(context,
-                                      //         listen: false)
-                                      //     .mainDashtileValues(widget.sid, s[0]);
+                                      if (Provider.of<Controller>(context,
+                                                  listen: false)
+                                              .settingsList1[0]["set_value"] ==
+                                          "YES") {
+                                        print("upload----");
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .uploadRemarks(
+                                                context, 0, "comomn popup");
+                                      }
                                       tost.toast("success");
                                     }
                                   },
