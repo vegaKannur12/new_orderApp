@@ -123,7 +123,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                             Icons.add,
                           ),
                           onPressed: () async {
-                            String oos = "O" + "${widget.os}";
+                            String oos = "${widget.os}";
 
                             setState(() {
                               if (value.filterComselected[index] == false) {
@@ -201,7 +201,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                         null
                                     ? value.filterComselected[index]
                                         ? () async {
-                                            String oos = "O" + "${widget.os}";
+                                            String oos = "${widget.os}";
 
                                             String item =
                                                 value.filteredProductList[index]
@@ -227,7 +227,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                           }
                                         : null
                                     : () async {
-                                        String oos = "O" + "${widget.os}";
+                                        String oos ="${widget.os}";
 
                                         String item =
                                             value.filteredProductList[index]
@@ -253,7 +253,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                       }
                                 : value.filterComselected[index]
                                     ? () async {
-                                        String oos = "O" + "${widget.os}";
+                                        String oos = "${widget.os}";
 
                                         String item =
                                             value.filteredProductList[index]

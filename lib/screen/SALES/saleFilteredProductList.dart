@@ -173,7 +173,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                             value.salefilteredProductList[index]
                                                 ["tax"]),
                                         0.0,
-                                        value.settingsList1[5]['set_value']
+                                        value.settingsList1[1]['set_value']
                                             .toString(),
                                         int.parse(widget.gtype!),
                                         index,
