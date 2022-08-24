@@ -7,6 +7,7 @@ import 'package:orderapp/components/customPopup.dart';
 import 'package:orderapp/components/unregister_popup.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
+import 'package:orderapp/screen/ORDER/0_dashnew.dart';
 import 'package:orderapp/screen/ORDER/1_companyRegistrationScreen.dart';
 import 'package:orderapp/screen/ORDER/5_dashboard.dart';
 import 'package:orderapp/service/tableList.dart';

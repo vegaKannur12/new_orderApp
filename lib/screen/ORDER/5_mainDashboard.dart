@@ -1,14 +1,9 @@
-import 'dart:async';
-import 'dart:math';
-
-import 'package:background_mode_new/background_mode_new.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/areaPopup.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
-import 'package:orderapp/db_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -118,36 +113,49 @@ class _MainDashboardState extends State<MainDashboard> {
                                 padding: const EdgeInsets.only(left: 11),
                                 child: Text(
                                   "${value.cname}",
-                                  style: GoogleFonts.alike(
+                                  style: GoogleFonts.aBeeZee(
                                       textStyle:
                                           Theme.of(context).textTheme.bodyLarge,
                                       fontSize: 15),
                                 ),
                               ),
-                              Text(" - ${value.sname?.toUpperCase()}",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: P_Settings.collection1,
-                                      fontStyle: FontStyle.italic)),
+                              Text(
+                                " - ${value.sname?.toUpperCase()}",
+                                style: GoogleFonts.aBeeZee(
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    color: P_Settings.collection1,
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 14),
+                                // style: TextStyle(
+                                //     fontSize: 14,
+                                //     fontWeight: FontWeight.bold,
+                                //     color: P_Settings.collection1,
+                                //     fontStyle: FontStyle.italic),
+                              ),
                             ],
                           ),
                         ),
                         Row(
                           children: [
                             IconButton(
-                                onPressed: () {
-                                  buildPopupDialog(context, size);
-                                },
-                                icon: Icon(
-                                  Icons.place,
-                                  color: Colors.red,
-                                )),
+                              onPressed: () {
+                                buildPopupDialog(context, size);
+                              },
+                              icon: Icon(
+                                Icons.place,
+                                color: Colors.red,
+                              ),
+                            ),
                             Text(
                               value.areaSelecton == null
                                   ? "Choose Area"
                                   : value.areaSelecton!,
-                              style: TextStyle(fontSize: 15),
+                              style: GoogleFonts.oswald(
+                                  textStyle:
+                                      Theme.of(context).textTheme.bodyLarge,
+                                  color: P_Settings.collection1,
+                                  fontSize: 14),
                             ),
                           ],
                         ),
@@ -160,14 +168,13 @@ class _MainDashboardState extends State<MainDashboard> {
                               Text(
                                 "Todays Count",
                                 style: GoogleFonts.alike(
-                                  textStyle:
-                                      Theme.of(context).textTheme.headline1,
-                                  fontSize: 20,
-                                  color: Colors.grey[700]
-                                ),
+                                    textStyle:
+                                        Theme.of(context).textTheme.headline1,
+                                    fontSize: 20,
+                                    color: Colors.grey[700]),
                               ),
                               Text(" -  ${s[0]}",
-                                  style: GoogleFonts.alike(
+                                  style: GoogleFonts.oswald(
                                       textStyle:
                                           Theme.of(context).textTheme.bodyText2,
                                       fontSize: 16,
@@ -230,15 +237,14 @@ class _MainDashboardState extends State<MainDashboard> {
                               child: Row(
                                 children: [
                                   Text("Todays Collection ",
-                                      style: GoogleFonts.alike(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .headline1,
-                                        fontSize: 20,
-                                         color: Colors.grey[700]
-                                      )),
+                                      style: GoogleFonts.oswald(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .headline1,
+                                          fontSize: 20,
+                                          color: Colors.grey[700])),
                                   Text("-  ${s[0]}",
-                                      style: GoogleFonts.alike(
+                                      style: GoogleFonts.oswald(
                                           textStyle: Theme.of(context)
                                               .textTheme
                                               .bodyText2,
@@ -361,8 +367,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                 gen_condition = " ";
                               }
                               Provider.of<Controller>(context, listen: false)
-                                  .getCustomer(
-                                     gen_area! );
+                                  .getCustomer(gen_area!);
                               Provider.of<Controller>(context, listen: false)
                                   .todayOrder(s[0], gen_condition!);
                               Provider.of<Controller>(context, listen: false)
@@ -422,30 +427,63 @@ class _MainDashboardState extends State<MainDashboard> {
                 // height: size.height * 0.1,
                 // width: size.width * 0.12,
                 child: title == "Orders"
-                    ? Image.asset("asset/3.png",height: size.height * 0.1, width: size.width * 0.12,)
+                    ? Image.asset(
+                        "asset/3.png",
+                        height: size.height * 0.1,
+                        width: size.width * 0.12,
+                      )
                     : title == "Collection"
-                        ? Image.asset("asset/4.png",height: size.height * 0.1, width: size.width * 0.12,)
+                        ? Image.asset(
+                            "asset/4.png",
+                            height: size.height * 0.1,
+                            width: size.width * 0.12,
+                          )
                         : title == "Sales"
-                            ? Image.asset("asset/2.png",height: size.height * 0.1, width: size.width * 0.12,)
+                            ? Image.asset(
+                                "asset/2.png",
+                                height: size.height * 0.1,
+                                width: size.width * 0.12,
+                              )
                             : title == "Shops visited"
-                                ? Image.asset("asset/5.png",height: size.height * 0.1, width: size.width * 0.12,)
+                                ? Image.asset(
+                                    "asset/5.png",
+                                    height: size.height * 0.1,
+                                    width: size.width * 0.12,
+                                  )
                                 : title == "Shops Not Visited"
-                                    ? Image.asset("asset/6.png",height: size.height * 0.1, width: size.width * 0.12,)
+                                    ? Image.asset(
+                                        "asset/6.png",
+                                        height: size.height * 0.1,
+                                        width: size.width * 0.12,
+                                      )
                                     : title == "Return"
-                                        ? Image.asset("asset/7.png",height: size.height * 0.1, width: size.width * 0.12,)
+                                        ? Image.asset(
+                                            "asset/7.png",
+                                            height: size.height * 0.1,
+                                            width: size.width * 0.12,
+                                          )
                                         : null,
               ),
-              Text(title.toString(),
-                  style: GoogleFonts.alike(
-                    textStyle: Theme.of(context).textTheme.bodyText1,
-                    fontSize: 16,
-                    color: Colors.white,
-                  )),
-              Text(value == "null" ? "0" : value.toString(),
-                  style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+              Text(
+                title.toString(),
+                style: GoogleFonts.oswald(
+                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                value == "null" ? "0" : value.toString(),
+                style: GoogleFonts.oswald(
+                  textStyle: Theme.of(context).textTheme.bodyText1,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+                // style: TextStyle(
+                //     fontSize: 23,
+                //     fontWeight: FontWeight.bold,
+                //     color: Colors.white),
+              ),
             ],
           ),
         ),

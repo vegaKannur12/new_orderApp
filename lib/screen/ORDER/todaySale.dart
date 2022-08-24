@@ -98,17 +98,19 @@ class _TodaySaleState extends State<TodaySale> {
                       height: size.height * 0.2,
                     ),
                     Image.asset(
-                      'asset/smiley.png',
+                      'asset/noData1.png',
                       height: size.height * 0.09,
                       fit: BoxFit.cover,
+                      color: P_Settings.collection1,
                     ),
                     SizedBox(
-                      height: size.height * 0.01,
+                      height: size.height * 0.015,
                     ),
                     Text(
                       "No Sales!!!",
                       style: TextStyle(
-                        fontSize: 19,
+                        fontSize: 18,
+                         color: P_Settings.collection1,
                       ),
                     )
                   ],
