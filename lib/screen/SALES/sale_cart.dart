@@ -63,25 +63,29 @@ class _SaleCartState extends State<SaleCart> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: P_Settings.salewaveColor,
-        // actions: [
-        //   IconButton(
-        //       onPressed: () async {
-        //         await OrderAppDB.instance
-        //             .deleteFromTableCommonQuery("salesBagTable", "");
-        //       },
-        //       icon: Icon(Icons.delete)),
-        //   IconButton(
-        //     onPressed: () async {
-        //       List<Map<String, dynamic>> list =
-        //           await OrderAppDB.instance.getListOfTables();
-        //       Navigator.push(
-        //         context,
-        //         MaterialPageRoute(builder: (context) => TableList(list: list)),
-        //       );
-        //     },
-        //     icon: Icon(Icons.table_bar),
-        //   ),
-        // ],
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await OrderAppDB.instance
+                    .deleteFromTableCommonQuery("salesBagTable", "");
+                await OrderAppDB.instance
+                    .deleteFromTableCommonQuery("salesMasterTable", "");
+                await OrderAppDB.instance
+                    .deleteFromTableCommonQuery("salesDetailTable", "");
+              },
+              icon: Icon(Icons.delete)),
+          IconButton(
+            onPressed: () async {
+              List<Map<String, dynamic>> list =
+                  await OrderAppDB.instance.getListOfTables();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TableList(list: list)),
+              );
+            },
+            icon: Icon(Icons.table_bar),
+          ),
+        ],
       ),
       body: GestureDetector(onTap: (() {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -147,7 +151,7 @@ class _SaleCartState extends State<SaleCart> {
                                 side: BorderSide(
                                     width: 1.0, color: Colors.transparent),
                               ),
-                              onPressed: () {}, 
+                              onPressed: () {},
                               child: Text(
                                 "${value.count} Items",
                                 style: TextStyle(

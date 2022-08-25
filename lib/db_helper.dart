@@ -1661,6 +1661,7 @@ class OrderAppDB {
     }
     return res1;
   }
+
 //////////////////////////////////////////////////////////////
   deleteFromreturnbagTable(int cartrowno, String customerId) async {
     var res1;
@@ -2165,7 +2166,7 @@ class OrderAppDB {
 
     var result = await db.rawQuery(
         "SELECT returnMasterTable.id as id, returnMasterTable.os  || returnMasterTable.return_id as ser,returnMasterTable.return_id as srid,returnMasterTable.customerid cuid,returnMasterTable.return_date  || ' '  ||returnMasterTable.return_time return_date, returnMasterTable.userid as sid,returnMasterTable.areaid as aid  FROM returnMasterTable where returnMasterTable.status=0");
-        print("result ---return ---$result");
+    print("result ---return ---$result");
     return result;
   }
 
@@ -2199,6 +2200,7 @@ class OrderAppDB {
   }
 
   selectSalesDetailTable(int sales_id) async {
+    print("sales id----$sales_id");
     Database db = await instance.database;
     var query2 = "";
     query2 = query2 +

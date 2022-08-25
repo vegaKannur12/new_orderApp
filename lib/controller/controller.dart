@@ -30,6 +30,8 @@ class Controller extends ChangeNotifier {
   double dis_tot = 0.0;
   double cess_tot = 0.0;
   double tax_tot = 0.0;
+    Map<String, dynamic> printSalesData = {};
+
 
   double disc_amt = 0.0;
   double net_amt = 0.0;
@@ -90,6 +92,7 @@ class Controller extends ChangeNotifier {
   List<bool> filterComselected = [];
   List<bool> returnselected = [];
   List<bool> returnirtemExists = [];
+    // Map<String, dynamic> printSalesData = {};
 
   bool isautodownload = false;
 
@@ -2897,7 +2900,7 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////UPLOAD COLLECTION TABLE//////////////////
-  
+
   uploadCollectionData(BuildContext context, int? index, String page) async {
     NetConnection.networkConnection(context).then((value) async {
       if (value == true) {
@@ -3332,6 +3335,39 @@ class Controller extends ChangeNotifier {
     // queryResult.clear();
     queryResult = await OrderAppDB.instance.executeQuery(query);
     print("queryResult---$queryResult");
+    notifyListeners();
+  }
+
+//////////////////////////////////////////////////////////////
+  printSales(String cid, BuildContext context,
+      Map<String, dynamic> salesMasterData) async {
+    List<Map<String, dynamic>> resultQuery = [];
+
+    var result = await OrderAppDB.instance.selectSalesMasterTable();
+
+    String jsonE = jsonEncode(result);
+    var jsonDe = jsonDecode(jsonE);
+
+    print("output------${salesMasterData["sales_id"]}");
+
+    resultQuery = await OrderAppDB.instance
+        .selectSalesDetailTable(salesMasterData["sales_id"]);
+
+    print("result quru----$resultQuery");
+    printSalesData["master"] = salesMasterData;
+    printSalesData["detail"] = resultQuery;
+    print("result salesMasterData----$printSalesData");
+
+    // om.add(salesMasterData);
+
+    // print("jsonDe--${jsonDe}");
+    // for (var item in salesMasterData) {
+    //   print("item,hd----$item");
+    //   resultQuery =
+    //       await OrderAppDB.instance.selectSalesDetailTable(item["s_id"]);
+    //   item["od"] = resultQuery;
+    //   om.add(item);
+    // }
     notifyListeners();
   }
 }

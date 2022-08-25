@@ -25,9 +25,12 @@ class _TodaySaleState extends State<TodaySale> {
   DateFind dateFind = DateFind();
 
   String? sid;
+  String? cid;
+
   sharedPref() async {
     final prefs = await SharedPreferences.getInstance();
     sid = prefs.getString('sid');
+    cid = prefs.getString('cid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
   }
@@ -198,15 +201,24 @@ class _TodaySaleState extends State<TodaySale> {
                                                   fontSize: 17)),
                                           Spacer(),
                                           IconButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          PrintMainPage()),
-                                                );
-                                              },
-                                              icon: Icon(Icons.print))
+                                            onPressed: () async {
+                                              Provider.of<Controller>(context,
+                                                      listen: false)
+                                                  .printSales(
+                                                      cid!,
+                                                      context,
+                                                      value.todaySalesList[
+                                                          index]);
+
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PrintMainPage()),
+                                              );
+                                            },
+                                            icon: Icon(Icons.print),
+                                          ),
                                         ],
                                       ),
                                       SizedBox(

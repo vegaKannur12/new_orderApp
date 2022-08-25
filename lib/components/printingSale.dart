@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:orderapp/controller/controller.dart';
+import 'package:provider/provider.dart';
 
 class PrintMainPage extends StatefulWidget {
   List<Map<String, dynamic>>? data;
@@ -35,15 +37,21 @@ class _PrintMainPageState extends State<PrintMainPage> {
     flutterBlue.stopScan();
   }
 
-  void printWithDevice(BluetoothDevice device) async {
+  void printWithDevice(BluetoothDevice device, Map salesData) async {
+    print("device ---$device");
+    print("salesData---$salesData");
+
     await device.connect();
     final gen = Generator(PaperSize.mm58, await CapabilityProfile.load());
     final printer = BluePrint();
-    printer.add(gen.qrcode('https://altospos.com'));
-    printer.add(gen.text('Hello'));
-    printer.add(gen.text('World', styles: const PosStyles(bold: true)));
+    printer.add(gen.text(salesData["master"]["cus_name"]));
+    printer.add(gen.text(salesData["master"]["sale_Num"]));
+    printer.add(gen.text(salesData["master"]["Date"], styles: const PosStyles(bold: true)));
     printer.add(gen.feed(1));
     await printer.printData(device);
+
+
+    
     device.disconnect();
   }
 
@@ -63,15 +71,20 @@ class _PrintMainPageState extends State<PrintMainPage> {
       ),
       backgroundColor: Colors.grey,
       body: scanResult != null
-          ? ListView.builder(
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(scanResult![index].device.name),
-                  subtitle: Text(scanResult![index].device.id.id),
-                  onTap: () => printWithDevice(scanResult![index].device),
+          ? Consumer<Controller>(
+              builder: (context, value, child) {
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(scanResult![index].device.name),
+                      subtitle: Text(scanResult![index].device.id.id),
+                      onTap: () => printWithDevice(
+                          scanResult![index].device, value.printSalesData),
+                    );
+                  },
+                  itemCount: scanResult?.length ?? 0,
                 );
               },
-              itemCount: scanResult?.length ?? 0,
             )
           : Center(
               child: Text(
