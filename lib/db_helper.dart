@@ -2004,7 +2004,7 @@ class OrderAppDB {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
     var query =
-        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate Date, count(salesDetailTable.row_num) count, salesMasterTable.net_amt  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
+        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count, salesMasterTable.net_amt  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
     print("query---$query");
 
     result = await db.rawQuery(query);
@@ -2198,7 +2198,7 @@ class OrderAppDB {
         "SELECT orderDetailTable.code as code,orderDetailTable.item as item, orderDetailTable.qty as qty, orderDetailTable.rate as rate from orderDetailTable  where  orderDetailTable.order_id=${order_id}");
     return result;
   }
-
+//////////////////////////////////////////////////////////
   selectSalesDetailTable(int sales_id) async {
     print("sales id----$sales_id");
     Database db = await instance.database;
@@ -2222,7 +2222,7 @@ class OrderAppDB {
     print("sales detao;s------$result");
     return result;
   }
-
+///////////////////////////////////////////////////////////////////////
   selectReturnDetailTable(int return_id) async {
     Database db = await instance.database;
 

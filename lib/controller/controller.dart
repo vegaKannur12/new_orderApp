@@ -30,8 +30,7 @@ class Controller extends ChangeNotifier {
   double dis_tot = 0.0;
   double cess_tot = 0.0;
   double tax_tot = 0.0;
-    Map<String, dynamic> printSalesData = {};
-
+  Map<String, dynamic> printSalesData = {};
 
   double disc_amt = 0.0;
   double net_amt = 0.0;
@@ -92,7 +91,7 @@ class Controller extends ChangeNotifier {
   List<bool> filterComselected = [];
   List<bool> returnselected = [];
   List<bool> returnirtemExists = [];
-    // Map<String, dynamic> printSalesData = {};
+  // Map<String, dynamic> printSalesData = {};
 
   bool isautodownload = false;
 
@@ -3343,10 +3342,8 @@ class Controller extends ChangeNotifier {
       Map<String, dynamic> salesMasterData) async {
     List<Map<String, dynamic>> resultQuery = [];
 
-    var result = await OrderAppDB.instance.selectSalesMasterTable();
-
-    String jsonE = jsonEncode(result);
-    var jsonDe = jsonDecode(jsonE);
+    // String jsonE = jsonEncode(result);
+    //   var jsonDe = jsonDecode(jsonE);
 
     print("output------${salesMasterData["sales_id"]}");
 
