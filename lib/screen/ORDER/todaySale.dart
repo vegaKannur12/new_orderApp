@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+
 import 'package:orderapp/components/commoncolor.dart';
+import 'package:orderapp/components/printingSale.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/DateFinder.dart';
 import 'package:orderapp/screen/historydataPopup.dart';
@@ -110,7 +112,7 @@ class _TodaySaleState extends State<TodaySale> {
                       "No Sales!!!",
                       style: TextStyle(
                         fontSize: 18,
-                         color: P_Settings.collection1,
+                        color: P_Settings.collection1,
                       ),
                     )
                   ],
@@ -187,15 +189,24 @@ class _TodaySaleState extends State<TodaySale> {
                                           //   width: size.width * 0.02,
                                           // ),
                                           Text("Ord No : "),
-                                          Flexible(
-                                            child: Text(
-                                                value.todaySalesList[index]
-                                                    ["sale_Num"],
-                                                style: TextStyle(
-                                                    color: Colors.grey[700],
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 17)),
-                                          ),
+                                          Text(
+                                              value.todaySalesList[index]
+                                                  ["sale_Num"],
+                                              style: TextStyle(
+                                                  color: Colors.grey[700],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17)),
+                                          Spacer(),
+                                          IconButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          PrintMainPage()),
+                                                );
+                                              },
+                                              icon: Icon(Icons.print))
                                         ],
                                       ),
                                       SizedBox(

@@ -1,108 +1,171 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter/src/widgets/framework.dart';
-// import 'package:flutter/src/foundation/key.dart';
-// import 'package:flutter_bluetooth_basic/flutter_bluetooth_basic.dart';
-// import 'package:esc_pos_bluetooth/esc_pos_bluetooth.dart';
-// import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'dart:math';
 
-// class PrintMainPage extends StatefulWidget {
-//   const PrintMainPage({Key? key}) : super(key: key);
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
-//   @override
-//   State<PrintMainPage> createState() => _PrintMainPageState();
-// }
+class PrintMainPage extends StatefulWidget {
+  List<Map<String, dynamic>>? data;
+  PrintMainPage({this.data});
 
-// class _PrintMainPageState extends State<PrintMainPage> {
-//   PrinterBluetoothManager _printerManager = PrinterBluetoothManager();
-//   List<PrinterBluetooth> _devices = [];
-//   String? _devicesMsg;
-//   BluetoothManager bluetoothManager = BluetoothManager.instance;
+  @override
+  State<PrintMainPage> createState() => _PrintMainPageState();
+}
 
-//   Future<void> _startPrint(PrinterBluetooth printer) async {
-//     _printerManager.selectPrinter(printer);
-//     final myTicket = await _ticket(PaperSize.mm58);
-//     final result = await _printerManager.printTicket(myTicket);
-//     print(result);
-//   }
+class _PrintMainPageState extends State<PrintMainPage> {
+  FlutterBlue flutterBlue = FlutterBlue.instance;
+  bool _connected = false;
+  List<ScanResult>? scanResult;
+  List<BluetoothDevice> _device = [];
 
+  String deviceMsg = "";
 
+  Future<void> initPrinter() async {
+    print("dszknkdfjs");
+    flutterBlue.startScan(timeout: const Duration(seconds: 4));
+    flutterBlue.scanResults.listen((results) {
+      setState(() {
+        scanResult = results;
+      });
+    });
 
-//   _ticket(PaperSize paper) async {
-//     Ticket ticket = Ticket(paper);
-//     ticket.text("jnxnx");
-//     ticket.text("widget.orderNumber");
-//     ticket.text("widget.customerName");
-//     ticket.text("widget.deliveryTime");
-//     ticket.text('widget.instruction');
+    print("scanRsult----$scanResult");
+    flutterBlue.stopScan();
+  }
 
-//     ticket.cut();
-//     return ticket;
-//   }
+  void printWithDevice(BluetoothDevice device) async {
+    await device.connect();
+    final gen = Generator(PaperSize.mm58, await CapabilityProfile.load());
+    final printer = BluePrint();
+    printer.add(gen.qrcode('https://altospos.com'));
+    printer.add(gen.text('Hello'));
+    printer.add(gen.text('World', styles: const PosStyles(bold: true)));
+    printer.add(gen.feed(1));
+    await printer.printData(device);
+    device.disconnect();
+  }
 
-//   void initPrinter() {
-//     print('init printer');
+  void initState() {
+    super.initState();
+    initPrinter();
+    // WidgetsBinding.instance.addPersistentFrameCallback((timeStamp) {
+    //   initPrinter();
+    // });
+  }
 
-//     _printerManager.startScan(Duration(seconds: 2));
-//     _printerManager.scanResults.listen((event) {
-//       if (!mounted) return;
-//       setState(() => _devices = event);
-//       print(_devices);
-//       if (_devices.isEmpty)
-//         setState(() {
-//           _devicesMsg = 'No devices';
-//         });
-//     });
-//   }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Printer page"),
+      ),
+      backgroundColor: Colors.grey,
+      body: scanResult != null
+          ? ListView.builder(
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(scanResult![index].device.name),
+                  subtitle: Text(scanResult![index].device.id.id),
+                  onTap: () => printWithDevice(scanResult![index].device),
+                );
+              },
+              itemCount: scanResult?.length ?? 0,
+            )
+          : Center(
+              child: Text(
+                deviceMsg.toString(),
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+    );
+  }
 
-//   void initState() {
+  // Future<void> _startPrint(BluetoothDevice device) async {
+  //   if (device != null && device.address != null) {
+  //     await bluetoothPrint.connect(device);
+  //     Map<String, dynamic> config = Map();
+  //     List<LineText> list = [];
+  //     list.add(LineText(
+  //         type: LineText.TYPE_TEXT,
+  //         content: "App",
+  //         weight: 2,
+  //         width: 2,
+  //         height: 2,
+  //         align: LineText.ALIGN_CENTER,
+  //         linefeed: 1));
 
+  //     for (int i = 0; i < widget.data!.length; i++) {
+  //       list.add(LineText(
+  //           type: LineText.TYPE_TEXT,
+  //           content: widget.data![i]["title"],
+  //           weight: 0,
+  //           align: LineText.ALIGN_LEFT,
+  //           linefeed: 1));
 
-//     initPrinter();
-//     bluetoothManager.state.listen((val) {
-//       print("state = $val");
-//       if (!mounted) return;
-//       if (val == 12) {
-//         print('on');
-//         initPrinter();
-//       } else if (val == 10) {
-//         print('off');
-//         setState(() {
-//           _devicesMsg = 'Please enable bluetooth to print';
-//         });
-//       }
-//       print('state is $val');
-//     });
+  //       list.add(LineText(
+  //           type: LineText.TYPE_TEXT,
+  //           content: widget.data![i]["Price"],
+  //           weight: 0,
+  //           align: LineText.ALIGN_LEFT,
+  //           linefeed: 1));
+  //     }
+  //   }
+  // }
+}
 
-//     super.initState();
-//   }
+//////////////////////////////////////////////////////////////////////////
+class BluePrint {
+  BluePrint({this.chunkLen = 512});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Printer page"),
-//       ),
-//       backgroundColor: Colors.grey,
-//       body: _devices.isNotEmpty
-//           ? ListView.builder(
-//               itemBuilder: (context, position) => ListTile(
-//                 onTap: () {
-//                   //  _startPrint(_devices[position]);
-//                 },
-//                 leading: Icon(Icons.print),
-//                 title: Text(_devices[position].name!),
-//                 subtitle: Text(_devices[position].address!),
-//               ),
-//               itemCount: _devices.length,
-//             )
-//           : Center(
-//               child: Text(
-//                 _devicesMsg ?? 'Ops something went wrong!',
-//                 style: TextStyle(fontSize: 24),
-//               ),
-//             ),
-//     );
-//   }
-// }
+  final int chunkLen;
+  final _data = List<int>.empty(growable: true);
 
+  void add(List<int> data) {
+    _data.addAll(data);
+  }
 
+  List<List<int>> getChunks() {
+    final chunks = List<List<int>>.empty(growable: true);
+    for (var i = 0; i < _data.length; i += chunkLen) {
+      chunks.add(_data.sublist(i, min(i + chunkLen, _data.length)));
+    }
+    return chunks;
+  }
+
+  Future<void> printData(BluetoothDevice device) async {
+    final data = getChunks();
+    final characs = await _getCharacteristics(device);
+    for (var i = 0; i < characs.length; i++) {
+      if (await _tryPrint(characs[i], data)) {
+        break;
+      }
+    }
+  }
+
+  Future<bool> _tryPrint(
+    BluetoothCharacteristic charac,
+    List<List<int>> data,
+  ) async {
+    for (var i = 0; i < data.length; i++) {
+      try {
+        await charac.write(data[i]);
+      } catch (e) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  Future<List<BluetoothCharacteristic>> _getCharacteristics(
+    BluetoothDevice device,
+  ) async {
+    final services = await device.discoverServices();
+    final res = List<BluetoothCharacteristic>.empty(growable: true);
+    for (var i = 0; i < services.length; i++) {
+      res.addAll(services[i].characteristics);
+    }
+    return res;
+  }
+}

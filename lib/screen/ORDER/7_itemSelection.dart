@@ -150,8 +150,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                     Provider.of<Controller>(context, listen: false)
                         .filteredProductList
                         .clear();
-                    // Provider.of<Controller>(context, listen: false)
-                    //     .getProductList(widget.customerId);
+                    Provider.of<Controller>(context, listen: false)
+                        .getProductList(widget.customerId);
                   } else {
                     print("value---$value");
                     Provider.of<Controller>(context, listen: false)
