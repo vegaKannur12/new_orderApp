@@ -1,9 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:orderapp/controller/controller.dart';
-
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 import 'package:esc_pos_utils_plus/esc_pos_utils.dart';
 import 'package:image/image.dart' as Imag;
@@ -17,6 +15,8 @@ class PrintMainPage extends StatefulWidget {
 }
 
 class _PrintMainPageState extends State<PrintMainPage> {
+  List<int> widthval = [1, 4, 6];
+  int colLength = 3;
   String _info = "";
   String _msj = '';
   bool connected = false;
@@ -34,12 +34,6 @@ class _PrintMainPageState extends State<PrintMainPage> {
   Future<void> getBluetoots() async {
     final List<BluetoothInfo> listResult =
         await PrintBluetoothThermal.pairedBluetooths;
-
-    /*await Future.forEach(listResult, (BluetoothInfo bluetooth) {
-      String name = bluetooth.name;
-      String mac = bluetooth.macAdress;
-    });*/
-
     if (listResult.length == 0) {
       _msj =
           "There are no bluetoohs linked, go to settings and link the printer";
@@ -115,6 +109,169 @@ class _PrintMainPageState extends State<PrintMainPage> {
     }
   }
 
+  Future<List<int>> testTicket(
+    Map printSalesData,
+  ) async {
+    print("nkzsnfn------$printSalesData");
+    List<int> bytes = [];
+    // Using default profile
+    final profile = await CapabilityProfile.load();
+    final generator = Generator(PaperSize.mm58, profile);
+    bytes += generator.setGlobalFont(PosFontType.fontA);
+    bytes += generator.reset();
+    // bytes += generator.qrcode('example.com');
+    bytes += generator.row([
+      PosColumn(
+        text: printSalesData["master"]["cus_name"],
+        width: 12,
+        styles: PosStyles(align: PosAlign.center, bold: true),
+      ),
+    ]);
+    bytes += generator.feed(1);
+    bytes += generator.row([
+      PosColumn(
+        text: 'Bill No : ${printSalesData["master"]["sale_Num"]}',
+        width: 12,
+        styles: PosStyles(codeTable: 'CP1252'),
+      ),
+    ]);
+    bytes += generator.row([
+      PosColumn(
+        text: printSalesData["master"]["Date"],
+        width: 12,
+        styles: PosStyles(codeTable: 'CP1252'),
+      ),
+    ]);
+
+    bytes += generator.feed(1);
+    bytes += generator.row(
+      [
+        PosColumn(
+          text: 'code',
+          width: 2,
+          styles: PosStyles(align: PosAlign.left, underline: true),
+        ),
+        PosColumn(
+          text: 'item',
+          width: 4,
+          styles: PosStyles(align: PosAlign.left, underline: true),
+        ),
+        PosColumn(
+          text: 'qty',
+          width: 3,
+          styles: PosStyles(align: PosAlign.right, underline: true),
+        ),
+        PosColumn(
+          text: 'rate',
+          width: 3,
+          styles: PosStyles(align: PosAlign.right, underline: true),
+        ),
+      ],
+    );
+    bytes += generator.feed(1);
+    for (int i = 0; i < printSalesData["detail"].length; i++) {
+      bytes += generator.row(
+        [
+          PosColumn(
+            text: printSalesData["detail"][i]["code"].toString(),
+            width: 2,
+            styles: PosStyles(
+              align: PosAlign.left,
+            ),
+          ),
+          PosColumn(
+            text: printSalesData["detail"][i]["item"].toString(),
+            width: 4,
+            styles: PosStyles(
+              align: PosAlign.left,
+            ),
+          ),
+          PosColumn(
+            text: printSalesData["detail"][i]["qty"].toString(),
+            width: 3,
+            styles: PosStyles(
+              align: PosAlign.right,
+            ),
+          ),
+          PosColumn(
+            text: printSalesData["detail"][i]["rate"].toStringAsFixed(2),
+            width: 3,
+            styles: PosStyles(
+              align: PosAlign.right,
+            ),
+          ),
+        ],
+      );
+    }
+    bytes += generator.feed(1);
+    bytes += generator.row(
+      [
+        PosColumn(
+          text: "Item Count :",
+          width: 5,
+          styles: PosStyles(
+            align: PosAlign.left,
+          ),
+        ),
+        PosColumn(
+          text: printSalesData["master"]["count"].toString(),
+          width: 7,
+          styles: PosStyles(
+            align: PosAlign.left,
+          ),
+        ),
+      ],
+    );
+    bytes += generator.feed(1);
+    bytes += generator.row(
+      [
+        PosColumn(
+          text: "Discount :",
+          width: 6,
+          styles: PosStyles(align: PosAlign.left, bold: true),
+        ),
+        PosColumn(
+          text: "${printSalesData["master"]["distot"].toStringAsFixed(2)}",
+          width: 6,
+          styles: PosStyles(align: PosAlign.right, bold: true),
+        ),
+      ],
+    );
+    bytes += generator.row(
+      [
+        PosColumn(
+          text: "Tax :",
+          width: 6,
+          styles: PosStyles(align: PosAlign.left, bold: true),
+        ),
+        PosColumn(
+          text: "${printSalesData["master"]["taxtot"].toStringAsFixed(2)}",
+          width: 6,
+          styles: PosStyles(align: PosAlign.right, bold: true),
+        ),
+      ],
+    );
+    bytes += generator.row(
+      [
+        PosColumn(
+          text: "Total :",
+          width: 6,
+          styles: PosStyles(align: PosAlign.left, bold: true),
+        ),
+        PosColumn(
+          text: "${printSalesData["master"]["net_amt"].toStringAsFixed(2)}",
+          width: 6,
+          styles: PosStyles(align: PosAlign.right, bold: true),
+        ),
+      ],
+    );
+    bytes += generator.cut();
+
+    return bytes;
+  }
+}
+
+////////////////// reference ////////////////////////////
   // Future<List<int>> testTicket() async {
   //   List<int> bytes = [];
   //   // Using default profile
@@ -199,167 +356,3 @@ class _PrintMainPageState extends State<PrintMainPage> {
   //   return bytes;
   // }
 
-  Future<List<int>> testTicket(Map printSalesData) async {
-    print("nkzsnfn------$printSalesData");
-    List<int> bytes = [];
-    // Using default profile
-    final profile = await CapabilityProfile.load();
-    final generator = Generator(PaperSize.mm58, profile);
-    //bytes += generator.setGlobalFont(PosFontType.fontA);
-    bytes += generator.reset();
-
-    bytes += generator.text(printSalesData["master"]["cus_name"],
-        styles: PosStyles(align: PosAlign.center, bold: true));
-    bytes += generator.feed(1);
-    bytes += generator.text(
-      "Bill No : ${printSalesData["master"]["sale_Num"]}",
-      styles: PosStyles(codeTable: 'CP1252'),
-    );
-    bytes += generator.text(printSalesData["master"]["Date"],
-        styles: PosStyles(codeTable: 'CP1252'));
-    bytes += generator.feed(1);
-
-    // bytes += generator.text('Bold text', styles: PosStyles(bold: true));
-    // bytes += generator.text('Reverse text', styles: PosStyles(reverse: true));
-    // bytes += generator.text('Underlined text',
-    //     styles: PosStyles(underline: true), linesAfter: 1);
-    // bytes +=
-    //     generator.text('Align left', styles: PosStyles(align: PosAlign.left));
-    // bytes += generator.text('Align center',
-    //     styles: PosStyles(align: PosAlign.center));
-    // bytes += generator.text('Align right',
-    //     styles: PosStyles(align: PosAlign.right), linesAfter: 1);
-
-    bytes += generator.row(
-      [
-        PosColumn(
-          text: 'code',
-          width: 3,
-          styles: PosStyles(align: PosAlign.left, underline: true),
-        ),
-        PosColumn(
-          text: 'item',
-          width: 3,
-          styles: PosStyles(align: PosAlign.left, underline: true),
-        ),
-        PosColumn(
-          text: 'qty',
-          width: 3,
-          styles: PosStyles(align: PosAlign.right, underline: true),
-        ),
-        PosColumn(
-          text: 'rate',
-          width: 3,
-          styles: PosStyles(align: PosAlign.right, underline: true),
-        ),
-      ],
-    );
-    bytes += generator.feed(1);
-
-    for (int i = 0; i < printSalesData["detail"].length; i++) {
-      bytes += generator.row(
-        [
-          PosColumn(
-            text: printSalesData["detail"][i]["code"].toString(),
-            width: 3,
-            styles: PosStyles(
-              align: PosAlign.left,
-            ),
-          ),
-          PosColumn(
-            text: printSalesData["detail"][i]["item"].toString(),
-            width: 3,
-            styles: PosStyles(
-              align: PosAlign.left,
-            ),
-          ),
-          PosColumn(
-            text: printSalesData["detail"][i]["qty"].toString(),
-            width: 3,
-            styles: PosStyles(
-              align: PosAlign.right,
-            ),
-          ),
-          PosColumn(
-            text: printSalesData["detail"][i]["rate"].toString(),
-            width: 3,
-            styles: PosStyles(
-              align: PosAlign.right,
-            ),
-          ),
-        ],
-      );
-    }
-
-    bytes += generator.feed(1);
-    bytes += generator.row(
-      [
-        PosColumn(
-          text: "Item Count",
-          width: 3,
-          styles: PosStyles(
-            align: PosAlign.left,
-          ),
-        ),
-        PosColumn(
-          text: printSalesData["master"]["count"].toString(),
-          width: 9,
-          styles: PosStyles(
-            align: PosAlign.left,
-          ),
-        ),
-      ],
-    );
-    bytes += generator.row(
-      [
-        PosColumn(
-          text: "Total",
-          width: 6,
-          styles: PosStyles(
-            align: PosAlign.left,
-            bold: true
-          ),
-        ),
-        PosColumn(
-          text: "${printSalesData["master"]["net_amt"].toString()}",
-          width:6,
-          styles: PosStyles(
-            align: PosAlign.right,
-            bold: true
-          ),
-        ),
-      ],
-    );
-
-
-    // final List<int> barData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 4];
-    // bytes += generator.barcode(Barcode.upcA(barData));
-
-    // //QR code
-    // bytes += generator.qrcode('example.com');
-
-    // bytes += generator.text(
-    //   'Text size 50%',
-    //   styles: PosStyles(
-    //     fontType: PosFontType.fontB,
-    //   ),
-    // );
-    // bytes += generator.text(
-    //   'Text size 100%',
-    //   styles: PosStyles(
-    //     fontType: PosFontType.fontA,
-    //   ),
-    // );
-    // bytes += generator.text(
-    //   'Text size 200%',
-    //   styles: PosStyles(
-    //     height: PosTextSize.size2,
-    //     width: PosTextSize.size2,
-    //   ),
-    // );
-
-    bytes += generator.feed(2);
-    //bytes += generator.cut();
-    return bytes;
-  }
-}
