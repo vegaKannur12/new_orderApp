@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
@@ -15,8 +13,6 @@ class PrintMainPage extends StatefulWidget {
 }
 
 class _PrintMainPageState extends State<PrintMainPage> {
-  List<int> widthval = [1, 4, 6];
-  int colLength = 3;
   String _info = "";
   String _msj = '';
   bool connected = false;
@@ -119,14 +115,17 @@ class _PrintMainPageState extends State<PrintMainPage> {
     final generator = Generator(PaperSize.mm58, profile);
     bytes += generator.setGlobalFont(PosFontType.fontA);
     bytes += generator.reset();
+    
     // bytes += generator.qrcode('example.com');
     bytes += generator.row([
       PosColumn(
         text: printSalesData["master"]["cus_name"],
         width: 12,
-        styles: PosStyles(align: PosAlign.center, bold: true),
+        styles: const PosStyles(align: PosAlign.center, bold: true),
       ),
     ]);
+    bytes += generator.text("------------",
+        styles: PosStyles(align: PosAlign.center));
     bytes += generator.feed(1);
     bytes += generator.row([
       PosColumn(
@@ -154,19 +153,28 @@ class _PrintMainPageState extends State<PrintMainPage> {
         PosColumn(
           text: 'item',
           width: 4,
-          styles: PosStyles(align: PosAlign.left, underline: true),
+          styles: PosStyles(
+            align: PosAlign.left,
+          ),
         ),
         PosColumn(
           text: 'qty',
           width: 3,
-          styles: PosStyles(align: PosAlign.right, underline: true),
+          styles: PosStyles(
+            align: PosAlign.right,
+          ),
         ),
         PosColumn(
           text: 'rate',
           width: 3,
-          styles: PosStyles(align: PosAlign.right, underline: true),
+          styles: PosStyles(
+            align: PosAlign.right,
+          ),
         ),
       ],
+    );
+    bytes += generator.text(
+      "-----------------------------",
     );
     bytes += generator.feed(1);
     for (int i = 0; i < printSalesData["detail"].length; i++) {

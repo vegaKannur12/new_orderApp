@@ -213,8 +213,9 @@ class _TodaySaleState extends State<TodaySale> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        PrintMainPage()),
+                                                  builder: (context) =>
+                                                      PrintMainPage(),
+                                                ),
                                               );
                                             },
                                             icon: Icon(Icons.print),
