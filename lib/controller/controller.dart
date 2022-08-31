@@ -1394,7 +1394,7 @@ class Controller extends ChangeNotifier {
   //////////////////////SELECT WALLET ////////////////////////////////////////////////////
   fetchwallet() async {
     walletList.clear();
-    var res = await OrderAppDB.instance.selectAllcommon('walletTable', "");
+    var res = await OrderAppDB.instance.selectAllcommon('walletTable', "rec_mode not in (-3)");
     for (var item in res) {
       walletList.add(item);
     }
@@ -3338,19 +3338,26 @@ class Controller extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////////////////
-  printSales(String cid, BuildContext context,
-      Map<String, dynamic> salesMasterData) async {
+  printSales(
+    String cid,
+    BuildContext context,
+    Map<String, dynamic> salesMasterData,
+  ) async {
     List<Map<String, dynamic>> resultQuery = [];
-
-    // String jsonE = jsonEncode(result);
-    //   var jsonDe = jsonDecode(jsonE);
-
     print("output------${salesMasterData["sales_id"]}");
+    List<Map<String, dynamic>> companyData = [];
+    List<Map<String, dynamic>> staffData = [];
 
     resultQuery = await OrderAppDB.instance
         .selectSalesDetailTable(salesMasterData["sales_id"]);
-
+    companyData =
+        await OrderAppDB.instance.selectAllcommon('registrationTable', "");
+    staffData =
+        await OrderAppDB.instance.selectAllcommon('staffLoginDetailsTable', "");
+    print("company dataa.............$companyData");
     print("result quru----$resultQuery");
+    printSalesData["company"] = companyData;
+    printSalesData["staff"] = staffData;
     printSalesData["master"] = salesMasterData;
     printSalesData["detail"] = resultQuery;
     print("result salesMasterData----$printSalesData");

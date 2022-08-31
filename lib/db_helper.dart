@@ -229,6 +229,11 @@ class OrderAppDB {
   static final ces_tot = 'ces_tot';
   static final rounding = 'rounding';
   static final set_method = 'set_method';
+  static final palign = 'palign';
+  static final punderline = 'punderline';
+  static final ptext = 'ptext';
+  static final pwidth = 'pwidth';
+  static final pbold = 'pbold';
 
   Future<Database> get database async {
     print("bjhs");
@@ -657,6 +662,16 @@ class OrderAppDB {
             $qty INTEGER,
             $unit TEXT,
             $rate REAL  
+          )
+          ''');
+    await db.execute('''
+          CREATE TABLE printTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $ptext TEXT,
+            $pwidth INTEGER,
+            $palign TEXT,
+            $punderline INTEGER,
+            $pbold INTEGER
           )
           ''');
   }
@@ -2004,7 +2019,7 @@ class OrderAppDB {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
     var query =
-        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count, salesMasterTable.net_amt  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
+        'select accountHeadsTable.hname as cus_name,accountHeadsTable.ba as ba, accountHeadsTable.ac_ad1 as address, accountHeadsTable.ac_gst as gstin, salesMasterTable.sales_id sales_id,salesMasterTable.rounding roundoff, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count,salesMasterTable.gross_tot grossTot,salesMasterTable.payment_mode payment_mode,salesMasterTable.credit_option creditoption, salesMasterTable.net_amt, salesMasterTable.tax_tot as taxtot, salesMasterTable.dis_tot as distot  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
     print("query---$query");
 
     result = await db.rawQuery(query);
@@ -2198,6 +2213,7 @@ class OrderAppDB {
         "SELECT orderDetailTable.code as code,orderDetailTable.item as item, orderDetailTable.qty as qty, orderDetailTable.rate as rate from orderDetailTable  where  orderDetailTable.order_id=${order_id}");
     return result;
   }
+
 //////////////////////////////////////////////////////////
   selectSalesDetailTable(int sales_id) async {
     print("sales id----$sales_id");
@@ -2222,6 +2238,7 @@ class OrderAppDB {
     print("sales detao;s------$result");
     return result;
   }
+
 ///////////////////////////////////////////////////////////////////////
   selectReturnDetailTable(int return_id) async {
     Database db = await instance.database;
