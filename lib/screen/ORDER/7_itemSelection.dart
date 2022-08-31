@@ -464,9 +464,9 @@ class _ItemSelectionState extends State<ItemSelection> {
 
                                                           rate1 = value.newList[
                                                               index]["rate1"];
-                                                          var total = int.parse(
+                                                          var total = double.parse(
                                                                   rate1) *
-                                                              int.parse(value
+                                                              double.parse(value
                                                                   .qty[index]
                                                                   .text);
                                                           print(
@@ -736,9 +736,9 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                           rate1 = value
                                                                   .productName[
                                                               index]["rate1"];
-                                                          var total = int.parse(
+                                                          var total = double.parse(
                                                                   rate1) *
-                                                              int.parse(value
+                                                              double.parse(value
                                                                   .qty[index]
                                                                   .text);
                                                           print(

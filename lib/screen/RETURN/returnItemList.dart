@@ -509,8 +509,8 @@ class _ReturnItemState extends State<ReturnItem> {
                                                             value.newList[index]
                                                                 ["rate1"];
                                                         var total =
-                                                            int.parse(rate1) *
-                                                                int.parse(value
+                                                            double.parse(rate1) *
+                                                                double.parse(value
                                                                     .qty[index]
                                                                     .text);
                                                         print(
@@ -779,8 +779,8 @@ class _ReturnItemState extends State<ReturnItem> {
                                                             value.productName[
                                                                 index]["rate1"];
                                                         var total =
-                                                            int.parse(rate1) *
-                                                                int.parse(value
+                                                            double.parse(rate1) *
+                                                                double.parse(value
                                                                     .qty[index]
                                                                     .text);
                                                         print(
