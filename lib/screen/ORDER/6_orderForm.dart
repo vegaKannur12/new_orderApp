@@ -421,13 +421,15 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             },
                                             displayStringForOption:
                                                 (Map<String, dynamic> option) =>
-                                                    option["hname"].toUpperCase(),
+                                                    option["hname"]
+                                                        .toUpperCase(),
                                             onSelected: (value) {
                                               setState(() {
                                                 print("value----${value}");
                                                 _selectedItemcus =
                                                     value["hname"];
-                                                customerName = value["hname"].toUpperCase();
+                                                customerName = value["hname"]
+                                                    .toUpperCase();
                                                 custmerId = value["ac_code"];
                                                 print(
                                                     "Code .........---${custmerId}");
@@ -580,7 +582,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             fontSize: 12),
                                                       ),
                                                       onPressed: () async {
-                                                        await OrderAppDB.instance.deleteFromTableCommonQuery("returnBagTable", "");
+                                                        await OrderAppDB
+                                                            .instance
+                                                            .deleteFromTableCommonQuery(
+                                                                "returnBagTable",
+                                                                "");
                                                         FocusScopeNode
                                                             currentFocus =
                                                             FocusScope.of(
@@ -610,7 +616,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                   context,
                                                                   listen: false)
                                                               .fetchProductCompanyList();
-                                                          
+
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
@@ -1141,9 +1147,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                                 .areaidFrompopup!,
                                                                         os: oos,
                                                                         areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
-                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
-                                                                            : Provider.of<Controller>(context, listen: false).areaSelecton!,
-                                                                        type: "sale order"),
+                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                                1]
+                                                                            : Provider.of<Controller>(context, listen: false)
+                                                                                .areaSelecton!,
+                                                                        type:
+                                                                            "sale order"),
                                                                   ),
                                                                 );
                                                               }
@@ -1193,7 +1202,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             fontSize: 12),
                                                       ),
                                                       onPressed: () async {
-                                                        await OrderAppDB.instance.deleteFromTableCommonQuery("returnBagTable", "");
+                                                        await OrderAppDB
+                                                            .instance
+                                                            .deleteFromTableCommonQuery(
+                                                                "returnBagTable",
+                                                                "");
                                                         FocusScopeNode
                                                             currentFocus =
                                                             FocusScope.of(
@@ -1297,71 +1310,71 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     SizedBox(
                                                       width: size.width * 0.02,
                                                     ),
-                                                    ElevatedButton.icon(
-                                                        icon: Icon(
-                                                          Icons.currency_rupee,
-                                                          color: Colors.white,
-                                                          size: 15.0,
-                                                        ),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          primary: P_Settings
-                                                              .dashbordcl2,
-                                                          shape:
-                                                              new RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                new BorderRadius
-                                                                        .circular(
-                                                                    10.0),
-                                                          ),
-                                                        ),
-                                                        onPressed: () async {
-                                                          if (_formKey
-                                                              .currentState!
-                                                              .validate()) {
-                                                            await Provider.of<
-                                                                        Controller>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .getBalance(cid,
-                                                                    custmerId);
-                                                            print(
-                                                                "balance value.......${values.balanceModel.ba}...${values.balanceModel.ba.runtimeType}.");
-                                                            showDialog(
-                                                              context: context,
-                                                              builder: (BuildContext
-                                                                      context) =>
-                                                                  popup.buildPopupDialog(
-                                                                      "",
-                                                                      context,
-                                                                      '\u{20B9}${values.balanceModel.ba!.toStringAsFixed(2)}',
-                                                                      "balance",
-                                                                      0,
-                                                                      "",
-                                                                      "",
-                                                                      ""),
-                                                            );
-                                                          }
-                                                          setState(() {
-                                                            balVisible =
-                                                                !balVisible;
-                                                          });
+                                                    // ElevatedButton.icon(
+                                                    //     icon: Icon(
+                                                    //       Icons.currency_rupee,
+                                                    //       color: Colors.white,
+                                                    //       size: 15.0,
+                                                    //     ),
+                                                    //     style: ElevatedButton
+                                                    //         .styleFrom(
+                                                    //       primary: P_Settings
+                                                    //           .dashbordcl2,
+                                                    //       shape:
+                                                    //           new RoundedRectangleBorder(
+                                                    //         borderRadius:
+                                                    //             new BorderRadius
+                                                    //                     .circular(
+                                                    //                 10.0),
+                                                    //       ),
+                                                    //     ),
+                                                    //     onPressed: () async {
+                                                    //       if (_formKey
+                                                    //           .currentState!
+                                                    //           .validate()) {
+                                                    //         await Provider.of<
+                                                    //                     Controller>(
+                                                    //                 context,
+                                                    //                 listen:
+                                                    //                     false)
+                                                    //             .getBalance(cid,
+                                                    //                 custmerId);
+                                                    //         print(
+                                                    //             "balance value.......${values.balanceModel.ba}...${values.balanceModel.ba.runtimeType}.");
+                                                    //         showDialog(
+                                                    //           context: context,
+                                                    //           builder: (BuildContext
+                                                    //                   context) =>
+                                                    //               popup.buildPopupDialog(
+                                                    //                   "",
+                                                    //                   context,
+                                                    //                   '\u{20B9}${values.balanceModel.ba!.toStringAsFixed(2)}',
+                                                    //                   "balance",
+                                                    //                   0,
+                                                    //                   "",
+                                                    //                   "",
+                                                    //                   ""),
+                                                    //         );
+                                                    //       }
+                                                    //       setState(() {
+                                                    //         balVisible =
+                                                    //             !balVisible;
+                                                    //       });
 
-                                                          print(
-                                                              "cid.........$cid,$custmerId");
-                                                          FocusScopeNode
-                                                              currentFocus =
-                                                              FocusScope.of(
-                                                                  context);
+                                                    //       print(
+                                                    //           "cid.........$cid,$custmerId");
+                                                    //       FocusScopeNode
+                                                    //           currentFocus =
+                                                    //           FocusScope.of(
+                                                    //               context);
 
-                                                          if (!currentFocus
-                                                              .hasPrimaryFocus) {
-                                                            currentFocus
-                                                                .unfocus();
-                                                          }
-                                                        },
-                                                        label: Text("Balance")),
+                                                    //       if (!currentFocus
+                                                    //           .hasPrimaryFocus) {
+                                                    //         currentFocus
+                                                    //             .unfocus();
+                                                    //       }
+                                                    //     },
+                                                    //     label: Text("Balance")),
                                                     // SizedBox(
                                                     //   width: size.width * 0.05,
                                                     // ),

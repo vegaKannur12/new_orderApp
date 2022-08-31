@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class SalesBottomSheet {
   sheet(BuildContext context, String itemcount, String netAmt, String discount,
-      String tax, String cess, String grosstot) {
+      String tax, String cess, String grosstot ) {
     Size size = MediaQuery.of(context).size;
     showModalBottomSheet(
         context: context,
@@ -108,6 +108,22 @@ class SalesBottomSheet {
                           title: Row(
                             children: [
                               Text('Cess : '),
+                              Spacer(),
+                              Text(
+                                '\u{20B9}${cess}',
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
+                         ListTile(
+                          // leading: Icon(
+                          //   Icons.currency_rupee_outlined,
+                          //   color: P_Settings.salewaveColor,
+                          // ),
+                          title: Row(
+                            children: [
+                              Text('Roundoff : '),
                               Spacer(),
                               Text(
                                 '\u{20B9}${cess}',

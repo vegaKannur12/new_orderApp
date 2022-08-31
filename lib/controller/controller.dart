@@ -27,6 +27,7 @@ class Controller extends ChangeNotifier {
   bool? fromDb;
   double gross = 0.0;
   double gross_tot = 0.0;
+  double roundoff = 0.0;
   double dis_tot = 0.0;
   double cess_tot = 0.0;
   double tax_tot = 0.0;
@@ -1067,7 +1068,8 @@ class Controller extends ChangeNotifier {
       double tax_tot,
       double dis_tot,
       double cess_tot,
-      BuildContext context) async {
+      BuildContext context,
+      String payment_mode) async {
     List<Map<String, dynamic>> om = [];
     // String salesOs = "S" + "$os";
     // int sales_id = await OrderAppDB.instance
@@ -1095,7 +1097,7 @@ class Controller extends ChangeNotifier {
           staff_id,
           aid,
           0,
-          "",
+          payment_mode.toString(),
           "",
           "",
           rowNum,
@@ -1998,7 +2000,17 @@ class Controller extends ChangeNotifier {
     try {
       print("calculate sales updated tot....$os...$customerId");
       List res = await OrderAppDB.instance.getsaletotalSum(os, customerId);
+      print("respongtyht...........$res");
       salesTotal = double.parse(res[0]);
+      // int roundedtot = salesTotal.floor();
+      // double valdiffere = salesTotal -roundedtot;
+      // if(valdiffere>0.5){
+      //   salesTotal.ceil();
+      // }else{
+      //   salesTotal.floor();
+      // }
+      // print("ceil rounding tot...${salesTotal.ceil()}");
+      print("floor rounding tot...${salesTotal.floor()}");
 
       gross_tot = double.parse(res[5]);
 
@@ -2007,15 +2019,16 @@ class Controller extends ChangeNotifier {
       cess_tot = double.parse(res[4]);
       // print("result sale...${res[3].runtimeType}");
       dis_tot = double.parse(res[3]);
-      // print("result sale.22..${dis_tot.runtimeType}");
+      roundoff = double.parse(res[10]);
+      print("result sale.22..${roundoff.runtimeType}");
 
       print(
-          "result sal--${salesTotal}----${gross_tot}---${tax_tot}---${cess_tot}--${dis_tot}");
+          "result sal-----....${salesTotal}----${gross_tot}---${tax_tot}---${cess_tot}--${dis_tot}");
 
       print("salesTotal---$salesTotal");
       notifyListeners();
       orderTotal2.clear();
-      if (res != null && res.length != 0) {
+      if (res.length > 0) {
         for (var item in res) {
           orderTotal2.add(item);
         }
@@ -3338,21 +3351,29 @@ class Controller extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////////////////
-  printSales(String cid, BuildContext context,
-      Map<String, dynamic> salesMasterData) async {
+  printSales(
+    String cid,
+    BuildContext context,
+    Map<String, dynamic> salesMasterData,
+  ) async {
     List<Map<String, dynamic>> resultQuery = [];
-
-    // String jsonE = jsonEncode(result);
-    //   var jsonDe = jsonDecode(jsonE);
-
     print("output------${salesMasterData["sales_id"]}");
+    List<Map<String, dynamic>> companyData = [];
+    List<Map<String, dynamic>> staffData = [];
 
     resultQuery = await OrderAppDB.instance
         .selectSalesDetailTable(salesMasterData["sales_id"]);
-
+    companyData =
+        await OrderAppDB.instance.selectAllcommon('registrationTable', "");
+    staffData =
+        await OrderAppDB.instance.selectAllcommon('staffLoginDetailsTable', "");
+    print("company dataa.............$companyData");
     print("result quru----$resultQuery");
+    printSalesData["company"] = companyData;
+    printSalesData["staff"] = staffData;
     printSalesData["master"] = salesMasterData;
     printSalesData["detail"] = resultQuery;
+
     print("result salesMasterData----$printSalesData");
 
     // om.add(salesMasterData);

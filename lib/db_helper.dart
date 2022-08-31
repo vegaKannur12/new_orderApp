@@ -1569,6 +1569,7 @@ class OrderAppDB {
     String cgst;
     String sgst;
     String igst;
+    String roundoff = "0";
 
     Database db = await instance.database;
     print("calculate sales updated tot in db....$os...$customerId");
@@ -1580,6 +1581,25 @@ class OrderAppDB {
           "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
+      double totval = 0;
+
+      totval = double.parse(net_amount);
+      if ((totval - totval.floor()) <= 0.5) {
+        roundoff = ((totval - totval.floor()) * -1).toString();
+      } else {
+        roundoff = (totval.ceil() - totval).toString();
+      }
+
+      print(
+          "roundof.....$roundoff.....$totval..${totval.ceil()}...........${totval.floor()}");
+      //  int roundedtot = net_amount.floor();
+      // double valdiffere = net_amount - roundedtot;
+      // if (valdiffere > 0.5) {
+      //   net_amount.ceil();
+      // } else {
+      //   net_amount.floor();
+      // }
+
       gross = res[0]["gr"].toStringAsFixed(2);
       count = res[0]["c"].toString();
       taxamt = res[0]["t"].toStringAsFixed(2);
@@ -1591,7 +1611,9 @@ class OrderAppDB {
       cgst = res[0]["cgst"].toStringAsFixed(2);
       sgst = res[0]["sgst"].toStringAsFixed(2);
       igst = res[0]["igst"].toStringAsFixed(2);
+
       tax_tot = double.parse(cgst) + double.parse(sgst) + double.parse(igst);
+
       print("tax_tot......$cgst---$sgst---$igst");
       print(
           "gross..netamount..taxval..dis..ces ...$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
@@ -1621,6 +1643,7 @@ class OrderAppDB {
       cesper,
       taxper,
       tax_tot,
+      roundoff
     ];
   }
 
@@ -2004,7 +2027,7 @@ class OrderAppDB {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
     var query =
-        'select accountHeadsTable.hname as cus_name,salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count, salesMasterTable.net_amt, salesMasterTable.tax_tot as taxtot, salesMasterTable.dis_tot as distot  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
+        'select accountHeadsTable.hname as cus_name, accountHeadsTable.ac_ad1 as address, accountHeadsTable.ac_gst as gstin, salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count, salesMasterTable.net_amt, salesMasterTable.tax_tot as taxtot, salesMasterTable.dis_tot as distot  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
     print("query---$query");
 
     result = await db.rawQuery(query);

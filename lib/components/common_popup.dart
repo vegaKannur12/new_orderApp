@@ -12,17 +12,17 @@ class CommonPopup {
   String? gen_condition;
   String? sid;
   Widget buildPopupDialog(
-    String type,
-    BuildContext context,
-    String content,
-    String areaid,
-    String areaname,
-    String custmerId,
-    String date,
-    String time,
-    String ref,
-    String reason,
-  ) {
+      String type,
+      BuildContext context,
+      String content,
+      String areaid,
+      String areaname,
+      String custmerId,
+      String date,
+      String time,
+      String ref,
+      String reason,
+      String payment_mode) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -62,18 +62,19 @@ class CommonPopup {
 
                       Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
-                        sOs,
-                        date,
-                        time,
-                        custmerId,
-                        sid1!,
-                        areaid,
-                        value.salesTotal,
-                        value.gross_tot,
-                        value.tax_tot,
-                        value.dis_tot,
-                        value.cess_tot,context
-                      );
+                              sOs,
+                              date,
+                              time,
+                              custmerId,
+                              sid1!,
+                              areaid,
+                              value.salesTotal,
+                              value.gross_tot,
+                              value.tax_tot,
+                              value.dis_tot,
+                              value.cess_tot,
+                              context,
+                              payment_mode);
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
@@ -98,14 +99,14 @@ class CommonPopup {
                         0) {
                       Provider.of<Controller>(context, listen: false)
                           .insertToOrderbagAndMaster(
-                        os!,
-                        date,
-                        time,
-                        custmerId,
-                        sid1!,
-                        areaid,
-                        double.parse(value.orderTotal1!),context
-                      );
+                              os!,
+                              date,
+                              time,
+                              custmerId,
+                              sid1!,
+                              areaid,
+                              double.parse(value.orderTotal1!),
+                              context);
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
@@ -134,7 +135,8 @@ class CommonPopup {
                               areaid,
                               value.returnTotal,
                               ref,
-                              reason,context);
+                              reason,
+                              context);
                       Provider.of<Controller>(context, listen: false)
                           .returnCount = 0;
 

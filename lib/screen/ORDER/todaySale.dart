@@ -31,7 +31,6 @@ class _TodaySaleState extends State<TodaySale> {
     final prefs = await SharedPreferences.getInstance();
     sid = prefs.getString('sid');
     cid = prefs.getString('cid');
-    print("sid ......$sid");
     print("formattedDate...$formattedDate");
   }
 
@@ -205,10 +204,10 @@ class _TodaySaleState extends State<TodaySale> {
                                               Provider.of<Controller>(context,
                                                       listen: false)
                                                   .printSales(
-                                                      cid!,
-                                                      context,
-                                                      value.todaySalesList[
-                                                          index]);
+                                                cid!,
+                                                context,
+                                                value.todaySalesList[index],
+                                              );
 
                                               Navigator.push(
                                                 context,
