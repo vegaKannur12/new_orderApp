@@ -1396,7 +1396,7 @@ class Controller extends ChangeNotifier {
   //////////////////////SELECT WALLET ////////////////////////////////////////////////////
   fetchwallet() async {
     walletList.clear();
-    var res = await OrderAppDB.instance.selectAllcommon('walletTable', "");
+    var res = await OrderAppDB.instance.selectAllcommon('walletTable', "rec_mode not in (-3)");
     for (var item in res) {
       walletList.add(item);
     }
@@ -2019,8 +2019,8 @@ class Controller extends ChangeNotifier {
       cess_tot = double.parse(res[4]);
       // print("result sale...${res[3].runtimeType}");
       dis_tot = double.parse(res[3]);
-      roundoff = double.parse(res[10]);
-      print("result sale.22..${roundoff.runtimeType}");
+      // roundoff = double.parse(res[10]);
+      // print("result sale.22..${roundoff.runtimeType}");
 
       print(
           "result sal-----....${salesTotal}----${gross_tot}---${tax_tot}---${cess_tot}--${dis_tot}");

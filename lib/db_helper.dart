@@ -229,6 +229,11 @@ class OrderAppDB {
   static final ces_tot = 'ces_tot';
   static final rounding = 'rounding';
   static final set_method = 'set_method';
+  static final palign = 'palign';
+  static final punderline = 'punderline';
+  static final ptext = 'ptext';
+  static final pwidth = 'pwidth';
+  static final pbold = 'pbold';
 
   Future<Database> get database async {
     print("bjhs");
@@ -657,6 +662,16 @@ class OrderAppDB {
             $qty INTEGER,
             $unit TEXT,
             $rate REAL  
+          )
+          ''');
+    await db.execute('''
+          CREATE TABLE printTable (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $ptext TEXT,
+            $pwidth INTEGER,
+            $palign TEXT,
+            $punderline INTEGER,
+            $pbold INTEGER
           )
           ''');
   }
@@ -1395,6 +1410,7 @@ class OrderAppDB {
     } else {
       area = await db
           .rawQuery('SELECT area FROM staffDetailsTable WHERE sid="${sid}"');
+          print("area details...........$area");
       areaidfromStaff = area[0]["area"];
       aidsplit = areaidfromStaff.split(",");
       print("hudhuh---$aidsplit");
@@ -1581,17 +1597,17 @@ class OrderAppDB {
           "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
-      double totval = 0;
+      // double totval = 0;
 
-      totval = double.parse(net_amount);
-      if ((totval - totval.floor()) <= 0.5) {
-        roundoff = ((totval - totval.floor()) * -1).toString();
-      } else {
-        roundoff = (totval.ceil() - totval).toString();
-      }
+      // totval = double.parse(net_amount);
+      // if ((totval - totval.floor()) <= 0.5) {
+      //   roundoff = ((totval - totval.floor()) * -1).toString();
+      // } else {
+      //   roundoff = (totval.ceil() - totval).toString();
+      // }
 
-      print(
-          "roundof.....$roundoff.....$totval..${totval.ceil()}...........${totval.floor()}");
+      // print(
+      //     "roundof.....$roundoff.....$totval..${totval.ceil()}...........${totval.floor()}");
       //  int roundedtot = net_amount.floor();
       // double valdiffere = net_amount - roundedtot;
       // if (valdiffere > 0.5) {
@@ -2027,7 +2043,7 @@ class OrderAppDB {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
     var query =
-        'select accountHeadsTable.hname as cus_name, accountHeadsTable.ac_ad1 as address, accountHeadsTable.ac_gst as gstin, salesMasterTable.sales_id sales_id, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count, salesMasterTable.net_amt, salesMasterTable.tax_tot as taxtot, salesMasterTable.dis_tot as distot  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
+        'select accountHeadsTable.hname as cus_name,accountHeadsTable.ba as ba, accountHeadsTable.ac_ad1 as address, accountHeadsTable.ac_gst as gstin, salesMasterTable.sales_id sales_id,salesMasterTable.rounding roundoff, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count,salesMasterTable.gross_tot grossTot,salesMasterTable.payment_mode payment_mode,salesMasterTable.credit_option creditoption, salesMasterTable.net_amt, salesMasterTable.tax_tot as taxtot, salesMasterTable.dis_tot as distot  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
     print("query---$query");
 
     result = await db.rawQuery(query);
