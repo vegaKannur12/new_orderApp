@@ -136,8 +136,8 @@ class _ReturnFilteredProductState extends State<ReturnFilteredProduct> {
                             print("max----$max");
                             rate1 =
                                 value.returnfilteredProductList[index]["rate1"];
-                            var total = int.parse(rate1) *
-                                int.parse(value.qty[index].text);
+                            var total = double.parse(rate1) *
+                                double.parse(value.qty[index].text);
                             print("total rate $total");
 
                             var res = await OrderAppDB.instance

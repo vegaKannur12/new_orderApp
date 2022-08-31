@@ -139,8 +139,8 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                             print("max----$max");
                             rate1 =
                                 value.salefilteredProductList[index]["rate1"];
-                            var total = int.parse(rate1) *
-                                int.parse(value.qty[index].text);
+                            var total = double.parse(rate1) *
+                                double.parse(value.qty[index].text);
                             double qtyNew = 0.0;
                             double discounamttNew = 0.0;
                             double discounpertNew = 0.0;
