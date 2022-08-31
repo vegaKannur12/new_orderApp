@@ -373,7 +373,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .getAreaDetails(cid!);
+                                              .getAreaDetails(cid!,0);
                                           Provider.of<Controller>(context,
                                                   listen: false)
                                               .cid = cid;
@@ -387,7 +387,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .getStaffDetails(cid);
+                                                .getStaffDetails(cid,0);
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getSettings(context, cid);

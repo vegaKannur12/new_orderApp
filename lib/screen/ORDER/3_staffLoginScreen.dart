@@ -90,8 +90,11 @@ class StaffLogin extends StatelessWidget {
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.remove('company_id');
                     },
-                    child: Row(
-                      children: [Text("un-register")],
+                    child: Column(
+                      children: [
+                        Text("un-register"),
+                        // Text("Company Details"),
+                      ],
                     ),
                   ),
                 ),
@@ -406,7 +409,8 @@ class StaffLogin extends StatelessWidget {
                                                     Provider.of<Controller>(
                                                             context,
                                                             listen: false)
-                                                        .getStaffDetails(cid!);
+                                                        .getStaffDetails(
+                                                            cid!, 0);
                                                   }
 
                                                   showDialog(

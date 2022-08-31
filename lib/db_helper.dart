@@ -1410,7 +1410,7 @@ class OrderAppDB {
     } else {
       area = await db
           .rawQuery('SELECT area FROM staffDetailsTable WHERE sid="${sid}"');
-          print("area details...........$area");
+      print("area details...........$area");
       areaidfromStaff = area[0]["area"];
       aidsplit = areaidfromStaff.split(",");
       print("hudhuh---$aidsplit");
@@ -1597,14 +1597,13 @@ class OrderAppDB {
           "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
-      // double totval = 0;
-
-      // totval = double.parse(net_amount);
-      // if ((totval - totval.floor()) <= 0.5) {
-      //   roundoff = ((totval - totval.floor()) * -1).toString();
-      // } else {
-      //   roundoff = (totval.ceil() - totval).toString();
-      // }
+      double totval = 0;
+      totval = double.parse(net_amount);
+      if ((totval - totval.floor()) <= 0.5) {
+        roundoff = ((totval - totval.floor()) * -1).toString();
+      } else {
+        roundoff = (totval.ceil() - totval).toString();
+      }
 
       // print(
       //     "roundof.....$roundoff.....$totval..${totval.ceil()}...........${totval.floor()}");
@@ -1632,7 +1631,7 @@ class OrderAppDB {
 
       print("tax_tot......$cgst---$sgst---$igst");
       print(
-          "gross..netamount..taxval..dis..ces ...$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
+          "roundoff...gross..netamount..taxval..dis..ces . .......$roundoff..........$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
       net_amount = "0.00";
       count = "0.00";
