@@ -1143,11 +1143,11 @@ class Controller extends ChangeNotifier {
 
       for (var item in salebagList) {
         print("item....$item");
-        double rate = double.parse(item["rate"]);
+        // double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
           item["qty"],
-          rate,
+          item["rate"],
           item["unit_rate"],
           item["code"],
           item["hsn"],
@@ -1166,7 +1166,7 @@ class Controller extends ChangeNotifier {
           rowNum,
           "salesDetailTable",
           item["itemName"],
-          double.parse(item["totalamount"]),
+          item["totalamount"],
           item["discount_amt"],
           item["discount_per"],
           item["tax_amt"],

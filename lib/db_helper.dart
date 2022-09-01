@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:flutter/cupertino.dart';
 
 import 'package:orderapp/model/accounthead_model.dart';
@@ -317,7 +315,7 @@ class OrderAppDB {
             $ad2 TEXT,
             $ad3 TEXT,
             $ph TEXT,
-            $area TEXT     
+            $area TEXT    
           )
           ''');
     await db.execute('''
@@ -335,7 +333,7 @@ class OrderAppDB {
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $sid TEXT NOT NULL,
             $sname TEXT,
-            $datetime TEXT     
+            $datetime TEXT    
           )
           ''');
     await db.execute('''
@@ -348,7 +346,7 @@ class OrderAppDB {
     await db.execute('''
           CREATE TABLE customerTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
-            $ac_code TEXT NOT NULL 
+            $ac_code TEXT NOT NULL
          )
          ''');
     ////////////////account_haed table///////////////////
@@ -362,7 +360,7 @@ class OrderAppDB {
             $ac_ad2 TEXT,
             $ac_ad3 TEXT,
             $area_id TEXT,
-            $phn TEXT, 
+            $phn TEXT,
             $ba REAL,
             $ri TEXT,
             $rc TEXT,
@@ -489,7 +487,7 @@ class OrderAppDB {
             $sgst_per REAL,
             $sgst_amt REAL,
             $igst_per REAL,
-            $igst_amt REAL, 
+            $igst_amt REAL,
             $ces_amt REAL,
             $ces_per REAL,
             $net_amt REAL,
@@ -497,7 +495,7 @@ class OrderAppDB {
             $unit_rate REAL  
           )
           ''');
-    await db.execute(''' 
+    await db.execute('''
           CREATE TABLE orderBagTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $itemName TEXT NOT NULL,
@@ -514,7 +512,7 @@ class OrderAppDB {
           )
           ''');
 
-    await db.execute(''' 
+    await db.execute('''
           CREATE TABLE returnBagTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $itemName TEXT NOT NULL,
@@ -531,7 +529,7 @@ class OrderAppDB {
           )
           ''');
     ////////////////////////////////////////
-    await db.execute(''' 
+    await db.execute('''
           CREATE TABLE salesBagTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $itemName TEXT NOT NULL,
@@ -542,9 +540,9 @@ class OrderAppDB {
             $cartrowno INTEGER,
             $code TEXT,
             $qty REAL,
-            $rate TEXT,
+            $rate REAL,
             $unit_rate REAL,
-            $totalamount TEXT,
+            $totalamount REAL,
             $method TEXT,
             $hsn TEXT,
             $tax_per REAL,
@@ -568,7 +566,7 @@ class OrderAppDB {
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $tabname TEXT,
             $prefix TEXT,
-            $value INTEGER     
+            $value INTEGER    
           )
           ''');
     /////////////////////////////////////////
@@ -585,7 +583,7 @@ class OrderAppDB {
             $set_id INTEGER NOT NULL,
             $set_code TEXT,
             $set_value TEXT,
-            $set_type INTEGER   
+            $set_type INTEGER  
           )
           ''');
 
@@ -604,7 +602,7 @@ class OrderAppDB {
             $wname TEXT
           )
           ''');
-    await db.execute(''' 
+    await db.execute('''
       CREATE TABLE collectionTable (
         $id INTEGER PRIMARY KEY AUTOINCREMENT,
         $rec_date TEXT NOT NULL,
@@ -621,7 +619,7 @@ class OrderAppDB {
         $rec_status INTEGER
       )
       ''');
-    await db.execute(''' 
+    await db.execute('''
       CREATE TABLE remarksTable (
         $id INTEGER PRIMARY KEY AUTOINCREMENT,
         $rem_date TEXT NOT NULL,
@@ -829,7 +827,7 @@ class OrderAppDB {
       double qty1 = res1[0]["qty"];
       double updatedQty = qty1 + qty;
       print("totalamount---${res1[0]["totalamount"]}");
-      double amount = double.parse(res1[0]["totalamount"]);
+      double amount = res1[0]["totalamount"];
       print("res1.length----${res1.length}");
 
       print("upadted qty-----$updatedQty");
@@ -1821,8 +1819,7 @@ class OrderAppDB {
       await db.rawDelete('DELETE FROM "$table" WHERE $condition');
     }
   }
-
-//////////////////////////////selectCommonQuery///////////////////
+  //////////////////////////////selectCommonQuery///////////////////
   // selectCommonquery(String table, String? condition) async {
   //   List<Map<String, dynamic>> result;
   //   Database db = await instance.database;
@@ -2040,6 +2037,8 @@ class OrderAppDB {
   //////////////////////////////////////////////////////////////////
   Future<dynamic> todaySales(String date, String condition) async {
     List<Map<String, dynamic>> result;
+
+    print("comndjsjhfsdh----$condition");
     Database db = await instance.database;
     var query =
         'select accountHeadsTable.hname as cus_name,accountHeadsTable.ba as ba, accountHeadsTable.ac_ad1 as address, accountHeadsTable.ac_gst as gstin, salesMasterTable.sales_id sales_id,salesMasterTable.rounding roundoff, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count,salesMasterTable.gross_tot grossTot,salesMasterTable.payment_mode payment_mode,salesMasterTable.credit_option creditoption, salesMasterTable.net_amt, salesMasterTable.tax_tot as taxtot, salesMasterTable.dis_tot as distot  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
@@ -2053,7 +2052,7 @@ class OrderAppDB {
       return null;
     }
   }
-  ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
   Future<dynamic> printcurrentData(int saleid) async {
     List<Map<String, dynamic>> result;
 
@@ -2651,5 +2650,3 @@ class OrderAppDB {
     return result;
   }
 }
-
-//////////////////////////////////////////////////////////////
