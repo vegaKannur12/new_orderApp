@@ -25,25 +25,12 @@ void requestPermission() async {
   if (!status1.isGranted) {
     await Permission.manageExternalStorage.request();
     // await Permission.app
-  } 
+  }
   if (!status1.isRestricted) {
     await Permission.manageExternalStorage.request();
   }
   if (!status1.isPermanentlyDenied) {
     await Permission.manageExternalStorage.request();
-  }
-}
-
-checkPerm() async {
-  var status = await Permission.bluetooth.status;
-  print("bulsd-----$status");
-  if (status.isDenied || status.isGranted) {
-    print("dfnkdjjk");
-    await Permission.bluetooth.request();
-  }
-
-  if (await Permission.bluetooth.status.isPermanentlyDenied) {
-    openAppSettings();
   }
 }
 
@@ -58,11 +45,6 @@ Future<void> main() async {
   var status = await Permission.storage.status;
 
   requestPermission();
-<<<<<<< HEAD
-  // checkPerm();
-=======
-  checkPerm();
->>>>>>> dc015466cef334adcca26c5db06473cbf14e8e82
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => Controller()),
