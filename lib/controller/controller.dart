@@ -2288,7 +2288,6 @@ class Controller extends ChangeNotifier {
   selectReportFromOrder(BuildContext context, String userId, String date,
       String likeCondition) async {
     print("report userId----$userId");
-    reportData.clear();
     reportOriginalList.clear();
     Map map = {};
     isLoading = true;
@@ -2297,6 +2296,8 @@ class Controller extends ChangeNotifier {
         .getReportDataFromOrderDetails(userId, date, context, likeCondition);
 
     print("result-cxc----$res");
+    reportData.clear();
+
     if (res != null && res.length > 0) {
       for (var item in res) {
         reportData.add(item);
