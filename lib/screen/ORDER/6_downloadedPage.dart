@@ -29,7 +29,9 @@ class _DownloadedPageState extends State<DownloadedPage> {
     "Product Details",
     "Product category",
     "Company",
-    "Wallet"
+    "Wallet",
+    "Area",
+    "Staff",
     // "Images"
   ];
 
@@ -180,6 +182,20 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .getWallet(context, index);
+                                              }
+                                              if (downloadItems[index] ==
+                                                  "Area") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .getAreaDetails(
+                                                        cid!, index);
+                                              }
+                                              if (downloadItems[index] ==
+                                                  "Staff") {
+                                                Provider.of<Controller>(context,
+                                                        listen: false)
+                                                    .getStaffDetails(
+                                                        cid!, index);
                                               }
                                               // if (downloadItems[index] ==
                                               //     "Settings") {

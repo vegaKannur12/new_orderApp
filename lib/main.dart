@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/0_splashScreen.dart';
-import 'package:orderapp/screen/SALES/screenForPrint.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +17,7 @@ void requestPermission() async {
   // var statusbl= await Permission.bluetooth.status;
 
   var status1 = await Permission.manageExternalStorage.status;
+
   if (!status1.isGranted) {
     await Permission.storage.request();
     // await Permission.bluetooth.request();
@@ -58,7 +58,11 @@ Future<void> main() async {
   var status = await Permission.storage.status;
 
   requestPermission();
+<<<<<<< HEAD
+  // checkPerm();
+=======
   checkPerm();
+>>>>>>> dc015466cef334adcca26c5db06473cbf14e8e82
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => Controller()),

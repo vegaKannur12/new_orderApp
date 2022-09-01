@@ -1,12 +1,16 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/printingSale.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/DateFinder.dart';
 import 'package:orderapp/screen/historydataPopup.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,6 +37,49 @@ class _TodaySaleState extends State<TodaySale> {
     cid = prefs.getString('cid');
     print("sid ......$sid");
     print("formattedDate...$formattedDate");
+  }
+
+/////////////////// bluetooth permission checking////////////////////
+  ///BluetoothConnection connection;
+  late BluetoothConnection connection;
+
+  connect(String address) async {
+    try {
+      connection = await BluetoothConnection.toAddress(address);
+      print('Connected to the device');
+
+      connection.input!.listen((Uint8List data) {
+        //Data entry point
+        print(ascii.decode(data));
+      });
+    } catch (exception) {
+      print('Cannot connect, exception occured');
+    }
+  }
+
+  checkPerm() async {
+    // print("blutooth connect");
+    // var blue = await Permission.bluetooth.status;
+    // print("gsdfsdf....$blue");
+    // if (blue.isDenied) {
+    //   await Permission.bluetooth.request();
+    //   print("blutooth connect  onnnn");
+    // }
+    // if (blue.isGranted) {
+    //   await Permission.bluetooth.request();
+    //   openAppSettings();
+
+    //   //  print("request for permission");
+    // }
+    // if (blue.isLimited) {
+    //   await Permission.bluetooth.request();
+    // }
+    // if (await Permission.bluetooth.status.isPermanentlyDenied) {
+    //   await Permission.bluetooth.request();
+
+    //   openAppSettings();
+    //   print("blutooth connect  off");
+    // }
   }
 
   @override
@@ -202,21 +249,22 @@ class _TodaySaleState extends State<TodaySale> {
                                           Spacer(),
                                           IconButton(
                                             onPressed: () async {
-                                              Provider.of<Controller>(context,
-                                                      listen: false)
-                                                  .printSales(
-                                                      cid!,
-                                                      context,
-                                                      value.todaySalesList[
-                                                          index]);
+                                              checkPerm();
+                                              //     Provider.of<Controller>(context,
+                                              //             listen: false)
+                                              //         .printSales(
+                                              //       cid!,
+                                              //       context,
+                                              //       value.todaySalesList[index],
+                                              //     );
 
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PrintMainPage(),
-                                                ),
-                                              );
+                                              //     Navigator.push(
+                                              //       context,
+                                              //       MaterialPageRoute(
+                                              //         builder: (context) =>
+                                              //             PrintMainPage(),
+                                              //       ),
+                                              //     );
                                             },
                                             icon: Icon(Icons.print),
                                           ),
