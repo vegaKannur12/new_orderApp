@@ -40,22 +40,22 @@ class _TodaySaleState extends State<TodaySale> {
   }
 
 /////////////////// bluetooth permission checking////////////////////
-  ///BluetoothConnection connection;
-  late BluetoothConnection connection;
+  // ///BluetoothConnection connection;
+  // late BluetoothConnection connection;
 
-  connect(String address) async {
-    try {
-      connection = await BluetoothConnection.toAddress(address);
-      print('Connected to the device');
+  // connect(String address) async {
+  //   try {
+  //     connection = await BluetoothConnection.toAddress(address);
+  //     print('Connected to the device');
 
-      connection.input!.listen((Uint8List data) {
-        //Data entry point
-        print(ascii.decode(data));
-      });
-    } catch (exception) {
-      print('Cannot connect, exception occured');
-    }
-  }
+  //     connection.input!.listen((Uint8List data) {
+  //       //Data entry point
+  //       print(ascii.decode(data));
+  //     });
+  //   } catch (exception) {
+  //     print('Cannot connect, exception occured');
+  //   }
+  // }
 
   checkPerm() async {
     // print("blutooth connect");
@@ -249,22 +249,22 @@ class _TodaySaleState extends State<TodaySale> {
                                           Spacer(),
                                           IconButton(
                                             onPressed: () async {
-                                              checkPerm();
-                                              //     Provider.of<Controller>(context,
-                                              //             listen: false)
-                                              //         .printSales(
-                                              //       cid!,
-                                              //       context,
-                                              //       value.todaySalesList[index],
-                                              //     );
+                                              // checkPerm();
+                                                  Provider.of<Controller>(context,
+                                                          listen: false)
+                                                      .printSales(
+                                                    cid!,
+                                                    context,
+                                                    value.todaySalesList[index],
+                                                  );
 
-                                              //     Navigator.push(
-                                              //       context,
-                                              //       MaterialPageRoute(
-                                              //         builder: (context) =>
-                                              //             PrintMainPage(),
-                                              //       ),
-                                              //     );
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          PrintMainPage(),
+                                                    ),
+                                                  );
                                             },
                                             icon: Icon(Icons.print),
                                           ),
