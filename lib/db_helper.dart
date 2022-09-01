@@ -2053,6 +2053,24 @@ class OrderAppDB {
       return null;
     }
   }
+  ////////////////////////////////////////////////////////////
+  Future<dynamic> printcurrentData(int saleid) async {
+    List<Map<String, dynamic>> result;
+
+    print("comndjsjhfsdh----$saleid");
+    Database db = await instance.database;
+    var query =
+        'select accountHeadsTable.hname as cus_name,accountHeadsTable.ba as ba, accountHeadsTable.ac_ad1 as address, accountHeadsTable.ac_gst as gstin, salesMasterTable.sales_id sales_id,salesMasterTable.rounding roundoff, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count,salesMasterTable.gross_tot grossTot,salesMasterTable.payment_mode payment_mode,salesMasterTable.credit_option creditoption, salesMasterTable.net_amt, salesMasterTable.tax_tot as taxtot, salesMasterTable.dis_tot as distot  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.sales_id=$saleid';
+    print("query---$query");
+
+    result = await db.rawQuery(query);
+    if (result.length > 0) {
+      print("inner result------$result");
+      return result;
+    } else {
+      return null;
+    }
+  }
   //////////////select total amount form ordermasterTable ////////////
 
   selectCommonQuery(String table, String? condition) async {

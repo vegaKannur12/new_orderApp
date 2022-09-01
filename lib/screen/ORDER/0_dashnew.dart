@@ -167,6 +167,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     if (widget.type == "return from cartList") {
       Provider.of<Controller>(context, listen: false).menu_index = "S2";
     }
+    if (widget.type == "return from sales") {
+      Provider.of<Controller>(context, listen: false).menu_index = "SL1";
+    }
+    if (widget.type == "return from return") {
+      Provider.of<Controller>(context, listen: false).menu_index = "S3";
+    }
     print("dididdd");
     print("user-----$userType");
     if (userType == "admin") {

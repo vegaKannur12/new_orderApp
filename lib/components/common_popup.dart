@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
+import 'package:orderapp/components/printingSale.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/0_dashnew.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CommonPopup {
+  int sales_id = 0;
   String? cid;
   String? gen_condition;
   String? sid;
@@ -59,22 +61,22 @@ class CommonPopup {
                             .length >
                         0) {
                       String? sOs = "S" + "$os";
-
-                      Provider.of<Controller>(context, listen: false)
-                          .insertToSalesbagAndMaster(
-                              sOs,
-                              date,
-                              time,
-                              custmerId,
-                              sid1!,
-                              areaid,
-                              value.salesTotal,
-                              value.gross_tot,
-                              value.tax_tot,
-                              value.dis_tot,
-                              value.cess_tot,
-                              context,
-                              payment_mode);
+                      sales_id =
+                          await Provider.of<Controller>(context, listen: false)
+                              .insertToSalesbagAndMaster(
+                                  sOs,
+                                  date,
+                                  time,
+                                  custmerId,
+                                  sid1!,
+                                  areaid,
+                                  value.salesTotal,
+                                  value.gross_tot,
+                                  value.tax_tot,
+                                  value.dis_tot,
+                                  value.cess_tot,
+                                  context,
+                                  payment_mode);
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
@@ -154,37 +156,148 @@ class CommonPopup {
                       .clearList(value.areDetails);
 
                   // return  showDialog(context: context, builder: builder)
+                  if (type == "sales") {
+                    return showDialog(
+                        context: context,
+                        builder: (context) {
+                          Size size = MediaQuery.of(context).size;
 
-                  return showDialog(
-                      context: context,
-                      builder: (context) {
-                        Future.delayed(Duration(milliseconds: 500), () {
-                          Navigator.of(context).pop(true);
+                          // Future.delayed(Duration(seconds: 2), () {
+                          //   Navigator.of(context).pop(true);
 
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                                opaque: false, // set to false
-                                pageBuilder: (_, __, ___) => Dashboard(
-                                    type: "return from cartList",
-                                    areaName: areaname)
-                                // OrderForm(widget.areaname,"return"),
+                          //   Navigator.of(context).push(
+                          //     PageRouteBuilder(
+                          //         opaque: false, // set to false
+                          //         pageBuilder: (_, __, ___) => Dashboard(
+                          //             type: "return from cartList",
+                          //             areaName: areaname)
+                          //         // OrderForm(widget.areaname,"return"),
+                          //         ),
+                          //   );
+                          // });
+                          return AlertDialog(
+                              content: Container(
+                            height: 150,
+                            child: Column(
+                              children: [
+                                Text("Do you want to print"),
+                                SizedBox(
+                                  height: size.height * 0.03,
                                 ),
-                          );
-                        });
-                        return AlertDialog(
-                            content: Row(
-                          children: [
-                            Text(
-                              '$type  Placed!!!!',
-                              style: TextStyle(color: P_Settings.extracolor),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        List<Map<String, dynamic>> result =
+                                            await OrderAppDB.instance
+                                                .printcurrentData(sales_id);
+                                        print("resulttytydghkdj......$result");
+                                        Provider.of<Controller>(context,
+                                                listen: false)
+                                            .printSales(
+                                                cid!, context, result[0]);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PrintMainPage(),
+                                          ),
+                                        );
+                                      },
+                                      child: Text("Yes"),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: P_Settings.salewaveColor,
+                                          textStyle: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.03,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                              opaque: false, // set to false
+                                              pageBuilder: (_, __, ___) =>
+                                                  Dashboard(
+                                                      type: "return from sales",
+                                                      areaName: areaname)
+                                              // OrderForm(widget.areaname,"return"),
+                                              ),
+                                        );
+                                        // Navigator.pop(context);
+                                      },
+                                      child: Text("No"),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: P_Settings.salewaveColor,
+                                          textStyle: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                  ],
+                                ),
+
+                                // Text(
+                                //   '$type  Placed!!!!',
+                                //   style:
+                                //       TextStyle(color: P_Settings.extracolor),
+                                // ),
+                                // Icon(
+                                //   Icons.done,
+                                //   color: Colors.green,
+                                // )
+                              ],
                             ),
-                            Icon(
-                              Icons.done,
-                              color: Colors.green,
-                            )
-                          ],
-                        ));
-                      });
+                          ));
+                        });
+                  } else {
+                    return showDialog(
+                        context: context,
+                        builder: (context) {
+                          Size size = MediaQuery.of(context).size;
+
+                          Future.delayed(Duration(seconds: 2), () {
+                            Navigator.of(context).pop(true);
+                            if (type == "sale order") {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                    opaque: false, // set to false
+                                    pageBuilder: (_, __, ___) => Dashboard(
+                                        type: "return from cartList",
+                                        areaName: areaname)
+                                    // OrderForm(widget.areaname,"return"),
+                                    ),
+                              );
+                            } else if (type == 'return') {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                    opaque: false, // set to false
+                                    pageBuilder: (_, __, ___) => Dashboard(
+                                        type: "return from return",
+                                        areaName: areaname)
+                                    // OrderForm(widget.areaname,"return"),
+                                    ),
+                              );
+                            }
+                          });
+                          return AlertDialog(
+                              content: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                '$type  Placed!!!!',
+                                style: TextStyle(color: P_Settings.extracolor),
+                              ),
+                              Icon(
+                                Icons.done,
+                                color: Colors.green,
+                              )
+                            ],
+                          ));
+                        });
+                  }
 
                   // Provider.of<Controller>(context, listen: false).count = "0";
 

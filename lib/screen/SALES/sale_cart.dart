@@ -302,7 +302,7 @@ class _SaleCartState extends State<SaleCart> {
                                                                 s[1],
                                                                 "",
                                                                 "",
-                                                                payment_mode!),
+                                                                payment_mode!,),
                                                       );
                                                       print(
                                                           "payment mode...........$payment_mode");

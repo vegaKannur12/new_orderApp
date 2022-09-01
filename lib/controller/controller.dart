@@ -1202,6 +1202,7 @@ class Controller extends ChangeNotifier {
 
     bagList.clear();
     notifyListeners();
+    return sales_id;
   }
 
   //////////////insert to order master and details///////////////////////
@@ -3373,7 +3374,7 @@ class Controller extends ChangeNotifier {
     Map<String, dynamic> salesMasterData,
   ) async {
     List<Map<String, dynamic>> resultQuery = [];
-    print("output------${salesMasterData["sales_id"]}");
+    print("outputjknhjkjkkjj------${salesMasterData["sales_id"]}");
     List<Map<String, dynamic>> companyData = [];
     List<Map<String, dynamic>> staffData = [];
 
