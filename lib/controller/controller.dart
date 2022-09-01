@@ -3399,4 +3399,9 @@ class Controller extends ChangeNotifier {
     // }
     notifyListeners();
   }
+  quantitiChange(int qtya,int index){
+    int qtyss=qtya+1;
+    qty[index].text=qtyss.toString();
+    notifyListeners();
+  }
 }

@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/printingSale.dart';
 import 'package:orderapp/controller/controller.dart';
