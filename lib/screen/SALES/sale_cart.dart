@@ -188,15 +188,13 @@ class _SaleCartState extends State<SaleCart> {
                               value.salebagList[index]["cartrowno"],
                               value.salebagList[index]["itemName"],
                               value.salebagList[index]["hsn"],
-                              double.parse(value.salebagList[index]["rate"]),
+                              value.salebagList[index]["rate"],
                               value.salebagList[index]["discount_per"],
                               value.salebagList[index]["discount_amt"],
                               value.salebagList[index]["ces_per"],
                               value.salebagList[index]["ces_amt"],
                               value.salebagList[index]["net_amt"],
-                              double.parse(
-                                  value.salebagList[index]["totalamount"]),
-
+                              value.salebagList[index]["totalamount"],
                               value.salebagList[index]["qty"],
                               size,
                               value.controller[index],
@@ -204,7 +202,6 @@ class _SaleCartState extends State<SaleCart> {
                               value.salebagList[index]["code"],
                               value.salebagList[index]["tax_per"].toString(),
                               value.salebagList[index]["tax_amt"],
-
                               // value.salebagList[index]["discount"].toString(),
                               // value.salebagList[index]["ces_amt"],
                               // value.salebagList[index]["ces_a"].toString(),

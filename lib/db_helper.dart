@@ -542,9 +542,9 @@ class OrderAppDB {
             $cartrowno INTEGER,
             $code TEXT,
             $qty REAL,
-            $rate TEXT,
+            $rate REAL,
             $unit_rate REAL,
-            $totalamount TEXT,
+            $totalamount REAL,
             $method TEXT,
             $hsn TEXT,
             $tax_per REAL,
@@ -829,7 +829,7 @@ class OrderAppDB {
       double qty1 = res1[0]["qty"];
       double updatedQty = qty1 + qty;
       print("totalamount---${res1[0]["totalamount"]}");
-      double amount = double.parse(res1[0]["totalamount"]);
+      double amount = res1[0]["totalamount"];
       print("res1.length----${res1.length}");
 
       print("upadted qty-----$updatedQty");
@@ -2017,9 +2017,29 @@ class OrderAppDB {
   //////////////////////////////////////////////////////////////////
   Future<dynamic> todaySales(String date, String condition) async {
     List<Map<String, dynamic>> result;
+
+    print("comndjsjhfsdh----$condition");
     Database db = await instance.database;
     var query =
         'select accountHeadsTable.hname as cus_name,accountHeadsTable.ba as ba, accountHeadsTable.ac_ad1 as address, accountHeadsTable.ac_gst as gstin, salesMasterTable.sales_id sales_id,salesMasterTable.rounding roundoff, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count,salesMasterTable.gross_tot grossTot,salesMasterTable.payment_mode payment_mode,salesMasterTable.credit_option creditoption, salesMasterTable.net_amt, salesMasterTable.tax_tot as taxtot, salesMasterTable.dis_tot as distot  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.salesdate="${date}"  $condition group by salesMasterTable.sales_id';
+    print("query---$query");
+
+    result = await db.rawQuery(query);
+    if (result.length > 0) {
+      print("inner result------$result");
+      return result;
+    } else {
+      return null;
+    }
+  }
+  ////////////////////////////////////////////////////////////////
+  Future<dynamic> printcurrentData(String date,int saleid) async {
+    List<Map<String, dynamic>> result;
+
+    print("comndjsjhfsdh----$saleid");
+    Database db = await instance.database;
+    var query =
+        'select accountHeadsTable.hname as cus_name,accountHeadsTable.ba as ba, accountHeadsTable.ac_ad1 as address, accountHeadsTable.ac_gst as gstin, salesMasterTable.sales_id sales_id,salesMasterTable.rounding roundoff, salesMasterTable.os  || salesMasterTable.sales_id as sale_Num,salesMasterTable.customer_id Cus_id,salesMasterTable.salesdate  || salesMasterTable.salestime Date, count(salesDetailTable.row_num) count,salesMasterTable.gross_tot grossTot,salesMasterTable.payment_mode payment_mode,salesMasterTable.credit_option creditoption, salesMasterTable.net_amt, salesMasterTable.tax_tot as taxtot, salesMasterTable.dis_tot as distot  from salesMasterTable inner join salesDetailTable on salesMasterTable.sales_id=salesDetailTable.sales_id inner join accountHeadsTable on accountHeadsTable.ac_code= salesMasterTable.customer_id where salesMasterTable.sales_id=$saleid';
     print("query---$query");
 
     result = await db.rawQuery(query);

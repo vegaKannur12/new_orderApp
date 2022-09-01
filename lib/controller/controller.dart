@@ -312,6 +312,7 @@ class Controller extends ChangeNotifier {
               print("fnjdxf----$user");
 
               getCompanyData();
+
               // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
               getMaxSerialNumber(os);
               getMenuAPi(cid!, fp1, company_code, context);
@@ -1126,11 +1127,11 @@ class Controller extends ChangeNotifier {
 
       for (var item in salebagList) {
         print("item....$item");
-        double rate = double.parse(item["rate"]);
+        // double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
           item["qty"],
-          rate,
+          item["rate"],
           item["unit_rate"],
           item["code"],
           item["hsn"],
@@ -1149,7 +1150,7 @@ class Controller extends ChangeNotifier {
           rowNum,
           "salesDetailTable",
           item["itemName"],
-          double.parse(item["totalamount"]),
+          item["totalamount"],
           item["discount_amt"],
           item["discount_per"],
           item["tax_amt"],
@@ -1394,7 +1395,8 @@ class Controller extends ChangeNotifier {
   //////////////////////SELECT WALLET ////////////////////////////////////////////////////
   fetchwallet() async {
     walletList.clear();
-    var res = await OrderAppDB.instance.selectAllcommon('walletTable', "rec_mode not in (-3)");
+    var res = await OrderAppDB.instance
+        .selectAllcommon('walletTable', "rec_mode not in (-3)");
     for (var item in res) {
       walletList.add(item);
     }
@@ -1502,6 +1504,7 @@ class Controller extends ChangeNotifier {
       print('cojhkjd---$cid');
       var res = await OrderAppDB.instance.selectCompany("cid='${cid}'");
       print("res companyList----${res}");
+      companyList.clear();
       for (var item in res) {
         companyList.add(item);
       }
@@ -3344,7 +3347,7 @@ class Controller extends ChangeNotifier {
     Map<String, dynamic> salesMasterData,
   ) async {
     List<Map<String, dynamic>> resultQuery = [];
-    print("output------${salesMasterData["sales_id"]}");
+    print("salesMasterData------${salesMasterData}");
     List<Map<String, dynamic>> companyData = [];
     List<Map<String, dynamic>> staffData = [];
 

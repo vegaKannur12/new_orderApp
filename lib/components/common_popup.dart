@@ -62,18 +62,18 @@ class CommonPopup {
 
                       Provider.of<Controller>(context, listen: false)
                           .insertToSalesbagAndMaster(
-                        sOs,
-                        date,
-                        time,
-                        custmerId,
-                        sid1!,
-                        areaid,
-                        value.salesTotal,
-                        value.gross_tot,
-                        value.tax_tot,
-                        value.dis_tot,
-                        value.cess_tot,context
-                      );
+                              sOs,
+                              date,
+                              time,
+                              custmerId,
+                              sid1!,
+                              areaid,
+                              value.salesTotal,
+                              value.gross_tot,
+                              value.tax_tot,
+                              value.dis_tot,
+                              value.cess_tot,
+                              context);
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
@@ -98,14 +98,14 @@ class CommonPopup {
                         0) {
                       Provider.of<Controller>(context, listen: false)
                           .insertToOrderbagAndMaster(
-                        os!,
-                        date,
-                        time,
-                        custmerId,
-                        sid1!,
-                        areaid,
-                        double.parse(value.orderTotal1!),context
-                      );
+                              os!,
+                              date,
+                              time,
+                              custmerId,
+                              sid1!,
+                              areaid,
+                              double.parse(value.orderTotal1!),
+                              context);
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
@@ -134,7 +134,8 @@ class CommonPopup {
                               areaid,
                               value.returnTotal,
                               ref,
-                              reason,context);
+                              reason,
+                              context);
                       Provider.of<Controller>(context, listen: false)
                           .returnCount = 0;
 
@@ -158,16 +159,37 @@ class CommonPopup {
                       builder: (context) {
                         Future.delayed(Duration(milliseconds: 500), () {
                           Navigator.of(context).pop(true);
-
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                                opaque: false, // set to false
-                                pageBuilder: (_, __, ___) => Dashboard(
-                                    type: "return from cartList",
-                                    areaName: areaname)
-                                // OrderForm(widget.areaname,"return"),
-                                ),
-                          );
+                          if (type == "sales") {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                  opaque: false, // set to false
+                                  pageBuilder: (_, __, ___) => Dashboard(
+                                      type: "return from sales",
+                                      areaName: areaname)
+                                  // OrderForm(widget.areaname,"return"),
+                                  ),
+                            );
+                          } else if(type=="sale order"){
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                  opaque: false, // set to false
+                                  pageBuilder: (_, __, ___) => Dashboard(
+                                      type: "return from cartList",
+                                      areaName: areaname)
+                                  // OrderForm(widget.areaname,"return"),
+                                  ),
+                            );
+                          }else{
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                  opaque: false, // set to false
+                                  pageBuilder: (_, __, ___) => Dashboard(
+                                      type: "return from return",
+                                      areaName: areaname)
+                                  // OrderForm(widget.areaname,"return"),
+                                  ),
+                            );
+                          }
                         });
                         return AlertDialog(
                             content: Row(
