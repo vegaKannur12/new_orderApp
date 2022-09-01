@@ -448,11 +448,11 @@ class _SalesItemState extends State<SalesItem> {
                                                         rate1 =
                                                             value.newList[index]
                                                                 ["rate1"];
-                                                        var total = double
-                                                                .parse(rate1) *
-                                                            double.parse(value
-                                                                .qty[index]
-                                                                .text);
+                                                        var total =
+                                                            double.parse(rate1) *
+                                                                double.parse(value
+                                                                    .qty[index]
+                                                                    .text);
                                                         print(
                                                             "total rate $total");
                                                         double qtyNew = 0.0;
@@ -834,11 +834,11 @@ class _SalesItemState extends State<SalesItem> {
                                                         rate1 =
                                                             value.productName[
                                                                 index]["rate1"];
-                                                        var total = double
-                                                                .parse(rate1) *
-                                                            double.parse(value
-                                                                .qty[index]
-                                                                .text);
+                                                        var total =
+                                                            double.parse(rate1) *
+                                                                double.parse(value
+                                                                    .qty[index]
+                                                                    .text);
                                                         print(
                                                             "total rate $total");
 

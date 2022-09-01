@@ -56,6 +56,10 @@ class CommonPopup {
                   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
                   if (type == "sales") {
+                    print("fkjsdfj");
+                    Provider.of<Controller>(context, listen: false).calculatesalesTotal(os!, custmerId) ;
+                    
+
                     if (Provider.of<Controller>(context, listen: false)
                             .salebagList
                             .length >
@@ -76,7 +80,7 @@ class CommonPopup {
                                   value.dis_tot,
                                   value.cess_tot,
                                   context,
-                                  payment_mode);
+                                  payment_mode,value.roundoff);
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)

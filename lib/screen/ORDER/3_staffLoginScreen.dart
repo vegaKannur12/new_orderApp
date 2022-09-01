@@ -58,26 +58,26 @@ class StaffLogin extends StatelessWidget {
           elevation: 0,
           backgroundColor: P_Settings.wavecolor,
           actions: [
-            // IconButton(
-            //     onPressed: () async {
-            //       await OrderAppDB.instance
-            //           .deleteFromTableCommonQuery("userTable", "");
-            //       await OrderAppDB.instance
-            //           .deleteFromTableCommonQuery("maxSeriesTable", "");
-            //     },
-            //     icon: Icon(Icons.delete)),
-            // IconButton(
-            //   onPressed: () async {
-            //     List<Map<String, dynamic>> list =
-            //         await OrderAppDB.instance.getListOfTables();
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //           builder: (context) => TableList(list: list)),
-            //     );
-            //   },
-            //   icon: Icon(Icons.table_bar),
-            // ),
+            IconButton(
+                onPressed: () async {
+                  await OrderAppDB.instance
+                      .deleteFromTableCommonQuery("userTable", "");
+                  await OrderAppDB.instance
+                      .deleteFromTableCommonQuery("maxSeriesTable", "");
+                },
+                icon: Icon(Icons.delete)),
+            IconButton(
+              onPressed: () async {
+                List<Map<String, dynamic>> list =
+                    await OrderAppDB.instance.getListOfTables();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TableList(list: list)),
+                );
+              },
+              icon: Icon(Icons.table_bar),
+            ),
             PopupMenuButton<int>(
               itemBuilder: (context) => [
                 PopupMenuItem(
@@ -90,11 +90,8 @@ class StaffLogin extends StatelessWidget {
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.remove('company_id');
                     },
-                    child: Column(
-                      children: [
-                        Text("un-register"),
-                        // Text("Company Details"),
-                      ],
+                    child: Row(
+                      children: [Text("un-register")],
                     ),
                   ),
                 ),
@@ -409,8 +406,7 @@ class StaffLogin extends StatelessWidget {
                                                     Provider.of<Controller>(
                                                             context,
                                                             listen: false)
-                                                        .getStaffDetails(
-                                                            cid!, 0);
+                                                        .getStaffDetails(cid!,0);
                                                   }
 
                                                   showDialog(

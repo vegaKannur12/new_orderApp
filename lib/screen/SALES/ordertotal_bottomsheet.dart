@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 
 class SalesBottomSheet {
   sheet(BuildContext context, String itemcount, String netAmt, String discount,
-      String tax, String cess, String grosstot ) {
+      String tax, String cess, String grosstot, double roundoff) {
     Size size = MediaQuery.of(context).size;
+    double total = roundoff + double.parse(netAmt);
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -116,22 +117,22 @@ class SalesBottomSheet {
                             ],
                           ),
                         ),
-                        //  ListTile(
-                        //   // leading: Icon(
-                        //   //   Icons.currency_rupee_outlined,
-                        //   //   color: P_Settings.salewaveColor,
-                        //   // ),
-                        //   title: Row(
-                        //     children: [
-                        //       Text('Roundoff : '),
-                        //       Spacer(),
-                        //       Text(
-                        //         '\u{20B9}${cess}',
-                        //         textAlign: TextAlign.end,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
+                        ListTile(
+                          // leading: Icon(
+                          //   Icons.currency_rupee_outlined,
+                          //   color: P_Settings.salewaveColor,
+                          // ),
+                          title: Row(
+                            children: [
+                              Text('Roundoff : '),
+                              Spacer(),
+                              Text(
+                                roundoff.toStringAsFixed(2),
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
                         Divider(
                           thickness: 2,
                         ),
@@ -148,8 +149,10 @@ class SalesBottomSheet {
                               ),
                               Spacer(),
                               Text(
-                                '\u{20B9}${netAmt}',
-                                style: TextStyle(color: P_Settings.extracolor,fontWeight: FontWeight.bold),
+                                '\u{20B9}${total.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                    color: P_Settings.extracolor,
+                                    fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.end,
                               ),
                             ],

@@ -35,6 +35,7 @@ class _TodaySaleState extends State<TodaySale> {
     final prefs = await SharedPreferences.getInstance();
     sid = prefs.getString('sid');
     cid = prefs.getString('cid');
+    print("sid ......$sid");
     print("formattedDate...$formattedDate");
   }
 

@@ -223,12 +223,12 @@ class _SaleCartState extends State<SaleCart> {
                                     "............................${value.orderTotal2}");
                                 sheet.sheet(
                                   context,
-                                  value.orderTotal2[1]!,
-                                  value.orderTotal2[0]!,
-                                  value.orderTotal2[3]!,
-                                  value.orderTotal2[2]!,
-                                  value.orderTotal2[4]!,
-                                  value.orderTotal2[5]!,
+                                  value.orderTotal2[1].toString(),
+                                  value.orderTotal2[0].toString(),
+                                  value.orderTotal2[3].toString(),
+                                  value.orderTotal2[2].toString(),
+                                  value.orderTotal2[4].toString(),
+                                  value.orderTotal2[5].toString(),value.orderTotal2[10]
                                 );
                               },
                               child: Container(

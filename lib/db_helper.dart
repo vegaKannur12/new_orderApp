@@ -927,11 +927,12 @@ class OrderAppDB {
     double rounding,
     int state_status,
     int status,
+    // double rounding,
   ) async {
     final db = await database;
     var res2;
     var res3;
-    print("total quantity...................$total_qty");
+    print("total quantity............$rounding.......$total_qty");
     if (table == "salesDetailTable") {
       var query2 =
           'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $net_amt, $rate,$unit_rate)';
@@ -939,7 +940,7 @@ class OrderAppDB {
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, ces_tot, net_amt, rounding, state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", $gross_tot, $dis_tot, $tax_tot, $ces_tot, ${total_price.toStringAsFixed(2)}, ${rounding}, $state_status, ${status})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, ces_tot, rounding, net_amt,  state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", $gross_tot, $dis_tot, $tax_tot, $ces_tot,${rounding}, ${total_price.toStringAsFixed(2)}, $state_status, ${status})';
       res2 = await db.rawInsert(query3);
       print("insertsalesmaster$query3");
     }
@@ -1408,7 +1409,6 @@ class OrderAppDB {
     } else {
       area = await db
           .rawQuery('SELECT area FROM staffDetailsTable WHERE sid="${sid}"');
-      print("area details...........$area");
       areaidfromStaff = area[0]["area"];
       aidsplit = areaidfromStaff.split(",");
       print("hudhuh---$aidsplit");
@@ -1583,8 +1583,7 @@ class OrderAppDB {
     String cgst;
     String sgst;
     String igst;
-    String roundoff = "0";
-
+    double? roundoff;
     Database db = await instance.database;
     print("calculate sales updated tot in db....$os...$customerId");
     var result = await db.rawQuery(
@@ -1596,23 +1595,16 @@ class OrderAppDB {
       print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
       double totval = 0;
+
       totval = double.parse(net_amount);
       if ((totval - totval.floor()) <= 0.5) {
-        roundoff = ((totval - totval.floor()) * -1).toString();
+        roundoff = ((totval - totval.floor()) * -1);
       } else {
-        roundoff = (totval.ceil() - totval).toString();
+        roundoff = (totval.ceil() - totval);
       }
 
-      // print(
-      //     "roundof.....$roundoff.....$totval..${totval.ceil()}...........${totval.floor()}");
-      //  int roundedtot = net_amount.floor();
-      // double valdiffere = net_amount - roundedtot;
-      // if (valdiffere > 0.5) {
-      //   net_amount.ceil();
-      // } else {
-      //   net_amount.floor();
-      // }
-
+      print(
+          "roundof.....$roundoff.....$totval..${totval.ceil()}...........${totval.floor()}");
       gross = res[0]["gr"].toStringAsFixed(2);
       count = res[0]["c"].toString();
       taxamt = res[0]["t"].toStringAsFixed(2);
@@ -1624,12 +1616,10 @@ class OrderAppDB {
       cgst = res[0]["cgst"].toStringAsFixed(2);
       sgst = res[0]["sgst"].toStringAsFixed(2);
       igst = res[0]["igst"].toStringAsFixed(2);
-
       tax_tot = double.parse(cgst) + double.parse(sgst) + double.parse(igst);
-
       print("tax_tot......$cgst---$sgst---$igst");
       print(
-          "roundoff...gross..netamount..taxval..dis..ces . .......$roundoff..........$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
+          "gross..netamount..taxval..dis..ces ...$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
       net_amount = "0.00";
       count = "0.00";
@@ -1656,7 +1646,7 @@ class OrderAppDB {
       cesper,
       taxper,
       tax_tot,
-      roundoff
+      roundoff!
     ];
   }
 
