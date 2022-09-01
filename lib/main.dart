@@ -15,19 +15,35 @@ import 'screen/ADMIN_/adminController.dart';
 
 void requestPermission() async {
   var status = await Permission.storage.status;
+  // var statusbl= await Permission.bluetooth.status;
+
   var status1 = await Permission.manageExternalStorage.status;
   if (!status1.isGranted) {
     await Permission.storage.request();
+    // await Permission.bluetooth.request();
   }
   if (!status1.isGranted) {
     await Permission.manageExternalStorage.request();
     // await Permission.app
-  } else {}
+  } 
   if (!status1.isRestricted) {
     await Permission.manageExternalStorage.request();
   }
   if (!status1.isPermanentlyDenied) {
     await Permission.manageExternalStorage.request();
+  }
+}
+
+checkPerm() async {
+  var status = await Permission.bluetooth.status;
+  print("bulsd-----$status");
+  if (status.isDenied || status.isGranted) {
+    print("dfnkdjjk");
+    await Permission.bluetooth.request();
+  }
+
+  if (await Permission.bluetooth.status.isPermanentlyDenied) {
+    openAppSettings();
   }
 }
 
@@ -42,6 +58,7 @@ Future<void> main() async {
   var status = await Permission.storage.status;
 
   requestPermission();
+  checkPerm();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => Controller()),

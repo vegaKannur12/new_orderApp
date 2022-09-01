@@ -31,6 +31,8 @@ class SaleCart extends StatefulWidget {
 }
 
 class _SaleCartState extends State<SaleCart> {
+  String? payment_mode;
+  String? selected;
   CommonPopup salepopup = CommonPopup();
   SaleItemDetails saleDetails = SaleItemDetails();
   SalesBottomSheet sheet = SalesBottomSheet();
@@ -64,27 +66,27 @@ class _SaleCartState extends State<SaleCart> {
       appBar: AppBar(
         backgroundColor: P_Settings.salewaveColor,
         actions: [
-          IconButton(
-              onPressed: () async {
-                await OrderAppDB.instance
-                    .deleteFromTableCommonQuery("salesBagTable", "");
-                await OrderAppDB.instance
-                    .deleteFromTableCommonQuery("salesMasterTable", "");
-                await OrderAppDB.instance
-                    .deleteFromTableCommonQuery("salesDetailTable", "");
-              },
-              icon: Icon(Icons.delete)),
-          IconButton(
-            onPressed: () async {
-              List<Map<String, dynamic>> list =
-                  await OrderAppDB.instance.getListOfTables();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TableList(list: list)),
-              );
-            },
-            icon: Icon(Icons.table_bar),
-          ),
+          // IconButton(
+          //     onPressed: () async {
+          //       await OrderAppDB.instance
+          //           .deleteFromTableCommonQuery("salesBagTable", "");
+          //       await OrderAppDB.instance
+          //           .deleteFromTableCommonQuery("salesMasterTable", "");
+          //       await OrderAppDB.instance
+          //           .deleteFromTableCommonQuery("salesDetailTable", "");
+          //     },
+          //     icon: Icon(Icons.delete)),
+          // IconButton(
+          //   onPressed: () async {
+          //     List<Map<String, dynamic>> list =
+          //         await OrderAppDB.instance.getListOfTables();
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => TableList(list: list)),
+          //     );
+          //   },
+          //   icon: Icon(Icons.table_bar),
+          // ),
         ],
       ),
       body: GestureDetector(onTap: (() {
@@ -202,6 +204,7 @@ class _SaleCartState extends State<SaleCart> {
                               value.salebagList[index]["code"],
                               value.salebagList[index]["tax_per"].toString(),
                               value.salebagList[index]["tax_amt"],
+
                               // value.salebagList[index]["discount"].toString(),
                               // value.salebagList[index]["ces_amt"],
                               // value.salebagList[index]["ces_a"].toString(),
@@ -216,14 +219,17 @@ class _SaleCartState extends State<SaleCart> {
                           children: [
                             GestureDetector(
                               onTap: () {
+                                print(
+                                    "............................${value.orderTotal2}");
                                 sheet.sheet(
-                                    context,
-                                    value.orderTotal2[1]!,
-                                    value.orderTotal2[0]!,
-                                    value.orderTotal2[3]!,
-                                    value.orderTotal2[2]!,
-                                    value.orderTotal2[4]!,
-                                    value.orderTotal2[5]!);
+                                  context,
+                                  value.orderTotal2[1].toString(),
+                                  value.orderTotal2[0].toString(),
+                                  value.orderTotal2[3].toString(),
+                                  value.orderTotal2[2].toString(),
+                                  value.orderTotal2[4].toString(),
+                                  value.orderTotal2[5].toString(),value.orderTotal2[10]
+                                );
                               },
                               child: Container(
                                 width: size.width * 0.5,
@@ -249,6 +255,118 @@ class _SaleCartState extends State<SaleCart> {
                             ),
                             GestureDetector(
                               onTap: (() async {
+                                showModalBottomSheet<void>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      height: 200,
+                                      color: Colors.white,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                ElevatedButton(
+                                                    child: const Text('Cash'),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            primary: P_Settings
+                                                                .salewaveColor,
+                                                            textStyle: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                    onPressed: () {
+                                                      payment_mode = "-2";
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            salepopup
+                                                                .buildPopupDialog(
+                                                          "sales",
+                                                          context,
+                                                          "Confirm your sale?",
+                                                          widget.areaId,
+                                                          widget.areaname,
+                                                          widget.custmerId,
+                                                          s[0],
+                                                          s[1],
+                                                          "",
+                                                          "",
+                                                          payment_mode!,
+                                                        ),
+                                                      );
+                                                      print(
+                                                          "payment mode...........$payment_mode");
+                                                    }),
+                                                SizedBox(
+                                                  width: size.width * 0.06,
+                                                ),
+                                                ElevatedButton(
+                                                    child: const Text('Credit'),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            primary: P_Settings
+                                                                .salewaveColor,
+                                                            textStyle: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                    onPressed: () {
+                                                      payment_mode = "-3";
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            salepopup.buildPopupDialog(
+                                                                "sales",
+                                                                context,
+                                                                "Confirm your sale?",
+                                                                widget.areaId,
+                                                                widget.areaname,
+                                                                widget
+                                                                    .custmerId,
+                                                                s[0],
+                                                                s[1],
+                                                                "",
+                                                                "",
+                                                                payment_mode!),
+                                                      );
+                                                      print(
+                                                          "payment mode...........$payment_mode");
+                                                    }),
+                                              ],
+                                            ),
+                                            // SizedBox(
+                                            //   height: size.height * 0.03,
+                                            // ),
+                                            // ElevatedButton(
+                                            //     child: const Text('Done'),
+                                            //     style: ElevatedButton.styleFrom(
+                                            //         primary: Colors.green,
+                                            //         textStyle: TextStyle(
+                                            //             fontSize: 15,
+                                            //             fontWeight:
+                                            //                 FontWeight.bold)),
+                                            //     onPressed: () {
+                                            //       print(
+                                            //           "payment_mode...${payment_mode}");
+
+                                            //     }),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
                                 // Provider.of<Controller>(context, listen: false)
                                 //         .salesNetamt =
                                 //     double.parse(value.orderTotal2[1]!);
@@ -258,23 +376,23 @@ class _SaleCartState extends State<SaleCart> {
                                 //         await OrderAppDB.instance
                                 //     .deleteFromTableCommonQuery(
                                 //         'salesDetailTable', "");
-                                print("order total.......${value.orderTotal2}");
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      salepopup.buildPopupDialog(
-                                    "sales",
-                                    context,
-                                    "Confirm your sale?",
-                                    widget.areaId,
-                                    widget.areaname,
-                                    widget.custmerId,
-                                    s[0],
-                                    s[1],
-                                    "",
-                                    "",
-                                  ),
-                                );
+                                // print("order total.......${value.orderTotal2}");
+                                // showDialog(
+                                //   context: context,
+                                //   builder: (BuildContext context) =>
+                                //       salepopup.buildPopupDialog(
+                                //     "sales",
+                                //     context,
+                                //     "Confirm your sale?",
+                                //     widget.areaId,
+                                //     widget.areaname,
+                                //     widget.custmerId,
+                                //     s[0],
+                                //     s[1],
+                                //     "",
+                                //     "",
+                                //   ),
+                                // );
                                 // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
                               }),
                               child: Container(

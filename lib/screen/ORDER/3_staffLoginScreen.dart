@@ -406,7 +406,7 @@ class StaffLogin extends StatelessWidget {
                                                     Provider.of<Controller>(
                                                             context,
                                                             listen: false)
-                                                        .getStaffDetails(cid!);
+                                                        .getStaffDetails(cid!,0);
                                                   }
 
                                                   showDialog(

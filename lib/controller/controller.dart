@@ -27,6 +27,7 @@ class Controller extends ChangeNotifier {
   bool? fromDb;
   double gross = 0.0;
   double gross_tot = 0.0;
+  double roundoff = 0.0;
   double dis_tot = 0.0;
   double cess_tot = 0.0;
   double tax_tot = 0.0;
@@ -133,7 +134,7 @@ class Controller extends ChangeNotifier {
   String? updateDate;
   String? orderTotal1;
   String? saleTot;
-  List<String?> orderTotal2 = [];
+  List<dynamic> orderTotal2 = [];
   String? ordernumber;
   String? cid;
   String? cname;
@@ -180,7 +181,6 @@ class Controller extends ChangeNotifier {
   List<TextEditingController> rateController = [];
   List<TextEditingController> salesqty = [];
   List<TextEditingController> returnsqty = [];
-
   List<TextEditingController> salesrate = [];
   List<TextEditingController> discount_prercent = [];
   List<TextEditingController> discount_amount = [];
@@ -312,7 +312,6 @@ class Controller extends ChangeNotifier {
               print("fnjdxf----$user");
 
               getCompanyData();
-
               // OrderAppDB.instance.deleteFromTableCommonQuery('menuTable',"");
               getMaxSerialNumber(os);
               getMenuAPi(cid!, fp1, company_code, context);
@@ -353,7 +352,6 @@ class Controller extends ChangeNotifier {
       compny_code = prefs.getString("company_id");
       String? cid = prefs.getString("cid");
       String? fp = prefs.getString("fp");
-
       ///////////////// find app version/////////////////////////
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String version = packageInfo.version;
@@ -498,7 +496,7 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////// GET STAFF DETAILS////////////////////////////////
-  Future<StaffDetails?> getStaffDetails(String cid) async {
+  Future<StaffDetails?> getStaffDetails(String cid, int index) async {
     print("getStaffDetails...............${cid}");
     var restaff;
     try {
@@ -506,17 +504,26 @@ class Controller extends ChangeNotifier {
       Map body = {
         'cid': cid,
       };
+      isDownloaded = true;
+      isCompleted = true;
+      isLoading = true;
+      notifyListeners();
       http.Response response = await http.post(
         url,
         body: body,
       );
       List map = jsonDecode(response.body);
+      await OrderAppDB.instance
+          .deleteFromTableCommonQuery("staffDetailsTable", "");
       print("map ${map}");
       for (var staff in map) {
         staffModel = StaffDetails.fromJson(staff);
         restaff = await OrderAppDB.instance.insertStaffDetails(staffModel);
       }
       print("inserted staff ${restaff}");
+      isDownloaded = false;
+      isDown[index] = true;
+      isLoading = false;
       notifyListeners();
       return staffModel;
     } catch (e) {
@@ -577,13 +584,17 @@ class Controller extends ChangeNotifier {
   }
 
 ////////////////////// GET STAFF AREA ///////////////////////////////////
-  Future<StaffArea?> getAreaDetails(String cid) async {
+  Future<StaffArea?> getAreaDetails(String cid, int index) async {
     print("cid...............${cid}");
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_area.php");
       Map body = {
         'cid': cid,
       };
+      isDownloaded = true;
+      isCompleted = true;
+      isLoading = true;
+      notifyListeners();
       print("compny----${cid}");
       http.Response response = await http.post(
         url,
@@ -602,6 +613,9 @@ class Controller extends ChangeNotifier {
             await OrderAppDB.instance.insertStaffAreaDetails(staffArea);
         print("inserted ${staffar}");
       }
+      isDownloaded = false;
+      isDown[index] = true;
+      isLoading = false;
       /////////////// insert into local db /////////////////////
       notifyListeners();
       return staffArea;
@@ -716,7 +730,7 @@ class Controller extends ChangeNotifier {
     });
   }
 
-  ////////////////////////get settings///////////////////////////////////////
+////////////////////////get settings///////////////////////////////////////
   getSettings(BuildContext context, String cid) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // String? cid = prefs.getString("cid");
@@ -858,7 +872,6 @@ class Controller extends ChangeNotifier {
       };
       print("compny----${cid}");
       isDownloaded = true;
-
       isLoading = true;
       notifyListeners();
 
@@ -1026,6 +1039,7 @@ class Controller extends ChangeNotifier {
       };
       print("compny----${cid}");
       isDownloaded = true;
+      isCompleted = true;
       isLoading = true;
       notifyListeners();
 
@@ -1045,7 +1059,6 @@ class Controller extends ChangeNotifier {
       }
       isDownloaded = false;
       isDown[index] = true;
-
       isLoading = false;
       notifyListeners();
       /////////////// insert into local db /////////////////////
@@ -1068,8 +1081,11 @@ class Controller extends ChangeNotifier {
       double tax_tot,
       double dis_tot,
       double cess_tot,
-      BuildContext context) async {
+      BuildContext context,
+      String payment_mode,
+      double roundoff) async {
     List<Map<String, dynamic>> om = [];
+    print("fhnjdroundoff---$roundoff");
     // String salesOs = "S" + "$os";
     // int sales_id = await OrderAppDB.instance
     //     .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
@@ -1079,51 +1095,52 @@ class Controller extends ChangeNotifier {
     print("salebagList length........${salebagList.length}");
     if (salebagList.length > 0) {
       String billNo = "${os}" + "${sales_id}";
-      print("bill no........$billNo");
+      print("bill no........$total_price");
       var result = await OrderAppDB.instance.insertsalesMasterandDetailsTable(
-          sales_id,
-          0,
-          0.0,
-          0.0,
-          "",
-          "",
-          date,
-          time,
-          os,
-          customer_id,
-          "",
-          billNo,
-          staff_id,
-          aid,
-          0,
-          "",
-          "",
-          "",
-          rowNum,
-          "salesMasterTable",
-          "",
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          gross_tot,
-          dis_tot,
-          tax_tot,
-          cess_tot,
-          0.0,
-          total_price,
-          0.0,
-          0,
-          0);
+        sales_id,
+        0,
+        0.0,
+        0.0,
+        "",
+        "",
+        date,
+        time,
+        os,
+        customer_id,
+        "",
+        billNo,
+        staff_id,
+        aid,
+        0,
+        payment_mode.toString(),
+        "",
+        "",
+        rowNum,
+        "salesMasterTable",
+        "",
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        gross_tot,
+        dis_tot,
+        tax_tot,
+        cess_tot,
+        0.0,
+        total_price,
+        roundoff,
+        0,
+        0,
+      );
 
       for (var item in salebagList) {
         print("item....$item");
@@ -1166,10 +1183,10 @@ class Controller extends ChangeNotifier {
           0.0,
           0.0,
           0.0,
-          0.0,
           item["net_amt"],
           0.0,
           0.0,
+          roundoff,
           0,
           0,
         );
@@ -1186,6 +1203,7 @@ class Controller extends ChangeNotifier {
 
     bagList.clear();
     notifyListeners();
+    return sales_id;
   }
 
   //////////////insert to order master and details///////////////////////
@@ -1504,7 +1522,6 @@ class Controller extends ChangeNotifier {
       print('cojhkjd---$cid');
       var res = await OrderAppDB.instance.selectCompany("cid='${cid}'");
       print("res companyList----${res}");
-      companyList.clear();
       for (var item in res) {
         companyList.add(item);
       }
@@ -2001,25 +2018,29 @@ class Controller extends ChangeNotifier {
     try {
       print("calculate sales updated tot....$os...$customerId");
       List res = await OrderAppDB.instance.getsaletotalSum(os, customerId);
-      salesTotal = double.parse(res[0]);
-
+      print("respongtyht...........$res");
+      double sTotal = double.parse(res[0]);
       gross_tot = double.parse(res[5]);
-
       tax_tot = res[9];
-
       cess_tot = double.parse(res[4]);
       // print("result sale...${res[3].runtimeType}");
       dis_tot = double.parse(res[3]);
-      // print("result sale.22..${dis_tot.runtimeType}");
+      print("result sale...${res[10].runtimeType}");
+      roundoff = res[10];
+      // print("result sale.22..${roundoff.runtimeType}");
+
+      salesTotal = roundoff + sTotal;
 
       print(
-          "result sal--${salesTotal}----${gross_tot}---${tax_tot}---${cess_tot}--${dis_tot}");
+          "result sal-----......$roundoff....${salesTotal}----${gross_tot}---${tax_tot}---${cess_tot}--${dis_tot}");
 
       print("salesTotal---$salesTotal");
       notifyListeners();
       orderTotal2.clear();
-      if (res != null && res.length != 0) {
+      if (res.length > 0) {
         for (var item in res) {
+          print("sfhdsj----$item");
+
           orderTotal2.add(item);
         }
       }
@@ -2418,8 +2439,7 @@ class Controller extends ChangeNotifier {
     }
     notifyListeners();
   }
-
-///////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
 //   Future<dynamic> mainDashAmounts(String sid, String date) async {
 //     collectionAmount = await OrderAppDB.instance.sumCommonQuery("rec_amoun,t",
 //         'collectionTable', "rec_staffid='$sid' AND rec_date='$date'");
@@ -3347,7 +3367,7 @@ class Controller extends ChangeNotifier {
     Map<String, dynamic> salesMasterData,
   ) async {
     List<Map<String, dynamic>> resultQuery = [];
-    print("salesMasterData------${salesMasterData}");
+    print("outputjknhjkjkkjj------${salesMasterData["sales_id"]}");
     List<Map<String, dynamic>> companyData = [];
     List<Map<String, dynamic>> staffData = [];
 
@@ -3363,6 +3383,7 @@ class Controller extends ChangeNotifier {
     printSalesData["staff"] = staffData;
     printSalesData["master"] = salesMasterData;
     printSalesData["detail"] = resultQuery;
+
     print("result salesMasterData----$printSalesData");
 
     // om.add(salesMasterData);

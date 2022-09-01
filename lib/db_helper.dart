@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:flutter/cupertino.dart';
 
 import 'package:orderapp/model/accounthead_model.dart';
@@ -317,7 +315,7 @@ class OrderAppDB {
             $ad2 TEXT,
             $ad3 TEXT,
             $ph TEXT,
-            $area TEXT     
+            $area TEXT    
           )
           ''');
     await db.execute('''
@@ -335,7 +333,7 @@ class OrderAppDB {
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $sid TEXT NOT NULL,
             $sname TEXT,
-            $datetime TEXT     
+            $datetime TEXT    
           )
           ''');
     await db.execute('''
@@ -348,7 +346,7 @@ class OrderAppDB {
     await db.execute('''
           CREATE TABLE customerTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
-            $ac_code TEXT NOT NULL 
+            $ac_code TEXT NOT NULL
          )
          ''');
     ////////////////account_haed table///////////////////
@@ -362,7 +360,7 @@ class OrderAppDB {
             $ac_ad2 TEXT,
             $ac_ad3 TEXT,
             $area_id TEXT,
-            $phn TEXT, 
+            $phn TEXT,
             $ba REAL,
             $ri TEXT,
             $rc TEXT,
@@ -489,7 +487,7 @@ class OrderAppDB {
             $sgst_per REAL,
             $sgst_amt REAL,
             $igst_per REAL,
-            $igst_amt REAL, 
+            $igst_amt REAL,
             $ces_amt REAL,
             $ces_per REAL,
             $net_amt REAL,
@@ -497,7 +495,7 @@ class OrderAppDB {
             $unit_rate REAL  
           )
           ''');
-    await db.execute(''' 
+    await db.execute('''
           CREATE TABLE orderBagTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $itemName TEXT NOT NULL,
@@ -514,7 +512,7 @@ class OrderAppDB {
           )
           ''');
 
-    await db.execute(''' 
+    await db.execute('''
           CREATE TABLE returnBagTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $itemName TEXT NOT NULL,
@@ -531,7 +529,7 @@ class OrderAppDB {
           )
           ''');
     ////////////////////////////////////////
-    await db.execute(''' 
+    await db.execute('''
           CREATE TABLE salesBagTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $itemName TEXT NOT NULL,
@@ -568,7 +566,7 @@ class OrderAppDB {
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
             $tabname TEXT,
             $prefix TEXT,
-            $value INTEGER     
+            $value INTEGER    
           )
           ''');
     /////////////////////////////////////////
@@ -585,7 +583,7 @@ class OrderAppDB {
             $set_id INTEGER NOT NULL,
             $set_code TEXT,
             $set_value TEXT,
-            $set_type INTEGER   
+            $set_type INTEGER  
           )
           ''');
 
@@ -604,7 +602,7 @@ class OrderAppDB {
             $wname TEXT
           )
           ''');
-    await db.execute(''' 
+    await db.execute('''
       CREATE TABLE collectionTable (
         $id INTEGER PRIMARY KEY AUTOINCREMENT,
         $rec_date TEXT NOT NULL,
@@ -621,7 +619,7 @@ class OrderAppDB {
         $rec_status INTEGER
       )
       ''');
-    await db.execute(''' 
+    await db.execute('''
       CREATE TABLE remarksTable (
         $id INTEGER PRIMARY KEY AUTOINCREMENT,
         $rem_date TEXT NOT NULL,
@@ -929,11 +927,12 @@ class OrderAppDB {
     double rounding,
     int state_status,
     int status,
+    // double rounding,
   ) async {
     final db = await database;
     var res2;
     var res3;
-    print("total quantity...................$total_qty");
+    print("total quantity............$rounding.......$total_qty");
     if (table == "salesDetailTable") {
       var query2 =
           'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $net_amt, $rate,$unit_rate)';
@@ -941,7 +940,7 @@ class OrderAppDB {
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
       var query3 =
-          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, ces_tot, net_amt, rounding, state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", $gross_tot, $dis_tot, $tax_tot, $ces_tot, ${total_price.toStringAsFixed(2)}, ${rounding}, $state_status, ${status})';
+          'INSERT INTO salesMasterTable(sales_id, salesdate, salestime, os, cus_type, bill_no, customer_id, staff_id, areaid, total_qty, payment_mode, credit_option, gross_tot, dis_tot, tax_tot, ces_tot, rounding, net_amt,  state_status, status) VALUES("${sales_id}", "${salesdate}", "${salestime}", "${os}", "${cus_type}", "${bill_no}", "${customer_id}", "${staff_id}", "${areaid}", $total_qty, "${payment_mode}", "${credit_option}", $gross_tot, $dis_tot, $tax_tot, $ces_tot,${rounding}, ${total_price.toStringAsFixed(2)}, $state_status, ${status})';
       res2 = await db.rawInsert(query3);
       print("insertsalesmaster$query3");
     }
@@ -1584,7 +1583,7 @@ class OrderAppDB {
     String cgst;
     String sgst;
     String igst;
-
+    double? roundoff;
     Database db = await instance.database;
     print("calculate sales updated tot in db....$os...$customerId");
     var result = await db.rawQuery(
@@ -1595,6 +1594,17 @@ class OrderAppDB {
           "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst FROM salesBagTable WHERE os='$os' AND customerid='$customerId'");
       print("result sale db........$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
+      double totval = 0;
+
+      totval = double.parse(net_amount);
+      if ((totval - totval.floor()) <= 0.5) {
+        roundoff = ((totval - totval.floor()) * -1);
+      } else {
+        roundoff = (totval.ceil() - totval);
+      }
+
+      print(
+          "roundof.....$roundoff.....$totval..${totval.ceil()}...........${totval.floor()}");
       gross = res[0]["gr"].toStringAsFixed(2);
       count = res[0]["c"].toString();
       taxamt = res[0]["t"].toStringAsFixed(2);
@@ -1636,6 +1646,7 @@ class OrderAppDB {
       cesper,
       taxper,
       tax_tot,
+      roundoff!
     ];
   }
 
@@ -1798,8 +1809,7 @@ class OrderAppDB {
       await db.rawDelete('DELETE FROM "$table" WHERE $condition');
     }
   }
-
-//////////////////////////////selectCommonQuery///////////////////
+  //////////////////////////////selectCommonQuery///////////////////
   // selectCommonquery(String table, String? condition) async {
   //   List<Map<String, dynamic>> result;
   //   Database db = await instance.database;
@@ -2033,7 +2043,7 @@ class OrderAppDB {
     }
   }
   ////////////////////////////////////////////////////////////////
-  Future<dynamic> printcurrentData(String date,int saleid) async {
+  Future<dynamic> printcurrentData(int saleid) async {
     List<Map<String, dynamic>> result;
 
     print("comndjsjhfsdh----$saleid");
@@ -2630,5 +2640,3 @@ class OrderAppDB {
     return result;
   }
 }
-
-//////////////////////////////////////////////////////////////
