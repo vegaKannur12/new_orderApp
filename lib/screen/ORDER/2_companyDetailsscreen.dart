@@ -105,6 +105,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                             height: size.height * 0.9,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SizedBox(
                                   height: size.height * 0.04,

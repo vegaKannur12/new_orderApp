@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/screen/ORDER/0_splashScreen.dart';
-import 'package:orderapp/screen/SALES/screenForPrint.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +15,7 @@ import 'screen/ADMIN_/adminController.dart';
 void requestPermission() async {
   var status = await Permission.storage.status;
   var status1 = await Permission.manageExternalStorage.status;
+
   if (!status1.isGranted) {
     await Permission.storage.request();
   }
@@ -42,6 +42,7 @@ Future<void> main() async {
   var status = await Permission.storage.status;
 
   requestPermission();
+  // checkPerm();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => Controller()),

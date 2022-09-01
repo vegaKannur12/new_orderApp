@@ -477,7 +477,8 @@ class _ReportPageState extends State<ReportPage> {
                                                               .length >
                                                           0
                                                   ? value.newreportList[index]
-                                                      ["bln"].toString()
+                                                          ["bln"]
+                                                      .toString()
                                                   : value.reportData[index]
                                                           ["bln"]
                                                       .toString(),
