@@ -3399,9 +3399,17 @@ class Controller extends ChangeNotifier {
     // }
     notifyListeners();
   }
-  quantitiChange(int qtya,int index){
-    int qtyss=qtya+1;
-    qty[index].text=qtyss.toString();
+  quantitiChange(int qtya,int index)async{
+    print("kjf----$index");
+    int cartrow=index+1;
+    // var result=await OrderAppDB.instance.selectAllcommon('salesBagTable', "cartrowno='$cartrow'");
+    // print("restuuu----$result");
+    // int qtyss=qtya+1;
+    // qty[index].text=result[0]["qty"].toString();
     notifyListeners();
   }
+
+
+
+
 }

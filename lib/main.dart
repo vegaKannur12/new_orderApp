@@ -20,12 +20,16 @@ void requestPermission() async {
 
   if (!status1.isGranted) {
     await Permission.storage.request();
-    // await Permission.bluetooth.request();
   }
   if (!status1.isGranted) {
-    await Permission.manageExternalStorage.request();
+    var status = await Permission.manageExternalStorage.request();
+    if (status.isGranted) {
+      await Permission.bluetooth.request();
+    } else {
+      openAppSettings();
+    }
     // await Permission.app
-  } 
+  }
   if (!status1.isRestricted) {
     await Permission.manageExternalStorage.request();
   }
@@ -34,10 +38,31 @@ void requestPermission() async {
   }
 }
 
+// void permission()async{
+//   var camstatus = await Permission.camera.status;
+//   var calstatus = await Permission.microphone.status;
+
+//   if(camstatus.isGranted){
+//     await Permission.camera.request();
+//   }
+//   if(calstatus.isGranted){
+//     await Permission.microphone.request();
+//   }
+
+//   if(await Permission.camera.isGranted){
+//     if(await Permission.microphone.isGranted){
+//       print("camera oponened");
+//     }
+//   }
+
+// }
+
 // checkPerm() async {
 //   var status = await Permission.bluetooth.status;
-//   print("bulsd-----$status");
-//   if (status.isDenied || status.isGranted) {
+//   // var status1 = await Permission.bluetooth.;
+
+//   print("bulsd-------$status");
+//   if (status.isGranted) {
 //     print("dfnkdjjk");
 //     await Permission.bluetooth.request();
 //   }
@@ -56,7 +81,7 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? cid = prefs.getString("company_id");
   var status = await Permission.storage.status;
-
+//  permission();
   requestPermission();
   // checkPerm();
   runApp(MultiProvider(

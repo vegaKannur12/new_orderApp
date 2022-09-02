@@ -573,16 +573,16 @@ class _SalesItemState extends State<SalesItem> {
                                                                   0,
                                                                   value
                                                                       .net_amt);
-                                                              int qtysale =
-                                                              int.parse(value
-                                                                  .qty[index]
-                                                                  .text);
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .quantitiChange(
-                                                                  qtysale,
-                                                                  index);
+                                                          //     int qtysale =
+                                                          //     int.parse(value
+                                                          //         .qty[index]
+                                                          //         .text);
+                                                          // Provider.of<Controller>(
+                                                          //         context,
+                                                          //         listen: false)
+                                                          //     .quantitiChange(
+                                                          //         qtysale,
+                                                          //         index);
                                                           snackbar.showSnackbar(
                                                               context,
                                                               "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart",
@@ -800,6 +800,14 @@ class _SalesItemState extends State<SalesItem> {
                                                                 "set_code in ('SL_RATE_EDIT','SL_TAX_CALC','SL_UPLOAD_DIRECT') ");
                                                         String os = "S" +
                                                             "${value.ordernum[0]["os"]}";
+                                                        // if (value.productName[
+                                                        //         index]["qty"] !=
+                                                        //     null) {
+                                                        //   value.qty[index] =
+                                                        //       value.productName[
+                                                        //           index]["qty"];
+                                                        // }
+
                                                         setState(() {
                                                           if (value.selected[
                                                                   index] ==
@@ -821,7 +829,7 @@ class _SalesItemState extends State<SalesItem> {
                                                             value.qty[index]
                                                                 .text = "1";
                                                           }
-                                                          
+
                                                           // int.parse(value.qty[index].text )+ 1;
                                                         });
 
@@ -993,16 +1001,17 @@ class _SalesItemState extends State<SalesItem> {
                                                                   0,
                                                                   value
                                                                       .net_amt);
-                                                              int qtysale =
-                                                              int.parse(value
-                                                                  .qty[index]
-                                                                  .text);
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .quantitiChange(
-                                                                  qtysale,
-                                                                  index);
+
+                                                          //     int qtysale =
+                                                          //     int.parse(value
+                                                          //         .qty[index]
+                                                          //         .text);
+                                                          // Provider.of<Controller>(
+                                                          //         context,
+                                                          //         listen: false)
+                                                          //     .quantitiChange(
+                                                          //         qtysale,
+                                                          //         index);
 
                                                           snackbar.showSnackbar(
                                                               context,
