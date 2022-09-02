@@ -5,6 +5,7 @@ import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/model/accounthead_model.dart';
 import 'package:orderapp/model/productCompany_model.dart';
+import 'package:orderapp/model/productUnitsModel.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
 import 'package:orderapp/model/registration_model.dart';
 import 'package:orderapp/model/settings_model.dart';
@@ -148,6 +149,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> settingsList1 = [];
 
   List<Map<String, dynamic>> walletList = [];
+  List<Map<String, dynamic>> productUnitList = [];
+
   List<Map<String, dynamic>> historydataList = [];
   List<Map<String, dynamic>> staffOrderTotal = [];
   String? area;
@@ -1066,6 +1069,55 @@ class Controller extends ChangeNotifier {
       print(e);
       return null;
     }
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  Future<ProductCompanymodel?> getProductUnits(String cid, int index) async {
+    print("cid...............${cid}");
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_unit.php");
+      Map body = {
+        'cid': cid,
+      };
+      print("compny----${cid}");
+      isDownloaded = true;
+      isCompleted = true;
+      isLoading = true;
+      notifyListeners();
+
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      await OrderAppDB.instance.deleteFromTableCommonQuery("productUnits", "");
+      // print("body ${body}");
+      List map = jsonDecode(response.body);
+      print("productUnits  --- ${map}");
+      ProductUnitsModel productUnits;
+      for (var prounit in map) {
+        productUnits = ProductUnitsModel.fromJson(prounit);
+        var product = await OrderAppDB.instance.insertProductUnit(productUnits);
+      }
+      isDownloaded = false;
+      isDown[index] = true;
+      isLoading = false;
+      notifyListeners();
+      /////////////// insert into local db /////////////////////
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  ////////////////////////////fetch productunits///////////////////////////////////////////////
+  fetchProductUnits(String code) async {
+    productUnitList.clear();
+    var res =
+        await OrderAppDB.instance.selectAllcommon('productUnits', "code='$code'");
+    for (var item in res) {
+      productUnitList.add(item);
+    }
+    print("ProductUnits  ----$productUnitList");
   }
 
 // /////////////////////////////INSERT into SALES bag and master table///////////////////////////////////////////////
@@ -3398,24 +3450,14 @@ class Controller extends ChangeNotifier {
     // }
     notifyListeners();
   }
-<<<<<<< HEAD
-  quantitiChange(int qtya,int index)async{
+
+  quantitiChange(int qtya, int index) async {
     print("kjf----$index");
-    int cartrow=index+1;
+    int cartrow = index + 1;
     // var result=await OrderAppDB.instance.selectAllcommon('salesBagTable', "cartrowno='$cartrow'");
     // print("restuuu----$result");
     // int qtyss=qtya+1;
     // qty[index].text=result[0]["qty"].toString();
-=======
-
-  quantitiChange(int qtya, int index) {
-    int qtyss = qtya + 1;
-    qty[index].text = qtyss.toString();
->>>>>>> dbea2ed1a611943705432d5f8c94800071bd536a
     notifyListeners();
   }
-
-
-
-
 }

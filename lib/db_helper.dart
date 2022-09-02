@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:orderapp/model/accounthead_model.dart';
+import 'package:orderapp/model/productUnitsModel.dart';
 import 'package:orderapp/model/productdetails_model.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
 import 'package:orderapp/model/settings_model.dart';
@@ -59,6 +60,10 @@ class OrderAppDB {
   //////////////Staff area details////////////////////////
   static final aid = 'aid';
   static final aname = 'aname';
+
+  ///////////product units///////////////////////////////////
+  static final unit_name = 'unit_name';
+  static final package = 'package';
 
   //////////////account heads///////////////////////////////
   static final ac_code = 'ac_code';
@@ -670,6 +675,14 @@ class OrderAppDB {
             $palign TEXT,
             $punderline INTEGER,
             $pbold INTEGER
+          )
+          ''');
+    await db.execute('''
+          CREATE TABLE productUnits (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $code TEXT,
+            $package REAL,
+            $unit_name TEXT
           )
           ''');
   }
@@ -1307,6 +1320,20 @@ class OrderAppDB {
     return res;
   }
 
+  /////////////////////////////////////////////////////////////////
+  Future insertProductUnit(ProductUnitsModel productUnits) async {
+    final db = await database;
+
+    var query =
+        'INSERT INTO productUnits(code, package, unit_name) VALUES("${productUnits.prodid}",${productUnits.boxqty}, "${productUnits.boxnme}")';
+    var res = await db.rawInsert(query);
+    print("responce...............$res");
+    print(query);
+    // print(res);
+    return res;
+   
+  }
+
 /////////////////////////collectionTable/////////////////////////////
   Future insertCollectionTable(
       String rec_date,
@@ -1844,6 +1871,7 @@ class OrderAppDB {
     print("length---${result.length}");
     return result;
   }
+
 ///////////////////////////////////////////////////////////////////////////////
   selectfromsalebagTable(String customerId) async {
     List<Map<String, dynamic>> result;
@@ -1854,6 +1882,7 @@ class OrderAppDB {
     print("length---${result.length}");
     return result;
   }
+
 /////////////////////////////////////////////////////////////////////////////////
   selectfrombagandfilterList(String customerId, String comId) async {
     print("comid---$comId");
