@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:orderapp/components/common_popup.dart';
 import 'package:orderapp/components/commoncolor.dart';
+import 'package:orderapp/components/popupPayment.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/SALES/ordertotal_bottomsheet.dart';
@@ -29,6 +30,7 @@ class SaleCart extends StatefulWidget {
 class _SaleCartState extends State<SaleCart> {
   String? payment_mode;
   String? selected;
+  PaymentSelect paysheet = PaymentSelect();
   CommonPopup salepopup = CommonPopup();
   SaleItemDetails saleDetails = SaleItemDetails();
   SalesBottomSheet sheet = SalesBottomSheet();
@@ -42,6 +44,8 @@ class _SaleCartState extends State<SaleCart> {
   int counter = 0;
   bool isAdded = false;
   String? sname;
+
+  ////////////////////////////////////////////////////////
   @override
   void initState() {
     date = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
@@ -49,8 +53,6 @@ class _SaleCartState extends State<SaleCart> {
     Provider.of<Controller>(context, listen: false)
         .calculatesalesTotal(widget.os, widget.custmerId);
     print("jhdjs-----${widget.os}");
-//  Provider.of<Controller>(context, listen: false)
-//             .getSaleBagDetails(widget.custmerId, widget.os);
     // TODO: implement initState
     super.initState();
   }
@@ -218,14 +220,14 @@ class _SaleCartState extends State<SaleCart> {
                                 print(
                                     "............................${value.orderTotal2}");
                                 sheet.sheet(
-                                  context,
-                                  value.orderTotal2[1].toString(),
-                                  value.orderTotal2[0].toString(),
-                                  value.orderTotal2[3].toString(),
-                                  value.orderTotal2[2].toString(),
-                                  value.orderTotal2[4].toString(),
-                                  value.orderTotal2[5].toString(),value.orderTotal2[10]
-                                );
+                                    context,
+                                    value.orderTotal2[1].toString(),
+                                    value.orderTotal2[0].toString(),
+                                    value.orderTotal2[3].toString(),
+                                    value.orderTotal2[2].toString(),
+                                    value.orderTotal2[4].toString(),
+                                    value.orderTotal2[5].toString(),
+                                    value.orderTotal2[10]);
                               },
                               child: Container(
                                 width: size.width * 0.5,
@@ -251,145 +253,16 @@ class _SaleCartState extends State<SaleCart> {
                             ),
                             GestureDetector(
                               onTap: (() async {
-                                showModalBottomSheet<void>(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      height: 200,
-                                      color: Colors.white,
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                ElevatedButton(
-                                                    child: const Text('Cash'),
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                            primary: P_Settings
-                                                                .salewaveColor,
-                                                            textStyle: TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                    onPressed: () {
-                                                      payment_mode = "-2";
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            salepopup
-                                                                .buildPopupDialog(
-                                                          "sales",
-                                                          context,
-                                                          "Confirm your sale?",
-                                                          widget.areaId,
-                                                          widget.areaname,
-                                                          widget.custmerId,
-                                                          s[0],
-                                                          s[1],
-                                                          "",
-                                                          "",
-                                                          payment_mode!,
-                                                        ),
-                                                      );
-                                                      print(
-                                                          "payment mode...........$payment_mode");
-                                                    }),
-                                                SizedBox(
-                                                  width: size.width * 0.06,
-                                                ),
-                                                ElevatedButton(
-                                                    child: const Text('Credit'),
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                            primary: P_Settings
-                                                                .salewaveColor,
-                                                            textStyle: TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                    onPressed: () {
-                                                      payment_mode = "-3";
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            salepopup.buildPopupDialog(
-                                                                "sales",
-                                                                context,
-                                                                "Confirm your sale?",
-                                                                widget.areaId,
-                                                                widget.areaname,
-                                                                widget
-                                                                    .custmerId,
-                                                                s[0],
-                                                                s[1],
-                                                                "",
-                                                                "",
-                                                                payment_mode!),
-                                                      );
-                                                      print(
-                                                          "payment mode...........$payment_mode");
-                                                    }),
-                                              ],
-                                            ),
-                                            // SizedBox(
-                                            //   height: size.height * 0.03,
-                                            // ),
-                                            // ElevatedButton(
-                                            //     child: const Text('Done'),
-                                            //     style: ElevatedButton.styleFrom(
-                                            //         primary: Colors.green,
-                                            //         textStyle: TextStyle(
-                                            //             fontSize: 15,
-                                            //             fontWeight:
-                                            //                 FontWeight.bold)),
-                                            //     onPressed: () {
-                                            //       print(
-                                            //           "payment_mode...${payment_mode}");
-
-                                            //     }),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
+                                paysheet.showpaymentSheet(
+                                  context,
+                                  widget.areaId,
+                                  widget.areaname,
+                                  widget.custmerId,
+                                  s[0],
+                                  s[1],
+                                  " ",
+                                  " ",
                                 );
-                                // Provider.of<Controller>(context, listen: false)
-                                //         .salesNetamt =
-                                //     double.parse(value.orderTotal2[1]!);
-                                // await OrderAppDB.instance
-                                //     .deleteFromTableCommonQuery(
-                                //         'salesMasterTable', "");
-                                //         await OrderAppDB.instance
-                                //     .deleteFromTableCommonQuery(
-                                //         'salesDetailTable', "");
-                                // print("order total.......${value.orderTotal2}");
-                                // showDialog(
-                                //   context: context,
-                                //   builder: (BuildContext context) =>
-                                //       salepopup.buildPopupDialog(
-                                //     "sales",
-                                //     context,
-                                //     "Confirm your sale?",
-                                //     widget.areaId,
-                                //     widget.areaname,
-                                //     widget.custmerId,
-                                //     s[0],
-                                //     s[1],
-                                //     "",
-                                //     "",
-                                //   ),
-                                // );
-                                // Provider.of<Controller>(context,listen: false).saveOrderDetails(id, value.cid!, series, orderid,  widget.custmerId, orderdate, staffid, widget.areaId, pcode, qty, rate, context)
                               }),
                               child: Container(
                                 width: size.width * 0.5,
@@ -832,147 +705,4 @@ class _SaleCartState extends State<SaleCart> {
   }
 
 //////////////////////////////////////////////////////////////////////
-  popup(String item, String rate, Size size, int index, int qty) {
-    return showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  item,
-                  style: TextStyle(fontSize: 15),
-                )
-              ],
-            ),
-            // title: const Text('Popup example'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                Row(
-                  children: [
-                    Text("Old rate    :"),
-                    Text("   \u{20B9}${rate}"),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                Row(
-                  children: [
-                    Text("New rate  :"),
-                    Container(
-                        width: size.width * 0.2,
-                        child: TextField(
-                          controller: rateController,
-                        ))
-                  ],
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Provider.of<Controller>(context, listen: false)
-                          .editRate(rateController.text, index);
-                      Provider.of<Controller>(context, listen: false).updateQty(
-                          qty.toString(),
-                          index + 1,
-                          widget.custmerId,
-                          rateController.text);
-                      Provider.of<Controller>(context, listen: false)
-                          .calculatesalesTotal(widget.os, widget.custmerId);
-                      rateController.clear();
-                      Navigator.of(context).pop();
-                    },
-                    // textColor: Theme.of(context).primaryColor,
-                    child: Text('Save'),
-                  ),
-                ],
-              )
-            ],
-          );
-        });
-  }
-
-  popups(String item, String rate, Size size, int index, int qty) {
-    return showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  item,
-                  style: TextStyle(fontSize: 15),
-                )
-              ],
-            ),
-            // title: const Text('Popup example'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                Row(
-                  children: [
-                    Text("Old rate    :"),
-                    Text("   \u{20B9}${rate}"),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                Row(
-                  children: [
-                    Text("New rate  :"),
-                    Container(
-                        width: size.width * 0.2,
-                        child: TextField(
-                          controller: rateController,
-                        ))
-                  ],
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Provider.of<Controller>(context, listen: false)
-                          .editRate(rateController.text, index);
-                      Provider.of<Controller>(context, listen: false).updateQty(
-                          qty.toString(),
-                          index + 1,
-                          widget.custmerId,
-                          rateController.text);
-                      Provider.of<Controller>(context, listen: false)
-                          .calculateorderTotal(widget.os, widget.custmerId);
-                      rateController.clear();
-                      Navigator.of(context).pop();
-                    },
-                    // textColor: Theme.of(context).primaryColor,
-                    child: Text('Save'),
-                  ),
-                ],
-              )
-            ],
-          );
-        });
-  }
 }

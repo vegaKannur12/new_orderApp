@@ -426,7 +426,7 @@ class _PrintMainPageState extends State<PrintMainPage> {
         "align": "r",
         "underline": false,
         "bold": false
-      }, 
+      },
     ];
     bytesResult += await printText(generator, bytes, list, 0, false, 0);
     list = [

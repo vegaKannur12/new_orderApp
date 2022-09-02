@@ -31,7 +31,6 @@ class _ReturnCartState extends State<ReturnCart> {
   TextEditingController refController = TextEditingController();
   String reason = "";
   String ref = "";
-
   DateTime now = DateTime.now();
   String? date;
   String? sid;
@@ -58,9 +57,10 @@ class _ReturnCartState extends State<ReturnCart> {
         actions: [
           IconButton(
             onPressed: () async {
-              
-              await OrderAppDB.instance.deleteFromTableCommonQuery("returnMasterTable", "");
-              await OrderAppDB.instance.deleteFromTableCommonQuery("returnDetailTable", "");
+              await OrderAppDB.instance
+                  .deleteFromTableCommonQuery("returnMasterTable", "");
+              await OrderAppDB.instance
+                  .deleteFromTableCommonQuery("returnDetailTable", "");
             },
             icon: Icon(Icons.delete),
           ),
@@ -346,7 +346,8 @@ class _ReturnCartState extends State<ReturnCart> {
                                           s[0],
                                           s[1],
                                           refController.text,
-                                          reasonController.text,""),
+                                          reasonController.text,
+                                          ""),
                                 );
 
                                 final prefs =
