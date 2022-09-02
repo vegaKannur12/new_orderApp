@@ -2076,15 +2076,35 @@ class Controller extends ChangeNotifier {
     print("table--customerId-$table-$customerId--$os");
     count = await OrderAppDB.instance
         .countCommonQuery(table, "os='${os}' AND customerid='${customerId}'");
+    print("count..............$count");
     isLoading = false;
 
     notifyListeners();
   }
 
+///////////////////////////////////////////////////////////////
+  // countQty(String table) async {
+  //   isLoading = true;
+  //   // notifyListeners();
+  //   // print("table--customerId-$table);
+  //   qtyup = await OrderAppDB.instance.countCommonQuery(table, " ");
+  //   print("qtyup..............$qtyup");
+  //   isLoading = false;
+
+  //   notifyListeners();
+  // }
+
 ///////////////////////////////////////////////////////////////////////////
   qtyIncrement() {
     qtyinc = 1 + qtyinc!;
-    print("qty-----$qtyinc");
+    print("qty increment-----$qtyinc");
+    notifyListeners();
+  }
+
+  int qtyup = 0;
+  qtyups(int index) {
+    qtyup = 1 + qtyup;
+    qty[index].text=qtyup.toString();
     notifyListeners();
   }
 
