@@ -56,6 +56,9 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
   // final formGlobalKey = GlobalKey<FormState>();
   List? splitted;
   TextEditingController fieldText = TextEditingController();
+  // TextEditingController areatext = TextEditingController();
+  // TextEditingController customertext = TextEditingController();
+
   List? splitted1;
   List<DataRow> dataRows = [];
   String? selected;

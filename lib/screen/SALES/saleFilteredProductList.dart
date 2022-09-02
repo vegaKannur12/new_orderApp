@@ -215,6 +215,10 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       0,
                                       value.net_amt);
 
+                              int qtysale = int.parse(value.qty[index].text);
+                              // Provider.of<Controller>(context, listen: false)
+                              //     .quantitiChange(qtysale, index);
+
                               snackbar.showSnackbar(
                                   context,
                                   "${value.salefilteredProductList[index]["code"] + value.salefilteredProductList[index]['item']} - Added to cart",

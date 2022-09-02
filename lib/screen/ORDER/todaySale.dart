@@ -38,12 +38,22 @@ class _TodaySaleState extends State<TodaySale> {
   }
 
 /////////////////// bluetooth permission checking////////////////////
-
+  // ///BluetoothConnection connection;
+  // late BluetoothConnection connection;
 
   // connect(String address) async {
   //   try {
   //     connection = await BluetoothConnection.toAddress(address);
   //     print('Connected to the device');
+
+  //     connection.input!.listen((Uint8List data) {
+  //       //Data entry point
+  //       print(ascii.decode(data));
+  //     });
+  //   } catch (exception) {
+  //     print('Cannot connect, exception occured');
+  //   }
+  // }
 
   //     connection.input!.listen((Uint8List data) {
   //       //Data entry point

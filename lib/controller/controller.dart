@@ -1185,7 +1185,7 @@ class Controller extends ChangeNotifier {
           0.0,
           item["net_amt"],
           0.0,
-          0.0,
+          item["net_amt"],
           roundoff,
           0,
           0,
@@ -2288,7 +2288,6 @@ class Controller extends ChangeNotifier {
   selectReportFromOrder(BuildContext context, String userId, String date,
       String likeCondition) async {
     print("report userId----$userId");
-
     reportOriginalList.clear();
     Map map = {};
     isLoading = true;
@@ -3397,6 +3396,12 @@ class Controller extends ChangeNotifier {
     //   item["od"] = resultQuery;
     //   om.add(item);
     // }
+    notifyListeners();
+  }
+
+  quantitiChange(int qtya, int index) {
+    int qtyss = qtya + 1;
+    qty[index].text = qtyss.toString();
     notifyListeners();
   }
 }

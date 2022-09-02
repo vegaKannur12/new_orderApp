@@ -18,7 +18,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
    <application
         android:label="trafiq"
         android:requestLegacyExternalStorage="true"
