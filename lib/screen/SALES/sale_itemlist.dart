@@ -1001,7 +1001,6 @@ class _SalesItemState extends State<SalesItem> {
                                                                   0,
                                                                   value
                                                                       .net_amt);
-
                                                           //     int qtysale =
                                                           //     int.parse(value
                                                           //         .qty[index]

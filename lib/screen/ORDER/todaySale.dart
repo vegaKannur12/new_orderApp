@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
-
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/components/printingSale.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -57,30 +55,39 @@ class _TodaySaleState extends State<TodaySale> {
   //   }
   // }
 
-  checkPerm() async {
-    // print("blutooth connect");
-    // var blue = await Permission.bluetooth.status;
-    // print("gsdfsdf....$blue");
-    // if (blue.isDenied) {
-    //   await Permission.bluetooth.request();
-    //   print("blutooth connect  onnnn");
-    // }
-    // if (blue.isGranted) {
-    //   await Permission.bluetooth.request();
-    //   openAppSettings();
+  //     connection.input!.listen((Uint8List data) {
+  //       //Data entry point
+  //       print(ascii.decode(data));
+  //     });
+  //   } catch (exception) {
+  //     print('Cannot connect, exception occured');
+  //   }
+  // }
 
-    //   //  print("request for permission");
-    // }
-    // if (blue.isLimited) {
-    //   await Permission.bluetooth.request();
-    // }
-    // if (await Permission.bluetooth.status.isPermanentlyDenied) {
-    //   await Permission.bluetooth.request();
+  // checkPerm() async {
+  //   print("blutooth connect");
+  //   var blue = await Permission.bluetooth.status;
+  //   print("gsdfsdf....$blue");
+  //   if (blue.isDenied) {
+  //     await Permission.bluetooth.request();
+  //     print("blutooth connect  onnnn");
+  //   }
+  //   if (blue.isGranted) {
+  //     await Permission.bluetooth.request();
+  //     openAppSettings();
 
-    //   openAppSettings();
-    //   print("blutooth connect  off");
-    // }
-  }
+  //     //  print("request for permission");
+  //   }
+  //   if (blue.isLimited) {
+  //     await Permission.bluetooth.request();
+  //   }
+  //   if (await Permission.bluetooth.status.isPermanentlyDenied) {
+  //     await Permission.bluetooth.request();
+
+  //     openAppSettings();
+  //     print("blutooth connect  off");
+  //   }
+  // }
 
   @override
   void initState() {
@@ -250,21 +257,21 @@ class _TodaySaleState extends State<TodaySale> {
                                           IconButton(
                                             onPressed: () async {
                                               // checkPerm();
-                                                  Provider.of<Controller>(context,
-                                                          listen: false)
-                                                      .printSales(
-                                                    cid!,
-                                                    context,
-                                                    value.todaySalesList[index],
-                                                  );
+                                              Provider.of<Controller>(context,
+                                                      listen: false)
+                                                  .printSales(
+                                                cid!,
+                                                context,
+                                                value.todaySalesList[index],
+                                              );
 
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          PrintMainPage(),
-                                                    ),
-                                                  );
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PrintMainPage(),
+                                                ),
+                                              );
                                             },
                                             icon: Icon(Icons.print),
                                           ),
