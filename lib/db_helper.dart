@@ -1847,17 +1847,17 @@ class OrderAppDB {
     print("length---${result.length}");
     return result;
   }
-
+///////////////////////////////////////////////////////////////////////////////
   selectfromsalebagTable(String customerId) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
     result = await db.rawQuery(
-        "SELECT productDetailsTable.* , salesBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'salesBagTable' ON productDetailsTable.code = salesBagTable.code AND salesBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
-    print("leftjoin result----$result");
+        "SELECT productDetailsTable.* , salesBagTable.cartrowno ,salesBagTable.qty FROM 'productDetailsTable' LEFT JOIN 'salesBagTable' ON productDetailsTable.code = salesBagTable.code AND salesBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
+    print("selectfromsalebagTable result----$result");
     print("length---${result.length}");
     return result;
   }
-
+/////////////////////////////////////////////////////////////////////////////////
   selectfrombagandfilterList(String customerId, String comId) async {
     print("comid---$comId");
     List<Map<String, dynamic>> result;
@@ -1869,7 +1869,7 @@ class OrderAppDB {
     return result;
   }
 
-//////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
   selectfromsalesbagandfilterList(String customerId, String comId) async {
     print("comid---$comId");
     List<Map<String, dynamic>> result;

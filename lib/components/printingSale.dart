@@ -51,23 +51,29 @@ class _PrintMainPageState extends State<PrintMainPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(),
       body: Consumer<Controller>(
         builder: (context, value, child) {
-          return ListView.builder(
-              itemCount: items.length > 0 ? items.length : 0,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
-                    String mac = items[index].macAdress;
-                    this.connect(mac);
-                    printTest(value.printSalesData);
-                  },
-                  title: Text('Name: ${items[index].name}'),
-                  subtitle: Text("macAdress: ${items[index].macAdress}"),
-                );
-              });
+          if (items.length == 0) {
+            return Container(height: size.height*0.75,
+            child: Center(child: Text("Turn on your bluetooth...",style: TextStyle(fontSize: 20),)),);
+          } else {
+            return ListView.builder(
+                itemCount: items.length > 0 ? items.length : 0,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {
+                      String mac = items[index].macAdress;
+                      this.connect(mac);
+                      printTest(value.printSalesData);
+                    },
+                    title: Text('Name: ${items[index].name}'),
+                    subtitle: Text("macAdress: ${items[index].macAdress}"),
+                  );
+                });
+          }
         },
       ),
     );

@@ -798,7 +798,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                 size: 15.0,
                                                               ),
                                                               label: Text(
-                                                                "Sales ",
+                                                                "Sales",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         12),
@@ -841,6 +841,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                       "customerDet------$customerDet");
                                                                   String os = "S" +
                                                                       "${values.ordernum[0]["os"]}";
+                                                                  
                                                                   Provider.of<Controller>(
                                                                           context,
                                                                           listen:
@@ -851,6 +852,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                     custmerId
                                                                         .toString(),
                                                                   );
+                                                                  
                                                                   Provider.of<Controller>(
                                                                           context,
                                                                           listen:
