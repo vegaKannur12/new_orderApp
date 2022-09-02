@@ -237,7 +237,8 @@ class OrderAppDB {
   static final ptext = 'ptext';
   static final pwidth = 'pwidth';
   static final pbold = 'pbold';
-
+  static final packing = 'packing';
+  static final unitNum = 'unitNum';
   Future<Database> get database async {
     print("bjhs");
     if (_database != null) return _database!;
@@ -497,7 +498,9 @@ class OrderAppDB {
             $ces_per REAL,
             $net_amt REAL,
             $rate REAL,
-            $unit_rate REAL  
+            $unit_rate REAL,  
+            $packing TEXT,
+            $unitNum REAL
           )
           ''');
     await db.execute('''
@@ -949,7 +952,7 @@ class OrderAppDB {
         "total quantity............$rounding.......$total_qty.....$total_price.....$net_amt");
     if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate)';
+          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, unitNum) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, "$packing", $unitNum)';
       print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
