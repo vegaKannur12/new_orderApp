@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:orderapp/model/accounthead_model.dart';
+import 'package:orderapp/model/productUnitsModel.dart';
 import 'package:orderapp/model/productdetails_model.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
 import 'package:orderapp/model/settings_model.dart';
@@ -9,7 +10,6 @@ import 'package:orderapp/model/wallet_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
 import 'model/productCompany_model.dart';
 import 'model/registration_model.dart';
 import 'model/staffarea_model.dart';
@@ -60,6 +60,10 @@ class OrderAppDB {
   static final aid = 'aid';
   static final aname = 'aname';
 
+  ///////////product units///////////////////////////////////
+  static final unit_name = 'unit_name';
+  static final package = 'package';
+
   //////////////account heads///////////////////////////////
   static final ac_code = 'ac_code';
   static final hname = 'hname';
@@ -87,6 +91,7 @@ class OrderAppDB {
   // static final ac_code = 'uid';
 
   /////////////productdetails//////////
+  static final pid = 'pid';
   static final code = 'code';
   static final ean = 'ean';
   static final item = 'item';
@@ -234,6 +239,7 @@ class OrderAppDB {
   static final pbold = 'pbold';
   static final packing = 'packing';
   static final unitNum = 'unitNum';
+  static final baserate = 'baserate';
   Future<Database> get database async {
     print("bjhs");
     if (_database != null) return _database!;
@@ -376,6 +382,7 @@ class OrderAppDB {
     await db.execute('''
           CREATE TABLE productDetailsTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $pid INTEGER,
             $code TEXT NOT NULL,
             $ean TEXT,
             $item TEXT,
@@ -495,7 +502,7 @@ class OrderAppDB {
             $rate REAL,
             $unit_rate REAL,  
             $packing TEXT,
-            $unitNum REAL
+            $baserate REAL
           )
           ''');
     await db.execute('''
@@ -549,7 +556,7 @@ class OrderAppDB {
             $method TEXT,
             $hsn TEXT,
             $tax_per REAL,
-            $tax_amt REAL,
+            $tax_amt REAL, 
             $cgst_per REAL,
             $cgst_amt REAL,
             $sgst_per REAL,
@@ -561,7 +568,9 @@ class OrderAppDB {
             $ces_per REAL,
             $ces_amt REAL,
             $cstatus INTEGER,
-            $net_amt REAL
+            $net_amt REAL,
+            $pid INTEGER,
+            $unit_name TEXT
           )
           ''');
     await db.execute('''
@@ -673,6 +682,14 @@ class OrderAppDB {
             $palign TEXT,
             $punderline INTEGER,
             $pbold INTEGER
+          )
+          ''');
+    await db.execute('''
+          CREATE TABLE productUnits (
+            $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $pid TEXT,
+            $package REAL,
+            $unit_name TEXT
           )
           ''');
   }
@@ -789,34 +806,35 @@ class OrderAppDB {
 
 ////////////////////////// insert into sales bag table /////////////////
   Future insertsalesBagTable(
-    String itemName,
-    String cartdate,
-    String carttime,
-    String os,
-    String customerid,
-    int cartrowno,
-    String code,
-    double qty,
-    String rate,
-    double unit_rate,
-    String totalamount,
-    String method,
-    String hsn,
-    double tax_per,
-    double tax,
-    double cgst_per,
-    double cgst_amt,
-    double sgst_per,
-    double sgst_amt,
-    double igst_per,
-    double igst_amt,
-    double discount_per,
-    double discount_amt,
-    double ces_per,
-    double ces_amt,
-    int cstatus,
-    double net_amt,
-  ) async {
+      String itemName,
+      String cartdate,
+      String carttime,
+      String os,
+      String customerid,
+      int cartrowno,
+      String code,
+      double qty,
+      String rate,
+      double unit_rate,
+      String totalamount,
+      String method,
+      String hsn,
+      double tax_per,
+      double tax,
+      double cgst_per,
+      double cgst_amt,
+      double sgst_per,
+      double sgst_amt,
+      double igst_per,
+      double igst_amt,
+      double discount_per,
+      double discount_amt,
+      double ces_per,
+      double ces_amt,
+      int cstatus,
+      double net_amt,
+      int pid,
+      String unit_name) async {
     print("qty--$qty");
     print("code...........$code");
     final db = await database;
@@ -841,7 +859,7 @@ class OrderAppDB {
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate,unit_rate, totalamount, method, hsn,tax_per, tax_amt, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}",$unit_rate, "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt")';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate,unit_rate, totalamount, method, hsn,tax_per, tax_amt, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt, pid, unit_name ) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}",$unit_rate, "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt" , $pid,"$unit_name")';
       var res = await db.rawInsert(query2);
     }
 
@@ -939,7 +957,7 @@ class OrderAppDB {
         "total quantity............$rounding.......$total_qty.....$total_price.....$net_amt");
     if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, unitNum) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, "$packing", $unitNum)';
+          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, "$packing", $baserate)';
       print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
@@ -1139,7 +1157,7 @@ class OrderAppDB {
   Future insertProductDetails(ProductDetails pdata) async {
     final db = await database;
     var query3 =
-        'INSERT INTO productDetailsTable(code, ean, item, unit, categoryId, companyId, stock, hsn, tax, prate, mrp, cost, rate1, rate2, rate3, rate4, priceflag) VALUES("${pdata.code}", "${pdata.ean}", "${pdata.item}", "${pdata.unit}", "${pdata.categoryId}", "${pdata.companyId}", "${pdata.stock}", "${pdata.hsn}", "${pdata.tax}", "${pdata.prate}", "${pdata.mrp}", "${pdata.cost}", "${pdata.rate1}", "${pdata.rate2}", "${pdata.rate3}", "${pdata.rate4}", "${pdata.priceFlag}")';
+        'INSERT INTO productDetailsTable(pid, code, ean, item, unit, categoryId, companyId, stock, hsn, tax, prate, mrp, cost, rate1, rate2, rate3, rate4, priceflag) VALUES(${pdata.pid},"${pdata.code}", "${pdata.ean}", "${pdata.item}", "${pdata.unit}", "${pdata.categoryId}", "${pdata.companyId}", "${pdata.stock}", "${pdata.hsn}", "${pdata.tax}", "${pdata.prate}", "${pdata.mrp}", "${pdata.cost}", "${pdata.rate1}", "${pdata.rate2}", "${pdata.rate3}", "${pdata.rate4}", "${pdata.priceFlag}")';
     var res = await db.rawInsert(query3);
     // print(query3);
     // print(res);
@@ -1303,6 +1321,19 @@ class OrderAppDB {
     final db = await database;
     var query =
         'INSERT INTO companyTable(comid, comanme) VALUES("${productsCompanyModel.comid}", "${productsCompanyModel.comanme}")';
+    var res = await db.rawInsert(query);
+    print("responce...............$res");
+    print(query);
+    // print(res);
+    return res;
+  }
+
+  /////////////////////////////////////////////////////////////////
+  Future insertProductUnit(ProductUnitsModel productUnits) async {
+    final db = await database;
+
+    var query =
+        'INSERT INTO productUnits(pid, package, unit_name) VALUES("${productUnits.prodid}",${productUnits.boxqty}, "${productUnits.boxnme}")';
     var res = await db.rawInsert(query);
     print("responce...............$res");
     print(query);
@@ -1477,16 +1508,16 @@ class OrderAppDB {
 
   ///////////////////////////////////////////////////////////////
 
-  getItems(String product) async {
-    print("product---${product}");
-    Database db = await instance.database;
-    var res = await db.rawQuery(
-        "SELECT A.item, A.ean, A.rate1,A.code FROM productDetailsTable A WHERE A.code || A.item LIKE '%$product%'");
+  // getItems(String product) async {
+  //   print("product---${product}");
+  //   Database db = await instance.database;
+  //   var res = await db.rawQuery(
+  //       "SELECT A.item, A.ean, A.rate1,A.code FROM productDetailsTable A WHERE A.code || A.item LIKE '%$product%'");
 
-    print("SELECT * FROM productDetailsTable WHERE item LIKE '$product%'");
-    print("items=================${res}");
-    return res;
-  }
+  //   print("SELECT * FROM productDetailsTable WHERE item LIKE '$product%'");
+  //   print("items=================${res}");
+  //   return res;
+  // }
 
   //////////////////////////////////////////////////////////////
   getOrderNo() async {
@@ -2134,7 +2165,6 @@ class OrderAppDB {
     } else {
       result = await db.rawQuery(query);
     }
-
     print("result menu common----$result");
     return result;
   }

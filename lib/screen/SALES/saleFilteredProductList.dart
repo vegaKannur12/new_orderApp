@@ -213,7 +213,9 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       0.0,
                                       value.cess,
                                       0,
-                                      value.net_amt);
+                                      value.net_amt,
+                                      0,
+                                      "");
 
                               int qtysale = int.parse(value.qty[index].text);
                               // Provider.of<Controller>(context, listen: false)

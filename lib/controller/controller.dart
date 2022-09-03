@@ -5,6 +5,7 @@ import 'package:orderapp/components/customSnackbar.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/model/accounthead_model.dart';
 import 'package:orderapp/model/productCompany_model.dart';
+import 'package:orderapp/model/productUnitsModel.dart';
 import 'package:orderapp/model/productsCategory_model.dart';
 import 'package:orderapp/model/registration_model.dart';
 import 'package:orderapp/model/settings_model.dart';
@@ -31,6 +32,7 @@ class Controller extends ChangeNotifier {
   double dis_tot = 0.0;
   double cess_tot = 0.0;
   double tax_tot = 0.0;
+  String? selectunit;
   Map<String, dynamic> printSalesData = {};
 
   double disc_amt = 0.0;
@@ -75,6 +77,7 @@ class Controller extends ChangeNotifier {
   bool flag = false;
   List<String> gridHeader = [];
   String? areaSelecton;
+  String? packageSelection;
   int returnCount = 0;
   bool isVisible = false;
   double returnTotal = 0.0;
@@ -149,6 +152,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> settingsList1 = [];
 
   List<Map<String, dynamic>> walletList = [];
+  List<Map<String, dynamic>> productUnitList = [];
+
   List<Map<String, dynamic>> historydataList = [];
   List<Map<String, dynamic>> staffOrderTotal = [];
   String? area;
@@ -164,6 +169,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportData = [];
   List<Map<String, dynamic>> sumPrice = [];
   List<Map<String, dynamic>> collectionsumPrice = [];
+  List<DropdownButton> listDropdown = [];
+
   String collectionAmount = "0.0";
   String returnAmount = "0.0";
   String ordrAmount = "0.0";
@@ -884,7 +891,7 @@ class Controller extends ChangeNotifier {
           .deleteFromTableCommonQuery("productDetailsTable", "");
       // print("body ${body}");
       List map = jsonDecode(response.body);
-      // print("map ${map}");
+      print("productDetailsTable--map ${map}");
       for (var pro in map) {
         proDetails = ProductDetails.fromJson(pro);
         var product =
@@ -1067,6 +1074,78 @@ class Controller extends ChangeNotifier {
       print(e);
       return null;
     }
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  Future<ProductCompanymodel?> getProductUnits(String cid, int index) async {
+    print("cid...............${cid}");
+    try {
+      Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_unit.php");
+      Map body = {
+        'cid': cid,
+      };
+      print("compny----${cid}");
+      isDownloaded = true;
+      isCompleted = true;
+      isLoading = true;
+      notifyListeners();
+
+      http.Response response = await http.post(
+        url,
+        body: body,
+      );
+      await OrderAppDB.instance.deleteFromTableCommonQuery("productUnits", "");
+      // print("body ${body}");
+      List map = jsonDecode(response.body);
+      print("productUnits  --- ${map}");
+      ProductUnitsModel productUnits;
+      for (var prounit in map) {
+        productUnits = ProductUnitsModel.fromJson(prounit);
+        var product = await OrderAppDB.instance.insertProductUnit(productUnits);
+      }
+      isDownloaded = false;
+      isDown[index] = true;
+      isLoading = false;
+      notifyListeners();
+      /////////////// insert into local db /////////////////////
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  ////////////////////////////fetch productunits///////////////////////////////////////////////
+  fetchProductUnits(int code) async {
+    try {
+      productUnitList.clear();
+      var res = await OrderAppDB.instance
+          .selectAllcommon('productUnits', "pid='$code'");
+      print("unit result..........$res");
+      productUnitList.clear();
+      for (var item in res) {
+        productUnitList.add(item);
+      }
+      print("ProductUnits  ----$productUnitList");
+      notifyListeners();
+    } catch (e) {
+      print("error...$e");
+      return null;
+    }
+    print("codecode  ----$code");
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  packageDataSelection(int code) async {
+    // areaSelecton.clear();
+    print("code.......$code");
+    areaidFrompopup = area;
+    List<Map<String, dynamic>> result = await OrderAppDB.instance
+        .selectAllcommon('productUnits', "pid='${code}'");
+    packageSelection = result[0]["unit_name"];
+    // final prefs = await SharedPreferences.getInstance();
+    // prefs.setString("areaSelectionPopup", areaSelecton!);
+    print("unit name...---$packageSelection");
+    notifyListeners();
   }
 
 // /////////////////////////////INSERT into SALES bag and master table///////////////////////////////////////////////
@@ -1671,6 +1750,7 @@ class Controller extends ChangeNotifier {
       var length = productName.length;
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
+      // listDropdown=List.generate(length, (index) => DropdownButton())
       selected = List.generate(length, (index) => false);
       // returnselected = List.generate(length, (index) => false);
 
@@ -2101,6 +2181,13 @@ class Controller extends ChangeNotifier {
     print("qty increment-----$qtyinc");
     notifyListeners();
   }
+
+  // int qtyup = 0;
+  // qtyups(int index) {
+  //   qtyup = 1 + qtyup;
+  //   qty[index].text = qtyup.toString();
+  //   notifyListeners();
+  // }
 
   returnqtyIncrement() {
     returnqty = true;
@@ -2622,6 +2709,19 @@ class Controller extends ChangeNotifier {
     print("area---$areaidFrompopup");
     notifyListeners();
   }
+  // ///////////////////////////////////////////////////////////////////
+  //   packageDataSelection(String pid) async {
+  //   // areaSelecton.clear();
+  //   print("area.......$area");
+  //   areaidFrompopup = area;
+  //   List<Map<String, dynamic>> result = await OrderAppDB.instance
+  //       .selectAllcommon('productUnits', "pid='${pid}'");
+  //   areaSelecton = result[0]["aname"];
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.setString("areaSelectionPopup", areaSelecton!);
+  //   print("area---$areaidFrompopup");
+  //   notifyListeners();
+  // }
 
   //////////////////////////////////////////////////////////////////////////
   fetchtotalcollectionFromTable(String cusid) async {

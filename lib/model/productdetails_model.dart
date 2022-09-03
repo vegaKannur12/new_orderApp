@@ -1,5 +1,7 @@
 class ProductDetails {
   String? code;
+  String? pid;
+
   String? ean;
   String? item;
   String? unit;
@@ -19,6 +21,7 @@ class ProductDetails {
 
   ProductDetails(
       {this.code,
+      this.pid,
       this.ean,
       this.item,
       this.unit,
@@ -38,6 +41,7 @@ class ProductDetails {
 
   ProductDetails.fromJson(Map<String, dynamic> json) {
     code = json['code'];
+    pid = json['pid'];
     ean = json['ean'];
     item = json['item'];
     unit = json['unit'];
@@ -59,6 +63,7 @@ class ProductDetails {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
+    data['pid'] = this.pid;
     data['ean'] = this.ean;
     data['item'] = this.item;
     data['unit'] = this.unit;

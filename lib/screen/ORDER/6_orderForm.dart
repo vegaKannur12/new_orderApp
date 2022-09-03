@@ -424,13 +424,15 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             },
                                             displayStringForOption:
                                                 (Map<String, dynamic> option) =>
-                                                    option["hname"].toUpperCase(),
+                                                    option["hname"]
+                                                        .toUpperCase(),
                                             onSelected: (value) {
                                               setState(() {
                                                 print("value----${value}");
                                                 _selectedItemcus =
                                                     value["hname"];
-                                                customerName = value["hname"].toUpperCase();
+                                                customerName = value["hname"]
+                                                    .toUpperCase();
                                                 custmerId = value["ac_code"];
                                                 print(
                                                     "Code .........---${custmerId}");
@@ -583,7 +585,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             fontSize: 12),
                                                       ),
                                                       onPressed: () async {
-                                                        await OrderAppDB.instance.deleteFromTableCommonQuery("returnBagTable", "");
+                                                        await OrderAppDB
+                                                            .instance
+                                                            .deleteFromTableCommonQuery(
+                                                                "returnBagTable",
+                                                                "");
                                                         FocusScopeNode
                                                             currentFocus =
                                                             FocusScope.of(
@@ -613,7 +619,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                   context,
                                                                   listen: false)
                                                               .fetchProductCompanyList();
-                                                          
+
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
@@ -841,7 +847,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                       "customerDet------$customerDet");
                                                                   String os = "S" +
                                                                       "${values.ordernum[0]["os"]}";
-                                                                  
+
                                                                   Provider.of<Controller>(
                                                                           context,
                                                                           listen:
@@ -852,7 +858,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                     custmerId
                                                                         .toString(),
                                                                   );
-                                                                  
+
                                                                   Provider.of<Controller>(
                                                                           context,
                                                                           listen:
@@ -1146,9 +1152,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                                 .areaidFrompopup!,
                                                                         os: oos,
                                                                         areaName: values.areaidFrompopup == null || values.areaidFrompopup!.isEmpty
-                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[1]
-                                                                            : Provider.of<Controller>(context, listen: false).areaSelecton!,
-                                                                        type: "sale order"),
+                                                                            ? Provider.of<Controller>(context, listen: false).areaAutoComplete[
+                                                                                1]
+                                                                            : Provider.of<Controller>(context, listen: false)
+                                                                                .areaSelecton!,
+                                                                        type:
+                                                                            "sale order"),
                                                                   ),
                                                                 );
                                                               }
@@ -1198,7 +1207,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             fontSize: 12),
                                                       ),
                                                       onPressed: () async {
-                                                        await OrderAppDB.instance.deleteFromTableCommonQuery("returnBagTable", "");
+                                                        await OrderAppDB
+                                                            .instance
+                                                            .deleteFromTableCommonQuery(
+                                                                "returnBagTable",
+                                                                "");
                                                         FocusScopeNode
                                                             currentFocus =
                                                             FocusScope.of(
