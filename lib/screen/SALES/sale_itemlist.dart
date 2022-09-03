@@ -924,14 +924,21 @@ class _SalesItemState extends State<SalesItem> {
                                                           Icons.add,
                                                         ),
                                                         onPressed: () async {
-                                                          // value.qtyups(index);
+                                                          String os = "S" +
+                                                              "${value.ordernum[0]["os"]}";
+                                                          value.qtyups(
+                                                            index,
+                                                            "salesBagTable",
+                                                            value.productName[
+                                                                index]["code"],
+                                                            widget.customerId,os
+                                                          );
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
                                                               .selectSettings(
                                                                   "set_code in ('SL_RATE_EDIT','SL_TAX_CALC','SL_UPLOAD_DIRECT') ");
-                                                          String os = "S" +
-                                                              "${value.ordernum[0]["os"]}";
+
                                                           setState(() {
                                                             if (value.selected[
                                                                     index] ==

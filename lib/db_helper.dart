@@ -1847,6 +1847,7 @@ class OrderAppDB {
     print("length---${result.length}");
     return result;
   }
+
 ///////////////////////////////////////////////////////////////////////////////
   selectfromsalebagTable(String customerId) async {
     List<Map<String, dynamic>> result;
@@ -1857,6 +1858,7 @@ class OrderAppDB {
     print("length---${result.length}");
     return result;
   }
+
 /////////////////////////////////////////////////////////////////////////////////
   selectfrombagandfilterList(String customerId, String comId) async {
     print("comid---$comId");
@@ -1916,6 +1918,25 @@ class OrderAppDB {
     count = result[0]["c"].toString();
     print("result---count---$result");
     return count;
+  }
+
+  //////////////////////////////////////////
+  countqty(String table, String? condition) async {
+    String count = "0";
+    String qty;
+    Database db = await instance.database;
+    final result =
+        await db.rawQuery("SELECT qty FROM '$table' WHERE $condition");
+    print("quantity update indbhelp.............$result");
+    if (result != null && result.isNotEmpty) {
+      qty = result[0]["qty"].toString();
+    } else {
+      qty = "1";
+    }
+    print("result qty.........$qty");
+    // count = result[0]["c"].toString();
+    // print("result---count---$result");
+    return qty;
   }
 
 //////////////////////////////////////////////////////////////////

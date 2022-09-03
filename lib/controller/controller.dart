@@ -139,6 +139,7 @@ class Controller extends ChangeNotifier {
   String? cid;
   String? cname;
   int? qtyinc;
+  int? quan;
   int? returnqtyinc;
   String? itemRate;
   List<CD> c_d = [];
@@ -1414,7 +1415,7 @@ class Controller extends ChangeNotifier {
   fetchwallet() async {
     walletList.clear();
     var res = await OrderAppDB.instance
-        .selectAllcommon('walletTable', "rec_mode not in (-3)");
+        .selectAllcommon('walletTable', "waid not in (-3)");
     for (var item in res) {
       walletList.add(item);
     }
@@ -2101,13 +2102,6 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  int qtyup = 0;
-  qtyups(int index) {
-    qtyup = 1 + qtyup;
-    qty[index].text=qtyup.toString();
-    notifyListeners();
-  }
-
   returnqtyIncrement() {
     returnqty = true;
     returnqtyinc = 1 + returnqtyinc!;
@@ -2120,6 +2114,20 @@ class Controller extends ChangeNotifier {
     returnqty = true;
     qtyinc = qtyinc! - 1;
     print("qty-----$qtyinc");
+    notifyListeners();
+  }
+
+  // int qtyup = 0;
+  qtyups(int index, String table, String itemcode, String customerId,
+      String os) async {
+    String quan;
+    var qtyup = await OrderAppDB.instance.countqty(table,
+        "code='${itemcode}' AND customerid='${customerId}' AND os='${os}' ");
+    print("quantity update.............$qtyup");
+    quan = qtyup;
+    print("qyu............$quan");
+    // qtyup = 1 + qtyup;
+    qty[index].text = quan;
     notifyListeners();
   }
 
@@ -3418,24 +3426,14 @@ class Controller extends ChangeNotifier {
     // }
     notifyListeners();
   }
-<<<<<<< HEAD
-  quantitiChange(int qtya,int index)async{
+
+  quantitiChange(int qtya, int index) async {
     print("kjf----$index");
-    int cartrow=index+1;
+    int cartrow = index + 1;
     // var result=await OrderAppDB.instance.selectAllcommon('salesBagTable', "cartrowno='$cartrow'");
     // print("restuuu----$result");
     // int qtyss=qtya+1;
     // qty[index].text=result[0]["qty"].toString();
-=======
-
-  quantitiChange(int qtya, int index) {
-    int qtyss = qtya + 1;
-    qty[index].text = qtyss.toString();
->>>>>>> dbea2ed1a611943705432d5f8c94800071bd536a
     notifyListeners();
   }
-
-
-
-
 }
