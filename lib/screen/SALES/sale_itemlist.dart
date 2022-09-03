@@ -825,40 +825,111 @@ class _SalesItemState extends State<SalesItem> {
                                                                       0.03,
                                                               width:
                                                                   size.width *
-                                                                      0.5,
-                                                              child: ListView
-                                                                  .builder(
-                                                                scrollDirection:
-                                                                    Axis.horizontal,
-                                                                itemCount: value
-                                                                    .productUnitList
-                                                                    .length,
-                                                                itemBuilder:
+                                                                      0.9,
+                                                              child: Consumer<
+                                                                  Controller>(
+                                                                builder:
                                                                     (context,
-                                                                        index) {
-                                                                  return ElevatedButton(
-                                                                    onPressed:
-                                                                        () {},
-                                                                    style: ElevatedButton
-                                                                        .styleFrom(
-                                                                      primary:
-                                                                          Colors
-                                                                              .green, // background (button) color
-                                                                      // foreground (text) color
-                                                                    ),
-                                                                    child: Text(
-                                                                      value
-                                                                          .productUnitList[
-                                                                              index]
-                                                                              [
-                                                                              "unit_name"]
-                                                                          .toString(),
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              10,
-                                                                          color:
-                                                                              Colors.white),
-                                                                    ),
+                                                                        value,
+                                                                        child) {
+                                                                  return ListView
+                                                                      .builder(
+                                                                    // shrinkWrap:
+                                                                    //     true,
+
+                                                                    scrollDirection:
+                                                                        Axis.horizontal,
+                                                                    itemCount: value
+                                                                        .productUnitList
+                                                                        .length,
+                                                                    itemBuilder:
+                                                                        (context,
+                                                                            int) {
+                                                                      return GestureDetector(
+                                                                        onTap:
+                                                                            () async {
+                                                                          Provider.of<Controller>(context, listen: false).selectedUnit = value
+                                                                              .productUnitList[int]["unit_name"]
+                                                                              .toString();
+                                                                          // print(
+                                                                          //     "${value.productUnitList[int]["unit_name"].toString()}");
+
+                                                                          ///total
+                                                                          /////discount
+                                                                          /////unitname
+                                                                          /////int max
+                                                                          ///
+                                                                          // var max = await OrderAppDB.instance.getMaxCommonQuery(
+                                                                          //     'salesBagTable',
+                                                                          //     'cartrowno',
+                                                                          //     "os='${widget.os}' AND customerid='${widget.customerId}'");
+                                                                          // var res = await OrderAppDB.instance.insertsalesBagTable(
+                                                                          //     products[index]["item"],
+                                                                          //     s[0],
+                                                                          //     s[1],
+                                                                          //     widget.os,
+                                                                          //     widget.customerId,
+                                                                          //     max,
+                                                                          //     products[index]["code"],
+                                                                          //     double.parse(value.qty[index].text),
+                                                                          //     rate1,
+                                                                          //     value.taxable_rate,
+                                                                          //     " ",
+                                                                          //     "0",
+                                                                          //     products[index]["hsn"],
+                                                                          //     double.parse(
+                                                                          //       products[index]["tax"],
+                                                                          //     ),
+                                                                          //     value.tax,
+                                                                          //     value.cgst_per,
+                                                                          //     value.cgst_amt,
+                                                                          //     value.sgst_per,
+                                                                          //     value.sgst_amt,
+                                                                          //     value.igst_per,
+                                                                          //     value.igst_amt,
+                                                                          //     0.0,
+                                                                          //     0.0,
+                                                                          //     0.0,
+                                                                          //     value.cess,
+                                                                          //     0,
+                                                                          //     value.net_amt,
+                                                                          //     0,
+                                                                          //     value.productUnitList[int]["unit_name"].toString());
+                                                                        },
+                                                                        child:
+                                                                            Card(
+                                                                          child:
+                                                                              Container(
+                                                                            width:
+                                                                                size.width * 0.1,
+                                                                            child:
+                                                                                Text(
+                                                                              value.productUnitList[int]["unit_name"].toString(),
+                                                                              style: TextStyle(fontSize: 13, color: Colors.green, fontWeight: FontWeight.normal),
+                                                                            ),
+                                                                          ),
+                                                                          // child: ElevatedButton(
+                                                                          //   onPressed:
+                                                                          //       () {},
+                                                                          //   style: ElevatedButton
+                                                                          //       .styleFrom(
+                                                                          //     primary:
+                                                                          //         Colors.green, // background (button) color
+                                                                          //     // foreground (text) color
+                                                                          //   ),
+                                                                          //   child:
+                                                                          //       Text(
+                                                                          //     value
+                                                                          //         .productUnitList[index]["unit_name"]
+                                                                          //         .toString(),
+                                                                          //     style: TextStyle(
+                                                                          //         fontSize: 10,
+                                                                          //         color: Colors.white),
+                                                                          //   ),
+                                                                          // ),
+                                                                        ),
+                                                                      );
+                                                                    },
                                                                   );
                                                                 },
                                                               ),
@@ -878,78 +949,6 @@ class _SalesItemState extends State<SalesItem> {
                                                           // )
                                                         ],
                                                       )
-                                                      // SizedBox(
-                                                      //     height: size.height *
-                                                      //         0.02),
-                                                      // Row(
-                                                      //   children: [
-                                                      //     // Text(
-                                                      //     //     "Select Packing"),
-
-                                                      //     Flexible(
-                                                      //       child: Container(
-                                                      //         color: Colors
-                                                      //             .grey[200],
-                                                      //         height:
-                                                      //             size.height *
-                                                      //                 0.04,
-                                                      //         width:
-                                                      //             size.width *
-                                                      //                 0.3,
-                                                      //         child:
-                                                      //             DropdownButton<
-                                                      //                 String>(
-                                                      //           value: selected,
-                                                      //           hint: Text(
-                                                      //               "Paking"),
-                                                      //           isExpanded:
-                                                      //               true,
-                                                      //           // autofocus: false,
-                                                      //           underline:
-                                                      //               SizedBox(),
-                                                      //           elevation: 0,
-                                                      //           items: value
-                                                      //               .walletList
-                                                      //               .map((item) => DropdownMenuItem<
-                                                      //                       String>(
-                                                      //                   value: item["waid"]
-                                                      //                       .toString(),
-                                                      //                   child:
-                                                      //                       Container(
-                                                      //                     width:
-                                                      //                         size.width * 0.5,
-                                                      //                     child: Padding(
-                                                      //                         padding: EdgeInsets.all(5.0),
-                                                      //                         child: Text(
-                                                      //                           item["wname"].toString(),
-                                                      //                           style: TextStyle(fontSize: 13),
-                                                      //                         )),
-                                                      //                   )))
-                                                      //               .toList(),
-                                                      //           onChanged:
-                                                      //               (item) {
-                                                      //             print(
-                                                      //                 "clicked");
-
-                                                      //             if (item !=
-                                                      //                 null) {
-                                                      //               setState(
-                                                      //                   () {
-                                                      //                 selected =
-                                                      //                     item;
-                                                      //               });
-                                                      //               print(
-                                                      //                   "se;ected---$item");
-                                                      //             }
-                                                      //           },
-
-                                                      //           // disabledHint: Text(selected ?? "null"),
-                                                      //         ),
-                                                      //       ),
-                                                      //     ),
-                                                      //     //  });
-                                                      //   ],
-                                                      // ),
                                                     ],
                                                   ),
                                                   trailing: Row(
@@ -1212,7 +1211,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                     value
                                                                         .net_amt,
                                                                     0,
-                                                                    unit_name!);
+                                                                    value.selectedUnit!);
                                                             //     int qtysale =
                                                             //     int.parse(value
                                                             //         .qty[index]

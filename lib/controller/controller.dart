@@ -70,6 +70,7 @@ class Controller extends ChangeNotifier {
   String? fromDate;
   String? todate;
   String? selectedAreaId;
+  String? selectedUnit;
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
