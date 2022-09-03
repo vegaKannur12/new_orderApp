@@ -10,7 +10,6 @@ import 'package:orderapp/model/wallet_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
 import 'model/productCompany_model.dart';
 import 'model/registration_model.dart';
 import 'model/staffarea_model.dart';
@@ -92,6 +91,7 @@ class OrderAppDB {
   // static final ac_code = 'uid';
 
   /////////////productdetails//////////
+  static final pid = 'pid';
   static final code = 'code';
   static final ean = 'ean';
   static final item = 'item';
@@ -381,6 +381,7 @@ class OrderAppDB {
     await db.execute('''
           CREATE TABLE productDetailsTable (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
+            $pid INTEGER,
             $code TEXT NOT NULL,
             $ean TEXT,
             $item TEXT,
@@ -683,7 +684,7 @@ class OrderAppDB {
     await db.execute('''
           CREATE TABLE productUnits (
             $id INTEGER PRIMARY KEY AUTOINCREMENT,
-            $code TEXT,
+            $pid TEXT,
             $package REAL,
             $unit_name TEXT
           )
@@ -1152,7 +1153,7 @@ class OrderAppDB {
   Future insertProductDetails(ProductDetails pdata) async {
     final db = await database;
     var query3 =
-        'INSERT INTO productDetailsTable(code, ean, item, unit, categoryId, companyId, stock, hsn, tax, prate, mrp, cost, rate1, rate2, rate3, rate4, priceflag) VALUES("${pdata.code}", "${pdata.ean}", "${pdata.item}", "${pdata.unit}", "${pdata.categoryId}", "${pdata.companyId}", "${pdata.stock}", "${pdata.hsn}", "${pdata.tax}", "${pdata.prate}", "${pdata.mrp}", "${pdata.cost}", "${pdata.rate1}", "${pdata.rate2}", "${pdata.rate3}", "${pdata.rate4}", "${pdata.priceFlag}")';
+        'INSERT INTO productDetailsTable(pid, code, ean, item, unit, categoryId, companyId, stock, hsn, tax, prate, mrp, cost, rate1, rate2, rate3, rate4, priceflag) VALUES(${pdata.pid},"${pdata.code}", "${pdata.ean}", "${pdata.item}", "${pdata.unit}", "${pdata.categoryId}", "${pdata.companyId}", "${pdata.stock}", "${pdata.hsn}", "${pdata.tax}", "${pdata.prate}", "${pdata.mrp}", "${pdata.cost}", "${pdata.rate1}", "${pdata.rate2}", "${pdata.rate3}", "${pdata.rate4}", "${pdata.priceFlag}")';
     var res = await db.rawInsert(query3);
     // print(query3);
     // print(res);
@@ -1328,13 +1329,12 @@ class OrderAppDB {
     final db = await database;
 
     var query =
-        'INSERT INTO productUnits(code, package, unit_name) VALUES("${productUnits.prodid}",${productUnits.boxqty}, "${productUnits.boxnme}")';
+        'INSERT INTO productUnits(pid, package, unit_name) VALUES("${productUnits.prodid}",${productUnits.boxqty}, "${productUnits.boxnme}")';
     var res = await db.rawInsert(query);
     print("responce...............$res");
     print(query);
     // print(res);
     return res;
-   
   }
 
 /////////////////////////collectionTable/////////////////////////////
@@ -1504,16 +1504,16 @@ class OrderAppDB {
 
   ///////////////////////////////////////////////////////////////
 
-  getItems(String product) async {
-    print("product---${product}");
-    Database db = await instance.database;
-    var res = await db.rawQuery(
-        "SELECT A.item, A.ean, A.rate1,A.code FROM productDetailsTable A WHERE A.code || A.item LIKE '%$product%'");
+  // getItems(String product) async {
+  //   print("product---${product}");
+  //   Database db = await instance.database;
+  //   var res = await db.rawQuery(
+  //       "SELECT A.item, A.ean, A.rate1,A.code FROM productDetailsTable A WHERE A.code || A.item LIKE '%$product%'");
 
-    print("SELECT * FROM productDetailsTable WHERE item LIKE '$product%'");
-    print("items=================${res}");
-    return res;
-  }
+  //   print("SELECT * FROM productDetailsTable WHERE item LIKE '$product%'");
+  //   print("items=================${res}");
+  //   return res;
+  // }
 
   //////////////////////////////////////////////////////////////
   getOrderNo() async {
@@ -2142,7 +2142,6 @@ class OrderAppDB {
     } else {
       result = await db.rawQuery(query);
     }
-
     print("result menu common----$result");
     return result;
   }

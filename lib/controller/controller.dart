@@ -166,6 +166,8 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> reportData = [];
   List<Map<String, dynamic>> sumPrice = [];
   List<Map<String, dynamic>> collectionsumPrice = [];
+  List<DropdownButton> listDropdown = [];
+
   String collectionAmount = "0.0";
   String returnAmount = "0.0";
   String ordrAmount = "0.0";
@@ -886,7 +888,7 @@ class Controller extends ChangeNotifier {
           .deleteFromTableCommonQuery("productDetailsTable", "");
       // print("body ${body}");
       List map = jsonDecode(response.body);
-      // print("map ${map}");
+      print("productDetailsTable--map ${map}");
       for (var pro in map) {
         proDetails = ProductDetails.fromJson(pro);
         var product =
@@ -1110,10 +1112,12 @@ class Controller extends ChangeNotifier {
   }
 
   ////////////////////////////fetch productunits///////////////////////////////////////////////
-  fetchProductUnits(String code) async {
+  fetchProductUnits(int code) async {
+    print("codecode  ----$code");
+
+    var res = await OrderAppDB.instance
+        .selectAllcommon('productUnits', "pid='$code'");
     productUnitList.clear();
-    var res =
-        await OrderAppDB.instance.selectAllcommon('productUnits', "code='$code'");
     for (var item in res) {
       productUnitList.add(item);
     }
@@ -1466,7 +1470,7 @@ class Controller extends ChangeNotifier {
   fetchwallet() async {
     walletList.clear();
     var res = await OrderAppDB.instance
-        .selectAllcommon('walletTable', "rec_mode not in (-3)");
+        .selectAllcommon('walletTable', "waid not in (-3)");
     for (var item in res) {
       walletList.add(item);
     }
@@ -1722,6 +1726,7 @@ class Controller extends ChangeNotifier {
       var length = productName.length;
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
+      // listDropdown=List.generate(length, (index) => DropdownButton())
       selected = List.generate(length, (index) => false);
       // returnselected = List.generate(length, (index) => false);
 
@@ -2156,7 +2161,7 @@ class Controller extends ChangeNotifier {
   int qtyup = 0;
   qtyups(int index) {
     qtyup = 1 + qtyup;
-    qty[index].text=qtyup.toString();
+    qty[index].text = qtyup.toString();
     notifyListeners();
   }
 
