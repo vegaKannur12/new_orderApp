@@ -1126,6 +1126,7 @@ class Controller extends ChangeNotifier {
       for (var item in res) {
         productUnitList.add(item);
       }
+      print("product length...........${productUnitList.length}");
       print("ProductUnits  ----$productUnitList");
       notifyListeners();
     } catch (e) {
@@ -1664,26 +1665,27 @@ class Controller extends ChangeNotifier {
     print("haii---");
     int flag = 0;
     productName.clear();
+
     try {
       isLoading = true;
       // notifyListeners();
       prodctItems =
           await OrderAppDB.instance.selectfromOrderbagTable(customerId);
-      print("prodctItems----${prodctItems.length}");
-
+      print("prodctItems----${prodctItems}");
+      productName.clear();
       for (var item in prodctItems) {
         productName.add(item);
       }
       var length = productName.length;
+      print("product namess.......$productName");
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
       returnselected = List.generate(length, (index) => false);
       returnirtemExists = List.generate(length, (index) => false);
       isLoading = false;
-      notifyListeners();
-      print("product name----${productName}");
-
+      // notifyListeners();
+      // productName[selected]["pid"] ==
       notifyListeners();
     } catch (e) {
       print(e);
@@ -1707,7 +1709,7 @@ class Controller extends ChangeNotifier {
             await OrderAppDB.instance.selectfromreturnbagTable(customerId);
       }
 
-      print("prodctItems----${prodctItems.length}");
+      print("prodctItemsdfddfd----${prodctItems.length}");
       productName.clear();
 
       for (var item in prodctItems) {
@@ -1737,13 +1739,13 @@ class Controller extends ChangeNotifier {
     print("customer id......$customerId");
     print("haii---");
     int flag = 0;
-
+    productName.clear();
     try {
       isLoading = true;
       // notifyListeners();
       prodctItems =
           await OrderAppDB.instance.selectfromsalebagTable(customerId);
-      print("prodctItems----${prodctItems.length}");
+      print("prodctItems----${prodctItems}");
       productName.clear();
       for (var item in prodctItems) {
         productName.add(item);
@@ -3483,7 +3485,8 @@ class Controller extends ChangeNotifier {
     //     select max($id)+1 as value from $table order by value desc
   }
   queryExecuteResult(String query) async {
-    // queryResult.clear();
+    queryResult.clear();
+    print("print query..........");
     queryResult = await OrderAppDB.instance.executeQuery(query);
     print("queryResult---$queryResult");
     notifyListeners();

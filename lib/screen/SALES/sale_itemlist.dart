@@ -389,6 +389,99 @@ class _SalesItemState extends State<SalesItem> {
                                                             FontStyle.italic,
                                                       ),
                                                     ),
+                                                    //  Row(
+                                                    //     mainAxisAlignment:
+                                                    //         MainAxisAlignment
+                                                    //             .start,
+                                                    //     children: [
+                                                    //       Expanded(
+                                                    //         child: Container(
+                                                    //           height:
+                                                    //               size.height *
+                                                    //                   0.03,
+                                                    //           width:
+                                                    //               size.width *
+                                                    //                   0.9,
+                                                    //           child: Consumer<
+                                                    //               Controller>(
+                                                    //             builder:
+                                                    //                 (context,
+                                                    //                     value,
+                                                    //                     child) {
+                                                    //               return ListView
+                                                    //                   .builder(
+                                                    //                 // shrinkWrap:
+                                                    //                 //     true,
+                                                    //                 scrollDirection:
+                                                    //                     Axis.horizontal,
+                                                    //                 itemCount: value
+                                                    //                     .productName
+                                                    //                     .length,
+                                                    //                 itemBuilder:
+                                                    //                     (context,
+                                                    //                         int) {
+                                                    //                   return GestureDetector(
+                                                    //                     onTap:
+                                                    //                         () async {
+                                                    //                       Provider.of<Controller>(context, listen: false).selectunit = value
+                                                    //                           .newList[int]["unitUnit_name"]
+                                                    //                           .toString();
+                                                    //                       print(
+                                                    //                           "selected button value..........${Provider.of<Controller>(context, listen: false).selectunit}");
+                                                    //                     },
+                                                    //                     child:
+                                                    //                         Card(
+                                                    //                       child:
+                                                    //                           Container(
+                                                    //                         width:
+                                                    //                             size.width * 0.1,
+                                                    //                         child:
+                                                    //                             Text(
+                                                    //                           value.newList[int]["unitUnit_name"].toString(),
+                                                    //                           style: TextStyle(fontSize: 13, color: Colors.green, fontWeight: FontWeight.normal),
+                                                    //                         ),
+                                                    //                       ),
+                                                    //                       // child: ElevatedButton(
+                                                    //                       //   onPressed:
+                                                    //                       //       () {},
+                                                    //                       //   style: ElevatedButton
+                                                    //                       //       .styleFrom(
+                                                    //                       //     primary:
+                                                    //                       //         Colors.green, // background (button) color
+                                                    //                       //     // foreground (text) color
+                                                    //                       //   ),
+                                                    //                       //   child:
+                                                    //                       //       Text(
+                                                    //                       //     value
+                                                    //                       //         .productUnitList[index]["unit_name"]
+                                                    //                       //         .toString(),
+                                                    //                       //     style: TextStyle(
+                                                    //                       //         fontSize: 10,
+                                                    //                       //         color: Colors.white),
+                                                    //                       //   ),
+                                                    //                       // ),
+                                                    //                     ),
+                                                    //                   );
+                                                    //                 },
+                                                    //               );
+                                                    //             },
+                                                    //           ),
+                                                    //         ),
+                                                    //       ),
+
+                                                    //       // Text(
+                                                    //       //   "${Provider.of<Controller>(context, listen: false).selectunit}",
+                                                    //       //   style: TextStyle(
+                                                    //       //     fontSize: 13,
+                                                    //       //     color:
+                                                    //       //         Colors.grey,
+                                                    //       //     fontStyle:
+                                                    //       //         FontStyle
+                                                    //       //             .italic,
+                                                    //       //   ),
+                                                    //       // )
+                                                    //     ],
+                                                    //   )
                                                   ],
                                                 ),
                                                 trailing: Row(
@@ -742,12 +835,12 @@ class _SalesItemState extends State<SalesItem> {
                                               child: Card(
                                                 child: ListTile(
                                                   onTap: () {
-                                                    Provider.of<Controller>(
-                                                            context,
-                                                            listen: false)
-                                                        .fetchProductUnits(
-                                                            value.productName[
-                                                                index]["pid"]);
+                                                    // Provider.of<Controller>(
+                                                    //         context,
+                                                    //         listen: false)
+                                                    //     .fetchProductUnits(
+                                                    //         value.productName[
+                                                    //             index]["pid"]);
                                                     // buildPopupDialog(
                                                     //     context, size, index);
                                                   },
@@ -836,11 +929,10 @@ class _SalesItemState extends State<SalesItem> {
                                                                       .builder(
                                                                     // shrinkWrap:
                                                                     //     true,
-
                                                                     scrollDirection:
                                                                         Axis.horizontal,
                                                                     itemCount: value
-                                                                        .productUnitList
+                                                                        .productName
                                                                         .length,
                                                                     itemBuilder:
                                                                         (context,
@@ -848,53 +940,11 @@ class _SalesItemState extends State<SalesItem> {
                                                                       return GestureDetector(
                                                                         onTap:
                                                                             () async {
-                                                                          Provider.of<Controller>(context, listen: false).selectedUnit = value
-                                                                              .productUnitList[int]["unit_name"]
+                                                                          Provider.of<Controller>(context, listen: false).selectunit = value
+                                                                              .productName[int]["unitUnit_name"]
                                                                               .toString();
-                                                                          // print(
-                                                                          //     "${value.productUnitList[int]["unit_name"].toString()}");
-
-                                                                          ///total
-                                                                          /////discount
-                                                                          /////unitname
-                                                                          /////int max
-                                                                          ///
-                                                                          // var max = await OrderAppDB.instance.getMaxCommonQuery(
-                                                                          //     'salesBagTable',
-                                                                          //     'cartrowno',
-                                                                          //     "os='${widget.os}' AND customerid='${widget.customerId}'");
-                                                                          // var res = await OrderAppDB.instance.insertsalesBagTable(
-                                                                          //     products[index]["item"],
-                                                                          //     s[0],
-                                                                          //     s[1],
-                                                                          //     widget.os,
-                                                                          //     widget.customerId,
-                                                                          //     max,
-                                                                          //     products[index]["code"],
-                                                                          //     double.parse(value.qty[index].text),
-                                                                          //     rate1,
-                                                                          //     value.taxable_rate,
-                                                                          //     " ",
-                                                                          //     "0",
-                                                                          //     products[index]["hsn"],
-                                                                          //     double.parse(
-                                                                          //       products[index]["tax"],
-                                                                          //     ),
-                                                                          //     value.tax,
-                                                                          //     value.cgst_per,
-                                                                          //     value.cgst_amt,
-                                                                          //     value.sgst_per,
-                                                                          //     value.sgst_amt,
-                                                                          //     value.igst_per,
-                                                                          //     value.igst_amt,
-                                                                          //     0.0,
-                                                                          //     0.0,
-                                                                          //     0.0,
-                                                                          //     value.cess,
-                                                                          //     0,
-                                                                          //     value.net_amt,
-                                                                          //     0,
-                                                                          //     value.productUnitList[int]["unit_name"].toString());
+                                                                          print(
+                                                                              "selected button value..........${Provider.of<Controller>(context, listen: false).selectunit}");
                                                                         },
                                                                         child:
                                                                             Card(
@@ -904,7 +954,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                                 size.width * 0.1,
                                                                             child:
                                                                                 Text(
-                                                                              value.productUnitList[int]["unit_name"].toString(),
+                                                                              value.productName[int]["unitUnit_name"].toString(),
                                                                               style: TextStyle(fontSize: 13, color: Colors.green, fontWeight: FontWeight.normal),
                                                                             ),
                                                                           ),
@@ -1182,7 +1232,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                     "0",
                                                                     products[
                                                                             index]
-                                                                        ["hsn"],
+                                                                        ["hsn"], 
                                                                     double
                                                                         .parse(
                                                                       products[
@@ -1211,7 +1261,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                     value
                                                                         .net_amt,
                                                                     0,
-                                                                    value.selectedUnit!);
+                                                                    value
+                                                                        .selectedUnit!);
                                                             //     int qtysale =
                                                             //     int.parse(value
                                                             //         .qty[index]

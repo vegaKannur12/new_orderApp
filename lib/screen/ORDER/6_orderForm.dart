@@ -824,7 +824,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               ),
                                                               onPressed:
                                                                   () async {
-                                                
                                                                 FocusScopeNode
                                                                     currentFocus =
                                                                     FocusScope.of(
@@ -871,7 +870,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                           listen:
                                                                               false)
                                                                       .salefilterCompany = false;
-
+                                                                  Provider.of<Controller>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .getSaleProductList(
+                                                                          custmerId!);
                                                                   //  os = "S" +
                                                                   //   "${values.ordernum[0]["os"]}";
                                                                   Navigator.of(
