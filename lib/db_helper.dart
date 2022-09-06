@@ -836,7 +836,9 @@ class OrderAppDB {
     int cstatus,
     double net_amt,
     int pid,
-    String unit_name,
+    String? unit_name,
+    double packagenm,
+    double baseRate,
   ) async {
     print("qty--$qty");
     print("code...........$code");
@@ -844,6 +846,12 @@ class OrderAppDB {
     var res;
     var query3;
     var query2;
+    print(
+        "baseRate calculated.........$baseRate...$unit_name...........$packagenm");
+
+    String? newrate = baseRate.toString();
+
+    print("newrate calculated.........$newrate");
     List<Map<String, dynamic>> res1 = await db.rawQuery(
         'SELECT  * FROM salesBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
     print("SELECT from ---$discount_amt");
@@ -857,13 +865,13 @@ class OrderAppDB {
       print("upadted qty-----$updatedQty");
       double amount1 = double.parse(totalamount);
       double updatedAmount = amount + amount1;
-      double baserate = res1[0]["totalamount"];
+
       var res = await db.rawUpdate(
           'UPDATE salesBagTable SET qty=$updatedQty , totalamount="${updatedAmount}" , net_amt=$net_amt ,tax_amt=$tax ,discount_per=$discount_per, discount_amt=$discount_amt,cgst_amt=$cgst_amt,sgst_amt=$sgst_amt,igst_amt=$igst_amt,unit_rate=$unit_rate  WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate,unit_rate, totalamount, method, hsn,tax_per, tax_amt, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt, pid, unit_name, baserate) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}",$unit_rate, "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt" , $pid, "$unit_name", $baserate)';
+          'INSERT INTO salesBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate,unit_rate, totalamount, method, hsn,tax_per, tax_amt, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, discount_per, discount_amt, ces_per,ces_amt, cstatus, net_amt, pid, unit_name, package, baseRate) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${newrate}",$unit_rate, "${totalamount}","${method}", "${hsn}",${tax_per}, ${tax}, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, ${discount_per}, ${discount_amt}, ${ces_per},${ces_amt}, $cstatus,"$net_amt" , $pid, "$unit_name", $packagenm, $baseRate)';
       var res = await db.rawInsert(query2);
     }
 
@@ -952,6 +960,9 @@ class OrderAppDB {
     double rounding,
     int state_status,
     int status,
+    double? unit_value,
+    String? packing,
+    double? base_rate,
     // double rounding,
   ) async {
     final db = await database;
@@ -961,7 +972,7 @@ class OrderAppDB {
         "total quantity............$rounding.......$total_qty.....$total_price.....$net_amt");
     if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, "$packing", $baserate)';
+          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, "$packing", $base_rate)';
       print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
@@ -1624,6 +1635,7 @@ class OrderAppDB {
     String sgst;
     String igst;
     double? roundoff;
+    double? brate;
     Database db = await instance.database;
     print("calculate sales updated tot in db....$os...$customerId");
     var result = await db.rawQuery(
@@ -1631,10 +1643,10 @@ class OrderAppDB {
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst " +
+          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst, SUM(baserate) brate " +
               "FROM salesBagTable WHERE os='$os' " +
               "AND customerid='$customerId'");
-      print("result sale db........$res");
+      print("resulted alll sum/////////////////$res");
       net_amount = res[0]["s"].toStringAsFixed(2);
       double totval = 0;
 
@@ -1658,10 +1670,12 @@ class OrderAppDB {
       cgst = res[0]["cgst"].toStringAsFixed(2);
       sgst = res[0]["sgst"].toStringAsFixed(2);
       igst = res[0]["igst"].toStringAsFixed(2);
+      brate = double.parse(res[0]["brate"].toStringAsFixed(2));
+
       tax_tot = double.parse(cgst) + double.parse(sgst) + double.parse(igst);
-      print("tax_tot......$cgst---$sgst---$igst");
+      print("tax_tot....$brate..$cgst---$sgst---$igst");
       print(
-          "gross..netamount..taxval..dis..ces ...$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
+          "gross..netamount..taxval..dis..ces .....$brate....$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
       net_amount = "0.00";
       count = "0.00";
@@ -1676,6 +1690,7 @@ class OrderAppDB {
       sgst = "0.00";
       igst = "0.00";
       tax_tot = 0.00;
+      brate = 0.00;
     }
     return [
       net_amount,
@@ -1688,7 +1703,8 @@ class OrderAppDB {
       cesper,
       taxper,
       tax_tot,
-      roundoff!
+      roundoff!,
+      brate
     ];
   }
 
@@ -1901,21 +1917,28 @@ class OrderAppDB {
   selectfromsalebagTable(String customerId) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
-    result = await db.rawQuery("SELECT pd.pid,pd.code,pd.ean,pd.item,pd.unit,pd.categoryId,pd.companyId,pd.stock,pd.hsn, " +
-        "pd.tax,pd.prate,pd.mrp,pd.cost,pd.rate1,pd.rate2,pd.rate3,pd.rate4,pd.priceflag, " +
+    // result = await db.rawQuery(
+    // "SELECT productDetailsTable.* , salesBagTable.cartrowno ,salesBagTable.qty " +
+    //     "FROM 'productDetailsTable' " +
+    //     "LEFT JOIN 'salesBagTable' " +
+    //     "ON productDetailsTable.code = salesBagTable.code " +
+    //     "AND salesBagTable.customerid='$customerId' " +
+    //     "ORDER BY cartrowno DESC");
+    result = await db.rawQuery("SELECT pd.pid,pd.code,pd.item,pd.unit,pd.companyId,pd.hsn, " +
+        "pd.tax,pd.prate,pd.mrp,pd.cost,pd.rate1, " +
         "b.itemName,b.cartdate,b.carttime,b.os,b.customerid,b.cartrowno,b.code bagCode, " +
         "b.qty bagQty,b.rate bagRate,b.unit_rate bagUnitRate,b.totalamount bagTotal," +
-        "b.method,b.hsn,b.tax_per,b.tax_amt,b.cgst_per,b.cgst_amt,b.sgst_per,b.sgst_amt," +
+        "b.method,b.tax_per,b.tax_amt,b.cgst_per,b.cgst_amt,b.sgst_per,b.sgst_amt," +
         "b.igst_per,b.igst_amt,b.discount_per,b.discount_amt,b.ces_per,b.ces_amt,b.cstatus," +
         "b.net_amt,b.pid bagPid,b.unit_name bagUnitName,b.package bagPackage,b.baserate," +
-        "u.pid unitPid,u.package unitPackage,u.unit_name unitUnit_name " +
+        "u.pid unitPid,u.package unitPackage,u.unit_name unitUnit_name  " +
         "FROM 'productDetailsTable' pd " +
-        "LEFT JOIN 'productUnits' u ON pd.pid = u.pid " +
-        "LEFT JOIN 'salesBagTable' b ON pd.code = b.code AND  pd.pid = b.pid " +
+        "LEFT JOIN 'salesBagTable' b " +
+        "ON pd.code = b.code " +
         "AND b.customerid='$customerId' " +
-        "AND b.unit_name =  u.unit_name " +
-        "where pd.pid = u.pid " +
-        "ORDER BY cartrowno DESC");
+        "LEFT JOIN 'productUnits' u ON u.pid = pd.pid " +
+        "where pd.pid <7 " +
+        "ORDER BY pd.pid DESC");
     /////////////////////////////////////////////////
     print("selectfromsalebagTable result----$result");
     print("length sales unitsss---${result.length}");

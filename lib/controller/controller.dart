@@ -1165,7 +1165,8 @@ class Controller extends ChangeNotifier {
       double cess_tot,
       BuildContext context,
       String payment_mode,
-      double roundoff) async {
+      double roundoff,
+      double baserate) async {
     List<Map<String, dynamic>> om = [];
     print("fhnjdroundoff---$roundoff");
     // String salesOs = "S" + "$os";
@@ -1173,67 +1174,19 @@ class Controller extends ChangeNotifier {
     //     .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
     int sales_id = await OrderAppDB.instance
         .calculateMaxSeries('${os}', 'salesMasterTable', 'sales_id');
+        print("base rate insert.............$baserate");
     int rowNum = 1;
-    print("salebagList length........${salebagList.length}");
+    print("salebagList length........${salebagList}");
     if (salebagList.length > 0) {
       String billNo = "${os}" + "${sales_id}";
       print("bill no........$total_price");
       var result = await OrderAppDB.instance.insertsalesMasterandDetailsTable(
-        sales_id,
-        0,
-        0.0,
-        0.0,
-        "",
-        "",
-        date,
-        time,
-        os,
-        customer_id,
-        "",
-        billNo,
-        staff_id,
-        aid,
-        0,
-        payment_mode.toString(),
-        "",
-        "",
-        rowNum,
-        "salesMasterTable",
-        "",
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        gross_tot,
-        dis_tot,
-        tax_tot,
-        cess_tot,
-        0.0,
-        total_price,
-        roundoff,
-        0,
-        0,
-      );
-
-      for (var item in salebagList) {
-        print("item....$item");
-        // double rate = double.parse(item["rate"]);
-        await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
-          item["qty"],
-          item["rate"],
-          item["unit_rate"],
-          item["code"],
-          item["hsn"],
+          0,
+          0.0,
+          0.0,
+          "",
+          "",
           date,
           time,
           os,
@@ -1243,35 +1196,88 @@ class Controller extends ChangeNotifier {
           staff_id,
           aid,
           0,
-          "",
+          payment_mode.toString(),
           "",
           "",
           rowNum,
-          "salesDetailTable",
-          item["itemName"],
-          item["totalamount"],
-          item["discount_amt"],
-          item["discount_per"],
-          item["tax_amt"],
-          item["tax_per"],
-          item["cgst_per"],
-          item["cgst_amt"],
-          item["sgst_per"],
-          item["sgst_amt"],
-          item["igst_per"],
-          item["igst_amt"],
-          item["ces_amt"],
-          item["ces_per"],
+          "salesMasterTable",
+          "",
           0.0,
           0.0,
           0.0,
-          item["net_amt"],
           0.0,
-          item["net_amt"],
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          gross_tot,
+          dis_tot,
+          tax_tot,
+          cess_tot,
+          0.0,
+          total_price,
           roundoff,
           0,
           0,
-        );
+          0.0,
+          "",
+          0.0);
+
+      for (var item in salebagList) {
+        print("item....$item");
+        // double rate = double.parse(item["rate"]);
+        await OrderAppDB.instance.insertsalesMasterandDetailsTable(
+            sales_id,
+            item["qty"],
+            item["rate"],
+            item["unit_rate"],
+            item["code"],
+            item["hsn"],
+            date,
+            time,
+            os,
+            customer_id,
+            "",
+            billNo,
+            staff_id,
+            aid,
+            0,
+            "",
+            "",
+            "",
+            rowNum,
+            "salesDetailTable",
+            item["itemName"],
+            item["totalamount"],
+            item["discount_amt"],
+            item["discount_per"],
+            item["tax_amt"],
+            item["tax_per"],
+            item["cgst_per"],
+            item["cgst_amt"],
+            item["sgst_per"],
+            item["sgst_amt"],
+            item["igst_per"],
+            item["igst_amt"],
+            item["ces_amt"],
+            item["ces_per"],
+            0.0,
+            0.0,
+            0.0,
+            item["net_amt"],
+            0.0,
+            item["net_amt"],
+            roundoff,
+            0,
+            0,
+            0.0,
+            "",
+            baserate);
         rowNum = rowNum + 1;
       }
     }
@@ -1747,10 +1753,12 @@ class Controller extends ChangeNotifier {
           await OrderAppDB.instance.selectfromsalebagTable(customerId);
       print("prodctItems----${prodctItems}");
       productName.clear();
-      for (var item in prodctItems) {
-        productName.add(item);
+      for (var i in prodctItems) {
+        productName.add(i);
       }
       var length = productName.length;
+      print("product item listttttt....................${productName}");
+
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
       // listDropdown=List.generate(length, (index) => DropdownButton())
@@ -1823,6 +1831,9 @@ class Controller extends ChangeNotifier {
     for (var item in res) {
       salebagList.add(item);
     }
+
+    print("salebagList innnnnsale----$salebagList");
+
     rateEdit = List.generate(salebagList.length, (index) => false);
     salesqty =
         List.generate(salebagList.length, (index) => TextEditingController());

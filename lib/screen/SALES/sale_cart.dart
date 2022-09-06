@@ -31,7 +31,6 @@ class _SaleCartState extends State<SaleCart> {
   String? payment_mode;
   String? selected;
   PaymentSelect paysheet = PaymentSelect();
-  CommonPopup salepopup = CommonPopup();
   SaleItemDetails saleDetails = SaleItemDetails();
   SalesBottomSheet sheet = SalesBottomSheet();
   List<String> s = [];
@@ -202,6 +201,7 @@ class _SaleCartState extends State<SaleCart> {
                               value.salebagList[index]["code"],
                               value.salebagList[index]["tax_per"].toString(),
                               value.salebagList[index]["tax_amt"],
+                              value.salebagList[index]["unit_name"],
 
                               // value.salebagList[index]["discount"].toString(),
                               // value.salebagList[index]["ces_amt"],
@@ -262,6 +262,7 @@ class _SaleCartState extends State<SaleCart> {
                                   s[1],
                                   " ",
                                   " ",
+                                  value.orderTotal2[11],
                                 );
                               }),
                               child: Container(
@@ -314,6 +315,7 @@ class _SaleCartState extends State<SaleCart> {
     String code,
     String tax,
     double tax_amt,
+    String unit_name
     // String discount,
   ) {
     print("qty net-------$net_amt...$tax_amt");
@@ -395,16 +397,16 @@ class _SaleCartState extends State<SaleCart> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Flexible(
-                                      // flex: 5,
+                                      flex: 3,
                                       child: Text(
                                         "${itemName} ",
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 18,
+                                            fontSize: 16,
                                             color: P_Settings.wavecolor),
                                       ),
                                     ),
@@ -489,7 +491,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              qty.toString(),
+                                              "${qty.toString()}  (${unit_name.toString()})",
                                               textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),

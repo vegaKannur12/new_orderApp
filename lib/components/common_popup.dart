@@ -24,7 +24,8 @@ class CommonPopup {
       String time,
       String ref,
       String reason,
-      String payment_mode) {
+      String payment_mode,
+      double baserate) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -57,8 +58,8 @@ class CommonPopup {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
                   if (type == "sales") {
                     print("fkjsdfj");
-                    Provider.of<Controller>(context, listen: false).calculatesalesTotal(os!, custmerId) ;
-                    
+                    Provider.of<Controller>(context, listen: false)
+                        .calculatesalesTotal(os!, custmerId);
 
                     if (Provider.of<Controller>(context, listen: false)
                             .salebagList
@@ -80,7 +81,9 @@ class CommonPopup {
                                   value.dis_tot,
                                   value.cess_tot,
                                   context,
-                                  payment_mode,value.roundoff);
+                                  payment_mode,
+                                  value.roundoff,
+                                  baserate);
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
