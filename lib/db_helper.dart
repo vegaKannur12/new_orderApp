@@ -1924,6 +1924,21 @@ class OrderAppDB {
     //     "ON productDetailsTable.code = salesBagTable.code " +
     //     "AND salesBagTable.customerid='$customerId' " +
     //     "ORDER BY cartrowno DESC");
+    // result = await db.rawQuery("SELECT pd.pid,pd.code,pd.item,pd.unit,pd.companyId,pd.hsn, " +
+    //     "pd.tax,pd.prate,pd.mrp,pd.cost,pd.rate1, " +
+    //     "b.itemName,b.cartdate,b.carttime,b.os,b.customerid,b.cartrowno,b.code bagCode, " +
+    //     "b.qty bagQty,b.rate bagRate,b.unit_rate bagUnitRate,b.totalamount bagTotal," +
+    //     "b.method,b.tax_per,b.tax_amt,b.cgst_per,b.cgst_amt,b.sgst_per,b.sgst_amt," +
+    //     "b.igst_per,b.igst_amt,b.discount_per,b.discount_amt,b.ces_per,b.ces_amt,b.cstatus," +
+    //     "b.net_amt,b.pid bagPid,b.unit_name bagUnitName,b.package bagPackage,b.baserate," +
+    //     "u.pid unitPid,u.package unitPackage,u.unit_name unitUnit_name  " +
+    //     "FROM 'productDetailsTable' pd " +
+    //     "LEFT JOIN 'salesBagTable' b " +
+    //     "ON pd.code = b.code " +
+    //     "AND b.customerid='$customerId' " +
+    //     "LEFT JOIN 'productUnits' u ON u.pid = pd.pid " +
+    //     "where pd.pid <7 " +
+    //     "ORDER BY pd.pid DESC");
     result = await db.rawQuery("SELECT pd.pid,pd.code,pd.item,pd.unit,pd.companyId,pd.hsn, " +
         "pd.tax,pd.prate,pd.mrp,pd.cost,pd.rate1, " +
         "b.itemName,b.cartdate,b.carttime,b.os,b.customerid,b.cartrowno,b.code bagCode, " +
@@ -1931,14 +1946,15 @@ class OrderAppDB {
         "b.method,b.tax_per,b.tax_amt,b.cgst_per,b.cgst_amt,b.sgst_per,b.sgst_amt," +
         "b.igst_per,b.igst_amt,b.discount_per,b.discount_amt,b.ces_per,b.ces_amt,b.cstatus," +
         "b.net_amt,b.pid bagPid,b.unit_name bagUnitName,b.package bagPackage,b.baserate," +
-        "u.pid unitPid,u.package unitPackage,u.unit_name unitUnit_name  " +
+        "u.pid unitPid,u.package unitPackage,GROUP_CONCAT(u.unit_name,'//') unitUnit_name  " +
         "FROM 'productDetailsTable' pd " +
         "LEFT JOIN 'salesBagTable' b " +
         "ON pd.code = b.code " +
         "AND b.customerid='$customerId' " +
         "LEFT JOIN 'productUnits' u ON u.pid = pd.pid " +
-        "where pd.pid <7 " +
-        "ORDER BY pd.pid DESC");
+        "where pd.pid >0 " +
+        "GROUP BY pd.code "+
+        "ORDER BY pd.pid ASC");
     /////////////////////////////////////////////////
     print("selectfromsalebagTable result----$result");
     print("length sales unitsss---${result.length}");
