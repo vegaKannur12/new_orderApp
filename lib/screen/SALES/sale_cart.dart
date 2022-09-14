@@ -202,6 +202,7 @@ class _SaleCartState extends State<SaleCart> {
                               value.salebagList[index]["tax_per"].toString(),
                               value.salebagList[index]["tax_amt"],
                               value.salebagList[index]["unit_name"],
+                              value.salebagList[index]["package"],
 
                               // value.salebagList[index]["discount"].toString(),
                               // value.salebagList[index]["ces_amt"],
@@ -315,7 +316,8 @@ class _SaleCartState extends State<SaleCart> {
       String code,
       String tax,
       double tax_amt,
-      String unit_name
+      String unit_name,
+      double pkg
       // String discount,
       ) {
     print("qty net-------$net_amt...$tax_amt");
@@ -346,25 +348,26 @@ class _SaleCartState extends State<SaleCart> {
                       disc_amt.toStringAsFixed(2);
 
                   saleDetails.showsalesMoadlBottomsheet(
-                    itemName,
-                    code,
-                    hsn,
-                    qty,
-                    rate,
-                    disc_per,
-                    disc_amt,
-                    double.parse(tax),
-                    tax_amt,
-                    cess_per,
-                    cess_amt,
-                    net_amt,
-                    gross,
-                    context,
-                    size,
-                    index,
-                    widget.custmerId,
-                    widget.os,
-                  );
+                      itemName,
+                      code,
+                      hsn,
+                      qty,
+                      rate,
+                      disc_per,
+                      disc_amt,
+                      double.parse(tax),
+                      tax_amt,
+                      cess_per,
+                      cess_amt,
+                      net_amt,
+                      gross,
+                      context,
+                      size,
+                      index,
+                      widget.custmerId,
+                      widget.os,
+                      pkg,
+                      unit_name);
                 },
                 // leading: CircleAvatar(backgroundColor: Colors.green),
                 title: Column(
@@ -491,7 +494,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              "${qty.toString()}  (${unit_name.toString()})",
+                                              "${qty.toString()}  (${unit_name.toString()})   (${pkg.toString()})",
                                               textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),

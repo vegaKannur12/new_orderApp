@@ -290,11 +290,11 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                           context,
                                                           listen: false)
                                                       .filteredeValue!,
-                                                  "sale order")
+                                                  "sale order",value.productName)
                                           : Provider.of<Controller>(context,
                                                   listen: false)
                                               .searchProcess(widget.customerId,
-                                                  widget.os, "", "sale order");
+                                                  widget.os, "", "sale order",value.productName);
                                     }),
                                 IconButton(
                                     icon: Icon(

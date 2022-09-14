@@ -7,25 +7,26 @@ import 'package:provider/provider.dart';
 class SaleItemDetails {
   List rawCalcResult = [];
   showsalesMoadlBottomsheet(
-    String item,
-    String code,
-    String hsn,
-    double qty,
-    double rate,
-    double dis_per,
-    double dis_amt,
-    double tax_per,
-    double tax_amt,
-    double cess_per,
-    double cess_amt,
-    double net_amt,
-    double gross,
-    BuildContext context,
-    Size size,
-    int index,
-    String customerId,
-    String os,
-  ) {
+      String item,
+      String code,
+      String hsn,
+      double qty,
+      double rate,
+      double dis_per,
+      double dis_amt,
+      double tax_per,
+      double tax_amt,
+      double cess_per,
+      double cess_amt,
+      double net_amt,
+      double gross,
+      BuildContext context,
+      Size size,
+      int index,
+      String customerId,
+      String os,
+      double pkg,
+      String unit_name) {
     return showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -174,6 +175,40 @@ class SaleItemDetails {
                                   textAlign: TextAlign.right,
                                   controller: value.salesqty[index],
                                 ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Packing",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Spacer(),
+                              Text(
+                                pkg.toString(),
+                                style: TextStyle(
+                                     fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Unit name",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Spacer(),
+                              Text(
+                                unit_name,
+                                style: TextStyle(
+                                     fontSize: 15),
                               ),
                             ],
                           ),
@@ -562,7 +597,7 @@ class SaleItemDetails {
                                         await OrderAppDB.instance.upadteCommonQuery(
                                             "salesBagTable",
                                             "rate=${value.salesrate[index].text},unit_rate=${value.taxable_rate},net_amt=${value.net_amt},discount_per=${value.discount_prercent[index].text},discount_amt=${value.discount_amount[index].text},qty=${value.salesqty[index].text},totalamount=${value.gross},tax_amt=${value.tax},cgst_amt=${value.cgst_amt},sgst_amt=${value.sgst_amt},igst_amt=${value.igst_amt}",
-                                            "code='$code' and customerid='$customerId'");
+                                            "code='$code' and customerid='$customerId' and unit_name='$unit_name'");
                                         print("calculate new total");
                                         await Provider.of<Controller>(context,
                                                 listen: false)

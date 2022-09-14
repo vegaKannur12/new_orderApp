@@ -194,7 +194,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       double.parse(value.qty[index].text),
                                       rate1,
                                       value.taxable_rate,
-                                      total.toString(),
+                                      total,
                                       "0",
                                       value.salefilteredProductList[index]
                                           ["hsn"],

@@ -1174,7 +1174,7 @@ class Controller extends ChangeNotifier {
     //     .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
     int sales_id = await OrderAppDB.instance
         .calculateMaxSeries('${os}', 'salesMasterTable', 'sales_id');
-        print("base rate insert.............$baserate");
+    print("base rate insert.............$baserate");
     int rowNum = 1;
     print("salebagList length........${salebagList}");
     if (salebagList.length > 0) {
@@ -1772,9 +1772,9 @@ class Controller extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       print(e);
-      return null;
     }
     notifyListeners();
+    return productName;
   }
 
 //////////////////GET ORDER NUMBER///////////////////////////////////
@@ -3152,13 +3152,16 @@ class Controller extends ChangeNotifier {
 
   ////////////////////////SEARCH PROCESS ////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////
-  searchProcess(String customerId, String os, String comid, String type) async {
+  searchProcess(String customerId, String os, String comid, String type,
+      List<Map<String, dynamic>> list) async {
     print("searchkey--comid--$searchkey---$comid----$os");
     List<Map<String, dynamic>> result = [];
+    List<Map<String, dynamic>> list =
+        await OrderAppDB.instance.selectfromsalebagTable(customerId);
     newList.clear();
-
+    print("jhkzsfz----$list");
     if (searchkey!.isEmpty) {
-      newList = productName;
+      newList = list;
       var length = newList.length;
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
@@ -3170,42 +3173,39 @@ class Controller extends ChangeNotifier {
       print("else is search");
       isSearch = true;
 
-      // newList = productName
-      //     .where((product) =>
-      //         product["item"]
-      //             .toLowerCase()
-      //             .contains(searchkey!.toLowerCase()) ||
-      //         product["code"]
-      //             .toLowerCase()
-      //             .contains(searchkey!.toLowerCase()) ||
-      //         product["categoryId"]
-      //             .toLowerCase()
-      //             .contains(searchkey!.toLowerCase()))
-      //     .toList();
-
       // List<Map<String, dynamic>> res =
       //     await OrderAppDB.instance.getOrderBagTable(customerId, os);
       // for (var item in res) {
       //   bagList.add(item);
       // }
 // print("jhfdjkhfjd----$bagList");
-      if (comid == "") {
-        result = await OrderAppDB.instance.searchItem('productDetailsTable',
-            searchkey!, 'item', 'code', 'categoryId', " ");
-      } else {
-        result = await OrderAppDB.instance.searchItem(
-            'productDetailsTable',
-            searchkey!,
-            'item',
-            'code',
-            'categoryId',
-            " and companyId='${comid}'");
-      }
+
+      print(" nw list---$productName");
+      newList = list
+          .where((product) =>
+              product["pritem"]
+                  .toLowerCase()
+                  .contains(searchkey!.toLowerCase()) ||
+              product["prcode"]
+                  .toLowerCase()
+                  .contains(searchkey!.toLowerCase()) ||
+              product["prcategoryId"]
+                  .toLowerCase()
+                  .contains(searchkey!.toLowerCase()))
+          .toList();
+      // result = await OrderAppDB.instance.searchItem(
+      //     'productDetailsTable',
+      //     searchkey!,
+      //     'item',
+      //     'code',
+      //     'categoryId',
+      //     " and companyId='${comid}'");
 
       for (var item in result) {
         newList.add(item);
       }
 
+      print("newlist-----------$newList");
       isListLoading = false;
       notifyListeners();
       var length = newList.length;
@@ -3303,7 +3303,7 @@ class Controller extends ChangeNotifier {
     flag = false;
 
     print(
-        "attribute---$state_status---$disCalc --$disc_per----$rate---$disc_amount--$tax_per--$cess_per--$method");
+        "attribute----$rate----$qty-$state_status---$disCalc --$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     if (method == "0") {
       /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
       taxable_rate = rate;
@@ -3312,6 +3312,8 @@ class Controller extends ChangeNotifier {
       taxable_rate = rate * (1 - (percnt / (100 + percnt)));
       print("exclusive tax....$percnt...$taxable_rate");
     }
+    print("exclusive tax......$taxable_rate");
+    // qty=qty+1;
     gross = taxable_rate * qty;
     print("gros----$gross");
 
@@ -3542,13 +3544,16 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  quantitiChange(int qtya, int index) async {
-    print("kjf----$index");
-    int cartrow = index + 1;
+  quantitiChange(double qtya, int index, double oldqty) async {
+    // print("dsjhfjdhjhd");
+    print("kjf---$qtya-$index---$oldqty");
+    // int cartrow = index + 1;
     // var result=await OrderAppDB.instance.selectAllcommon('salesBagTable', "cartrowno='$cartrow'");
     // print("restuuu----$result");
-    // int qtyss=qtya+1;
-    // qty[index].text=result[0]["qty"].toString();
+    double qtyss = oldqty + qtya;
+    qty[index].text = qtyss.toString();
+
+    print("njdnfkjdfkd-----${qty[index].text}");
     notifyListeners();
   }
 }
