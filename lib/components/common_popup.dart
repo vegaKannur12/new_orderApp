@@ -25,7 +25,8 @@ class CommonPopup {
       String ref,
       String reason,
       String payment_mode,
-      double baserate) {
+      double baserate,
+      double packing) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -69,21 +70,23 @@ class CommonPopup {
                       sales_id =
                           await Provider.of<Controller>(context, listen: false)
                               .insertToSalesbagAndMaster(
-                                  sOs,
-                                  date,
-                                  time,
-                                  custmerId,
-                                  sid1!,
-                                  areaid,
-                                  value.salesTotal,
-                                  value.gross_tot,
-                                  value.tax_tot,
-                                  value.dis_tot,
-                                  value.cess_tot,
-                                  context,
-                                  payment_mode,
-                                  value.roundoff,
-                                  baserate);
+                        sOs,
+                        date,
+                        time,
+                        custmerId,
+                        sid1!,
+                        areaid,
+                        value.salesTotal,
+                        value.gross_tot,
+                        value.tax_tot,
+                        value.dis_tot,
+                        value.cess_tot,
+                        context,
+                        payment_mode,
+                        value.roundoff,
+                        baserate,
+                        packing
+                      );
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
@@ -115,7 +118,8 @@ class CommonPopup {
                               sid1!,
                               areaid,
                               double.parse(value.orderTotal1!),
-                              context);
+                              context,
+                              baserate);
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)

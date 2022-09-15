@@ -156,7 +156,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                 widget.customerId!,
                                 max,
                                 value.filteredProductList[index]["code"],
-                                int.parse(value.qty[index].text),
+                                double.parse(value.qty[index].text),
                                 rate1,
                                 total.toString(),
                                 1,

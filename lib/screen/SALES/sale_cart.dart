@@ -255,16 +255,16 @@ class _SaleCartState extends State<SaleCart> {
                             GestureDetector(
                               onTap: (() async {
                                 paysheet.showpaymentSheet(
-                                  context,
-                                  widget.areaId,
-                                  widget.areaname,
-                                  widget.custmerId,
-                                  s[0],
-                                  s[1],
-                                  " ",
-                                  " ",
-                                  value.orderTotal2[11],
-                                );
+                                    context,
+                                    widget.areaId,
+                                    widget.areaname,
+                                    widget.custmerId,
+                                    s[0],
+                                    s[1],
+                                    " ",
+                                    " ",
+                                    value.orderTotal2[11],
+                                    value.orderTotal2[12]);
                               }),
                               child: Container(
                                 width: size.width * 0.5,

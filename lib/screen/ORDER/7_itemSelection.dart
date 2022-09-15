@@ -34,6 +34,8 @@ class ItemSelection extends StatefulWidget {
 
 class _ItemSelectionState extends State<ItemSelection> {
   String rate1 = "1";
+  double baseRate = 1.0;
+
   TextEditingController searchcontroll = TextEditingController();
   ShowModal showModal = ShowModal();
   List<Map<String, dynamic>> products = [];
@@ -389,34 +391,45 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                           : Colors.grey[700],
                                                       fontSize: 16),
                                                 ),
-                                                subtitle: Text(
-                                                  '\u{20B9}${value.newList[index]["rate1"]}',
-                                                  style: TextStyle(
-                                                    color: P_Settings.ratecolor,
-                                                    fontStyle: FontStyle.italic,
-                                                  ),
+                                                subtitle: Row(
+                                                  children: [
+                                                    Text(
+                                                      '\u{20B9}${value.newList[index]["rate1"]}',
+                                                      style: TextStyle(
+                                                        color: P_Settings
+                                                            .ratecolor,
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: size.width * 0.2,
+                                                    ),
+                                                    Text(
+                                                        "${value.qty[index].text}"),
+                                                  ],
                                                 ),
                                                 trailing: Row(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
                                                   children: [
-                                                    Container(
-                                                        width:
-                                                            size.width * 0.06,
-                                                        child: TextFormField(
-                                                          controller:
-                                                              value.qty[index],
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number,
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  border:
-                                                                      InputBorder
-                                                                          .none,
-                                                                  hintText:
-                                                                      "1"),
-                                                        )),
+                                                    // Container(
+                                                    //     width:
+                                                    //         size.width * 0.06,
+                                                    //     child: TextFormField(
+                                                    //       controller:
+                                                    //           value.qty[index],
+                                                    //       keyboardType:
+                                                    //           TextInputType
+                                                    //               .number,
+                                                    //       decoration:
+                                                    //           InputDecoration(
+                                                    //               border:
+                                                    //                   InputBorder
+                                                    //                       .none,
+                                                    //               hintText:
+                                                    //                   "1"),
+                                                    //     )),
                                                     SizedBox(
                                                       width: 10,
                                                     ),
@@ -425,6 +438,23 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         Icons.add,
                                                       ),
                                                       onPressed: () async {
+                                                        double qty;
+
+                                                        print(
+                                                            "value.qty--${value..qty[index].text}");
+                                                        double temp =
+                                                            double.parse(value
+                                                                    .qty[index]
+                                                                    .text) +
+                                                                1;
+                                                        print(
+                                                            "temp----${temp}");
+
+                                                        value.qty[index].text =
+                                                            temp.toString();
+
+                                                        print(
+                                                            "tttt----${value.qty[index].text}");
                                                         Provider.of<Controller>(
                                                                 context,
                                                                 listen: false)
@@ -493,7 +523,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                   value.newList[
                                                                           index]
                                                                       ["code"],
-                                                                  int.parse(value
+                                                                  double.parse(value
                                                                       .qty[
                                                                           index]
                                                                       .text),
@@ -641,7 +671,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                   : value.isLoading
                                       ? CircularProgressIndicator()
                                       : ListView.builder(
-                                          itemExtent: 90,
+                                          itemExtent: 85,
                                           shrinkWrap: true,
                                           itemCount: value.productName.length,
                                           itemBuilder:
@@ -674,14 +704,42 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text(
-                                                        '\u{20B9}${value.productName[index]["prcost"]}',
-                                                        style: TextStyle(
-                                                          color: P_Settings
-                                                              .ratecolor,
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                        ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            '\u{20B9}${value.productName[index]["prcost"]}',
+                                                            style: TextStyle(
+                                                              color: P_Settings
+                                                                  .ratecolor,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: size.width *
+                                                                0.13,
+                                                          ),
+                                                          value.qty[index]
+                                                                      .text ==
+                                                                  "0"
+                                                              ? Container()
+                                                              : Text(
+                                                                  '${value.qty[index].text}',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        600],
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .italic,
+                                                                  ),
+                                                                ),
+                                                        ],
                                                       ),
                                                       Row(
                                                         children: [
@@ -720,23 +778,6 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                     mainAxisSize:
                                                         MainAxisSize.min,
                                                     children: [
-                                                      Container(
-                                                          width:
-                                                              size.width * 0.06,
-                                                          child: TextFormField(
-                                                            controller: value
-                                                                .qty[index],
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                            decoration:
-                                                                InputDecoration(
-                                                                    border:
-                                                                        InputBorder
-                                                                            .none,
-                                                                    hintText:
-                                                                        "1"),
-                                                          )),
                                                       SizedBox(
                                                         width: 10,
                                                       ),
@@ -745,6 +786,33 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                           Icons.add,
                                                         ),
                                                         onPressed: () async {
+                                                          // double qty;
+                                                          // double vals = 1.0;
+                                                          // double temp = 0.0;
+                                                          // temp = double.parse(
+                                                          //         value
+                                                          //             .qty[
+                                                          //                 index]
+                                                          //             .text) +
+                                                          //     vals;
+                                                          // print(
+                                                          //     "value.qty--${value..qty[index].text}");
+                                                          // double temp =
+                                                          //     double.parse(value
+                                                          //             .qty[
+                                                          //                 index]
+                                                          //             .text) +
+                                                          //         1;
+                                                          // print(
+                                                          //     "temp----${temp}");
+
+                                                          // value.qty[index]
+                                                          //         .text =
+                                                          //     temp.toString();
+
+                                                          // print(
+                                                          //     "tttt----${value.qty[index].text}");
+
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
@@ -787,52 +855,57 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                             print(
                                                                 "max----$max");
                                                             // print("value.qty[index].text---${value.qty[index].text}");
-
+                                                            var pid = value
+                                                                    .productName[
+                                                                index]['prid'];
                                                             rate1 = value
                                                                     .productName[
                                                                 index]["prcost"];
+
                                                             var total = double
                                                                     .parse(
                                                                         rate1) *
                                                                 double.parse(value
                                                                     .qty[index]
                                                                     .text);
-                                                            print(
-                                                                "total rate $total");
 
-                                                            var res = await OrderAppDB
-                                                                .instance
-                                                                .insertorderBagTable(
-                                                                    products[
-                                                                            index]
-                                                                        [
-                                                                        "item"],
-                                                                    s[0],
-                                                                    s[1],
-                                                                    oos,
-                                                                    widget
-                                                                        .customerId,
-                                                                    max,
-                                                                    products[
-                                                                            index]
-                                                                        [
-                                                                        "code"],
-                                                                    int.parse(value
-                                                                        .qty[
-                                                                            index]
-                                                                        .text),
-                                                                    rate1,
-                                                                    total
-                                                                        .toString(),
-                                                                    1,
-                                                                    "",
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0);
+                                                            print(
+                                                                "total rate ........$total..$baseRate");
+
+                                                            var res = await OrderAppDB.instance.insertorderBagTable(
+                                                                products[index]
+                                                                    ["pritem"],
+                                                                s[0],
+                                                                s[1],
+                                                                oos,
+                                                                widget
+                                                                    .customerId,
+                                                                max,
+                                                                products[index]
+                                                                    ["prcode"],
+                                                                double.parse(value
+                                                                    .qty[index]
+                                                                    .text),
+                                                                products[index][
+                                                                        "prrate1"]
+                                                                    .toString(),
+                                                                products[index][
+                                                                        "prrate1"]
+                                                                    .toString(),
+                                                                pid,
+                                                                products[index]
+                                                                    ["prunit"],
+                                                                products[index]
+                                                                        ["pkg"]
+                                                                    .toDouble(),
+                                                                double.parse(products[
+                                                                        index][
+                                                                    "prbaserate"]),
+                                                                0);
 
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${products[index]["code"] + "-" + (products[index]['item'])} - Added to cart",
+                                                                "${products[index]["prcode"] + "-" + (products[index]['pritem'])} - Added to cart",
                                                                 "sale order");
                                                             Provider.of<Controller>(
                                                                     context,
@@ -850,11 +923,11 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       widget.customerId !=
                                                                           null) &&
                                                                   (products[index][
-                                                                              "code"]
+                                                                              "prcode"]
                                                                           .isNotEmpty ||
                                                                       products[index]
                                                                               [
-                                                                              "code"] !=
+                                                                              "prcode"] !=
                                                                           null)
                                                               ? Provider.of<
                                                                           Controller>(
@@ -893,8 +966,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               "${widget.os}";
                                                                       String
                                                                           item =
-                                                                          products[index]["code"] +
-                                                                              products[index]["item"];
+                                                                          products[index]["prcode"] +
+                                                                              products[index]["pritem"];
                                                                       showModal.showMoadlBottomsheet(
                                                                           oos,
                                                                           widget
@@ -905,7 +978,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                           "just added",
                                                                           products[index]
                                                                               [
-                                                                              "code"],
+                                                                              "prcode"],
                                                                           index,
                                                                           "no filter",
                                                                           "",
@@ -920,11 +993,11 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                   String item = products[
                                                                               index]
                                                                           [
-                                                                          "code"] +
+                                                                          "prcode"] +
                                                                       products[
                                                                               index]
                                                                           [
-                                                                          "item"];
+                                                                          "pritem"];
                                                                   showModal.showMoadlBottomsheet(
                                                                       oos,
                                                                       widget
@@ -936,7 +1009,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       products[
                                                                               index]
                                                                           [
-                                                                          "code"],
+                                                                          "prcode"],
                                                                       index,
                                                                       "no filter",
                                                                       "",

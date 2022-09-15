@@ -517,7 +517,7 @@ class OrderAppDB {
             $customerid TEXT,
             $cartrowno INTEGER,
             $code TEXT,
-            $qty INTEGER,
+            $qty REAL,
             $rate TEXT,
             $totalamount TEXT,
             $pid INTEGER,
@@ -729,7 +729,7 @@ class OrderAppDB {
     String customerid,
     int cartrowno,
     String code,
-    int qty,
+    double qty,
     String rate,
     String totalamount,
     int pid,
@@ -748,8 +748,8 @@ class OrderAppDB {
         'SELECT  * FROM orderBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
     print("SELECT from ---$res1");
     if (res1.length == 1) {
-      int qty1 = res1[0]["qty"];
-      int updatedQty = qty1 + qty;
+      double qty1 = res1[0]["qty"];
+      double updatedQty = qty1 + qty;
       double amount = double.parse(res1[0]["totalamount"]);
       print("res1.length----${res1.length}");
 
@@ -863,29 +863,6 @@ class OrderAppDB {
         'SELECT  * FROM salesBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}" AND unit_name="${unit_name}"');
     print("res1cvc ---$res1");
     if (res1.length == 1) {
-      qty = qty + res1[0]["qty"];
-      totalamount = totalamount + res1[0]["totalamount"];
-      net_amt = net_amt + res1[0]["net_amt"];
-      tax = tax + res1[0]["tax_amt"];
-      print("tax from database--$tax");
-      discount_amt = discount_amt + res1[0]["discount_amt"];
-      cgst_amt = cgst_amt + res1[0]["cgst_amt"];
-      sgst_amt = sgst_amt + res1[0]["sgst_amt"];
-      igst_amt = igst_amt + res1[0]["igst_amt"];
-
-      // double qty1 = res1[0]["qty"];
-      // double updatedQty = qty1 + qty;
-      // print("totalamount---${res1[0]["totalamount"]}");
-      // double amount = res1[0]["totalamount"];
-      // double netamount = res1[0]["net_amt"];
-
-      // print("res1.length----${res1.length}");
-
-      // print("upadted qty-----$updatedQty");
-      // double amount1 = double.parse(totalamount);
-      // double updatedAmount = amount + amount1;
-      // double updatednetAmount = netamount + net_amt;
-
       var que =
           'UPDATE salesBagTable SET qty=$qty , totalamount="${totalamount}" , net_amt=$net_amt ,tax_amt=$tax ,discount_per=$discount_per, discount_amt=$discount_amt,cgst_amt=$cgst_amt,sgst_amt=$sgst_amt,igst_amt=$igst_amt,unit_rate=$unit_rate  WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}" AND unit_name="${unit_name}"';
 
@@ -988,18 +965,17 @@ class OrderAppDB {
     int state_status,
     int status,
     double? unit_value,
-    String? packing,
     double? base_rate,
-    // double rounding,
+    double? packing,
   ) async {
     final db = await database;
     var res2;
     var res3;
     print(
-        "total quantity............$rounding.......$total_qty.....$total_price.....$net_amt");
+        "total quantity.......$unit.....$rounding.......$total_qty.....$total_price.....$net_amt");
     if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, "$packing", $base_rate)';
+          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, $packing, $base_rate)';
       print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
@@ -1663,6 +1639,7 @@ class OrderAppDB {
     String igst;
     double? roundoff;
     double? brate;
+    double? pkg;
     Database db = await instance.database;
     print("calculate sales updated tot in db....$os...$customerId");
     var result = await db.rawQuery(
@@ -1670,7 +1647,7 @@ class OrderAppDB {
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst, SUM(baserate) brate " +
+          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst, SUM(baserate) brate, SUM(package) pkg " +
               "FROM salesBagTable WHERE os='$os' " +
               "AND customerid='$customerId'");
       print("resulted alll sum/////////////////$res");
@@ -1698,11 +1675,12 @@ class OrderAppDB {
       sgst = res[0]["sgst"].toStringAsFixed(2);
       igst = res[0]["igst"].toStringAsFixed(2);
       brate = double.parse(res[0]["brate"].toStringAsFixed(2));
-
+      pkg = double.parse(res[0]["pkg"].toString());
       tax_tot = double.parse(cgst) + double.parse(sgst) + double.parse(igst);
-      print("tax_tot....$brate..$cgst---$sgst---$igst");
+
+      print("tax_tot..$pkg..$brate..$cgst---$sgst---$igst");
       print(
-          "gross..netamount..taxval..dis..ces .....$brate....$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
+          "gross..netamount..taxval..dis..ces ...$pkg...$brate....$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
       net_amount = "0.00";
       count = "0.00";
@@ -1718,6 +1696,7 @@ class OrderAppDB {
       igst = "0.00";
       tax_tot = 0.00;
       brate = 0.00;
+      pkg = 0.00;
     }
     return [
       net_amount,
@@ -1731,7 +1710,8 @@ class OrderAppDB {
       taxper,
       tax_tot,
       roundoff!,
-      brate
+      brate,
+      pkg
     ];
   }
 
@@ -1794,7 +1774,7 @@ class OrderAppDB {
     Database db = await instance.database;
     var res1;
     double rate1 = double.parse(rate);
-    int updatedQty = int.parse(qty);
+    double updatedQty = double.parse(qty);
     double amount = (rate1 * updatedQty);
     print("amoiunt---$cartrowno-$customerId---$rate--$amount");
     print("updatedqty----$updatedQty");

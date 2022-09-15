@@ -13,9 +13,11 @@ class PaymentSelect {
     String ref,
     String reason,
     double baserate,
+    double packing,
   ) {
     Size size = MediaQuery.of(context).size;
     String? payment_mode;
+    print("base rate..for insert........$packing....$baserate");
     CommonPopup salepopup = CommonPopup();
     return showModalBottomSheet<void>(
       context: context,
@@ -55,9 +57,11 @@ class PaymentSelect {
                               "",
                               payment_mode!,
                               baserate,
+                              packing,
                             ),
                           );
-                          print("payment mode...........$payment_mode");
+                          print(
+                              "payment mode...........$payment_mode...........$baserate");
                         }),
                     SizedBox(
                       width: size.width * 0.06,
@@ -85,7 +89,8 @@ class PaymentSelect {
                                     "",
                                     "",
                                     payment_mode!,
-                                    baserate),
+                                    baserate,
+                                    packing),
                           );
                           // print("payment mode...........$payment_mode");
                         }),

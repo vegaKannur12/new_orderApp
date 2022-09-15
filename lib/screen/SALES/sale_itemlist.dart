@@ -417,57 +417,25 @@ class _SalesItemState extends State<SalesItem> {
                                                             width: size.width *
                                                                 0.03,
                                                           ),
-
-                                                          value.newList[index][
-                                                                          "qty"] ==
-                                                                      null ||
-                                                                  value.newList[
-                                                                              index]
-                                                                          [
-                                                                          "qty"] ==
-                                                                      0
+                                                          value.qty[index]
+                                                                      .text ==
+                                                                  "0"
                                                               ? Container()
                                                               : Text(
-                                                                  'Qty: ${value.newList[index]["qty"]}',
+                                                                  '${value.qty[index].text}',
                                                                   style:
                                                                       TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
                                                                     color: Colors
-                                                                        .grey,
+                                                                            .grey[
+                                                                        600],
                                                                     fontStyle:
                                                                         FontStyle
                                                                             .italic,
                                                                   ),
                                                                 ),
-
-                                                          // SizedBox(
-                                                          //   width: size.width *
-                                                          //       0.02,
-                                                          // ),
-                                                          Text(
-                                                            '(rate:${value.newList[index]["prbaserate"]})',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .italic,
-                                                            ),
-                                                          ),
-                                                          // Row(
-                                                          //   children: [
-                                                          //     Text(
-                                                          //       '(unit: \u{20B9}${value.productName[index]["unitUnit_name"]})',
-                                                          //       style:
-                                                          //           TextStyle(
-                                                          //         color: Colors
-                                                          //             .blue,
-                                                          //         fontStyle:
-                                                          //             FontStyle
-                                                          //                 .italic,
-                                                          //       ),
-                                                          //     ),
-                                                          //   ],
-                                                          // ),
                                                         ],
                                                       ),
                                                       value.newList[index]
@@ -491,41 +459,6 @@ class _SalesItemState extends State<SalesItem> {
                                                                               .italic,
                                                                     ),
                                                                   ),
-                                                                  // child:
-                                                                  //     GestureDetector(
-                                                                  //   onTap:
-                                                                  //       () {
-                                                                  //     Provider.of<Controller>(context, listen: false).selectunit = value
-                                                                  //         .productName[index]["prunit"]
-                                                                  //         .toString();
-                                                                  //     print(
-                                                                  //         "selected valueeee..............${Provider.of<Controller>(context, listen: false).selectunit}");
-                                                                  //   },
-                                                                  //   child:
-                                                                  //       Container(
-                                                                  //     height: size.height *
-                                                                  //         0.04,
-                                                                  //     child:
-                                                                  //         Card(
-                                                                  //       color:
-                                                                  //           Colors.green,
-                                                                  //       child:
-                                                                  //           Text(
-                                                                  //         value.productName[index]["prunit"] == null
-                                                                  //             ? " "
-                                                                  //             : value.productName[index]["prunit"].toString(),
-                                                                  //         textAlign:
-                                                                  //             TextAlign.center,
-                                                                  //         style:
-                                                                  //             TextStyle(
-                                                                  //           fontSize: 14,
-                                                                  //           color: Colors.white,
-                                                                  //           fontWeight: FontWeight.normal,
-                                                                  //         ),
-                                                                  //       ),
-                                                                  //     ),
-                                                                  // ),
-                                                                  // ),
                                                                 ),
                                                                 SizedBox(
                                                                   width:
@@ -589,45 +522,26 @@ class _SalesItemState extends State<SalesItem> {
                                                         ),
                                                         onPressed: () async {
                                                           var total;
+
                                                           double qty;
 
                                                           print(
-                                                              "njdkn-----${value.qty[index].text}");
-                                                          // if (value
-                                                          //         .qty[index]
-                                                          //         .text
-                                                          //         .isNotEmpty ||
-                                                          //     value.qty[index]
-                                                          //             .text !=
-                                                          //         null) {
-                                                          //   print("fjdfjh");
-                                                          //   total = products[
-                                                          //                   index]
-                                                          //               [
-                                                          //               "prrate1"]
-                                                          //           .toDouble() *
-                                                          //       double.parse(value
-                                                          //           .qty[index]
-                                                          //           .text);
-                                                          // } else {
-                                                          //   qty = 0;
-                                                          // }
-                                                          if (value.newList[
-                                                                      index]
-                                                                  ["qty"] !=
-                                                              null) {
-                                                            qty = value.newList[
-                                                                index]["qty"];
-                                                          } else {
-                                                            qty = 0;
-                                                          }
+                                                              "value.qty--${value..qty[index].text}");
+                                                          double temp =
+                                                              double.parse(value
+                                                                      .qty[
+                                                                          index]
+                                                                      .text) +
+                                                                  1;
+                                                          print(
+                                                              "temp----${temp}");
                                                           value.qty[index]
-                                                              .text = "1";
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .quantitiChange(1,
-                                                                  index, qty);
+                                                                  .text =
+                                                              temp.toString();
+
+                                                          print(
+                                                              "tttt----${value.qty[index].text}");
+
                                                           total = value.newList[
                                                                       index][
                                                                       "prrate1"]
@@ -635,6 +549,7 @@ class _SalesItemState extends State<SalesItem> {
                                                               double.parse(value
                                                                   .qty[index]
                                                                   .text);
+
                                                           String os = "S" +
                                                               "${value.ordernum[0]["os"]}";
                                                           // value.qtyups(
@@ -660,19 +575,6 @@ class _SalesItemState extends State<SalesItem> {
                                                                   index];
                                                               // selected = index;
                                                             }
-
-                                                            // if (value.qty[index]
-                                                            //             .text ==
-                                                            //         null ||
-                                                            //     value
-                                                            //         .qty[index]
-                                                            //         .text
-                                                            //         .isEmpty) {
-                                                            //   value.qty[index]
-                                                            //       .text = "1";
-                                                            // }
-
-                                                            // int.parse(value.qty[index].text )+ 1;
                                                           });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                                           int max = await OrderAppDB
@@ -700,21 +602,6 @@ class _SalesItemState extends State<SalesItem> {
                                                           print(
                                                               "unit packet curresponds to unitname........$pid...$unitres....$unit_name");
 
-                                                          // double packageVal =
-                                                          //     unitres.length ==
-                                                          //             0
-                                                          //         ? 1.0
-                                                          //         : unitres[0][
-                                                          //             'package'];
-                                                          // rate1 = value
-                                                          //         .productName[
-                                                          //     index]["prrate1"];
-                                                          // print(
-                                                          //     "base rate val for....$rate1.....$packageVal");
-                                                          // baseRate =
-                                                          //     double.parse(
-                                                          //             rate1) *
-                                                          //         packageVal;
                                                           print(
                                                               "base rate val for............$baseRate.....$rate1");
 
@@ -740,20 +627,10 @@ class _SalesItemState extends State<SalesItem> {
 
                                                           print(
                                                               "qtynewlisy=======$qtyNewList");
-                                                          //  var total = products[
-                                                          //                 index]
-                                                          //             [
-                                                          //             "prrate1"]
-                                                          //         .toDouble() *
-                                                          //     double.parse(qtyNewList
-                                                          //         );
+
                                                           if (qtyNewList
                                                                   .length >
                                                               0) {
-                                                            // qtyNew =
-                                                            //     qtyNewList[0]
-                                                            //         ["qty"];
-
                                                             discounamttNew =
                                                                 qtyNewList[0][
                                                                     "discount_amt"];
@@ -765,23 +642,14 @@ class _SalesItemState extends State<SalesItem> {
                                                                     ["ces_per"];
                                                           }
 
-                                                          // double qtyww = qtyNew +
-                                                          //     double.parse(value
-                                                          //         .qty[index]
-                                                          //         .text);
-
-                                                          double qtyww = 1;
-                                                          print(
-                                                              "qtynew----$qtyww");
-
-                                                          print(
-                                                              "base rate.............$baseRate");
                                                           String result = Provider.of<Controller>(context, listen: false).rawCalculation(
-                                                              value.newList[index]
-                                                                      [
+                                                              value.newList[
+                                                                      index][
                                                                       "prrate1"]
                                                                   .toDouble(),
-                                                              qtyww,
+                                                              double.parse(value
+                                                                  .qty[index]
+                                                                  .text),
                                                               discounpertNew,
                                                               discounamttNew,
                                                               double.parse(value
@@ -790,11 +658,9 @@ class _SalesItemState extends State<SalesItem> {
                                                               cesspertNew,
                                                               value
                                                                   .settingsList1[1]
-                                                                      [
-                                                                      'set_value']
+                                                                      ['set_value']
                                                                   .toString(),
-                                                              int.parse(
-                                                                  widget.gtype),
+                                                              int.parse(widget.gtype),
                                                               index,
                                                               false,
                                                               "");
@@ -818,79 +684,45 @@ class _SalesItemState extends State<SalesItem> {
                                                                     max,
                                                                     value.newList[index][
                                                                         "prcode"],
-                                                                    qtyww,
-                                                                    value.newList[index]["prrate1"]
+                                                                    double.parse(value
+                                                                        .qty[
+                                                                            index]
+                                                                        .text),
+                                                                    value.newList[
+                                                                            index][
+                                                                            "prrate1"]
                                                                         .toString(),
                                                                     value
                                                                         .taxable_rate,
                                                                     total,
                                                                     "0",
-                                                                    value.newList[index]
-                                                                        [
-                                                                        "prhsn"],
-                                                                    double
-                                                                        .parse(
+                                                                    value.newList[
+                                                                            index]
+                                                                        ["prhsn"],
+                                                                    double.parse(
                                                                       value.newList[
                                                                               index]
                                                                           [
                                                                           "prtax"],
                                                                     ),
                                                                     value.tax,
-                                                                    value
-                                                                        .cgst_per,
-                                                                    value
-                                                                        .cgst_amt,
-                                                                    value
-                                                                        .sgst_per,
-                                                                    value
-                                                                        .sgst_amt,
-                                                                    value
-                                                                        .igst_per,
-                                                                    value
-                                                                        .igst_amt,
+                                                                    value.cgst_per,
+                                                                    value.cgst_amt,
+                                                                    value.sgst_per,
+                                                                    value.sgst_amt,
+                                                                    value.igst_per,
+                                                                    value.igst_amt,
                                                                     discounpertNew,
                                                                     discounamttNew,
                                                                     0.0,
                                                                     value.cess,
                                                                     0,
-                                                                    value
-                                                                        .net_amt,
+                                                                    value.net_amt,
                                                                     pid,
-                                                                    value.newList[index]
-                                                                        [
-                                                                        "prunit"],
-                                                                    value
-                                                                        .newList[index]
-                                                                            [
-                                                                            "pkg"]
-                                                                        .toDouble(),
-                                                                    double.parse(
-                                                                        value.newList[index]
-                                                                            ["prbaserate"]));
-                                                            //     int qtysale =
-                                                            //     int.parse(value
-                                                            //         .qty[index]
-                                                            //         .text);
-                                                            // Provider.of<Controller>(
-                                                            //         context,
-                                                            //         listen: false)
-                                                            //     .quantitiChange(
-                                                            //         qtysale,
-                                                            //         index);
-                                                            // Provider.of<Controller>(
-                                                            //         context,
-                                                            //         listen: false)
-                                                            //     .getSaleBagDetails(
-                                                            //         widget
-                                                            //             .customerId,
-                                                            //         widget.os);
-                                                            // Provider.of<Controller>(
-                                                            //         context,
-                                                            //         listen: false)
-                                                            //     .getSaleBagDetails(
-                                                            //         widget
-                                                            //             .customerId,
-                                                            //         widget.os);
+                                                                    value.newList[index]["prunit"],
+                                                                    value.newList[index]["pkg"].toDouble(),
+                                                                    double.parse(value.newList[index]["prbaserate"]));
+
                                                             snackbar.showSnackbar(
                                                                 context,
                                                                 "${value.newList[index]["prcode"] + value.newList[index]['pritem']} - Added to cart",
@@ -1087,55 +919,27 @@ class _SalesItemState extends State<SalesItem> {
                                                           ),
                                                           SizedBox(
                                                             width: size.width *
-                                                                0.03,
+                                                                0.04,
                                                           ),
-
-                                                          value.productName[
-                                                                          index]
-                                                                      ["qty"] !=
-                                                                  null
-                                                              ? Text(
-                                                                  '${value.productName[index]["qty"]}',
+                                                          value.qty[index]
+                                                                      .text ==
+                                                                  "0"
+                                                              ? Container()
+                                                              : Text(
+                                                                  '${value.qty[index].text}',
                                                                   style:
                                                                       TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
                                                                     color: Colors
-                                                                        .grey,
+                                                                            .grey[
+                                                                        600],
                                                                     fontStyle:
                                                                         FontStyle
                                                                             .italic,
                                                                   ),
                                                                 )
-                                                              : Container()
-
-                                                          // SizedBox(
-                                                          //   width: size.width *
-                                                          //       0.02,
-                                                          // ),
-                                                          // Text(
-                                                          //   '(rate:${value.productName[index]["prbaserate"]})',
-                                                          //   style: TextStyle(
-                                                          //     color:
-                                                          //         Colors.grey,
-                                                          //     fontStyle:
-                                                          //         FontStyle
-                                                          //             .italic,
-                                                          //   ),
-                                                          // ),
-                                                          // Row(
-                                                          //   children: [
-                                                          //     Text(
-                                                          //       '(unit: \u{20B9}${value.productName[index]["unitUnit_name"]})',
-                                                          //       style:
-                                                          //           TextStyle(
-                                                          //         color: Colors
-                                                          //             .blue,
-                                                          //         fontStyle:
-                                                          //             FontStyle
-                                                          //                 .italic,
-                                                          //       ),
-                                                          //     ),
-                                                          //   ],
-                                                          // ),
                                                         ],
                                                       ),
                                                       value.productName[index]
@@ -1159,41 +963,6 @@ class _SalesItemState extends State<SalesItem> {
                                                                               .italic,
                                                                     ),
                                                                   ),
-                                                                  // child:
-                                                                  //     GestureDetector(
-                                                                  //   onTap:
-                                                                  //       () {
-                                                                  //     Provider.of<Controller>(context, listen: false).selectunit = value
-                                                                  //         .productName[index]["prunit"]
-                                                                  //         .toString();
-                                                                  //     print(
-                                                                  //         "selected valueeee..............${Provider.of<Controller>(context, listen: false).selectunit}");
-                                                                  //   },
-                                                                  //   child:
-                                                                  //       Container(
-                                                                  //     height: size.height *
-                                                                  //         0.04,
-                                                                  //     child:
-                                                                  //         Card(
-                                                                  //       color:
-                                                                  //           Colors.green,
-                                                                  //       child:
-                                                                  //           Text(
-                                                                  //         value.productName[index]["prunit"] == null
-                                                                  //             ? " "
-                                                                  //             : value.productName[index]["prunit"].toString(),
-                                                                  //         textAlign:
-                                                                  //             TextAlign.center,
-                                                                  //         style:
-                                                                  //             TextStyle(
-                                                                  //           fontSize: 14,
-                                                                  //           color: Colors.white,
-                                                                  //           fontWeight: FontWeight.normal,
-                                                                  //         ),
-                                                                  //       ),
-                                                                  //     ),
-                                                                  // ),
-                                                                  // ),
                                                                 ),
                                                                 SizedBox(
                                                                   width:
@@ -1230,27 +999,6 @@ class _SalesItemState extends State<SalesItem> {
                                                     mainAxisSize:
                                                         MainAxisSize.min,
                                                     children: [
-                                                      // Container(
-                                                      //   width:
-                                                      //       size.width * 0.06,
-                                                      //   child: TextFormField(
-                                                      //     controller:
-                                                      //         value.qty[index],
-                                                      //     keyboardType:
-                                                      //         TextInputType
-                                                      //             .number,
-                                                      //     decoration:
-                                                      //         InputDecoration(
-                                                      //             border:
-                                                      //                 InputBorder
-                                                      //                     .none,
-                                                      //             hintText:
-                                                      //                 "1"),
-                                                      //   ),
-                                                      // ),
-                                                      // SizedBox(
-                                                      //   width: 10,
-                                                      // ),
                                                       IconButton(
                                                         icon: Icon(
                                                           Icons.add,
@@ -1259,66 +1007,24 @@ class _SalesItemState extends State<SalesItem> {
                                                           var total;
 
                                                           double qty;
-                                                          // print(
-                                                          //     "profgfjsdls-----${value.productName[index]["qty"]}");
 
-                                                          // print(
-                                                          //     "njdkn-----${value.qty[index].text}");
+                                                          print(
+                                                              "value.qty--${value..qty[index].text}");
+                                                          double temp =
+                                                              double.parse(value
+                                                                      .qty[
+                                                                          index]
+                                                                      .text) +
+                                                                  1;
+                                                          print(
+                                                              "temp----${temp}");
 
-                                                          // if (value
-                                                          //         .qty[index]
-                                                          //         .text
-                                                          //         .isNotEmpty ||
-                                                          //     value.qty[index]
-                                                          //             .text !=
-                                                          //         null) {
-                                                          //   print("fjdfjh");
-                                                          //   total = products[
-                                                          //                   index]
-                                                          //               [
-                                                          //               "prrate1"]
-                                                          //           .toDouble() *
-                                                          //       double.parse(value
-                                                          //           .qty[index]
-                                                          //           .text);
-                                                          // } else {
-                                                          //   qty = 0;
-                                                          // }
-                                                          print("tttt----${value.qty[1]
-                                                                      .value}");
-                                                          double tempqty = 0;
-                                                          if (value.qty[index]
-                                                                      .text ==
-                                                                  null ||
-                                                              value
-                                                                  .qty[index]
-                                                                  .text
-                                                                  .isEmpty) {
-                                                            tempqty = 0;
-                                                          } else {
-                                                           tempqty= double.parse(value.qty[index]
-                                                                      .text);
-                                                          }
+                                                          value.qty[index]
+                                                                  .text =
+                                                              temp.toString();
 
-                                                          print("tempqty----$tempqty");
-
-                                                          // if (value.productName[index]["qty"]!=
-                                                          //     null) {
-                                                          //   qty =double.parse(value
-                                                          //           .qty[
-                                                          //       index].text) ;
-                                                          // } else {
-                                                          //   qty = 0;
-                                                          // }
-
-                                                          // value.qty[index]
-                                                          //     .text = "1";
-
-                                                          Provider.of<Controller>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .quantitiChange(1,
-                                                                  index, tempqty);
+                                                          print(
+                                                              "tttt----${value.qty[index].text}");
 
                                                           total = products[
                                                                           index]
@@ -1328,15 +1034,13 @@ class _SalesItemState extends State<SalesItem> {
                                                               double.parse(value
                                                                   .qty[index]
                                                                   .text);
+
+                                                          print(
+                                                              "var total-----$total");
+
                                                           String os = "S" +
                                                               "${value.ordernum[0]["os"]}";
-                                                          // value.qtyups(
-                                                          //   index,
-                                                          //   "salesBagTable",
-                                                          //   value.productName[
-                                                          //       index]["code"],
-                                                          //   widget.customerId,os
-                                                          // );
+
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
@@ -1353,19 +1057,6 @@ class _SalesItemState extends State<SalesItem> {
                                                                   index];
                                                               // selected = index;
                                                             }
-
-                                                            // if (value.qty[index]
-                                                            //             .text ==
-                                                            //         null ||
-                                                            //     value
-                                                            //         .qty[index]
-                                                            //         .text
-                                                            //         .isEmpty) {
-                                                            //   value.qty[index]
-                                                            //       .text = "1";
-                                                            // }
-
-                                                            // int.parse(value.qty[index].text )+ 1;
                                                           });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                                           int max = await OrderAppDB
@@ -1390,29 +1081,6 @@ class _SalesItemState extends State<SalesItem> {
                                                               .selectAllcommon(
                                                                   "productUnits",
                                                                   "unit_name=='$unit_name' AND pid = '${value.productName[index]['pid']}'");
-                                                          print(
-                                                              "unit packet curresponds to unitname........$pid...$unitres....$unit_name");
-
-                                                          // double packageVal =
-                                                          //     unitres.length ==
-                                                          //             0
-                                                          //         ? 1.0
-                                                          //         : unitres[0][
-                                                          //             'package'];
-                                                          // rate1 = value
-                                                          //         .productName[
-                                                          //     index]["prrate1"];
-                                                          // print(
-                                                          //     "base rate val for....$rate1.....$packageVal");
-                                                          // baseRate =
-                                                          //     double.parse(
-                                                          //             rate1) *
-                                                          //         packageVal;
-                                                          print(
-                                                              "base rate val for............$baseRate.....$rate1");
-
-                                                          print(
-                                                              "total rate..... $total");
 
                                                           double qtyNew = 0.0;
                                                           double
@@ -1429,24 +1097,14 @@ class _SalesItemState extends State<SalesItem> {
                                                                   .instance
                                                                   .selectAllcommon(
                                                                       'salesBagTable',
-                                                                      "os='${os}' AND customerid='${widget.customerId}' AND code='${value.productName[index]["code"]}'");
+                                                                      "os='${os}' AND customerid='${widget.customerId}' AND code='${value.productName[index]["prcode"]}'");
 
                                                           print(
                                                               "qtynewlisy=======$qtyNewList");
-                                                          //  var total = products[
-                                                          //                 index]
-                                                          //             [
-                                                          //             "prrate1"]
-                                                          //         .toDouble() *
-                                                          //     double.parse(qtyNewList
-                                                          //         );
+
                                                           if (qtyNewList
                                                                   .length >
                                                               0) {
-                                                            // qtyNew =
-                                                            //     qtyNewList[0]
-                                                            //         ["qty"];
-
                                                             discounamttNew =
                                                                 qtyNewList[0][
                                                                     "discount_amt"];
@@ -1458,30 +1116,20 @@ class _SalesItemState extends State<SalesItem> {
                                                                     ["ces_per"];
                                                           }
 
-                                                          // double qtyww = qtyNew +
-                                                          //     double.parse(value
-                                                          //         .qty[index]
-                                                          //         .text);
-
-                                                          double qtyww = 1;
-                                                          print(
-                                                              "qtynew----$qtyww");
-
-                                                          print(
-                                                              "base rate.............$baseRate");
                                                           String result = Provider.of<Controller>(context, listen: false).rawCalculation(
                                                               products[index][
                                                                       "prrate1"]
                                                                   .toDouble(),
-                                                              qtyww,
+                                                              double.parse(value
+                                                                  .qty[index]
+                                                                  .text),
                                                               discounpertNew,
                                                               discounamttNew,
                                                               double.parse(value
                                                                       .productName[index]
                                                                   ["prtax"]),
                                                               cesspertNew,
-                                                              value
-                                                                  .settingsList1[1]
+                                                              value.settingsList1[1]
                                                                       [
                                                                       'set_value']
                                                                   .toString(),
@@ -1500,8 +1148,7 @@ class _SalesItemState extends State<SalesItem> {
                                                             var res = await OrderAppDB
                                                                 .instance
                                                                 .insertsalesBagTable(
-                                                                    products[index]
-                                                                        [
+                                                                    products[index][
                                                                         "pritem"],
                                                                     s[0],
                                                                     s[1],
@@ -1509,13 +1156,13 @@ class _SalesItemState extends State<SalesItem> {
                                                                     widget
                                                                         .customerId,
                                                                     max,
-                                                                    products[index]
-                                                                        [
+                                                                    products[index][
                                                                         "prcode"],
-                                                                    qtyww,
-                                                                    products[index]
-                                                                            [
-                                                                            "prrate1"]
+                                                                    double.parse(value
+                                                                        .qty[
+                                                                            index]
+                                                                        .text),
+                                                                    products[index]["prrate1"]
                                                                         .toString(),
                                                                     value
                                                                         .taxable_rate,
@@ -1561,32 +1208,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                         .toDouble(),
                                                                     double.parse(
                                                                         products[index]
-                                                                            [
-                                                                            "prbaserate"]));
-                                                            //     int qtysale =
-                                                            //     int.parse(value
-                                                            //         .qty[index]
-                                                            //         .text);
-                                                            // Provider.of<Controller>(
-                                                            //         context,
-                                                            //         listen: false)
-                                                            //     .quantitiChange(
-                                                            //         qtysale,
-                                                            //         index);
-                                                            // Provider.of<Controller>(
-                                                            //         context,
-                                                            //         listen: false)
-                                                            //     .getSaleBagDetails(
-                                                            //         widget
-                                                            //             .customerId,
-                                                            //         widget.os);
-                                                            // Provider.of<Controller>(
-                                                            //         context,
-                                                            //         listen: false)
-                                                            //     .getSaleBagDetails(
-                                                            //         widget
-                                                            //             .customerId,
-                                                            //         widget.os);
+                                                                            ["prbaserate"]));
+
                                                             snackbar.showSnackbar(
                                                                 context,
                                                                 "${products[index]["prcode"] + products[index]['pritem']} - Added to cart",
