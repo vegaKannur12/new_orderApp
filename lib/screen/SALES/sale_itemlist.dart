@@ -1090,18 +1090,12 @@ class _SalesItemState extends State<SalesItem> {
                                                                 0.03,
                                                           ),
 
-                                                          value.productName[index]
-                                                                          [
-                                                                          "qty"] ==
-                                                                      null ||
-                                                                  value.productName[
-                                                                              index]
-                                                                          [
-                                                                          "qty"] ==
-                                                                      0
-                                                              ? Container()
-                                                              : Text(
-                                                                  'Qty: ${value.productName[index]["qty"]}',
+                                                          value.productName[
+                                                                          index]
+                                                                      ["qty"] !=
+                                                                  null
+                                                              ? Text(
+                                                                  '${value.productName[index]["qty"]}',
                                                                   style:
                                                                       TextStyle(
                                                                     color: Colors
@@ -1110,7 +1104,8 @@ class _SalesItemState extends State<SalesItem> {
                                                                         FontStyle
                                                                             .italic,
                                                                   ),
-                                                                ),
+                                                                )
+                                                              : Container()
 
                                                           // SizedBox(
                                                           //   width: size.width *
@@ -1264,9 +1259,9 @@ class _SalesItemState extends State<SalesItem> {
                                                           var total;
 
                                                           double qty;
-                                                          print(
-                                                              "profgfjsdls-----${value.productName[index]["qty"]}");
-                                                          
+                                                          // print(
+                                                          //     "profgfjsdls-----${value.productName[index]["qty"]}");
+
                                                           // print(
                                                           //     "njdkn-----${value.qty[index].text}");
 
@@ -1289,26 +1284,41 @@ class _SalesItemState extends State<SalesItem> {
                                                           // } else {
                                                           //   qty = 0;
                                                           // }
-
-                                                          if (value.productName[
-                                                                      index]
-                                                                  ["qty"] !=
-                                                              null) {
-                                                            qty = value
-                                                                    .productName[
-                                                                index]["qty"];
+                                                          print("tttt----${value.qty[1]
+                                                                      .value}");
+                                                          double tempqty = 0;
+                                                          if (value.qty[index]
+                                                                      .text ==
+                                                                  null ||
+                                                              value
+                                                                  .qty[index]
+                                                                  .text
+                                                                  .isEmpty) {
+                                                            tempqty = 0;
                                                           } else {
-                                                            qty = 0;
+                                                           tempqty= double.parse(value.qty[index]
+                                                                      .text);
                                                           }
 
-                                                          value.qty[index]
-                                                              .text = "1";
+                                                          print("tempqty----$tempqty");
+
+                                                          // if (value.productName[index]["qty"]!=
+                                                          //     null) {
+                                                          //   qty =double.parse(value
+                                                          //           .qty[
+                                                          //       index].text) ;
+                                                          // } else {
+                                                          //   qty = 0;
+                                                          // }
+
+                                                          // value.qty[index]
+                                                          //     .text = "1";
+
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
                                                               .quantitiChange(1,
-                                                                  index, qty);
-
+                                                                  index, tempqty);
 
                                                           total = products[
                                                                           index]

@@ -3547,10 +3547,11 @@ class Controller extends ChangeNotifier {
   quantitiChange(double qtya, int index, double oldqty) async {
     // print("dsjhfjdhjhd");
     print("kjf---$qtya-$index---$oldqty");
-    // int cartrow = index + 1;
+    int cartrow = index + 1;
+    print("cartyjsdkm------$cartrow");
     // var result=await OrderAppDB.instance.selectAllcommon('salesBagTable', "cartrowno='$cartrow'");
     // print("restuuu----$result");
-    double qtyss = oldqty + qtya;
+    double qtyss = qtya + oldqty;
     qty[index].text = qtyss.toString();
 
     print("njdnfkjdfkd-----${qty[index].text}");
