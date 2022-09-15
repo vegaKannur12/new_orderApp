@@ -1328,7 +1328,9 @@ class Controller extends ChangeNotifier {
           "",
           rowNum,
           "orderMasterTable",
-          total_price);
+          total_price,
+          "",
+          0.0);
 
       for (var item in bagList) {
         print("orderid---$order_id");
@@ -1349,7 +1351,9 @@ class Controller extends ChangeNotifier {
             "",
             rowNum,
             "orderDetailTable",
-            total_price);
+            total_price,
+            " ",
+            0.0);
         rowNum = rowNum + 1;
       }
     }
@@ -1677,7 +1681,7 @@ class Controller extends ChangeNotifier {
       // notifyListeners();
       prodctItems =
           await OrderAppDB.instance.selectfromOrderbagTable(customerId);
-      print("prodctItems----${prodctItems}");
+      print("product item list in orderlist----${prodctItems}");
       productName.clear();
       for (var item in prodctItems) {
         productName.add(item);

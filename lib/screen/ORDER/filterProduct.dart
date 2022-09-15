@@ -147,19 +147,24 @@ class _FilteredProductState extends State<FilteredProduct> {
                                   double.parse(value.qty[index].text);
                               print("total rate $total");
 
-                              var res = await OrderAppDB.instance
-                                  .insertorderBagTable(
-                                      value.filteredProductList[index]["item"],
-                                      widget.s![0],
-                                      widget.s![1],
-                                      oos,
-                                      widget.customerId!,
-                                      max,
-                                      value.filteredProductList[index]["code"],
-                                      int.parse(value.qty[index].text),
-                                      rate1,
-                                      total.toString(),
-                                      0);
+                              var res =
+                                  await OrderAppDB.instance.insertorderBagTable(
+                                value.filteredProductList[index]["item"],
+                                widget.s![0],
+                                widget.s![1],
+                                oos,
+                                widget.customerId!,
+                                max,
+                                value.filteredProductList[index]["code"],
+                                int.parse(value.qty[index].text),
+                                rate1,
+                                total.toString(),
+                                1,
+                                "",
+                                0.0,
+                                0.0,
+                                0,
+                              );
 
                               snackbar.showSnackbar(
                                   context,
@@ -172,7 +177,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                 widget.customerId!,
                               );
                             }
-                      
+
                             /////////////////////////////////////////////////////////////
                             (widget.customerId!.isNotEmpty ||
                                         widget.customerId != null) &&
@@ -227,7 +232,7 @@ class _FilteredProductState extends State<FilteredProduct> {
                                           }
                                         : null
                                     : () async {
-                                        String oos ="${widget.os}";
+                                        String oos = "${widget.os}";
 
                                         String item =
                                             value.filteredProductList[index]
