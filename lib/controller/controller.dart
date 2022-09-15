@@ -3252,7 +3252,7 @@ class Controller extends ChangeNotifier {
 
     if (disCalc == "disc_amt") {
       disc_per = (disc_amount / gross) * 100;
-      disc_amt = disc_amount;
+      disc_amt = disc_amount; 
       print("discount_prercent---$disc_amount---${discount_prercent.length}");
       if (onSub) {
         discount_prercent[index].text = disc_per.toStringAsFixed(4);

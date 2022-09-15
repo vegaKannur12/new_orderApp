@@ -995,6 +995,7 @@ class _SalesItemState extends State<SalesItem> {
                                                           rate1 = value
                                                                   .productName[
                                                               index]["rate1"];
+                                                              
                                                           var total = double
                                                                   .parse(
                                                                       rate1) *
@@ -1314,7 +1315,8 @@ class _SalesItemState extends State<SalesItem> {
                       Container(
                         color: Colors.grey[200],
                         height: size.height * 0.04,
-                        child: DropdownButton<String>(
+                        child: 
+                        DropdownButton<String>(
                           value: selected,
                           // isDense: true,
                           hint: Text("Select package"),
