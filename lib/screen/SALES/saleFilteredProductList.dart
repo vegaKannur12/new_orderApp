@@ -194,7 +194,7 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       double.parse(value.qty[index].text),
                                       rate1,
                                       value.taxable_rate,
-                                      total.toString(),
+                                      total,
                                       "0",
                                       value.salefilteredProductList[index]
                                           ["hsn"],
@@ -213,7 +213,11 @@ class _SaleFilteredProductState extends State<SaleFilteredProduct> {
                                       0.0,
                                       value.cess,
                                       0,
-                                      value.net_amt);
+                                      value.net_amt,
+                                      0,
+                                      "",
+                                      0.0,
+                                      0.0);
 
                               int qtysale = int.parse(value.qty[index].text);
                               // Provider.of<Controller>(context, listen: false)

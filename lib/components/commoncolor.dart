@@ -25,7 +25,7 @@ class P_Settings {
 
   static Color get wavecolor => Color.fromARGB(255, 42, 81, 207);
 
-  static Color get extracolor => Color.fromARGB(255, 207, 30, 30);
+  static Color get extracolor => Color.fromARGB(255, 187, 6, 6);
 
   static Color get roundedButtonColor => Color.fromARGB(255, 177, 212, 235);
   static Color get tabbarColor => Color.fromARGB(255, 15, 113, 173);
@@ -34,7 +34,9 @@ class P_Settings {
   static Color get tableheadingColor => Color.fromARGB(255, 236, 243, 243);
   static Color get chooseCategory => Color.fromRGBO(230, 81, 0, 1);
   static Color get addbutonColor => Color.fromARGB(255, 243, 40, 4);
-  static Color get ratecolor => Color.fromARGB(255, 231, 133, 166);
+  static Color get ratecolor =>Colors.green;
+  static Color get unitcolor =>Color.fromARGB(255, 189, 32, 5);
+
   static Color get collection => Color.fromARGB(255, 238, 238, 238);
   static Color get collection1 => Color.fromARGB(255, 121, 119, 119);
   static Color get editcolor => Color.fromARGB(255, 22, 78, 30);

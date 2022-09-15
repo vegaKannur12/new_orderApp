@@ -12,6 +12,7 @@ class PaymentSelect {
     String time,
     String ref,
     String reason,
+    double baserate,
   ) {
     Size size = MediaQuery.of(context).size;
     String? payment_mode;
@@ -53,6 +54,7 @@ class PaymentSelect {
                               "",
                               "",
                               payment_mode!,
+                              baserate,
                             ),
                           );
                           print("payment mode...........$payment_mode");
@@ -82,7 +84,8 @@ class PaymentSelect {
                                     time,
                                     "",
                                     "",
-                                    payment_mode!),
+                                    payment_mode!,
+                                    baserate),
                           );
                           // print("payment mode...........$payment_mode");
                         }),

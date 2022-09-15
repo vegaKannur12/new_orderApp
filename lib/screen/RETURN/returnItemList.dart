@@ -336,11 +336,11 @@ class _ReturnItemState extends State<ReturnItem> {
                                                           context,
                                                           listen: false)
                                                       .returnfilteredeValue!,
-                                                  "return")
+                                                  "return",value.productName)
                                           : Provider.of<Controller>(context,
                                                   listen: false)
                                               .searchProcess(widget.customerId,
-                                                  widget.os, "", "return");
+                                                  widget.os, "", "return",value.productName);
                                     }),
                                 IconButton(
                                     icon: Icon(

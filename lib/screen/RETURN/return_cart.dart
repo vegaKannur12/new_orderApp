@@ -347,7 +347,7 @@ class _ReturnCartState extends State<ReturnCart> {
                                           s[1],
                                           refController.text,
                                           reasonController.text,
-                                          ""),
+                                          "",0.0),
                                 );
 
                                 final prefs =

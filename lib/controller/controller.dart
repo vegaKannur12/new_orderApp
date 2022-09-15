@@ -32,6 +32,7 @@ class Controller extends ChangeNotifier {
   double dis_tot = 0.0;
   double cess_tot = 0.0;
   double tax_tot = 0.0;
+  String? selectunit;
   Map<String, dynamic> printSalesData = {};
 
   double disc_amt = 0.0;
@@ -69,6 +70,7 @@ class Controller extends ChangeNotifier {
   String? fromDate;
   String? todate;
   String? selectedAreaId;
+  String? selectedUnit;
   CustomSnackbar snackbar = CustomSnackbar();
   bool isSearch = false;
   bool isreportSearch = false;
@@ -76,6 +78,7 @@ class Controller extends ChangeNotifier {
   bool flag = false;
   List<String> gridHeader = [];
   String? areaSelecton;
+  String? packageSelection;
   int returnCount = 0;
   bool isVisible = false;
   double returnTotal = 0.0;
@@ -140,6 +143,7 @@ class Controller extends ChangeNotifier {
   String? cid;
   String? cname;
   int? qtyinc;
+  int? quan;
   int? returnqtyinc;
   String? itemRate;
   List<CD> c_d = [];
@@ -1113,15 +1117,37 @@ class Controller extends ChangeNotifier {
 
   ////////////////////////////fetch productunits///////////////////////////////////////////////
   fetchProductUnits(int code) async {
-    print("codecode  ----$code");
-
-    var res = await OrderAppDB.instance
-        .selectAllcommon('productUnits', "pid='$code'");
-    productUnitList.clear();
-    for (var item in res) {
-      productUnitList.add(item);
+    try {
+      productUnitList.clear();
+      var res = await OrderAppDB.instance
+          .selectAllcommon('productUnits', "pid='$code'");
+      print("unit result..........$res");
+      productUnitList.clear();
+      for (var item in res) {
+        productUnitList.add(item);
+      }
+      print("product length...........${productUnitList.length}");
+      print("ProductUnits  ----$productUnitList");
+      notifyListeners();
+    } catch (e) {
+      print("error...$e");
+      return null;
     }
-    print("ProductUnits  ----$productUnitList");
+    print("codecode  ----$code");
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  packageDataSelection(int code) async {
+    // areaSelecton.clear();
+    print("code.......$code");
+    areaidFrompopup = area;
+    List<Map<String, dynamic>> result = await OrderAppDB.instance
+        .selectAllcommon('productUnits', "pid='${code}'");
+    packageSelection = result[0]["unit_name"];
+    // final prefs = await SharedPreferences.getInstance();
+    // prefs.setString("areaSelectionPopup", areaSelecton!);
+    print("unit name...---$packageSelection");
+    notifyListeners();
   }
 
 // /////////////////////////////INSERT into SALES bag and master table///////////////////////////////////////////////
@@ -1139,7 +1165,8 @@ class Controller extends ChangeNotifier {
       double cess_tot,
       BuildContext context,
       String payment_mode,
-      double roundoff) async {
+      double roundoff,
+      double baserate) async {
     List<Map<String, dynamic>> om = [];
     print("fhnjdroundoff---$roundoff");
     // String salesOs = "S" + "$os";
@@ -1147,67 +1174,19 @@ class Controller extends ChangeNotifier {
     //     .getMaxCommonQuery('salesDetailTable', 'sales_id', "os='${os}'");
     int sales_id = await OrderAppDB.instance
         .calculateMaxSeries('${os}', 'salesMasterTable', 'sales_id');
+    print("base rate insert.............$baserate");
     int rowNum = 1;
-    print("salebagList length........${salebagList.length}");
+    print("salebagList length........${salebagList}");
     if (salebagList.length > 0) {
       String billNo = "${os}" + "${sales_id}";
       print("bill no........$total_price");
       var result = await OrderAppDB.instance.insertsalesMasterandDetailsTable(
-        sales_id,
-        0,
-        0.0,
-        0.0,
-        "",
-        "",
-        date,
-        time,
-        os,
-        customer_id,
-        "",
-        billNo,
-        staff_id,
-        aid,
-        0,
-        payment_mode.toString(),
-        "",
-        "",
-        rowNum,
-        "salesMasterTable",
-        "",
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        gross_tot,
-        dis_tot,
-        tax_tot,
-        cess_tot,
-        0.0,
-        total_price,
-        roundoff,
-        0,
-        0,
-      );
-
-      for (var item in salebagList) {
-        print("item....$item");
-        // double rate = double.parse(item["rate"]);
-        await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
-          item["qty"],
-          item["rate"],
-          item["unit_rate"],
-          item["code"],
-          item["hsn"],
+          0,
+          0.0,
+          0.0,
+          "",
+          "",
           date,
           time,
           os,
@@ -1217,35 +1196,88 @@ class Controller extends ChangeNotifier {
           staff_id,
           aid,
           0,
-          "",
+          payment_mode.toString(),
           "",
           "",
           rowNum,
-          "salesDetailTable",
-          item["itemName"],
-          item["totalamount"],
-          item["discount_amt"],
-          item["discount_per"],
-          item["tax_amt"],
-          item["tax_per"],
-          item["cgst_per"],
-          item["cgst_amt"],
-          item["sgst_per"],
-          item["sgst_amt"],
-          item["igst_per"],
-          item["igst_amt"],
-          item["ces_amt"],
-          item["ces_per"],
+          "salesMasterTable",
+          "",
           0.0,
           0.0,
           0.0,
-          item["net_amt"],
           0.0,
-          item["net_amt"],
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          gross_tot,
+          dis_tot,
+          tax_tot,
+          cess_tot,
+          0.0,
+          total_price,
           roundoff,
           0,
           0,
-        );
+          0.0,
+          "",
+          0.0);
+
+      for (var item in salebagList) {
+        print("item....$item");
+        // double rate = double.parse(item["rate"]);
+        await OrderAppDB.instance.insertsalesMasterandDetailsTable(
+            sales_id,
+            item["qty"],
+            item["rate"],
+            item["unit_rate"],
+            item["code"],
+            item["hsn"],
+            date,
+            time,
+            os,
+            customer_id,
+            "",
+            billNo,
+            staff_id,
+            aid,
+            0,
+            "",
+            "",
+            "",
+            rowNum,
+            "salesDetailTable",
+            item["itemName"],
+            item["totalamount"],
+            item["discount_amt"],
+            item["discount_per"],
+            item["tax_amt"],
+            item["tax_per"],
+            item["cgst_per"],
+            item["cgst_amt"],
+            item["sgst_per"],
+            item["sgst_amt"],
+            item["igst_per"],
+            item["igst_amt"],
+            item["ces_amt"],
+            item["ces_per"],
+            0.0,
+            0.0,
+            0.0,
+            item["net_amt"],
+            0.0,
+            item["net_amt"],
+            roundoff,
+            0,
+            0,
+            0.0,
+            "",
+            baserate);
         rowNum = rowNum + 1;
       }
     }
@@ -1639,26 +1671,27 @@ class Controller extends ChangeNotifier {
     print("haii---");
     int flag = 0;
     productName.clear();
+
     try {
       isLoading = true;
       // notifyListeners();
       prodctItems =
           await OrderAppDB.instance.selectfromOrderbagTable(customerId);
-      print("prodctItems----${prodctItems.length}");
-
+      print("prodctItems----${prodctItems}");
+      productName.clear();
       for (var item in prodctItems) {
         productName.add(item);
       }
       var length = productName.length;
+      print("product namess.......$productName");
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
       returnselected = List.generate(length, (index) => false);
       returnirtemExists = List.generate(length, (index) => false);
       isLoading = false;
-      notifyListeners();
-      print("product name----${productName}");
-
+      // notifyListeners();
+      // productName[selected]["pid"] ==
       notifyListeners();
     } catch (e) {
       print(e);
@@ -1682,7 +1715,7 @@ class Controller extends ChangeNotifier {
             await OrderAppDB.instance.selectfromreturnbagTable(customerId);
       }
 
-      print("prodctItems----${prodctItems.length}");
+      print("prodctItemsdfddfd----${prodctItems.length}");
       productName.clear();
 
       for (var item in prodctItems) {
@@ -1712,23 +1745,33 @@ class Controller extends ChangeNotifier {
     print("customer id......$customerId");
     print("haii---");
     int flag = 0;
-
+    productName.clear();
     try {
       isLoading = true;
       // notifyListeners();
       prodctItems =
           await OrderAppDB.instance.selectfromsalebagTable(customerId);
-      print("prodctItems----${prodctItems.length}");
+      print("prodctItems----${prodctItems}");
       productName.clear();
-      for (var item in prodctItems) {
-        productName.add(item);
+      for (var i in prodctItems) {
+        productName.add(i);
       }
       var length = productName.length;
+      print("product item listttttt....................${productName}");
+
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
       // listDropdown=List.generate(length, (index) => DropdownButton())
       selected = List.generate(length, (index) => false);
       // returnselected = List.generate(length, (index) => false);
+
+      for (int i = 0; i < productName.length; i++) {
+        if (productName[i]["qty"] != null) {
+          qty[i].text = productName[i]["qty"].toString();
+        } else {
+          qty[i].text = "0";
+        }
+      }
 
       isLoading = false;
       notifyListeners();
@@ -1737,9 +1780,9 @@ class Controller extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       print(e);
-      return null;
     }
     notifyListeners();
+    return productName;
   }
 
 //////////////////GET ORDER NUMBER///////////////////////////////////
@@ -1796,6 +1839,9 @@ class Controller extends ChangeNotifier {
     for (var item in res) {
       salebagList.add(item);
     }
+
+    print("salebagList innnnnsale----$salebagList");
+
     rateEdit = List.generate(salebagList.length, (index) => false);
     salesqty =
         List.generate(salebagList.length, (index) => TextEditingController());
@@ -2158,12 +2204,12 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  int qtyup = 0;
-  qtyups(int index) {
-    qtyup = 1 + qtyup;
-    qty[index].text = qtyup.toString();
-    notifyListeners();
-  }
+  // int qtyup = 0;
+  // qtyups(int index) {
+  //   qtyup = 1 + qtyup;
+  //   qty[index].text = qtyup.toString();
+  //   notifyListeners();
+  // }
 
   returnqtyIncrement() {
     returnqty = true;
@@ -2177,6 +2223,20 @@ class Controller extends ChangeNotifier {
     returnqty = true;
     qtyinc = qtyinc! - 1;
     print("qty-----$qtyinc");
+    notifyListeners();
+  }
+
+  // int qtyup = 0;
+  qtyups(int index, String table, String itemcode, String customerId,
+      String os) async {
+    String quan;
+    var qtyup = await OrderAppDB.instance.countqty(table,
+        "code='${itemcode}' AND customerid='${customerId}' AND os='${os}' ");
+    print("quantity update.............$qtyup");
+    quan = qtyup;
+    print("qyu............$quan");
+    // qtyup = 1 + qtyup;
+    qty[index].text = quan;
     notifyListeners();
   }
 
@@ -2671,6 +2731,19 @@ class Controller extends ChangeNotifier {
     print("area---$areaidFrompopup");
     notifyListeners();
   }
+  // ///////////////////////////////////////////////////////////////////
+  //   packageDataSelection(String pid) async {
+  //   // areaSelecton.clear();
+  //   print("area.......$area");
+  //   areaidFrompopup = area;
+  //   List<Map<String, dynamic>> result = await OrderAppDB.instance
+  //       .selectAllcommon('productUnits', "pid='${pid}'");
+  //   areaSelecton = result[0]["aname"];
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.setString("areaSelectionPopup", areaSelecton!);
+  //   print("area---$areaidFrompopup");
+  //   notifyListeners();
+  // }
 
   //////////////////////////////////////////////////////////////////////////
   fetchtotalcollectionFromTable(String cusid) async {
@@ -3087,13 +3160,16 @@ class Controller extends ChangeNotifier {
 
   ////////////////////////SEARCH PROCESS ////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////
-  searchProcess(String customerId, String os, String comid, String type) async {
+  searchProcess(String customerId, String os, String comid, String type,
+      List<Map<String, dynamic>> list) async {
     print("searchkey--comid--$searchkey---$comid----$os");
     List<Map<String, dynamic>> result = [];
+    List<Map<String, dynamic>> list =
+        await OrderAppDB.instance.selectfromsalebagTable(customerId);
     newList.clear();
-
+    print("jhkzsfz----$list");
     if (searchkey!.isEmpty) {
-      newList = productName;
+      newList = list;
       var length = newList.length;
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
@@ -3105,48 +3181,52 @@ class Controller extends ChangeNotifier {
       print("else is search");
       isSearch = true;
 
-      // newList = productName
-      //     .where((product) =>
-      //         product["item"]
-      //             .toLowerCase()
-      //             .contains(searchkey!.toLowerCase()) ||
-      //         product["code"]
-      //             .toLowerCase()
-      //             .contains(searchkey!.toLowerCase()) ||
-      //         product["categoryId"]
-      //             .toLowerCase()
-      //             .contains(searchkey!.toLowerCase()))
-      //     .toList();
-
       // List<Map<String, dynamic>> res =
       //     await OrderAppDB.instance.getOrderBagTable(customerId, os);
       // for (var item in res) {
       //   bagList.add(item);
       // }
 // print("jhfdjkhfjd----$bagList");
-      if (comid == "") {
-        result = await OrderAppDB.instance.searchItem('productDetailsTable',
-            searchkey!, 'item', 'code', 'categoryId', " ");
-      } else {
-        result = await OrderAppDB.instance.searchItem(
-            'productDetailsTable',
-            searchkey!,
-            'item',
-            'code',
-            'categoryId',
-            " and companyId='${comid}'");
-      }
+
+      print(" nw list---$productName");
+      newList = list
+          .where((product) =>
+              product["pritem"]
+                  .toLowerCase()
+                  .contains(searchkey!.toLowerCase()) ||
+              product["prcode"]
+                  .toLowerCase()
+                  .contains(searchkey!.toLowerCase()) ||
+              product["prcategoryId"]
+                  .toLowerCase()
+                  .contains(searchkey!.toLowerCase()))
+          .toList();
+      // result = await OrderAppDB.instance.searchItem(
+      //     'productDetailsTable',
+      //     searchkey!,
+      //     'item',
+      //     'code',
+      //     'categoryId',
+      //     " and companyId='${comid}'");
 
       for (var item in result) {
         newList.add(item);
       }
 
+      print("newlist-----------$newList");
       isListLoading = false;
       notifyListeners();
       var length = newList.length;
       selected = List.generate(length, (index) => false);
       qty = List.generate(length, (index) => TextEditingController());
-
+      for (int i = 0; i < newList.length; i++) {
+        if (newList[i]["qty"] != null) {
+          qty[i].text = newList[i]["qty"].toString();
+        } else {
+          qty[i].text = "0";
+        }
+      }
+      
       print("baglis length----${bagList}");
       if (newList.length > 0) {
         print("enterde");
@@ -3238,7 +3318,7 @@ class Controller extends ChangeNotifier {
     flag = false;
 
     print(
-        "attribute---$state_status---$disCalc --$disc_per----$rate---$disc_amount--$tax_per--$cess_per--$method");
+        "attribute----$rate----$qty-$state_status---$disCalc --$disc_per--$disc_amount--$tax_per--$cess_per--$method");
     if (method == "0") {
       /////////////////////////////////method=="0" - excluisive , method=1 - inclusive
       taxable_rate = rate;
@@ -3247,12 +3327,14 @@ class Controller extends ChangeNotifier {
       taxable_rate = rate * (1 - (percnt / (100 + percnt)));
       print("exclusive tax....$percnt...$taxable_rate");
     }
+    print("exclusive tax......$taxable_rate");
+    // qty=qty+1;
     gross = taxable_rate * qty;
     print("gros----$gross");
 
     if (disCalc == "disc_amt") {
       disc_per = (disc_amount / gross) * 100;
-      disc_amt = disc_amount; 
+      disc_amt = disc_amount;
       print("discount_prercent---$disc_amount---${discount_prercent.length}");
       if (onSub) {
         discount_prercent[index].text = disc_per.toStringAsFixed(4);
@@ -3431,7 +3513,8 @@ class Controller extends ChangeNotifier {
     //     select max($id)+1 as value from $table order by value desc
   }
   queryExecuteResult(String query) async {
-    // queryResult.clear();
+    queryResult.clear();
+    print("print query..........");
     queryResult = await OrderAppDB.instance.executeQuery(query);
     print("queryResult---$queryResult");
     notifyListeners();
@@ -3476,13 +3559,17 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  quantitiChange(int qtya, int index) async {
-    print("kjf----$index");
+  quantitiChange(double qtya, int index, double oldqty) async {
+    // print("dsjhfjdhjhd");
+    print("kjf---$qtya-$index---$oldqty");
     int cartrow = index + 1;
+    print("cartyjsdkm------$cartrow");
     // var result=await OrderAppDB.instance.selectAllcommon('salesBagTable', "cartrowno='$cartrow'");
     // print("restuuu----$result");
-    // int qtyss=qtya+1;
-    // qty[index].text=result[0]["qty"].toString();
+    double qtyss = qtya + oldqty;
+    qty[index].text = qtyss.toString();
+
+    print("njdnfkjdfkd-----${qty[index].text}");
     notifyListeners();
   }
 }
