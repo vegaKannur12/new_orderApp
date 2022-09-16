@@ -1182,64 +1182,12 @@ class Controller extends ChangeNotifier {
       String billNo = "${os}" + "${sales_id}";
       print("bill no........$total_price");
       var result = await OrderAppDB.instance.insertsalesMasterandDetailsTable(
-        sales_id,
-        0,
-        0.0,
-        0.0,
-        "",
-        "",
-        date,
-        time,
-        os,
-        customer_id,
-        "",
-        billNo,
-        staff_id,
-        aid,
-        0,
-        payment_mode.toString(),
-        "",
-        "",
-        rowNum,
-        "salesMasterTable",
-        "",
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        gross_tot,
-        dis_tot,
-        tax_tot,
-        cess_tot,
-        0.0,
-        total_price,
-        roundoff,
-        0,
-        0,
-        0.0,
-        0.0,
-        0.0
-      );
-
-      for (var item in salebagList) {
-        print("item....$item");
-        // double rate = double.parse(item["rate"]);
-        await OrderAppDB.instance.insertsalesMasterandDetailsTable(
           sales_id,
-          item["qty"],
-          item["rate"],
-          item["unit_rate"],
-          item["code"],
-          item["hsn"],
+          0,
+          0.0,
+          0.0,
+          "",
+          "",
           date,
           time,
           os,
@@ -1249,38 +1197,88 @@ class Controller extends ChangeNotifier {
           staff_id,
           aid,
           0,
+          payment_mode.toString(),
           "",
           "",
-          item["unit_name"],
           rowNum,
-          "salesDetailTable",
-          item["itemName"],
-          item["totalamount"],
-          item["discount_amt"],
-          item["discount_per"],
-          item["tax_amt"],
-          item["tax_per"],
-          item["cgst_per"],
-          item["cgst_amt"],
-          item["sgst_per"],
-          item["sgst_amt"],
-          item["igst_per"],
-          item["igst_amt"],
-          item["ces_amt"],
-          item["ces_per"],
+          "salesMasterTable",
+          "",
           0.0,
           0.0,
           0.0,
-          item["net_amt"],
           0.0,
-          item["net_amt"],
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          gross_tot,
+          dis_tot,
+          tax_tot,
+          cess_tot,
+          0.0,
+          total_price,
           roundoff,
           0,
           0,
           0.0,
-          baserate,
-          packing
-        );
+          0.0,
+          0.0);
+
+      for (var item in salebagList) {
+        print("item....$item");
+        // double rate = double.parse(item["rate"]);
+        await OrderAppDB.instance.insertsalesMasterandDetailsTable(
+            sales_id,
+            item["qty"],
+            item["rate"],
+            item["unit_rate"],
+            item["code"],
+            item["hsn"],
+            date,
+            time,
+            os,
+            customer_id,
+            "",
+            billNo,
+            staff_id,
+            aid,
+            0,
+            "",
+            "",
+            item["unit_name"],
+            rowNum,
+            "salesDetailTable",
+            item["itemName"],
+            item["totalamount"],
+            item["discount_amt"],
+            item["discount_per"],
+            item["tax_amt"],
+            item["tax_per"],
+            item["cgst_per"],
+            item["cgst_amt"],
+            item["sgst_per"],
+            item["sgst_amt"],
+            item["igst_per"],
+            item["igst_amt"],
+            item["ces_amt"],
+            item["ces_per"],
+            0.0,
+            0.0,
+            0.0,
+            item["net_amt"],
+            0.0,
+            item["net_amt"],
+            roundoff,
+            0,
+            0,
+            0.0,
+            baserate,
+            packing);
         rowNum = rowNum + 1;
       }
     }
@@ -1696,11 +1694,22 @@ class Controller extends ChangeNotifier {
       print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
+
+      // for (int i = 0; i < productName.length; i++) {
+      //   if (productName[i]["qty"] != null) {
+      //     qty[i].text = productName[i]["qty"].toString();
+      //   } else {
+      //     qty[i].text = "0";
+      //   }
+
+      //   print("quantity innnnn............$qty");
+      // }
       returnselected = List.generate(length, (index) => false);
       returnirtemExists = List.generate(length, (index) => false);
+
       isLoading = false;
-      // notifyListeners();
-      // productName[selected]["pid"] ==
+      notifyListeners();
+      print("product name----${productName}");
       notifyListeners();
     } catch (e) {
       print(e);
@@ -1733,7 +1742,7 @@ class Controller extends ChangeNotifier {
       var length = productName.length;
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
-      print("selected---$selected");
+      print("selected-------$qty--$selected");
 
       // returnselected = List.generate(length, (index) => false);
       // returnirtemExists = List.generate(length, (index) => false);
@@ -1768,18 +1777,19 @@ class Controller extends ChangeNotifier {
       var length = productName.length;
       print("product item listttttt....................${productName}");
 
-      print("text length----$length");
+      print("text length-------$length");
       qty = List.generate(length, (index) => TextEditingController());
       // listDropdown=List.generate(length, (index) => DropdownButton())
       selected = List.generate(length, (index) => false);
       // returnselected = List.generate(length, (index) => false);
-
       for (int i = 0; i < productName.length; i++) {
-        if (productName[i]["qty"] != null) {
+        if (productName[i]["qty"] != null || productName[i]["qty"] == 0) {
           qty[i].text = productName[i]["qty"].toString();
         } else {
           qty[i].text = "0";
+          // notifyListeners();
         }
+        print("new quantity-------${qty[i].text}");
       }
 
       isLoading = false;
@@ -3210,6 +3220,7 @@ class Controller extends ChangeNotifier {
                   .toLowerCase()
                   .contains(searchkey!.toLowerCase()))
           .toList();
+
       // result = await OrderAppDB.instance.searchItem(
       //     'productDetailsTable',
       //     searchkey!,
@@ -3288,6 +3299,84 @@ class Controller extends ChangeNotifier {
               print("bagList[item]----${salebagList[i]}");
 
               if (salebagList[i]["code"] == newList[item]["code"]) {
+                print("ifff");
+                selected[item] = true;
+                break;
+              } else {
+                print("else----");
+                selected[item] = false;
+              }
+            }
+          }
+        }
+      }
+
+      print("text length----$length");
+
+      print("selected[item]-----${selected}");
+
+      // notifyListeners();
+    }
+
+    print("nw list---$newList");
+    notifyListeners();
+  }
+
+////////////////////////////////////////////////////////////////
+  searchProcess1(String customerId, String os, String comid, String type,
+      List<Map<String, dynamic>> list) async {
+    print("searchkey--comid--$searchkey---$comid----$os");
+    List<Map<String, dynamic>> result = [];
+    newList.clear();
+
+    if (searchkey!.isEmpty) {
+      newList = productName;
+      var length = newList.length;
+      print("text length----$length");
+      qty = List.generate(length, (index) => TextEditingController());
+      selected = List.generate(length, (index) => false);
+    } else {
+      // newList.clear();
+      isListLoading = true;
+      notifyListeners();
+      print("else is search");
+      isSearch = true;
+
+      if (comid == "") {
+        result = await OrderAppDB.instance.searchItem('productDetailsTable',
+            searchkey!, 'item', 'code', 'categoryId', " ");
+      } else {
+        result = await OrderAppDB.instance.searchItem(
+            'productDetailsTable',
+            searchkey!,
+            'item',
+            'code',
+            'categoryId',
+            " and companyId='${comid}'");
+      }
+
+      for (var item in result) {
+        newList.add(item);
+      }
+
+      isListLoading = false;
+      notifyListeners();
+      var length = newList.length;
+      selected = List.generate(length, (index) => false);
+      qty = List.generate(length, (index) => TextEditingController());
+
+      print("baglis length----${bagList}");
+      if (newList.length > 0) {
+        print("enterde");
+        if (type == "sale order") {
+          List lis = await getBagDetails(customerId, os);
+          for (var item = 0; item < newList.length; item++) {
+            print("newList[item]----${newList[item]}");
+
+            for (var i = 0; i < bagList.length; i++) {
+              print("bagList[item]----${bagList[i]}");
+
+              if (bagList[i]["code"] == newList[item]["code"]) {
                 print("ifff");
                 selected[item] = true;
                 break;
@@ -3565,20 +3654,6 @@ class Controller extends ChangeNotifier {
     //   item["od"] = resultQuery;
     //   om.add(item);
     // }
-    notifyListeners();
-  }
-
-  quantitiChange(double qtya, int index, double oldqty) async {
-    // print("dsjhfjdhjhd");
-    print("kjf---$qtya-$index---$oldqty");
-    int cartrow = index + 1;
-    print("cartyjsdkm------$cartrow");
-    // var result=await OrderAppDB.instance.selectAllcommon('salesBagTable', "cartrowno='$cartrow'");
-    // print("restuuu----$result");
-    double qtyss = qtya + oldqty;
-    qty[index].text = qtyss.toString();
-
-    print("njdnfkjdfkd-----${qty[index].text}");
     notifyListeners();
   }
 }

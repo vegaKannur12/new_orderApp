@@ -41,6 +41,8 @@ class _SalesItemState extends State<SalesItem> {
   String rate1 = "1";
   String? selected;
   String tempcode = "";
+  double? temp;
+  double? newqty = 0.0;
   TextEditingController searchcontroll = TextEditingController();
   ShowModal showModal = ShowModal();
   List<Map<String, dynamic>> products = [];
@@ -513,9 +515,9 @@ class _SalesItemState extends State<SalesItem> {
                                                       //                 "1"),
                                                       //   ),
                                                       // ),
-                                                      // SizedBox(
-                                                      //   width: 10,
-                                                      // ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
                                                       IconButton(
                                                         icon: Icon(
                                                           Icons.add,
@@ -525,22 +527,30 @@ class _SalesItemState extends State<SalesItem> {
 
                                                           double qty;
 
-                                                          print(
-                                                              "value.qty--${value..qty[index].text}");
-                                                          double temp =
-                                                              double.parse(value
-                                                                      .qty[
-                                                                          index]
-                                                                      .text) +
-                                                                  1;
-                                                          print(
-                                                              "temp----${temp}");
+                                                          if (value
+                                                                  .qty[index]
+                                                                  .text
+                                                                  .isNotEmpty ||
+                                                              value.qty[index]
+                                                                      .text !=
+                                                                  null) {
+                                                            newqty = double
+                                                                .parse(value
+                                                                    .qty[index]
+                                                                    .text);
+                                                            temp = newqty! + 1;
+                                                            print(
+                                                                "temp--.........$newqty--${temp}");
+                                                          } else {
+                                                            newqty = 0.0;
+                                                            temp=0;
+                                                            print(
+                                                                "temp--.........--${temp}");
+                                                          }
+
                                                           value.qty[index]
                                                                   .text =
                                                               temp.toString();
-
-                                                          print(
-                                                              "tttt----${value.qty[index].text}");
 
                                                           total = value.newList[
                                                                       index][
@@ -594,19 +604,19 @@ class _SalesItemState extends State<SalesItem> {
                                                                   .newList[
                                                               index]['prid'];
 
-                                                          var unitres = await OrderAppDB
-                                                              .instance
-                                                              .selectAllcommon(
-                                                                  "productUnits",
-                                                                  "unit_name=='$unit_name' AND pid = '${value.newList[index]['pid']}'");
-                                                          print(
-                                                              "unit packet curresponds to unitname........$pid...$unitres....$unit_name");
+                                                          // var unitres = await OrderAppDB
+                                                          //     .instance
+                                                          //     .selectAllcommon(
+                                                          //         "productUnits",
+                                                          //         "unit_name=='$unit_name' AND pid = '${value.newList[index]['pid']}'");
+                                                          // print(
+                                                          //     "unit packet curresponds to unitname........$pid...$unitres....$unit_name");
 
-                                                          print(
-                                                              "base rate val for............$baseRate.....$rate1");
+                                                          // print(
+                                                          //     "base rate val for............$baseRate.....$rate1");
 
-                                                          print(
-                                                              "total rate..... $total");
+                                                          // print(
+                                                          //     "total rate..... $total");
 
                                                           double qtyNew = 0.0;
                                                           double
@@ -617,30 +627,6 @@ class _SalesItemState extends State<SalesItem> {
                                                               0.0;
                                                           double cesspertNew =
                                                               0.0;
-
-                                                          List qtyNewList =
-                                                              await OrderAppDB
-                                                                  .instance
-                                                                  .selectAllcommon(
-                                                                      'salesBagTable',
-                                                                      "os='${os}' AND customerid='${widget.customerId}' AND code='${value.newList[index]["code"]}'");
-
-                                                          print(
-                                                              "qtynewlisy=======$qtyNewList");
-
-                                                          if (qtyNewList
-                                                                  .length >
-                                                              0) {
-                                                            discounamttNew =
-                                                                qtyNewList[0][
-                                                                    "discount_amt"];
-                                                            discounpertNew =
-                                                                qtyNewList[0][
-                                                                    "discount_per"];
-                                                            cesspertNew =
-                                                                qtyNewList[0]
-                                                                    ["ces_per"];
-                                                          }
 
                                                           String result = Provider.of<Controller>(context, listen: false).rawCalculation(
                                                               value.newList[
@@ -780,9 +766,13 @@ class _SalesItemState extends State<SalesItem> {
                                                                   ? () async {
                                                                       String
                                                                           item =
-                                                                          value.newList[index]["code"] +
-                                                                              value.newList[index]["item"];
-
+                                                                          value.newList[index]["prcode"] +
+                                                                              value.newList[index]["pritem"];
+                                                                      Provider.of<Controller>(context, listen: false).getSaleBagDetails(
+                                                                          widget
+                                                                              .customerId,
+                                                                          widget
+                                                                              .os);
                                                                       showModal.showMoadlBottomsheet(
                                                                           widget
                                                                               .os,
@@ -794,7 +784,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                           "newlist just added",
                                                                           value.newList[index]
                                                                               [
-                                                                              "code"],
+                                                                              "prcode"],
                                                                           index,
                                                                           "no filter",
                                                                           "",
@@ -807,11 +797,11 @@ class _SalesItemState extends State<SalesItem> {
                                                                   String item = value
                                                                               .newList[index]
                                                                           [
-                                                                          "code"] +
+                                                                          "prcode"] +
                                                                       value.newList[
                                                                               index]
                                                                           [
-                                                                          "item"];
+                                                                          "pritem"];
 
                                                                   showModal.showMoadlBottomsheet(
                                                                       widget.os,
@@ -824,7 +814,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                       value.newList[
                                                                               index]
                                                                           [
-                                                                          "code"],
+                                                                          "prcode"],
                                                                       index,
                                                                       "no filter",
                                                                       "",
@@ -919,11 +909,13 @@ class _SalesItemState extends State<SalesItem> {
                                                           ),
                                                           SizedBox(
                                                             width: size.width *
-                                                                0.04,
+                                                                0.03,
                                                           ),
-                                                          value.qty[index]
-                                                                      .text ==
-                                                                  "0"
+                                                          value.qty[index].text ==
+                                                                      "0" ||
+                                                                  value.qty[index]
+                                                                          .text ==
+                                                                      null
                                                               ? Container()
                                                               : Text(
                                                                   '${value.qty[index].text}',
@@ -939,7 +931,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         FontStyle
                                                                             .italic,
                                                                   ),
-                                                                )
+                                                                ),
                                                         ],
                                                       ),
                                                       value.productName[index]
@@ -1005,27 +997,36 @@ class _SalesItemState extends State<SalesItem> {
                                                         ),
                                                         onPressed: () async {
                                                           var total;
-
-                                                          double qty;
-
                                                           print(
-                                                              "value.qty--${value..qty[index].text}");
-                                                          double temp =
-                                                              double.parse(value
-                                                                      .qty[
-                                                                          index]
-                                                                      .text) +
-                                                                  1;
-                                                          print(
-                                                              "temp----${temp}");
+                                                              "quantity............${value.qty[index].text}");
+                                                          double? qty = 0.0;
+                                                          if (value
+                                                                  .qty[index]
+                                                                  .text
+                                                                  .isNotEmpty ||
+                                                              value.qty[index]
+                                                                      .text !=
+                                                                  null) {
+                                                            newqty = double
+                                                                .parse(value
+                                                                    .qty[index]
+                                                                    .text);
+                                                            temp = newqty! + 1;
+                                                            print(
+                                                                "temp--.........$newqty--${temp}");
+                                                          } else {
+                                                            newqty = 0.0;
+                                                            temp=0;
+                                                            print(
+                                                                "temp--.........--${temp}");
+                                                          }
 
                                                           value.qty[index]
                                                                   .text =
                                                               temp.toString();
 
                                                           print(
-                                                              "tttt----${value.qty[index].text}");
-
+                                                              "tttt--......$temp--${value.qty[index].text}");
                                                           total = products[
                                                                           index]
                                                                       [
@@ -1268,6 +1269,11 @@ class _SalesItemState extends State<SalesItem> {
                                                                           item =
                                                                           products[index]["prcode"] +
                                                                               products[index]["pritem"];
+                                                                      Provider.of<Controller>(context, listen: false).getSaleBagDetails(
+                                                                          widget
+                                                                              .customerId,
+                                                                          widget
+                                                                              .os);
                                                                       showModal.showMoadlBottomsheet(
                                                                           widget
                                                                               .os,

@@ -51,14 +51,20 @@ class _PrintMainPageState extends State<PrintMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size=MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(),
       body: Consumer<Controller>(
         builder: (context, value, child) {
           if (items.length == 0) {
-            return Container(height: size.height*0.75,
-            child: Center(child: Text("Turn on your bluetooth...",style: TextStyle(fontSize: 20),)),);
+            return Container(
+              height: size.height * 0.75,
+              child: Center(
+                  child: Text(
+                "Turn on your bluetooth...",
+                style: TextStyle(fontSize: 20),
+              )),
+            );
           } else {
             return ListView.builder(
                 itemCount: items.length > 0 ? items.length : 0,
@@ -317,7 +323,7 @@ class _PrintMainPageState extends State<PrintMainPage> {
       // },
       {
         "text": "Item",
-        "width": 5,
+        "width": 4,
         "align": "l",
         "underline": false,
         "bold": true
@@ -338,11 +344,12 @@ class _PrintMainPageState extends State<PrintMainPage> {
       },
       {
         "text": "Amount",
-        "width": 3,
+        "width": 2,
         "align": "r",
         "underline": false,
         "bold": true
       },
+      {"text": "", "width": 2, "align": "r", "underline": false, "bold": true},
     ];
     bytesResult += await printText(generator, bytes, list, 0, false, 0);
     bytesResult += generator.hr();
@@ -350,16 +357,9 @@ class _PrintMainPageState extends State<PrintMainPage> {
     /////////for details/////////////////////
     for (int i = 0; i < printSalesData["detail"].length; i++) {
       list = [
-        // {
-        //   "text": printSalesData["detail"][i]["code"],
-        //   "width": 2,
-        //   "align": "l",
-        //   "underline": false,
-        //   "bold": false
-        // },
         {
           "text": printSalesData["detail"][i]["item"],
-          "width": 5,
+          "width": 4,
           "align": "l",
           "underline": false,
           "bold": false
@@ -380,7 +380,14 @@ class _PrintMainPageState extends State<PrintMainPage> {
         },
         {
           "text": printSalesData["detail"][i]["gross"].toStringAsFixed(2),
-          "width": 3,
+          "width": 2,
+          "align": "r",
+          "underline": false,
+          "bold": false
+        },
+        {
+          "text": printSalesData["detail"][i]["unit"].toString(2),
+          "width": 2,
           "align": "r",
           "underline": false,
           "bold": false
@@ -416,6 +423,7 @@ class _PrintMainPageState extends State<PrintMainPage> {
         "bold": false
       },
     ];
+    ///////////////////////////////////////////////////////////
     bytesResult += await printText(generator, bytes, list, 0, false, 0);
 
     list = [

@@ -362,6 +362,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             sid: sid!,
           );
         }
+      case "WEB1":
+        {
+          NetConnection.networkConnection(context).then((value) async {
+            if (value == true) {
+              return WebViewTest();
+            } else {
+              return NoNetwork();
+            }
+          });
+        }
       // case "RP":
       //   Provider.of<Controller>(context, listen: false).setFilter(false);
       //   Provider.of<Controller>(context, listen: false)
@@ -751,34 +761,34 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       //     style: TextStyle(fontSize: 17),
                       //   ),
                       // ),
-                      ListTile(
-                        trailing: Icon(Icons.web),
-                        onTap: () async {
-                          NetConnection.networkConnection(context)
-                              .then((value) async {
-                            if (value == true) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WebViewTest()),
-                              );
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NoNetwork()),
-                              );
-                            }
-                          });
-                        },
-                        title: Text(
-                          "webview",
-                          style: GoogleFonts.aBeeZee(
-                            textStyle: Theme.of(context).textTheme.bodyText2,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
+                      // ListTile(
+                      //   trailing: Icon(Icons.web),
+                      //   onTap: () async {
+                      //     NetConnection.networkConnection(context)
+                      //         .then((value) async {
+                      //       if (value == true) {
+                      //         Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (context) => WebViewTest()),
+                      //         );
+                      //       } else {
+                      //         Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (context) => NoNetwork()),
+                      //         );
+                      //       }
+                      //     });
+                      //   },
+                      //   title: Text(
+                      //     "webview",
+                      //     style: GoogleFonts.aBeeZee(
+                      //       textStyle: Theme.of(context).textTheme.bodyText2,
+                      //       fontSize: 17,
+                      //     ),
+                      //   ),
+                      // ),
                       ListTile(
                         trailing: Icon(Icons.settings),
                         onTap: () async {

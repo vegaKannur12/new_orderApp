@@ -211,7 +211,7 @@ class ShowModal {
                                     await OrderAppDB.instance
                                         .deleteFromTableCommonQuery(
                                             "orderBagTable",
-                                            "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
+                                            "code='${code}' AND customerid='${customerId}'");
 
                                     Provider.of<Controller>(context,
                                             listen: false)

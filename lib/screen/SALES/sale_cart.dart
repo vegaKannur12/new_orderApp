@@ -494,7 +494,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              "${qty.toString()}  (${unit_name.toString()})   (${pkg.toString()})",
+                                              "${qty.toString()} (${unit_name.toString()}) (${pkg.toString()})",
                                               textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),
