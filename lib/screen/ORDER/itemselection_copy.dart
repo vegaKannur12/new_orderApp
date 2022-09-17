@@ -48,6 +48,7 @@
 //   bool loading1 = false;
 //   CustomSnackbar snackbar = CustomSnackbar();
 //   bool _isLoading = false;
+//   double? newqty = 0.0;
 //   @override
 //   void dispose() {
 //     super.dispose();
@@ -349,7 +350,7 @@
 //                                                           ),
 //                                                           SizedBox(
 //                                                             width: size.width *
-//                                                                 0.13,
+//                                                                 0.14,
 //                                                           ),
 //                                                           value.qty[index]
 //                                                                       .text ==
@@ -417,21 +418,36 @@
 //                                                         onPressed: () async {
 //                                                           double qty;
 
-//                                                           print(
-//                                                               "value.qty--${value..qty[index].text}");
-//                                                           temp = double.parse(
-//                                                                   value
-//                                                                       .qty[
-//                                                                           index]
-//                                                                       .text) +
-//                                                               1;
-//                                                           print(
-//                                                               "temp----${temp}");
+//                                                           if (value
+//                                                                   .qty[index]
+//                                                                   .text
+//                                                                   .isNotEmpty ||
+//                                                               value.qty[index]
+//                                                                       .text !=
+//                                                                   null) {
+//                                                             newqty = value
+//                                                                     .qty[index]
+//                                                                     .text
+//                                                                     .isEmpty
+//                                                                 ? 0
+//                                                                 : double.parse(
+//                                                                     value
+//                                                                         .qty[
+//                                                                             index]
+//                                                                         .text);
+//                                                             temp = newqty! + 1;
+//                                                             print(
+//                                                                 "temp--.........$newqty--${temp}");
+//                                                           } else {
+//                                                             newqty = 0.0;
+//                                                             temp = 0;
+//                                                             print(
+//                                                                 "temp--.........--${temp}");
+//                                                           }
 
 //                                                           value.qty[index]
 //                                                                   .text =
 //                                                               temp.toString();
-
 //                                                           print(
 //                                                               "tttt----${value.qty[index].text}");
 //                                                           Provider.of<Controller>(
@@ -696,25 +712,25 @@
 //                                                             width: size.width *
 //                                                                 0.13,
 //                                                           ),
-//                                                           // value.qty[index]
-//                                                           //             .text ==
-//                                                           //         "0"
-//                                                           //
-
-//                                                           //  ? Container()
-//                                                           Text(
-//                                                             '${value.qty[index].text}',
-//                                                             style: TextStyle(
-//                                                               fontWeight:
-//                                                                   FontWeight
-//                                                                       .bold,
-//                                                               color: Colors
-//                                                                   .grey[600],
-//                                                               fontStyle:
-//                                                                   FontStyle
-//                                                                       .italic,
-//                                                             ),
-//                                                           ),
+//                                                           value.qty[index]
+//                                                                       .text ==
+//                                                                   "0"
+//                                                               ? Container()
+//                                                               : Text(
+//                                                                   '${value.qty[index].text}',
+//                                                                   style:
+//                                                                       TextStyle(
+//                                                                     fontWeight:
+//                                                                         FontWeight
+//                                                                             .bold,
+//                                                                     color: Colors
+//                                                                             .grey[
+//                                                                         600],
+//                                                                     fontStyle:
+//                                                                         FontStyle
+//                                                                             .italic,
+//                                                                   ),
+//                                                                 ),
 //                                                         ],
 //                                                       ),
 //                                                       Row(
@@ -766,25 +782,36 @@
 
 //                                                           print(
 //                                                               "value.qty--${value..qty[index].text}");
-//                                                           if (double.parse(value
+//                                                           if (value
 //                                                                   .qty[index]
-//                                                                   .text) ==
-//                                                               null) {
-//                                                             temp = 0.0;
-//                                                           } else {
-//                                                             temp = 1 +
-//                                                                 double.parse(value
+//                                                                   .text
+//                                                                   .isNotEmpty ||
+//                                                               value.qty[index]
+//                                                                       .text !=
+//                                                                   null) {
+//                                                             newqty = value
 //                                                                     .qty[index]
-//                                                                     .text);
+//                                                                     .text
+//                                                                     .isEmpty
+//                                                                 ? 0
+//                                                                 : double.parse(
+//                                                                     value
+//                                                                         .qty[
+//                                                                             index]
+//                                                                         .text);
+//                                                             temp = newqty! + 1;
+//                                                             print(
+//                                                                 "temp--.........$newqty--${temp}");
+//                                                           } else {
+//                                                             newqty = 0.0;
+//                                                             temp = 0;
+//                                                             print(
+//                                                                 "temp--.........--${temp}");
 //                                                           }
-
-//                                                           print(
-//                                                               "temp----${temp}");
 
 //                                                           value.qty[index]
 //                                                                   .text =
 //                                                               temp.toString();
-
 //                                                           print(
 //                                                               "temp    tttt--$temp--${value.qty[index].text}");
 //                                                           Provider.of<Controller>(

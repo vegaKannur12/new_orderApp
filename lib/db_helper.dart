@@ -1918,8 +1918,8 @@ class OrderAppDB {
             "AND orderBagTable.customerid='$customerId' " +
             "ORDER BY cartrowno DESC");
 
-    print("selectfromorderbagTable result----$result");
-    print("length sales unitsss---${result.length}");
+    // print("selectfromorderbagTable result----$result");
+    // print("length sales unitsss---${result.length}");
     return result;
   }
 
@@ -1962,8 +1962,8 @@ class OrderAppDB {
         "left join 'salesBagTable' b on k.prcode = b.code " +
         "AND b.customerid='$customerId' and " +
         "b.unit_name = k.prunit " +
-        " order by k.pritem,k.prcode, pkg ;";
-
+        " order by b.cartrowno  DESC,k.pritem,k.prcode;";
+//  b.cartrowno DESC
     result = await db.rawQuery(unitquery);
 
     // result = await db.rawQuery("SELECT pd.pid,pd.code,pd.item,pd.unit,pd.companyId,pd.hsn, " +
