@@ -1070,7 +1070,7 @@ class _SalesItemState extends State<SalesItem> {
                                                               child: Text(
                                                                 '  \u{20B9}${value.productName[index]["prrate1"]}',
                                                                 style:
-                                                                    TextStyle(
+                                                                    const TextStyle(
                                                                   fontSize: 16,
                                                                   fontWeight:
                                                                       FontWeight

@@ -61,6 +61,7 @@ class _SaleCartState extends State<SaleCart> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+       
         backgroundColor: P_Settings.salewaveColor,
         actions: [
           // IconButton(
