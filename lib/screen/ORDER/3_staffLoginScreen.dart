@@ -86,12 +86,16 @@ class StaffLogin extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () async {
                       popupunreg.showAlertDialog(context);
-
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.remove('company_id');
+                      await prefs.remove("continueClicked");
+                      await prefs.remove("staffLog");
+                      // isautodownload = prefs.getBool("isautodownload");
                     },
                     child: Row(
-                      children: [Text("un-register")],
+                      children: [
+                        Text("un-register"),
+                      ],
                     ),
                   ),
                 ),
@@ -293,7 +297,8 @@ class StaffLogin extends StatelessWidget {
                                                             context,
                                                             listen: false)
                                                         .areaidFrompopup = null;
-
+                                                    prefs.setBool(
+                                                        "staffLog", true);
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -406,7 +411,8 @@ class StaffLogin extends StatelessWidget {
                                                     Provider.of<Controller>(
                                                             context,
                                                             listen: false)
-                                                        .getStaffDetails(cid!,0);
+                                                        .getStaffDetails(
+                                                            cid!, 0);
                                                   }
 
                                                   showDialog(

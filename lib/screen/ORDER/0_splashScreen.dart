@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:orderapp/components/commoncolor.dart';
 import 'package:orderapp/controller/controller.dart';
@@ -30,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
   String? firstMenu;
   String? versof;
   bool? continueClicked;
+  bool? staffLog;
   String? dataFile;
   ExternalDir externalDir = ExternalDir();
 
@@ -45,8 +45,9 @@ class _SplashScreenState extends State<SplashScreen>
       com_cid = prefs.getString("cid");
       isautodownload = prefs.getBool("isautodownload");
       continueClicked = prefs.getBool("continueClicked");
+      staffLog = prefs.getBool("staffLog");
       print("st-----$st_uname---$st_pwd");
-      print("continueClicked $continueClicked");
+      print("continueClicked..........$staffLog......$continueClicked");
 
       if (com_cid != null) {
         Provider.of<Controller>(context, listen: false).cid = com_cid;
@@ -64,7 +65,8 @@ class _SplashScreenState extends State<SplashScreen>
                 pageBuilder: (_, __, ___) {
                   if (cid != null) {
                     if (continueClicked != null && continueClicked!) {
-                      if (st_uname != null && st_pwd != null) {
+                      print("continueClicked.............$continueClicked");
+                      if (st_uname != null && st_pwd != null && staffLog!=null && staffLog!) {
                         return Dashboard();
                       } else {
                         return StaffLogin();

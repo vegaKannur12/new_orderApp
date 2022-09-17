@@ -14,19 +14,19 @@ class CommonPopup {
   String? gen_condition;
   String? sid;
   Widget buildPopupDialog(
-      String type,
-      BuildContext context,
-      String content,
-      String areaid,
-      String areaname,
-      String custmerId,
-      String date,
-      String time,
-      String ref,
-      String reason,
-      String payment_mode,
-      double baserate,
-      double packing) {
+    String type,
+    BuildContext context,
+    String content,
+    String areaid,
+    String areaname,
+    String custmerId,
+    String date,
+    String time,
+    String ref,
+    String reason,
+    String payment_mode,
+    double baserate,
+  ) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -85,7 +85,6 @@ class CommonPopup {
                         payment_mode,
                         value.roundoff,
                         baserate,
-                        packing
                       );
                     }
 

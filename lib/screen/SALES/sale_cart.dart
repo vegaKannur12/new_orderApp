@@ -263,8 +263,7 @@ class _SaleCartState extends State<SaleCart> {
                                     s[1],
                                     " ",
                                     " ",
-                                    value.orderTotal2[11],
-                                    value.orderTotal2[12]);
+                                    value.orderTotal2[11]);
                               }),
                               child: Container(
                                 width: size.width * 0.5,

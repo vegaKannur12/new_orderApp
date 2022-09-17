@@ -59,6 +59,7 @@ dependencies:
   badges: ^2.0.3
   print_bluetooth_thermal: ^1.0.5
   esc_pos_utils_plus: ^2.0.1+6
+  blinking_text: ^1.0.2
   
  
   # printing: ^5.9.2

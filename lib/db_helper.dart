@@ -972,7 +972,7 @@ class OrderAppDB {
     var res2;
     var res3;
     print(
-        "total quantity.......$unit.....$rounding.......$total_qty.....$total_price.....$net_amt");
+        "total quantity.....$packing..$unit.....$rounding.......$total_qty.....$total_price.....$net_amt");
     if (table == "salesDetailTable") {
       var query2 =
           'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, $packing, $base_rate)';
@@ -1639,7 +1639,7 @@ class OrderAppDB {
     String igst;
     double? roundoff;
     double? brate;
-    double? pkg;
+   
     Database db = await instance.database;
     print("calculate sales updated tot in db....$os...$customerId");
     var result = await db.rawQuery(
@@ -1647,7 +1647,7 @@ class OrderAppDB {
 
     if (result != null && result.isNotEmpty) {
       List<Map<String, dynamic>> res = await db.rawQuery(
-          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst, SUM(baserate) brate, SUM(package) pkg " +
+          "SELECT SUM(totalamount) gr, SUM(net_amt) s, COUNT(cartrowno) c, SUM(ces_per) ces, SUM(ces_amt) camt,  SUM(tax_amt) t, SUM(tax_per) tper, SUM(discount_amt) d , SUM(discount_per) dper, SUM(cgst_amt) cgst,SUM(sgst_amt) sgst, SUM(igst_amt) igst, SUM(baserate) brate " +
               "FROM salesBagTable WHERE os='$os' " +
               "AND customerid='$customerId'");
       print("resulted alll sum/////////////////$res");
@@ -1675,12 +1675,12 @@ class OrderAppDB {
       sgst = res[0]["sgst"].toStringAsFixed(2);
       igst = res[0]["igst"].toStringAsFixed(2);
       brate = double.parse(res[0]["brate"].toStringAsFixed(2));
-      pkg = double.parse(res[0]["pkg"].toString());
+      // pkg = double.parse(res[0]["pkg"].toString());
       tax_tot = double.parse(cgst) + double.parse(sgst) + double.parse(igst);
 
-      print("tax_tot..$pkg..$brate..$cgst---$sgst---$igst");
+      print("tax_tot...$brate..$cgst---$sgst---$igst");
       print(
-          "gross..netamount..taxval..dis..ces ...$pkg...$brate....$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
+          "gross..netamount..taxval..dis..ces ....$brate....$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
       net_amount = "0.00";
       count = "0.00";
@@ -1696,7 +1696,6 @@ class OrderAppDB {
       igst = "0.00";
       tax_tot = 0.00;
       brate = 0.00;
-      pkg = 0.00;
     }
     return [
       net_amount,
@@ -1711,7 +1710,7 @@ class OrderAppDB {
       tax_tot,
       roundoff!,
       brate,
-      pkg
+     
     ];
   }
 
@@ -2428,6 +2427,7 @@ class OrderAppDB {
         "SELECT salesDetailTable.code as code,salesDetailTable.hsn as hsn," +
         " salesDetailTable.item_name as item, salesDetailTable.qty as qty," +
         " salesDetailTable.rate as rate,salesDetailTable.unit as unit," +
+        " salesDetailTable.packing as packing, " +
         " salesDetailTable.unit_rate as unit_rate,salesDetailTable.gross_amount as gross," +
         " salesDetailTable.dis_per as disc_per,salesDetailTable.dis_amt as disc_amt," +
         " salesDetailTable.cgst_per as cgst_per,salesDetailTable.cgst_amt as cgst_amt," +

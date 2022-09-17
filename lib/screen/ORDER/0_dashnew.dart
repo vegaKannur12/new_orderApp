@@ -641,59 +641,61 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         // IconButton(
                         //   onPressed: () async {
                         //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("orderMasterTable", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("orderDetailTable", "");
-                        //     await OrderAppDB.instance.deleteFromTableCommonQuery(
-                        //         "accountHeadsTable", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("customerTable", "");
-                        //     await OrderAppDB.instance.deleteFromTableCommonQuery(
-                        //         "registrationTable", "");
-                        //     await OrderAppDB.instance.deleteFromTableCommonQuery(
-                        //         "staffDetailsTable", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("areaDetailsTable", "");
-                        //     await OrderAppDB.instance.deleteFromTableCommonQuery(
-                        //         "productDetailsTable", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("productsCategory", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("companyTable", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("orderBagTable", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("menuTable", "");
+                        //         .deleteFromTableCommonQuery("salesMasterTable", "");
+                        //         await OrderAppDB.instance
+                        //         .deleteFromTableCommonQuery("salesDetailTable", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("orderDetailTable", "");
+                        //     // await OrderAppDB.instance.deleteFromTableCommonQuery(
+                        //     //     "accountHeadsTable", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("customerTable", "");
+                        //     // await OrderAppDB.instance.deleteFromTableCommonQuery(
+                        //     //     "registrationTable", "");
+                        //     // await OrderAppDB.instance.deleteFromTableCommonQuery(
+                        //     //     "staffDetailsTable", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("areaDetailsTable", "");
+                        //     // await OrderAppDB.instance.deleteFromTableCommonQuery(
+                        //     //     "productDetailsTable", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("productsCategory", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("companyTable", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("orderBagTable", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("menuTable", "");
                         //     // await OrderAppDB.instance
                         //     //     .deleteFromTableCommonQuery("settings", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("walletTable", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("collectionTable", "");
-                        //     await OrderAppDB.instance
-                        //         .deleteFromTableCommonQuery("remarksTable", "");
-                        //     await OrderAppDB.instance.deleteFromTableCommonQuery(
-                        //         "returnMasterTable", "");
-                        //     await OrderAppDB.instance.deleteFromTableCommonQuery(
-                        //         "returnDetailTable", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("walletTable", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("collectionTable", "");
+                        //     // await OrderAppDB.instance
+                        //     //     .deleteFromTableCommonQuery("remarksTable", "");
+                        //     // await OrderAppDB.instance.deleteFromTableCommonQuery(
+                        //     //     "returnMasterTable", "");
+                        //     // await OrderAppDB.instance.deleteFromTableCommonQuery(
+                        //     //     "returnDetailTable", "");
                         //   },
                         //   icon: Icon(
                         //     Icons.delete,
                         //     color: Colors.green,
                         //   ),
                         // ),
-                        // IconButton(
-                        //   onPressed: () async {
-                        //     List<Map<String, dynamic>> list =
-                        //         await OrderAppDB.instance.getListOfTables();
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) => TableList(list: list)),
-                        //     );
-                        //   },
-                        //   icon: Icon(Icons.table_bar, color: Colors.green),
-                        // ),
+                        IconButton(
+                          onPressed: () async {
+                            List<Map<String, dynamic>> list =
+                                await OrderAppDB.instance.getListOfTables();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TableList(list: list)),
+                            );
+                          },
+                          icon: Icon(Icons.table_bar, color: Colors.green),
+                        ),
                       ],
                     ),
 
@@ -818,6 +820,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         onTap: () async {
                           final prefs = await SharedPreferences.getInstance();
                           await prefs.remove('company_id');
+                          await prefs.remove("continueClicked");
+                          await prefs.remove("staffLog");
+                          isautodownload = prefs.getBool("isautodownload");
+
                           popup.showAlertDialog(context);
                         },
                         title: Text(

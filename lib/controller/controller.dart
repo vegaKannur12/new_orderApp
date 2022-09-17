@@ -84,6 +84,7 @@ class Controller extends ChangeNotifier {
   double returnTotal = 0.0;
   bool? noreportdata;
   bool? continueClicked;
+  bool? staffLog;
   bool returnprice = false;
   int? shopVisited;
   int? noshopVisited;
@@ -648,8 +649,9 @@ class Controller extends ChangeNotifier {
         'cid': cid,
       };
 
-      isLoading = true;
       isDownloaded = true;
+      isCompleted = true;
+      isLoading = true;
       notifyListeners();
       print("compny----${cid}");
       http.Response response = await http.post(
@@ -981,7 +983,6 @@ class Controller extends ChangeNotifier {
           for (var item in map) {
             if (item["s_id"] != null) {
               print("itemtt----${item["s_id"]}");
-
               await OrderAppDB.instance.upadteCommonQuery("salesMasterTable",
                   "status='${item["s_id"]}'", "sales_id='${item["s_id"]}'");
             }
@@ -1152,22 +1153,22 @@ class Controller extends ChangeNotifier {
 
 // /////////////////////////////INSERT into SALES bag and master table///////////////////////////////////////////////
   insertToSalesbagAndMaster(
-      String os,
-      String date,
-      String time,
-      String customer_id,
-      String staff_id,
-      String aid,
-      double total_price,
-      double gross_tot,
-      double tax_tot,
-      double dis_tot,
-      double cess_tot,
-      BuildContext context,
-      String payment_mode,
-      double roundoff,
-      double baserate,
-      double packing) async {
+    String os,
+    String date,
+    String time,
+    String customer_id,
+    String staff_id,
+    String aid,
+    double total_price,
+    double gross_tot,
+    double tax_tot,
+    double dis_tot,
+    double cess_tot,
+    BuildContext context,
+    String payment_mode,
+    double roundoff,
+    double baserate,
+  ) async {
     List<Map<String, dynamic>> om = [];
     print("fhnjdroundoff---$roundoff");
     // String salesOs = "S" + "$os";
@@ -1278,7 +1279,7 @@ class Controller extends ChangeNotifier {
             0,
             0.0,
             baserate,
-            packing);
+            item["package"]);
         rowNum = rowNum + 1;
       }
     }

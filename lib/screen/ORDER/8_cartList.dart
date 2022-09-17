@@ -241,10 +241,7 @@ class _CartListState extends State<CartList> {
                                           "",
                                           "",
                                           "",
-                                          0.00,0.00
-                                         
-                                          
-                                          ),
+                                          0.00),
                                 );
 
                                 Provider.of<Controller>(context, listen: false)
