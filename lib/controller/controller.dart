@@ -237,6 +237,7 @@ class Controller extends ChangeNotifier {
   ProductDetails proDetails = ProductDetails();
   String? path;
   String? textFile;
+  bool? customer_visibility=false;
 
 //////////////////////////////REGISTRATION ///////////////////////////
   Future<RegistrationData?> postRegistration(

@@ -10,6 +10,7 @@ import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/6.1_remarks.dart';
 import 'package:orderapp/screen/ORDER/6_collection.dart';
 import 'package:orderapp/screen/ORDER/7_itemSelection.dart';
+import 'package:orderapp/screen/ORDER/itemselection_copy.dart';
 import 'package:orderapp/screen/RETURN/returnItemList.dart';
 import 'package:orderapp/screen/SALES/sale_itemlist.dart';
 // import 'package:orderapp/screen/SALES/sale_itemlist.dart';
@@ -81,6 +82,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
   bool dropvisible = true;
   String randnum = "";
   int num = 0;
+  bool customer_visible = false;
   // String? _selectedItemarea;
   String? _selectedAreaId;
   DateTime now = DateTime.now();
@@ -97,6 +99,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     Provider.of<Controller>(context, listen: false).getOrderno();
+    Provider.of<Controller>(context, listen: false).customer_visibility;
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     print(
         "seelected area-----${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
@@ -226,9 +229,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             (TextEditingValue value) {
                                           if (widget.areaname != "") {
                                             FocusScope.of(context).unfocus();
+                                            // customer_visible = false;
                                             return [];
                                           }
                                           if (value.text.isEmpty) {
+                                            customer_visible = false;
                                             return [];
                                           } else {
                                             print(
@@ -354,6 +359,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                       child: ListTile(
                                                         // tileColor: Colors.amber,
                                                         onTap: () {
+                                                          customer_visible =
+                                                              true;
                                                           onSelected(option);
                                                           print(
                                                               "optionaid------${option["aid"]}");
@@ -405,6 +412,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             optionsBuilder:
                                                 (TextEditingValue value) {
                                               if (value.text.isEmpty) {
+                                                customer_visible = true;
                                                 return [];
                                               } else {
                                                 print(
@@ -427,6 +435,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     option["hname"]
                                                         .toUpperCase(),
                                             onSelected: (value) {
+                                              // customer_visible = true;
                                               setState(() {
                                                 print("value----${value}");
                                                 _selectedItemcus =
@@ -526,6 +535,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                               0.05,
                                                           child: ListTile(
                                                             onTap: () async {
+                                                              customer_visible =
+                                                                  false;
                                                               print(
                                                                   "optonsssssssssssss$option");
                                                               onSelected(
@@ -1586,6 +1597,46 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     // ),
                                                   ],
                                                 ),
+                                  Visibility(
+                                      visible: customer_visible,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 25, top: 50),
+                                        child: Text(
+                                          "Customers",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )),
+
+                                  Visibility(
+                                    visible: customer_visible,
+                                    child: Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, top: 20),
+                                        child: ListView.builder(
+                                          itemCount:
+                                              values.custmerDetails.length,
+                                          itemBuilder: (context, index) {
+                                            return ListTile(
+                                              visualDensity: VisualDensity(
+                                                  horizontal: -4, vertical: -4),
+                                              textColor: Colors.blue,
+                                              title: Text(
+                                                "${values.custmerDetails[index]['hname']}",
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                              // onTap: (() {
+                                              //   print("selected index");
+                                              // }),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             ),

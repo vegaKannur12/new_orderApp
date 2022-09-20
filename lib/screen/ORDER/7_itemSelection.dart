@@ -45,7 +45,7 @@ class _ItemSelectionState extends State<ItemSelection> {
   bool loading1 = false;
   CustomSnackbar snackbar = CustomSnackbar();
   bool _isLoading = false;
-  bool isSelected=false;
+  bool isSelected = false;
   @override
   void dispose() {
     super.dispose();
@@ -660,15 +660,13 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                   left: 0.4, right: 0.4),
                                               child: Card(
                                                 child: ListTile(
-                                                
                                                   title: Text(
                                                     '${value.productName[index]["code"]}' +
                                                         '-' +
                                                         '${value.productName[index]["item"]}',
                                                     style: TextStyle(
                                                         color: value.productName[
-                                                                        index]
-                                                                    [
+                                                                        index][
                                                                     "cartrowno"] ==
                                                                 null
                                                             ? value.selected[
@@ -682,8 +680,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                   subtitle: Text(
                                                     '\u{20B9}${value.productName[index]["rate1"]}',
                                                     style: TextStyle(
-                                                      color: P_Settings
-                                                          .ratecolor,
+                                                      color:
+                                                          P_Settings.ratecolor,
                                                       fontStyle:
                                                           FontStyle.italic,
                                                     ),
@@ -693,21 +691,21 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         MainAxisSize.min,
                                                     children: [
                                                       Container(
-                                                          width: size.width *
-                                                              0.06,
-                                                          child:
-                                                              TextFormField(
+                                                          width:
+                                                              size.width * 0.06,
+                                                          child: TextFormField(
                                                             controller: value
                                                                 .qty[index],
                                                             keyboardType:
                                                                 TextInputType
                                                                     .number,
-                                                            decoration: InputDecoration(
-                                                                border:
-                                                                    InputBorder
-                                                                        .none,
-                                                                hintText:
-                                                                    "1"),
+                                                            decoration:
+                                                                InputDecoration(
+                                                                    border:
+                                                                        InputBorder
+                                                                            .none,
+                                                                    hintText:
+                                                                        "1"),
                                                           )),
                                                       SizedBox(
                                                         width: 10,
@@ -719,8 +717,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                         onPressed: () async {
                                                           Provider.of<Controller>(
                                                                   context,
-                                                                  listen:
-                                                                      false)
+                                                                  listen: false)
                                                               .selectSettings(
                                                                   "set_code in('SO_RATE_EDIT','SO_UPLOAD_DIRECT')");
                                                           String oos = "O" +
@@ -731,20 +728,17 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                     index] ==
                                                                 false) {
                                                               value.selected[
-                                                                      index] =
-                                                                  !value.selected[
-                                                                      index];
+                                                                  index] = !value
+                                                                      .selected[
+                                                                  index];
                                                               // selected = index;
                                                             }
 
-                                                            if (value
-                                                                        .qty[
-                                                                            index]
+                                                            if (value.qty[index]
                                                                         .text ==
                                                                     null ||
                                                                 value
-                                                                    .qty[
-                                                                        index]
+                                                                    .qty[index]
                                                                     .text
                                                                     .isEmpty) {
                                                               value.qty[index]
@@ -766,44 +760,45 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 "max----$max");
                                                             // print("value.qty[index].text---${value.qty[index].text}");
 
-                                                            rate1 =
-                                                                value.productName[
-                                                                        index]
-                                                                    ["rate1"];
+                                                            rate1 = value
+                                                                    .productName[
+                                                                index]["rate1"];
                                                             var total = double
                                                                     .parse(
                                                                         rate1) *
                                                                 double.parse(value
-                                                                    .qty[
-                                                                        index]
+                                                                    .qty[index]
                                                                     .text);
                                                             print(
                                                                 "total rate $total");
-                                                            var res = await OrderAppDB.instance.insertorderBagTable(
-                                                                products[
-                                                                        index]
-                                                                    ["item"],
-                                                                s[0],
-                                                                s[1],
-                                                                oos,
-                                                                widget
-                                                                    .customerId,
-                                                                max,
-                                                                products[
-                                                                        index]
-                                                                    ["code"],
-                                                                double.parse(value
-                                                                    .qty[
-                                                                        index]
-                                                                    .text),
-                                                                rate1,
-                                                                total
-                                                                    .toString(),
-                                                                0,
-                                                                "",
-                                                                0.0,
-                                                                0.0,
-                                                                0);
+                                                            var res = await OrderAppDB
+                                                                .instance
+                                                                .insertorderBagTable(
+                                                                    products[index]
+                                                                        [
+                                                                        "item"],
+                                                                    s[0],
+                                                                    s[1],
+                                                                    oos,
+                                                                    widget
+                                                                        .customerId,
+                                                                    max,
+                                                                    products[
+                                                                            index]
+                                                                        [
+                                                                        "code"],
+                                                                    double.parse(value
+                                                                        .qty[
+                                                                            index]
+                                                                        .text),
+                                                                    rate1,
+                                                                    total
+                                                                        .toString(),
+                                                                    0,
+                                                                    "",
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0);
 
                                                             snackbar.showSnackbar(
                                                                 context,
@@ -816,19 +811,20 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 .countFromTable(
                                                               "orderBagTable",
                                                               oos,
-                                                              widget
-                                                                  .customerId,
+                                                              widget.customerId,
                                                             );
                                                           }
 
                                                           /////////////////////////
-                                                          (widget.customerId
-                                                                          .isNotEmpty ||
+                                                          (widget.customerId.isNotEmpty ||
                                                                       widget.customerId !=
                                                                           null) &&
-                                                                  (products[index]["code"]
+                                                                  (products[index][
+                                                                              "code"]
                                                                           .isNotEmpty ||
-                                                                      products[index]["code"] !=
+                                                                      products[index]
+                                                                              [
+                                                                              "code"] !=
                                                                           null)
                                                               ? Provider.of<
                                                                           Controller>(
@@ -839,8 +835,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       oos,
                                                                       widget
                                                                           .customerId)
-                                                              : Text(
-                                                                  "No data");
+                                                              : Text("No data");
                                                         },
                                                         color: Colors.black,
                                                       ),
@@ -872,27 +867,32 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                               products[index]["item"];
                                                                       showModal.showMoadlBottomsheet(
                                                                           oos,
-                                                                          widget.customerId,
+                                                                          widget
+                                                                              .customerId,
                                                                           item,
                                                                           size,
                                                                           context,
                                                                           "just added",
-                                                                          products[index]["code"],
+                                                                          products[index]
+                                                                              [
+                                                                              "code"],
                                                                           index,
                                                                           "no filter",
                                                                           "",
-                                                                          value.qty[index],
+                                                                          value.qty[
+                                                                              index],
                                                                           "sale order");
                                                                     }
                                                                   : null
                                                               : () async {
-                                                                  String oos =
-                                                                      "O" +
-                                                                          "${widget.os}";
-                                                                  String item = products[index]
+                                                                  String oos = "O" +
+                                                                      "${widget.os}";
+                                                                  String item = products[
+                                                                              index]
                                                                           [
                                                                           "code"] +
-                                                                      products[index]
+                                                                      products[
+                                                                              index]
                                                                           [
                                                                           "item"];
                                                                   showModal.showMoadlBottomsheet(
@@ -903,7 +903,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                       size,
                                                                       context,
                                                                       "already in cart",
-                                                                      products[index]
+                                                                      products[
+                                                                              index]
                                                                           [
                                                                           "code"],
                                                                       index,
