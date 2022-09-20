@@ -684,18 +684,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         //     color: Colors.green,
                         //   ),
                         // ),
-                        IconButton(
-                          onPressed: () async {
-                            List<Map<String, dynamic>> list =
-                                await OrderAppDB.instance.getListOfTables();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TableList(list: list)),
-                            );
-                          },
-                          icon: Icon(Icons.table_bar, color: Colors.green),
-                        ),
+                        // IconButton(
+                        //   onPressed: () async {
+                        //     List<Map<String, dynamic>> list =
+                        //         await OrderAppDB.instance.getListOfTables();
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => TableList(list: list)),
+                        //     );
+                        //   },
+                        //   icon: Icon(Icons.table_bar, color: Colors.green),
+                        // ),
                       ],
                     ),
 

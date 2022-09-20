@@ -56,7 +56,6 @@ class PaymentSelect {
                               "",
                               payment_mode!,
                               baserate,
-                          
                             ),
                           );
                           print(
@@ -77,19 +76,19 @@ class PaymentSelect {
                             context: context,
                             builder: (BuildContext context) =>
                                 salepopup.buildPopupDialog(
-                                    "sales",
-                                    context,
-                                    "Confirm your sale?",
-                                    areaId,
-                                    areaName,
-                                    cusid,
-                                    Date,
-                                    time,
-                                    "",
-                                    "",
-                                    payment_mode!,
-                                    baserate,
-                                  ),
+                              "sales",
+                              context,
+                              "Confirm your sale?",
+                              areaId,
+                              areaName,
+                              cusid,
+                              Date,
+                              time,
+                              "",
+                              "",
+                              payment_mode!,
+                              baserate,
+                            ),
                           );
                           // print("payment mode...........$payment_mode");
                         }),
