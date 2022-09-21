@@ -78,6 +78,7 @@ class Controller extends ChangeNotifier {
   bool flag = false;
   List<String> gridHeader = [];
   String? areaSelecton;
+  String? customer_Name;
   String? packageSelection;
   int returnCount = 0;
   bool isVisible = false;
@@ -104,6 +105,7 @@ class Controller extends ChangeNotifier {
   // List<bool> returnSelected = [];
 
   String? areaidFrompopup;
+  String? customerpop;
   List<bool> isExpanded = [];
   List<Today> adminDashboardList = [];
   bool returnqty = false;
@@ -237,7 +239,7 @@ class Controller extends ChangeNotifier {
   ProductDetails proDetails = ProductDetails();
   String? path;
   String? textFile;
-  bool? customer_visibility=false;
+  bool? customer_visibility = false;
 
 //////////////////////////////REGISTRATION ///////////////////////////
   Future<RegistrationData?> postRegistration(
@@ -1675,6 +1677,13 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+  ////////////////////////////////////////
+   setCustomerName(String? cusName) {
+    customer_Name = cusName;
+    print("customer name.controller.....$customer_Name");
+    notifyListeners();
+  }
+
   //////////////////////GET PRODUCT LIST/////////////////////////////////
   getProductList(String customerId) async {
     print("haii---");
@@ -2752,6 +2761,7 @@ class Controller extends ChangeNotifier {
     print("area---$areaidFrompopup");
     notifyListeners();
   }
+
   // ///////////////////////////////////////////////////////////////////
   //   packageDataSelection(String pid) async {
   //   // areaSelecton.clear();
