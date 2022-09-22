@@ -104,7 +104,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
         "seelected area-----${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
     print(
         "_selectedAreaId----${Provider.of<Controller>(context, listen: false).selectedAreaId}");
-
+    Provider.of<Controller>(context, listen: false).getCustomer('');
     // if (Provider.of<Controller>(context, listen: false).selectedAreaId !=
     //     null) {
     //   Provider.of<Controller>(context, listen: false).getCustomer(
@@ -477,53 +477,73 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     helperText: ' ',
                                                     prefixIcon: IconButton(
                                                       onPressed: () {
-                                                        print(
-                                                            "helooooooooooooo");
-                                                        values.custmerDetails
-                                                                    .length !=
-                                                                0
-                                                            ? showModalBottomSheet<
-                                                                void>(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                                  return Container(
-                                                                    height: 200,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.min,
-                                                                        children: <
-                                                                            Widget>[
-                                                                          const Text(
+                                                        showModalBottomSheet<
+                                                            void>(
+                                                          isScrollControlled:
+                                                              true,
+                                                          constraints:
+                                                              BoxConstraints(
+                                                            maxWidth: 200,
+                                                          ),
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Container(
+                                                              height: values
+                                                                          .custmerDetails
+                                                                          .length !=
+                                                                      0
+                                                                  ? MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.5
+                                                                  : size.height *
+                                                                      0.1,
+                                                              color:
+                                                                  Colors.white,
+                                                              child: Center(
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    values.custmerDetails.length !=
+                                                                            0
+                                                                        ? Text(
                                                                             'Customers',
                                                                             style:
                                                                                 TextStyle(fontSize: 20),
-                                                                          ),
-                                                                          Expanded(
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: const EdgeInsets.only(left: 10, top: 20),
-                                                                              child: ListView.builder(
+                                                                          )
+                                                                        : Text(
+                                                                            ''),
+                                                                    Expanded(
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            left:
+                                                                                10,
+                                                                            top:
+                                                                                20),
+                                                                        child: values.custmerDetails.length !=
+                                                                                0
+                                                                            ? ListView.builder(
                                                                                 itemCount: values.custmerDetails.length,
                                                                                 itemBuilder: (context, index) {
                                                                                   return ListTile(
                                                                                     onTap: () {
-                                                                                      Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
-                                                                                      Navigator.of(context).push(
-                                                                                        PageRouteBuilder(
-                                                                                          opaque: false, // set to false
-                                                                                          pageBuilder: (_, __, ___) => OrderForm(widget.areaname, "sales"),
-                                                                                        ),
-                                                                                      );
+                                                                                      Navigator.pop(context);
+                                                                                      // Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
+                                                                                      // Navigator.of(context).push(
+                                                                                      //   PageRouteBuilder(
+                                                                                      //     opaque: false, // set to false
+                                                                                      //     pageBuilder: (_, __, ___) => OrderForm(widget.areaname, "sales"),
+                                                                                      //   ),
+                                                                                      // );
                                                                                       //      customerName =
                                                                                       // values.custmerDetails[index]
                                                                                       //     ['hname'];
@@ -540,32 +560,16 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                                     // }),
                                                                                   );
                                                                                 },
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                          ElevatedButton(
-                                                                            onPressed:
-                                                                                () async {
-                                                                              String? area_id;
-                                                                              await Provider.of<Controller>(context, listen: false).setCustomerName(values.customer_Name!);
-                                                                              Navigator.of(context).push(
-                                                                                PageRouteBuilder(
-                                                                                  opaque: false, // set to false
-                                                                                  pageBuilder: (_, __, ___) => OrderForm(widget.areaname, "sales"),
-                                                                                ),
-                                                                              );
-                                                                              Navigator.pop(context);
-                                                                            },
-                                                                            child:
-                                                                                Text("Ok"),
-                                                                          ),
-                                                                        ],
+                                                                              )
+                                                                            : Text("Empty"),
                                                                       ),
                                                                     ),
-                                                                  );
-                                                                },
-                                                              )
-                                                            : null;
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
                                                       },
                                                       icon: Icon(
                                                         Icons.book,

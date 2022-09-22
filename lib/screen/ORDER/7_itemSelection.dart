@@ -321,7 +321,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                               listen: false)
                                           .newList
                                           .clear();
-                                      searchcontroll.clear();
+                                       searchcontroll.clear();
                                       print(
                                           "rtsyt----${Provider.of<Controller>(context, listen: false).returnirtemExists}");
                                     }),

@@ -79,6 +79,7 @@ class Controller extends ChangeNotifier {
   List<String> gridHeader = [];
   String? areaSelecton;
   String? customer_Name;
+  String? customer_Id;
   String? packageSelection;
   int returnCount = 0;
   bool isVisible = false;
@@ -1657,12 +1658,12 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////GET CUSTOMER////////////////////////////////
-  getCustomer(String aid) async {
+  getCustomer(String? aid) async {
     print("aid...............${aid}");
     try {
       print("custmerDetails after clear----${custmerDetails}");
       custmerDetails.clear();
-      customerList = await OrderAppDB.instance.getCustomer(aid);
+      customerList = await OrderAppDB.instance.getCustomer(aid!);
       print("customerList----${customerList}");
       for (var item in customerList) {
         custmerDetails.add(item);
@@ -1676,7 +1677,8 @@ class Controller extends ChangeNotifier {
     }
     notifyListeners();
   }
-
+  //////////////////////////
+ 
   ////////////////////////////////////////
    setCustomerName(String? cusName) {
     customer_Name = cusName;

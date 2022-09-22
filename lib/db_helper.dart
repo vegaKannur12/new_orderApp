@@ -1516,12 +1516,18 @@ class OrderAppDB {
   //////////////////////////////////////////////////////
   Future<List<Map<String, dynamic>>> getCustomer(String aid) async {
     print("enteredaid---${aid}");
-    // Provider.of<Controller>(context, listen: false).customerList.clear();
     Database db = await instance.database;
-    var hname = await db.rawQuery(
-        'SELECT  hname,ac_code FROM accountHeadsTable WHERE area_id="${aid}"');
+    var hname;
+    // Provider.of<Controller>(context, listen: false).customerList.clear();
+    if (aid == ' ' || aid.isEmpty) {
+      hname = await db.rawQuery('SELECT  hname,ac_code FROM accountHeadsTable');
+    } else {
+      hname = await db.rawQuery(
+          'SELECT  hname,ac_code FROM accountHeadsTable WHERE area_id="${aid}"');
+    }
+
     print('SELECT  hname,ac_code FROM accountHeadsTable WHERE area_id="${aid}');
-    print("hname===${hname}");
+    print("hname=======${hname}");
     return hname;
   }
 
