@@ -26,6 +26,7 @@ class CommonPopup {
     String reason,
     String payment_mode,
     double baserate,
+
   ) {
     return AlertDialog(
       content: Column(
@@ -118,7 +119,8 @@ class CommonPopup {
                               areaid,
                               double.parse(value.orderTotal1!),
                               context,
-                              baserate);
+                              baserate,
+                              );
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
@@ -148,7 +150,9 @@ class CommonPopup {
                               value.returnTotal,
                               ref,
                               reason,
-                              context);
+                              context,
+                              baserate,
+                              );
                       Provider.of<Controller>(context, listen: false)
                           .returnCount = 0;
 

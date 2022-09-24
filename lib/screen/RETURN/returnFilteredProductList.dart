@@ -143,17 +143,21 @@ class _ReturnFilteredProductState extends State<ReturnFilteredProduct> {
                             var res = await OrderAppDB.instance
                                 .insertreturnBagTable(
                                     value.returnfilteredProductList[index]
-                                        ["item"],
+                                        ["pritem"],
                                     widget.s![0],
                                     widget.s![1],
                                     widget.os!,
                                     widget.customerId!,
                                     max,
                                     value.returnfilteredProductList[index]
-                                        ["code"],
-                                    int.parse(value.qty[index].text),
+                                        ["prcode"],
+                                    double.parse(value.qty[index].text),
                                     rate1,
                                     total.toString(),
+                                    0,
+                                    "",
+                                    0.0,
+                                    double.parse(rate1),
                                     0);
 
                             snackbar.showSnackbar(

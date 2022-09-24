@@ -432,19 +432,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                         MainAxisAlignment
                                                                             .start,
                                                                     children: [
-                                                                      value.qty[index].text == "0" ||
-                                                                              value.qty[index].text ==
-                                                                                  null
-                                                                          ? Container()
-                                                                          : BlinkText(
-                                                                              '${value.qty[index].text}',
-                                                                              style: TextStyle(
-                                                                                fontWeight: FontWeight.bold,
-                                                                                color: Color.fromARGB(255, 25, 66, 26),
-                                                                                fontStyle: FontStyle.italic,
-                                                                              ),
-                                                                              endColor: Colors.white,
-                                                                              duration: Duration(milliseconds: 2000)),
+                                                                    
                                                                       SizedBox(
                                                                         width: size.width *
                                                                             0.03,
@@ -476,141 +464,31 @@ class _SalesItemState extends State<SalesItem> {
                                                                               fontWeight: FontWeight.bold),
                                                                         ),
                                                                       ),
+                                                                        value.qty[index].text == "0" ||
+                                                                              value.qty[index].text ==
+                                                                                  null
+                                                                          ? Container()
+                                                                          : BlinkText(
+                                                                              '${value.qty[index].text}',
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.bold,
+                                                                                color: Color.fromARGB(255, 25, 66, 26),
+                                                                                fontStyle: FontStyle.italic,
+                                                                              ),
+                                                                              endColor: Colors.white,
+                                                                              duration: Duration(milliseconds: 2000)),
                                                                     ],
                                                                   ),
                                                           ],
                                                         ),
                                                       ],
                                                     ),
-                                                    // subtitle: Column(
-                                                    //   children: [
-                                                    //     Row(
-                                                    //       children: [
-                                                    //         Text(
-                                                    //           '\u{20B9}${value.newList[index]["prrate1"]}',
-                                                    //           style: TextStyle(
-                                                    //             fontSize: 13,
-                                                    //             fontWeight:
-                                                    //                 FontWeight
-                                                    //                     .bold,
-                                                    //             color: P_Settings
-                                                    //                 .ratecolor,
-                                                    //             fontStyle:
-                                                    //                 FontStyle
-                                                    //                     .italic,
-                                                    //           ),
-                                                    //         ),
-                                                    //         SizedBox(
-                                                    //           width:
-                                                    //               size.width *
-                                                    //                   0.03,
-                                                    //         ),
-                                                    //         Text(
-                                                    //           '(tax: \u{20B9}${value.newList[index]["prtax"]})',
-                                                    //           style: TextStyle(
-                                                    //             color:
-                                                    //                 Colors.grey,
-                                                    //             fontStyle:
-                                                    //                 FontStyle
-                                                    //                     .italic,
-                                                    //           ),
-                                                    //         ),
-                                                    //         SizedBox(
-                                                    //           width:
-                                                    //               size.width *
-                                                    //                   0.03,
-                                                    //         ),
-                                                    //         value.qty[index]
-                                                    //                     .text ==
-                                                    //                 "0"
-                                                    //             ? Container()
-                                                    //             : Text(
-                                                    //                 '${value.qty[index].text}',
-                                                    //                 style:
-                                                    //                     TextStyle(
-                                                    //                   fontWeight:
-                                                    //                       FontWeight
-                                                    //                           .bold,
-                                                    //                   color: Colors
-                                                    //                           .grey[
-                                                    //                       600],
-                                                    //                   fontStyle:
-                                                    //                       FontStyle
-                                                    //                           .italic,
-                                                    //                 ),
-                                                    //               ),
-                                                    //       ],
-                                                    //     ),
-                                                    //     value.newList[index][
-                                                    //                 "prunit"] ==
-                                                    //             null
-                                                    //         ? Container()
-                                                    //         : Row(
-                                                    //             mainAxisAlignment:
-                                                    //                 MainAxisAlignment
-                                                    //                     .start,
-                                                    //             children: [
-                                                    //               Container(
-                                                    //                 child: Text(
-                                                    //                   '(Packing: ${value.newList[index]["pkg"]})',
-                                                    //                   style:
-                                                    //                       TextStyle(
-                                                    //                     color: Colors
-                                                    //                         .grey,
-                                                    //                     fontStyle:
-                                                    //                         FontStyle.italic,
-                                                    //                   ),
-                                                    //                 ),
-                                                    //               ),
-                                                    //               SizedBox(
-                                                    //                 width: size
-                                                    //                         .width *
-                                                    //                     0.02,
-                                                    //               ),
-                                                    //               Container(
-                                                    //                   child:
-                                                    //                       Text(
-                                                    //                 value.newList[index]["prunit"] ==
-                                                    //                         null
-                                                    //                     ? " "
-                                                    //                     : value
-                                                    //                         .newList[index]["prunit"]
-                                                    //                         .toString(),
-                                                    //                 style: TextStyle(
-                                                    //                     color: P_Settings
-                                                    //                         .unitcolor,
-                                                    //                     fontWeight:
-                                                    //                         FontWeight
-                                                    //                             .bold,
-                                                    //                     fontSize:
-                                                    //                         16),
-                                                    //               ))
-                                                    //             ],
-                                                    //           )
-                                                    //   ],
-                                                    // ),
+                                                
                                                     trailing: Row(
                                                       mainAxisSize:
                                                           MainAxisSize.min,
                                                       children: [
-                                                        // Container(
-                                                        //   width:
-                                                        //       size.width * 0.06,
-                                                        //   child: TextFormField(
-                                                        //     controller:
-                                                        //         value.qty[index],
-                                                        //     keyboardType:
-                                                        //         TextInputType
-                                                        //             .number,
-                                                        //     decoration:
-                                                        //         InputDecoration(
-                                                        //             border:
-                                                        //                 InputBorder
-                                                        //                     .none,
-                                                        //             hintText:
-                                                        //                 "1"),
-                                                        //   ),
-                                                        // ),
+                                                     
                                                         SizedBox(
                                                           width: 10,
                                                         ),

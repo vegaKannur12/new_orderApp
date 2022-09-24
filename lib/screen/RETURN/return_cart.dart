@@ -399,7 +399,7 @@ class _ReturnCartState extends State<ReturnCart> {
       String itemName,
       String rate,
       String totalamount,
-      int qty,
+      double qty,
       Size size,
       TextEditingController _controller,
       int index,
@@ -419,7 +419,7 @@ class _ReturnCartState extends State<ReturnCart> {
           ),
           child: ListTile(
             onTap: () {
-              Provider.of<Controller>(context, listen: false).setreturnQty(qty);
+              Provider.of<Controller>(context, listen: false).setreturnQty(qty.toInt());
               Provider.of<Controller>(context, listen: false)
                   .setreturnAmt(totalamount);
               showModalBottomSheet<void>(

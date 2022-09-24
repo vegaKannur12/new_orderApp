@@ -10,6 +10,7 @@ import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/6.1_remarks.dart';
 import 'package:orderapp/screen/ORDER/6_collection.dart';
 import 'package:orderapp/screen/ORDER/7_itemSelection.dart';
+import 'package:orderapp/screen/ORDER/itemselection_copy.dart';
 import 'package:orderapp/screen/RETURN/returnItemList.dart';
 import 'package:orderapp/screen/SALES/sale_itemlist.dart';
 // import 'package:orderapp/screen/SALES/sale_itemlist.dart';
@@ -410,7 +411,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             null ||
                                                         values.customer_Name!
                                                             .isEmpty
-                                                    ? ' '
+                                                    ? ''
                                                     : '${values.customer_Name.toString()}'),
                                             optionsBuilder:
                                                 (TextEditingValue value) {
@@ -473,109 +474,110 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                         width: 3,
                                                       ),
                                                     ),
-                                                    // hintText: 'Name',
                                                     helperText: ' ',
-                                                    prefixIcon: IconButton(
-                                                      onPressed: () {
-                                                        showModalBottomSheet<
-                                                            void>(
-                                                          isScrollControlled:
-                                                              true,
-                                                          constraints:
-                                                              BoxConstraints(
-                                                            maxWidth: 200,
-                                                          ),
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return Container(
-                                                              height: values
-                                                                          .custmerDetails
-                                                                          .length !=
-                                                                      0
-                                                                  ? MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .height *
-                                                                      0.5
-                                                                  : size.height *
-                                                                      0.1,
-                                                              color:
-                                                                  Colors.white,
-                                                              child: Center(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    values.custmerDetails.length !=
-                                                                            0
-                                                                        ? Text(
-                                                                            'Customers',
-                                                                            style:
-                                                                                TextStyle(fontSize: 20),
-                                                                          )
-                                                                        : Text(
-                                                                            ''),
-                                                                    Expanded(
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: const EdgeInsets.only(
-                                                                            left:
-                                                                                10,
-                                                                            top:
-                                                                                20),
-                                                                        child: values.custmerDetails.length !=
-                                                                                0
-                                                                            ? ListView.builder(
-                                                                                itemCount: values.custmerDetails.length,
-                                                                                itemBuilder: (context, index) {
-                                                                                  return ListTile(
-                                                                                    onTap: () {
-                                                                                      Navigator.pop(context);
-                                                                                      // Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
-                                                                                      // Navigator.of(context).push(
-                                                                                      //   PageRouteBuilder(
-                                                                                      //     opaque: false, // set to false
-                                                                                      //     pageBuilder: (_, __, ___) => OrderForm(widget.areaname, "sales"),
-                                                                                      //   ),
-                                                                                      // );
-                                                                                      //      customerName =
-                                                                                      // values.custmerDetails[index]
-                                                                                      //     ['hname'];
-                                                                                      print("customer name.......${Provider.of<Controller>(context, listen: false).customer_Name}");
-                                                                                    },
-                                                                                    visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                                                                                    textColor: P_Settings.wavecolor,
-                                                                                    title: Text(
-                                                                                      "${values.custmerDetails[index]['hname']}",
-                                                                                      style: TextStyle(fontSize: 13),
-                                                                                    ),
-                                                                                    // onTap: (() {
-                                                                                    //   print("selected index");
-                                                                                    // }),
-                                                                                  );
-                                                                                },
-                                                                              )
-                                                                            : Text("Empty"),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                        );
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.book,
-                                                        size: 15,
-                                                      ),
-                                                    ), // th
+                                                    // hintText: 'Name',
+                                                    // helperText: ' ',
+                                                    // prefixIcon: IconButton(
+                                                    //   onPressed: () {
+                                                    //     showModalBottomSheet<
+                                                    //         void>(
+                                                    //       isScrollControlled:
+                                                    //           true,
+                                                    //       constraints:
+                                                    //           BoxConstraints(
+                                                    //         maxWidth: 200,
+                                                    //       ),
+                                                    //       context: context,
+                                                    //       builder: (BuildContext
+                                                    //           context) {
+                                                    //         return Container(
+                                                    //           height: values
+                                                    //                       .custmerDetails
+                                                    //                       .length !=
+                                                    //                   0
+                                                    //               ? MediaQuery.of(
+                                                    //                           context)
+                                                    //                       .size
+                                                    //                       .height *
+                                                    //                   0.5
+                                                    //               : size.height *
+                                                    //                   0.1,
+                                                    //           color:
+                                                    //               Colors.white,
+                                                    //           child: Center(
+                                                    //             child: Column(
+                                                    //               mainAxisAlignment:
+                                                    //                   MainAxisAlignment
+                                                    //                       .center,
+                                                    //               mainAxisSize:
+                                                    //                   MainAxisSize
+                                                    //                       .min,
+                                                    //               children: <
+                                                    //                   Widget>[
+                                                    //                 values.custmerDetails.length !=
+                                                    //                         0
+                                                    //                     ? Text(
+                                                    //                         'Customers',
+                                                    //                         style:
+                                                    //                             TextStyle(fontSize: 20),
+                                                    //                       )
+                                                    //                     : Text(
+                                                    //                         ''),
+                                                    //                 Expanded(
+                                                    //                   child:
+                                                    //                       Padding(
+                                                    //                     padding: const EdgeInsets.only(
+                                                    //                         left:
+                                                    //                             10,
+                                                    //                         top:
+                                                    //                             20),
+                                                    //                     child: values.custmerDetails.length !=
+                                                    //                             0
+                                                    //                         ? ListView.builder(
+                                                    //                             itemCount: values.custmerDetails.length,
+                                                    //                             itemBuilder: (context, index) {
+                                                    //                               return ListTile(
+                                                    //                                 onTap: () {
+                                                    //                                   Navigator.pop(context);
+                                                    //                                   // Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
+                                                    //                                   // Navigator.of(context).push(
+                                                    //                                   //   PageRouteBuilder(
+                                                    //                                   //     opaque: false, // set to false
+                                                    //                                   //     pageBuilder: (_, __, ___) => OrderForm(widget.areaname, "sales"),
+                                                    //                                   //   ),
+                                                    //                                   // );
+                                                    //                                   //      customerName =
+                                                    //                                   // values.custmerDetails[index]
+                                                    //                                   //     ['hname'];
+                                                    //                                   print("customer name.......${Provider.of<Controller>(context, listen: false).customer_Name}");
+                                                    //                                 },
+                                                    //                                 visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                                    //                                 textColor: P_Settings.wavecolor,
+                                                    //                                 title: Text(
+                                                    //                                   "${values.custmerDetails[index]['hname']}",
+                                                    //                                   style: TextStyle(fontSize: 13),
+                                                    //                                 ),
+                                                    //                                 // onTap: (() {
+                                                    //                                 //   print("selected index");
+                                                    //                                 // }),
+                                                    //                               );
+                                                    //                             },
+                                                    //                           )
+                                                    //                         : Text("Empty"),
+                                                    //                   ),
+                                                    //                 ),
+                                                    //               ],
+                                                    //             ),
+                                                    //           ),
+                                                    //         );
+                                                    //       },
+                                                    //     );
+                                                    //   },
+                                                    //   icon: Icon(
+                                                    //     Icons.book,
+                                                    //     size: 15,
+                                                    //   ),
+                                                    // ), // th
                                                     suffixIcon: IconButton(
                                                       onPressed:
                                                           fieldText.clear,

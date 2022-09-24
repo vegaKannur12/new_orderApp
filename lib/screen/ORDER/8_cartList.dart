@@ -230,18 +230,20 @@ class _CartListState extends State<CartList> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       orderpopup.buildPopupDialog(
-                                          "sale order",
-                                          context,
-                                          "Confirm your order?",
-                                          widget.areaId,
-                                          widget.areaname,
-                                          widget.custmerId,
-                                          s[0],
-                                          s[1],
-                                          "",
-                                          "",
-                                          "",
-                                          0.00),
+                                    "sale order",
+                                    context,
+                                    "Confirm your order?",
+                                    widget.areaId,
+                                    widget.areaname,
+                                    widget.custmerId,
+                                    s[0],
+                                    s[1],
+                                    "",
+                                    "",
+                                    "",
+                                    0.00,
+                                    
+                                  ),
                                 );
 
                                 Provider.of<Controller>(context, listen: false)

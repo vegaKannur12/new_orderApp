@@ -1321,11 +1321,35 @@ class Controller extends ChangeNotifier {
     int rowNum = 1;
     if (bagList.length > 0) {
       await OrderAppDB.instance.insertorderMasterandDetailsTable(
-          "",
+        "",
+        order_id,
+        0,
+        0.0,
+        " ",
+        date,
+        time,
+        ordOs,
+        customer_id,
+        user_id,
+        aid,
+        0,
+        "",
+        rowNum,
+        "orderMasterTable",
+        total_price,
+        0.0,
+        0.0,
+      );
+
+      for (var item in bagList) {
+        print("orderid---$order_id");
+        double rate = double.parse(item["rate"]);
+        await OrderAppDB.instance.insertorderMasterandDetailsTable(
+          item["itemName"],
           order_id,
-          0,
-          0.0,
-          " ",
+          item["qty"],
+          rate,
+          item["code"],
           date,
           time,
           ordOs,
@@ -1333,35 +1357,13 @@ class Controller extends ChangeNotifier {
           user_id,
           aid,
           0,
-          "",
+          item['unit'],
           rowNum,
-          "orderMasterTable",
+          "orderDetailTable",
           total_price,
-          "",
-          0.0);
-
-      for (var item in bagList) {
-        print("orderid---$order_id");
-        double rate = double.parse(item["rate"]);
-        await OrderAppDB.instance.insertorderMasterandDetailsTable(
-            item["itemName"],
-            order_id,
-            item["qty"],
-            rate,
-            item["code"],
-            date,
-            time,
-            ordOs,
-            customer_id,
-            user_id,
-            aid,
-            0,
-            "",
-            rowNum,
-            "orderDetailTable",
-            total_price,
-            " ",
-            baserate);
+          item["package"],
+          baserate,
+        );
         rowNum = rowNum + 1;
       }
     }
@@ -1388,7 +1390,8 @@ class Controller extends ChangeNotifier {
       double total_price,
       String? refNo,
       String? reason,
-      BuildContext context) async {
+      BuildContext context,
+      double baserate) async {
     print(
         "values--------$date--$time$customer_id-$user_id--$aid--$total_price--$refNo--$reason--$os");
 
@@ -1415,7 +1418,10 @@ class Controller extends ChangeNotifier {
           "returnMasterTable",
           total_price,
           reason!,
-          refNo!);
+          refNo!,
+          0.0,
+          0.0,
+          0.0);
 
       for (var item in returnbagList) {
         print("item---${item["rate"].runtimeType}");
@@ -1438,7 +1444,10 @@ class Controller extends ChangeNotifier {
             "returnDetailTable",
             total_price,
             "",
-            "");
+            "",
+            item["unit"],
+            baserate,
+            item["package"]);
         rowNum = rowNum + 1;
       }
     }
@@ -1678,9 +1687,9 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
   //////////////////////////
- 
+
   ////////////////////////////////////////
-   setCustomerName(String? cusName) {
+  setCustomerName(String? cusName) {
     customer_Name = cusName;
     print("customer name.controller.....$customer_Name");
     notifyListeners();
@@ -1708,15 +1717,15 @@ class Controller extends ChangeNotifier {
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
 
-      // for (int i = 0; i < productName.length; i++) {
-      //   if (productName[i]["qty"] != null) {
-      //     qty[i].text = productName[i]["qty"].toString();
-      //   } else {
-      //     qty[i].text = "0";
-      //   }
+      for (int i = 0; i < productName.length; i++) {
+        if (productName[i]["qty"] != null) {
+          qty[i].text = productName[i]["qty"].toString();
+        } else {
+          qty[i].text = "0";
+        }
 
-      //   print("quantity innnnn............$qty");
-      // }
+        print("quantity innnnn............$qty");
+      }
       returnselected = List.generate(length, (index) => false);
       returnirtemExists = List.generate(length, (index) => false);
 
@@ -1735,34 +1744,39 @@ class Controller extends ChangeNotifier {
   getreturnList(String customerId, String postiion) async {
     print("haii---");
     int flag = 0;
+    productName.clear();
+
     try {
       isLoading = true;
-      notifyListeners();
-      if (postiion == "orderform") {
-        prodctItems = await OrderAppDB.instance
-            .selectAllcommon("productDetailsTable", '');
-      } else {
-        prodctItems =
-            await OrderAppDB.instance.selectfromreturnbagTable(customerId);
-      }
-
-      print("prodctItemsdfddfd----${prodctItems.length}");
+      // notifyListeners();
+      prodctItems =
+          await OrderAppDB.instance.selectfromreturnbagTable(customerId);
+      print("product item list in orderlist----${prodctItems}");
       productName.clear();
-
       for (var item in prodctItems) {
         productName.add(item);
       }
       var length = productName.length;
+      print("product namess.......$productName");
+      print("text length----$length");
       qty = List.generate(length, (index) => TextEditingController());
       selected = List.generate(length, (index) => false);
-      print("selected-------$qty--$selected");
 
-      // returnselected = List.generate(length, (index) => false);
-      // returnirtemExists = List.generate(length, (index) => false);
+      for (int i = 0; i < productName.length; i++) {
+        if (productName[i]["qty"] != null) {
+          qty[i].text = productName[i]["qty"].toString();
+        } else {
+          qty[i].text = "0";
+        }
+
+        print("quantity innnnn............$qty");
+      }
+      returnselected = List.generate(length, (index) => false);
+      returnirtemExists = List.generate(length, (index) => false);
+
       isLoading = false;
       notifyListeners();
-      print("product name----${productName}");
-
+      print("product name return----${productName}");
       notifyListeners();
     } catch (e) {
       print(e);
@@ -1770,6 +1784,45 @@ class Controller extends ChangeNotifier {
     }
     notifyListeners();
   }
+  /////////////////////////////////////////////////////////
+  // getreturnList(String customerId, String postiion) async {
+  //   print("haii---");
+  //   int flag = 0;
+  //   try {
+  //     isLoading = true;
+  //     notifyListeners();
+  //     if (postiion == "orderform") {
+  //       prodctItems = await OrderAppDB.instance
+  //           .selectAllcommon("productDetailsTable", '');
+  //     } else {
+  //       prodctItems =
+  //           await OrderAppDB.instance.selectfromreturnbagTable(customerId);
+  //     }
+
+  //     print("prodctItemsdfddfd----${prodctItems.length}");
+  //     productName.clear();
+
+  //     for (var item in prodctItems) {
+  //       productName.add(item);
+  //     }
+  //     var length = productName.length;
+  //     qty = List.generate(length, (index) => TextEditingController());
+  //     selected = List.generate(length, (index) => false);
+  //     print("selected-------$qty--$selected");
+
+  //     // returnselected = List.generate(length, (index) => false);
+  //     // returnirtemExists = List.generate(length, (index) => false);
+  //     isLoading = false;
+  //     notifyListeners();
+  //     print("product name-return---${productName}");
+
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print(e);
+  //     return null;
+  //   }
+  //   notifyListeners();
+  // }
 
 /////////////////////////////////////////////////////////////////
   getSaleProductList(String customerId) async {
