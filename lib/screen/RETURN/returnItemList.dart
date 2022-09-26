@@ -410,7 +410,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                           child: Text("No data Found!!!!"),
                                         )
                                       : ListView.builder(
-                                          itemExtent: 73,
+                                          itemExtent: 70,
                                           shrinkWrap: true,
                                           itemCount: value.newList.length,
                                           itemBuilder:
@@ -803,7 +803,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                   : value.isLoading
                                       ? CircularProgressIndicator()
                                       : ListView.builder(
-                                          itemExtent: 73,
+                                          itemExtent: 70,
                                           shrinkWrap: true,
                                           itemCount: value.productName.length,
                                           itemBuilder:
