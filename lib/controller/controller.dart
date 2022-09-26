@@ -273,6 +273,7 @@ class Controller extends ChangeNotifier {
           print("map register ${map}");
           // print("response ${response}");
           RegistrationData regModel = RegistrationData.fromJson(map);
+          
           userType = regModel.type;
           print("usertype----$userType");
           sof = regModel.sof;
@@ -1276,7 +1277,7 @@ class Controller extends ChangeNotifier {
             0,
             0,
             0.0,
-            "",
+            item["package"].toString(),
             baserate);
         rowNum = rowNum + 1;
       }
@@ -3226,7 +3227,7 @@ class Controller extends ChangeNotifier {
           qty[i].text = "0";
         }
       }
-      
+
       print("baglis length----${bagList}");
       if (newList.length > 0) {
         print("enterde");

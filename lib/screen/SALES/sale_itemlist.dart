@@ -348,7 +348,8 @@ class _SalesItemState extends State<SalesItem> {
                                       ? Container(
                                           child: Text("No data Found!!!!"),
                                         )
-                                      : ListView.builder(
+                                      : 
+                                      ListView.builder(
                                           itemExtent: 78,
                                           shrinkWrap: true,
                                           itemCount: value.newList.length,
@@ -852,7 +853,9 @@ class _SalesItemState extends State<SalesItem> {
                                     )
                                   : value.isLoading
                                       ? CircularProgressIndicator()
-                                      : ListView.builder(
+                                      : 
+                                      
+                                      ListView.builder(
                                           itemExtent: 78,
                                           shrinkWrap: true,
                                           itemCount: value.productName.length,

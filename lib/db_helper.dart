@@ -1875,31 +1875,14 @@ class OrderAppDB {
 //////////////////////////////select left join/////////////////////
   selectfromOrderbagTable(String customerId) async {
     List<Map<String, dynamic>> result;
-    var unitquery = "";
     Database db = await instance.database;
-    // result = await db.rawQuery(
-    //     // "SELECT productDetailsTable.* , orderBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code AND orderBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
-    //     "SELECT productDetailsTable.* , orderBagTable.cartrowno " +
-    //         "FROM 'productDetailsTable' " +
-    //         "LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code " +
-    //         "AND orderBagTable.customerid='$customerId' " +
-    //         "ORDER BY cartrowno DESC");
-
-    unitquery = "SELECT p.pid prid,p.code prcode,p.item pritem, p.unit prunit, 1 pkg ,p.companyId prcid,p.hsn prhsn, " +
-        "p.tax prtax,p.prate prrate,p.mrp prmrp,p.cost prcost,p.rate1 prbaserate, p.categoryId  prcategoryId from 'productDetailsTable' p union all " +
-        "SELECT pd.pid,pd.code,pd.item,u.unit_name unit,u.package pkg,pd.companyId,pd.hsn, " +
-        "pd.tax,pd.prate,pd.mrp,pd.cost,pd.rate1 , pd.categoryId  from 'productDetailsTable' pd " +
-        "inner join 'productUnits' u  ON u.pid = pd.pid ";
-
-    unitquery = "select k.*,b.*, (k.prbaserate * k.pkg ) prrate1 from (" +
-        unitquery +
-        " ) k " +
-        "left join 'orderBagTable' b on k.prcode = b.code " +
-        "AND b.customerid='$customerId' and " +
-        "b.unit_name = k.prunit " +
-        " order by k.pritem,k.prcode, pkg ;";
-
-    result = await db.rawQuery(unitquery);
+    result = await db.rawQuery(
+        // "SELECT productDetailsTable.* , orderBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code AND orderBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
+        "SELECT productDetailsTable.* , orderBagTable.cartrowno " +
+            "FROM 'productDetailsTable' " +
+            "LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code " +
+            "AND orderBagTable.customerid='$customerId' " +
+            "ORDER BY cartrowno DESC");
 
     print("leftjoin result----$result");
     print("length---${result.length}");

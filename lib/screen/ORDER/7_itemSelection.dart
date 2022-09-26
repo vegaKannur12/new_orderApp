@@ -629,7 +629,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                           .filteredeValue)
                                   : value.isLoading
                                       ? CircularProgressIndicator()
-                                      : ListView.builder(
+                                      : 
+                                      ListView.builder(
                                           itemExtent: 55,
                                           shrinkWrap: true,
                                           itemCount: value.productName.length,
@@ -653,7 +654,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                               ? Colors.green
                                                               : Colors.grey[700]
                                                           : Colors.green,
-                                                      fontSize: 16),
+                                                      fontSize: 14),
                                                 ),
                                                 subtitle: Text(
                                                   '\u{20B9}${value.productName[index]["rate1"]}',
@@ -720,6 +721,7 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 .text = "1";
                                                           }
                                                         });
+                                                        
                                                         if (widget.type ==
                                                             "sale order") {
                                                           int max = await OrderAppDB
