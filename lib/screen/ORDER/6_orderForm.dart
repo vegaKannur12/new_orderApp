@@ -30,7 +30,7 @@ class OrderForm extends StatefulWidget {
 }
 
 class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
-  TextEditingController fieldTextEditingController = TextEditingController();
+  // TextEditingController fieldTextEditingController = TextEditingController();
   TextEditingValue textvalue = TextEditingValue();
   ValueNotifier<bool> valnot = ValueNotifier(false);
   final _formKey = GlobalKey<FormState>();
@@ -59,7 +59,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
   List? splitted;
   TextEditingController fieldText = TextEditingController();
   // TextEditingController areatext = TextEditingController();
-  // TextEditingController customertext = TextEditingController();
+  TextEditingController customertext = TextEditingController();
 
   List? splitted1;
   List<DataRow> dataRows = [];
@@ -301,7 +301,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     width: 3,
                                                   ),
                                                 ),
-                                                // hintText: 'Name',
+                                                hintText: 'Area / Route',
                                                 helperText: ' ', // th
                                                 suffixIcon: IconButton(
                                                   onPressed: fieldText.clear,
@@ -317,7 +317,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                               },
                                               textInputAction:
                                                   TextInputAction.next,
-                                              // autofocus: true,
+
                                               controller: fieldText,
                                               focusNode: fieldFocusNode,
                                               style: TextStyle(
@@ -406,13 +406,20 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                           // height: size.height * 0.06,
                                           child: Autocomplete<
                                               Map<String, dynamic>>(
-                                            initialValue: TextEditingValue(
-                                                text: values.customer_Name ==
-                                                            null ||
-                                                        values.customer_Name!
-                                                            .isEmpty
-                                                    ? ''
-                                                    : '${values.customer_Name.toString()}'),
+                                            // initialValue: TextEditingValue(
+                                            //     text: values.boolCustomerSet
+                                            //         ? values.customer_Name
+                                            //             .toString()
+                                            //         : "helloooo"
+
+                                            //  values.customer_Name ==
+                                            //             null ||
+                                            //         values.customer_Name!
+                                            //             .isEmpty
+                                            //     ? ''
+                                            //     : '${values.customer_Name.toString()}'
+
+                                            // ),
                                             optionsBuilder:
                                                 (TextEditingValue value) {
                                               if (value.text.isEmpty) {
@@ -420,7 +427,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                               } else {
                                                 print(
                                                     "TextEditingValue---${value.text}");
-
                                                 return values.custmerDetails
                                                     .where((suggestion) =>
                                                         suggestion["hname"]
@@ -433,6 +439,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 //     .toLowerCase()));
                                               }
                                             },
+
                                             displayStringForOption:
                                                 (Map<String, dynamic> option) =>
                                                     option["hname"]
@@ -459,6 +466,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 fieldText,
                                                 FocusNode fieldFocusNode,
                                                 VoidCallback onFieldSubmitted) {
+                                              print("fieldText----$fieldText");
                                               return Container(
                                                 height: size.height * 0.08,
                                                 child: TextFormField(
@@ -475,112 +483,148 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                     helperText: ' ',
-                                                    // hintText: 'Name',
+                                                    hintText: 'Customer Name',
                                                     // helperText: ' ',
-                                                    // prefixIcon: IconButton(
-                                                    //   onPressed: () {
-                                                    //     showModalBottomSheet<
-                                                    //         void>(
-                                                    //       isScrollControlled:
-                                                    //           true,
-                                                    //       constraints:
-                                                    //           BoxConstraints(
-                                                    //         maxWidth: 200,
-                                                    //       ),
-                                                    //       context: context,
-                                                    //       builder: (BuildContext
-                                                    //           context) {
-                                                    //         return Container(
-                                                    //           height: values
-                                                    //                       .custmerDetails
-                                                    //                       .length !=
-                                                    //                   0
-                                                    //               ? MediaQuery.of(
-                                                    //                           context)
-                                                    //                       .size
-                                                    //                       .height *
-                                                    //                   0.5
-                                                    //               : size.height *
-                                                    //                   0.1,
-                                                    //           color:
-                                                    //               Colors.white,
-                                                    //           child: Center(
-                                                    //             child: Column(
-                                                    //               mainAxisAlignment:
-                                                    //                   MainAxisAlignment
-                                                    //                       .center,
-                                                    //               mainAxisSize:
-                                                    //                   MainAxisSize
-                                                    //                       .min,
-                                                    //               children: <
-                                                    //                   Widget>[
-                                                    //                 values.custmerDetails.length !=
-                                                    //                         0
-                                                    //                     ? Text(
-                                                    //                         'Customers',
-                                                    //                         style:
-                                                    //                             TextStyle(fontSize: 20),
-                                                    //                       )
-                                                    //                     : Text(
-                                                    //                         ''),
-                                                    //                 Expanded(
-                                                    //                   child:
-                                                    //                       Padding(
-                                                    //                     padding: const EdgeInsets.only(
-                                                    //                         left:
-                                                    //                             10,
-                                                    //                         top:
-                                                    //                             20),
-                                                    //                     child: values.custmerDetails.length !=
-                                                    //                             0
-                                                    //                         ? ListView.builder(
-                                                    //                             itemCount: values.custmerDetails.length,
-                                                    //                             itemBuilder: (context, index) {
-                                                    //                               return ListTile(
-                                                    //                                 onTap: () {
-                                                    //                                   Navigator.pop(context);
-                                                    //                                   // Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
-                                                    //                                   // Navigator.of(context).push(
-                                                    //                                   //   PageRouteBuilder(
-                                                    //                                   //     opaque: false, // set to false
-                                                    //                                   //     pageBuilder: (_, __, ___) => OrderForm(widget.areaname, "sales"),
-                                                    //                                   //   ),
-                                                    //                                   // );
-                                                    //                                   //      customerName =
-                                                    //                                   // values.custmerDetails[index]
-                                                    //                                   //     ['hname'];
-                                                    //                                   print("customer name.......${Provider.of<Controller>(context, listen: false).customer_Name}");
-                                                    //                                 },
-                                                    //                                 visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                                                    //                                 textColor: P_Settings.wavecolor,
-                                                    //                                 title: Text(
-                                                    //                                   "${values.custmerDetails[index]['hname']}",
-                                                    //                                   style: TextStyle(fontSize: 13),
-                                                    //                                 ),
-                                                    //                                 // onTap: (() {
-                                                    //                                 //   print("selected index");
-                                                    //                                 // }),
-                                                    //                               );
-                                                    //                             },
-                                                    //                           )
-                                                    //                         : Text("Empty"),
-                                                    //                   ),
-                                                    //                 ),
-                                                    //               ],
-                                                    //             ),
-                                                    //           ),
-                                                    //         );
-                                                    //       },
-                                                    //     );
-                                                    //   },
-                                                    //   icon: Icon(
-                                                    //     Icons.book,
-                                                    //     size: 15,
-                                                    //   ),
-                                                    // ), // th
+                                                    prefixIcon: IconButton(
+                                                      onPressed: () {
+                                                        showModalBottomSheet<
+                                                            void>(
+                                                          // isScrollControlled:
+                                                          //     true,
+                                                          // constraints:
+                                                          //     BoxConstraints(
+                                                          //   maxWidth: 200,
+                                                          // ),
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Container(
+                                                              height: values
+                                                                          .custmerDetails
+                                                                          .length !=
+                                                                      0
+                                                                  ? MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.5
+                                                                  : size.height *
+                                                                      0.1,
+                                                              color:
+                                                                  Colors.white,
+                                                              child: Center(
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                      children: [
+                                                                        IconButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            icon:
+                                                                                Icon(Icons.close))
+                                                                      ],
+                                                                    ),
+                                                                    values.custmerDetails.length !=
+                                                                            0
+                                                                        ? Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(top: 8.0),
+                                                                            child:
+                                                                                Text(
+                                                                              'Customers',
+                                                                              style: TextStyle(fontSize: 20),
+                                                                            ),
+                                                                          )
+                                                                        : Text(
+                                                                            ''),
+                                                                    Divider(
+                                                                      indent:
+                                                                          50,
+                                                                      endIndent:
+                                                                          50,
+                                                                      thickness:
+                                                                          1,
+                                                                    ),
+                                                                    Expanded(
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            left:
+                                                                                10,
+                                                                            top:
+                                                                                20),
+                                                                        child: values.custmerDetails.length !=
+                                                                                0
+                                                                            ? ListView.builder(
+                                                                                itemCount: values.custmerDetails.length,
+                                                                                itemBuilder: (context, index) {
+                                                                                  return ListTile(
+                                                                                    trailing: Icon(Icons.arrow_forward),
+                                                                                    onTap: () {
+                                                                                      setState(() {
+                                                                                        customertext.text = values.custmerDetails[index]['hname'];
+                                                                                      });
+                                                                                      Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
+                                                                                      // Navigator.of(context).push(
+                                                                                      //   PageRouteBuilder(
+                                                                                      //     opaque: false, // set to false
+                                                                                      //     pageBuilder: (_, __, ___) => OrderForm(widget.areaname, "sales"),
+                                                                                      //   ),
+                                                                                      // );
+                                                                                      //      customerName =
+                                                                                      // values.custmerDetails[index]
+                                                                                      //     ['hname'];
+                                                                                      print("customer name.......${Provider.of<Controller>(context, listen: false).customer_Name}");
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                    visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                                                                    textColor: P_Settings.wavecolor,
+                                                                                    title: Text(
+                                                                                      "${values.custmerDetails[index]['hname']}",
+                                                                                      style: TextStyle(fontSize: 16),
+                                                                                    ),
+
+                                                                                    // onTap: (() {
+                                                                                    //   print("selected index");
+                                                                                    // }),
+                                                                                  );
+                                                                                },
+                                                                              )
+                                                                            : Text("Empty"),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.book,
+                                                        size: 15,
+                                                      ),
+                                                    ), // th
                                                     suffixIcon: IconButton(
-                                                      onPressed:
-                                                          fieldText.clear,
+                                                      onPressed:(){
+                                                        setState(() {
+                                                          customertext.clear();
+                                                          fieldText.clear();
+                                                        });
+                                                      },
+                                                          
                                                       icon: Icon(
                                                         Icons.clear,
                                                       ),
@@ -593,7 +637,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     }
                                                     return null;
                                                   },
-                                                  controller: fieldText,
+                                                  controller:
+                                                      customertext.text != null
+                                                          ? customertext
+                                                          :
+                                                          
+                                                           fieldText,
                                                   scrollPadding:
                                                       EdgeInsets.only(
                                                           bottom: topInsets +

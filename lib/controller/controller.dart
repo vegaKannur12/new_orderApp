@@ -38,7 +38,7 @@ class Controller extends ChangeNotifier {
   double disc_amt = 0.0;
   double net_amt = 0.0;
   double taxable_rate = 0.0;
-  // double salesNetamt = 0.0;
+ bool boolCustomerSet=false;
   double salesTotal = 0.0;
   String? packName;
   double tax = 0.0;
@@ -278,6 +278,7 @@ class Controller extends ChangeNotifier {
           print("map register ${map}");
           // print("response ${response}");
           RegistrationData regModel = RegistrationData.fromJson(map);
+          
           userType = regModel.type;
           print("usertype----$userType");
           sof = regModel.sof;
@@ -1691,7 +1692,8 @@ class Controller extends ChangeNotifier {
   ////////////////////////////////////////
   setCustomerName(String? cusName) {
     customer_Name = cusName;
-    print("customer name.controller.....$customer_Name");
+    print("customer name.controller...$cusName..$customer_Name");
+    boolCustomerSet=true;
     notifyListeners();
   }
 

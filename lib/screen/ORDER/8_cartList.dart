@@ -366,13 +366,14 @@ class _CartListState extends State<CartList> {
                                         ),
                                       ),
                                       FloatingActionButton.small(
-                                          backgroundColor: Colors.grey,
-                                          child: Icon(Icons.add),
-                                          onPressed: () {
-                                            value.qtyIncrement();
-                                            value.totalCalculation(value
-                                                .rateController[index].text);
-                                          }),
+                                        backgroundColor: Colors.grey,
+                                        child: Icon(Icons.add),
+                                        onPressed: () {
+                                          value.qtyIncrement();
+                                          value.totalCalculation(
+                                              value.rateController[index].text);
+                                        },
+                                      ),
                                     ],
                                   ),
                                   SizedBox(
