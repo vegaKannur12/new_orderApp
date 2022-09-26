@@ -410,7 +410,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                           child: Text("No data Found!!!!"),
                                         )
                                       : ListView.builder(
-                                          itemExtent: 75,
+                                          itemExtent: 73,
                                           shrinkWrap: true,
                                           itemCount: value.newList.length,
                                           itemBuilder:
@@ -420,7 +420,8 @@ class _ReturnItemState extends State<ReturnItem> {
                                                   left: 0.4, right: 0.4),
                                               child: Card(
                                                 child: Ink(
-                                                  color: value.newList[index][
+                                                  color: value.newList[
+                                                                      index][
                                                                   "cartrowno"] ==
                                                               null ||
                                                           value.qty[index]
@@ -435,6 +436,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                       : Color.fromARGB(
                                                           255, 226, 225, 225),
                                                   child: ListTile(
+                                                    dense: true,
                                                     title: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -447,9 +449,6 @@ class _ReturnItemState extends State<ReturnItem> {
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: TextStyle(
-                                                              // color: value.selected[index]
-                                                              //     ? Colors.green
-                                                              //     : Colors.grey[700],
                                                               color:
                                                                   Colors.black,
                                                               fontSize: 14,
@@ -461,7 +460,8 @@ class _ReturnItemState extends State<ReturnItem> {
                                                           children: [
                                                             Container(
                                                                 child: Text(
-                                                              value.newList[index]
+                                                              value.newList[
+                                                                              index]
                                                                           [
                                                                           "prunit"] ==
                                                                       null
@@ -543,17 +543,18 @@ class _ReturnItemState extends State<ReturnItem> {
                                                           MainAxisSize.min,
                                                       children: [
                                                         Text(
-                                                            '\u{20B9}${value.newList[index]["prrate"]}',
-                                                            style: TextStyle(
-                                                                color: P_Settings
-                                                                    .ratecolor,
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .italic,
-                                                                fontSize: 17,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          '\u{20B9}${value.newList[index]["prrate"]}',
+                                                          style: TextStyle(
+                                                              color: P_Settings
+                                                                  .ratecolor,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic,
+                                                              fontSize: 17,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
                                                         SizedBox(
                                                           width: 10,
                                                         ),
@@ -603,6 +604,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                         false)
                                                                 .selectSettings(
                                                                     "set_code in ('RT_UPLOAD_DIRECT')");
+                                                            print("clicked--");
 
                                                             setState(() {
                                                               if (value.selected[
@@ -614,7 +616,8 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                         index];
                                                                 // selected = index;
                                                               }
-
+                                                              print(
+                                                                  "sdjszn-----${value.selected[index]}");
                                                               if (value
                                                                           .qty[
                                                                               index]
@@ -641,10 +644,9 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                 "max----$max");
                                                             // print("value.qty[index].text---${value.qty[index].text}");
 
-                                                            rate1 =
-                                                                value.newList[
-                                                                        index]
-                                                                    ["prrate"];
+                                                            rate1 = value
+                                                                    .newList[
+                                                                index]["prrate"];
                                                             var total = double
                                                                     .parse(
                                                                         rate1) *
@@ -655,8 +657,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                 "total rate $total");
 
                                                             var res = await OrderAppDB.instance.insertreturnBagTable(
-                                                                value.newList[
-                                                                        index]
+                                                                products[index]
                                                                     ["pritem"],
                                                                 s[0],
                                                                 s[1],
@@ -664,8 +665,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                 widget
                                                                     .customerId,
                                                                 max,
-                                                                value.newList[
-                                                                        index]
+                                                                products[index]
                                                                     ["prcode"],
                                                                 double.parse(value
                                                                     .qty[index]
@@ -678,15 +678,17 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                         index]
                                                                     ["prunit"],
                                                                 value
-                                                                    .newList[index]
+                                                                    .newList[
+                                                                        index]
                                                                         ["pkg"]
                                                                     .toDouble(),
                                                                 double.parse(
                                                                     rate1),
                                                                 0);
+
                                                             snackbar.showSnackbar(
                                                                 context,
-                                                                "${value.newList[index]["prcode"] + value.newList[index]['pritem']} - Added to cart",
+                                                                "${products[index]["prcode"] + products[index]['pritem']} - Added to cart",
                                                                 "return");
                                                             Provider.of<Controller>(
                                                                     context,
@@ -722,7 +724,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                           color: Colors.black,
                                                         ),
                                                         IconButton(
-                                                            icon: Icon(
+                                                            icon: const Icon(
                                                               Icons.delete,
                                                               size: 18,
                                                               // color: Colors.redAccent,
@@ -737,17 +739,16 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                     ? () async {
                                                                         String
                                                                             item =
-                                                                            value.newList[index]["prcode"] +
-                                                                                value.newList[index]["pritem"];
-
+                                                                            products[index]["prcode"] +
+                                                                                products[index]["pritem"];
                                                                         showModal.showMoadlBottomsheet(
                                                                             widget.os,
                                                                             widget.customerId,
                                                                             item,
                                                                             size,
                                                                             context,
-                                                                            "newlist just added",
-                                                                            value.newList[index]["prcode"],
+                                                                            "just added",
+                                                                            products[index]["prcode"],
                                                                             index,
                                                                             "no filter",
                                                                             "",
@@ -756,13 +757,12 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                       }
                                                                     : null
                                                                 : () async {
-                                                                    String item = value.newList[index]
+                                                                    String item = products[index]
                                                                             [
                                                                             "prcode"] +
-                                                                        value.newList[index]
+                                                                        products[index]
                                                                             [
                                                                             "pritem"];
-
                                                                     showModal.showMoadlBottomsheet(
                                                                         widget
                                                                             .os,
@@ -771,8 +771,8 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                         item,
                                                                         size,
                                                                         context,
-                                                                        "newlist already in cart",
-                                                                        value.newList[index]
+                                                                        "already in cart",
+                                                                        products[index]
                                                                             [
                                                                             "prcode"],
                                                                         index,
@@ -788,7 +788,8 @@ class _ReturnItemState extends State<ReturnItem> {
                                                 ),
                                               ),
                                             );
-                                          })
+                                          },
+                                        )
                               : value.returnfilterCompany
                                   ? ReturnFilteredProduct(
                                       type: widget.type,

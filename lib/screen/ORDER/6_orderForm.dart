@@ -705,11 +705,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             fontSize: 12),
                                                       ),
                                                       onPressed: () async {
-                                                        await OrderAppDB
-                                                            .instance
-                                                            .deleteFromTableCommonQuery(
-                                                                "returnBagTable",
-                                                                "");
+                                                        // await OrderAppDB
+                                                        //     .instance
+                                                        //     .deleteFromTableCommonQuery(
+                                                        //         "returnBagTable",
+                                                        //         "");
                                                         FocusScopeNode
                                                             currentFocus =
                                                             FocusScope.of(
@@ -734,7 +734,15 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
 
                                                           String os = "R" +
                                                               "${values.ordernum[0]["os"]}";
-
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .countFromTable(
+                                                            "returnBagTable",
+                                                            os,
+                                                            custmerId
+                                                                .toString(),
+                                                          );
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)
@@ -1332,11 +1340,11 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                             fontSize: 12),
                                                       ),
                                                       onPressed: () async {
-                                                        await OrderAppDB
-                                                            .instance
-                                                            .deleteFromTableCommonQuery(
-                                                                "returnBagTable",
-                                                                "");
+                                                        // await OrderAppDB
+                                                        //     .instance
+                                                        //     .deleteFromTableCommonQuery(
+                                                        //         "returnBagTable",
+                                                        //         "");
                                                         FocusScopeNode
                                                             currentFocus =
                                                             FocusScope.of(
@@ -1360,6 +1368,15 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                   "orderform");
                                                           String os = "R" +
                                                               "${values.ordernum[0]["os"]}";
+                                                          Provider.of<Controller>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .countFromTable(
+                                                            "salesBagTable",
+                                                            os,
+                                                            custmerId
+                                                                .toString(),
+                                                          );
                                                           Provider.of<Controller>(
                                                                   context,
                                                                   listen: false)

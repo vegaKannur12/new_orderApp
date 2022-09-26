@@ -759,9 +759,9 @@ class OrderAppDB {
       double amount = double.parse(res1[0]["totalamount"]);
       print("res1.length----${res1.length}");
 
-      print("upadted qty--$qty---$updatedQty");
       double amount1 = double.parse(totalamount);
       double updatedAmount = amount + amount1;
+      print("upadted qty--$qty---$updatedAmount");
       var res = await db.rawUpdate(
           'UPDATE orderBagTable SET qty=$qty , totalamount="${updatedAmount}" WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
       print("response-------$res");
@@ -777,7 +777,7 @@ class OrderAppDB {
   }
 
 //////////////////////////////////////////////////////////////////////
-  Future insertreturnBagTable(
+  insertreturnBagTable(
     String itemName,
     String cartdate,
     String carttime,
@@ -794,35 +794,38 @@ class OrderAppDB {
     double baseRate,
     int cstatus,
   ) async {
-    print("qty--$qty");
+    print("qty--$qty...$unit_name..$packagenm...$cartrowno");
     print("code...........$code");
     final db = await database;
+    print("qty--$qty");
+    print("unit_name...........$unit_name");
+
     var res;
     var query3;
     var query2;
     List<Map<String, dynamic>> res1 = await db.rawQuery(
         'SELECT  * FROM returnBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}" AND unit_name="${unit_name}"');
-    print("SELECT from return---$res1");
+    print("SELECT from ---$res1");
     if (res1.length == 1) {
       double qty1 = res1[0]["qty"];
-      // int updatedQty = qty1 + qty;
+      double updatedQty = qty1 + qty;
       double amount = double.parse(res1[0]["totalamount"]);
       print("res1.length----${res1.length}");
 
-      // print("upadted qty-----$updatedQty");
       double amount1 = double.parse(totalamount);
       double updatedAmount = amount + amount1;
+      print("upadted qty--$qty---$updatedAmount");
       var res = await db.rawUpdate(
           'UPDATE returnBagTable SET qty=$qty , totalamount="${updatedAmount}" WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO returnBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, pid, unit_name, package, baserate, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", $pid, "${unit_name}", $packagenm, $baseRate, $cstatus)';
+          'INSERT INTO returnBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, pid, unit_name, package, baseRate, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}",  $pid, "$unit_name", "$packagenm", $baseRate, $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
-    print("insert query result return..... $res");
-    print("insert return-----$query2");
+    print("insert query result $res");
+    print("insert-----$query2");
     return res;
   }
 
@@ -1955,21 +1958,22 @@ class OrderAppDB {
     //         "ORDER BY cartrowno DESC");
     // print("leftjoin result----$result");
     // print("length---${result.length}");
-    var unitquery = "";
-    unitquery = "SELECT p.pid prid,p.code prcode,p.item pritem, p.unit prunit, 1 pkg ,p.companyId prcid,p.hsn prhsn, " +
+    var unitquery1 = "";
+    unitquery1 = "SELECT p.pid prid,p.code prcode,p.item pritem, p.unit prunit, 1 pkg ,p.companyId prcid,p.hsn prhsn, " +
         "p.tax prtax,p.prate prrate,p.mrp prmrp,p.cost prcost,p.rate1 prbaserate, p.categoryId  prcategoryId from 'productDetailsTable' p union all " +
         "SELECT pd.pid,pd.code,pd.item,u.unit_name unit,u.package pkg,pd.companyId,pd.hsn, " +
         "pd.tax,pd.prate,pd.mrp,pd.cost,pd.rate1 , pd.categoryId  from 'productDetailsTable' pd " +
         "inner join 'productUnits' u  ON u.pid = pd.pid ";
 
-    unitquery = "select k.*,b.*, (k.prbaserate * k.pkg ) prrate1 from (" +
-        unitquery +
+    unitquery1 = "select k.*,b.*, (k.prbaserate * k.pkg ) prrate1 from (" +
+        unitquery1 +
         " ) k " +
         "left join 'returnBagTable' b on k.prcode = b.code " +
         "AND b.customerid='$customerId' and " +
         "b.unit_name = k.prunit " +
         "order by b.cartrowno  DESC,k.pritem,k.prcode ;";
-    result = await db.rawQuery(unitquery);
+    result = await db.rawQuery(unitquery1);
+    print("db query.........$result");
     return result;
   }
 
