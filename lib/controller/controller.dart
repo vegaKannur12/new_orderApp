@@ -1744,7 +1744,7 @@ class Controller extends ChangeNotifier {
 
 //////////////////////////////////////////////////////////
   getreturnList(String customerId, String postiion) async {
-    print("haii---");
+    print("haii---$customerId");
     int flag = 0;
     productName.clear();
 
@@ -1950,12 +1950,12 @@ class Controller extends ChangeNotifier {
 ////////////////////////////////////////////////////////////////////
   getreturnBagDetails(String customerId, String os) async {
     print("customer id sale .................$customerId...$os");
-    returnbagList.clear();
 
     isLoading = true;
     notifyListeners();
     List<Map<String, dynamic>> res =
         await OrderAppDB.instance.getreturnBagTable(customerId, os);
+    returnbagList.clear();
     for (var item in res) {
       returnbagList.add(item);
     }
@@ -3342,7 +3342,7 @@ class Controller extends ChangeNotifier {
           List lis = await getreturnBagDetails(customerId, os);
 
           for (var item = 0; item < newList.length; item++) {
-            print("newList[item]----${newList[item]}");
+            print("newList[item]-return---${newList[item]}");
 
             for (var i = 0; i < returnbagList.length; i++) {
               print("bagList[item]----${returnbagList[i]}");
@@ -3392,82 +3392,82 @@ class Controller extends ChangeNotifier {
   }
 
 ////////////////////////////////////////////////////////////////
-  searchProcess1(String customerId, String os, String comid, String type,
-      List<Map<String, dynamic>> list) async {
-    print("searchkey--comid--$searchkey---$comid----$os");
-    List<Map<String, dynamic>> result = [];
-    newList.clear();
+  // searchProcess1(String customerId, String os, String comid, String type,
+  //     List<Map<String, dynamic>> list) async {
+  //   print("searchkey--comid--$searchkey---$comid----$os");
+  //   List<Map<String, dynamic>> result = [];
+  //   newList.clear();
 
-    if (searchkey!.isEmpty) {
-      newList = productName;
-      var length = newList.length;
-      print("text length----$length");
-      qty = List.generate(length, (index) => TextEditingController());
-      selected = List.generate(length, (index) => false);
-    } else {
-      // newList.clear();
-      isListLoading = true;
-      notifyListeners();
-      print("else is search");
-      isSearch = true;
+  //   if (searchkey!.isEmpty) {
+  //     newList = productName;
+  //     var length = newList.length;
+  //     print("text length----$length");
+  //     qty = List.generate(length, (index) => TextEditingController());
+  //     selected = List.generate(length, (index) => false);
+  //   } else {
+  //     // newList.clear();
+  //     isListLoading = true;
+  //     notifyListeners();
+  //     print("else is search");
+  //     isSearch = true;
 
-      if (comid == "") {
-        result = await OrderAppDB.instance.searchItem('productDetailsTable',
-            searchkey!, 'item', 'code', 'categoryId', " ");
-      } else {
-        result = await OrderAppDB.instance.searchItem(
-            'productDetailsTable',
-            searchkey!,
-            'item',
-            'code',
-            'categoryId',
-            " and companyId='${comid}'");
-      }
+  //     if (comid == "") {
+  //       result = await OrderAppDB.instance.searchItem('productDetailsTable',
+  //           searchkey!, 'item', 'code', 'categoryId', " ");
+  //     } else {
+  //       result = await OrderAppDB.instance.searchItem(
+  //           'productDetailsTable',
+  //           searchkey!,
+  //           'item',
+  //           'code',
+  //           'categoryId',
+  //           " and companyId='${comid}'");
+  //     }
 
-      for (var item in result) {
-        newList.add(item);
-      }
+  //     for (var item in result) {
+  //       newList.add(item);
+  //     }
 
-      isListLoading = false;
-      notifyListeners();
-      var length = newList.length;
-      selected = List.generate(length, (index) => false);
-      qty = List.generate(length, (index) => TextEditingController());
+  //     isListLoading = false;
+  //     notifyListeners();
+  //     var length = newList.length;
+  //     selected = List.generate(length, (index) => false);
+  //     qty = List.generate(length, (index) => TextEditingController());
 
-      print("baglis length----${bagList}");
-      if (newList.length > 0) {
-        print("enterde");
-        if (type == "sale order") {
-          List lis = await getBagDetails(customerId, os);
-          for (var item = 0; item < newList.length; item++) {
-            print("newList[item]----${newList[item]}");
+  //     print("baglis length----${bagList}");
+  //     if (newList.length > 0) {
+  //       print("enterde");
+  //       if (type == "sale order") {
+  //         List lis = await getBagDetails(customerId, os);
+  //         for (var item = 0; item < newList.length; item++) {
+  //           print("newList[item]----${newList[item]}");
 
-            for (var i = 0; i < bagList.length; i++) {
-              print("bagList[item]----${bagList[i]}");
+  //           for (var i = 0; i < bagList.length; i++) {
+  //             print("bagList[item]----${bagList[i]}");
 
-              if (bagList[i]["code"] == newList[item]["code"]) {
-                print("ifff");
-                selected[item] = true;
-                break;
-              } else {
-                print("else----");
-                selected[item] = false;
-              }
-            }
-          }
-        }
-      }
+  //             if (bagList[i]["code"] == newList[item]["code"]) {
+  //               print("ifff");
+  //               selected[item] = true;
+  //               break;
+  //             } else {
+  //               print("else----");
+  //               selected[item] = false;
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
 
-      print("text length----$length");
+  //     print("text length----$length");
 
-      print("selected[item]-----${selected}");
+  //     print("selected[item]-----${selected}");
 
-      // notifyListeners();
-    }
+  //     // notifyListeners();
+  //   }
 
-    print("nw list---$newList");
-    notifyListeners();
-  }
+  //   print("nw list---$newList");
+  //   notifyListeners();
+  // }
 
   ///////////////////////////////////////////////////////////
   String rawCalculation(
