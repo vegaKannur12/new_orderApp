@@ -554,23 +554,6 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold)),
-                                                        // Container(
-                                                        //     width: size.width *
-                                                        //         0.06,
-                                                        //     child:
-                                                        //         TextFormField(
-                                                        //       controller: value
-                                                        //           .qty[index],
-                                                        //       keyboardType:
-                                                        //           TextInputType
-                                                        //               .number,
-                                                        //       decoration: InputDecoration(
-                                                        //           border:
-                                                        //               InputBorder
-                                                        //                   .none,
-                                                        //           hintText:
-                                                        //               "1"),
-                                                        //     )),
                                                         SizedBox(
                                                           width: 10,
                                                         ),
@@ -735,11 +718,6 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                             .customerId)
                                                                 : Text(
                                                                     "No data");
-
-                                                            // Provider.of<Controller>(context,
-                                                            //         listen: false)
-                                                            //     .getProductList(
-                                                            //         widget.customerId);
                                                           },
                                                           color: Colors.black,
                                                         ),

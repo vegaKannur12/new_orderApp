@@ -5,8 +5,6 @@ import 'package:orderapp/components/showMoadal.dart';
 import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ReturnFilteredProduct extends StatefulWidget {
   String? type;

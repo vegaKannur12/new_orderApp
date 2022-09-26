@@ -802,9 +802,9 @@ class OrderAppDB {
     var query2;
     List<Map<String, dynamic>> res1 = await db.rawQuery(
         'SELECT  * FROM returnBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}" AND unit_name="${unit_name}"');
-    print("SELECT from ---$res1");
+    print("SELECT from return---$res1");
     if (res1.length == 1) {
-      int qty1 = res1[0]["qty"];
+      double qty1 = res1[0]["qty"];
       // int updatedQty = qty1 + qty;
       double amount = double.parse(res1[0]["totalamount"]);
       print("res1.length----${res1.length}");
@@ -821,8 +821,8 @@ class OrderAppDB {
       var res = await db.rawInsert(query2);
     }
 
-    print("insert query result $res");
-    print("insert-----$query2");
+    print("insert query result return..... $res");
+    print("insert return-----$query2");
     return res;
   }
 
