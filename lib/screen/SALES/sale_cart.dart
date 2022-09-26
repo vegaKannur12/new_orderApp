@@ -61,6 +61,7 @@ class _SaleCartState extends State<SaleCart> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+       
         backgroundColor: P_Settings.salewaveColor,
         actions: [
           // IconButton(
@@ -255,16 +256,15 @@ class _SaleCartState extends State<SaleCart> {
                             GestureDetector(
                               onTap: (() async {
                                 paysheet.showpaymentSheet(
-                                  context,
-                                  widget.areaId,
-                                  widget.areaname,
-                                  widget.custmerId,
-                                  s[0],
-                                  s[1],
-                                  " ",
-                                  " ",
-                                  value.orderTotal2[11],
-                                );
+                                    context,
+                                    widget.areaId,
+                                    widget.areaname,
+                                    widget.custmerId,
+                                    s[0],
+                                    s[1],
+                                    " ",
+                                    " ",
+                                    value.orderTotal2[11]);
                               }),
                               child: Container(
                                 width: size.width * 0.5,
@@ -494,7 +494,7 @@ class _SaleCartState extends State<SaleCart> {
                                           ),
                                           Container(
                                             child: Text(
-                                              "${qty.toString()}  (${unit_name.toString()})   (${pkg.toString()})",
+                                              "${qty.toString()} (${unit_name.toString()}) (${pkg.toString()})",
                                               textAlign: TextAlign.right,
                                               style: TextStyle(fontSize: 13),
                                             ),

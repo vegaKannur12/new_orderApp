@@ -16,6 +16,7 @@ class PaymentSelect {
   ) {
     Size size = MediaQuery.of(context).size;
     String? payment_mode;
+    print("base rate..for insert...........$baserate");
     CommonPopup salepopup = CommonPopup();
     return showModalBottomSheet<void>(
       context: context,
@@ -57,7 +58,8 @@ class PaymentSelect {
                               baserate,
                             ),
                           );
-                          print("payment mode...........$payment_mode");
+                          print(
+                              "payment mode...........$payment_mode...........$baserate");
                         }),
                     SizedBox(
                       width: size.width * 0.06,
@@ -74,18 +76,19 @@ class PaymentSelect {
                             context: context,
                             builder: (BuildContext context) =>
                                 salepopup.buildPopupDialog(
-                                    "sales",
-                                    context,
-                                    "Confirm your sale?",
-                                    areaId,
-                                    areaName,
-                                    cusid,
-                                    Date,
-                                    time,
-                                    "",
-                                    "",
-                                    payment_mode!,
-                                    baserate),
+                              "sales",
+                              context,
+                              "Confirm your sale?",
+                              areaId,
+                              areaName,
+                              cusid,
+                              Date,
+                              time,
+                              "",
+                              "",
+                              payment_mode!,
+                              baserate,
+                            ),
                           );
                           // print("payment mode...........$payment_mode");
                         }),

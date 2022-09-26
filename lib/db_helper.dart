@@ -470,7 +470,9 @@ class OrderAppDB {
             $code TEXT,
             $qty INTEGER,
             $unit TEXT,
-            $rate REAL  
+            $rate REAL,
+            $packing TEXT,
+            $baserate REAL  
           )
           ''');
     ///////////////////////////////
@@ -515,9 +517,13 @@ class OrderAppDB {
             $customerid TEXT,
             $cartrowno INTEGER,
             $code TEXT,
-            $qty INTEGER,
+            $qty REAL,
             $rate TEXT,
             $totalamount TEXT,
+            $pid INTEGER,
+            $unit_name TEXT,
+            $package REAL,
+            $baserate REAL,
             $cstatus INTEGER
           )
           ''');
@@ -532,9 +538,13 @@ class OrderAppDB {
             $customerid TEXT,
             $cartrowno INTEGER,
             $code TEXT,
-            $qty INTEGER,
+            $qty REAL,
             $rate TEXT,
             $totalamount TEXT,
+            $pid INTEGER,
+            $unit_name TEXT,
+            $package REAL,
+            $baserate REAL,
             $cstatus INTEGER
           )
           ''');
@@ -673,7 +683,9 @@ class OrderAppDB {
             $code TEXT,
             $qty INTEGER,
             $unit TEXT,
-            $rate REAL  
+            $rate REAL,
+            $packing TEXT,
+            $baserate REAL    
           )
           ''');
     await db.execute('''
@@ -723,35 +735,39 @@ class OrderAppDB {
     String customerid,
     int cartrowno,
     String code,
-    int qty,
+    double qty,
     String rate,
     String totalamount,
+    int pid,
+    String? unit_name,
+    double packagenm,
+    double baseRate,
     int cstatus,
   ) async {
     print("qty--$qty");
-    print("code...........$code");
+    print("unit_name...........$unit_name");
     final db = await database;
     var res;
     var query3;
     var query2;
     List<Map<String, dynamic>> res1 = await db.rawQuery(
-        'SELECT  * FROM orderBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
+        'SELECT  * FROM orderBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}" AND unit_name="${unit_name}"');
     print("SELECT from ---$res1");
     if (res1.length == 1) {
-      int qty1 = res1[0]["qty"];
-      int updatedQty = qty1 + qty;
+      double qty1 = res1[0]["qty"];
+      double updatedQty = qty1 + qty;
       double amount = double.parse(res1[0]["totalamount"]);
       print("res1.length----${res1.length}");
 
-      print("upadted qty-----$updatedQty");
+      print("upadted qty--$qty---$updatedQty");
       double amount1 = double.parse(totalamount);
       double updatedAmount = amount + amount1;
       var res = await db.rawUpdate(
-          'UPDATE orderBagTable SET qty=$updatedQty , totalamount="${updatedAmount}" WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
+          'UPDATE orderBagTable SET qty=$qty , totalamount="${updatedAmount}" WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO orderBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", $cstatus)';
+          'INSERT INTO orderBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, pid, unit_name, package, baseRate, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}",  $pid, "$unit_name", "$packagenm", $baseRate, $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
@@ -769,9 +785,13 @@ class OrderAppDB {
     String customerid,
     int cartrowno,
     String code,
-    int qty,
+    double qty,
     String rate,
     String totalamount,
+    int pid,
+    String? unit_name,
+    double packagenm,
+    double baseRate,
     int cstatus,
   ) async {
     print("qty--$qty");
@@ -781,33 +801,33 @@ class OrderAppDB {
     var query3;
     var query2;
     List<Map<String, dynamic>> res1 = await db.rawQuery(
-        'SELECT  * FROM returnBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
-    print("SELECT from ---$res1");
+        'SELECT  * FROM returnBagTable WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}" AND unit_name="${unit_name}"');
+    print("SELECT from return---$res1");
     if (res1.length == 1) {
-      int qty1 = res1[0]["qty"];
-      int updatedQty = qty1 + qty;
+      double qty1 = res1[0]["qty"];
+      // int updatedQty = qty1 + qty;
       double amount = double.parse(res1[0]["totalamount"]);
       print("res1.length----${res1.length}");
 
-      print("upadted qty-----$updatedQty");
+      // print("upadted qty-----$updatedQty");
       double amount1 = double.parse(totalamount);
       double updatedAmount = amount + amount1;
       var res = await db.rawUpdate(
-          'UPDATE returnBagTable SET qty=$updatedQty , totalamount="${updatedAmount}" WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
+          'UPDATE returnBagTable SET qty=$qty , totalamount="${updatedAmount}" WHERE customerid="${customerid}" AND os = "${os}" AND code="${code}"');
       print("response-------$res");
     } else {
       query2 =
-          'INSERT INTO returnBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", $cstatus)';
+          'INSERT INTO returnBagTable (itemName, cartdate, carttime , os, customerid, cartrowno, code, qty, rate, totalamount, pid, unit_name, package, baserate, cstatus) VALUES ("${itemName}","${cartdate}","${carttime}", "${os}", "${customerid}", $cartrowno, "${code}", $qty, "${rate}", "${totalamount}", $pid, "${unit_name}", $packagenm, $baseRate, $cstatus)';
       var res = await db.rawInsert(query2);
     }
 
-    print("insert query result $res");
-    print("insert-----$query2");
+    print("insert query result return..... $res");
+    print("insert return-----$query2");
     return res;
   }
 
 ////////////////////////// insert into sales bag table /////////////////
-  Future insertsalesBagTable(
+  insertsalesBagTable(
     String itemName,
     String cartdate,
     String carttime,
@@ -841,7 +861,7 @@ class OrderAppDB {
     double baseRate,
   ) async {
     print("qty--$qty");
-    print("code...........$code");
+    print("unit_name...........$unit_name");
     final db = await database;
     var res;
     var query3;
@@ -873,29 +893,33 @@ class OrderAppDB {
 
   /////////////////////// order master table insertion//////////////////////
   Future insertorderMasterandDetailsTable(
-      String item,
-      int order_id,
-      int? qty,
-      double rate,
-      String? code,
-      String orderdate,
-      String ordertime,
-      String os,
-      String customerid,
-      String userid,
-      String areaid,
-      int status,
-      String unit,
-      int rowNum,
-      String table,
-      double total_price) async {
+    String item,
+    int order_id,
+    double? qty,
+    double rate,
+    String? code,
+    String orderdate,
+    String ordertime,
+    String os,
+    String customerid,
+    String userid,
+    String areaid,
+    int status,
+    String? unit,
+    int rowNum,
+    String table,
+    double total_price,
+    double? packing,
+    double? base_rate,
+  ) async {
     final db = await database;
     var res2;
     var res3;
 
     if (table == "orderDetailTable") {
+      print("unit name..............$unit");
       var query2 =
-          'INSERT INTO orderDetailTable(order_id, row_num,os,code, item, qty, rate, unit) VALUES(${order_id},${rowNum},"${os}","${code}","${item}", ${qty}, $rate, "${unit}")';
+          'INSERT INTO orderDetailTable(order_id, row_num,os,code, item, qty, rate, unit, packing, baserate) VALUES(${order_id},${rowNum},"${os}","${code}","${item}", ${qty}, $rate, "${unit}", $packing, $base_rate)';
       print(query2);
       res2 = await db.rawInsert(query2);
     } else if (table == "orderMasterTable") {
@@ -952,18 +976,17 @@ class OrderAppDB {
     int state_status,
     int status,
     double? unit_value,
-    String? packing,
     double? base_rate,
-    // double rounding,
+    double? packing,
   ) async {
     final db = await database;
     var res2;
     var res3;
     print(
-        "total quantity............$rounding.......$total_qty.....$total_price.....$net_amt");
+        "total quantity...$cus_type..$packing..$unit.....$rounding.......$total_qty.....$total_price.....$net_amt");
     if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, "$packing", $base_rate)';
+          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, $packing, $base_rate)';
       print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {
@@ -976,31 +999,36 @@ class OrderAppDB {
 
   ////////////////////insert to return table/////////////////////////////////
   Future insertreturnMasterandDetailsTable(
-      String item,
-      int return_id,
-      int? qty,
-      double rate,
-      String? code,
-      String return_date,
-      String return_time,
-      String os,
-      String customerid,
-      String userid,
-      String areaid,
-      int status,
-      String unit,
-      int rowNum,
-      String table,
-      double total_price,
-      String reason,
-      String refNo) async {
+    String item,
+    int return_id,
+    double qty,
+    double rate,
+    String? code,
+    String return_date,
+    String return_time,
+    String os,
+    String customerid,
+    String userid,
+    String areaid,
+    int status,
+    String unit,
+    int rowNum,
+    String table,
+    double total_price,
+    String reason,
+    String refNo,
+    double? unit_value,
+    double? base_rate,
+    double? packing,
+  ) async {
     final db = await database;
     var res2;
     var res3;
-
+    int qty1 = qty.toInt();
+    print("qty............$qty...$qty1");
     if (table == "returnDetailTable") {
       var query2 =
-          'INSERT INTO returnDetailTable(return_id, row_num,os,code, item, qty, rate, unit) VALUES(${return_id},${rowNum},"${os}","${code}","${item}", ${qty}, $rate, "${unit}")';
+          'INSERT INTO returnDetailTable(return_id, row_num,os,code, item, qty, unit, rate, packing, baserate) VALUES(${return_id},${rowNum},"${os}","${code}","${item}", ${qty1}, "${unit}", ${rate},$packing,$base_rate)';
       print(query2);
       res2 = await db.rawInsert(query2);
     } else if (table == "returnMasterTable") {
@@ -1504,12 +1532,18 @@ class OrderAppDB {
   //////////////////////////////////////////////////////
   Future<List<Map<String, dynamic>>> getCustomer(String aid) async {
     print("enteredaid---${aid}");
-    // Provider.of<Controller>(context, listen: false).customerList.clear();
     Database db = await instance.database;
-    var hname = await db.rawQuery(
-        'SELECT  hname,ac_code FROM accountHeadsTable WHERE area_id="${aid}"');
+    var hname;
+    // Provider.of<Controller>(context, listen: false).customerList.clear();
+    if (aid == ' ' || aid.isEmpty) {
+      hname = await db.rawQuery('SELECT  hname,ac_code FROM accountHeadsTable');
+    } else {
+      hname = await db.rawQuery(
+          'SELECT  hname,ac_code FROM accountHeadsTable WHERE area_id="${aid}"');
+    }
+
     print('SELECT  hname,ac_code FROM accountHeadsTable WHERE area_id="${aid}');
-    print("hname===${hname}");
+    print("hname=======${hname}");
     return hname;
   }
 
@@ -1627,6 +1661,7 @@ class OrderAppDB {
     String igst;
     double? roundoff;
     double? brate;
+
     Database db = await instance.database;
     print("calculate sales updated tot in db....$os...$customerId");
     var result = await db.rawQuery(
@@ -1662,11 +1697,12 @@ class OrderAppDB {
       sgst = res[0]["sgst"].toStringAsFixed(2);
       igst = res[0]["igst"].toStringAsFixed(2);
       brate = double.parse(res[0]["brate"].toStringAsFixed(2));
-
+      // pkg = double.parse(res[0]["pkg"].toString());
       tax_tot = double.parse(cgst) + double.parse(sgst) + double.parse(igst);
-      print("tax_tot....$brate..$cgst---$sgst---$igst");
+
+      print("tax_tot...$brate..$cgst---$sgst---$igst");
       print(
-          "gross..netamount..taxval..dis..ces .....$brate....$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
+          "gross..netamount..taxval..dis..ces ....$brate....$tax_tot...$gross...$net_amount....$taxamt..$discount..$cesamt..$disper...$taxper");
     } else {
       net_amount = "0.00";
       count = "0.00";
@@ -1695,7 +1731,7 @@ class OrderAppDB {
       taxper,
       tax_tot,
       roundoff!,
-      brate
+      brate,
     ];
   }
 
@@ -1758,7 +1794,7 @@ class OrderAppDB {
     Database db = await instance.database;
     var res1;
     double rate1 = double.parse(rate);
-    int updatedQty = int.parse(qty);
+    double updatedQty = double.parse(qty);
     double amount = (rate1 * updatedQty);
     print("amoiunt---$cartrowno-$customerId---$rate--$amount");
     print("updatedqty----$updatedQty");
@@ -1876,16 +1912,34 @@ class OrderAppDB {
   selectfromOrderbagTable(String customerId) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
-    result = await db.rawQuery(
-        // "SELECT productDetailsTable.* , orderBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code AND orderBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
-        "SELECT productDetailsTable.* , orderBagTable.cartrowno " +
-            "FROM 'productDetailsTable' " +
-            "LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code " +
-            "AND orderBagTable.customerid='$customerId' " +
-            "ORDER BY cartrowno DESC");
+    var unitquery = "";
 
-    print("leftjoin result----$result");
-    print("length---${result.length}");
+    unitquery = "SELECT p.pid prid,p.code prcode,p.item pritem, p.unit prunit, 1 pkg ,p.companyId prcid,p.hsn prhsn, " +
+        "p.tax prtax,p.prate prrate,p.mrp prmrp,p.cost prcost,p.rate1 prbaserate, p.categoryId  prcategoryId from 'productDetailsTable' p union all " +
+        "SELECT pd.pid,pd.code,pd.item,u.unit_name unit,u.package pkg,pd.companyId,pd.hsn, " +
+        "pd.tax,pd.prate,pd.mrp,pd.cost,pd.rate1 , pd.categoryId  from 'productDetailsTable' pd " +
+        "inner join 'productUnits' u  ON u.pid = pd.pid ";
+
+    unitquery = "select k.*,b.*, (k.prbaserate * k.pkg ) prrate1 from (" +
+        unitquery +
+        " ) k " +
+        "left join 'orderBagTable' b on k.prcode = b.code " +
+        "AND b.customerid='$customerId' and " +
+        "b.unit_name = k.prunit " +
+        "order by b.cartrowno  DESC,k.pritem,k.prcode ;";
+
+    result = await db.rawQuery(unitquery);
+    ////////////////////////////////////////////////////////
+    // result = await db.rawQuery(
+    //     // "SELECT productDetailsTable.* , orderBagTable.cartrowno FROM 'productDetailsTable' LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code AND orderBagTable.customerid='$customerId' ORDER BY cartrowno DESC");
+    //     "SELECT productDetailsTable.* , orderBagTable.cartrowno " +
+    //         "FROM 'productDetailsTable' " +
+    //         "LEFT JOIN 'orderBagTable' ON productDetailsTable.code = orderBagTable.code " +
+    //         "AND orderBagTable.customerid='$customerId' " +
+    //         "ORDER BY cartrowno DESC");
+
+    // print("selectfromorderbagTable result----$result");
+    // print("length sales unitsss---${result.length}");
     return result;
   }
 
@@ -1893,14 +1947,29 @@ class OrderAppDB {
   selectfromreturnbagTable(String customerId) async {
     List<Map<String, dynamic>> result;
     Database db = await instance.database;
-    result = await db.rawQuery(
-        "SELECT productDetailsTable.* , returnBagTable.cartrowno " +
-            "FROM 'productDetailsTable' " +
-            "LEFT JOIN 'returnBagTable' ON productDetailsTable.code = returnBagTable.code " +
-            "AND returnBagTable.customerid='$customerId' " +
-            "ORDER BY cartrowno DESC");
-    print("leftjoin result----$result");
-    print("length---${result.length}");
+    // result = await db.rawQuery(
+    //     "SELECT productDetailsTable.* , returnBagTable.cartrowno " +
+    //         "FROM 'productDetailsTable' " +
+    //         "LEFT JOIN 'returnBagTable' ON productDetailsTable.code = returnBagTable.code " +
+    //         "AND returnBagTable.customerid='$customerId' " +
+    //         "ORDER BY cartrowno DESC");
+    // print("leftjoin result----$result");
+    // print("length---${result.length}");
+    var unitquery = "";
+    unitquery = "SELECT p.pid prid,p.code prcode,p.item pritem, p.unit prunit, 1 pkg ,p.companyId prcid,p.hsn prhsn, " +
+        "p.tax prtax,p.prate prrate,p.mrp prmrp,p.cost prcost,p.rate1 prbaserate, p.categoryId  prcategoryId from 'productDetailsTable' p union all " +
+        "SELECT pd.pid,pd.code,pd.item,u.unit_name unit,u.package pkg,pd.companyId,pd.hsn, " +
+        "pd.tax,pd.prate,pd.mrp,pd.cost,pd.rate1 , pd.categoryId  from 'productDetailsTable' pd " +
+        "inner join 'productUnits' u  ON u.pid = pd.pid ";
+
+    unitquery = "select k.*,b.*, (k.prbaserate * k.pkg ) prrate1 from (" +
+        unitquery +
+        " ) k " +
+        "left join 'returnBagTable' b on k.prcode = b.code " +
+        "AND b.customerid='$customerId' and " +
+        "b.unit_name = k.prunit " +
+        "order by b.cartrowno  DESC,k.pritem,k.prcode ;";
+    result = await db.rawQuery(unitquery);
     return result;
   }
 
@@ -1928,8 +1997,8 @@ class OrderAppDB {
         "left join 'salesBagTable' b on k.prcode = b.code " +
         "AND b.customerid='$customerId' and " +
         "b.unit_name = k.prunit " +
-        " order by k.pritem,k.prcode, pkg ;";
-
+        " order by b.cartrowno  DESC,k.pritem,k.prcode;";
+//  b.cartrowno DESC
     result = await db.rawQuery(unitquery);
 
     // result = await db.rawQuery("SELECT pd.pid,pd.code,pd.item,pd.unit,pd.companyId,pd.hsn, " +
@@ -2394,6 +2463,7 @@ class OrderAppDB {
         "SELECT salesDetailTable.code as code,salesDetailTable.hsn as hsn," +
         " salesDetailTable.item_name as item, salesDetailTable.qty as qty," +
         " salesDetailTable.rate as rate,salesDetailTable.unit as unit," +
+        " salesDetailTable.packing as packing, " +
         " salesDetailTable.unit_rate as unit_rate,salesDetailTable.gross_amount as gross," +
         " salesDetailTable.dis_per as disc_per,salesDetailTable.dis_amt as disc_amt," +
         " salesDetailTable.cgst_per as cgst_per,salesDetailTable.cgst_amt as cgst_amt," +

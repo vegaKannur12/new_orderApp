@@ -192,7 +192,9 @@ class _CartListState extends State<CartList> {
                                 size,
                                 value.controller[index],
                                 index,
-                                value.bagList[index]["code"]);
+                                value.bagList[index]["code"],
+                                value.bagList[index]["unit_name"],
+                                value.bagList[index]["package"]);
                           },
                         ),
                       ),
@@ -228,18 +230,20 @@ class _CartListState extends State<CartList> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       orderpopup.buildPopupDialog(
-                                          "sale order",
-                                          context,
-                                          "Confirm your order?",
-                                          widget.areaId,
-                                          widget.areaname,
-                                          widget.custmerId,
-                                          s[0],
-                                          s[1],
-                                          "",
-                                          "",
-                                          "",
-                                          0.00),
+                                    "sale order",
+                                    context,
+                                    "Confirm your order?",
+                                    widget.areaId,
+                                    widget.areaname,
+                                    widget.custmerId,
+                                    s[0],
+                                    s[1],
+                                    "",
+                                    "",
+                                    "",
+                                    0.00,
+                                    
+                                  ),
                                 );
 
                                 Provider.of<Controller>(context, listen: false)
@@ -284,11 +288,13 @@ class _CartListState extends State<CartList> {
       String itemName,
       String rate,
       String totalamount,
-      int qty,
+      double qty,
       Size size,
       TextEditingController _controller,
       int index,
-      String code) {
+      String code,
+      String unit_name,
+      double pkg) {
     // print("qty-------$qty");
     _controller.text = qty.toString();
 
@@ -677,7 +683,13 @@ class _CartListState extends State<CartList> {
                                     SizedBox(
                                       width: size.width * 0.02,
                                     ),
-                                    Container(child: Text(qty.toString())),
+                                    Container(
+                                      child: Text(
+                                        "${qty.toString()}  (${unit_name.toString()})   (${pkg.toString()})",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),

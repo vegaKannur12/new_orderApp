@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -38,9 +39,11 @@ class _ReturnItemState extends State<ReturnItem> {
   String rate1 = "1";
   TextEditingController searchcontroll = TextEditingController();
   ShowModal showModal = ShowModal();
+  double? newqty = 0.0;
   List<Map<String, dynamic>> products = [];
   SearchTile search = SearchTile();
   DateTime now = DateTime.now();
+  double? temp;
   // CustomSnackbar snackbar = CustomSnackbar();
   List<String> s = [];
   String? date;
@@ -336,11 +339,16 @@ class _ReturnItemState extends State<ReturnItem> {
                                                           context,
                                                           listen: false)
                                                       .returnfilteredeValue!,
-                                                  "return",value.productName)
+                                                  "return",
+                                                  value.productName)
                                           : Provider.of<Controller>(context,
                                                   listen: false)
-                                              .searchProcess(widget.customerId,
-                                                  widget.os, "", "return",value.productName);
+                                              .searchProcess(
+                                                  widget.customerId,
+                                                  widget.os,
+                                                  "",
+                                                  "return",
+                                                  value.productName);
                                     }),
                                 IconButton(
                                     icon: Icon(
@@ -402,7 +410,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                           child: Text("No data Found!!!!"),
                                         )
                                       : ListView.builder(
-                                          itemExtent: 55.0,
+                                          itemExtent: 75,
                                           shrinkWrap: true,
                                           itemCount: value.newList.length,
                                           itemBuilder:
@@ -410,118 +418,246 @@ class _ReturnItemState extends State<ReturnItem> {
                                             return Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 0.4, right: 0.4),
-                                              child: ListTile(
-                                                title: Text(
-                                                  '${value.newList[index]["code"]}' +
-                                                      '-' +
-                                                      '${value.newList[index]["item"]}',
-                                                  style: TextStyle(
-                                                      // color: value.selected[index]
-                                                      //     ? Colors.green
-                                                      //     : Colors.grey[700],
-                                                      color: value
-                                                              .selected[index]
-                                                          ? Colors.red
-                                                          : Colors.grey[700],
-                                                      fontSize: 16),
-                                                ),
-                                                subtitle: Row(
-                                                  children: [
-                                                    Text(
-                                                      '\u{20B9}${value.newList[index]["rate1"]}',
-                                                      style: TextStyle(
-                                                        color: P_Settings
-                                                            .ratecolor,
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                      ),
+                                              child: Card(
+                                                child: Ink(
+                                                  color: value.newList[index][
+                                                                  "cartrowno"] ==
+                                                              null ||
+                                                          value.qty[index]
+                                                                  .text ==
+                                                              null ||
+                                                          value.qty[index].text
+                                                              .isEmpty
+                                                      ? value.selected[index]
+                                                          ? Color.fromARGB(255,
+                                                              226, 225, 225)
+                                                          : Colors.white
+                                                      : Color.fromARGB(
+                                                          255, 226, 225, 225),
+                                                  child: ListTile(
+                                                    title: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          '${value.newList[index]["prcode"]}' +
+                                                              '-' +
+                                                              '${value.newList[index]["pritem"]}',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                              // color: value.selected[index]
+                                                              //     ? Colors.green
+                                                              //     : Colors.grey[700],
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                                child: Text(
+                                                              value.newList[index]
+                                                                          [
+                                                                          "prunit"] ==
+                                                                      null
+                                                                  ? " "
+                                                                  : value
+                                                                      .newList[
+                                                                          index]
+                                                                          [
+                                                                          "prunit"]
+                                                                      .toString(),
+                                                              style: TextStyle(
+                                                                  color: P_Settings
+                                                                      .unitcolor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 15),
+                                                            )),
+                                                            SizedBox(
+                                                              width:
+                                                                  size.width *
+                                                                      0.03,
+                                                            ),
+                                                            Container(
+                                                              child: Text(
+                                                                ' / ${value.newList[index]["pkg"]}',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  size.width *
+                                                                      0.05,
+                                                            ),
+                                                            Container(
+                                                              width:
+                                                                  size.width *
+                                                                      0.06,
+                                                              child: value.qty[index].text ==
+                                                                          "0" ||
+                                                                      value.qty[index].text ==
+                                                                          null
+                                                                  ? Container()
+                                                                  : BlinkText(
+                                                                      '${value.qty[index].text}',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            25,
+                                                                            66,
+                                                                            26),
+                                                                        fontStyle:
+                                                                            FontStyle.italic,
+                                                                      ),
+                                                                      endColor:
+                                                                          Colors
+                                                                              .white,
+                                                                      duration:
+                                                                          Duration(
+                                                                              milliseconds: 2000)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
-                                                trailing: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Container(
-                                                        width:
-                                                            size.width * 0.06,
-                                                        child: TextFormField(
-                                                          controller:
-                                                              value.qty[index],
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number,
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  border:
-                                                                      InputBorder
-                                                                          .none,
-                                                                  hintText:
-                                                                      "1"),
-                                                        )),
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    IconButton(
-                                                      icon: Icon(
-                                                        Icons.add,
-                                                      ),
-                                                      onPressed: () async {
-                                                        Provider.of<Controller>(
-                                                                context,
-                                                                listen: false)
-                                                            .selectSettings("set_code in ('RT_UPLOAD_DIRECT')");
+                                                    // subtitle:
+                                                    trailing: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                            '\u{20B9}${value.newList[index]["prrate"]}',
+                                                            style: TextStyle(
+                                                                color: P_Settings
+                                                                    .ratecolor,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic,
+                                                                fontSize: 17,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        IconButton(
+                                                          icon: Icon(
+                                                            Icons.add,
+                                                          ),
+                                                          onPressed: () async {
+                                                            double qty;
 
-                                                        setState(() {
-                                                          if (value.selected[
-                                                                  index] ==
-                                                              false) {
-                                                            value.selected[
-                                                                    index] =
-                                                                !value.selected[
-                                                                    index];
-                                                            // selected = index;
-                                                          }
+                                                            print(
+                                                                "value.qty--${value..qty[index].text}");
+                                                            if (value
+                                                                    .qty[index]
+                                                                    .text
+                                                                    .isNotEmpty ||
+                                                                value.qty[index]
+                                                                        .text !=
+                                                                    null) {
+                                                              newqty = value
+                                                                      .qty[
+                                                                          index]
+                                                                      .text
+                                                                      .isEmpty
+                                                                  ? 0
+                                                                  : double.parse(value
+                                                                      .qty[
+                                                                          index]
+                                                                      .text);
+                                                              temp =
+                                                                  newqty! + 1;
+                                                              print(
+                                                                  "temp--.........$newqty--${temp}");
+                                                            } else {
+                                                              newqty = 0.0;
+                                                              temp = 0;
+                                                              print(
+                                                                  "temp--.........--${temp}");
+                                                            }
 
-                                                          if (value.qty[index]
-                                                                      .text ==
-                                                                  null ||
-                                                              value
-                                                                  .qty[index]
-                                                                  .text
-                                                                  .isEmpty) {
                                                             value.qty[index]
-                                                                .text = "1";
-                                                          }
-                                                        });
+                                                                    .text =
+                                                                temp.toString();
+                                                            Provider.of<Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .selectSettings(
+                                                                    "set_code in ('RT_UPLOAD_DIRECT')");
 
-                                                        int max = await OrderAppDB
-                                                            .instance
-                                                            .getMaxCommonQuery(
-                                                                'returnBagTable',
-                                                                'cartrowno',
-                                                                "os='${widget.os}' AND customerid='${widget.customerId}'");
+                                                            setState(() {
+                                                              if (value.selected[
+                                                                      index] ==
+                                                                  false) {
+                                                                value.selected[
+                                                                        index] =
+                                                                    !value.selected[
+                                                                        index];
+                                                                // selected = index;
+                                                              }
 
-                                                        print("max----$max");
-                                                        // print("value.qty[index].text---${value.qty[index].text}");
+                                                              if (value
+                                                                          .qty[
+                                                                              index]
+                                                                          .text ==
+                                                                      null ||
+                                                                  value
+                                                                      .qty[
+                                                                          index]
+                                                                      .text
+                                                                      .isEmpty) {
+                                                                value.qty[index]
+                                                                    .text = "1";
+                                                              }
+                                                            });
 
-                                                        rate1 =
-                                                            value.newList[index]
-                                                                ["rate1"];
-                                                        var total =
-                                                            double.parse(rate1) *
+                                                            int max = await OrderAppDB
+                                                                .instance
+                                                                .getMaxCommonQuery(
+                                                                    'returnBagTable',
+                                                                    'cartrowno',
+                                                                    "os='${widget.os}' AND customerid='${widget.customerId}'");
+
+                                                            print(
+                                                                "max----$max");
+                                                            // print("value.qty[index].text---${value.qty[index].text}");
+
+                                                            rate1 =
+                                                                value.newList[
+                                                                        index]
+                                                                    ["prrate"];
+                                                            var total = double
+                                                                    .parse(
+                                                                        rate1) *
                                                                 double.parse(value
                                                                     .qty[index]
                                                                     .text);
-                                                        print(
-                                                            "total rate $total");
+                                                            print(
+                                                                "total rate $total");
 
-                                                        var res = await OrderAppDB
-                                                            .instance
-                                                            .insertreturnBagTable(
+                                                            var res = await OrderAppDB.instance.insertreturnBagTable(
                                                                 value.newList[
                                                                         index]
-                                                                    ["item"],
+                                                                    ["pritem"],
                                                                 s[0],
                                                                 s[1],
                                                                 widget.os,
@@ -530,75 +666,102 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                 max,
                                                                 value.newList[
                                                                         index]
-                                                                    ["code"],
-                                                                int.parse(value
+                                                                    ["prcode"],
+                                                                double.parse(value
                                                                     .qty[index]
                                                                     .text),
                                                                 rate1,
                                                                 total
                                                                     .toString(),
+                                                                0,
+                                                                value.newList[
+                                                                        index]
+                                                                    ["prunit"],
+                                                                value
+                                                                    .newList[index]
+                                                                        ["pkg"]
+                                                                    .toDouble(),
+                                                                double.parse(
+                                                                    rate1),
                                                                 0);
-                                                        snackbar.showSnackbar(
-                                                            context,
-                                                            "${value.newList[index]["code"] + value.newList[index]['item']} - Added to cart",
-                                                            "return");
-                                                        Provider.of<Controller>(
+                                                            snackbar.showSnackbar(
                                                                 context,
-                                                                listen: false)
-                                                            .countFromTable(
-                                                          "returnBagTable",
-                                                          widget.os,
-                                                          widget.customerId,
-                                                        );
-
-                                                        /////////////////////////
-                                                        (widget.customerId
-                                                                        .isNotEmpty ||
-                                                                    widget.customerId !=
-                                                                        null) &&
-                                                                (products[index][
-                                                                            "code"]
-                                                                        .isNotEmpty ||
-                                                                    products[index]
-                                                                            [
-                                                                            "code"] !=
-                                                                        null)
-                                                            ? Provider.of<Controller>(
+                                                                "${value.newList[index]["prcode"] + value.newList[index]['pritem']} - Added to cart",
+                                                                "return");
+                                                            Provider.of<Controller>(
                                                                     context,
                                                                     listen:
                                                                         false)
-                                                                .calculatereturnTotal(
-                                                                    widget.os,
-                                                                    widget
-                                                                        .customerId)
-                                                            : Text("No data");
+                                                                .countFromTable(
+                                                              "returnBagTable",
+                                                              widget.os,
+                                                              widget.customerId,
+                                                            );
 
-                                                        // Provider.of<Controller>(context,
-                                                        //         listen: false)
-                                                        //     .getProductList(
-                                                        //         widget.customerId);
-                                                      },
-                                                      color: Colors.black,
-                                                    ),
-                                                    IconButton(
-                                                        icon: Icon(
-                                                          Icons.delete,
-                                                          size: 18,
-                                                          // color: Colors.redAccent,
+                                                            /////////////////////////
+                                                            (widget.customerId.isNotEmpty ||
+                                                                        widget.customerId !=
+                                                                            null) &&
+                                                                    (products[index]["prcode"]
+                                                                            .isNotEmpty ||
+                                                                        products[index]["prcode"] !=
+                                                                            null)
+                                                                ? Provider.of<
+                                                                            Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .calculatereturnTotal(
+                                                                        widget
+                                                                            .os,
+                                                                        widget
+                                                                            .customerId)
+                                                                : Text(
+                                                                    "No data");
+                                                          },
+                                                          color: Colors.black,
                                                         ),
-                                                        onPressed: value.newList[
-                                                                        index][
-                                                                    "cartrowno"] ==
-                                                                null
-                                                            ? value.selected[
-                                                                    index]
-                                                                ? () async {
+                                                        IconButton(
+                                                            icon: Icon(
+                                                              Icons.delete,
+                                                              size: 18,
+                                                              // color: Colors.redAccent,
+                                                            ),
+                                                            onPressed: value.newList[
+                                                                            index]
+                                                                        [
+                                                                        "cartrowno"] ==
+                                                                    null
+                                                                ? value.selected[
+                                                                        index]
+                                                                    ? () async {
+                                                                        String
+                                                                            item =
+                                                                            value.newList[index]["prcode"] +
+                                                                                value.newList[index]["pritem"];
+
+                                                                        showModal.showMoadlBottomsheet(
+                                                                            widget.os,
+                                                                            widget.customerId,
+                                                                            item,
+                                                                            size,
+                                                                            context,
+                                                                            "newlist just added",
+                                                                            value.newList[index]["prcode"],
+                                                                            index,
+                                                                            "no filter",
+                                                                            "",
+                                                                            value.qty[index],
+                                                                            "return");
+                                                                      }
+                                                                    : null
+                                                                : () async {
                                                                     String item = value.newList[index]
                                                                             [
-                                                                            "code"] +
+                                                                            "prcode"] +
                                                                         value.newList[index]
                                                                             [
-                                                                            "item"];
+                                                                            "pritem"];
 
                                                                     showModal.showMoadlBottomsheet(
                                                                         widget
@@ -608,48 +771,20 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                         item,
                                                                         size,
                                                                         context,
-                                                                        "newlist just added",
+                                                                        "newlist already in cart",
                                                                         value.newList[index]
                                                                             [
-                                                                            "code"],
+                                                                            "prcode"],
                                                                         index,
                                                                         "no filter",
                                                                         "",
                                                                         value.qty[
                                                                             index],
                                                                         "return");
-                                                                  }
-                                                                : null
-                                                            : () async {
-                                                                String item = value
-                                                                            .newList[index]
-                                                                        [
-                                                                        "code"] +
-                                                                    value.newList[
-                                                                            index]
-                                                                        [
-                                                                        "item"];
-
-                                                                showModal.showMoadlBottomsheet(
-                                                                    widget.os,
-                                                                    widget
-                                                                        .customerId,
-                                                                    item,
-                                                                    size,
-                                                                    context,
-                                                                    "newlist already in cart",
-                                                                    value.newList[
-                                                                            index]
-                                                                        [
-                                                                        "code"],
-                                                                    index,
-                                                                    "no filter",
-                                                                    "",
-                                                                    value.qty[
-                                                                        index],
-                                                                    "return");
-                                                              })
-                                                  ],
+                                                                  })
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             );
@@ -667,7 +802,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                   : value.isLoading
                                       ? CircularProgressIndicator()
                                       : ListView.builder(
-                                          itemExtent: 55.0,
+                                          itemExtent: 73,
                                           shrinkWrap: true,
                                           itemCount: value.productName.length,
                                           itemBuilder:
@@ -675,122 +810,247 @@ class _ReturnItemState extends State<ReturnItem> {
                                             return Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 0.4, right: 0.4),
-                                              child: ListTile(
-                                                dense: true,
-                                                title: Text(
-                                                  '${value.productName[index]["code"]}' +
-                                                      '-' +
-                                                      '${value.productName[index]["item"]}',
-                                                  style: TextStyle(
-                                                      color: value.productName[
+                                              child: Card(
+                                                child: Ink(
+                                                  color: value.productName[
                                                                       index][
                                                                   "cartrowno"] ==
-                                                              null
-                                                          ? value.selected[
-                                                                  index]
-                                                              ? Colors.red
-                                                              : Colors.grey[700]
-                                                          : Colors.red,
-                                                      fontSize: 16),
-                                                ),
-                                                subtitle: Row(
-                                                  children: [
-                                                    Text(
-                                                      '\u{20B9}${value.productName[index]["rate1"]}',
-                                                      style: TextStyle(
-                                                        color: P_Settings
-                                                            .ratecolor,
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                      ),
+                                                              null ||
+                                                          value.qty[index]
+                                                                  .text ==
+                                                              null ||
+                                                          value.qty[index].text
+                                                              .isEmpty
+                                                      ? value.selected[index]
+                                                          ? Color.fromARGB(255,
+                                                              226, 225, 225)
+                                                          : Colors.white
+                                                      : Color.fromARGB(
+                                                          255, 226, 225, 225),
+                                                  child: ListTile(
+                                                    dense: true,
+                                                    title: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          '${value.productName[index]["prcode"]}' +
+                                                              '-' +
+                                                              '${value.productName[index]["pritem"]}',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                                child: Text(
+                                                              value.productName[
+                                                                              index]
+                                                                          [
+                                                                          "prunit"] ==
+                                                                      null
+                                                                  ? " "
+                                                                  : value
+                                                                      .productName[
+                                                                          index]
+                                                                          [
+                                                                          "prunit"]
+                                                                      .toString(),
+                                                              style: TextStyle(
+                                                                  color: P_Settings
+                                                                      .unitcolor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 15),
+                                                            )),
+                                                            SizedBox(
+                                                              width:
+                                                                  size.width *
+                                                                      0.03,
+                                                            ),
+                                                            Container(
+                                                              child: Text(
+                                                                ' / ${value.productName[index]["pkg"]}',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  size.width *
+                                                                      0.05,
+                                                            ),
+                                                            Container(
+                                                              width:
+                                                                  size.width *
+                                                                      0.06,
+                                                              child: value.qty[index].text ==
+                                                                          "0" ||
+                                                                      value.qty[index].text ==
+                                                                          null
+                                                                  ? Container()
+                                                                  : BlinkText(
+                                                                      '${value.qty[index].text}',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            25,
+                                                                            66,
+                                                                            26),
+                                                                        fontStyle:
+                                                                            FontStyle.italic,
+                                                                      ),
+                                                                      endColor:
+                                                                          Colors
+                                                                              .white,
+                                                                      duration:
+                                                                          Duration(
+                                                                              milliseconds: 2000)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
-                                                trailing: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Container(
-                                                        width:
-                                                            size.width * 0.06,
-                                                        child: TextFormField(
-                                                          controller:
-                                                              value.qty[index],
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number,
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  border:
-                                                                      InputBorder
-                                                                          .none,
-                                                                  hintText:
-                                                                      "1"),
-                                                        )),
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    IconButton(
-                                                      icon: Icon(
-                                                        Icons.add,
-                                                      ),
-                                                      onPressed: () async {
-                                                        Provider.of<Controller>(
-                                                                context,
-                                                                listen: false)
-                                                            .selectSettings("set_code in ('RT_UPLOAD_DIRECT')");
-                                                        print("clicked--");
+                                                    // subtitle:
+                                                    trailing: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                          '\u{20B9}${value.productName[index]["prrate"]}',
+                                                          style: TextStyle(
+                                                              color: P_Settings
+                                                                  .ratecolor,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic,
+                                                              fontSize: 17,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        IconButton(
+                                                          icon: Icon(
+                                                            Icons.add,
+                                                          ),
+                                                          onPressed: () async {
+                                                            double qty;
 
-                                                        setState(() {
-                                                          if (value.selected[
-                                                                  index] ==
-                                                              false) {
-                                                            value.selected[
-                                                                    index] =
-                                                                !value.selected[
-                                                                    index];
-                                                            // selected = index;
-                                                          }
-                                                          print(
-                                                              "sdjszn-----${value.selected[index]}");
-                                                          if (value.qty[index]
-                                                                      .text ==
-                                                                  null ||
-                                                              value
-                                                                  .qty[index]
-                                                                  .text
-                                                                  .isEmpty) {
+                                                            print(
+                                                                "value.qty--${value..qty[index].text}");
+                                                            if (value
+                                                                    .qty[index]
+                                                                    .text
+                                                                    .isNotEmpty ||
+                                                                value.qty[index]
+                                                                        .text !=
+                                                                    null) {
+                                                              newqty = value
+                                                                      .qty[
+                                                                          index]
+                                                                      .text
+                                                                      .isEmpty
+                                                                  ? 0
+                                                                  : double.parse(value
+                                                                      .qty[
+                                                                          index]
+                                                                      .text);
+                                                              temp =
+                                                                  newqty! + 1;
+                                                              print(
+                                                                  "temp--.........$newqty--${temp}");
+                                                            } else {
+                                                              newqty = 0.0;
+                                                              temp = 0;
+                                                              print(
+                                                                  "temp--.........--${temp}");
+                                                            }
+
                                                             value.qty[index]
-                                                                .text = "1";
-                                                          }
-                                                        });
+                                                                    .text =
+                                                                temp.toString();
+                                                            Provider.of<Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .selectSettings(
+                                                                    "set_code in ('RT_UPLOAD_DIRECT')");
+                                                            print("clicked--");
 
-                                                        int max = await OrderAppDB
-                                                            .instance
-                                                            .getMaxCommonQuery(
-                                                                'returnBagTable',
-                                                                'cartrowno',
-                                                                "os='${widget.os}' AND customerid='${widget.customerId}'");
+                                                            setState(() {
+                                                              if (value.selected[
+                                                                      index] ==
+                                                                  false) {
+                                                                value.selected[
+                                                                        index] =
+                                                                    !value.selected[
+                                                                        index];
+                                                                // selected = index;
+                                                              }
+                                                              print(
+                                                                  "sdjszn-----${value.selected[index]}");
+                                                              if (value
+                                                                          .qty[
+                                                                              index]
+                                                                          .text ==
+                                                                      null ||
+                                                                  value
+                                                                      .qty[
+                                                                          index]
+                                                                      .text
+                                                                      .isEmpty) {
+                                                                value.qty[index]
+                                                                    .text = "1";
+                                                              }
+                                                            });
 
-                                                        print("max----$max");
-                                                        // print("value.qty[index].text---${value.qty[index].text}");
+                                                            int max = await OrderAppDB
+                                                                .instance
+                                                                .getMaxCommonQuery(
+                                                                    'returnBagTable',
+                                                                    'cartrowno',
+                                                                    "os='${widget.os}' AND customerid='${widget.customerId}'");
 
-                                                        rate1 =
-                                                            value.productName[
-                                                                index]["rate1"];
-                                                        var total =
-                                                            double.parse(rate1) *
+                                                            print(
+                                                                "max----$max");
+                                                            // print("value.qty[index].text---${value.qty[index].text}");
+
+                                                            rate1 = value
+                                                                    .productName[
+                                                                index]["prrate"];
+                                                            var total = double
+                                                                    .parse(
+                                                                        rate1) *
                                                                 double.parse(value
                                                                     .qty[index]
                                                                     .text);
-                                                        print(
-                                                            "total rate $total");
+                                                            print(
+                                                                "total rate $total");
 
-                                                        var res = await OrderAppDB
-                                                            .instance
-                                                            .insertreturnBagTable(
+                                                            var res = await OrderAppDB.instance.insertreturnBagTable(
                                                                 products[index]
-                                                                    ["item"],
+                                                                    ["pritem"],
                                                                 s[0],
                                                                 s[1],
                                                                 widget.os,
@@ -798,71 +1058,103 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                     .customerId,
                                                                 max,
                                                                 products[index]
-                                                                    ["code"],
-                                                                int.parse(value
+                                                                    ["prcode"],
+                                                                double.parse(value
                                                                     .qty[index]
                                                                     .text),
                                                                 rate1,
                                                                 total
                                                                     .toString(),
+                                                                0,
+                                                                value.productName[
+                                                                        index]
+                                                                    ["prunit"],
+                                                                value
+                                                                    .productName[
+                                                                        index]
+                                                                        ["pkg"]
+                                                                    .toDouble(),
+                                                                double.parse(
+                                                                    rate1),
                                                                 0);
 
-                                                        snackbar.showSnackbar(
-                                                            context,
-                                                            "${products[index]["code"] + products[index]['item']} - Added to cart",
-                                                            "return");
-                                                        Provider.of<Controller>(
+                                                            snackbar.showSnackbar(
                                                                 context,
-                                                                listen: false)
-                                                            .countFromTable(
-                                                          "returnBagTable",
-                                                          widget.os,
-                                                          widget.customerId,
-                                                        );
-
-                                                        /////////////////////////
-                                                        (widget.customerId
-                                                                        .isNotEmpty ||
-                                                                    widget.customerId !=
-                                                                        null) &&
-                                                                (products[index][
-                                                                            "code"]
-                                                                        .isNotEmpty ||
-                                                                    products[index]
-                                                                            [
-                                                                            "code"] !=
-                                                                        null)
-                                                            ? Provider.of<Controller>(
+                                                                "${products[index]["prcode"] + products[index]['pritem']} - Added to cart",
+                                                                "return");
+                                                            Provider.of<Controller>(
                                                                     context,
                                                                     listen:
                                                                         false)
-                                                                .calculatereturnTotal(
-                                                                    widget.os,
-                                                                    widget
-                                                                        .customerId)
-                                                            : Text("No data");
-                                                      },
-                                                      color: Colors.black,
-                                                    ),
-                                                    IconButton(
-                                                        icon: const Icon(
-                                                          Icons.delete,
-                                                          size: 18,
-                                                          // color: Colors.redAccent,
+                                                                .countFromTable(
+                                                              "returnBagTable",
+                                                              widget.os,
+                                                              widget.customerId,
+                                                            );
+
+                                                            /////////////////////////
+                                                            (widget.customerId.isNotEmpty ||
+                                                                        widget.customerId !=
+                                                                            null) &&
+                                                                    (products[index]["prcode"]
+                                                                            .isNotEmpty ||
+                                                                        products[index]["prcode"] !=
+                                                                            null)
+                                                                ? Provider.of<
+                                                                            Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .calculatereturnTotal(
+                                                                        widget
+                                                                            .os,
+                                                                        widget
+                                                                            .customerId)
+                                                                : Text(
+                                                                    "No data");
+                                                          },
+                                                          color: Colors.black,
                                                         ),
-                                                        onPressed: value.productName[
-                                                                        index][
-                                                                    "cartrowno"] ==
-                                                                null
-                                                            ? value.selected[
-                                                                    index]
-                                                                ? () async {
+                                                        IconButton(
+                                                            icon: const Icon(
+                                                              Icons.delete,
+                                                              size: 18,
+                                                              // color: Colors.redAccent,
+                                                            ),
+                                                            onPressed: value.productName[
+                                                                            index]
+                                                                        [
+                                                                        "cartrowno"] ==
+                                                                    null
+                                                                ? value.selected[
+                                                                        index]
+                                                                    ? () async {
+                                                                        String
+                                                                            item =
+                                                                            products[index]["prcode"] +
+                                                                                products[index]["pritem"];
+                                                                        showModal.showMoadlBottomsheet(
+                                                                            widget.os,
+                                                                            widget.customerId,
+                                                                            item,
+                                                                            size,
+                                                                            context,
+                                                                            "just added",
+                                                                            products[index]["prcode"],
+                                                                            index,
+                                                                            "no filter",
+                                                                            "",
+                                                                            value.qty[index],
+                                                                            "return");
+                                                                      }
+                                                                    : null
+                                                                : () async {
                                                                     String item = products[index]
                                                                             [
-                                                                            "code"] +
+                                                                            "prcode"] +
                                                                         products[index]
                                                                             [
-                                                                            "item"];
+                                                                            "pritem"];
                                                                     showModal.showMoadlBottomsheet(
                                                                         widget
                                                                             .os,
@@ -871,47 +1163,20 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                         item,
                                                                         size,
                                                                         context,
-                                                                        "just added",
+                                                                        "already in cart",
                                                                         products[index]
                                                                             [
-                                                                            "code"],
+                                                                            "prcode"],
                                                                         index,
                                                                         "no filter",
                                                                         "",
                                                                         value.qty[
                                                                             index],
                                                                         "return");
-                                                                  }
-                                                                : null
-                                                            : () async {
-                                                                String item = products[
-                                                                            index]
-                                                                        [
-                                                                        "code"] +
-                                                                    products[
-                                                                            index]
-                                                                        [
-                                                                        "item"];
-                                                                showModal.showMoadlBottomsheet(
-                                                                    widget.os,
-                                                                    widget
-                                                                        .customerId,
-                                                                    item,
-                                                                    size,
-                                                                    context,
-                                                                    "already in cart",
-                                                                    products[
-                                                                            index]
-                                                                        [
-                                                                        "code"],
-                                                                    index,
-                                                                    "no filter",
-                                                                    "",
-                                                                    value.qty[
-                                                                        index],
-                                                                    "return");
-                                                              })
-                                                  ],
+                                                                  })
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             );

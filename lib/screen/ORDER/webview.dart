@@ -1,24 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:orderapp/components/network_connectivity.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewTest extends StatefulWidget {
-  const WebViewTest({Key? key}) : super(key: key);
+  String? company_code;
+  String? fp;
+  String? cid;
+  String? os;
+  String? userType;
+  String? staff_id;
+  WebViewTest(
+      {required this.company_code,
+      required this.fp,
+      required this.cid,
+      required this.os,
+      required this.userType,
+      required this.staff_id});
 
   @override
   State<WebViewTest> createState() => _WebViewTestState();
 }
 
 class _WebViewTestState extends State<WebViewTest> {
-  String url = "http://trafiqerp.in/order/php/";
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  getCompaniId() async {
+    // String urllink =
+    //     "http://trafiqerp.in/order/php/index.php?fp=fp&company_code=company_code&company_id=cid&c_type=userType&order_series=os&staff_id=staff_id";
+    //       "http://trafiqerp.in/order/php/index.php?fp=$fp&company_code=$company_code&company_id=$cid&c_type=$userType&order_series=$os&staff_id=$sid1";
+    // print(
+    //     "webview   company code.finger..........$staff_id.....$company_code.......$fp........$os..$cid......$userType");
+    print(
+        "http://trafiqerp.in/order/php/index.php?fp=${widget.fp}&company_code=${widget.company_code}&company_id=${widget.cid}&c_type=${widget.userType}&order_series=${widget.os}&staff_id=${widget.staff_id}");
   }
 
   @override
   Widget build(BuildContext context) {
+    print("dfydhdhdd");
+    getCompaniId();
     return Scaffold(
       // appBar: ,
       body: WebView(
@@ -29,7 +47,11 @@ class _WebViewTestState extends State<WebViewTest> {
         //   return NavigationDecision.navigate;
         // },
         javascriptMode: JavascriptMode.unrestricted,
-        initialUrl: "http://trafiqerp.in/order/php/",
+        initialUrl:
+            "http://trafiqerp.in/order/php/index.php?fp=${widget.fp}&company_code=${widget.company_code}&company_id=${widget.cid}&c_type=${widget.userType}&order_series=${widget.os}&staff_id=${widget.staff_id}",
+        // "http://trafiqerp.in/order/php/index.php?fp=fp&company_code=company_code&company_id=cid&c_type=userType&order_series=os&staff_id=staff_id",
+        // initialUrl:
+        //     "http://trafiqerp.in/order/php/index.php?fp=$fp&company_code=2Z1KOED1AXVO&company_id=CO1002&c_type=staff&order_series=DV&staff_id=VGMHD1",
       ),
     );
   }

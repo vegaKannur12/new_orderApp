@@ -14,18 +14,20 @@ class CommonPopup {
   String? gen_condition;
   String? sid;
   Widget buildPopupDialog(
-      String type,
-      BuildContext context,
-      String content,
-      String areaid,
-      String areaname,
-      String custmerId,
-      String date,
-      String time,
-      String ref,
-      String reason,
-      String payment_mode,
-      double baserate) {
+    String type,
+    BuildContext context,
+    String content,
+    String areaid,
+    String areaname,
+    String custmerId,
+    String date,
+    String time,
+    String ref,
+    String reason,
+    String payment_mode,
+    double baserate,
+
+  ) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -69,21 +71,22 @@ class CommonPopup {
                       sales_id =
                           await Provider.of<Controller>(context, listen: false)
                               .insertToSalesbagAndMaster(
-                                  sOs,
-                                  date,
-                                  time,
-                                  custmerId,
-                                  sid1!,
-                                  areaid,
-                                  value.salesTotal,
-                                  value.gross_tot,
-                                  value.tax_tot,
-                                  value.dis_tot,
-                                  value.cess_tot,
-                                  context,
-                                  payment_mode,
-                                  value.roundoff,
-                                  baserate);
+                        sOs,
+                        date,
+                        time,
+                        custmerId,
+                        sid1!,
+                        areaid,
+                        value.salesTotal,
+                        value.gross_tot,
+                        value.tax_tot,
+                        value.dis_tot,
+                        value.cess_tot,
+                        context,
+                        payment_mode,
+                        value.roundoff,
+                        baserate,
+                      );
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
@@ -115,7 +118,9 @@ class CommonPopup {
                               sid1!,
                               areaid,
                               double.parse(value.orderTotal1!),
-                              context);
+                              context,
+                              baserate,
+                              );
                     }
 
                     // if (Provider.of<Controller>(context, listen: false)
@@ -145,7 +150,9 @@ class CommonPopup {
                               value.returnTotal,
                               ref,
                               reason,
-                              context);
+                              context,
+                              baserate,
+                              );
                       Provider.of<Controller>(context, listen: false)
                           .returnCount = 0;
 

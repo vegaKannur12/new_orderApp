@@ -165,14 +165,13 @@ class _MainDashboardState extends State<MainDashboard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                "Todays Count",
-                                style: GoogleFonts.alike(
-                                    textStyle:
-                                        Theme.of(context).textTheme.headline1,
-                                    fontSize: 20,
-                                    color: Colors.grey[700]),
-                              ),
+                              Text("Todays Count",
+                                  style: GoogleFonts.oswald(
+                                      textStyle:
+                                          Theme.of(context).textTheme.headline1,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey[700])),
                               Text(" -  ${s[0]}",
                                   style: GoogleFonts.oswald(
                                       textStyle:
@@ -242,6 +241,7 @@ class _MainDashboardState extends State<MainDashboard> {
                                               .textTheme
                                               .headline1,
                                           fontSize: 20,
+                                          fontWeight: FontWeight.bold,
                                           color: Colors.grey[700])),
                                   Text("-  ${s[0]}",
                                       style: GoogleFonts.oswald(

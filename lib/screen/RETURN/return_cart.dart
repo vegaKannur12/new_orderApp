@@ -337,17 +337,19 @@ class _ReturnCartState extends State<ReturnCart> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       returnPop.buildPopupDialog(
-                                          "return",
-                                          context,
-                                          "Confirm your order?",
-                                          widget.areaId,
-                                          widget.areaname,
-                                          widget.custmerId,
-                                          s[0],
-                                          s[1],
-                                          refController.text,
-                                          reasonController.text,
-                                          "",0.0),
+                                    "return",
+                                    context,
+                                    "Confirm your order?",
+                                    widget.areaId,
+                                    widget.areaname,
+                                    widget.custmerId,
+                                    s[0],
+                                    s[1],
+                                    refController.text,
+                                    reasonController.text,
+                                    "",
+                                    0.0,
+                                  ),
                                 );
 
                                 final prefs =
@@ -397,7 +399,7 @@ class _ReturnCartState extends State<ReturnCart> {
       String itemName,
       String rate,
       String totalamount,
-      int qty,
+      double qty,
       Size size,
       TextEditingController _controller,
       int index,
@@ -417,7 +419,7 @@ class _ReturnCartState extends State<ReturnCart> {
           ),
           child: ListTile(
             onTap: () {
-              Provider.of<Controller>(context, listen: false).setreturnQty(qty);
+              Provider.of<Controller>(context, listen: false).setreturnQty(qty.toInt());
               Provider.of<Controller>(context, listen: false)
                   .setreturnAmt(totalamount);
               showModalBottomSheet<void>(
