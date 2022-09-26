@@ -745,7 +745,7 @@ class OrderAppDB {
     int cstatus,
   ) async {
     print("qty--$qty");
-    print("unit_name...........$unit_name");
+    print("unit_name........$customerid...$unit_name");
     final db = await database;
     var res;
     var query3;

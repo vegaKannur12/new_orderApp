@@ -9,7 +9,6 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/ORDER/6.1_remarks.dart';
 import 'package:orderapp/screen/ORDER/6_collection.dart';
-import 'package:orderapp/screen/ORDER/7_itemSelection.dart';
 import 'package:orderapp/screen/ORDER/itemselection_copy.dart';
 import 'package:orderapp/screen/RETURN/returnItemList.dart';
 import 'package:orderapp/screen/SALES/sale_itemlist.dart';
@@ -470,6 +469,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                               return Container(
                                                 height: size.height * 0.08,
                                                 child: TextFormField(
+                                                  readOnly: true,
                                                   maxLines: 1,
                                                   decoration: InputDecoration(
                                                     border: OutlineInputBorder(
@@ -618,13 +618,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                       ),
                                                     ), // th
                                                     suffixIcon: IconButton(
-                                                      onPressed:(){
+                                                      onPressed: () {
                                                         setState(() {
                                                           customertext.clear();
                                                           fieldText.clear();
                                                         });
                                                       },
-                                                          
                                                       icon: Icon(
                                                         Icons.clear,
                                                       ),
@@ -640,9 +639,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                   controller:
                                                       customertext.text != null
                                                           ? customertext
-                                                          :
-                                                          
-                                                           fieldText,
+                                                          : fieldText,
                                                   scrollPadding:
                                                       EdgeInsets.only(
                                                           bottom: topInsets +
@@ -1421,7 +1418,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                   context,
                                                                   listen: false)
                                                               .countFromTable(
-                                                            "salesBagTable",
+                                                            "returnBagTable",
                                                             os,
                                                             custmerId
                                                                 .toString(),

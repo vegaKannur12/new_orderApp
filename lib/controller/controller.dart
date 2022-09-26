@@ -38,7 +38,7 @@ class Controller extends ChangeNotifier {
   double disc_amt = 0.0;
   double net_amt = 0.0;
   double taxable_rate = 0.0;
- bool boolCustomerSet=false;
+  bool boolCustomerSet = false;
   double salesTotal = 0.0;
   String? packName;
   double tax = 0.0;
@@ -278,7 +278,7 @@ class Controller extends ChangeNotifier {
           print("map register ${map}");
           // print("response ${response}");
           RegistrationData regModel = RegistrationData.fromJson(map);
-          
+
           userType = regModel.type;
           print("usertype----$userType");
           sof = regModel.sof;
@@ -1658,7 +1658,8 @@ class Controller extends ChangeNotifier {
       for (var item in areaList) {
         areDetails.add(item);
       }
-      print("areaList adding ----${areDetails.length}");
+
+      print("areaList adding ----${areDetails}");
       notifyListeners();
     } catch (e) {
       print(e);
@@ -1693,7 +1694,7 @@ class Controller extends ChangeNotifier {
   setCustomerName(String? cusName) {
     customer_Name = cusName;
     print("customer name.controller...$cusName..$customer_Name");
-    boolCustomerSet=true;
+    boolCustomerSet = true;
     notifyListeners();
   }
 
@@ -1733,7 +1734,7 @@ class Controller extends ChangeNotifier {
 
       isLoading = false;
       notifyListeners();
-      print("product name----${productName}");
+      print("product name bag----${productName}");
       notifyListeners();
     } catch (e) {
       print(e);

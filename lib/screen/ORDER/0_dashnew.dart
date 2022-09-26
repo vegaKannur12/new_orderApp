@@ -644,6 +644,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                 .deleteFromTableCommonQuery("returnMasterTable", "");
                                 await OrderAppDB.instance
                                 .deleteFromTableCommonQuery("returnDetailTable", "");
+                                          await OrderAppDB.instance
+                                .deleteFromTableCommonQuery("returnBagTable", "");
                             // await OrderAppDB.instance
                             //     .deleteFromTableCommonQuery("orderDetailTable", "");
                             // await OrderAppDB.instance.deleteFromTableCommonQuery(
