@@ -38,6 +38,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
   bool isLoading = false;
   bool balVisible = false;
   String? areaName;
+  String? cstmId;
+
   String? customerName;
   String? _selectedItemarea;
   bool customerValidation = false;
@@ -487,6 +489,9 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     // helperText: ' ',
                                                     prefixIcon: IconButton(
                                                       onPressed: () {
+                                                        print(
+                                                            "values.custmerDetails-----------${values.custmerDetails}");
+
                                                         showModalBottomSheet<
                                                             void>(
                                                           // isScrollControlled:
@@ -575,8 +580,9 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                                     onTap: () {
                                                                                       setState(() {
                                                                                         customertext.text = values.custmerDetails[index]['hname'];
+                                                                                        custmerId = values.custmerDetails[index]['ac_code'];
                                                                                       });
-                                                                                      Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
+                                                                                      // Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
                                                                                       // Navigator.of(context).push(
                                                                                       //   PageRouteBuilder(
                                                                                       //     opaque: false, // set to false
@@ -618,13 +624,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                       ),
                                                     ), // th
                                                     suffixIcon: IconButton(
-                                                      onPressed:(){
+                                                      onPressed: () {
                                                         setState(() {
                                                           customertext.clear();
                                                           fieldText.clear();
                                                         });
                                                       },
-                                                          
                                                       icon: Icon(
                                                         Icons.clear,
                                                       ),
@@ -640,9 +645,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                   controller:
                                                       customertext.text != null
                                                           ? customertext
-                                                          :
-                                                          
-                                                           fieldText,
+                                                          : fieldText,
                                                   scrollPadding:
                                                       EdgeInsets.only(
                                                           bottom: topInsets +
