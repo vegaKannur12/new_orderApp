@@ -622,8 +622,8 @@ class _ItemSelectionState extends State<ItemSelection> {
                                                                 (widget.customerId.isNotEmpty ||
                                                                             widget.customerId !=
                                                                                 null) &&
-                                                                        (products[index]["prcode"].isNotEmpty ||
-                                                                            products[index]["prcode"] !=
+                                                                        (value.newList[index]["prcode"].isNotEmpty ||
+                                                                            value.newList[index]["prcode"] !=
                                                                                 null)
                                                                     ? Provider.of<Controller>(
                                                                             context,

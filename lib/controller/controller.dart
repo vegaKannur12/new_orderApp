@@ -3251,10 +3251,15 @@ class Controller extends ChangeNotifier {
   ///////////////////////////////////////////////////////////////////////////////
   searchProcess(String customerId, String os, String comid, String type,
       List<Map<String, dynamic>> list) async {
-    print("searchkey--comid--$searchkey---$comid----$os");
+    print("searchkey--comid-$type-$searchkey---$comid----$os");
     List<Map<String, dynamic>> result = [];
-    List<Map<String, dynamic>> list =
-        await OrderAppDB.instance.selectfromsalebagTable(customerId);
+    List<Map<String, dynamic>> list = type == 'sales'
+        ? await OrderAppDB.instance.selectfromsalebagTable(customerId)
+        : type == 'sale order'
+            ? await OrderAppDB.instance.selectfromOrderbagTable(customerId)
+            : await OrderAppDB.instance.selectfromreturnbagTable(customerId);
+    // List<Map<String, dynamic>> orderlist =
+    //     await OrderAppDB.instance.selectfromOrderbagTable(customerId);
     newList.clear();
     print("jhkzsfz----$list");
     if (searchkey!.isEmpty) {
@@ -3349,7 +3354,7 @@ class Controller extends ChangeNotifier {
               print("bagList[item]----${returnbagList[i]}");
 
               if (returnbagList[i]["code"] == newList[item]["code"]) {
-                print("ifff");
+                print("codes are equal......");
                 selected[item] = true;
                 break;
               } else {

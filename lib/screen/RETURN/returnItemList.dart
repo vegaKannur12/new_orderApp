@@ -338,7 +338,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                   Provider.of<Controller>(
                                                           context,
                                                           listen: false)
-                                                      .returnfilteredeValue!,
+                                                      .salefilteredeValue!,
                                                   "return",
                                                   value.productName)
                                           : Provider.of<Controller>(context,
@@ -420,8 +420,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                   left: 0.4, right: 0.4),
                                               child: Card(
                                                 child: Ink(
-                                                  color: value.newList[
-                                                                      index][
+                                                  color: value.newList[index][
                                                                   "cartrowno"] ==
                                                               null ||
                                                           value.qty[index]
@@ -460,8 +459,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                           children: [
                                                             Container(
                                                                 child: Text(
-                                                              value.newList[
-                                                                              index]
+                                                              value.newList[index]
                                                                           [
                                                                           "prunit"] ==
                                                                       null
@@ -644,9 +642,10 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                 "max----$max");
                                                             // print("value.qty[index].text---${value.qty[index].text}");
 
-                                                            rate1 = value
-                                                                    .newList[
-                                                                index]["prrate"];
+                                                            rate1 =
+                                                                value.newList[
+                                                                        index]
+                                                                    ["prrate"];
                                                             var total = double
                                                                     .parse(
                                                                         rate1) *
@@ -677,8 +676,7 @@ class _ReturnItemState extends State<ReturnItem> {
                                                                 value.newList[
                                                                         index]
                                                                     ["prunit"],
-                                                                value
-                                                                    .newList[
+                                                                value.newList[
                                                                         index]
                                                                         ["pkg"]
                                                                     .toDouble(),
@@ -701,6 +699,8 @@ class _ReturnItemState extends State<ReturnItem> {
                                                             );
 
                                                             /////////////////////////
+                                                            print(
+                                                                "customer idddddddd.......${products[index]["prcode"]}");
                                                             (widget.customerId.isNotEmpty ||
                                                                         widget.customerId !=
                                                                             null) &&

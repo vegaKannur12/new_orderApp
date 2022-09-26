@@ -251,6 +251,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 option["aname"],
                                         onSelected: (value) {
                                           setState(() {
+                                            
                                             _selectedItemarea = value["aname"];
                                             areaName = value["aname"];
                                             print("areaName...$areaName");
@@ -277,6 +278,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .areaId = _selectedAreaId;
+                                                 customertext.text='';
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getCustomer(_selectedAreaId!);
@@ -302,6 +304,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     width: 3,
                                                   ),
                                                 ),
+
                                                 hintText: 'Area / Route',
                                                 helperText: ' ', // th
                                                 suffixIcon: IconButton(
@@ -494,12 +497,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
 
                                                         showModalBottomSheet<
                                                             void>(
-                                                          // isScrollControlled:
-                                                          //     true,
-                                                          // constraints:
-                                                          //     BoxConstraints(
-                                                          //   maxWidth: 200,
-                                                          // ),
                                                           context: context,
                                                           builder: (BuildContext
                                                               context) {
@@ -514,7 +511,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                           .height *
                                                                       0.5
                                                                   : size.height *
-                                                                      0.1,
+                                                                      0.2,
                                                               color:
                                                                   Colors.white,
                                                               child: Center(
@@ -527,25 +524,27 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                           .min,
                                                                   children: <
                                                                       Widget>[
-                                                                    Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .end,
-                                                                      children: [
-                                                                        IconButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              Navigator.pop(context);
-                                                                            },
-                                                                            icon:
-                                                                                Icon(Icons.close))
-                                                                      ],
-                                                                    ),
                                                                     values.custmerDetails.length !=
                                                                             0
-                                                                        ? Padding(
+                                                                        ? Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.end,
+                                                                            children: [
+                                                                              IconButton(
+                                                                                  onPressed: () {
+                                                                                    Navigator.pop(context);
+                                                                                  },
+                                                                                  icon: Icon(Icons.close))
+                                                                            ],
+                                                                          )
+                                                                        : Container(),
+                                                                    values.custmerDetails.length !=
+                                                                                0 &&
+                                                                            values
+                                                                                .custmerDetails.isNotEmpty
+                                                                        ? const Padding(
                                                                             padding:
-                                                                                const EdgeInsets.only(top: 8.0),
+                                                                                EdgeInsets.only(top: 8.0),
                                                                             child:
                                                                                 Text(
                                                                               'Customers',
@@ -554,63 +553,65 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                           )
                                                                         : Text(
                                                                             ''),
-                                                                    Divider(
-                                                                      indent:
-                                                                          50,
-                                                                      endIndent:
-                                                                          50,
-                                                                      thickness:
-                                                                          1,
-                                                                    ),
-                                                                    Expanded(
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: const EdgeInsets.only(
-                                                                            left:
-                                                                                10,
-                                                                            top:
-                                                                                20),
-                                                                        child: values.custmerDetails.length !=
-                                                                                0
-                                                                            ? ListView.builder(
-                                                                                itemCount: values.custmerDetails.length,
-                                                                                itemBuilder: (context, index) {
-                                                                                  return ListTile(
-                                                                                    trailing: Icon(Icons.arrow_forward),
-                                                                                    onTap: () {
-                                                                                      setState(() {
-                                                                                        customertext.text = values.custmerDetails[index]['hname'];
-                                                                                        custmerId = values.custmerDetails[index]['ac_code'];
-                                                                                      });
-                                                                                      // Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
-                                                                                      // Navigator.of(context).push(
-                                                                                      //   PageRouteBuilder(
-                                                                                      //     opaque: false, // set to false
-                                                                                      //     pageBuilder: (_, __, ___) => OrderForm(widget.areaname, "sales"),
-                                                                                      //   ),
-                                                                                      // );
-                                                                                      //      customerName =
-                                                                                      // values.custmerDetails[index]
-                                                                                      //     ['hname'];
-                                                                                      print("customer name.......${Provider.of<Controller>(context, listen: false).customer_Name}");
-                                                                                      Navigator.pop(context);
-                                                                                    },
-                                                                                    visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                                                                                    textColor: P_Settings.wavecolor,
-                                                                                    title: Text(
-                                                                                      "${values.custmerDetails[index]['hname']}",
-                                                                                      style: TextStyle(fontSize: 16),
-                                                                                    ),
+                                                                    values.custmerDetails.length !=
+                                                                            0
+                                                                        ? Divider(
+                                                                            indent:
+                                                                                50,
+                                                                            endIndent:
+                                                                                50,
+                                                                            thickness:
+                                                                                1,
+                                                                          )
+                                                                        : Text(
+                                                                            ""),
+                                                                    values.custmerDetails.length !=
+                                                                            0
+                                                                        ? Expanded(
+                                                                            child: Padding(
+                                                                                padding: const EdgeInsets.only(left: 10, top: 20),
+                                                                                child: ListView.builder(
+                                                                                  itemCount: values.custmerDetails.length,
+                                                                                  itemBuilder: (context, index) {
+                                                                                    return ListTile(
+                                                                                      trailing: Icon(Icons.arrow_forward),
+                                                                                      onTap: () {
+                                                                                        setState(() {
+                                                                                          customertext.text = values.custmerDetails[index]['hname'];
+                                                                                          custmerId = values.custmerDetails[index]['ac_code'];
+                                                                                        });
+                                                                                        // Provider.of<Controller>(context, listen: false).setCustomerName(values.custmerDetails[index]['hname']);
+                                                                                        // Navigator.of(context).push(
+                                                                                        //   PageRouteBuilder(
+                                                                                        //     opaque: false, // set to false
+                                                                                        //     pageBuilder: (_, __, ___) => OrderForm(widget.areaname, "sales"),
+                                                                                        //   ),
+                                                                                        // );
+                                                                                        //      customerName =
+                                                                                        // values.custmerDetails[index]
+                                                                                        //     ['hname'];
+                                                                                        print("customer name.......${Provider.of<Controller>(context, listen: false).customer_Name}");
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                      visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                                                                      textColor: P_Settings.wavecolor,
+                                                                                      title: Text(
+                                                                                        "${values.custmerDetails[index]['hname']}",
+                                                                                        style: TextStyle(fontSize: 16),
+                                                                                      ),
 
-                                                                                    // onTap: (() {
-                                                                                    //   print("selected index");
-                                                                                    // }),
-                                                                                  );
-                                                                                },
-                                                                              )
-                                                                            : Text("Empty"),
-                                                                      ),
-                                                                    ),
+                                                                                      // onTap: (() {
+                                                                                      //   print("selected index");
+                                                                                      // }),
+                                                                                    );
+                                                                                  },
+                                                                                )),
+                                                                          )
+                                                                        : Text(
+                                                                            "Empty...",
+                                                                            style:
+                                                                                TextStyle(fontSize: 17, color: P_Settings.extracolor),
+                                                                          ),
                                                                   ],
                                                                 ),
                                                               ),

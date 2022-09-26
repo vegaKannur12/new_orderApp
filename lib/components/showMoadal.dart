@@ -72,6 +72,7 @@ class ShowModal {
 
                                   qty_index.clear();
                                   if (appType == "sale order") {
+                                    print("customerId...........$customerId");
                                     await OrderAppDB.instance
                                         .deleteFromTableCommonQuery(
                                             "orderBagTable",
@@ -263,7 +264,7 @@ class ShowModal {
                                     await OrderAppDB.instance
                                         .deleteFromTableCommonQuery(
                                             "orderBagTable",
-                                            "code='${value.newList[selected_index]["code"]}' AND customerid='${customerId}'");
+                                            "code='${value.newList[selected_index]["prcode"]}' AND customerid='${customerId}'");
 
                                     Provider.of<Controller>(context,
                                             listen: false)
