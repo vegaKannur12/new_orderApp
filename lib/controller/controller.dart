@@ -311,6 +311,8 @@ class Controller extends ChangeNotifier {
 
               await OrderAppDB.instance
                   .deleteFromTableCommonQuery('registrationTable', "");
+                   await OrderAppDB.instance
+                  .deleteFromTableCommonQuery('menuTable', "");
               var res =
                   await OrderAppDB.instance.insertRegistrationDetails(regModel);
               print("inserted ${res}");
@@ -420,7 +422,7 @@ class Controller extends ChangeNotifier {
               );
             } else {
               if (type == "splash") {
-                getSettings(context, cid!);
+                getSettings(context, cid!,"");
               }
             }
           }
@@ -511,7 +513,8 @@ class Controller extends ChangeNotifier {
   }
 
   /////////////////////// GET STAFF DETAILS////////////////////////////////
-  Future<StaffDetails?> getStaffDetails(String cid, int index) async {
+  Future<StaffDetails?> getStaffDetails(
+      String cid, int index, String page) async {
     print("getStaffDetails...............${cid}");
     var restaff;
     try {
@@ -521,8 +524,11 @@ class Controller extends ChangeNotifier {
       };
       isDownloaded = true;
       isCompleted = true;
-      isLoading = true;
-      notifyListeners();
+      if (page != "company details") {
+        isLoading = true;
+        notifyListeners();
+      }
+
       http.Response response = await http.post(
         url,
         body: body,
@@ -538,8 +544,10 @@ class Controller extends ChangeNotifier {
       print("inserted staff ${restaff}");
       isDownloaded = false;
       isDown[index] = true;
-      isLoading = false;
-      notifyListeners();
+      if (page != "company details") {
+        isLoading = false;
+        notifyListeners();
+      }
       return staffModel;
     } catch (e) {
       print(e);
@@ -754,7 +762,7 @@ class Controller extends ChangeNotifier {
   }
 
 ////////////////////////get settings///////////////////////////////////////
-  getSettings(BuildContext context, String cid) async {
+  getSettings(BuildContext context, String cid,String page) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // String? cid = prefs.getString("cid");
     NetConnection.networkConnection(context).then((value) async {

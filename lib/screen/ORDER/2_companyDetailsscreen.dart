@@ -391,10 +391,10 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .getStaffDetails(cid, 0);
+                                                .getStaffDetails(cid, 0,"company details");
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .getSettings(context, cid);
+                                                .getSettings(context, cid,"company details");
 
                                             Navigator.push(
                                               context,
