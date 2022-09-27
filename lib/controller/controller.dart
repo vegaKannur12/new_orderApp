@@ -599,7 +599,7 @@ class Controller extends ChangeNotifier {
   }
 
 ////////////////////// GET STAFF AREA ///////////////////////////////////
-  Future<StaffArea?> getAreaDetails(String cid, int index) async {
+  Future<StaffArea?> getAreaDetails(String cid, int index, String page) async {
     print("cid...............${cid}");
     try {
       Uri url = Uri.parse("http://trafiqerp.in/order/fj/get_area.php");
@@ -608,8 +608,11 @@ class Controller extends ChangeNotifier {
       };
       isDownloaded = true;
       isCompleted = true;
-      isLoading = true;
-      notifyListeners();
+      if (page != "company details") {
+        isLoading = true;
+        notifyListeners();
+      }
+
       print("compny----${cid}");
       http.Response response = await http.post(
         url,
@@ -630,7 +633,11 @@ class Controller extends ChangeNotifier {
       }
       isDownloaded = false;
       isDown[index] = true;
-      isLoading = false;
+      if (page != "company details") {
+        isLoading = false;
+        notifyListeners();
+      }
+      // isLoading = false;
       /////////////// insert into local db /////////////////////
       notifyListeners();
       return staffArea;

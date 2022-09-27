@@ -374,10 +374,13 @@ class _CompanyDetailsState extends State<CompanyDetails> {
 
                                           Provider.of<Controller>(context,
                                                   listen: false)
-                                              .getAreaDetails(cid!, 0);
+                                              .getAreaDetails(cid!, 0,"company details");
+
+
                                           Provider.of<Controller>(context,
                                                   listen: false)
                                               .cid = cid;
+
                                           print("cid-----${cid}");
                                           if (userType == "staff") {
                                             print("stffjknkdf");
@@ -392,6 +395,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getSettings(context, cid);
+
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
