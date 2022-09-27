@@ -189,7 +189,7 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .getAreaDetails(
-                                                        cid!, index);
+                                                        cid!, index,"");
                                               }
                                               if (downloadItems[index] ==
                                                   "Staff") {
