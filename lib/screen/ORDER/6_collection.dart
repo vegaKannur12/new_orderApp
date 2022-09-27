@@ -47,7 +47,7 @@ class _CollectionPageState extends State<CollectionPage> {
     // shared();
     formattedDate = DateFormat('yyyy-MM-dd kk:mm:ss').format(date);
     s = formattedDate!.split(" ");
-    print("jhsjahjs----${widget.aid}");
+    print("jhsjahjs----${widget.aid}....${widget.cuid}");
     Provider.of<Controller>(context, listen: false)
         .fetchtotalcollectionFromTable(widget.cuid!);
     Provider.of<Controller>(context, listen: false)

@@ -920,18 +920,15 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                 PageRouteBuilder(
                                                                   opaque:
                                                                       false, // set to false
-                                                                  pageBuilder: (_,
-                                                                          __,
-                                                                          ___) =>
-                                                                      CollectionPage(
-                                                                          os:
-                                                                              os,
-                                                                          sid:
-                                                                              sid,
-                                                                          cuid:
-                                                                              cuid,
-                                                                          aid: Provider.of<Controller>(context, listen: false)
-                                                                              .areaId),
+                                                                  pageBuilder: (_, __, ___) => CollectionPage(
+                                                                      os: os,
+                                                                      sid: sid,
+                                                                      cuid: custmerId
+                                                                          .toString(),
+                                                                      aid: Provider.of<Controller>(
+                                                                              context,
+                                                                              listen: false)
+                                                                          .areaId),
                                                                 ),
                                                               );
                                                             }
@@ -1217,8 +1214,8 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                                         CollectionPage(
                                                                       os: os,
                                                                       sid: sid,
-                                                                      cuid:
-                                                                          cuid,
+                                                                      cuid: custmerId
+                                                                          .toString(),
                                                                       aid: Provider.of<Controller>(
                                                                               context,
                                                                               listen: false)
