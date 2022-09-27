@@ -349,6 +349,7 @@ class _MainDashboardState extends State<MainDashboard> {
                       ElevatedButton(
                           onPressed: () async {
                             if (selected != null) {
+                              
                               Provider.of<Controller>(context, listen: false)
                                   .areaId = selected;
                               Provider.of<Controller>(context, listen: false)

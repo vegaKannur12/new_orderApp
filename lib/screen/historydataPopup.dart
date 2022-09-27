@@ -3,8 +3,8 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:provider/provider.dart';
 
 class HistoryPopup {
-  Future buildPopupDialog(
-      BuildContext context, Size size, String? orderNum, String? cusId,String type) {
+  Future buildPopupDialog(BuildContext context, Size size, String? orderNum,
+      String? cusId, String type) {
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -24,15 +24,17 @@ class HistoryPopup {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                           type=="sale order"?Text(
-                              "Ord No : ${orderNum}",
-                              style: TextStyle(
-                                  color: Colors.grey[600], fontSize: 13),
-                            ): Text(
-                              "Bill No : ${orderNum}",
-                              style: TextStyle(
-                                  color: Colors.grey[600], fontSize: 13),
-                            ),
+                            type == "sale order"
+                                ? Text(
+                                    "Ord No : ${orderNum}",
+                                    style: TextStyle(
+                                        color: Colors.grey[600], fontSize: 13),
+                                  )
+                                : Text(
+                                    "Bill No : ${orderNum}",
+                                    style: TextStyle(
+                                        color: Colors.grey[600], fontSize: 13),
+                                  ),
                             // Text(
                             //   cusId,
                             //   style: TextStyle(color: Colors.grey[500]),
@@ -126,13 +128,18 @@ class HistoryPopup {
             alignment: Alignment.center,
             //     ? Alignment.centerLeft
             //     : Alignment.centerRight,
-            child: Text(
-              value.toString(),
+            child: Flexible(
+              flex: 5,
+
+              child: Text(
+                value.toString(),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 11,
+                ),
+              ),
               // textAlign:
               //     mainHeader[k][1] == "L" ? TextAlign.left : TextAlign.right,
-              style: TextStyle(
-                fontSize: 14,
-              ),
             ),
           ),
         ),

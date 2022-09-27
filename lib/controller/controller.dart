@@ -1350,7 +1350,7 @@ class Controller extends ChangeNotifier {
       );
 
       for (var item in bagList) {
-        print("orderid---$order_id");
+        print("orderid---$item");
         double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertorderMasterandDetailsTable(
           item["itemName"],
@@ -1365,7 +1365,7 @@ class Controller extends ChangeNotifier {
           user_id,
           aid,
           0,
-          item['unit'],
+          item['unit_name'],
           rowNum,
           "orderDetailTable",
           total_price,
