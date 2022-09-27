@@ -251,7 +251,6 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                 option["aname"],
                                         onSelected: (value) {
                                           setState(() {
-                                            
                                             _selectedItemarea = value["aname"];
                                             areaName = value["aname"];
                                             print("areaName...$areaName");
@@ -278,7 +277,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .areaId = _selectedAreaId;
-                                                 customertext.text='';
+                                            customertext.text = '';
                                             Provider.of<Controller>(context,
                                                     listen: false)
                                                 .getCustomer(_selectedAreaId!);
