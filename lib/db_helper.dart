@@ -989,7 +989,7 @@ class OrderAppDB {
         "total quantity...$cus_type..$packing..$unit.....$rounding.......$total_qty.....$total_price.....$net_amt");
     if (table == "salesDetailTable") {
       var query2 =
-          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, $tax_amt, $tax_per, ${cgst_per}, ${cgst_amt}, ${sgst_per}, ${sgst_amt}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, $packing, $base_rate)';
+          'INSERT INTO salesDetailTable(os, sales_id, row_num,hsn , item_name , code, qty, unit , gross_amount, dis_amt, dis_per, tax_amt, tax_per, cgst_per, cgst_amt, sgst_per, sgst_amt, igst_per, igst_amt, ces_amt, ces_per, net_amt, rate, unit_rate, packing, baserate) VALUES("${os}", ${sales_id}, ${rowNum},"${hsn}", "${item_name}", "${code}", ${qty}, "${unit}", $gross_amount, $dis_amt, ${dis_per}, ${tax_amt.toStringAsFixed(3)}, $tax_per, ${cgst_per}, ${cgst_amt..toStringAsFixed(3)}, ${sgst_per}, ${sgst_amt.toStringAsFixed(3)}, ${igst_per}, ${igst_amt}, $ces_amt, $ces_per, $total_price, $rate, $unit_rate, $packing, $base_rate)';
       print("insert salesdetails $query2");
       res2 = await db.rawInsert(query2);
     } else if (table == "salesMasterTable") {

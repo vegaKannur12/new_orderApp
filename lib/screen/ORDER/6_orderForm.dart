@@ -106,7 +106,7 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
         "seelected area-----${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
     print(
         "_selectedAreaId----${Provider.of<Controller>(context, listen: false).selectedAreaId}");
-    Provider.of<Controller>(context, listen: false).getCustomer('');
+    Provider.of<Controller>(context, listen: false).getCustomer(' ');
     // if (Provider.of<Controller>(context, listen: false).selectedAreaId !=
     //     null) {
     //   Provider.of<Controller>(context, listen: false).getCustomer(
