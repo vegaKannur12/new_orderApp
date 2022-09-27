@@ -106,7 +106,12 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
         "seelected area-----${Provider.of<Controller>(context, listen: false).areaidFrompopup}");
     print(
         "_selectedAreaId----${Provider.of<Controller>(context, listen: false).selectedAreaId}");
-    Provider.of<Controller>(context, listen: false).getCustomer(' ');
+
+    if (Provider.of<Controller>(context, listen: false).areaId != null) {
+      Provider.of<Controller>(context, listen: false)
+          .getCustomer(Provider.of<Controller>(context, listen: false).areaId);
+    }
+
     // if (Provider.of<Controller>(context, listen: false).selectedAreaId !=
     //     null) {
     //   Provider.of<Controller>(context, listen: false).getCustomer(
@@ -278,9 +283,10 @@ class _OrderFormState extends State<OrderForm> with TickerProviderStateMixin {
                                                     listen: false)
                                                 .areaId = _selectedAreaId;
                                             customertext.text = '';
+
                                             Provider.of<Controller>(context,
                                                     listen: false)
-                                                .getCustomer(_selectedAreaId!);
+                                                .getCustomer(_selectedAreaId);
                                           });
                                         },
                                         fieldViewBuilder: (BuildContext context,

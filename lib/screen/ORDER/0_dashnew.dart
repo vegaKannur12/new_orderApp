@@ -594,7 +594,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                     //     "menulist[menu]-------${value.menuList[i]["menu_name"]}");
                                     return ListTile(
                                       title: Text(
-                                        value.menuList[i]["menu_name"]
+                                        value.menuList[i]["menu_nam e"]
                                             .toLowerCase(),
                                         style: GoogleFonts.aBeeZee(
                                           textStyle: Theme.of(context)
@@ -686,18 +686,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         //     color: Colors.green,
                         //   ),
                         // ),
-                        IconButton(
-                          onPressed: () async {
-                            List<Map<String, dynamic>> list =
-                                await OrderAppDB.instance.getListOfTables();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TableList(list: list)),
-                            );
-                          },
-                          icon: Icon(Icons.table_bar, color: Colors.green),
-                        ),
+                        // IconButton(
+                        //   onPressed: () async {
+                        //     List<Map<String, dynamic>> list =
+                        //         await OrderAppDB.instance.getListOfTables();
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => TableList(list: list)),
+                        //     );
+                        //   },
+                        //   icon: Icon(Icons.table_bar, color: Colors.green),
+                        // ),
                       ],
                     ),
 

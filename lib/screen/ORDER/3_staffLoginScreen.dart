@@ -58,26 +58,26 @@ class StaffLogin extends StatelessWidget {
           elevation: 0,
           backgroundColor: P_Settings.wavecolor,
           actions: [
-            IconButton(
-                onPressed: () async {
-                  await OrderAppDB.instance
-                      .deleteFromTableCommonQuery("userTable", "");
-                  await OrderAppDB.instance
-                      .deleteFromTableCommonQuery("maxSeriesTable", "");
-                },
-                icon: Icon(Icons.delete)),
-            IconButton(
-              onPressed: () async {
-                List<Map<String, dynamic>> list =
-                    await OrderAppDB.instance.getListOfTables();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TableList(list: list)),
-                );
-              },
-              icon: Icon(Icons.table_bar),
-            ),
+            // IconButton(
+            //     onPressed: () async {
+            //       await OrderAppDB.instance
+            //           .deleteFromTableCommonQuery("userTable", "");
+            //       await OrderAppDB.instance
+            //           .deleteFromTableCommonQuery("maxSeriesTable", "");
+            //     },
+            //     icon: Icon(Icons.delete)),
+            // IconButton(
+            //   onPressed: () async {
+            //     List<Map<String, dynamic>> list =
+            //         await OrderAppDB.instance.getListOfTables();
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => TableList(list: list)),
+            //     );
+            //   },
+            //   icon: Icon(Icons.table_bar),
+            // ),
             PopupMenuButton<int>(
               itemBuilder: (context) => [
                 PopupMenuItem(
@@ -412,7 +412,7 @@ class StaffLogin extends StatelessWidget {
                                                             context,
                                                             listen: false)
                                                         .getStaffDetails(
-                                                            cid!, 0);
+                                                            cid!, 0,"");
                                                   }
 
                                                   showDialog(

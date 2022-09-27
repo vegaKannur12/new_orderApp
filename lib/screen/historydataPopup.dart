@@ -3,8 +3,8 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:provider/provider.dart';
 
 class HistoryPopup {
-  Future buildPopupDialog(
-      BuildContext context, Size size, String? orderNum, String? cusId,String type) {
+  Future buildPopupDialog(BuildContext context, Size size, String? orderNum,
+      String? cusId, String type) {
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -24,15 +24,17 @@ class HistoryPopup {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                           type=="sale order"?Text(
-                              "Ord No : ${orderNum}",
-                              style: TextStyle(
-                                  color: Colors.grey[600], fontSize: 13),
-                            ): Text(
-                              "Bill No : ${orderNum}",
-                              style: TextStyle(
-                                  color: Colors.grey[600], fontSize: 13),
-                            ),
+                            type == "sale order"
+                                ? Text(
+                                    "Ord No : ${orderNum}",
+                                    style: TextStyle(
+                                        color: Colors.grey[600], fontSize: 13),
+                                  )
+                                : Text(
+                                    "Bill No : ${orderNum}",
+                                    style: TextStyle(
+                                        color: Colors.grey[600], fontSize: 13),
+                                  ),
                             // Text(
                             //   cusId,
                             //   style: TextStyle(color: Colors.grey[500]),
@@ -100,7 +102,7 @@ class HistoryPopup {
   ////////////////////////////////////////////
   List<DataRow> getRowss(List<Map<String, dynamic>> rows) {
     List<String> newBehavr = [];
-    // print("rows---$rows");
+    print("rows---$rows");
     return rows.map((row) {
       return DataRow(
         // color: MaterialStateProperty.all(Colors.green),
@@ -128,10 +130,9 @@ class HistoryPopup {
             //     : Alignment.centerRight,
             child: Text(
               value.toString(),
-              // textAlign:
-              //     mainHeader[k][1] == "L" ? TextAlign.left : TextAlign.right,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 11,
               ),
             ),
           ),

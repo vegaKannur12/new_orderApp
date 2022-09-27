@@ -196,7 +196,7 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .getStaffDetails(
-                                                        cid!, index);
+                                                        cid!, index,"");
                                               }
                                               if (downloadItems[index] ==
                                                   "Product units") {

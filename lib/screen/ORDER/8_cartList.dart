@@ -69,23 +69,23 @@ class _CartListState extends State<CartList> {
       appBar: AppBar(
         backgroundColor: P_Settings.wavecolor,
         actions: [
-          IconButton(
-              onPressed: () async {
-                await OrderAppDB.instance
-                    .deleteFromTableCommonQuery("orderBagTable", "");
-              },
-              icon: Icon(Icons.delete)),
-          IconButton(
-            onPressed: () async {
-              List<Map<String, dynamic>> list =
-                  await OrderAppDB.instance.getListOfTables();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TableList(list: list)),
-              );
-            },
-            icon: Icon(Icons.table_bar),
-          ),
+          // IconButton(
+          //     onPressed: () async {
+          //       await OrderAppDB.instance
+          //           .deleteFromTableCommonQuery("orderBagTable", "");
+          //     },
+          //     icon: Icon(Icons.delete)),
+          // IconButton(
+          //   onPressed: () async {
+          //     List<Map<String, dynamic>> list =
+          //         await OrderAppDB.instance.getListOfTables();
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => TableList(list: list)),
+          //     );
+          //   },
+          //   icon: Icon(Icons.table_bar),
+          // ),
         ],
       ),
       body: GestureDetector(onTap: (() {
