@@ -311,7 +311,7 @@ class Controller extends ChangeNotifier {
 
               await OrderAppDB.instance
                   .deleteFromTableCommonQuery('registrationTable', "");
-                   await OrderAppDB.instance
+              await OrderAppDB.instance
                   .deleteFromTableCommonQuery('menuTable', "");
               var res =
                   await OrderAppDB.instance.insertRegistrationDetails(regModel);
@@ -422,7 +422,7 @@ class Controller extends ChangeNotifier {
               );
             } else {
               if (type == "splash") {
-                getSettings(context, cid!,"");
+                getSettings(context, cid!, "");
               }
             }
           }
@@ -763,7 +763,7 @@ class Controller extends ChangeNotifier {
   }
 
 ////////////////////////get settings///////////////////////////////////////
-  getSettings(BuildContext context, String cid,String page) async {
+  getSettings(BuildContext context, String cid, String page) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // String? cid = prefs.getString("cid");
     NetConnection.networkConnection(context).then((value) async {
@@ -1441,7 +1441,7 @@ class Controller extends ChangeNotifier {
           0.0);
 
       for (var item in returnbagList) {
-        print("item---${item["rate"].runtimeType}");
+        print("item---${item["unit"]}");
         // double rate = double.parse(item["rate"]);
         await OrderAppDB.instance.insertreturnMasterandDetailsTable(
             item["itemName"],
@@ -1456,13 +1456,13 @@ class Controller extends ChangeNotifier {
             user_id,
             aid,
             0,
-            "",
+            item["unit_name"],
             rowNum,
             "returnDetailTable",
             total_price,
             "",
             "",
-            item["unit"],
+            0.0,
             baserate,
             item["package"]);
         rowNum = rowNum + 1;

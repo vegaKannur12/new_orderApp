@@ -1014,7 +1014,7 @@ class OrderAppDB {
     String userid,
     String areaid,
     int status,
-    String unit,
+    String? unit,
     int rowNum,
     String table,
     double total_price,
@@ -1028,10 +1028,10 @@ class OrderAppDB {
     var res2;
     var res3;
     int qty1 = qty.toInt();
-    print("qty............$qty...$qty1");
+    print("qty return.......$unit.....$qty...$qty1");
     if (table == "returnDetailTable") {
       var query2 =
-          'INSERT INTO returnDetailTable(return_id, row_num,os,code, item, qty, unit, rate, packing, baserate) VALUES(${return_id},${rowNum},"${os}","${code}","${item}", ${qty1}, "${unit}", ${rate},$packing,$base_rate)';
+          'INSERT INTO returnDetailTable(return_id, row_num,os,code, item, qty, unit, rate, packing, baserate) VALUES(${return_id},${rowNum},"${os}","${code}","${item}", ${qty1}, "${unit}", ${rate}, $packing, $base_rate)';
       print(query2);
       res2 = await db.rawInsert(query2);
     } else if (table == "returnMasterTable") {
@@ -2454,7 +2454,7 @@ class OrderAppDB {
     Database db = await instance.database;
 
     var result = await db.rawQuery(
-        "SELECT orderDetailTable.code as code,orderDetailTable.item as item, orderDetailTable.qty as qty, orderDetailTable.rate as rate from orderDetailTable  where  orderDetailTable.order_id=${order_id}");
+        "SELECT orderDetailTable.code as code,orderDetailTable.item as item, orderDetailTable.qty as qty, orderDetailTable.rate as rate, orderDetailTable.unit as unit, orderDetailTable.packing as packing from orderDetailTable  where  orderDetailTable.order_id=${order_id}");
     return result;
   }
 
@@ -2489,7 +2489,7 @@ class OrderAppDB {
     Database db = await instance.database;
 
     var result = await db.rawQuery(
-        "SELECT returnDetailTable.code as code,returnDetailTable.item as item, returnDetailTable.qty as qty, returnDetailTable.rate as rate from returnDetailTable  where  returnDetailTable.return_id=${return_id}");
+        "SELECT returnDetailTable.code as code,returnDetailTable.item as item, returnDetailTable.qty as qty, returnDetailTable.rate as rate, returnDetailTable.unit as unit, returnDetailTable.packing as packing from returnDetailTable  where  returnDetailTable.return_id=${return_id}");
     return result;
   }
 

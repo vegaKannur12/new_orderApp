@@ -102,7 +102,7 @@ class HistoryPopup {
   ////////////////////////////////////////////
   List<DataRow> getRowss(List<Map<String, dynamic>> rows) {
     List<String> newBehavr = [];
-    // print("rows---$rows");
+    print("rows---$rows");
     return rows.map((row) {
       return DataRow(
         // color: MaterialStateProperty.all(Colors.green),
@@ -128,13 +128,13 @@ class HistoryPopup {
             alignment: Alignment.center,
             //     ? Alignment.centerLeft
             //     : Alignment.centerRight,
-            child: Text(value.toString(),
-                // overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 11,
-                )),
-            // textAlign:
-            //     mainHeader[k][1] == "L" ? TextAlign.left : TextAlign.right,
+            child: Text(
+              value.toString(),
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 11,
+              ),
+            ),
           ),
         ),
       );

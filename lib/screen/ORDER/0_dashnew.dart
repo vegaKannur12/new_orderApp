@@ -594,7 +594,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                     //     "menulist[menu]-------${value.menuList[i]["menu_name"]}");
                                     return ListTile(
                                       title: Text(
-                                        value.menuList[i]["menu_name"]
+                                        value.menuList[i]["menu_nam e"]
                                             .toLowerCase(),
                                         style: GoogleFonts.aBeeZee(
                                           textStyle: Theme.of(context)

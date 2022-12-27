@@ -142,9 +142,9 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                               //     await SharedPreferences
                                               //         .getInstance();
                                               // prefs.setBool("isautodownload", true);
-                                              // Provider.of<Controller>(context,
-                                              //         listen: false)
-                                              //     .isautodownload = true;
+                                              Provider.of<Controller>(context,
+                                                      listen: false)
+                                                  .isautodownload = false;
                                               print("time delay inside");
 
                                               if (downloadItems[index] ==
@@ -189,7 +189,7 @@ class _DownloadedPageState extends State<DownloadedPage> {
                                                 Provider.of<Controller>(context,
                                                         listen: false)
                                                     .getAreaDetails(
-                                                        cid!, index,"");
+                                                        cid!, index, "");
                                               }
                                               if (downloadItems[index] ==
                                                   "Staff") {
