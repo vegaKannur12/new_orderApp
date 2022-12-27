@@ -864,7 +864,7 @@ class OrderAppDB {
     double baseRate,
   ) async {
     print("qty--$qty");
-    print("unit_name...........$unit_name");
+    print("unit_rate...........$unit_rate");
     final db = await database;
     var res;
     var query3;

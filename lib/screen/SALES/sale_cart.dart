@@ -7,6 +7,7 @@ import 'package:orderapp/controller/controller.dart';
 import 'package:orderapp/db_helper.dart';
 import 'package:orderapp/screen/SALES/ordertotal_bottomsheet.dart';
 import 'package:orderapp/screen/SALES/saleItemDetails.dart';
+import 'package:orderapp/service/tableList.dart';
 import 'package:provider/provider.dart';
 
 class SaleCart extends StatefulWidget {
@@ -74,17 +75,17 @@ class _SaleCartState extends State<SaleCart> {
           //           .deleteFromTableCommonQuery("salesDetailTable", "");
           //     },
           //     icon: Icon(Icons.delete)),
-          // IconButton(
-          //   onPressed: () async {
-          //     List<Map<String, dynamic>> list =
-          //         await OrderAppDB.instance.getListOfTables();
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => TableList(list: list)),
-          //     );
-          //   },
-          //   icon: Icon(Icons.table_bar),
-          // ),
+          IconButton(
+            onPressed: () async {
+              List<Map<String, dynamic>> list =
+                  await OrderAppDB.instance.getListOfTables();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TableList(list: list)),
+              );
+            },
+            icon: Icon(Icons.table_bar),
+          ),
         ],
       ),
       body: GestureDetector(onTap: (() {

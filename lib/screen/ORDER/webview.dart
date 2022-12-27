@@ -30,7 +30,7 @@ class _WebViewTestState extends State<WebViewTest> {
     // print(
     //     "webview   company code.finger..........$staff_id.....$company_code.......$fp........$os..$cid......$userType");
     print(
-        "http://trafiqerp.in/order/php/index.php?fp=${widget.fp}&company_code=${widget.company_code}&company_id=${widget.cid}&c_type=${widget.userType}&order_series=${widget.os}&staff_id=${widget.staff_id}");
+        "https://trafiqerp.in/order/php/index.php?fp=${widget.fp}&company_code=${widget.company_code}&company_id=${widget.cid}&c_type=${widget.userType}&order_series=${widget.os}&staff_id=${widget.staff_id}");
   }
 
   @override
@@ -48,7 +48,7 @@ class _WebViewTestState extends State<WebViewTest> {
         // },
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl:
-            "http://trafiqerp.in/order/php/index.php?fp=${widget.fp}&company_code=${widget.company_code}&company_id=${widget.cid}&c_type=${widget.userType}&order_series=${widget.os}&staff_id=${widget.staff_id}",
+            "https://trafiqerp.in/order/php/index.php?fp=${widget.fp}&company_code=${widget.company_code}&company_id=${widget.cid}&c_type=${widget.userType}&order_series=${widget.os}&staff_id=${widget.staff_id}",
         // "http://trafiqerp.in/order/php/index.php?fp=fp&company_code=company_code&company_id=cid&c_type=userType&order_series=os&staff_id=staff_id",
         // initialUrl:
         //     "http://trafiqerp.in/order/php/index.php?fp=$fp&company_code=2Z1KOED1AXVO&company_id=CO1002&c_type=staff&order_series=DV&staff_id=VGMHD1",

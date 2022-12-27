@@ -105,52 +105,123 @@ class _SalesItemState extends State<SalesItem> {
         elevation: 0,
         backgroundColor: P_Settings.salewaveColor,
         actions: <Widget>[
-          Badge(
-            animationType: BadgeAnimationType.scale,
-            toAnimate: true,
-            badgeColor: Colors.white,
-            badgeContent: Consumer<Controller>(
-              builder: (context, value, child) {
-                if (value.count == null) {
-                  return SpinKitChasingDots(
-                      color: P_Settings.wavecolor, size: 9);
-                } else {
-                  return Text(
-                    "${value.count}",
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                  );
-                }
-              },
-            ),
-            position: const BadgePosition(start: 33, bottom: 25),
-            child: IconButton(
-              onPressed: () async {
-                if (widget.customerId == null || widget.customerId.isEmpty) {
-                } else {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  Provider.of<Controller>(context, listen: false).selectSettings(
-                      "set_code in ('SL_RATE_EDIT','SL_TAX_CALC','SL_UPLOAD_DIRECT') ");
-
-                  Provider.of<Controller>(context, listen: false)
-                      .getSaleBagDetails(widget.customerId, widget.os);
-
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      opaque: false, // set to false
-                      pageBuilder: (_, __, ___) => SaleCart(
-                        areaId: widget.areaId,
-                        custmerId: widget.customerId,
-                        os: widget.os,
-                        areaname: widget.areaName,
-                        type: widget.type,
-                      ),
+          Stack(
+            children: [
+              Positioned(
+                right: 3,
+                child: Container(
+                  // height: 20,
+                  // width: 20,
+                  decoration: new BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  constraints: BoxConstraints(
+                    minWidth: 14,
+                    minHeight: 14,
+                  ),
+                  child: Center(
+                    child: Consumer<Controller>(
+                      builder: (context, value, child) {
+                        if (value.count == null) {
+                          return SpinKitChasingDots(
+                              color: P_Settings.wavecolor, size: 9);
+                        } else {
+                          return Text(
+                            "${value.count}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          );
+                        }
+                      },
                     ),
-                  );
-                }
-              },
-              icon: const Icon(Icons.shopping_cart),
-            ),
+                    // child: Text(
+                    //   value.deliveryListCount != null
+                    //       ? value.deliveryListCount!
+                    //       : "..",
+                    //   style: TextStyle(
+                    //       fontSize: 16,
+                    //       fontWeight: FontWeight.bold,
+                    //       color: Colors.white),
+                    // ),
+                  ),
+                ),
+              ),
+              IconButton(
+                  onPressed: () async {
+                    if (widget.customerId == null || widget.customerId.isEmpty) {
+                    } else {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      Provider.of<Controller>(context, listen: false).selectSettings(
+                          "set_code in ('SL_RATE_EDIT','SL_TAX_CALC','SL_UPLOAD_DIRECT') ");
+
+                      Provider.of<Controller>(context, listen: false)
+                          .getSaleBagDetails(widget.customerId, widget.os);
+
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false, // set to false
+                          pageBuilder: (_, __, ___) => SaleCart(
+                            areaId: widget.areaId,
+                            custmerId: widget.customerId,
+                            os: widget.os,
+                            areaname: widget.areaName,
+                            type: widget.type,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.shopping_cart),
+                ),
+            ],
           ),
+          // Badge(
+          //   animationType: BadgeAnimationType.scale,
+          //   toAnimate: true,
+          //   badgeColor: Colors.white,
+          //   badgeContent: Consumer<Controller>(
+          //     builder: (context, value, child) {
+          //       if (value.count == null) {
+          //         return SpinKitChasingDots(
+          //             color: P_Settings.wavecolor, size: 9);
+          //       } else {
+          //         return Text(
+          //           "${value.count}",
+          //           style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          //         );
+          //       }
+          //     },
+          //   ),
+          //   position: const BadgePosition(start: 33, bottom: 25),
+          //   child: IconButton(
+          //     onPressed: () async {
+          //       if (widget.customerId == null || widget.customerId.isEmpty) {
+          //       } else {
+          //         FocusManager.instance.primaryFocus?.unfocus();
+          //         Provider.of<Controller>(context, listen: false).selectSettings(
+          //             "set_code in ('SL_RATE_EDIT','SL_TAX_CALC','SL_UPLOAD_DIRECT') ");
+
+          //         Provider.of<Controller>(context, listen: false)
+          //             .getSaleBagDetails(widget.customerId, widget.os);
+
+          //         Navigator.of(context).push(
+          //           PageRouteBuilder(
+          //             opaque: false, // set to false
+          //             pageBuilder: (_, __, ___) => SaleCart(
+          //               areaId: widget.areaId,
+          //               custmerId: widget.customerId,
+          //               os: widget.os,
+          //               areaname: widget.areaName,
+          //               type: widget.type,
+          //             ),
+          //           ),
+          //         );
+          //       }
+          //     },
+          //     icon: const Icon(Icons.shopping_cart),
+          //   ),
+          // ),
           Consumer<Controller>(
             builder: (context, _value, child) {
               return PopupMenuButton<String>(
@@ -663,7 +734,7 @@ class _SalesItemState extends State<SalesItem> {
                                                                   value.cgst_per,
                                                                   value.cgst_amt,
                                                                   value.sgst_per,
-                                                                  value.sgst_amt,
+                                                                  value.sgst_amt, 
                                                                   value.igst_per,
                                                                   value.igst_amt,
                                                                   discounpertNew,

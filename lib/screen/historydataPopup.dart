@@ -128,19 +128,13 @@ class HistoryPopup {
             alignment: Alignment.center,
             //     ? Alignment.centerLeft
             //     : Alignment.centerRight,
-            child: Flexible(
-              flex: 5,
-
-              child: Text(
-                value.toString(),
-                overflow: TextOverflow.ellipsis,
+            child: Text(value.toString(),
+                // overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 11,
-                ),
-              ),
-              // textAlign:
-              //     mainHeader[k][1] == "L" ? TextAlign.left : TextAlign.right,
-            ),
+                )),
+            // textAlign:
+            //     mainHeader[k][1] == "L" ? TextAlign.left : TextAlign.right,
           ),
         ),
       );

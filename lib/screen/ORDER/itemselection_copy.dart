@@ -84,58 +84,135 @@ class _ItemSelectionState extends State<ItemSelection> {
       appBar: AppBar(
         backgroundColor: P_Settings.wavecolor,
         actions: [
-          Badge(
-            animationType: BadgeAnimationType.scale,
-            toAnimate: true,
-            badgeColor: Colors.white,
-            badgeContent: Consumer<Controller>(
-              builder: (context, value, child) {
-                if (value.count == null) {
-                  return SpinKitChasingDots(
-                      color: P_Settings.wavecolor, size: 9);
-                } else {
-                  return Text(
-                    "${value.count}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                  );
-                }
-              },
-            ),
-            position: BadgePosition(start: 33, bottom: 25),
-            child: IconButton(
-              onPressed: () async {
-                // String oos = "O" + "${widget.os}";
-
-                if (widget.customerId == null || widget.customerId.isEmpty) {
-                } else {
-                  FocusManager.instance.primaryFocus?.unfocus();
-
-                  Provider.of<Controller>(context, listen: false)
-                      .selectSettings(
-                          "set_code in('SO_RATE_EDIT','SO_UPLOAD_DIRECT')");
-                  Provider.of<Controller>(context, listen: false)
-                      .getBagDetails(widget.customerId, widget.os);
-
-                  // await OrderAppDB.instance.selectAllcommon(
-                  //     'settingsTable', "set_code='SO_RATE_EDIT'");
-
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      opaque: false, // set to false
-                      pageBuilder: (_, __, ___) => CartList(
-                        areaId: widget.areaId,
-                        custmerId: widget.customerId,
-                        os: widget.os,
-                        areaname: widget.areaName,
-                        type: widget.type,
-                      ),
+          Stack(
+            children: [
+              Positioned(
+                right: 3,
+                child: Container(
+                  // height: 20,
+                  // width: 20,
+                  decoration: new BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  constraints: BoxConstraints(
+                    minWidth: 14,
+                    minHeight: 14,
+                  ),
+                  child: Center(
+                    child: Consumer<Controller>(
+                      builder: (context, value, child) {
+                        if (value.count == null) {
+                          return SpinKitChasingDots(
+                              color: P_Settings.wavecolor, size: 9);
+                        } else {
+                          return Text(
+                            "${value.count}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          );
+                        }
+                      },
                     ),
-                  );
-                }
-              },
-              icon: const Icon(Icons.shopping_cart),
-            ),
+                    // child: Text(
+                    //   value.deliveryListCount != null
+                    //       ? value.deliveryListCount!
+                    //       : "..",
+                    //   style: TextStyle(
+                    //       fontSize: 16,
+                    //       fontWeight: FontWeight.bold,
+                    //       color: Colors.white),
+                    // ),
+                  ),
+                ),
+              ),
+              IconButton(
+                  onPressed: () async {
+                    // String oos = "O" + "${widget.os}";
+
+                    if (widget.customerId == null || widget.customerId.isEmpty) {
+                    } else {
+                      FocusManager.instance.primaryFocus?.unfocus();
+
+                      Provider.of<Controller>(context, listen: false)
+                          .selectSettings(
+                              "set_code in('SO_RATE_EDIT','SO_UPLOAD_DIRECT')");
+                      Provider.of<Controller>(context, listen: false)
+                          .getBagDetails(widget.customerId, widget.os);
+
+                      // await OrderAppDB.instance.selectAllcommon(
+                      //     'settingsTable', "set_code='SO_RATE_EDIT'");
+
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false, // set to false
+                          pageBuilder: (_, __, ___) => CartList(
+                            areaId: widget.areaId,
+                            custmerId: widget.customerId,
+                            os: widget.os,
+                            areaname: widget.areaName,
+                            type: widget.type,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.shopping_cart),
+                ),
+            ],
           ),
+          // Badge(
+          //   animationType: BadgeAnimationType.scale,
+          //   toAnimate: true,
+          //   badgeColor: Colors.white,
+          //   badgeContent: Consumer<Controller>(
+          //     builder: (context, value, child) {
+          //       if (value.count == null) {
+          //         return SpinKitChasingDots(
+          //             color: P_Settings.wavecolor, size: 9);
+          //       } else {
+          //         return Text(
+          //           "${value.count}",
+          //           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+          //         );
+          //       }
+          //     },
+          //   ),
+          //   position: BadgePosition(start: 33, bottom: 25),
+          //   child: IconButton(
+          //     onPressed: () async {
+          //       // String oos = "O" + "${widget.os}";
+
+          //       if (widget.customerId == null || widget.customerId.isEmpty) {
+          //       } else {
+          //         FocusManager.instance.primaryFocus?.unfocus();
+
+          //         Provider.of<Controller>(context, listen: false)
+          //             .selectSettings(
+          //                 "set_code in('SO_RATE_EDIT','SO_UPLOAD_DIRECT')");
+          //         Provider.of<Controller>(context, listen: false)
+          //             .getBagDetails(widget.customerId, widget.os);
+
+          //         // await OrderAppDB.instance.selectAllcommon(
+          //         //     'settingsTable', "set_code='SO_RATE_EDIT'");
+
+          //         Navigator.of(context).push(
+          //           PageRouteBuilder(
+          //             opaque: false, // set to false
+          //             pageBuilder: (_, __, ___) => CartList(
+          //               areaId: widget.areaId,
+          //               custmerId: widget.customerId,
+          //               os: widget.os,
+          //               areaname: widget.areaName,
+          //               type: widget.type,
+          //             ),
+          //           ),
+          //         );
+          //       }
+          //     },
+          //     icon: const Icon(Icons.shopping_cart),
+          //   ),
+          // ),
           const SizedBox(
             width: 3.0,
           ),
